@@ -237,8 +237,8 @@ export class Stabilizer {
 
   /**
    * get short name of recure operations
-   * CM1-T0 CM1-T4 CM1-T8 => M1-T0~4*
-   * CM1-T3 CM1-T9 => M1-T3~6*
+   * CM1-T0 CM1-T4 CM1-T8 => CM1-T0~4*
+   * CM1-T3 CM1-T9 => CM1-T3~6*
    * CM1-T1 CM1-T3 CM1-T5 CM1-T7 CM1-T9 CM1-T11 => CM1-T1~2*
    * M1-T0 M11-T1 => M1-T0 M11-T1
    * @return {string} short name if possible
@@ -314,10 +314,10 @@ export class Stabilizer {
    * [0, 2, 4, 6, 8, 10] return "-T0~2*" and empty list Example : n=12 [0, 3]
    * return "" and no action on list
    *
-   * @param mt Map key = multiplication arg, value = translation values
-   *         in-out
-   * @param nameOp key string value (example : M2) in
-   * @return String reduce name and reduce list or empty string and same list
+   * @param {Map<string, number[]>} mt (mutable here) Map key = multiplication arg, value = translation values
+   *
+   * @param {string} nameOp key string value (example : M2)
+   * @return String reduce name and reduce list mt.get(nameOp) or empty string and same list
    */
   tryReduceListByShortName(mt: Map<string, number[]>, nameOp: string) {
     let listOfa = mt.get(nameOp) ?? []
@@ -335,7 +335,7 @@ export class Stabilizer {
       }
       if (cpt * step === n) {
         shortName = "-T" + listOfa[0] + "~" + step + "*";
-        // delete multipe of step element of the list
+        // delete multiple of step element of the list
         let racineValue = listOfa[0];
         listOfa.shift()
         listOfa = listOfa.filter(a => ((a - racineValue) % step) !== 0)

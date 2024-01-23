@@ -148,9 +148,7 @@ describe('MusaicPcsOperation', () => {
       orbit.stabilizers.forEach(stab => setStabilizers.add(stab.hashCode()))
     })
     expect(setStabilizers.size).toEqual(111)
-
     expect(musaicGroup.orbitsSortedByMotifStabilizers.length).toEqual(13)
-
     expect(musaicGroup.orbitsSortedByStabilizers.length).toEqual(111)
 
 //  musaicGroup.orbitsSortedByMotifStabilizers.forEach(motifSatb => console.log(motifSatb.toString()))
@@ -212,11 +210,14 @@ describe('MusaicPcsOperation', () => {
     let sumPcs = 0;
     group.orbits.forEach(orbit => sumPcs += orbit.ipcsset.length)
     expect(sumPcs).toEqual(group.powerset.size)
+
     let shortNames: string[] = []
     group.orbitsSortedByMotifStabilizers.forEach(stab => shortNames.push(stab.groupingCriterion))
     expect(shortNames).toEqual(["M1"])
+
     shortNames = []
     group.orbitsSortedByStabilizers.forEach(stab => shortNames.push(stab.groupingCriterion))
+    // neutral op and empty and full IPcs (2 pcs) transposables 7 times in same state by step 1
     expect(shortNames).toEqual(["M1-T0", "M1-T0~1*"])
   })
 

@@ -9,10 +9,9 @@
  * file on git server.
  */
 
-import {IPcs} from "./IPcs";
+import {IPcs} from "../core/IPcs";
 import {Rect} from "../utils/Rect"
 import {Point} from "../utils/Point"
-import assert from "assert";
 
 const PITCH_LINE_WIDTH = 4;
 export class ClockDrawing {
@@ -36,7 +35,9 @@ export class ClockDrawing {
       pc_color?: string,
       segmentsLineDash?: number[][]
     } = {})  {
-    assert(!x.ctx, "canvas context waiting !!!")
+    if (!x.ctx)
+      throw new Error("canvas context missing !!!")
+
     this.ipcs = x.ipcs ?? new IPcs({strPcs: "[0,3,7"})
     if (x.ctx)
        this.ctx = x.ctx
