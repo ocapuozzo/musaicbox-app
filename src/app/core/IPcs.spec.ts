@@ -1,6 +1,8 @@
 import {IPcs} from './IPcs'
+import {GroupAction} from "./GroupAction";
+import {Group} from "./Group";
 
-describe('IPcs', () => {
+describe('IPcs unit tests', () => {
 
   it("IPcs constructor with no iPivot = 0", () => {
     const ipcs = new IPcs({strPcs: "0,4,7"});
@@ -14,7 +16,7 @@ describe('IPcs', () => {
 
   it("IPcs cardinal", () => {
     const ipcs = new IPcs({strPcs: "0,4,7", iPivot: 0})
-    expect(ipcs.cardinal()).toEqual(3);
+    expect(ipcs.cardinal).toEqual(3);
   });
 
   it("IPcs transpose + 1", () => {
@@ -71,23 +73,13 @@ describe('IPcs', () => {
     expect(ipcs.equals(ipcs_other)).toBeTruthy();
   });
 
-  it("IPcs equals ko ", () => {
+  it("IPcs equals with not same pivot ", () => {
     const ipcs = new IPcs({strPcs: "0,4,11", iPivot: 0})
     const ipcs_other = new IPcs({strPcs: "0,4,11", iPivot: 11})
 
-    expect(ipcs.equals(ipcs_other)).not.toBeTruthy();
-  });
-
-  it("IPcs equalsPcs ", () => {
-    const ipcs = new IPcs({strPcs: "0,4,11", iPivot: 0})
-    const ipcs_other = new IPcs({strPcs: "0,4,11", iPivot: 4})
-
-    // not equals because iPivot are not same
-    expect(ipcs.equals(ipcs_other)).not.toBeTruthy();
-    // ok
+    expect(ipcs.equals(ipcs_other)).toBeTruthy();
     expect(ipcs.equalsPcs(ipcs_other)).toBeTruthy();
   });
-
 
   it("IPcs complement ", () => {
     const ipcs = new IPcs({strPcs: "0,2,4,5,7,9,11", iPivot: 0})
@@ -103,11 +95,9 @@ describe('IPcs', () => {
   it("IPcs complement max/empty", () => {
     const ipcs12pc = new IPcs({strPcs: "0,1,2,3,4,5,6,7,8,9,10,11", iPivot: 0})
     try {
-      console.log("before complement")
-      expect(ipcs12pc.cardinal()).toEqual(12)
+      expect(ipcs12pc.cardinal).toEqual(12)
       const complement = ipcs12pc.complement()
-      console.log("cpt : = " + complement)
-      expect(complement.cardinal()).toEqual(0)
+      expect(complement.cardinal).toEqual(0)
     } catch (e: any) {
       expect(e.toString()).toMatch("Not accept empty pcs ?")
     }
@@ -141,6 +131,15 @@ describe('IPcs', () => {
     expect(ipcs.cardOrbitCyclic()).toEqual(12);
     ipcs = new IPcs({strPcs: "0, 1, 3, 5, 6, 8, 10", iPivot: 0})
     expect(ipcs.cardOrbitCyclic()).toEqual(12);
+
+
+    let cyclicGroup12
+      = new GroupAction({group: Group.predefinedGroups[Group.CYCLIC]})
+    ipcs = new IPcs({strPcs: "0, 3, 6, 9", iPivot: 0})
+
+    let orbit = cyclicGroup12.getOrbitOf(ipcs)
+    expect(orbit.cardinal).toEqual(3)
+
   });
 
   it("IPcs cyclicPrimeForm", () => {
@@ -305,7 +304,6 @@ describe('IPcs', () => {
    * @see https://sites.google.com/view/88musaics/88musaicsexplained
    */
   it("IPcs is function n=12", () => {
-    // n = 7
     let ipcs = new IPcs({binPcs: [1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0]})
     expect(ipcs.is).toEqual([3, 4, 5])
     ipcs = new IPcs({strPcs: "0,2"})
@@ -322,6 +320,33 @@ describe('IPcs', () => {
 
     ipcs = new IPcs({strPcs: "1,5,8", iPivot: 5})
     expect(ipcs.is).toEqual([3, 5, 4])
+  })
+
+  it("toggleIndexPC", () => {
+    let ipcsDim = new IPcs({strPcs: "0, 3, 6, 9", iPivot: 0})
+    let ipcsNew = ipcsDim.toggleIndexPC(0)
+    expect(ipcsNew.n).toEqual(12)
+    expect(ipcsDim.cardinal).toEqual(4)
+    expect(ipcsNew.cardinal).toEqual(3)
+    expect(ipcsNew.iPivot).toEqual(3)
+    let ipcsNew2 = ipcsNew.toggleIndexPC(0)
+    expect(ipcsNew2.pcs).toEqual(ipcsDim.pcs)
+    // no go back for iPivot...
+    expect(ipcsNew2.iPivot).toEqual(3)
+  })
+
+  it("get complement() with, or not, this orbit", () => {
+    let cyclicGroup12
+      = new GroupAction({group: Group.predefinedGroups[Group.CYCLIC]})
+
+    let ipcsWithoutOrbit = new IPcs({strPcs: "0, 4, 8", iPivot: 0})
+    let ipcsWithOrbit : IPcs = cyclicGroup12.getIPcsInOrbit(ipcsWithoutOrbit)
+
+    expect(ipcsWithoutOrbit.orbit.empty).toBeTruthy()
+    expect(ipcsWithOrbit.orbit.empty).not.toBeTruthy()
+
+    expect(ipcsWithoutOrbit.complement().orbit.empty).toBeTruthy()
+    expect(ipcsWithOrbit.complement().orbit.empty).not.toBeTruthy()
   })
 
 })

@@ -12,12 +12,14 @@ import {IPcs} from "./IPcs";
 // import {Utils} from "../utils/Utils"
 import {MotifStabilizer} from "./MotifStabilizer";
 import {Stabilizer} from "./Stabilizer";
+import {GroupAction} from "./GroupAction";
 
 export class Orbit {
   stabilizers : Stabilizer[]
   ipcsset : IPcs[] = []
   _hashcode ?: number
   motifStabilizer
+  groupAction ?: GroupAction
 
   constructor(
     {stabs, ipcsSet} :
@@ -26,13 +28,6 @@ export class Orbit {
     this.ipcsset = ipcsSet ?? []
     this._hashcode = undefined
     this.motifStabilizer = MotifStabilizer.manyMotifsStabilizer
-
-    if (stabs === null) {
-      this.stabilizers = []
-    }
-    if (ipcsSet == null) {
-      this.ipcsset = []
-    }
   }
 
   get cardinal() {
@@ -82,7 +77,7 @@ export class Orbit {
    * @param orbit2
    * @return {number} as waiting by Array sort
    */
-  static comparePcsMin(orbit1: Orbit, orbit2: Orbit) {
+  static comparePcsMin(orbit1: Orbit, orbit2: Orbit): number {
       return orbit1.getPcsMin().compareTo(orbit2.getPcsMin());
   }
 
@@ -91,7 +86,7 @@ export class Orbit {
    * rem : this.ipcsset is sorted
    * @return {IPcs} the min IPcs of elements of orbit (min elt in ipcsset)
    */
-  getPcsMin() {
+  getPcsMin(): IPcs {
     if (this.ipcsset.length === 0)
       throw new Error("Orbit : get min on empty set");
     return this.ipcsset[0];
@@ -125,16 +120,6 @@ export class Orbit {
   }
   return minSymmetric;
 }
-   */
-
-  /**
-   * Get all PCS cyclic prime form in its orbit
-   *
-   * @return {Array}
-   */
-  getPrimeForms() {
-    return this.ipcsset.map((ipcs) => ipcs.cyclicPrimeForm())
-  }
 
   /**
    * Based on stabilizers and their shortName
@@ -172,8 +157,12 @@ export class Orbit {
    * return true if stabilizers include relationship equivalence to nearest transposition
    * @return {Boolean}
    */
-  get isMotifEquivalence()  {
+  get isMotifEquivalence() : boolean {
     return this.stabilizers.some(stab => stab.isMotifEquivalence)
+  }
+
+  get empty() {
+    return this.ipcsset.length == 0
   }
 
 }

@@ -230,5 +230,45 @@ describe('GroupAction', () => {
     expect(affineGroup12.orbitsSortedByStabilizers.length).toEqual(63)
   })
 
+  it("getOrbitOf cyclic12", () => {
+    let cyclicGroup12
+      = new GroupAction({group: Group.predefinedGroups[Group.CYCLIC]})
+
+    let ipcs = new IPcs({strPcs: "0, 4, 8", iPivot: 0})
+    let orbit = cyclicGroup12.getOrbitOf(ipcs)
+    expect(orbit.cardinal).toEqual(4)
+
+    ipcs = new IPcs({strPcs: "0, 1, 6, 7", iPivot: 0})
+    orbit = cyclicGroup12.getOrbitOf(ipcs)
+    expect(orbit.cardinal).toEqual(6)
+
+    ipcs = new IPcs({strPcs: "0, 1, 2, 3", iPivot: 0})
+    expect(cyclicGroup12.getOrbitOf(ipcs).cardinal).toEqual(12)
+
+    ipcs = new IPcs({strPcs: "0, 2, 4, 5, 7, 9, 11", iPivot: 0})
+    expect(cyclicGroup12.getOrbitOf(ipcs).cardinal).toEqual(12)
+
+    ipcs = new IPcs({strPcs: "0, 1, 3, 5, 6, 8, 10", iPivot: 0})
+    expect(cyclicGroup12.getOrbitOf(ipcs).cardinal).toEqual(12)
+
+    ipcs = new IPcs({strPcs: "0, 3, 6, 9", iPivot: 0})
+    orbit = cyclicGroup12.getOrbitOf(ipcs)
+    expect(orbit.cardinal).toEqual(3)
+  })
+
+  it("getOrbitOf with bad pcs", () => {
+    let cyclicGroup12
+      = new GroupAction({group: Group.predefinedGroups[Group.CYCLIC]})
+    let ipcs = new IPcs({strPcs: "0, 1, 2", n: 5, iPivot: 0})
+
+    try {
+      // ipcs.n = 5 or group is n = 12 !
+      let orbit = cyclicGroup12.getOrbitOf(ipcs)
+      // waiting exception
+      fail("Impossible operation !!")
+    } catch (e: any) {
+      expect(e.message).toContain('Invalid dimension')
+    }
+  })
 
 })

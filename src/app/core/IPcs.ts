@@ -11,6 +11,7 @@
 import { Forte } from './Forte';
 import {Orbit} from "./Orbit";
 
+
 const NEXT_MODULATION = 1
 const PREV_MODULATION = 2
 
@@ -25,7 +26,7 @@ export class IPcs {
   n: number = 12;
   iPivot?: number = undefined;
   pcs: number[];
-  orbit: any; //TODO
+  orbit: Orbit; //TODO
   id: number;
   private _minCyclic ?: IPcs;
   private _cardModesOrbits ?: number
@@ -47,7 +48,7 @@ export class IPcs {
       throw new Error("Can't create IPcs instance (bad args = " + strPcs + ")")
     }
     // empty set as valid pcs
-    if (this.cardinal() === 0) {
+    if (this.cardinal === 0) {
       this.iPivot = undefined
     } else if (!iPivot && iPivot !== 0) {
       // iPivot is min pc
@@ -194,7 +195,7 @@ export class IPcs {
    * @return IPcs
    */
   cyclicPrimeForm() {
-    if (this.cardinal() === 0) {
+    if (this.cardinal === 0) {
       return this
     }
     if (this._minCyclic) {
@@ -207,7 +208,7 @@ export class IPcs {
     let minInt = IPcs.id(this.pcs);
 
     for (let i = 0; i < n - 1; i++) {
-      norm = IPcs.getPermute(1, 1, 0, norm);
+      norm = IPcs.getBinPcsPermute(1, 1, 0, norm);
       let curInt = IPcs.id(norm);
       if (minInt > curInt) {
         minInt = curInt;
@@ -254,12 +255,12 @@ export class IPcs {
    * @param  a    : number
    * @param  t  :number  [0..this.n[
    * @param iPivot : number [0..this.n[
-   * @param abin : number[] array of int
+   * @param binPcs : number[] array of int
    * @return {number[]}
    */
-  static getPermute(a: number, t: number, iPivot: number, abin: number[]) {
-    let permute = abin.slice()
-    let n = abin.length
+  static getBinPcsPermute(a: number, t: number, iPivot: number, binPcs: number[]) {
+    let binPcsPermuted = binPcs.slice()
+    let n = binPcs.length
     let j
     if (t < 0) {
       t = negativeToPositiveModulo(t, n)
@@ -268,9 +269,9 @@ export class IPcs {
     for (let i = 0; i < n; i++) {
       j = (n + (((i * a) - (a - 1) * iPivot - t) % n)) % n
       // j may be negative... so n + (...) modulo n
-      permute[i] = abin[j]
+      binPcsPermuted[i] = binPcs[j]
     }
-    return permute
+    return binPcsPermuted
   }
 
   /**
@@ -285,13 +286,13 @@ export class IPcs {
    * @return IPcs
    */
   permute(a: number, t: number): IPcs {
-    if (this.cardinal() === 0) {
+    if (this.cardinal === 0) {
       // empty pcs no change
       return this
     }
     // @ts-ignore
     let newPivot = negativeToPositiveModulo((this.iPivot + t), this.pcs.length)
-    return new IPcs({binPcs: IPcs.getPermute(a, t, newPivot, this.pcs), iPivot: newPivot})
+    return new IPcs({binPcs: IPcs.getBinPcsPermute(a, t, newPivot, this.pcs), iPivot: newPivot})
   }
 
   /**
@@ -309,7 +310,7 @@ export class IPcs {
    * @param t
    * @returns {IPcs}
    */
-  transpose(t: number) {
+  transpose(t: number): IPcs {
     return this.affineOp(1, t)
   }
 
@@ -320,7 +321,7 @@ export class IPcs {
    *
    * TODO : set new iPivot nearest
    */
-  modulate(direction: number) {
+  modulate(direction: number): IPcs {
     let newiPivot = this.iPivot
     let pivot: number = this.iPivot ?? 0
     if (direction === IPcs.NEXT_MODULATION) {
@@ -451,7 +452,7 @@ export class IPcs {
    * get number of pitches of this
    * @return Number
    */
-  cardinal() {
+  get cardinal() {
     return this.pcs.filter(i => i === 1).length
   }
 
@@ -464,6 +465,7 @@ export class IPcs {
    * { 0, 1, 6, 7} => 2
    * { 0, 1, 2, 3} => 4
    * </pre>
+   * TODO implementation via CYCLIC group action ?!?
    * @return {number}
    */
   cardOrbitMode() {
@@ -496,42 +498,50 @@ export class IPcs {
   /**
    * get number of distinct PCS in cyclic orbit of PCS.
    *  formula derived from equality in these two ratios  : n/cardOrbitCyclic and cardinalPcs/cardOrbitMode
+   *  TODO implement by using predefined CYCLIC action group ?!?
    * @return {number}
    */
-  cardOrbitCyclic() {
+  cardOrbitCyclic(): number {
     let n = this.pcs.length
     // TODO à vérifier en cas cardOrbitMode undefined...
     let cardOrbit = this.cardOrbitMode() ?? 0
-    return (n * cardOrbit) / this.cardinal()
+    return (n * cardOrbit) / this.cardinal
   }
 
   /**
    * get complement of this.
-   * Important : complement loses iPivot pivot
+   * Important : complement loses iPivot
+   * @return {IPcs} a new instance (free, not attached to an orbit). If not empty orbit,
+   * get instance (already exit) of complement held by this group action (this.orbit.getIPcs(complement))
+   *
    */
-  complement() {
+  complement(): IPcs {
     let pcs_cpt = this.pcs.map(pc => (pc === 1 ? 0 : 1)) //;slice() and inverse 0/1
     let new_iPivot = undefined
-    let actualiPivot = this.iPivot ?? 0
+    let actual_iPivot = this.iPivot ?? 0
     let n = pcs_cpt.length
     // iPivot is lost by complement... set a new iPivot of complement
     // opposite is a good candidate when n is even
     if (/*actualiPivot === undefined &&*/ pcs_cpt[0] === 1) {
       new_iPivot = 0
-    } else if ((n % 2) === 0 && pcs_cpt[(actualiPivot + n / 2) % n] === 1) {
-      new_iPivot = (actualiPivot + n / 2) % n
+    } else if ((n % 2) === 0 && pcs_cpt[(actual_iPivot + n / 2) % n] === 1) {
+      new_iPivot = (actual_iPivot + n / 2) % n
     } else {
       // TODO best strategy to find new iPivot
       // here the first in right circular research
-      for (let i = actualiPivot + 1; i < actualiPivot + n; i++) {
+      for (let i = actual_iPivot + 1; i < actual_iPivot + n; i++) {
         if (pcs_cpt[i % n] === 1) {
           new_iPivot = i % n
           break
         }
       }
     }
-
-    return new IPcs({binPcs: pcs_cpt, iPivot: new_iPivot})
+    let newIpcsComplement = new IPcs({binPcs: pcs_cpt, iPivot: new_iPivot})
+    if (this.orbit.groupAction) {
+      return this.orbit.groupAction.getIPcsInOrbit(newIpcsComplement)
+    } else {
+      return newIpcsComplement
+    }
   }
 
   toString() {
@@ -541,11 +551,12 @@ export class IPcs {
   }
 
   equals(other: any) {
-    if (other instanceof IPcs) {
-      return this.pcs.every((v, i) => v === other.pcs[i]) &&
-        this.iPivot === other.iPivot;
-    }
-    return false
+    // if (other instanceof IPcs) {
+    //   return this.pcs.every((v, i) => v === other.pcs[i]) &&
+    //     this.iPivot === other.iPivot;
+    // }
+    // return false
+    return this.equalsPcs(other)
   }
 
   equalsPcs(other: any) {
@@ -619,11 +630,14 @@ export class IPcs {
   /**
    * Get axial symmetries
    *
-   * @return {object}
+   * @return {
+   *       symMedian: number[],
+   *       symInter: number[]
+   *     }
    */
   getAxialSymmetries() {
-    let symMedian = Array(this.n)
-    let symInter = Array(this.n)
+    let symMedian: number[] = Array(this.n)
+    let symInter:number[] = Array(this.n)
     symMedian.fill(0)
     symInter.fill(0);
 
@@ -634,8 +648,8 @@ export class IPcs {
     let nEven = this.n % 2 === 0;
     let imax = nEven ? Math.round(this.n / 2) : this.n;
 
-    let tempA = Array(this.n);
-    let tempB = Array(this.n);
+    let tempA:number[] = Array(this.n);
+    let tempB:number[] = Array(this.n);
     for (let i = 0; i < imax; i++) {
       let typeAxe = this.axeSymmetry(i, tempA, tempB);
       switch (typeAxe) {
@@ -655,5 +669,49 @@ export class IPcs {
       symMedian: symMedian,
       symInter: symInter
     }
+  }
+
+  /** Add or remove index pitch class (ipc)
+   *  if iPivot is remove, attempt to determine one
+   *
+   * @param {number} ipc
+   * @return {IPcs} a new instance (free, not attached to an orbit)
+   */
+  toggleIndexPC(ipc : number) : IPcs {
+    if (ipc < 0  || ipc >= this.pcs.length)
+      throw new Error("Invalid index pitch class !")
+
+    let newIPcs : IPcs
+    let newBinPcs = this.pcs.slice()
+    let iPivot = this.iPivot
+
+    if (this.pcs[ipc] === 0) {
+      newBinPcs[ipc] = 1
+      // same pivot
+      newIPcs = new IPcs({binPcs: newBinPcs, n:newBinPcs.length, iPivot:this.iPivot})
+    } else {
+      // remove bit 1 to 0
+      newBinPcs[ipc] = 0
+      let cardinal = this.cardinal
+      if (cardinal == 1) {
+        newIPcs = new IPcs({binPcs: newBinPcs, n: newBinPcs.length, iPivot: undefined})
+      } else {
+        if (iPivot == ipc) {
+          // change iPivot, get the first "to the right"
+          let i = ipc, cpt = 0
+          while (cpt < this.n) {
+            if (newBinPcs[i] == 1) break
+            cpt++
+            i = (i + 1) % this.n
+          }
+          let newIPivot = i
+          newIPcs = new IPcs({binPcs: newBinPcs, n: newBinPcs.length, iPivot: newIPivot})
+        } else {
+          // same pivot
+          newIPcs = new IPcs({binPcs: newBinPcs, n: newBinPcs.length, iPivot: this.iPivot})
+        }
+      }
+    }
+    return newIPcs
   }
 }

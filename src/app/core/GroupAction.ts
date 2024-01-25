@@ -85,6 +85,7 @@ export class GroupAction {
     while (tmpPowerset.size > 0) {
       let pcs = tmpPowerset.values().next().value
       pcs.addInOrbit(pcs); // add himself in orbit
+      pcs.orbit.groupAction = this // add ref to this group action
       tmpPowerset.delete(pcs.id);
       for (let i = 0; i < this.operations.length; i++) {
         let op = this.operations[i]
@@ -231,10 +232,10 @@ export class GroupAction {
   computeOrbitSortedByCardinal(): ISortedOrbits[] {
     let orbitsSortedByCardinal = new Map() // k=name orbit based on his stabs, v=array of orbits
     this.orbits.forEach(orbit => {
-      let card = Array.from(orbitsSortedByCardinal.keys()).find(card => card === orbit.getPcsMin().cardinal())
+      let card = Array.from(orbitsSortedByCardinal.keys()).find(card => card === orbit.getPcsMin().cardinal)
       // orbit name based on his stabilizers and shortName
       if (!card)
-        orbitsSortedByCardinal.set(orbit.getPcsMin().cardinal(), [orbit])
+        orbitsSortedByCardinal.set(orbit.getPcsMin().cardinal, [orbit])
       else
         orbitsSortedByCardinal.get(card).push(orbit)
     })
@@ -259,6 +260,30 @@ export class GroupAction {
   cardinalOfOrbitStabilized() {
     return this.orbitsSortedByStabilizers.reduce((sum, sortedOrbits) => sum + sortedOrbits.orbits.length, 0)
   }
+
+
+  getOrbitOf(ipcs: IPcs) : Orbit {
+    if (ipcs.n !== this.n) throw new Error("Invalid dimension : ipcs.n and this.n : " + ipcs.n + " !== " + this.n)
+    //let orbit : Orbit | undefined = this.orbits.find(o => o.ipcsset.find(ipcs2 => ipcs2.compareTo(ipcs)==0))
+    let orbit : Orbit | undefined = this.powerset.get(ipcs.id)?.orbit
+    if (!orbit)
+      throw new Error("Invalid ipcs (is not in this group action)  ??? : " + ipcs)
+    return orbit
+  }
+
+  /**
+   * From free IPcs (with no orbit) get a represented IPcs held by a group action
+   * @param {IPcs} ipcs
+   * @return {IPcs}
+   * @throws Error if not find ipcs in this group action
+   */
+  getIPcsInOrbit(ipcs: IPcs) : IPcs {
+    let iPcsInOrbit : IPcs | undefined = this.powerset.get(ipcs.id)
+    if (!iPcsInOrbit)
+      throw new Error("Invalid ipcs (is not in this group action)  ??? : " + ipcs)
+    return iPcsInOrbit
+  }
+
 
 }
 

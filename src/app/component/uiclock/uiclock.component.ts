@@ -86,46 +86,37 @@ export class UiclockComponent {
       this.touchendOk = false
       return;
     }
-    console.log("mouseup debug 1Bis")
-//    e.preventDefault();
 
     // https://stackoverflow.com/questions/2405771/is-right-click-a-javascript-event
     let isRightMB = false;
-
     e = e || window.Event;
-
     if ("which" in e)  // Gecko (Firefox), WebKit (Safari/Chrome) & Opera
       isRightMB = e.which === 3;
     else if ("button" in e)  // IE, Opera
       isRightMB = e.button === 2;
 
-    console.log("isRightMB = " + isRightMB)
-
     // long click ? (if down is 1 second or more)
     // @ts-ignore
     let longClick = (new Date() - this.dateMouseDone) >= 1000
 
-    console.log("index :" + index + " this.getIPivot() :" +this.getIPivot())
+    // console.log("index :" + index + " this.getIPivot() :" +this.getIPivot())
 
     // right click and long click => change iPivot
     if (isRightMB || longClick) {
       // console.log("index :" + index + " this.getIPivot() :" +this.getIPivot())
       if (index !== this.getIPivot()) {
         this._setIndexToOneOriPivot(index)
+        this.drawClock()
       }
       this.dateMouseDone = undefined
       return;
     }
-    // console.log("mouseup debug 2")
-    // // accept unset iPivot when cardinal == 1 only
-    if (index >= 0 && (index !== this.getIPivot() || this.ipcs.cardinal() === 1)) {
 
-        //ipcs/toggleindexpcs", index
-        let binPcs = this.ipcs.pcs.slice()
-        binPcs[index] = binPcs[index] == 1 ? 0 : 1
-        this.ipcs = new IPcs({binPcs: binPcs, n:binPcs.length, iPivot:this.ipcs.iPivot})
-        this.drawClock()
-
+    // accept unset iPivot when cardinal == 1 only
+    if (index >= 0 && (index !== this.getIPivot() || this.ipcs.cardinal === 1)) {
+      this.ipcs = this.ipcs.toggleIndexPC(index)
+      // console.log("this.ipcs new = " + this.ipcs)
+      this.drawClock()
     }
   }
 
@@ -229,11 +220,11 @@ export class UiclockComponent {
   _setIndexToOneOriPivot(index: number) {
     if (this.ipcs.pcs[index] === 0) {
       // set this.ipcs.pcs[index] to 1 (new array)
-      //this.$store.commit("ipcs/toggleindexpcs", index);
-      let binPcs = this.ipcs.pcs.slice()
-      binPcs[index] = 1
-      this.ipcs = new IPcs({binPcs: binPcs, n:binPcs.length, iPivot:this.ipcs.iPivot})
-      this.drawClock()
+      // //this.$store.commit("ipcs/toggleindexpcs", index);
+      // let binPcs = this.ipcs.pcs.slice()
+      // binPcs[index] = 1
+      // this.ipcs = new IPcs({binPcs: binPcs, n:binPcs.length, iPivot:this.ipcs.iPivot})
+      this.ipcs = this.ipcs.toggleIndexPC(index)
     } else {
       this.setIPivot(index);
     }
