@@ -29,6 +29,8 @@ export class GroupAction {
   _orbitsSortedByMotifStabilizers ?: ISortedOrbits[];
   _orbitsSortedByCardinal ?: ISortedOrbits[];
 
+  private static _predefinedGroupsActions : GroupAction[]
+
   constructor(
     {n, someMusaicOperations, group}:
       { n?: number, someMusaicOperations?: MusaicPcsOperation[], group ?:Group } = {}) {
@@ -162,7 +164,7 @@ export class GroupAction {
 
 
   /**
-   * @return {ISortedOrbits[]} of objects {stabilizerName : {String}, hashcode : {Integer}, orbits : {Array} of orbits
+   * @return {ISortedOrbits[]} array of ISortedOrbits
    */
   computeOrbitSortedByStabilizers(): ISortedOrbits[] {
     let orbitsSortedByStabilizers = new Map() // k=name orbit based on his stabs, v=array of orbits
@@ -195,7 +197,7 @@ export class GroupAction {
   }
 
   /**
-   * @return {Array} of objects {stabilizerName : {String}, hashcode : {Integer}, orbits : {Array} of orbits
+   * @return {ISortedOrbits[]} array of ISortedOrbits
    */
   computeOrbitSortedByMotifStabilizers(): ISortedOrbits[] {
     let orbitsSortedByMotifStabilizer = new Map() // k=name orbit based on his stabs, v=array of orbits
@@ -210,7 +212,7 @@ export class GroupAction {
       }
     })
     // sort operations
-    // make a "view adapter" for v-for
+    // make a "view adapter" (initially for v-for and this cache)
     let resultOrbitsSortedByMotifStabilizer: ISortedOrbits[] = []
     Array.from(orbitsSortedByMotifStabilizer.keys()).sort(MotifStabilizer.compare).forEach(motifStab => {
       const obj: ISortedOrbits =
@@ -227,7 +229,7 @@ export class GroupAction {
 
 
   /**
-   * @return {Array} of objects {stabilizerName : {String}, hashcode : {Integer}, orbits : {Array} of orbits
+   * @return {ISortedOrbits[]} array of ISortedOrbits
    */
   computeOrbitSortedByCardinal(): ISortedOrbits[] {
     let orbitsSortedByCardinal = new Map() // k=name orbit based on his stabs, v=array of orbits
@@ -284,6 +286,31 @@ export class GroupAction {
     return iPcsInOrbit
   }
 
+  // initialize some predefined Groups Actions
+  static predefinedGroupsActions(index : number): GroupAction {
+    if (!GroupAction._predefinedGroupsActions) {
+      GroupAction._predefinedGroupsActions = []
+      // index == 0 == Group.CYCLIC_12
+      GroupAction._predefinedGroupsActions.push(
+        new GroupAction({group: Group.predefinedGroups[Group.CYCLIC_12]}))
+
+      // index == 1 == Group.DIHEDRAL_12
+      GroupAction._predefinedGroupsActions.push(
+        new GroupAction({group: Group.predefinedGroups[Group.DIHEDRAL_12]}))
+
+      // index == 2 == Group.AFFINE_12
+      GroupAction._predefinedGroupsActions.push(
+        new GroupAction({group: Group.predefinedGroups[Group.AFFINE_12]}))
+
+      // index == 3 == Group.MUSAIC_12
+      GroupAction._predefinedGroupsActions.push(
+        new GroupAction({group: Group.predefinedGroups[Group.MUSAIC_12]}))
+    }
+    if (index >= 0 && index <= Group.MUSAIC_12)
+       return GroupAction._predefinedGroupsActions[index]
+
+    throw new Error('Invalid index defined group action !')
+  }
 
 }
 

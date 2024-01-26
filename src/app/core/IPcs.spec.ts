@@ -52,18 +52,18 @@ describe('IPcs unit tests', () => {
     let ipcs_other1
     let ipcs_other2 = new IPcs({strPcs: "0,4,11", iPivot: 4})
 
-    expect(ipcs.modulate(IPcs.NEXT_MODULATION)).toEqual(ipcs_other2);
+    expect(ipcs.modulate(IPcs.NEXT_MODULE)).toEqual(ipcs_other2);
     ipcs_other1 = new IPcs({strPcs: "0,4,11", iPivot: 11})
-    expect(ipcs_other2.modulate(IPcs.NEXT_MODULATION)).toEqual(ipcs_other1);
+    expect(ipcs_other2.modulate(IPcs.NEXT_MODULE)).toEqual(ipcs_other1);
     ipcs_other2 = new IPcs({strPcs: "0,4,11", iPivot: 0})
-    expect(ipcs_other1.modulate(IPcs.NEXT_MODULATION)).toEqual(ipcs_other2);
+    expect(ipcs_other1.modulate(IPcs.NEXT_MODULE)).toEqual(ipcs_other2);
   });
 
   it("IPcs cardinal PREVIOUS", () => {
     const ipcs = new IPcs({strPcs: "0,4,11", iPivot: 0})
     const ipcs_other = new IPcs({strPcs: "0,4,11", iPivot: 11})
 
-    expect(ipcs.modulate(IPcs.PREV_MODULATION)).toEqual(ipcs_other);
+    expect(ipcs.modulate(IPcs.PREV_MODULE)).toEqual(ipcs_other);
   });
 
   it("IPcs equals ok ", () => {
@@ -134,7 +134,7 @@ describe('IPcs unit tests', () => {
 
 
     let cyclicGroup12
-      = new GroupAction({group: Group.predefinedGroups[Group.CYCLIC]})
+      = new GroupAction({group: Group.predefinedGroups[Group.CYCLIC_12]})
     ipcs = new IPcs({strPcs: "0, 3, 6, 9", iPivot: 0})
 
     let orbit = cyclicGroup12.getOrbitOf(ipcs)
@@ -159,7 +159,8 @@ describe('IPcs unit tests', () => {
     let ipcs = new IPcs({strPcs: "0, 3, 5, 8", iPivot: 0})
     // page 1171 de ToposOfMusic
     let ipcsMusaicPF = new IPcs({strPcs: "0, 1, 3, 4", iPivot: 0})
-    expect(ipcs.musaicPrimeForm()).toEqual(ipcsMusaicPF)
+    let primeForm = ipcs.musaicPrimeForm()
+    expect(primeForm.id).toEqual(ipcsMusaicPF.id)
   });
 
   it("IPcs Set by Map then sort and convert to Array", () => {
@@ -232,6 +233,7 @@ describe('IPcs unit tests', () => {
     expect(ipcs1.modalPrimeForm()).toEqual(ipcs1)
     let majBass3 = new IPcs({strPcs: "0, 4, 7", iPivot: 4})
     let minB6 = new IPcs({strPcs: "0, 3, 8", iPivot: 0})
+
     expect(majBass3.modalPrimeForm()).toEqual(minB6)
     let minBass3 = new IPcs({strPcs: "0, 3, 7", iPivot: 3})
     let maj6 = new IPcs({strPcs: "0, 4, 9", iPivot: 0})
@@ -330,23 +332,42 @@ describe('IPcs unit tests', () => {
     expect(ipcsNew.cardinal).toEqual(3)
     expect(ipcsNew.iPivot).toEqual(3)
     let ipcsNew2 = ipcsNew.toggleIndexPC(0)
-    expect(ipcsNew2.pcs).toEqual(ipcsDim.pcs)
+    expect(ipcsNew2.abinPcs).toEqual(ipcsDim.abinPcs)
     // no go back for iPivot...
     expect(ipcsNew2.iPivot).toEqual(3)
   })
 
   it("get complement() with, or not, this orbit", () => {
-    let cyclicGroup12
-      = new GroupAction({group: Group.predefinedGroups[Group.CYCLIC]})
+    let cyclicGroup12 = GroupAction.predefinedGroupsActions(Group.CYCLIC_12)
 
     let ipcsWithoutOrbit = new IPcs({strPcs: "0, 4, 8", iPivot: 0})
-    let ipcsWithOrbit : IPcs = cyclicGroup12.getIPcsInOrbit(ipcsWithoutOrbit)
+    let ipcsWithOrbit: IPcs = cyclicGroup12.getIPcsInOrbit(ipcsWithoutOrbit)
 
     expect(ipcsWithoutOrbit.orbit.empty).toBeTruthy()
     expect(ipcsWithOrbit.orbit.empty).not.toBeTruthy()
 
     expect(ipcsWithoutOrbit.complement().orbit.empty).toBeTruthy()
     expect(ipcsWithOrbit.complement().orbit.empty).not.toBeTruthy()
+  })
+
+  it("get new Pivot", () => {
+    let ipcsMaj = new IPcs({strPcs: "0, 4, 7", iPivot: 0})
+    let ipcsMajPivotThird = new IPcs({strPcs: "0, 4, 7", iPivot: 4})
+    expect(ipcsMaj.getWithNewPivot(4)).toEqual(ipcsMajPivotThird)
+  })
+
+
+  it("get new bad Pivot", () => {
+    let ipcsMaj = new IPcs({strPcs: "0, 4, 7", iPivot: 0})
+    let ipcsMajPivotThird = new IPcs({strPcs: "0, 4, 7", iPivot: 4})
+    try {
+      expect(ipcsMaj.getWithNewPivot(6)).toEqual(ipcsMajPivotThird)
+      fail("Error waiting, because bad new pivot")
+    } catch (e: any) {
+      // good
+     expect().nothing()
+    }
+
   })
 
 })

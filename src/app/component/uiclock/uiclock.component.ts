@@ -176,7 +176,7 @@ export class UiclockComponent {
   }
 
   isSelected(i: number): boolean {
-    return this.ipcs.pcs[i] === 1;
+    return this.ipcs.abinPcs[i] === 1;
   }
 
   touchstart(e: TouchEvent | MouseEvent) {
@@ -218,7 +218,7 @@ export class UiclockComponent {
   }
 
   _setIndexToOneOriPivot(index: number) {
-    if (this.ipcs.pcs[index] === 0) {
+    if (this.ipcs.abinPcs[index] === 0) {
       // set this.ipcs.pcs[index] to 1 (new array)
       // //this.$store.commit("ipcs/toggleindexpcs", index);
       // let binPcs = this.ipcs.pcs.slice()

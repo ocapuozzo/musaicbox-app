@@ -59,7 +59,7 @@ export class ClockDrawing {
   }
 
   isSelected(i : number):boolean {
-    return this.ipcs.pcs[i] === 1;
+    return this.ipcs.abinPcs[i] === 1;
   }
 
   // pass IPcs instance in parameter ? for store reactive ?
@@ -141,11 +141,11 @@ export class ClockDrawing {
     ctx.save();
     ctx.fillStyle = 'black';
     ctx.beginPath();
-    for (let i = 0; i < this.ipcs.pcs.length; i++) {
-      if (this.ipcs.pcs[i] === 1 && firstPoint) {
+    for (let i = 0; i < this.ipcs.abinPcs.length; i++) {
+      if (this.ipcs.abinPcs[i] === 1 && firstPoint) {
         firstPoint = false;
         ctx.moveTo(pointsRegions[i].x, pointsRegions[i].y);
-      } else if (this.ipcs.pcs[i] === 1) {
+      } else if (this.ipcs.abinPcs[i] === 1) {
         ctx.lineTo(pointsRegions[i].x, pointsRegions[i].y);
       }
     }

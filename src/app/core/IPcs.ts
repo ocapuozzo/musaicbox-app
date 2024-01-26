@@ -10,7 +10,8 @@
 
 import { Forte } from './Forte';
 import {Orbit} from "./Orbit";
-
+import {GroupAction} from "./GroupAction";
+import {Group} from "./Group";
 
 const NEXT_MODULATION = 1
 const PREV_MODULATION = 2
@@ -20,12 +21,9 @@ const negativeToPositiveModulo = (i: number, n: number): number => {
 }
 
 export class IPcs {
-  // pidVal: number = 12;
-  // strPcs ?: string = undefined;
-  // binPcs ?: number[] = undefined;
   n: number = 12;
   iPivot?: number = undefined;
-  pcs: number[];
+  abinPcs: number[];
   orbit: Orbit; //TODO
   id: number;
   private _minCyclic ?: IPcs;
@@ -38,12 +36,12 @@ export class IPcs {
         pidVal?: number, strPcs?: string, binPcs?: number[], n?: number, iPivot?: number
       } = {}) {
     if (pidVal !== undefined && pidVal >= 0) {
-      this.pcs = IPcs.intToBinArray(pidVal, n ?? 12)
+      this.abinPcs = IPcs.intToBinArray(pidVal, n ?? 12)
     } else if (strPcs !== undefined) {
-      this.pcs = this._fromStringTobinArray(strPcs, n)
+      this.abinPcs = this._fromStringTobinArray(strPcs, n)
     } else if (Array.isArray(binPcs)) {
       // assume pcs bin vector [1,0,1, ... ]
-      this.pcs = binPcs.slice()
+      this.abinPcs = binPcs.slice()
     } else {
       throw new Error("Can't create IPcs instance (bad args = " + strPcs + ")")
     }
@@ -52,18 +50,18 @@ export class IPcs {
       this.iPivot = undefined
     } else if (!iPivot && iPivot !== 0) {
       // iPivot is min pc
-      this.iPivot = this.pcs.findIndex((pc => pc === 1))
+      this.iPivot = this.abinPcs.findIndex((pc => pc === 1))
     } else {
       // check iPivot in pcs
-      if (this.pcs[iPivot] === 1) {
+      if (this.abinPcs[iPivot] === 1) {
         this.iPivot = iPivot
       } else {
-        throw new Error("Can't create IPcs instance (bad iPivot = " + iPivot + " for pcs " + this.pcs + ")")
+        throw new Error("Can't create IPcs instance (bad iPivot = " + iPivot + " for pcs " + this.abinPcs + ")")
       }
     }
-    this.n = this.pcs.length
+    this.n = this.abinPcs.length
     this.orbit = new Orbit()
-    this.id = IPcs.id(this.pcs)
+    this.id = IPcs.id(this.abinPcs)
     this.is = this._is()
   }
 
@@ -115,21 +113,21 @@ export class IPcs {
     return pitchesArray;
   }
 
-  static get NEXT_MODULATION() {
+  static get NEXT_MODULE() {
     return NEXT_MODULATION
   }
 
-  static get PREV_MODULATION() {
+  static get PREV_MODULE() {
     return PREV_MODULATION
   }
 
   /**
-   * int identify of PCS Bin Array representtion (abin)
+   * int identify of PCS Bin Array representation (abin)
    *  function polynomial (bijective function)
    * @param {array} abin
    * @returns {number}
    */
-  static pid(abin: number[]) {
+  static pid(abin: number[]):number {
     let n = abin.length;
     let res = 0;
     let pow = 1;
@@ -144,9 +142,9 @@ export class IPcs {
   }
 
   /**
-   * int identify of PCS Bin Array representtion (abin)
+   * int identify of PCS Bin Array representation (abin)
    *  is function polynomial + 2^12 * cardinal
-   *   for order relation (select min with weight cardinal)
+   *   for order relation (min include weight of cardinal)
    * @param {array} abin
    * @returns {number}
    */
@@ -161,27 +159,19 @@ export class IPcs {
       if (abin[i] === 1)
         card++;
     }
-    return res + card * (1 << n);
-    //return res + ((int) Math.pow(2, dim)) * card;
+    return res + card * (1 << n);  // res + ((int) Math.pow(2, dim)) * card;
   }
 
-  //
-  // get id() {
-  //   if (! this.#_id) {
-  //     this.#_id = IPcs.id(this.pcs);
-  //   }
-  //   return this.#_id;
-  // }
 
   pid() {
-    return IPcs.pid(this.pcs);
+    return IPcs.pid(this.abinPcs);
   }
 
   /**
-   * return this by transpose iPivot to zero
+   * return this by transpose iPivot to zero, useful for analyse (a mode)
    * @return {IPcs}
    */
-  modalPrimeForm() {
+  modalPrimeForm(): IPcs {
     // if iPivot is undefined or already equals to zero, return this
     if (!this.iPivot) {
       return this
@@ -202,47 +192,66 @@ export class IPcs {
       return this._minCyclic
     }
     // lazy compute
-    let n = this.pcs.length;
-    let norm: number[] = this.pcs.slice();
-    let min = norm;
-    let minInt = IPcs.id(this.pcs);
-
-    for (let i = 0; i < n - 1; i++) {
-      norm = IPcs.getBinPcsPermute(1, 1, 0, norm);
-      let curInt = IPcs.id(norm);
-      if (minInt > curInt) {
-        minInt = curInt;
-        min = norm;
-      }
+    if (!this.orbit.empty && this.orbit.groupAction == GroupAction.predefinedGroupsActions(Group.CYCLIC_12))
+      this._minCyclic = this.orbit.getPcsMin()
+    else {
+      this._minCyclic = GroupAction.predefinedGroupsActions(Group.CYCLIC_12).getOrbitOf(this).getPcsMin()
     }
-    this._minCyclic = new IPcs({binPcs: min, iPivot: 0})
+    // old implementation
+    // // lazy compute
+    // let n = this.abinPcs.length;
+    // let norm: number[] = this.abinPcs.slice();
+    // let min = norm;
+    // let minInt = IPcs.id(this.abinPcs);
+    //
+    // for (let i = 0; i < n - 1; i++) {
+    //   norm = IPcs.getBinPcsPermute(1, 1, 0, norm);
+    //   let curInt = IPcs.id(norm);
+    //   if (minInt > curInt) {
+    //     minInt = curInt;
+    //     min = norm;
+    //   }
+    // }
+    // this._minCyclic = new IPcs({binPcs: min, iPivot: 0})
     return this._minCyclic
   }
 
   dihedralPrimeForm() {
-    let cpf = this.cyclicPrimeForm();
-    let pcsM11 = cpf.affineOp(11, 0).cyclicPrimeForm();
-    return cpf.id < pcsM11.id ? cpf : pcsM11;
+    if (!this.orbit.empty && this.orbit.groupAction == GroupAction.predefinedGroupsActions(Group.DIHEDRAL_12))
+      return this.orbit.getPcsMin()
+    else {
+      return GroupAction.predefinedGroupsActions(Group.DIHEDRAL_12).getOrbitOf(this).getPcsMin()
+    }
+    // old implementation :
+    // let cpf = this.cyclicPrimeForm();
+    // let pcsM11 = cpf.affineOp(11, 0).cyclicPrimeForm();
+    // return cpf.id < pcsM11.id ? cpf : pcsM11;
   }
 
   affinePrimeForm() {
-    let cpf = this.dihedralPrimeForm();
-    let pcsM5 = cpf.affineOp(5, 0).cyclicPrimeForm();
-    let pcsM7 = cpf.affineOp(7, 0).cyclicPrimeForm();
-
-    if (cpf.id < pcsM5.id && cpf.id < pcsM7.id)
-      return cpf
-
-    if (pcsM5.id < pcsM7.id)
-      return pcsM5
-
-    return pcsM7
+    if (!this.orbit.empty && this.orbit.groupAction == GroupAction.predefinedGroupsActions(Group.AFFINE_12))
+      return this.orbit.getPcsMin()
+    else {
+      return GroupAction.predefinedGroupsActions(Group.AFFINE_12).getOrbitOf(this).getPcsMin()
+    }
+    // let cpf = this.dihedralPrimeForm();
+    // let pcsM5 = cpf.affineOp(5, 0).cyclicPrimeForm();
+    // let pcsM7 = cpf.affineOp(7, 0).cyclicPrimeForm();
+    //
+    // if (cpf.id < pcsM5.id && cpf.id < pcsM7.id)
+    //   return cpf
+    //
+    // if (pcsM5.id < pcsM7.id)
+    //   return pcsM5
+    //
+    // return pcsM7
   }
 
-  musaicPrimeForm() {
-    let cpf = this.affinePrimeForm();
-    let cpfCplt = cpf.complement().affinePrimeForm();
-    return cpf.id < cpfCplt.id ? cpf : cpfCplt;
+  musaicPrimeForm(): IPcs {
+    if (!this.orbit.empty && this.orbit.groupAction == GroupAction.predefinedGroupsActions(Group.MUSAIC_12))
+      return this.orbit.getPcsMin()
+    else
+      return GroupAction.predefinedGroupsActions(Group.MUSAIC_12).getOrbitOf(this).getPcsMin()
   }
 
   /**
@@ -258,7 +267,7 @@ export class IPcs {
    * @param binPcs : number[] array of int
    * @return {number[]}
    */
-  static getBinPcsPermute(a: number, t: number, iPivot: number, binPcs: number[]) {
+  static getBinPcsPermute(a: number, t: number, iPivot: number, binPcs: number[]): number[] {
     let binPcsPermuted = binPcs.slice()
     let n = binPcs.length
     let j
@@ -291,8 +300,8 @@ export class IPcs {
       return this
     }
     // @ts-ignore
-    let newPivot = negativeToPositiveModulo((this.iPivot + t), this.pcs.length)
-    return new IPcs({binPcs: IPcs.getBinPcsPermute(a, t, newPivot, this.pcs), iPivot: newPivot})
+    let newPivot = negativeToPositiveModulo((this.iPivot + t), this.abinPcs.length)
+    return new IPcs({binPcs: IPcs.getBinPcsPermute(a, t, newPivot, this.abinPcs), iPivot: newPivot})
   }
 
   /**
@@ -317,29 +326,29 @@ export class IPcs {
   /**
    * Modulate of this (change iPivot)
    * @param direction which next or previus degree of modulation
+   *  Example : { 0, 4, 7 } iPivot=0,  next=> iPivot == 4,  prev=> iPivot == 7
    * @returns {IPcs} a new object
    *
-   * TODO : set new iPivot nearest
    */
   modulate(direction: number): IPcs {
     let newiPivot = this.iPivot
     let pivot: number = this.iPivot ?? 0
-    if (direction === IPcs.NEXT_MODULATION) {
-      let n = this.pcs.length
+    if (direction === IPcs.NEXT_MODULE) {
+      let n = this.abinPcs.length
       for (let i = pivot + 1; i < n + pivot; i++) {
-        if (this.pcs[i % n] === 1) {
+        if (this.abinPcs[i % n] === 1) {
           newiPivot = i % n
           break
         }
       }
-    } else if (direction === IPcs.PREV_MODULATION) {
-      let n = this.pcs.length
+    } else if (direction === IPcs.PREV_MODULE) {
+      let n = this.abinPcs.length
       let i = pivot - 1
       if (i < 0) {
         i = negativeToPositiveModulo(i, n)
       }
       for (; i !== pivot;) {
-        if (this.pcs[i] === 1) {
+        if (this.abinPcs[i] === 1) {
           newiPivot = i
           break
         }
@@ -349,7 +358,7 @@ export class IPcs {
         }
       }
     }
-    return new IPcs({binPcs: this.pcs.slice(), iPivot: newiPivot})
+    return new IPcs({binPcs: this.abinPcs.slice(), iPivot: newiPivot})
   }
 
   /**
@@ -357,38 +366,50 @@ export class IPcs {
    * Example : [1,1,0,0,0,0,0,1,0,0,0,0] => "[0, 1, 7]"
    * @returns {string}
    */
-  get pcsStr() {
+  get pcsStr(): string {
     let res = "";
-    for (let index = 0; index < this.pcs.length; index++) {
-      const element = this.pcs[index];
+    for (let index = 0; index < this.abinPcs.length; index++) {
+      const element = this.abinPcs[index];
       if (element)
         res = (res) ? res + ',' + index.toString() : index.toString();
     }
     return '[' + res + ']';
   }
 
-  getForteNum() {
+  /**
+   * Get Forte Num of this
+   */
+  getForteNum(): string {
+    if (this.n != 12) return ""
+
     let cpf = this.cyclicPrimeForm();
-    // console.log("cpf :" + cpf);
     let fortenum = Forte.forte(cpf.pcsStr);
-    // console.log("fortenum :" + fortenum);
+
     if (fortenum) {
       return fortenum;
     }
+    // not found ? get with dihedralPrimeForm
     let dpcsf = cpf.dihedralPrimeForm();
-    // console.log("dpcsf : " + dpcsf);
-    // console.log("dpcsf : " + dpcsf.pcsStr);
 
     return Forte.forte(dpcsf.pcsStr);
   }
 
   /**
-   * Change iPivot and set 1 to this index
+   * Change iPivot
+   *
    * @param iPivot
+   *
+   * @return new instance
    */
-  setiPivot(iPivot: number) {
-    this.pcs[iPivot] = 1;
-    this.iPivot = iPivot;
+  getWithNewPivot(iPivot: number): IPcs {
+    if (iPivot >= 0 && iPivot < this.n) {
+      if (this.abinPcs[iPivot] == 0) {
+        throw new Error('Invalid iPivot !!')
+      }
+      let newBinPcs = this.abinPcs.slice()
+      return new IPcs({binPcs: newBinPcs, n:newBinPcs.length, iPivot:iPivot})
+    }
+    throw new Error('Invalid iPivot !!')
   }
 
   /**
@@ -406,12 +427,12 @@ export class IPcs {
     let res = []
     for (let i = 0; i < n; i++) {
       // @ts-ignore
-      if (this.pcs[(i + this.iPivot) % n] === 1) {
+      if (this.abinPcs[(i + this.iPivot) % n] === 1) {
         let j;
         for (let k = 0; k < n; k++) {
           j = (k + i + 1) % n
           // @ts-ignore
-          if (this.pcs[(j + this.iPivot) % n] === 1) {
+          if (this.abinPcs[(j + this.iPivot) % n] === 1) {
             // offset iPivot is not necessary
             res.push((n + j - i) % n)
             break
@@ -431,7 +452,7 @@ export class IPcs {
    * Example : iv("0,3,7") => [0,0,1,1,1,0]
    */
   iv() {
-    let n = this.pcs.length;
+    let n = this.abinPcs.length;
     let res = new Array(n / 2 + n % 2);
     let max = n / 2;
     let v = 0;
@@ -439,7 +460,7 @@ export class IPcs {
       res[i] = 0;
       v++;
       for (let j = 0; j < n; j++) {
-        if (this.pcs[j] === 1 && this.pcs[(j + v) % n] === 1)
+        if (this.abinPcs[j] === 1 && this.abinPcs[(j + v) % n] === 1)
           res[i] = res[i] + 1;
       }
     }
@@ -453,7 +474,7 @@ export class IPcs {
    * @return Number
    */
   get cardinal() {
-    return this.pcs.filter(i => i === 1).length
+    return this.abinPcs.filter(i => i === 1).length
   }
 
   /**
@@ -479,7 +500,7 @@ export class IPcs {
     let modesOrbits = []
     modesOrbits.push(this)
     let cardinal = 0;
-    let pcs = this.pcs.slice()
+    let pcs = this.abinPcs.slice()
     let n = pcs.length
     for (let i = (this.iPivot + 1) % n; i < pcs.length + this.iPivot; i++) {
       if (pcs[i % n] === 0) continue
@@ -497,15 +518,15 @@ export class IPcs {
 
   /**
    * get number of distinct PCS in cyclic orbit of PCS.
-   *  formula derived from equality in these two ratios  : n/cardOrbitCyclic and cardinalPcs/cardOrbitMode
-   *  TODO implement by using predefined CYCLIC action group ?!?
+   *
    * @return {number}
    */
   cardOrbitCyclic(): number {
-    let n = this.pcs.length
-    // TODO à vérifier en cas cardOrbitMode undefined...
-    let cardOrbit = this.cardOrbitMode() ?? 0
-    return (n * cardOrbit) / this.cardinal
+    if (!this.orbit.empty && this.orbit.groupAction == GroupAction.predefinedGroupsActions(Group.CYCLIC_12))
+      return this.orbit.cardinal
+
+    let ipcsInCyclicGroup : IPcs = GroupAction.predefinedGroupsActions(Group.CYCLIC_12).getIPcsInOrbit(this)
+    return ipcsInCyclicGroup.orbit.cardinal
   }
 
   /**
@@ -516,7 +537,7 @@ export class IPcs {
    *
    */
   complement(): IPcs {
-    let pcs_cpt = this.pcs.map(pc => (pc === 1 ? 0 : 1)) //;slice() and inverse 0/1
+    let pcs_cpt = this.abinPcs.map(pc => (pc === 1 ? 0 : 1)) //;slice() and inverse 0/1
     let new_iPivot = undefined
     let actual_iPivot = this.iPivot ?? 0
     let n = pcs_cpt.length
@@ -545,23 +566,18 @@ export class IPcs {
   }
 
   toString() {
-    return JSON.stringify(this.pcs) + ", iPivot : "
+    return JSON.stringify(this.abinPcs) + ", iPivot : "
       + JSON.stringify(this.iPivot)
     //	return JSON.stringify(this);
   }
 
   equals(other: any) {
-    // if (other instanceof IPcs) {
-    //   return this.pcs.every((v, i) => v === other.pcs[i]) &&
-    //     this.iPivot === other.iPivot;
-    // }
-    // return false
     return this.equalsPcs(other)
   }
 
   equalsPcs(other: any) {
     if (other instanceof IPcs) {
-      return this.pcs.every((v, i) => v === other.pcs[i])
+      return this.abinPcs.every((v, i) => v === other.abinPcs[i])
     }
     return false
   }
@@ -608,9 +624,9 @@ export class IPcs {
     let left = ipitch; //
     let middle = Math.round(this.n / 2) + 1
     for (iAxe = 0; iAxe < this.n; iAxe++) {
-      if (this.pcs[right] === 1)
+      if (this.abinPcs[right] === 1)
         arrResearchA[iAxe] = 1; // { in one way }
-      if (this.pcs[left] === 1)
+      if (this.abinPcs[left] === 1)
         arrResearchB[iAxe] = 1; // { other way }
       right = (right + 1) % this.n;
       if (left === 0) left = this.n;
@@ -678,14 +694,14 @@ export class IPcs {
    * @return {IPcs} a new instance (free, not attached to an orbit)
    */
   toggleIndexPC(ipc : number) : IPcs {
-    if (ipc < 0  || ipc >= this.pcs.length)
+    if (ipc < 0  || ipc >= this.abinPcs.length)
       throw new Error("Invalid index pitch class !")
 
     let newIPcs : IPcs
-    let newBinPcs = this.pcs.slice()
+    let newBinPcs = this.abinPcs.slice()
     let iPivot = this.iPivot
 
-    if (this.pcs[ipc] === 0) {
+    if (this.abinPcs[ipc] === 0) {
       newBinPcs[ipc] = 1
       // same pivot
       newIPcs = new IPcs({binPcs: newBinPcs, n:newBinPcs.length, iPivot:this.iPivot})

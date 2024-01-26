@@ -1,5 +1,5 @@
-Une instance de IPcs peut être "volante" ou "libre" (TODO vocabulaire à définir),
-c'est à dire non attachée à une action de groupe.
+Une instance de IPcs peut être "volante" ou "libre" ou "détachée" (TODO vocabulaire à définir),
+c'est à dire non liée à une action de groupe.
 Dans ce cas son orbite est vide (empty) - via sa propriété 'orbit'
 
 Une instance de IPcs appartient à une orbite suite à une action de groupe.

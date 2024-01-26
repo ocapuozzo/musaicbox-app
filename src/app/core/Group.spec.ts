@@ -31,7 +31,7 @@ describe('Group', () => {
   })
 
   it("Predefined Cyclic Group", () => {
-    let cyclicGroup = Group.predefinedGroups[Group.CYCLIC]
+    let cyclicGroup = Group.predefinedGroups[Group.CYCLIC_12]
     expect(cyclicGroup.operations.length).toEqual(12)
   })
 
@@ -112,14 +112,14 @@ describe('Group', () => {
 
   it("Group buildOrbit by predefined groups ", () => {
     let ipcs = new IPcs({pidVal: 0, n: 12})
-    ipcs = Group.predefinedGroups[Group.MUSAIC].buildOrbitOf(ipcs)
+    ipcs = Group.predefinedGroups[Group.MUSAIC_12].buildOrbitOf(ipcs)
     expect(ipcs.orbit.cardinal).toEqual(2)
 
     let ipcs_dim = new IPcs({strPcs: "0, 3, 6, 9"})
-    ipcs_dim = Group.predefinedGroups[Group.MUSAIC].buildOrbitOf(ipcs_dim)
+    ipcs_dim = Group.predefinedGroups[Group.MUSAIC_12].buildOrbitOf(ipcs_dim)
     expect(ipcs_dim.orbit.cardinal).toEqual(6)
 
-    expect(Group.predefinedGroups[Group.MUSAIC].operations.length).toEqual(96)
+    expect(Group.predefinedGroups[Group.MUSAIC_12].operations.length).toEqual(96)
   })
 
 
