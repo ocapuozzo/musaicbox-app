@@ -141,7 +141,7 @@ export class ClockDrawing {
     ctx.save();
     ctx.fillStyle = 'black';
     ctx.beginPath();
-    for (let i = 0; i < this.ipcs.abinPcs.length; i++) {
+    for (let i = 0; i < this.n /*ipcs.abinPcs.length*/; i++) {
       if (this.ipcs.abinPcs[i] === 1 && firstPoint) {
         firstPoint = false;
         ctx.moveTo(pointsRegions[i].x, pointsRegions[i].y);
@@ -235,8 +235,6 @@ export class ClockDrawing {
         y - radiusPitch * 2,
         radiusPitch * 3, // width rectangle
         radiusPitch * 3); // square...
-      //this.$options.points[index].draw(ctx);
-      // console.log(this.$options.points[index].toString());
       ang = ang + 2 * Math.PI / this.n;
     }
     // compute points for axes symmetry (*2 because inter pitches)

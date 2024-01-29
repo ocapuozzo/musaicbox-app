@@ -10,5 +10,14 @@ Par définition (set theory), la propriété iPivot ne participe pas à l'identi
 
 La représentation interne d'un pcs (property pcs: number[]) ne peut être altérée, à la place une nouvelle instance de IPCS est créée (immutabilité de la structure array d'un pcs), à l'image de la programmation fonctionnelle. Exemple, voir la fonction complement() ou toggleIndexPC()
 
+VOCABULAIRE
+
+Pivot : primary pitch, final : https://en.wikipedia.org/wiki/Mode_(music)
+        finale, tonique, note de référence  : https://fr.wikipedia.org/wiki/Mode_(musique)
+
+
+voir aussi :
+
+- https://en.wikipedia.org/wiki/Roman_numeral_analysis
 
 

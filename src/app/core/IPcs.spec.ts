@@ -365,9 +365,83 @@ describe('IPcs unit tests', () => {
       fail("Error waiting, because bad new pivot")
     } catch (e: any) {
       // good
-     expect().nothing()
+      expect().nothing()
     }
+  })
+
+  it("equals with same pivot", () => {
+    let ipcsMajPivot0 = new IPcs({strPcs: "0, 4, 7", iPivot: 0})
+    let ipcsMajBisPivot0 = new IPcs({strPcs: "0, 4, 7", iPivot: 0})
+    expect(ipcsMajPivot0.equals(ipcsMajBisPivot0)).toBeTruthy()
+  })
+
+  it("equals with NOT same pivot", () => {
+    let ipcsMajPivot0 = new IPcs({strPcs: "0, 4, 7", iPivot: 0})
+    let ipcsMajBisPivot4 = new IPcs({strPcs: "0, 4, 7", iPivot: 4})
+    expect(ipcsMajPivot0.equals(ipcsMajBisPivot4)).toBeTruthy()
+  })
+
+
+  it("getReprBinPcs no mapping", () => {
+    let dminor7 = new IPcs({strPcs: "0,2,5,9", iPivot: 2})
+    expect(dminor7.getReprBinPcs()).toEqual([1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0])
+  })
+
+
+  it("getReprBinPcs 7 diat maj => 12 chromatic", () => {
+    let ipcsDiatMaj = new IPcs({strPcs: "0, 2, 4, 5, 7, 9, 11", iPivot: 0})
+    expect(ipcsDiatMaj.n).toEqual(12)
+
+    let ipcsDiatMajMappedIn12 = ipcsDiatMaj.autoMap()
+    expect(ipcsDiatMajMappedIn12.n).toEqual(7)
+    expect(ipcsDiatMajMappedIn12.getReprBinPcs().length).toEqual(12)
+
+    // unselect 3 pitches
+    let otherPics = ipcsDiatMajMappedIn12.toggleIndexPC(1)
+    expect(otherPics.id).toEqual(new IPcs({strPcs: '[0, 2, 3, 4, 5, 6]', n: 7}).id)
+    otherPics = otherPics.toggleIndexPC(3)
+    otherPics = otherPics.toggleIndexPC(5)
+    expect(otherPics.id).toEqual(new IPcs({strPcs: '[0, 2, 4, 6]', n: 7}).id)
+
+    // verify state
+    expect(otherPics.getReprBinPcs().length).toEqual(12)
+    expect(otherPics.n).toEqual(7)
+    expect(otherPics.cardinal).toEqual(4)
+    expect(otherPics.abinPcs).toEqual([1, 0, 1, 0, 1, 0, 1])
+
+    // verify that getReprBinPcs of mapped pcs (n=7) is equals to getReprBinPcs of none mapped pcs (n=12)
+    let binPcs = new IPcs(
+      {strPcs: '[0, 4, 7, 11]', n: 12}).getReprBinPcs()
+    expect(otherPics.getReprBinPcs()).toEqual(binPcs)
+  })
+
+
+  it("autoMAp 7 diat maj => 12 - verify transposition", () => {
+    let ipcsDiatMaj = new IPcs({strPcs: "0, 2, 4, 5, 7, 9, 11", iPivot: 0})
+    let ipcsDiatMajMappedIn12 = ipcsDiatMaj.autoMap()
+
+    let otherPics = ipcsDiatMajMappedIn12.toggleIndexPC(1)
+    otherPics = otherPics.toggleIndexPC(3)
+    otherPics = otherPics.toggleIndexPC(5)
+    let firstDegree = otherPics.toggleIndexPC(6)
+
+    expect(firstDegree.abinPcs).toEqual([1, 0, 1, 0, 1, 0, 0])
+
+    // verify mapping ok ?
+    expect(firstDegree.getReprBinPcs())
+      .toEqual(new IPcs({strPcs: '[0, 4, 7]', n: 12}).getReprBinPcs())
+
+    // now verify if transposition in 7 has a good impact in 12 mapped
+    let secondeDegreeIn7 = firstDegree.transpose(1) // C,E,G => D,F,A
+    expect(firstDegree.abinPcs).toEqual([1, 0, 1, 0, 1, 0, 0])
+    expect(secondeDegreeIn7.abinPcs).toEqual([0, 1, 0, 1, 0, 1, 0])
+
+    let exeptedDminorIn12 = new IPcs({strPcs: "2,5,9", n: 12}) // D, F, A
+    expect(secondeDegreeIn7.getReprBinPcs()).toEqual(exeptedDminorIn12.getReprBinPcs())
+
+    // good ! a little self-satisfaction can't hurt :))
 
   })
+
 
 })
