@@ -16,10 +16,10 @@ export class Group {
   /** indexes for predefinedGroups
    *  @see GroupAction.spec
    */
-  static CYCLIC_12 = 0
-  static DIHEDRAL_12 = 1
-  static AFFINE_12 = 2
-  static MUSAIC_12 = 3
+  static CYCLIC = 0
+  static DIHEDRAL = 1
+  static AFFINE = 2
+  static MUSAIC = 3
 
   static _predefinedGroups : Group[]
 
@@ -36,19 +36,19 @@ export class Group {
   static get predefinedGroups() : Group[]{
     if (! this._predefinedGroups) {
       this._predefinedGroups = []
-      // index == 0 == Group.CYCLIC_12
+      // index == 0 == Group.CYCLIC
       let opM1_T1 = new MusaicPcsOperation(12, 1, 1, false);
       this._predefinedGroups.push(new  Group([opM1_T1]))
 
-      // index == 1 == Group.DIHEDRAL_12
+      // index == 1 == Group.DIHEDRAL
       let opM11_T1 = new MusaicPcsOperation(12, 11, 1, false);
       this._predefinedGroups.push(new  Group([opM1_T1, opM11_T1]))
 
-      // index == 2 == Group.AFFINE_12
+      // index == 2 == Group.AFFINE
       let opM5_T1 = new MusaicPcsOperation(12, 5, 1, false);
       this._predefinedGroups.push(new  Group([opM1_T1, opM11_T1, opM5_T1]))
 
-      // index == 3 == Group.MUSAIC_12
+      // index == 3 == Group.MUSAIC
       let opCM1_T0 = new MusaicPcsOperation(12, 1, 0, true);
       this._predefinedGroups.push(new  Group([opM1_T1, opM11_T1, opM5_T1, opCM1_T0]))
     }

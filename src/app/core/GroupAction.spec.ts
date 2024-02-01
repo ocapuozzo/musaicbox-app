@@ -171,7 +171,7 @@ describe('GroupAction', () => {
 
   it("Predefined Musaic Group Action n=12", () => {
     let musaicGroup12
-      = new GroupAction({group: Group.predefinedGroups[Group.MUSAIC_12]})
+      = new GroupAction({group: Group.predefinedGroups[Group.MUSAIC]})
 
     expect(musaicGroup12.operations.length).toEqual(96)
     expect(musaicGroup12.powerset.size).toEqual(Math.pow(2, 12))
@@ -192,7 +192,7 @@ describe('GroupAction', () => {
 
   it("Predefined Cyclic Group Action n=12", () => {
     let cyclicGroup12
-      = new GroupAction({group: Group.predefinedGroups[Group.CYCLIC_12]})
+      = new GroupAction({group: Group.predefinedGroups[Group.CYCLIC]})
 
     expect(cyclicGroup12.operations.length).toEqual(12)
     expect(cyclicGroup12.powerset.size).toEqual(Math.pow(2, 12))
@@ -205,7 +205,7 @@ describe('GroupAction', () => {
 
   it("Predefined Dihedral Group Action n=12", () => {
     let cyclicGroup12
-      = new GroupAction({group: Group.predefinedGroups[Group.DIHEDRAL_12]})
+      = new GroupAction({group: Group.predefinedGroups[Group.DIHEDRAL]})
 
     expect(cyclicGroup12.operations.length).toEqual(24)
     expect(cyclicGroup12.powerset.size).toEqual(Math.pow(2, 12))
@@ -219,7 +219,7 @@ describe('GroupAction', () => {
 
   it("Predefined Affine Group Action n=12", () => {
     let affineGroup12
-      = new GroupAction({group: Group.predefinedGroups[Group.AFFINE_12]})
+      = new GroupAction({group: Group.predefinedGroups[Group.AFFINE]})
 
     expect(affineGroup12.operations.length).toEqual(48)
     expect(affineGroup12.powerset.size).toEqual(Math.pow(2, 12))
@@ -232,7 +232,7 @@ describe('GroupAction', () => {
 
   it("getOrbitOf cyclic12", () => {
     let cyclicGroup12
-      = new GroupAction({group: Group.predefinedGroups[Group.CYCLIC_12]})
+      = new GroupAction({group: Group.predefinedGroups[Group.CYCLIC]})
 
     let ipcs = new IPcs({strPcs: "0, 4, 8", iPivot: 0})
     let orbit = cyclicGroup12.getOrbitOf(ipcs)
@@ -258,7 +258,7 @@ describe('GroupAction', () => {
 
   it("getOrbitOf with bad pcs", () => {
     let cyclicGroup12
-      = new GroupAction({group: Group.predefinedGroups[Group.CYCLIC_12]})
+      = new GroupAction({group: Group.predefinedGroups[Group.CYCLIC]})
     let ipcs = new IPcs({strPcs: "0, 1, 2", n: 5, iPivot: 0})
 
     try {

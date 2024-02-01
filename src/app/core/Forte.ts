@@ -5,6 +5,14 @@
  */
 
 const fortemap = new Map<string,string>
+fortemap.set("[]", "0-1");
+fortemap.set("[0]", "1-1");
+fortemap.set("[0,2]", "2-1");
+fortemap.set("[0,2]", "2-2");
+fortemap.set("[0,3]", "2-3");
+fortemap.set("[0,4]", "2-4");
+fortemap.set("[0,5]", "2-5");
+fortemap.set("[0,6]", "2-6");
 
 fortemap.set("[0,1,2]", "3-1");
 fortemap.set("[0,1,3]", "3-2");
@@ -214,6 +222,7 @@ fortemap.set("[0,1,3,5,7,9,11]", "7-33");
 fortemap.set("[0,1,3,5,7,9,10]", "7-34");
 fortemap.set("[0,1,3,5,6,8,10]", "7-35");
 fortemap.set("[0,1,3,4,5,7,8]", "7-Z37");
+fortemap.set("[0,1,2,4,5,7,8]", "7-Z38");
 
 // for (var k of fortemap.keys()) {
 //  console.log(k + ' => ' + fortemap.get(k));
@@ -225,4 +234,5 @@ export class Forte {
   static forte(pcs: string) : string {
     return fortemap.get(pcs) ?? ""
   }
+
 }

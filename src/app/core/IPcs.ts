@@ -21,26 +21,27 @@ const negativeToPositiveModulo = (i: number, n: number): number => {
 }
 
 export class IPcs {
-  n: number = 12;
+  readonly n: number;
   iPivot?: number = undefined;
-  abinPcs: number[];
+  readonly abinPcs: number[];
   orbit: Orbit; //TODO
-  id: number;
+  readonly id: number;
   private _minCyclic ?: IPcs;
   private _cardModesOrbits ?: number
-  is: number[]
-  private mappingBinPcs: number[]
-  private _mappedBinPcs: number[]
-  private nMapping: number = 0
+  readonly is: number[]
+  readonly mappingBinPcs: number[]
+  readonly nMapping: number = 0
+  private readonly _mappedBinPcs: number[] = []
 
   constructor(
-    {pidVal, strPcs, binPcs, n, iPivot, mappingBinPcs, nMapping}:
+    {pidVal, strPcs, binPcs, n, iPivot, orbit, mappingBinPcs, nMapping}:
       {
         pidVal?: number,
         strPcs?: string,
         binPcs?: number[],
         n?: number,
         iPivot?: number,
+        orbit?: Orbit,
         mappingBinPcs?: number[],
         nMapping?: number
       } = {}) {
@@ -68,12 +69,24 @@ export class IPcs {
         throw new Error("Can't create IPcs instance (bad iPivot = " + iPivot + " for pcs " + this.abinPcs + ")")
       }
     }
+    if (n && n !== this.abinPcs.length) {
+      throw new Error("Can't create IPcs instance (bad n = " + n + " for pcs " + this.abinPcs + ")")
+    }
     this.n = this.abinPcs.length
-    this.orbit = new Orbit()
+    this.orbit = orbit ?? new Orbit()
     this.id = IPcs.id(this.abinPcs)
     this.is = this._is()
     this.mappingBinPcs = mappingBinPcs ?? []
     this.nMapping = nMapping ?? 0
+
+    // if mapping, create here bin array mapped of this
+    // @see method getReprBinPcs()
+    if (this.mappingBinPcs.length > 0 && this.nMapping > this.n) {
+      this._mappedBinPcs = new Array<number>(this.nMapping).fill(0)
+      for (let i = 0; i < this.mappingBinPcs.length; i++) {
+        this._mappedBinPcs[this.mappingBinPcs[i]] = this.abinPcs[i];
+      }
+    }
   }
 
   /**
@@ -203,10 +216,10 @@ export class IPcs {
       return this._minCyclic
     }
     // lazy compute
-    if (!this.orbit.empty && this.orbit.groupAction == GroupAction.predefinedGroupsActions(Group.CYCLIC_12))
+    if (!this.orbit.empty && this.orbit.groupAction == GroupAction.predefinedGroupsActions(this.n, Group.CYCLIC))
       this._minCyclic = this.orbit.getPcsMin()
     else {
-      this._minCyclic = GroupAction.predefinedGroupsActions(Group.CYCLIC_12).getOrbitOf(this).getPcsMin()
+      this._minCyclic = GroupAction.predefinedGroupsActions(this.n, Group.CYCLIC).getOrbitOf(this).getPcsMin()
     }
     // old implementation
     // // lazy compute
@@ -228,10 +241,10 @@ export class IPcs {
   }
 
   dihedralPrimeForm() {
-    if (!this.orbit.empty && this.orbit.groupAction == GroupAction.predefinedGroupsActions(Group.DIHEDRAL_12))
+    if (!this.orbit.empty && this.orbit.groupAction == GroupAction.predefinedGroupsActions(this.n, Group.DIHEDRAL))
       return this.orbit.getPcsMin()
     else {
-      return GroupAction.predefinedGroupsActions(Group.DIHEDRAL_12).getOrbitOf(this).getPcsMin()
+      return GroupAction.predefinedGroupsActions(this.n, Group.DIHEDRAL).getOrbitOf(this).getPcsMin()
     }
     // old implementation :
     // let cpf = this.cyclicPrimeForm();
@@ -240,10 +253,10 @@ export class IPcs {
   }
 
   affinePrimeForm() {
-    if (!this.orbit.empty && this.orbit.groupAction == GroupAction.predefinedGroupsActions(Group.AFFINE_12))
+    if (!this.orbit.empty && this.orbit.groupAction == GroupAction.predefinedGroupsActions(this.n, Group.AFFINE))
       return this.orbit.getPcsMin()
     else {
-      return GroupAction.predefinedGroupsActions(Group.AFFINE_12).getOrbitOf(this).getPcsMin()
+      return GroupAction.predefinedGroupsActions(this.n, Group.AFFINE).getOrbitOf(this).getPcsMin()
     }
     // let cpf = this.dihedralPrimeForm();
     // let pcsM5 = cpf.affineOp(5, 0).cyclicPrimeForm();
@@ -259,10 +272,10 @@ export class IPcs {
   }
 
   musaicPrimeForm(): IPcs {
-    if (!this.orbit.empty && this.orbit.groupAction == GroupAction.predefinedGroupsActions(Group.MUSAIC_12))
+    if (!this.orbit.empty && this.orbit.groupAction == GroupAction.predefinedGroupsActions(this.n, Group.MUSAIC))
       return this.orbit.getPcsMin()
     else
-      return GroupAction.predefinedGroupsActions(Group.MUSAIC_12).getOrbitOf(this).getPcsMin()
+      return GroupAction.predefinedGroupsActions(this.n, Group.MUSAIC).getOrbitOf(this).getPcsMin()
   }
 
   /**
@@ -315,6 +328,7 @@ export class IPcs {
     return new IPcs({
       binPcs: IPcs.getBinPcsPermute(a, t, newPivot, this.abinPcs),
       iPivot: newPivot,
+      orbit:this.orbit,
       mappingBinPcs: this.mappingBinPcs,
       nMapping: this.nMapping
     })
@@ -377,8 +391,10 @@ export class IPcs {
     return new IPcs({
       binPcs: this.abinPcs.slice(),
       iPivot: newiPivot,
+      orbit:this.orbit,
       mappingBinPcs: this.mappingBinPcs,
-      nMapping: this.nMapping})
+      nMapping: this.nMapping
+    })
   }
 
   /**
@@ -399,7 +415,7 @@ export class IPcs {
   /**
    * Get Forte Num of this
    */
-  getForteNum(): string {
+  forteNum(): string {
     if (this.n != 12) return ""
 
     let cpf = this.cyclicPrimeForm();
@@ -422,20 +438,16 @@ export class IPcs {
    * @return new instance
    */
   getWithNewPivot(iPivot: number): IPcs {
-    if (iPivot >= 0 && iPivot < this.n) {
-      if (this.abinPcs[iPivot] == 0) {
-        throw new Error('Invalid iPivot !!')
-      }
-      let newBinPcs = this.abinPcs.slice()
-      return new IPcs({
-        binPcs: newBinPcs,
-        n: newBinPcs.length,
-        iPivot: iPivot,
-        mappingBinPcs: this.mappingBinPcs,
-        nMapping: this.nMapping
-      })
-    }
-    throw new Error('Invalid iPivot !!')
+    // exception is catch when bad iPivot (in constructor logic)
+    let newBinPcs = this.abinPcs.slice()
+    return new IPcs({
+      binPcs: newBinPcs,
+      n: newBinPcs.length,
+      iPivot: iPivot,
+      orbit:this.orbit,
+      mappingBinPcs: this.mappingBinPcs,
+      nMapping: this.nMapping
+    })
   }
 
   /**
@@ -471,13 +483,25 @@ export class IPcs {
 
 
   /**
-   * interval vector (generalized on n, from musaicbox java)
+   * interval vector (generalized on n)
+   *
    * @see https://en.wikipedia.org/wiki/Common_tone_(scale)#Deep_scale_property
+   * @see https://en.wikipedia.org/wiki/Interval_vector
+   *
+   * i=0 => minor seconds/major sevenths (1 or 11 semitones)
+   * i=1 => major seconds/minor sevenths (2 or 10 semitones)
+   * i=2 => minor thirds/major sixths (3 or 9 semitones)
+   * i=3 => major thirds/minor sixths (4 or 8 semitones)
+   * i=4 => perfect fourths/perfect fifths (5 or 7 semitones)
+   * i=5 => tritones (6 semitones) (The tritone is inversionally equivalent to itself.)
+   *
+   * Interval class 0, representing unisons and octaves, is omitted.
+   *
    * @returns {int[]}
    *
-   * Example : iv("0,3,7") => [0,0,1,1,1,0]
+   * Example : iv("0,3,iv(7") => [0,0,1,1,1,0]
    */
-  iv() {
+  iv(): number[] {
     let n = this.abinPcs.length;
     let res = new Array(n / 2 + n % 2);
     let max = n / 2;
@@ -490,8 +514,10 @@ export class IPcs {
           res[i] = res[i] + 1;
       }
     }
-    // div last value by 2 (n==12)
+    // div last value by 2 (n==12) tritone inversionally equivalent to itself
+    // TODO verify if ok when n % 2 != 0
     res[res.length - 1] /= 2;
+
     return res;
   }
 
@@ -515,31 +541,39 @@ export class IPcs {
    * TODO implementation via CYCLIC group action ?!?
    * @return {number}
    */
-  cardOrbitMode() {
-    if (this.iPivot === undefined) {
-      return undefined
-    }
+  cardOrbitMode(): number {
     if (this._cardModesOrbits) {
-      return this._cardModesOrbits // _modesOrbits.length
+      return this._cardModesOrbits //
     }
-    // lazy loading
-    let modesOrbits = []
-    modesOrbits.push(this)
-    let cardinal = 0;
-    let pcs = this.abinPcs.slice()
-    let n = pcs.length
-    for (let i = (this.iPivot + 1) % n; i < pcs.length + this.iPivot; i++) {
-      if (pcs[i % n] === 0) continue
-      cardinal++
-      let ipcs2 = this.transpose(-i + this.iPivot)
-      // compareTo pcs without iPivot
-      if (ipcs2.equalsPcs(this)) {
-        break
-      } else {
-        modesOrbits.push(ipcs2)
-      }
+
+    // this.cardinal === 0 => this.iPivot === undefined
+    if (this.cardinal === 0 || this.iPivot === undefined) {
+      return this._cardModesOrbits = 0
     }
-    return this._cardModesOrbits = modesOrbits.length
+
+    // because groupAction Cyclic with n=12 is predefined
+    // and cardinal orbit always divise n
+    // return this.cardinal / (this.n / this.cyclicPrimeForm().orbit.cardinal)
+    // (lazy compute)
+    return this._cardModesOrbits = (this.cardinal * this.cyclicPrimeForm().orbit.cardinal) / this.n
+
+    // // old algorithm
+    // let modesOrbits = []
+    // modesOrbits.push(this)
+    // let pcs = this.abinPcs.slice()
+    // let n = pcs.length
+    // for (let i = (this.iPivot + 1) % n; i < pcs.length + this.iPivot; i++) {
+    //   if (pcs[i % n] === 0) continue
+    //   let ipcs2 = this.transpose(-i + this.iPivot)
+    //   // compareTo pcs without iPivot
+    //   if (ipcs2.equalsPcs(this)) {
+    //     break
+    //   } else {
+    //     modesOrbits.push(ipcs2)
+    //   }
+    // }
+    // return this._cardModesOrbits = modesOrbits.length
+    //
   }
 
   /**
@@ -548,10 +582,10 @@ export class IPcs {
    * @return {number}
    */
   cardOrbitCyclic(): number {
-    if (!this.orbit.empty && this.orbit.groupAction == GroupAction.predefinedGroupsActions(Group.CYCLIC_12))
+    if (!this.orbit.empty && this.orbit.groupAction == GroupAction.predefinedGroupsActions(this.n, Group.CYCLIC))
       return this.orbit.cardinal
 
-    let ipcsInCyclicGroup: IPcs = GroupAction.predefinedGroupsActions(Group.CYCLIC_12).getIPcsInOrbit(this)
+    let ipcsInCyclicGroup: IPcs = GroupAction.predefinedGroupsActions(this.n, Group.CYCLIC).getIPcsInOrbit(this)
     return ipcsInCyclicGroup.orbit.cardinal
   }
 
@@ -586,8 +620,10 @@ export class IPcs {
     let newIpcsComplement = new IPcs({
       binPcs: pcs_cpt,
       iPivot: new_iPivot,
+      orbit:this.orbit,
       mappingBinPcs: this.mappingBinPcs,
-      nMapping: this.nMapping})
+      nMapping: this.nMapping
+    })
     if (this.orbit.groupAction) {
       return this.orbit.groupAction.getIPcsInOrbit(newIpcsComplement)
     } else {
@@ -738,6 +774,7 @@ export class IPcs {
         binPcs: newBinPcs,
         n: newBinPcs.length,
         iPivot: this.iPivot,
+        orbit:this.orbit,
         mappingBinPcs: this.mappingBinPcs,
         nMapping: this.nMapping
       })
@@ -750,6 +787,7 @@ export class IPcs {
           binPcs: newBinPcs,
           n: newBinPcs.length,
           iPivot: undefined,
+          orbit:this.orbit,
           mappingBinPcs: this.mappingBinPcs,
           nMapping: this.nMapping
         })
@@ -767,6 +805,7 @@ export class IPcs {
             binPcs: newBinPcs,
             n: newBinPcs.length,
             iPivot: newIPivot,
+            orbit:this.orbit,
             mappingBinPcs: this.mappingBinPcs,
             nMapping: this.nMapping
           })
@@ -776,6 +815,7 @@ export class IPcs {
             binPcs: newBinPcs,
             n: newBinPcs.length,
             iPivot: this.iPivot,
+            orbit:this.orbit,
             mappingBinPcs: this.mappingBinPcs,
             nMapping: this.nMapping
           })
@@ -809,24 +849,34 @@ export class IPcs {
   }
 
   /**
-   * Get extra representative binary pitches class set.
-   * Example : binPitches
-   * [0,1,1] mappingBinPitches[0, 4, 7] nMapping = 12 return
-   * [0,0,0,0,1,0,0,1,0,0,0,0]
+   * If this is mapped (this.nMapping > this.n) then
+   * create new instance with n <- this.nMapping, and nMapping <- 0
+   */
+  unMap(): IPcs {
+    if (this.nMapping <= this.n) {
+      return this // or clone ?
+    }
+
+    return new IPcs(
+      {
+        binPcs: this.getReprBinPcs(),
+        n: this.nMapping
+      })
+  }
+
+  /**
+   * Get representative binary pitches class set.
+   * In this project, un PCS is always a projection of a pcs of dim inf or equal
+   * Example : binPcs = [0,1,1], mappingBinPitches= [0, 4, 7],
+   * nMapping = 12 return [0,0,0,0,1,0,0,1,0,0,0,0]
    *
    * @return : number[]
    */
   getReprBinPcs(): number[] {
-    if (!this.mappingBinPcs || this.mappingBinPcs.length == 0 || this.nMapping == 0)
-      return this.abinPcs
-
-//    if (! this._mappedBinPcs) {
-    // this._mappedBinPcs = new Array<number>(this.mappingBinPcs.length).fill(0)
-    this._mappedBinPcs = new Array<number>(this.nMapping).fill(0)
-    for (let i = 0; i < this.mappingBinPcs.length; i++) {
-      this._mappedBinPcs[this.mappingBinPcs[i]] = this.abinPcs[i];
-    }
-    //  }
-    return this._mappedBinPcs;
+    // this._mappedBinPcs is constructed into constructor
+    return (this._mappedBinPcs.length > 0)
+      ? this._mappedBinPcs
+      : this.abinPcs;
   }
+
 }

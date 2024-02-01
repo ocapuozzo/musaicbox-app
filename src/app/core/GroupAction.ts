@@ -29,7 +29,7 @@ export class GroupAction {
   _orbitsSortedByMotifStabilizers ?: ISortedOrbits[];
   _orbitsSortedByCardinal ?: ISortedOrbits[];
 
-  private static _predefinedGroupsActions : GroupAction[]
+  private static _predefinedGroupsActions : Map<number, GroupAction[]>
 
   constructor(
     {n, someMusaicOperations, group}:
@@ -287,29 +287,33 @@ export class GroupAction {
   }
 
   // initialize some predefined Groups Actions
-  static predefinedGroupsActions(index : number): GroupAction {
+  static predefinedGroupsActions(n: number, index : number): GroupAction {
     if (!GroupAction._predefinedGroupsActions) {
-      GroupAction._predefinedGroupsActions = []
-      // index == 0 == Group.CYCLIC_12
-      GroupAction._predefinedGroupsActions.push(
-        new GroupAction({group: Group.predefinedGroups[Group.CYCLIC_12]}))
+      GroupAction._predefinedGroupsActions = new Map<number, GroupAction[]>
+      let groupsActions: GroupAction[] = new Array<GroupAction>()
+      // index == 0 == Group.CYCLIC
+      groupsActions.push(new GroupAction({group: Group.predefinedGroups[Group.CYCLIC]}))
 
-      // index == 1 == Group.DIHEDRAL_12
-      GroupAction._predefinedGroupsActions.push(
-        new GroupAction({group: Group.predefinedGroups[Group.DIHEDRAL_12]}))
+      // index == 1 == Group.DIHEDRAL
+      groupsActions.push(new GroupAction({group: Group.predefinedGroups[Group.DIHEDRAL]}))
 
-      // index == 2 == Group.AFFINE_12
-      GroupAction._predefinedGroupsActions.push(
-        new GroupAction({group: Group.predefinedGroups[Group.AFFINE_12]}))
+      // index == 2 == Group.AFFINE
+      groupsActions.push(new GroupAction({group: Group.predefinedGroups[Group.AFFINE]}))
 
-      // index == 3 == Group.MUSAIC_12
-      GroupAction._predefinedGroupsActions.push(
-        new GroupAction({group: Group.predefinedGroups[Group.MUSAIC_12]}))
+      // index == 3 == Group.MUSAIC
+      groupsActions.push(new GroupAction({group: Group.predefinedGroups[Group.MUSAIC]}))
+
+      GroupAction._predefinedGroupsActions.set(12,groupsActions)
     }
-    if (index >= 0 && index <= Group.MUSAIC_12)
-       return GroupAction._predefinedGroupsActions[index]
 
-    throw new Error('Invalid index defined group action !')
+    if (GroupAction._predefinedGroupsActions.get(n) &&
+      // @ts-ignore
+      GroupAction._predefinedGroupsActions.get(n)[index]
+    ) {
+      // @ts-ignore
+      return GroupAction._predefinedGroupsActions.get(n)[index]
+    }
+    throw new Error('No predefined group action for n=" + n and index=' + index + ' !')
   }
 
 }
