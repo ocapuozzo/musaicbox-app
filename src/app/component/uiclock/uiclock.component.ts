@@ -126,7 +126,7 @@ export class UiclockComponent {
 
   public setIPivot(newPivot: number) {
     if (newPivot < this.ipcs.n) {
-      this.ipcs = new IPcs({strPcs: this.ipcs.pcsStr, iPivot: newPivot})
+      this.ipcs = new IPcs({strPcs: this.ipcs.getPcsStr(), iPivot: newPivot})
       this.drawClock()
     } else {
       throw new Error("Invalid iPivot")

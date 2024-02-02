@@ -10,6 +10,15 @@ import {Group} from "./Group";
 
 describe('GroupAction', () => {
 
+  it("Default constructor ", () => {
+    let trivialGroupAction = new GroupAction()
+    expect(trivialGroupAction.powerset.size).toEqual(Math.pow(2, 12))
+    expect(trivialGroupAction.n).toEqual(12)
+    expect(trivialGroupAction.orbits.length).toEqual(Math.pow(2, 12))
+    expect(trivialGroupAction.operations.length).toEqual(1)
+  });
+
+
   it("All subsets of n = 5 ", () => {
     let powerset5 = Array.from(GroupAction.buildPowerSetOfIPcs(5).values());
     expect(powerset5.length).toEqual(Math.pow(2, 5))
@@ -254,21 +263,80 @@ describe('GroupAction', () => {
     ipcs = new IPcs({strPcs: "0, 3, 6, 9", iPivot: 0})
     orbit = cyclicGroup12.getOrbitOf(ipcs)
     expect(orbit.cardinal).toEqual(3)
+
   })
 
   it("getOrbitOf with bad pcs", () => {
-    let cyclicGroup12
-      = new GroupAction({group: Group.predefinedGroups[Group.CYCLIC]})
-    let ipcs = new IPcs({strPcs: "0, 1, 2", n: 5, iPivot: 0})
+    const cyclicGroup12 = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
+    const ipcs = new IPcs({strPcs: "0, 1, 2", n: 5})
 
     try {
       // ipcs.n = 5 or group is n = 12 !
-      let orbit = cyclicGroup12.getOrbitOf(ipcs)
+      const orbit = cyclicGroup12.getOrbitOf(ipcs)
       // waiting exception
       fail("Impossible operation !!")
     } catch (e: any) {
       expect(e.message).toContain('Invalid dimension')
     }
   })
+
+  it("getIPcsInOrbit with bad pcs", () => {
+    const cyclicGroup12 = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
+    let badIpcs = new IPcs({strPcs: "0, 1, 2", n: 5})
+    const ipcs = new IPcs({strPcs: "0, 6", n: 12})
+
+    try {
+      const ipcsWithOrbit = cyclicGroup12.getIPcsInOrbit(ipcs)
+      expect(ipcsWithOrbit.orbit.cardinal).toEqual(6)
+
+      badIpcs = cyclicGroup12.getIPcsInOrbit(badIpcs)
+      // waiting exception
+      fail("Impossible operation !!")
+    } catch (e: any) {
+      expect(e.message).toContain('Invalid')
+    }
+  })
+
+  it("Orbits sorted trivial group", () => {
+    const opNeutral = new MusaicPcsOperation(12, 1, 0);
+    const trivialGroup = new GroupAction({n: 12, someMusaicOperations: [opNeutral]});
+    expect(trivialGroup.powerset.size).toEqual(Math.pow(2, 12))
+    expect(trivialGroup.orbits.length).toEqual(Math.pow(2, 12))
+    // only one stabilizer
+
+    expect(trivialGroup.orbitsSortedByStabilizers.length).toEqual(1)
+    expect(trivialGroup.orbitsSortedByMotifStabilizers.length).toEqual(1)
+
+    // n+1 because detached set count for one
+    expect(trivialGroup.orbitsSortedByCardinal.length).toEqual(trivialGroup.n + 1)
+  });
+
+  it("Orbits sorted cyclic group", () => {
+
+    const cyclicGroup = GroupAction.predefinedGroupsActions(12, Group.CYCLIC);
+    expect(cyclicGroup.powerset.size).toEqual(Math.pow(2, 12))
+    expect(cyclicGroup.orbits.length).toEqual(352)
+    // only 12 stabilizer
+    expect(cyclicGroup.orbitsSortedByStabilizers.length).toEqual(6)
+
+    // M1 because MotifStabilizers does not have Tx operations, ans M1 is alone
+    expect(cyclicGroup.orbitsSortedByMotifStabilizers.length).toEqual(1)
+    expect(cyclicGroup.orbitsSortedByMotifStabilizers[0].groupingCriterion).toEqual('M1')
+
+    // n+1 because detached set count for one
+    expect(cyclicGroup.orbitsSortedByCardinal.length).toEqual(cyclicGroup.n + 1)
+  });
+
+  it("get predefined action group", () => {
+    const cyclicGroup = GroupAction.predefinedGroupsActions(12, Group.CYCLIC);
+    expect(cyclicGroup).toBeTruthy()
+    try {
+      const badGroup = GroupAction.predefinedGroupsActions(10, Group.CYCLIC);
+      fail("Impossible operation !!")
+    } catch (e: any) {
+      expect(e.message).toContain('No predefined group action for n=10')
+    }
+  });
+
 
 })

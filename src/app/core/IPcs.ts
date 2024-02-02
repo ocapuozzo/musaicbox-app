@@ -24,7 +24,7 @@ export class IPcs {
   readonly n: number;
   iPivot?: number = undefined;
   readonly abinPcs: number[];
-  orbit: Orbit; //TODO
+  orbit: Orbit;
   readonly id: number;
   private _minCyclic ?: IPcs;
   private _cardModesOrbits ?: number
@@ -55,7 +55,7 @@ export class IPcs {
     } else {
       throw new Error("Can't create IPcs instance (bad args = " + strPcs + ")")
     }
-    // empty set as valid pcs
+    // detached set as valid pcs
     if (this.cardinal === 0) {
       this.iPivot = undefined
     } else if (!iPivot && iPivot !== 0) {
@@ -98,7 +98,7 @@ export class IPcs {
    * @param {number} n vector dimension
    * @returns {int[]} vector (length == n)
    */
-  _fromStringTobinArray(strpcs: string, n = 12): Array<number> {
+  _fromStringTobinArray(strpcs: string, n: number = 12): Array<number> {
     // assume length = 12
     let bin = new Array(n).fill(0);
 
@@ -127,7 +127,7 @@ export class IPcs {
    *
    * @return {Array} (binary pitches class set)
    */
-  static intToBinArray(intpcs: number, dim: number) {
+  static intToBinArray(intpcs: number, dim: number): number[] {
     let pitchesArray: number[] = []
     pitchesArray.length = dim;
     pitchesArray.fill(0);
@@ -172,7 +172,7 @@ export class IPcs {
    * @param {array} abin
    * @returns {number}
    */
-  static id(abin: number[]) {
+  static id(abin: number[]): number {
     let n = abin.length;
     let res = 0;
     let pow = 1;
@@ -216,7 +216,7 @@ export class IPcs {
       return this._minCyclic
     }
     // lazy compute
-    if (!this.orbit.empty && this.orbit.groupAction == GroupAction.predefinedGroupsActions(this.n, Group.CYCLIC))
+    if (this.orbit?.groupAction == GroupAction.predefinedGroupsActions(this.n, Group.CYCLIC))
       this._minCyclic = this.orbit.getPcsMin()
     else {
       this._minCyclic = GroupAction.predefinedGroupsActions(this.n, Group.CYCLIC).getOrbitOf(this).getPcsMin()
@@ -241,7 +241,7 @@ export class IPcs {
   }
 
   dihedralPrimeForm() {
-    if (!this.orbit.empty && this.orbit.groupAction == GroupAction.predefinedGroupsActions(this.n, Group.DIHEDRAL))
+    if (this.orbit?.groupAction == GroupAction.predefinedGroupsActions(this.n, Group.DIHEDRAL))
       return this.orbit.getPcsMin()
     else {
       return GroupAction.predefinedGroupsActions(this.n, Group.DIHEDRAL).getOrbitOf(this).getPcsMin()
@@ -253,7 +253,7 @@ export class IPcs {
   }
 
   affinePrimeForm() {
-    if (!this.orbit.empty && this.orbit.groupAction == GroupAction.predefinedGroupsActions(this.n, Group.AFFINE))
+    if (this.orbit?.groupAction == GroupAction.predefinedGroupsActions(this.n, Group.AFFINE))
       return this.orbit.getPcsMin()
     else {
       return GroupAction.predefinedGroupsActions(this.n, Group.AFFINE).getOrbitOf(this).getPcsMin()
@@ -272,7 +272,7 @@ export class IPcs {
   }
 
   musaicPrimeForm(): IPcs {
-    if (!this.orbit.empty && this.orbit.groupAction == GroupAction.predefinedGroupsActions(this.n, Group.MUSAIC))
+    if (this.orbit?.groupAction == GroupAction.predefinedGroupsActions(this.n, Group.MUSAIC))
       return this.orbit.getPcsMin()
     else
       return GroupAction.predefinedGroupsActions(this.n, Group.MUSAIC).getOrbitOf(this).getPcsMin()
@@ -320,7 +320,7 @@ export class IPcs {
    */
   permute(a: number, t: number): IPcs {
     if (this.cardinal === 0) {
-      // empty pcs no change
+      // detached pcs no change
       return this
     }
     // @ts-ignore
@@ -402,7 +402,7 @@ export class IPcs {
    * Example : [1,1,0,0,0,0,0,1,0,0,0,0] => "[0, 1, 7]"
    * @returns {string}
    */
-  get pcsStr(): string {
+  getPcsStr(): string {
     let res = "";
     for (let index = 0; index < this.abinPcs.length; index++) {
       const element = this.abinPcs[index];
@@ -419,7 +419,7 @@ export class IPcs {
     if (this.n != 12) return ""
 
     let cpf = this.cyclicPrimeForm();
-    let fortenum = Forte.forte(cpf.pcsStr);
+    let fortenum = Forte.forte(cpf.getPcsStr());
 
     if (fortenum) {
       return fortenum;
@@ -427,7 +427,7 @@ export class IPcs {
     // not found ? get with dihedralPrimeForm
     let dpcsf = cpf.dihedralPrimeForm();
 
-    return Forte.forte(dpcsf.pcsStr);
+    return Forte.forte(dpcsf.getPcsStr());
   }
 
   /**
@@ -460,7 +460,7 @@ export class IPcs {
    * Example : is( "1,5,8", iPivot:5) > [3, 5, 4]
    * Example : is( "1,5,8", iPivot:1) > [4, 3, 5]
    */
-  _is() {
+  _is(): number[] {
     let n = this.n;
     let res = []
     for (let i = 0; i < n; i++) {
@@ -555,6 +555,7 @@ export class IPcs {
     // and cardinal orbit always divise n
     // return this.cardinal / (this.n / this.cyclicPrimeForm().orbit.cardinal)
     // (lazy compute)
+    // @ts-ignore for ?.orbit because you are sure that orbit is defined in this context (primeForme)
     return this._cardModesOrbits = (this.cardinal * this.cyclicPrimeForm().orbit.cardinal) / this.n
 
     // // old algorithm
@@ -582,17 +583,19 @@ export class IPcs {
    * @return {number}
    */
   cardOrbitCyclic(): number {
-    if (!this.orbit.empty && this.orbit.groupAction == GroupAction.predefinedGroupsActions(this.n, Group.CYCLIC))
+    if (this.orbit?.groupAction == GroupAction.predefinedGroupsActions(this.n, Group.CYCLIC))
       return this.orbit.cardinal
 
     let ipcsInCyclicGroup: IPcs = GroupAction.predefinedGroupsActions(this.n, Group.CYCLIC).getIPcsInOrbit(this)
+
+    // @ts-ignore we are sure that orbit is defined in this context (primeForme)
     return ipcsInCyclicGroup.orbit.cardinal
   }
 
   /**
    * get complement of this.
    * Important : complement loses iPivot
-   * @return {IPcs} a new instance (free, not attached to an orbit). If not empty orbit,
+   * @return {IPcs} a new instance (free, not attached to an orbit). If not detached orbit,
    * get instance (already exit) of complement held by this group action (this.orbit.getIPcs(complement))
    *
    */
@@ -624,7 +627,7 @@ export class IPcs {
       mappingBinPcs: this.mappingBinPcs,
       nMapping: this.nMapping
     })
-    if (this.orbit.groupAction) {
+     if (this.orbit?.groupAction) {
       return this.orbit.groupAction.getIPcsInOrbit(newIpcsComplement)
     } else {
       return newIpcsComplement
@@ -668,6 +671,9 @@ export class IPcs {
   }
 
   addInOrbit(newIPcs: IPcs) {
+    if (!this.orbit) {
+      this.orbit = new Orbit()
+    }
     this.orbit.addIPcsIfNotPresent(newIPcs)
   }
 
@@ -741,7 +747,7 @@ export class IPcs {
         case INTERCAL:
           symInter[i] = 1;
           break;
-        case MEDIAN_INTERCAL: // pcs empty n even
+        case MEDIAN_INTERCAL: // pcs detached n even
           symMedian[i] = 1;
           symInter[i] = 1;
           break;
@@ -877,6 +883,10 @@ export class IPcs {
     return (this._mappedBinPcs.length > 0)
       ? this._mappedBinPcs
       : this.abinPcs;
+  }
+
+  isDetached(): boolean {
+    return this.orbit.isDetached()
   }
 
 }

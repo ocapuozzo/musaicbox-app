@@ -14,18 +14,19 @@ export class MotifStabilizer {
 
   name: string
   motifStabOperations: string[]
-  _hashCode ?: number
+  _hashCode : number
 
   static manyMotifsStabilizer = new MotifStabilizer("*")
   static MAXLENGTH = 12;
 
   /**
    *
-   * @param {string} name as "M1,M5,CM11" (without -Tx and sorted)
+   * @param {string} name as "M1,M5,CM11" (sorted and without -Tx)
    */
   constructor(name : string) {
     this.name = name;
     this.motifStabOperations = this.name.split(",").map(op=> op.trim());
+    this._hashCode = Utils.stringHashCode(this.name)
   }
 
   toString() {
@@ -47,10 +48,7 @@ export class MotifStabilizer {
     return false;
   }
 
-  hashCode() {
-    if (!this._hashCode) {
-      this._hashCode = Utils.stringHashCode(this.name)
-    }
+  hashCode(): number {
     return this._hashCode
   }
 

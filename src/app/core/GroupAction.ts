@@ -38,8 +38,8 @@ export class GroupAction {
       this.group = group
       this.n = group.operations[0].n
     } else {
-      this.group = new Group(someMusaicOperations ?? []);
-      this.n = n ?? -1;
+      this.n = n ?? 12;
+      this.group = new Group(someMusaicOperations ?? [new MusaicPcsOperation(this.n, 1, 0)]);
     }
     // this.group = new Group(someMusaicOperations ?? []);
     this.operations = this.group.operations;
@@ -313,7 +313,7 @@ export class GroupAction {
       // @ts-ignore
       return GroupAction._predefinedGroupsActions.get(n)[index]
     }
-    throw new Error('No predefined group action for n=" + n and index=' + index + ' !')
+    throw new Error('No predefined group action for n=' + n + 'and index=' + index + ' !')
   }
 
 }

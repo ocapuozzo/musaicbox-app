@@ -13,7 +13,7 @@ import {Stabilizer} from "./Stabilizer";
 import {GroupAction} from "./GroupAction";
 
 describe('MusaicPcsOperation', () => {
-  it("Stabilizer addOperation", () => {
+  it("Stabilizer addOperation and compare", () => {
     let opM5T0 = new MusaicPcsOperation(12, 5, 0, false);
     let opM5T4 = new MusaicPcsOperation(12, 5, 4, false);
     let opM7T0 = new MusaicPcsOperation(12, 7, 0, false);
@@ -23,11 +23,16 @@ describe('MusaicPcsOperation', () => {
     stab1.addOperation(opM5T0)
     stab1.addOperation(opM7T0)
     expect(stab1.operations.length).toEqual(2);
+    expect(stab1.cardinal()).toEqual(2);
 
     stab1.addOperation(opM5T4)
     expect(stab1.operations.length).toEqual(3);
-    expect(stab1.operations[1]).toEqual(opM5T4)
+    expect(stab1.cardinal()).toEqual(3);
 
+    expect(stab1.compareTo(stab1)).toEqual(0)
+
+
+    expect(stab1.operations[1]).toEqual(opM5T4)
     stab1.addOperation(opM11T2)
     expect(stab1.operations.length).toEqual(4);
     expect(stab1.operations[1]).toEqual(opM5T4)
@@ -134,6 +139,8 @@ describe('MusaicPcsOperation', () => {
       someMusaicOperations: [/*opId,*/ opM1, opCM1, opM1T1, opM5T1, opM7T1]
     });
 
+
+
     expect(musaicGroup.operations.length).toEqual(96);
     // number of orbits
     expect(musaicGroup.orbits.length).toEqual(88);
@@ -165,6 +172,27 @@ describe('MusaicPcsOperation', () => {
     stab.addOperation(opM1T1)
 
     expect(stab.isMotifEquivalence).toBeTruthy()
+  })
+
+
+  it("equals", () => {
+    let opM1T0 = new MusaicPcsOperation(12, 1, 0, false);
+    let stab1 = new Stabilizer({operations: [opM1T0]})
+    let stab2 = new Stabilizer({operations: [opM1T0]})
+
+    expect(stab1.equals(stab2)).toBe(true)
+
+    // equivalence relationship to near transposition
+    let opM1T1 = new MusaicPcsOperation(12, 1, 1, true);
+    stab1.addOperation(opM1T1)
+
+    expect(stab1.equals(stab2)).toBe(false)
+
+    stab2.addOperation(opM1T1)
+    expect(stab1.equals(stab2)).toBe(true)
+
+    expect(stab1.equals(null)).toBe(false)
+    expect(stab1.equals(42)).toBe(false)
   })
 
   it("Group Explore n=7", () => {
@@ -217,7 +245,7 @@ describe('MusaicPcsOperation', () => {
 
     shortNames = []
     group.orbitsSortedByStabilizers.forEach(stab => shortNames.push(stab.groupingCriterion))
-    // neutral op and empty and full IPcs (2 pcs) transposables 7 times in same state by step 1
+    // neutral op and detached and full IPcs (2 pcs) transposables 7 times in same state by step 1
     expect(shortNames).toEqual(["M1-T0", "M1-T0~1*"])
   })
 

@@ -1,7 +1,6 @@
 import {IPcs} from './IPcs'
 import {GroupAction} from "./GroupAction";
 import {Group} from "./Group";
-import {Forte} from "./Forte";
 
 describe('IPcs unit tests', () => {
 
@@ -48,7 +47,7 @@ describe('IPcs unit tests', () => {
     expect(ipcsCMajor.getReprBinPcs()).toEqual([1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0])
   });
 
-  it("IPcs bad empty constructor", () => {
+  it("IPcs bad detached constructor", () => {
     try {
       const ipcs: IPcs = new IPcs(
         {}
@@ -57,7 +56,7 @@ describe('IPcs unit tests', () => {
     } catch (e: any) {
       expect(e.message).toContain('bad args')
     }
-    // really empty args
+    // really detached args
     try {
       const ipcs: IPcs = new IPcs()
       expect(ipcs).not.toBeTruthy()
@@ -146,14 +145,14 @@ describe('IPcs unit tests', () => {
     expect(cpltcplt.equals(ipcs)).toBeTruthy();
   });
 
-  it("IPcs complement max/empty", () => {
+  it("IPcs complement max/detached", () => {
     const ipcs12pc = new IPcs({strPcs: "0,1,2,3,4,5,6,7,8,9,10,11", iPivot: 0})
     try {
       expect(ipcs12pc.cardinal).toEqual(12)
       const complement = ipcs12pc.complement()
       expect(complement.cardinal).toEqual(0)
     } catch (e: any) {
-      expect(e.toString()).toMatch("Not accept empty pcs ?")
+      expect(e.toString()).toMatch("Not accept detached pcs ?")
     }
   });
 
@@ -233,10 +232,10 @@ describe('IPcs unit tests', () => {
 
   it("IPcs cyclicPrimeForm from pcs with orbit set", () => {
     let ipcsNotPF = new IPcs({strPcs: "1, 4, 7, 10"})
-    expect(ipcsNotPF.orbit.empty).toBeTruthy()
+    expect(ipcsNotPF.isDetached()).toBeTruthy()
     const groupAction: GroupAction = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
     let ipcsFromGroupActionNotPF: IPcs = groupAction.getIPcsInOrbit(ipcsNotPF)
-    expect(ipcsFromGroupActionNotPF.orbit.empty).not.toBeTruthy()
+    expect(ipcsFromGroupActionNotPF.isDetached()).not.toBeTruthy()
     let ipcsPF = new IPcs({strPcs: "0, 3, 6, 9", iPivot: 0})
     expect(ipcsFromGroupActionNotPF.cyclicPrimeForm()).toEqual(groupAction.getIPcsInOrbit(ipcsPF))
   })
@@ -270,16 +269,16 @@ describe('IPcs unit tests', () => {
 
   it("IPcs musaicPrimeForm", () => {
     const ipcsWithNoOrbit = new IPcs({strPcs: "0, 3, 5, 8", iPivot: 0})
-    expect(ipcsWithNoOrbit.orbit.empty).toBeTruthy()
+    expect(ipcsWithNoOrbit.isDetached()).toBeTruthy()
 
     // page 1171 de ToposOfMusic
     const ipcsMusaicPF = new IPcs({strPcs: "0, 1, 3, 4", iPivot: 0})
     const primeForm = ipcsWithNoOrbit.musaicPrimeForm()
     expect(primeForm.id).toEqual(ipcsMusaicPF.id)
 
-    expect(primeForm.orbit.empty).not.toBeTruthy()
+    expect(primeForm.isDetached()).not.toBeTruthy()
     const ipcsWithOrbit = primeForm.transpose(1)
-    expect(ipcsWithOrbit.orbit.empty).not.toBeTruthy()
+    expect(ipcsWithOrbit.isDetached()).not.toBeTruthy()
     expect(primeForm).toEqual(ipcsWithOrbit.musaicPrimeForm())
   });
 
@@ -379,7 +378,7 @@ describe('IPcs unit tests', () => {
     expect(symmetries.symMedian).toEqual(symMedian)
     expect(symmetries.symInter).toEqual(symInter)
 
-    // empty set => full symmetries
+    // detached set => full symmetries
     ipcs = new IPcs({strPcs: ""})
     symmetries = ipcs.getAxialSymmetries()
     symMedian = [1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0]
@@ -414,7 +413,7 @@ describe('IPcs unit tests', () => {
     expect(symmetries.symMedian).toEqual(symMedian)
     expect(symmetries.symInter).toEqual(symInter)
 
-    // empty set => full symmetries
+    // detached set => full symmetries
     ipcs = new IPcs({strPcs: "", n: 7})
     symmetries = ipcs.getAxialSymmetries()
     symMedian = [1, 1, 1, 1, 1, 1, 1]
@@ -459,7 +458,7 @@ describe('IPcs unit tests', () => {
     expect(ipcsNew2.iPivot).toEqual(3)
   })
 
-  it("toggleIndexPC solo => empty", () => {
+  it("toggleIndexPC solo => detached", () => {
     let ipcsOnePitch  = new IPcs({strPcs: "6", n:12, iPivot:6})
     let emptyPcs  = new IPcs({strPcs: "", n:12})
     let ipcsNew = ipcsOnePitch.toggleIndexPC(6)
@@ -483,11 +482,11 @@ describe('IPcs unit tests', () => {
     let ipcsWithoutOrbit = new IPcs({strPcs: "0, 4, 8", iPivot: 0})
     let ipcsWithOrbit: IPcs = cyclicGroup12.getIPcsInOrbit(ipcsWithoutOrbit)
 
-    expect(ipcsWithoutOrbit.orbit.empty).toBeTruthy()
-    expect(ipcsWithOrbit.orbit.empty).not.toBeTruthy()
+    expect(ipcsWithoutOrbit.isDetached()).toBeTruthy()
+    expect(ipcsWithOrbit.isDetached()).not.toBeTruthy()
 
-    expect(ipcsWithoutOrbit.complement().orbit.empty).toBeTruthy()
-    expect(ipcsWithOrbit.complement().orbit.empty).not.toBeTruthy()
+    expect(ipcsWithoutOrbit.complement().isDetached()).toBeTruthy()
+    expect(ipcsWithOrbit.complement().isDetached()).not.toBeTruthy()
   })
 
   it("get new Pivot", () => {
@@ -580,7 +579,7 @@ describe('IPcs unit tests', () => {
     let expectedDminorIn12 = new IPcs({strPcs: "2,5,9", n: 12}) // D, F, A
     expect(secondeDegreeIn7.getReprBinPcs()).toEqual(expectedDminorIn12.getReprBinPcs())
 
-    // good ! a little self-satisfaction can't hurt :))
+    // good ! a little self-satisfaction can't hurt...
 
   })
 
@@ -621,12 +620,12 @@ describe('IPcs unit tests', () => {
       nMapping: 12,
       mappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // mapped into [0,4,7] {C E G}
     })
-    expect(ipcsDiatMajMapped.pcsStr).toEqual('[0,2,4]')
-    expect(ipcsDiatMajMapped.unMap().pcsStr).toEqual('[0,4,7]')
+    expect(ipcsDiatMajMapped.getPcsStr()).toEqual('[0,2,4]')
+    expect(ipcsDiatMajMapped.unMap().getPcsStr()).toEqual('[0,4,7]')
 
   })
 
-  it("Forte empty set", () => {
+  it("Forte detached set", () => {
     const ipcsEmpty = new IPcs({strPcs:'[]', n:12})
     expect(ipcsEmpty.forteNum()).toEqual('0-1');
   });
@@ -655,13 +654,21 @@ describe('IPcs unit tests', () => {
     expect(ipcs.forteNum()).toEqual('8-4');
   });
 
-
-
   it("iv Interval Vector of MajChord3pitches", () => {
     const cMaj = new IPcs({strPcs:'[0,4,7]', n:12})
     expect(cMaj.iv()).toEqual([0,0,1,1,1,0]);
   });
 
+  it("isDetached", () => {
+    const ipcsMaj3Pitches: IPcs = new IPcs({
+      strPcs: "[0, 4, 7]", // C Major
+    })
+    expect(ipcsMaj3Pitches.isDetached()).toBe(true)
+
+    const ipcsPrimeForme = ipcsMaj3Pitches.cyclicPrimeForm()
+    expect(ipcsPrimeForme.isDetached()).toBe(false)
+    // because ipcsPrimeForme is get from group action
+  });
 
 
 })

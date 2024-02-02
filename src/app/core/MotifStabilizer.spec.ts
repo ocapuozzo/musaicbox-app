@@ -64,4 +64,35 @@ describe('MotifStabilizer', () => {
     expect(stabilizers[5]).toEqual(motifStab6)
   });
 
+  it("equals hashCode", () => {
+    let motifStab1 = new MotifStabilizer("M1, M5, M7");
+    let motifStab2 = new MotifStabilizer("M1, M5, M7");
+    let motifStab3 = new MotifStabilizer("M1, M5, M7, CM1");
+    expect(motifStab1.equals(motifStab2)).toBeTruthy()
+    expect(motifStab1.hashCode()).toEqual(motifStab2.hashCode())
+    expect(motifStab1.equals(motifStab3)).not.toBeTruthy()
+    expect(motifStab1.hashCode()).not.toEqual(motifStab3.hashCode())
+
+    // same
+    expect(motifStab1.equals(motifStab1)).toBeTruthy()
+
+    // 42 is not good object !
+    expect(motifStab1.equals(42)).not.toBeTruthy()
+  });
+
+  it("MotifStabilizer compare", () => {
+    let motifStab1 = new MotifStabilizer("M1, M5");
+    let motifStab2 = new MotifStabilizer("CM1, M5");
+    expect(MotifStabilizer.compare(motifStab1, motifStab2)).toEqual(-1)
+
+    motifStab1 = new MotifStabilizer("M1");
+    motifStab2 = new MotifStabilizer("M7");
+    expect(MotifStabilizer.compare(motifStab1, motifStab2) < 0).toBe(true)
+
+    motifStab1 = new MotifStabilizer("M7");
+    motifStab2 = new MotifStabilizer("M7");
+    expect(MotifStabilizer.compare(motifStab1, motifStab2)).toEqual(0)
+  });
+
+
 })

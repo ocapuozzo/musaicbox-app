@@ -188,7 +188,7 @@ export class Stabilizer {
   }
 */
 
-  compareTo(otherStab: Stabilizer) {
+  compareTo(otherStab: Stabilizer): number {
     // return this.getName().compare(o.getName());
     return Stabilizer.compare(this, otherStab)
   }
@@ -311,13 +311,13 @@ export class Stabilizer {
 
   /**
    * If recurrence transposition step, reduce this by "Ta~step*" Example : n=12
-   * [0, 2, 4, 6, 8, 10] return "-T0~2*" and empty list Example : n=12 [0, 3]
+   * [0, 2, 4, 6, 8, 10] return "-T0~2*" and detached list Example : n=12 [0, 3]
    * return "" and no action on list
    *
    * @param {Map<string, number[]>} mt (mutable here) Map key = multiplication arg, value = translation values
    *
    * @param {string} nameOp key string value (example : M2)
-   * @return String reduce name and reduce list mt.get(nameOp) or empty string and same list
+   * @return String reduce name and reduce list mt.get(nameOp) or detached string and same list
    */
   tryReduceListByShortName(mt: Map<string, number[]>, nameOp: string) {
     let listOfa = mt.get(nameOp) ?? []

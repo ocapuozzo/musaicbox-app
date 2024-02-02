@@ -1,5 +1,7 @@
 import {MusaicPcsOperation} from "./MusaicPcsOperation";
 import {IPcs} from "./IPcs";
+import {GroupAction} from "./GroupAction";
+import {Group} from "./Group";
 describe('MusaicPcsOperation', () => {
 
   it("MusaicPcsOp testEqualsObject ", () => {
@@ -10,6 +12,19 @@ describe('MusaicPcsOperation', () => {
     expect(op1.equals(op2)).not.toBeTruthy();
     op1 = new MusaicPcsOperation(12, 7, 5, false)
     expect(op1.equals(op2)).toBeTruthy();
+    expect(op1.equals(op1)).toBe(true)
+    expect(op1.equals(null)).toBe(false)
+    expect(op1.equals(42)).toBe(false)
+
+    let op3 = new MusaicPcsOperation(12, 5, 5, true);
+    expect(op1.equals(op3)).not.toBeTruthy();
+    op3 = new MusaicPcsOperation(10, 5, 5, true);
+    expect(op1.equals(op3)).not.toBeTruthy();
+
+    op2 = new MusaicPcsOperation(12, 7, 5, true);
+    op1 = new MusaicPcsOperation(12, 7, 0, true);
+    expect(op1.equals(op2)).not.toBeTruthy(); // bad t
+
   });
 
   it("MusaicPcsOp compose", () => {
@@ -19,6 +34,15 @@ describe('MusaicPcsOperation', () => {
 
     // action CM7 first and T5 second
     expect(opCM7_T5.equals(opT5.compose(opCM7))).toBeTruthy();
+
+    // n = 7
+    const badT5 = new MusaicPcsOperation(7, 1, 5, true);
+    try {
+      expect(opCM7_T5.equals(badT5.compose(opCM7))).toBeTruthy();
+      fail('Waiting exception because invalid n in operations')
+    } catch (e: any) {
+      expect(e.message).toContain("bad N in compose op")
+    }
   });
 
   it("MusaicPcsOp testActionOn", () => {
@@ -80,6 +104,24 @@ describe('MusaicPcsOperation', () => {
     let left = opM8_T2.compose(opM5_T11).compose(opM4_T3)
     expect(right).toEqual(left)
     // ok TODO others test
+  })
+
+  it('getFixedPcs', () => {
+    const groupCyclic = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
+    const op = groupCyclic.operations[2]
+
+    expect(op.toString()).toEqual('M1-T2')
+    expect(op.getFixedPcs().length).toEqual(4)
+
+    // fixed pcs :
+    // '[]'
+    // '[0,2,4,6,8,10]'
+    // '[1,3,5,7,9,11]'
+    // '[0,1,2,3,4,5,6,7,8,9,10,11]'
+
+    const ipcs : IPcs = op.getFixedPcs()[3]
+
+    expect(ipcs.getPcsStr()).toEqual('[0,1,2,3,4,5,6,7,8,9,10,11]')
   })
 
 })

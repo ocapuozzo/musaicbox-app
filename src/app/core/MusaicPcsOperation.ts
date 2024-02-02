@@ -84,13 +84,13 @@ export class MusaicPcsOperation {
     if (!(obj instanceof MusaicPcsOperation))
       return false;
 
-    let other = obj;
+    let other: MusaicPcsOperation = obj;
 
+    if (this.n !== other.n)
+      return false;
     if (this.a !== other.a)
       return false;
     if (this.complement !== other.complement)
-      return false;
-    if (this.n !== other.n)
       return false;
     if (this.t !== other.t)
       return false;
@@ -110,7 +110,7 @@ export class MusaicPcsOperation {
    * <li>t is integer into [0..n[ </li>
    * <li>c is boolean (complement or not) </li>
    * </ul>
-   * Important remark : Neutral operation is M1-TO (complement == false)
+   * Important remark : Neutral operation is M1-TO (complement == false else CM1-TO)
    *    whatever op :
    *    M1-T0.compose(M1-T0) == M1-T0   (false !== false) => false
    *    CM1-T0.compose(M1-T0) == CM1-T0 (true !== false) => true
@@ -126,7 +126,7 @@ export class MusaicPcsOperation {
       this.n,
       (this.a * other.a) % this.n,
       (this.a * other.t + this.t) % this.n,
-      this.complement !== other.complement)  // xor logical
+      this.complement !== other.complement)  // logical xor
   }
 
   /**
@@ -187,7 +187,7 @@ export class MusaicPcsOperation {
     }
   }
 
-  getFixedPcs() {
+  getFixedPcs(): IPcs[] {
     return this.fixedPcs;
   }
 
