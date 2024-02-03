@@ -116,10 +116,10 @@ describe('Orbit', () => {
 
   it("toString() on attached orbit", () => {
     let firstOrbit = GroupAction.predefinedGroupsActions(12, Group.CYCLIC).orbits[0]
-    console.log(firstOrbit.toString())
+    // console.log(firstOrbit.toString())
     expect(firstOrbit.toString()).toContain('Orbit (1) stabilizers.length:1')
     let secondOrbit = GroupAction.predefinedGroupsActions(12, Group.CYCLIC).orbits[1]
-    console.log(secondOrbit.toString())
+    // console.log(secondOrbit.toString())
     expect(secondOrbit.toString()).toContain('Orbit (12) stabilizers.length:1')
   })
 

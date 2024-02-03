@@ -25,9 +25,9 @@ export class GroupAction {
   powerset: Map<number, IPcs>;
   orbits: Orbit[];
 
-  _orbitsSortedByStabilizers ?: ISortedOrbits[];
-  _orbitsSortedByMotifStabilizers ?: ISortedOrbits[];
-  _orbitsSortedByCardinal ?: ISortedOrbits[];
+  private _orbitsSortedByStabilizers ?: ISortedOrbits[];
+  private _orbitsSortedByMotifStabilizers ?: ISortedOrbits[];
+  private _orbitsSortedByCardinal ?: ISortedOrbits[];
 
   private static _predefinedGroupsActions : Map<number, GroupAction[]>
 
@@ -81,7 +81,7 @@ export class GroupAction {
    *         (partition)
    *
    */
-  buildOrbitsByActionOnPowerset(): Orbit[] {
+  private buildOrbitsByActionOnPowerset(): Orbit[] {
     let orbits = [];
     let tmpPowerset = new Map(this.powerset)
     while (tmpPowerset.size > 0) {
@@ -108,7 +108,7 @@ export class GroupAction {
   /**
    * build stabilizers orbit for all orbits
    */
-  buildOrbitMotifStabilizers() {
+  private buildOrbitMotifStabilizers() {
     this.orbits.forEach(orbit => {
       orbit.ipcsset.forEach(pcs => {
         let newStab = new Stabilizer();
@@ -166,7 +166,7 @@ export class GroupAction {
   /**
    * @return {ISortedOrbits[]} array of ISortedOrbits
    */
-  computeOrbitSortedByStabilizers(): ISortedOrbits[] {
+  private computeOrbitSortedByStabilizers(): ISortedOrbits[] {
     let orbitsSortedByStabilizers = new Map() // k=name orbit based on his stabs, v=array of orbits
     this.orbits.forEach(orbit => {
       orbit.stabilizers.forEach(stab => {
@@ -199,7 +199,7 @@ export class GroupAction {
   /**
    * @return {ISortedOrbits[]} array of ISortedOrbits
    */
-  computeOrbitSortedByMotifStabilizers(): ISortedOrbits[] {
+  private computeOrbitSortedByMotifStabilizers(): ISortedOrbits[] {
     let orbitsSortedByMotifStabilizer = new Map() // k=name orbit based on his stabs, v=array of orbits
     this.orbits.forEach(orbit => {
       let kNameMotifStab = Array.from(orbitsSortedByMotifStabilizer.keys())
@@ -231,7 +231,7 @@ export class GroupAction {
   /**
    * @return {ISortedOrbits[]} array of ISortedOrbits
    */
-  computeOrbitSortedByCardinal(): ISortedOrbits[] {
+  private computeOrbitSortedByCardinal(): ISortedOrbits[] {
     let orbitsSortedByCardinal = new Map() // k=name orbit based on his stabs, v=array of orbits
     this.orbits.forEach(orbit => {
       let card = Array.from(orbitsSortedByCardinal.keys()).find(card => card === orbit.getPcsMin().cardinal)
@@ -317,4 +317,3 @@ export class GroupAction {
   }
 
 }
-

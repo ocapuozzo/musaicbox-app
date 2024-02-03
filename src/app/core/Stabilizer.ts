@@ -21,7 +21,7 @@ export class Stabilizer {
   _isMotifStabilizer ?: MotifStabilizer
   _hashCode ?: number
   sumT: number
-  _fixedPcsInPrimeForm: IPcs[][]
+  _fixedPcsInPrimeForm: IPcs[]
 
   constructor(
     {fixedPcs, operations}:
@@ -79,7 +79,7 @@ export class Stabilizer {
   }
 
   toString() {
-    return "Stab = " + this.operations + " #FixedPcs :" + this.fixedPcs.length;
+    return "Stab: " + this.operations + " #FixedPcs: " + this.fixedPcs.length;
   }
 
   hashCode() {
@@ -362,29 +362,6 @@ export class Stabilizer {
     return isInclude;
   }
 
-  /**
-   * get image of fixedPcs by reduce to their PrimeForm (min pcs)
-   * Example {0, 5, 7}, { 1, 6, 8}, { 2, 7, 9} etc. => {0, 2, 7} (min in set)
-   * @return {IPcs[]}
-   */
-  fixedPcsInPrimeForm(): IPcs[][] {
-    //  console.log("in fixedPcsInPrimeForm() fixedPcs : " + this.fixedPcs.length + " #PF: " +  this._fixedPcsInPrimeForm.length)
-    if (this._fixedPcsInPrimeForm.length === 0) {
-      let pcsPF = new Map<number, IPcs[]>() // key=idMinPcsInOrbitofPcs value = array of pcs fixed (subset of orbit)
-      //    console.log("fixedPcs : " + this.fixedPcs.length)
-      this.fixedPcs.forEach(pcs => {
-        let idMinPcs = pcs.orbit.getPcsMin().id
-        if (!pcsPF.has(idMinPcs)) {
-          pcsPF.set(idMinPcs, [])
-        }
-        // @ts-ignore
-        pcsPF.get(idMinPcs).push(pcs)
-      })
-      this._fixedPcsInPrimeForm = Array.from(pcsPF.values())
-      this._fixedPcsInPrimeForm.forEach(arrayPcs => arrayPcs.sort(IPcs.compare))
-    }
-    return this._fixedPcsInPrimeForm
-  }
 
   get isMotifEquivalence() {
     return this.getName().includes("M1-T1")

@@ -11,8 +11,9 @@
 import {MusaicPcsOperation} from "./MusaicPcsOperation";
 import {Stabilizer} from "./Stabilizer";
 import {GroupAction} from "./GroupAction";
+import {Group} from "./Group";
 
-describe('MusaicPcsOperation', () => {
+describe('Stabilizer', () => {
   it("Stabilizer addOperation and compare", () => {
     let opM5T0 = new MusaicPcsOperation(12, 5, 0, false);
     let opM5T4 = new MusaicPcsOperation(12, 5, 4, false);
@@ -139,8 +140,6 @@ describe('MusaicPcsOperation', () => {
       someMusaicOperations: [/*opId,*/ opM1, opCM1, opM1T1, opM5T1, opM7T1]
     });
 
-
-
     expect(musaicGroup.operations.length).toEqual(96);
     // number of orbits
     expect(musaicGroup.orbits.length).toEqual(88);
@@ -247,6 +246,36 @@ describe('MusaicPcsOperation', () => {
     group.orbitsSortedByStabilizers.forEach(stab => shortNames.push(stab.groupingCriterion))
     // neutral op and detached and full IPcs (2 pcs) transposables 7 times in same state by step 1
     expect(shortNames).toEqual(["M1-T0", "M1-T0~1*"])
+  })
+
+  it("toString", () => {
+    const group = GroupAction.predefinedGroupsActions(12, Group.MUSAIC)
+    const stabStr = group.orbitsSortedByStabilizers[0].orbits[0].stabilizers[0].toString()
+    expect(stabStr).toContain('Stab: M1-T0 #FixedPcs: 96')
+
+    const pcs = group.orbitsSortedByStabilizers[0].orbits[0].stabilizers[0].fixedPcs[0].getPcsStr()
+    expect(pcs).toEqual('[0,1,3]') // 96 in orbit
+  })
+
+  it("isInclude", () => {
+    const group = GroupAction.predefinedGroupsActions(12, Group.MUSAIC)
+    const stab = group.orbitsSortedByStabilizers[2].orbits[2].stabilizers[0]
+
+    const stabStr = group.orbitsSortedByStabilizers[2].orbits[2].stabilizers[0].toString()
+
+    expect(stabStr).toEqual('Stab: M1-T0,CM11-T11 #FixedPcs: 12')
+
+    let opId = new MusaicPcsOperation(12, 1, 0)
+    let opCM11T11 = new MusaicPcsOperation(12, 11, 11, true);
+
+    let opM11T11 = new MusaicPcsOperation(12, 11, 11, false);
+
+    expect(stab.isInclude([opCM11T11])).toBe(true)
+    expect(stab.isInclude([opId])).toBe(true)
+    expect(stab.isInclude([opId, opCM11T11])).toBe(true)
+    expect(stab.isInclude([opId, opCM11T11])).toBe(true)
+    expect(stab.isInclude([opM11T11])).toBe(false)
+    expect(stab.isInclude([opId, opM11T11])).toBe(false)
   })
 
 })
