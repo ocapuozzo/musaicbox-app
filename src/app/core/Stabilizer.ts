@@ -172,7 +172,7 @@ export class Stabilizer {
       _shortName = null;
     }
     */
-  cardinal() {
+  get cardinal() {
     return this.operations.length;
   }
 

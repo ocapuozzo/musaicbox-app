@@ -129,4 +129,32 @@ describe('Orbit', () => {
     expect(orbit.toString()).toContain('Orbit (0) stabilizers.length:0')
   })
 
+
+  it("pcs only in one stabilizer in this orbit", () => {
+    let group = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
+
+    group.orbits.forEach((orbit) => {
+      expect(orbit.stabilizers.length).toEqual(1)
+    })
+
+    group = GroupAction.predefinedGroupsActions(12, Group.DIHEDRAL)
+    detectDuplicatePcs(group)
+
+    group = GroupAction.predefinedGroupsActions(12, Group.MUSAIC)
+    detectDuplicatePcs(group)
+
+  })
+
+  function detectDuplicatePcs(group : GroupAction) {
+    for (let i = 0; i < group.orbits.length; i++) {
+      for (let j = i + 1; j < group.orbits.length; j++) {
+        group.orbits[j].stabilizers.forEach((stab) => {
+          for (let k = 0; k < group.orbits[i].ipcsset.length; k++) {
+            expect(!stab.fixedPcs.some(pcs => pcs.id == group.orbits[i].ipcsset[k].id))
+          }
+        })
+      }
+    }
+  }
+
 })

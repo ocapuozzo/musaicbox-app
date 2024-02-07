@@ -7,6 +7,7 @@ import {IPcs} from "./IPcs";
 import {MusaicPcsOperation} from "./MusaicPcsOperation";
 // import {ISortedOrbits} from "./ISortedOrbits";
 import {Group} from "./Group";
+import {Orbit} from "./Orbit";
 
 describe('GroupAction', () => {
 
@@ -338,5 +339,54 @@ describe('GroupAction', () => {
     }
   });
 
+  /////////// Math POC
+
+  /**
+   * <pre>
+   * |Orbit(x)| = |G| / |Stab(x)|
+   * </pre>
+   *
+   * i.e. cardinal of an orbit o is equals to the number operations of group
+   * div by number stabilized operations of any element of the orbit o
+   *
+   * @see https://en.wikipedia.org/wiki/Group_action#Orbit-stabilizer_theorem_and_Burnside.27s_lemma
+   */
+  it('test_Orbit_Stabilizer_Theorem', () => {
+    const groupMusaic = GroupAction.predefinedGroupsActions(12, Group.MUSAIC)
+    groupMusaic.orbits.forEach((orbit) => {
+      const min: IPcs = orbit.getPcsMin()
+      expect(orbit.cardinal).toEqual(
+        groupMusaic.cardinal / min.stabilizer.cardinal)
+    })
+})
+
+
+/**
+ * <pre>
+ * orbit-counting theorem - Burnside's lemma
+ * |X/G| = (sum |Fix.g| for all g in G) / |G|
+ * </pre>
+ *
+ * \left|X/G\right|={\frac {1}{\left|G\right|}}\sum _{g\in
+ * G}\left|X^{g}\right|,
+ *
+ * @see https://en.wikipedia.org/wiki/Burnside%27s_lemma
+ */
+it('test_Orbit_Counting_Theorem_Burnside', () => {
+  const groupMusaic = GroupAction.predefinedGroupsActions(12, Group.MUSAIC)
+  expect(groupMusaic.operations.length).toEqual(96)
+
+  const totalCardFixedPcs = groupMusaic.operations.reduce(
+    (cardFixedPcs: number, currentValue) =>
+      currentValue.getFixedPcs().length + cardFixedPcs,
+    0)
+
+  expect(8448).toEqual(totalCardFixedPcs);
+  expect(groupMusaic.orbits.length).toEqual(totalCardFixedPcs / groupMusaic.operations.length);
+
+  // same as 88 = 8448 / 96
+  expect(88).toEqual(totalCardFixedPcs / 96);
+
+})
 
 })

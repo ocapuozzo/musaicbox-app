@@ -24,11 +24,11 @@ describe('Stabilizer', () => {
     stab1.addOperation(opM5T0)
     stab1.addOperation(opM7T0)
     expect(stab1.operations.length).toEqual(2);
-    expect(stab1.cardinal()).toEqual(2);
+    expect(stab1.cardinal).toEqual(2);
 
     stab1.addOperation(opM5T4)
     expect(stab1.operations.length).toEqual(3);
-    expect(stab1.cardinal()).toEqual(3);
+    expect(stab1.cardinal).toEqual(3);
 
     expect(stab1.compareTo(stab1)).toEqual(0)
 

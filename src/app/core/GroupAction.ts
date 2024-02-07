@@ -31,6 +31,7 @@ export class GroupAction {
 
   private static _predefinedGroupsActions : Map<number, GroupAction[]>
 
+
   constructor(
     {n, someMusaicOperations, group}:
       { n?: number, someMusaicOperations?: MusaicPcsOperation[], group ?:Group } = {}) {
@@ -83,7 +84,7 @@ export class GroupAction {
    */
   private buildOrbitsByActionOnPowerset(): Orbit[] {
     let orbits = [];
-    let tmpPowerset = new Map(this.powerset)
+    let tmpPowerset = new Map<number, IPcs>(this.powerset)
     while (tmpPowerset.size > 0) {
       let pcs = tmpPowerset.values().next().value
       pcs.addInOrbit(pcs); // add himself in orbit
@@ -106,6 +107,8 @@ export class GroupAction {
   }
 
   /**
+   * pre-assert : each pcs has an orbit, and orbit has his set of pcs.
+   *              orbits are build via buildOrbitsByActionOnPowerset()
    * build stabilizers orbit for all orbits
    */
   private buildOrbitMotifStabilizers() {
@@ -114,6 +117,7 @@ export class GroupAction {
         let newStab = new Stabilizer();
         this.operations.forEach(op => {
           if (pcs.equalsPcs(op.actionOn(pcs))) {
+            // operation fix this pcs
             newStab.addFixedPcs(pcs);
             newStab.addOperation(op);
             // pcs.addOperationAsStabilizer(op);
@@ -124,8 +128,12 @@ export class GroupAction {
         let findStab = orbit.stabilizers.find(stab => stab.hashCode() === newStab.hashCode())
         if (!findStab) {
           orbit.stabilizers.push(newStab)
+          // bi-directional link
+          pcs.stabilizer = newStab
         } else {
           findStab.addFixedPcs(pcs)
+          // bi-directional link
+          pcs.stabilizer = findStab
         }
       })
       // ordered operations and fixedPcs in orbit
@@ -133,10 +141,10 @@ export class GroupAction {
         stab.operations.sort(MusaicPcsOperation.compare)
         stab.fixedPcs.sort(IPcs.compare)
       })
-      // order stabilizes of orbit
+      // order stabilizers of orbit
       orbit.stabilizers.sort(Stabilizer.compareShortName)
 
-      // build motif stabilizer of orbit  (orbit.motifStabilizer)
+      // orbit is complete, we can set his motif stabilizer property (orbit.motifStabilizer)
       orbit.checkAndBuildMotifStabilizerOfOrbit()
     }) // end loop orbits
   }
@@ -212,7 +220,7 @@ export class GroupAction {
       }
     })
     // sort operations
-    // make a "view adapter" (initially for v-for and this cache)
+    // make a "view adapter" (initially for Vue v-for and this cache)
     let resultOrbitsSortedByMotifStabilizer: ISortedOrbits[] = []
     Array.from(orbitsSortedByMotifStabilizer.keys()).sort(MotifStabilizer.compare).forEach(motifStab => {
       const obj: ISortedOrbits =
@@ -316,4 +324,7 @@ export class GroupAction {
     throw new Error('No predefined group action for n=' + n + 'and index=' + index + ' !')
   }
 
+  get cardinal() {
+    return this.operations.length
+  }
 }

@@ -12,6 +12,7 @@ import {Forte} from './Forte';
 import {Orbit} from "./Orbit";
 import {GroupAction} from "./GroupAction";
 import {Group} from "./Group";
+import {Stabilizer} from "./Stabilizer";
 
 const NEXT_MODULATION = 1
 const PREV_MODULATION = 2
@@ -20,6 +21,20 @@ const negativeToPositiveModulo = (i: number, n: number): number => {
   return (n - ((i * -1) % n)) % n
 }
 
+/**
+ * A Pitch Class Set with binary representation and operations
+ *
+ * <pre>
+ * Example :
+ *   IPcs cm7 = new IPcs({strPcs:'0, 3, 7, 10'});
+ *       cm7 =  new IPcs({strPcs:'{0, 3, 7, 10}'});
+ *       cm7 = new IPcs({strPcs:'[0, 7, 3, 10]', n:12}); // default n=12
+ *
+ *       cm7.getReprBinStr() => [0,3,7,10]
+ * </pre>
+ *
+ * @author Olivier Capuozzo
+ */
 export class IPcs {
   readonly n: number;
   iPivot?: number = undefined;
@@ -32,6 +47,7 @@ export class IPcs {
   readonly mappingBinPcs: number[]
   readonly nMapping: number = 0
   private readonly _mappedBinPcs: number[] = []
+  _stabilizer : Stabilizer
 
   constructor(
     {pidVal, strPcs, binPcs, n, iPivot, orbit, mappingBinPcs, nMapping}:
@@ -555,7 +571,7 @@ export class IPcs {
     // and cardinal orbit always divise n
     // return this.cardinal / (this.n / this.cyclicPrimeForm().orbit.cardinal)
     // (lazy compute)
-    // @ts-ignore for ?.orbit because you are sure that orbit is defined in this context (primeForme)
+    //
     return this._cardModesOrbits = (this.cardinal * this.cyclicPrimeForm().orbit.cardinal) / this.n
 
     // // old algorithm
@@ -873,7 +889,7 @@ export class IPcs {
   /**
    * Get representative binary pitches class set.
    * In this project, un PCS is always a projection of a pcs of dim inf or equal
-   * Example : binPcs = [0,1,1], mappingBinPitches= [0, 4, 7],
+   * Example : binPcs = [0,1,1], mappingBinPitches = [0, 4, 7],
    * nMapping = 12 return [0,0,0,0,1,0,0,1,0,0,0,0]
    *
    * @return : number[]
@@ -888,5 +904,34 @@ export class IPcs {
   isDetached(): boolean {
     return this.orbit.isDetached()
   }
+
+  set stabilizer(stab) {
+    this._stabilizer = stab
+  }
+  get stabilizer() : Stabilizer {
+    if (this.isDetached()) {
+      throw new Error('A detached PCS has no Stabilizer !')
+    }
+
+    // Be careful : don't work
+    // @ts-ignore (not all path return value)
+    // this.orbit.stabilizers.forEach((stab) => {
+    //   if (stab.fixedPcs.some(pcs => pcs.id == this.id)) {
+    //     return stab
+    //   }
+    // })
+    //
+    // for (let i = 0; i < this.orbit.stabilizers.length; i++) {
+    //   let stab: Stabilizer = this.orbit.stabilizers[i]
+    //   if (stab.fixedPcs.some(pcs => pcs.id == this.id)) {
+    //     return stab
+    //   }
+    // }
+    //
+    return this._stabilizer
+    // throw new Error('A attached PCS MUST have a Stabilizer ! ' + this.id)
+  }
+
+
 
 }

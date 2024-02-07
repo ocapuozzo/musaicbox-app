@@ -8,4 +8,9 @@ describe('Utils', () => {
     expect(hashCode).not.toEqual(Utils.stringHashCode('ABC '))
   })
 
+  it("hashCode on empty string", () => {
+    let hashCode = Utils.stringHashCode('')
+    expect(hashCode).toEqual(0)
+  })
+
 })

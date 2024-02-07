@@ -182,10 +182,10 @@ describe('IPcs unit tests', () => {
     expect(ipcs.cardOrbitMode()).toEqual(ipcs.cardinal / (ipcs.n / ipcs.cyclicPrimeForm().orbit.cardinal))
 
 
-    ipcs = new IPcs({strPcs: "0", n:12})
+    ipcs = new IPcs({strPcs: "0", n: 12})
     expect(ipcs.cardOrbitMode()).toEqual(1)
 
-    ipcs = new IPcs({strPcs: "", n:12})
+    ipcs = new IPcs({strPcs: "", n: 12})
     expect(ipcs.cardOrbitMode()).toEqual(0)
   });
 
@@ -242,7 +242,7 @@ describe('IPcs unit tests', () => {
 
   it("IPcs dihedralPrimeForm example Maj -> Min", () => {
     const cMaj = new IPcs({strPcs: "0, 4, 7"})
-    const cMajDihedral = cMaj.affineOp(11,0)
+    const cMajDihedral = cMaj.affineOp(11, 0)
     expect(cMaj.getReprBinPcs()).toEqual(cMajDihedral.affineOp(11, 0).getReprBinPcs())
     const cMajDihedralPF = new IPcs({strPcs: "0, 3, 7"})
     expect(cMaj.dihedralPrimeForm().getReprBinPcs()).toEqual(cMajDihedralPF.getReprBinPcs())
@@ -254,17 +254,15 @@ describe('IPcs unit tests', () => {
 
   it("IPcs affinePrimeForm", () => {
     const cMaj = new IPcs({strPcs: "0, 4, 7"})
-    const cMajDihedral = cMaj.affineOp(11,0)
+    const cMajDihedral = cMaj.affineOp(11, 0)
     let ipcs = cMajDihedral.affineOp(5, 0)
-    expect(ipcs.getReprBinPcs()).toEqual([1,1,0,0,1,0,0,0,0,0,0,0])
+    expect(ipcs.getReprBinPcs()).toEqual([1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0])
     expect(ipcs.getReprBinPcs()).toEqual(cMaj.affinePrimeForm().getReprBinPcs())
 
     // test when ipcs have already good orbit
     const ipcs2 = cMaj.affinePrimeForm()
     expect(ipcs2.getReprBinPcs()).toEqual(ipcs2.transpose(2).affinePrimeForm().getReprBinPcs())
   })
-
-
 
 
   it("IPcs musaicPrimeForm", () => {
@@ -281,7 +279,6 @@ describe('IPcs unit tests', () => {
     expect(ipcsWithOrbit.isDetached()).not.toBeTruthy()
     expect(primeForm).toEqual(ipcsWithOrbit.musaicPrimeForm())
   });
-
 
 
   it("IPcs Set by Map then sort and convert to Array", () => {
@@ -459,24 +456,24 @@ describe('IPcs unit tests', () => {
   })
 
   it("toggleIndexPC solo => detached", () => {
-    let ipcsOnePitch  = new IPcs({strPcs: "6", n:12, iPivot:6})
-    let emptyPcs  = new IPcs({strPcs: "", n:12})
+    let ipcsOnePitch = new IPcs({strPcs: "6", n: 12, iPivot: 6})
+    let emptyPcs = new IPcs({strPcs: "", n: 12})
     let ipcsNew = ipcsOnePitch.toggleIndexPC(6)
     expect(ipcsNew).toEqual(emptyPcs)
   })
 
   it("toggleIndexPC bad index", () => {
-    let ipcsOnePitch  = new IPcs({strPcs: "6", n:12, iPivot:6})
+    let ipcsOnePitch = new IPcs({strPcs: "6", n: 12, iPivot: 6})
     try {
       let ipcsNew = ipcsOnePitch.toggleIndexPC(12)
       fail('ipcsNew must not be instantiated')
       //same : expect(ipcsNew).not.toBeTruthy()
-    }catch (e) {
+    } catch (e) {
       expect().nothing()
     }
   })
 
-    it("get complement() with, or not, this orbit", () => {
+  it("get complement() with, or not, this orbit", () => {
     let cyclicGroup12 = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
 
     let ipcsWithoutOrbit = new IPcs({strPcs: "0, 4, 8", iPivot: 0})
@@ -626,37 +623,37 @@ describe('IPcs unit tests', () => {
   })
 
   it("Forte detached set", () => {
-    const ipcsEmpty = new IPcs({strPcs:'[]', n:12})
+    const ipcsEmpty = new IPcs({strPcs: '[]', n: 12})
     expect(ipcsEmpty.forteNum()).toEqual('0-1');
   });
 
   it("Forte [0,6]", () => {
-    const ipcsEmpty = new IPcs({strPcs:'[0,6]', n:12})
+    const ipcsEmpty = new IPcs({strPcs: '[0,6]', n: 12})
     expect(ipcsEmpty.forteNum()).toEqual('2-6');
   });
 
   it("Forte [0,1,2,3,6]", () => {
-    const ipcsEmpty = new IPcs({strPcs:'[0,1,2,3,6]', n:12})
+    const ipcsEmpty = new IPcs({strPcs: '[0,1,2,3,6]', n: 12})
     // 5-4 or 5-4A
     expect(ipcsEmpty.forteNum()).toContain('5-4');
   });
 
   it("Forte bad pcs", () => {
-    const ipcsEmpty = new IPcs({strPcs:'[0,1,2,3,6]', n:7})
+    const ipcsEmpty = new IPcs({strPcs: '[0,1,2,3,6]', n: 7})
     // n != 12
     expect(ipcsEmpty.forteNum()).toEqual('');
   });
 
 
   it("Forte inversions are marked 8-4B", () => {
-    let ipcs = new IPcs({strPcs:'[0,1,3,4,5,6,7,8]'})
+    let ipcs = new IPcs({strPcs: '[0,1,3,4,5,6,7,8]'})
     // pass by ipcs.dihedralPrimeForm().pcsStr
     expect(ipcs.forteNum()).toEqual('8-4');
   });
 
   it("iv Interval Vector of MajChord3pitches", () => {
-    const cMaj = new IPcs({strPcs:'[0,4,7]', n:12})
-    expect(cMaj.iv()).toEqual([0,0,1,1,1,0]);
+    const cMaj = new IPcs({strPcs: '[0,4,7]', n: 12})
+    expect(cMaj.iv()).toEqual([0, 0, 1, 1, 1, 0]);
   });
 
   it("isDetached", () => {
@@ -671,4 +668,20 @@ describe('IPcs unit tests', () => {
   });
 
 
+  it("get stabilizer", () => {
+    const detachedMaj7 =
+      new IPcs({strPcs:'0,4,7,10'})
+    const groupMusaic = GroupAction.predefinedGroupsActions(12, Group.MUSAIC)
+
+    const attachedMaj7 = groupMusaic.getIPcsInOrbit(new IPcs({strPcs:'0,4,7,10'}))
+
+    try {
+      expect(attachedMaj7.stabilizer).toBeTruthy()
+
+      expect(detachedMaj7.stabilizer).not.toBeTruthy()
+      fail('A detached PCS must not have Stabilizer !?!')
+    }catch (e:any) {
+      expect(e.message).toContain('A detached PCS has no Stabilizer')
+    }
+  })
 })
