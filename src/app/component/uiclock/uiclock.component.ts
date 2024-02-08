@@ -11,6 +11,7 @@ import {ClockDrawing} from "../../ui/ClockDrawing";
 })
 export class UiclockComponent {
   @ViewChild('canvas', {static: false}) canvas: ElementRef<HTMLCanvasElement>;
+  @ViewChild('containercanvas', {static: false}) containerCanvas: ElementRef<HTMLCanvasElement>;
   dateMouseDone ?: Date = undefined
   touchendOk: boolean = false
   @Input() ipcs: IPcs = new IPcs({strPcs: "0,3,6"})
@@ -25,16 +26,25 @@ export class UiclockComponent {
     this.context = this.canvas.nativeElement.getContext('2d');
 
     let len = this.size ? this.size : Math.min(this.context.canvas.clientWidth, this.context.canvas.clientHeight)
+    console.log('clientHeight' + this.containerCanvas.nativeElement.clientHeight)
+    console.log('clientWidth' + this.containerCanvas.nativeElement.clientWidth)
+   len = Math.min(this.containerCanvas.nativeElement.clientWidth, this.containerCanvas.nativeElement.clientHeight)
     this.clockDrawing = new ClockDrawing( {
       ipcs: this.ipcs,
       ctx: this.context,
-      width: len,
-      height: len + (0), // square
+      width: len * .8,
+      height: len * .8, // square
       pc_color : "yellow",
       segmentsLineDash : [ [1, 2, 2, 1], [2, 3] ] // median, inter
     })
 
     this.setupEvents();
+    // Resize the canvas to fit its parent's width.
+    // Normally you'd use a more flexible resize system.
+    len = Math.min(this.containerCanvas.nativeElement.clientWidth, this.containerCanvas.nativeElement.clientHeight)
+    this.canvas.nativeElement.width = len * .8
+    this.canvas.nativeElement.height = len * .8
+
     this.drawClock();
   }
 

@@ -29,12 +29,12 @@ export class GroupAction {
   private _orbitsSortedByMotifStabilizers ?: ISortedOrbits[];
   private _orbitsSortedByCardinal ?: ISortedOrbits[];
 
-  private static _predefinedGroupsActions : Map<number, GroupAction[]>
+  private static _predefinedGroupsActions: Map<number, GroupAction[]>
 
 
   constructor(
     {n, someMusaicOperations, group}:
-      { n?: number, someMusaicOperations?: MusaicPcsOperation[], group ?:Group } = {}) {
+      { n?: number, someMusaicOperations?: MusaicPcsOperation[], group?: Group } = {}) {
     if (group) {
       this.group = group
       this.n = group.operations[0].n
@@ -109,7 +109,10 @@ export class GroupAction {
   /**
    * pre-assert : each pcs has an orbit, and orbit has his set of pcs.
    *              orbits are build via buildOrbitsByActionOnPowerset()
-   * build stabilizers orbit for all orbits
+   *              Each pcs in orbit is image of any pcs in this same orbit
+   *              by action of G on this pcs
+   *
+   * Build stabilizers orbit for all orbits
    */
   private buildOrbitMotifStabilizers() {
     this.orbits.forEach(orbit => {
@@ -120,10 +123,9 @@ export class GroupAction {
             // operation fix this pcs
             newStab.addFixedPcs(pcs);
             newStab.addOperation(op);
-            // pcs.addOperationAsStabilizer(op);
             op.addFixedPcs(pcs);
           }
-        }) // for each op
+        }) // end loop all op
         // note : stab identity is based on their operations (no change when add fixedPcs)
         let findStab = orbit.stabilizers.find(stab => stab.hashCode() === newStab.hashCode())
         if (!findStab) {
@@ -135,13 +137,14 @@ export class GroupAction {
           // bi-directional link
           pcs.stabilizer = findStab
         }
-      })
-      // ordered operations and fixedPcs in orbit
+      }) // en loop all pcs in current orbit
+      // order operations and fixedPcs for each stabilizer in current orbit.
+      // rem : if CYCLIC group, stabilizers.length==1
       orbit.stabilizers.forEach(stab => {
         stab.operations.sort(MusaicPcsOperation.compare)
         stab.fixedPcs.sort(IPcs.compare)
       })
-      // order stabilizers of orbit
+      // order collection stabilizers in current orbit
       orbit.stabilizers.sort(Stabilizer.compareShortName)
 
       // orbit is complete, we can set his motif stabilizer property (orbit.motifStabilizer)
@@ -149,7 +152,7 @@ export class GroupAction {
     }) // end loop orbits
   }
 
-  get orbitsSortedByMotifStabilizers() : ISortedOrbits[] {
+  get orbitsSortedByMotifStabilizers(): ISortedOrbits[] {
     if (!this._orbitsSortedByMotifStabilizers)
       this._orbitsSortedByMotifStabilizers = this.computeOrbitSortedByMotifStabilizers()
 
@@ -163,7 +166,7 @@ export class GroupAction {
     return this._orbitsSortedByStabilizers
   }
 
-  get orbitsSortedByCardinal() : ISortedOrbits[]{
+  get orbitsSortedByCardinal(): ISortedOrbits[] {
     if (!this._orbitsSortedByCardinal)
       this._orbitsSortedByCardinal = this.computeOrbitSortedByCardinal()
 
@@ -172,20 +175,21 @@ export class GroupAction {
 
 
   /**
+   * Partitionne each orbit in sub-orbits based on their stabilizers
    * @return {ISortedOrbits[]} array of ISortedOrbits
    */
   private computeOrbitSortedByStabilizers(): ISortedOrbits[] {
-    let orbitsSortedByStabilizers = new Map() // k=name orbit based on his stabs, v=array of orbits
+    let orbitsSortedByStabilizers = new Map<string, Orbit[]>() // k=name orbit based on his stabs, v=array of orbits
     this.orbits.forEach(orbit => {
-      orbit.stabilizers.forEach(stab => {
-        let nameStab = stab.getShortName()
-        if (!orbitsSortedByStabilizers.has(nameStab))
-          orbitsSortedByStabilizers.set(nameStab, [])
-        // make an subOrbit based on stabilizer : subOrbits partitioning orbit
-        let subOrbit = new Orbit({stabs: [stab], ipcsSet: stab.fixedPcs})
-        orbitsSortedByStabilizers.get(nameStab).push(subOrbit)
-      })
-    })
+      const orbitName = orbit.name  // stabilizer based
+
+      if (!orbitsSortedByStabilizers.has(orbitName)) {
+        orbitsSortedByStabilizers.set(orbitName, [orbit])
+      } else {
+        // @ts-ignore undefined get element
+        orbitsSortedByStabilizers.get(orbitName).push(orbit)
+      }
+    }) // end loop orbits
 
     // sort map on keys (lexical order)
     // make a "view adapter" for v-for
@@ -196,7 +200,41 @@ export class GroupAction {
           groupingCriterion: name,
           // to avoid duplicate keys in vue
           hashcode: Utils.stringHashCode(name) + Date.now(),
-          orbits: orbitsSortedByStabilizers.get(name)
+          orbits: orbitsSortedByStabilizers.get(name) ?? [] //  always set
+        }
+      resultOrbitsSortedByStabilizers.push(obj)
+    })
+
+    return resultOrbitsSortedByStabilizers
+  }
+
+  private _computeOrbitSortedByStabilizers(): ISortedOrbits[] {
+    let orbitsSortedByStabilizers = new Map<string, Orbit[]>() // k=name orbit based on his stabs, v=array of orbits
+    this.orbits.forEach(orbit => {
+      orbit.stabilizers.forEach(stab => {
+        // make an subOrbit based on stabilizer : subOrbits partitioning orbit
+        let subOrbit = new Orbit({stabs: [stab], ipcsSet: stab.fixedPcs})
+
+        let nameStab = stab.getShortName()
+        if (!orbitsSortedByStabilizers.has(nameStab)) {
+          orbitsSortedByStabilizers.set(nameStab, [subOrbit])
+        } else {
+          // @ts-ignore undefined get element
+          orbitsSortedByStabilizers.get(nameStab).push(subOrbit)
+        }
+      }) // end loop all stab of current orbit
+    }) // end loop orbits
+
+    // sort map on keys (lexical order)
+    // make a "view adapter" for v-for
+    let resultOrbitsSortedByStabilizers: ISortedOrbits[] = []
+    Array.from(orbitsSortedByStabilizers.keys()).sort().forEach((name) => {
+      const obj: ISortedOrbits =
+        {
+          groupingCriterion: name,
+          // to avoid duplicate keys in vue
+          hashcode: Utils.stringHashCode(name) + Date.now(),
+          orbits: orbitsSortedByStabilizers.get(name) ?? [] //  always set
         }
       resultOrbitsSortedByStabilizers.push(obj)
     })
@@ -272,10 +310,10 @@ export class GroupAction {
   }
 
 
-  getOrbitOf(ipcs: IPcs) : Orbit {
+  getOrbitOf(ipcs: IPcs): Orbit {
     if (ipcs.n !== this.n) throw new Error("Invalid dimension : ipcs.n and this.n : " + ipcs.n + " !== " + this.n)
     //let orbit : Orbit | undefined = this.orbits.find(o => o.ipcsset.find(ipcs2 => ipcs2.compareTo(ipcs)==0))
-    let orbit : Orbit | undefined = this.powerset.get(ipcs.id)?.orbit
+    let orbit: Orbit | undefined = this.powerset.get(ipcs.id)?.orbit
     if (!orbit)
       throw new Error("Invalid ipcs (is not in this group action)  ??? : " + ipcs)
     return orbit
@@ -287,15 +325,15 @@ export class GroupAction {
    * @return {IPcs}
    * @throws Error if not find ipcs in this group action
    */
-  getIPcsInOrbit(ipcs: IPcs) : IPcs {
-    let iPcsInOrbit : IPcs | undefined = this.powerset.get(ipcs.id)
+  getIPcsInOrbit(ipcs: IPcs): IPcs {
+    let iPcsInOrbit: IPcs | undefined = this.powerset.get(ipcs.id)
     if (!iPcsInOrbit)
       throw new Error("Invalid ipcs (is not in this group action)  ??? : " + ipcs)
     return iPcsInOrbit
   }
 
   // initialize some predefined Groups Actions
-  static predefinedGroupsActions(n: number, index : number): GroupAction {
+  static predefinedGroupsActions(n: number, index: number): GroupAction {
     if (!GroupAction._predefinedGroupsActions) {
       GroupAction._predefinedGroupsActions = new Map<number, GroupAction[]>
       let groupsActions: GroupAction[] = new Array<GroupAction>()
@@ -311,7 +349,7 @@ export class GroupAction {
       // index == 3 == Group.MUSAIC
       groupsActions.push(new GroupAction({group: Group.predefinedGroups[Group.MUSAIC]}))
 
-      GroupAction._predefinedGroupsActions.set(12,groupsActions)
+      GroupAction._predefinedGroupsActions.set(12, groupsActions)
     }
 
     if (GroupAction._predefinedGroupsActions.get(n) &&

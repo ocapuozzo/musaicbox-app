@@ -187,7 +187,9 @@ describe('GroupAction', () => {
     expect(musaicGroup12.powerset.size).toEqual(Math.pow(2, 12))
     expect(musaicGroup12.orbits.length).toEqual(88)
     expect(musaicGroup12.orbitsSortedByMotifStabilizers.length).toEqual(13)
-    expect(musaicGroup12.orbitsSortedByStabilizers.length).toEqual(111)
+
+    // TODO to demonstrate mathematically
+    expect(musaicGroup12.orbitsSortedByStabilizers.length).toEqual(27)
 
     let lastPF = new IPcs({pidVal: 1365, n: 12}) // whole tone scale
     // test equality of PCS
@@ -195,8 +197,7 @@ describe('GroupAction', () => {
     // whole tone scale : 2 in orbit
     expect(musaicGroup12.orbits[musaicGroup12.orbits.length - 1].ipcsset.length).toEqual(2)
 
-    // TODO 326 must be verified
-    expect(musaicGroup12.cardinalOfOrbitStabilized()).toEqual(326)
+    expect(musaicGroup12.cardinalOfOrbitStabilized()).toEqual(88)
   })
 
 
@@ -214,16 +215,16 @@ describe('GroupAction', () => {
   })
 
   it("Predefined Dihedral Group Action n=12", () => {
-    let cyclicGroup12
+    let dihedralGroup12
       = new GroupAction({group: Group.predefinedGroups[Group.DIHEDRAL]})
 
-    expect(cyclicGroup12.operations.length).toEqual(24)
-    expect(cyclicGroup12.powerset.size).toEqual(Math.pow(2, 12))
-    expect(cyclicGroup12.orbits.length).toEqual(224)
-    expect(cyclicGroup12.orbitsSortedByMotifStabilizers.length).toEqual(2)
+    expect(dihedralGroup12.operations.length).toEqual(24)
+    expect(dihedralGroup12.powerset.size).toEqual(Math.pow(2, 12))
+    expect(dihedralGroup12.orbits.length).toEqual(224)
+    expect(dihedralGroup12.orbitsSortedByMotifStabilizers.length).toEqual(2)
 
     // TODO to demonstrate mathematically
-    expect(cyclicGroup12.orbitsSortedByStabilizers.length).toEqual(29)
+    expect(dihedralGroup12.orbitsSortedByStabilizers.length).toEqual(21)
   })
 
 
@@ -237,7 +238,7 @@ describe('GroupAction', () => {
     expect(affineGroup12.orbitsSortedByMotifStabilizers.length).toEqual(5)
 
     // TODO to demonstrate mathematically
-    expect(affineGroup12.orbitsSortedByStabilizers.length).toEqual(63)
+    expect(affineGroup12.orbitsSortedByStabilizers.length).toEqual(31)
   })
 
   it("getOrbitOf cyclic12", () => {

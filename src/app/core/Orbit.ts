@@ -154,7 +154,7 @@ export class Orbit {
    */
   get name() {
     let res = ""
-    this.stabilizers.forEach(stab => res += " " + stab.getShortName())
+    this.stabilizers.forEach(stab => res = res ? " " + stab.getShortName() : stab.getShortName())
     return res
   }
 

@@ -1,3 +1,50 @@
 <div class="is-clock" #containercanvas>
-  <canvas #canvas></canvas>
+  <div style="margin-left: 25px;">
+    <canvas #canvas></canvas>
+  </div>
+  <div class="panel-navigate">
+    <span >
+      <img
+        src="./assets/img/t-.png"
+        title="modulate"
+        alt="modulate"
+        class="actionable rotate-left img-fluid"
+        width="33"
+        height="41">
+      <span>&nbsp;M&nbsp;</span>
+      <span >
+        <img
+          src="./assets/img/t+.png"
+          title="modulate"
+          alt="modulate"
+          class="actionable rotate-right img-fluid"
+          width="33"
+          height="41"
+        >
+        </span>
+    </span>
+
+    <span >
+      <img
+        src="./assets/img/t-.png"
+        title="transpose"
+        alt="transpose"
+        class="actionable rotate-left img-fluid"
+        width="33"
+        height="41">
+      <span>&nbsp;T&nbsp;</span>
+<!--      <span v-on:click="transpose(1, $event)">-->
+      <span>
+        <img
+          src="./assets/img/t+.png"
+          title="transpose"
+          alt="transpose"
+          class="actionable rotate-right img-fluid"
+          width="33"
+          height="41"
+        >
+      </span>
+    </span>
+  </div>
+
 </div>
