@@ -25,26 +25,21 @@ export class UiclockComponent {
     // @ts-ignore
     this.context = this.canvas.nativeElement.getContext('2d');
 
-    let len = this.size ? this.size : Math.min(this.context.canvas.clientWidth, this.context.canvas.clientHeight)
-    console.log('clientHeight' + this.containerCanvas.nativeElement.clientHeight)
-    console.log('clientWidth' + this.containerCanvas.nativeElement.clientWidth)
-   len = Math.min(this.containerCanvas.nativeElement.clientWidth, this.containerCanvas.nativeElement.clientHeight)
+    let len = Math.min(this.containerCanvas.nativeElement.clientWidth, this.containerCanvas.nativeElement.clientHeight)
+
+    this.canvas.nativeElement.width = len
+    this.canvas.nativeElement.height = len // square
+
     this.clockDrawing = new ClockDrawing( {
       ipcs: this.ipcs,
       ctx: this.context,
-      width: len * .8,
-      height: len * .8, // square
+      width: len,
+      height: len, // square
       pc_color : "yellow",
       segmentsLineDash : [ [1, 2, 2, 1], [2, 3] ] // median, inter
     })
 
     this.setupEvents();
-    // Resize the canvas to fit its parent's width.
-    // Normally you'd use a more flexible resize system.
-    len = Math.min(this.containerCanvas.nativeElement.clientWidth, this.containerCanvas.nativeElement.clientHeight)
-    this.canvas.nativeElement.width = len * .8
-    this.canvas.nativeElement.height = len * .8
-
     this.drawClock();
   }
 

@@ -1,8 +1,4 @@
 .clock-pcs {
   display: inline-flex;
   text-align: center;
-  width: 250px;
-  height: 250px;
-  min-width: 40px;
-  min-height: 40px;
 }

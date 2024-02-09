@@ -186,8 +186,8 @@ export class GroupAction {
       if (!orbitsSortedByStabilizers.has(orbitName)) {
         orbitsSortedByStabilizers.set(orbitName, [orbit])
       } else {
-        // @ts-ignore undefined get element
-        orbitsSortedByStabilizers.get(orbitName).push(orbit)
+        // ! operator avoid to use @ts-ignore undefined get element
+        orbitsSortedByStabilizers.get(orbitName)!.push(orbit)
       }
     }) // end loop orbits
 
@@ -207,40 +207,40 @@ export class GroupAction {
 
     return resultOrbitsSortedByStabilizers
   }
-
-  private _computeOrbitSortedByStabilizers(): ISortedOrbits[] {
-    let orbitsSortedByStabilizers = new Map<string, Orbit[]>() // k=name orbit based on his stabs, v=array of orbits
-    this.orbits.forEach(orbit => {
-      orbit.stabilizers.forEach(stab => {
-        // make an subOrbit based on stabilizer : subOrbits partitioning orbit
-        let subOrbit = new Orbit({stabs: [stab], ipcsSet: stab.fixedPcs})
-
-        let nameStab = stab.getShortName()
-        if (!orbitsSortedByStabilizers.has(nameStab)) {
-          orbitsSortedByStabilizers.set(nameStab, [subOrbit])
-        } else {
-          // @ts-ignore undefined get element
-          orbitsSortedByStabilizers.get(nameStab).push(subOrbit)
-        }
-      }) // end loop all stab of current orbit
-    }) // end loop orbits
-
-    // sort map on keys (lexical order)
-    // make a "view adapter" for v-for
-    let resultOrbitsSortedByStabilizers: ISortedOrbits[] = []
-    Array.from(orbitsSortedByStabilizers.keys()).sort().forEach((name) => {
-      const obj: ISortedOrbits =
-        {
-          groupingCriterion: name,
-          // to avoid duplicate keys in vue
-          hashcode: Utils.stringHashCode(name) + Date.now(),
-          orbits: orbitsSortedByStabilizers.get(name) ?? [] //  always set
-        }
-      resultOrbitsSortedByStabilizers.push(obj)
-    })
-
-    return resultOrbitsSortedByStabilizers
-  }
+  //
+  // private _computeOrbitSortedByStabilizers(): ISortedOrbits[] {
+  //   let orbitsSortedByStabilizers = new Map<string, Orbit[]>() // k=name orbit based on his stabs, v=array of orbits
+  //   this.orbits.forEach(orbit => {
+  //     orbit.stabilizers.forEach(stab => {
+  //       // make an subOrbit based on stabilizer : subOrbits partitioning orbit
+  //       let subOrbit = new Orbit({stabs: [stab], ipcsSet: stab.fixedPcs})
+  //
+  //       let nameStab = stab.getShortName()
+  //       if (!orbitsSortedByStabilizers.has(nameStab)) {
+  //         orbitsSortedByStabilizers.set(nameStab, [subOrbit])
+  //       } else {
+  //         // @ts-ignore undefined get element
+  //         orbitsSortedByStabilizers.get(nameStab).push(subOrbit)
+  //       }
+  //     }) // end loop all stab of current orbit
+  //   }) // end loop orbits
+  //
+  //   // sort map on keys (lexical order)
+  //   // make a "view adapter" for v-for
+  //   let resultOrbitsSortedByStabilizers: ISortedOrbits[] = []
+  //   Array.from(orbitsSortedByStabilizers.keys()).sort().forEach((name) => {
+  //     const obj: ISortedOrbits =
+  //       {
+  //         groupingCriterion: name,
+  //         // to avoid duplicate keys in vue
+  //         hashcode: Utils.stringHashCode(name) + Date.now(),
+  //         orbits: orbitsSortedByStabilizers.get(name) ?? [] //  always set
+  //       }
+  //     resultOrbitsSortedByStabilizers.push(obj)
+  //   })
+  //
+  //   return resultOrbitsSortedByStabilizers
+  // }
 
   /**
    * @return {ISortedOrbits[]} array of ISortedOrbits
@@ -353,11 +353,9 @@ export class GroupAction {
     }
 
     if (GroupAction._predefinedGroupsActions.get(n) &&
-      // @ts-ignore
-      GroupAction._predefinedGroupsActions.get(n)[index]
+      GroupAction._predefinedGroupsActions.get(n)![index]
     ) {
-      // @ts-ignore
-      return GroupAction._predefinedGroupsActions.get(n)[index]
+      return GroupAction._predefinedGroupsActions.get(n)![index]
     }
     throw new Error('No predefined group action for n=' + n + 'and index=' + index + ' !')
   }

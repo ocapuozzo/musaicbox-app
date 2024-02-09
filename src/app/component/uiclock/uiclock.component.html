@@ -1,9 +1,9 @@
 <div class="is-clock" #containercanvas>
-  <div style="margin-left: 25px;">
+  <div #containercanvas id="containercanvas">
     <canvas #canvas></canvas>
   </div>
   <div class="panel-navigate">
-    <span >
+    <span>
       <img
         src="./assets/img/t-.png"
         title="modulate"
@@ -12,7 +12,7 @@
         width="33"
         height="41">
       <span>&nbsp;M&nbsp;</span>
-      <span >
+      <span>
         <img
           src="./assets/img/t+.png"
           title="modulate"
@@ -24,7 +24,7 @@
         </span>
     </span>
 
-    <span >
+    <span>
       <img
         src="./assets/img/t-.png"
         title="transpose"
@@ -33,7 +33,7 @@
         width="33"
         height="41">
       <span>&nbsp;T&nbsp;</span>
-<!--      <span v-on:click="transpose(1, $event)">-->
+      <!--      <span v-on:click="transpose(1, $event)">-->
       <span>
         <img
           src="./assets/img/t+.png"
