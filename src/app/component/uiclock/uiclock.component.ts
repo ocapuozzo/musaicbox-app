@@ -1,11 +1,16 @@
-import {Component, ElementRef, Input, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {IPcs} from "../../core/IPcs";
 import {ClockDrawing} from "../../ui/ClockDrawing";
+import {MusicNotationComponent} from "../music-notation/music-notation.component";
+import {ModuleTranslationControlComponent} from "../module-translation-control/module-translation-control.component";
 
 @Component({
   selector: 'app-uiclock',
   standalone: true,
-  imports: [],
+  imports: [
+    MusicNotationComponent,
+    ModuleTranslationControlComponent
+  ],
   templateUrl: './uiclock.component.html',
   styleUrl: './uiclock.component.css'
 })
@@ -14,12 +19,11 @@ export class UiclockComponent {
   @ViewChild('containercanvas', {static: false}) containerCanvas: ElementRef<HTMLCanvasElement>;
   dateMouseDone ?: Date = undefined
   touchendOk: boolean = false
-  @Input() ipcs: IPcs = new IPcs({strPcs: "0,3,6"})
   private context: CanvasRenderingContext2D;
   private clockDrawing: ClockDrawing;
 
-  // TODO check if size is necessary
-  size: 0;
+  @Input() ipcs: IPcs = new IPcs({strPcs: "0,4,7,10"})
+  @Output() changePcs = new EventEmitter<IPcs>();
 
   ngAfterViewInit() {
     // @ts-ignore
@@ -142,10 +146,9 @@ export class UiclockComponent {
     return this.ipcs.n
   }
 
-  // check if object must be build, and update
   checkClockDrawing() {
     if (!this.clockDrawing) {
-      let len = this.size ? this.size : Math.min(this.context.canvas.clientWidth, this.context.canvas.clientHeight)
+      let len =  Math.min(this.context.canvas.clientWidth, this.context.canvas.clientHeight)
       this.clockDrawing = new ClockDrawing(
         {
           ipcs: this.ipcs,
@@ -223,12 +226,8 @@ export class UiclockComponent {
   }
 
   _setIndexToOneOriPivot(index: number) {
+    // TODO change because possible mapping
     if (this.ipcs.abinPcs[index] === 0) {
-      // set this.ipcs.pcs[index] to 1 (new array)
-      // //this.$store.commit("ipcs/toggleindexpcs", index);
-      // let binPcs = this.ipcs.pcs.slice()
-      // binPcs[index] = 1
-      // this.ipcs = new IPcs({binPcs: binPcs, n:binPcs.length, iPivot:this.ipcs.iPivot})
       this.ipcs = this.ipcs.toggleIndexPC(index)
     } else {
       this.setIPivot(index);
@@ -239,5 +238,16 @@ export class UiclockComponent {
   drawClock() {
     this.checkClockDrawing()
     this.clockDrawing.draw(this.ipcs)
+  }
+
+  changePcsFromModuleTranslationControl($event: string) {
+    console.log('direction receive : ' + $event)
+    if ($event.startsWith('T')) {
+      this.ipcs = this.ipcs.transpose($event == '-1' ? -1 : +1)
+    } else {
+      this.ipcs = this.ipcs.modulate($event == '-1' ? IPcs.PREV_MODULE : IPcs.NEXT_MODULE)
+    }
+    this.drawClock()
+    this.changePcs.emit(this.ipcs)
   }
 }

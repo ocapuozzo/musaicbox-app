@@ -1,0 +1,40 @@
+
+.panel-navigate {
+  display: flex;
+  justify-content: space-between;
+}
+
+.actionable {
+  cursor: pointer;
+}
+
+.rotate-left:hover {
+  animation-duration: 0.3s;
+  animation-name: anim-left;
+  transform:  rotate(-25deg);
+}
+
+.rotate-right:hover {
+  animation-duration: 0.3s;
+  animation-name: anim-right;
+  transform:  rotate(25deg);
+}
+
+@keyframes anim-right {
+  0% {
+    transform: scale(.9) ;
+  }
+  50% {
+    transform: scale(.95) rotate(5deg);
+  }
+}
+
+@keyframes anim-left {
+  0% {
+    transform: scale(.9) ;
+  }
+  50% {
+    transform: scale(.95) rotate(-5deg);
+  }
+}
+

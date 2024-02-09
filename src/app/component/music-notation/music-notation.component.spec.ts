@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TrucComponent } from './truc.component';
+import { MusicNotationComponent } from './music-notation.component';
 
-describe('TrucComponent', () => {
-  let component: TrucComponent;
-  let fixture: ComponentFixture<TrucComponent>;
+describe('MusicNotationComponent', () => {
+  let component: MusicNotationComponent;
+  let fixture: ComponentFixture<MusicNotationComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TrucComponent]
+      imports: [MusicNotationComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(TrucComponent);
+    fixture = TestBed.createComponent(MusicNotationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
