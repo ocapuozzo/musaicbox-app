@@ -67,7 +67,7 @@ export class MusicNotationComponent {
       {
         scale: .9,
         staffwidth: 210,
-        paddingleft: 15
+        paddingleft: 1,
       });
   }
 

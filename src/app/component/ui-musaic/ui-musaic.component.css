@@ -1,0 +1,64 @@
+.actionable {
+  cursor: pointer;
+}
+
+.analyse-pcs {
+  text-decoration-color: brown;
+  font-size: 1rem;
+  background-color: blanchedalmond;
+}
+.rotateM11 {
+  animation-duration: 1.5s;
+  animation-name: rotation;
+}
+
+.rotateM5 {
+  animation-duration: 1.5s;
+  animation-name: rotate-m5;
+}
+
+.rotateM7 {
+  animation-duration: 1.5s;
+  animation-name: rotate-m7;
+}
+
+.anim-button:hover {
+  animation-duration: 0.5s;
+  animation-name: anim-button;
+}
+
+@keyframes anim-button {
+  from {
+    transform: scale(0.9);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes rotate-m5 {
+  from {
+    transform: rotate3d(0, 0, 0, 180deg);
+  }
+  to {
+    transform: rotate3d(1, 1, 0, 180deg);
+  }
+}
+
+@keyframes rotate-m7 {
+  from {
+    transform: rotate3d(0, 0, 0, 180deg);
+  }
+  to {
+    transform: rotate3d(-1, 1, 0, 180deg);
+  }
+}
+
+@keyframes rotation {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(180deg);
+  }
+}

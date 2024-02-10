@@ -2,19 +2,19 @@ import {Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@an
 import {IPcs} from "../../core/IPcs";
 import {ClockDrawing} from "../../ui/ClockDrawing";
 import {MusicNotationComponent} from "../music-notation/music-notation.component";
-import {ModuleTranslationControlComponent} from "../module-translation-control/module-translation-control.component";
+import {ModulationTranslationControlComponent} from "../modulation-translation-control/modulation-translation-control.component";
 
 @Component({
-  selector: 'app-uiclock',
+  selector: 'app-ui-clock',
   standalone: true,
   imports: [
     MusicNotationComponent,
-    ModuleTranslationControlComponent
+    ModulationTranslationControlComponent
   ],
-  templateUrl: './uiclock.component.html',
-  styleUrl: './uiclock.component.css'
+  templateUrl: './ui-clock.component.html',
+  styleUrl: './ui-clock.component.css'
 })
-export class UiclockComponent {
+export class UiClockComponent {
   @ViewChild('canvas', {static: false}) canvas: ElementRef<HTMLCanvasElement>;
   @ViewChild('containercanvas', {static: false}) containerCanvas: ElementRef<HTMLCanvasElement>;
   dateMouseDone ?: Date = undefined
@@ -22,8 +22,19 @@ export class UiclockComponent {
   private context: CanvasRenderingContext2D;
   private clockDrawing: ClockDrawing;
 
-  @Input() ipcs: IPcs = new IPcs({strPcs: "0,4,7,10"})
+  private _ipcs: IPcs = new IPcs({strPcs: "0,4,7,10"})
+
   @Output() changePcs = new EventEmitter<IPcs>();
+
+  @Input() set ipcs(value : IPcs) {
+    this._ipcs = value
+    if (this.context) {
+       this.drawClock()
+    }
+  }
+  get ipcs() : IPcs {
+    return this._ipcs
+  }
 
   ngAfterViewInit() {
     // @ts-ignore
@@ -114,8 +125,8 @@ export class UiclockComponent {
     if (isRightMB || longClick) {
       // console.log("index :" + index + " this.getIPivot() :" +this.getIPivot())
       if (index !== this.getIPivot()) {
-        this._setIndexToOneOriPivot(index)
-        this.drawClock()
+        this._changePcsBySetIndexToOneOriPivot(index)
+        // this.drawClock()
       }
       this.dateMouseDone = undefined
       return;
@@ -125,7 +136,7 @@ export class UiclockComponent {
     if (index >= 0 && (index !== this.getIPivot() || this.ipcs.cardinal === 1)) {
       this.ipcs = this.ipcs.toggleIndexPC(index)
       // console.log("this.ipcs new = " + this.ipcs)
-      this.drawClock()
+    //  this.drawClock()
     }
   }
 
@@ -136,7 +147,7 @@ export class UiclockComponent {
   public setIPivot(newPivot: number) {
     if (newPivot < this.ipcs.n) {
       this.ipcs = new IPcs({strPcs: this.ipcs.getPcsStr(), iPivot: newPivot})
-      this.drawClock()
+     // this.drawClock()
     } else {
       throw new Error("Invalid iPivot")
     }
@@ -215,17 +226,17 @@ export class UiclockComponent {
     if (index !== this.getIPivot()) {
       this.touchendOk = true
       if (longClick) {
-        this._setIndexToOneOriPivot(index)
+        this._changePcsBySetIndexToOneOriPivot(index)
       } else {
         // TODO why this difference in longClick...
-        this._setIndexToOneOriPivot(index)
+        this._changePcsBySetIndexToOneOriPivot(index)
         // this.$store.commit("ipcs/toggleindexpcs", index);
         // this.$root.$emit('onsetpcs');
       }
     }
   }
 
-  _setIndexToOneOriPivot(index: number) {
+  _changePcsBySetIndexToOneOriPivot(index: number) {
     // TODO change because possible mapping
     if (this.ipcs.abinPcs[index] === 0) {
       this.ipcs = this.ipcs.toggleIndexPC(index)
@@ -241,7 +252,6 @@ export class UiclockComponent {
   }
 
   changePcsFromModuleTranslationControl($event: string) {
-    console.log('direction receive : ' + $event)
     if ($event.startsWith('T')) {
       this.ipcs = this.ipcs.transpose($event == '-1' ? -1 : +1)
     } else {

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ModuleTranslationControlComponent } from './module-translation-control.component';
+import { ModulationTranslationControlComponent } from './modulation-translation-control.component';
 
 describe('ModuleTranslationControlComponent', () => {
-  let component: ModuleTranslationControlComponent;
-  let fixture: ComponentFixture<ModuleTranslationControlComponent>;
+  let component: ModulationTranslationControlComponent;
+  let fixture: ComponentFixture<ModulationTranslationControlComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ModuleTranslationControlComponent]
+      imports: [ModulationTranslationControlComponent]
     })
     .compileComponents();
-    
-    fixture = TestBed.createComponent(ModuleTranslationControlComponent);
+
+    fixture = TestBed.createComponent(ModulationTranslationControlComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

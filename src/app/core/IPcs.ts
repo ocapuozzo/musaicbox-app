@@ -503,6 +503,15 @@ export class IPcs {
    *
    * @see https://en.wikipedia.org/wiki/Common_tone_(scale)#Deep_scale_property
    * @see https://en.wikipedia.org/wiki/Interval_vector
+   * @see https://www.robertkelleyphd.com/home/atnltrms.htm
+   *  An array of six integers representing the ic (interval class) content of a chord,
+   *  where the first digit indicates the number instances of IC1 in the set, the second,
+   *  IC2, third, IC3, fourth, IC4, fifth, IC5, and sixth, IC6.
+   *  For example, <001110> is the ic vector for a major triad, showing that it contains zero
+   *  IC1 (semitones), zero IC2 (wholetones), one IC3 (minor 3rd), one IC4 (major 3rd),
+   *  one IC5 (perfect 4th), and zero IC6 (tritones).
+   *  Identity of interval vectors (when two sets have the same IC vector) is the determinant
+   *  Forte used for his equivalence relations between pc sets (transposition, inversion, Z-relation).
    *
    * i=0 => minor seconds/major sevenths (1 or 11 semitones)
    * i=1 => major seconds/minor sevenths (2 or 10 semitones)
@@ -515,11 +524,14 @@ export class IPcs {
    *
    * @returns {int[]}
    *
-   * Example : iv("0,3,iv(7") => [0,0,1,1,1,0]
+   * Example : iv("0,3,7") => [0,0,1,1,1,0]
    */
   iv(): number[] {
     let n = this.abinPcs.length;
-    let res = new Array(n / 2 + n % 2);
+
+    let res = new Array(Math.ceil(n / 2));
+    // Rem : So res.length is always even, even if n is odd
+
     let max = n / 2;
     let v = 0;
     for (let i = 0; i < max; i++) {
@@ -531,7 +543,7 @@ export class IPcs {
       }
     }
     // div last value by 2 (n==12) tritone inversionally equivalent to itself
-    // TODO verify if ok when n % 2 != 0
+    // TODO verify if correct when n is odd, with examples
     res[res.length - 1] /= 2;
 
     return res;

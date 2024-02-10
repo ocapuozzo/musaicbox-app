@@ -1,0 +1,51 @@
+<div>
+  <div #containercanvas class="p-2 text-center">
+    <canvas #canvas id="canvas" class="actionable" style="border:1px solid black;"></canvas>
+  </div>
+  <div class="extra content text-center aligned">
+      <img
+        (click)="m11Click()"
+        #m11
+        id="m11"
+        src="./assets/img/m11.png"
+        title="m11"
+        class="actionable img-fluid anim-button"
+        width="60"
+      />
+    <img
+      (click)="m5Click()"
+      #m5
+      id="m5"
+      src="./assets/img/m5.png"
+      title="m5"
+      class="actionable img-fluid anim-button"
+      width="60"
+    />
+    <img
+      (click)="m7Click()"
+      #m7
+      id="m7"
+      src="./assets/img/m7.png"
+      title="m7"
+      class="actionable img-fluid anim-button"
+      width="60"
+    />
+  </div>
+  <div class="extra content text-center aligned">
+      <span (click)="complement()" class="actionable">
+        <img
+          src="./assets/img/cplt.png"
+          title="complement"
+          class="actionable img-fluid anim-button"
+          width="40"
+        />
+        <!-- <font-awesome-icon icon="yin-yang"  size="lg"/> -->
+      </span>
+    <p class="text-center mt-1">
+      IS :
+      <span class="analyse-pcs">({{ ipcs.is }})</span>
+    </p>
+  </div>
+  <!-- p>{{pcs}}</p -->
+</div>
+
