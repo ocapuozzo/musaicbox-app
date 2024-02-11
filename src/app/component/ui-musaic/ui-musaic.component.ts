@@ -20,11 +20,11 @@ export class UiMusaicComponent {
   private isDisableButtons: boolean = false
   private CEL_WIDTH : number = 10
 
-  @Input() ipcs: IPcs = new IPcs({strPcs: "0,3,6,9"})
+  @Input() ipcs: IPcs //= new IPcs({strPcs: "0,3,6,9"})
   @Output() changePcsEvent = new EventEmitter<IPcs>();
 
   constructor(private managerHomePcsService : ManagerHomePcsService) {
-
+    this.ipcs = this.managerHomePcsService.pcs
   }
 
   ngAfterViewInit() {
@@ -33,14 +33,15 @@ export class UiMusaicComponent {
     this.containerCanvas.nativeElement.addEventListener("animationend",
       (event) => this.listenerEndAnim(event));
 
-    this.canvas.nativeElement.addEventListener('mousedown',
-      (event) => this.mousedown(event));
+    this.canvas.nativeElement.addEventListener('mouseup',
+      (event) => this.mouseup(event));
 
     // send by manager-home-pcs.service
     this.managerHomePcsService.updatePcs.subscribe( (pcs: IPcs) => {
       this.ipcs = pcs
       this.drawsMusaic()
     })
+
     // initial view
     this.drawsMusaic()
   }
@@ -95,7 +96,7 @@ export class UiMusaicComponent {
     this.CEL_WIDTH = CEL_WIDTH;
   }
 
-  mousedown(e: any) {
+  mouseup(e: any) {
     if (this.canvas == undefined) return
     let rect = this.canvas.nativeElement.getBoundingClientRect();
     let x = e.clientX - rect.left;
@@ -105,16 +106,21 @@ export class UiMusaicComponent {
     let localPivot = (this.ipcs.iPivot === undefined) ? 0 : this.ipcs.iPivot
 
     // from matrix coord to indice linear
-    let index = ((5 * Math.floor(x / this.CEL_WIDTH))
+    let indexMapping = ((5 * Math.floor(x / this.CEL_WIDTH))
       + (Math.floor(y / this.CEL_WIDTH)) + localPivot) % this.ipcs.getReprBinPcs().length;
+
+    const isInnerIndex = (i: number) => i == indexMapping;
+
+    console.log("=============================")
+    console.log("indexMapping = " + indexMapping + " local pivot = " + localPivot + this.managerHomePcsService.pcs)
+    console.log("mapping = " +this.ipcs.mappingBinPcs)
+
+    let index = this.ipcs.mappingBinPcs.findIndex(isInnerIndex)
+    console.log("index = " + index)
 
     // keep iPivot until cardinal = 1
     if (index !== this.ipcs.iPivot || this.ipcs.cardinal===1) {
-      this.managerHomePcsService.toggleIndexOrSetIPivot(index)
-//      this.ipcs = this.ipcs.toggleIndexPC(index)
-      // this.$store.commit("ipcs/toggleindexpcs", index);
-      // this.$root.$emit('onsetpcs');
-//      this.drawsMusaic()
+      this.managerHomePcsService.toggleIndex(index)
     }
   }
 

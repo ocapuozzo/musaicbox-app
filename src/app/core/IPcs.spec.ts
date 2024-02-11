@@ -72,32 +72,32 @@ describe('IPcs unit tests', () => {
     expect(ipcs.cardinal).toEqual(3);
   });
 
-  it("IPcs transpose + 1", () => {
+  it("IPcs translation + 1", () => {
     const ipcs = new IPcs({strPcs: "0,4,11", iPivot: 0})
     const ipcs_plus_one = new IPcs({strPcs: "1,5,0", iPivot: 1})
 
-    expect(ipcs.transpose(1)).toEqual(ipcs_plus_one);
+    expect(ipcs.translation(1)).toEqual(ipcs_plus_one);
   });
 
-  it("IPcs transpose - 1", () => {
+  it("IPcs translation - 1", () => {
     const ipcs = new IPcs({strPcs: "0,4,11", iPivot: 0})
     const ipcs_minus_one = new IPcs({strPcs: "11,3,10", iPivot: 11})
 
-    expect(ipcs.transpose(-1)).toEqual(ipcs_minus_one);
+    expect(ipcs.translation(-1)).toEqual(ipcs_minus_one);
   });
 
-  it("IPcs transpose - 12", () => {
+  it("IPcs translation - 12", () => {
     const ipcs = new IPcs({strPcs: "0,4,11", iPivot: 0})
     const ipcs_other = new IPcs({strPcs: "0,11,4", iPivot: 0})
 
-    expect(ipcs.transpose(-12)).toEqual(ipcs_other);
+    expect(ipcs.translation(-12)).toEqual(ipcs_other);
   });
 
-  it("IPcs transpose + 12+6", () => {
+  it("IPcs translation + 12+6", () => {
     const ipcs = new IPcs({strPcs: "0,4,11", iPivot: 0})
     const ipcs_other = new IPcs({strPcs: "6,10,5", iPivot: 6})
 
-    expect(ipcs.transpose(18)).toEqual(ipcs_other);
+    expect(ipcs.translation(18)).toEqual(ipcs_other);
   });
 
   it("IPcs modulate NEXT ", () => {
@@ -249,7 +249,7 @@ describe('IPcs unit tests', () => {
 
     // test when ipcs have already good orbit
     const ipcs2 = cMaj.dihedralPrimeForm()
-    expect(ipcs2.getReprBinPcs()).toEqual(ipcs2.transpose(2).dihedralPrimeForm().getReprBinPcs())
+    expect(ipcs2.getReprBinPcs()).toEqual(ipcs2.translation(2).dihedralPrimeForm().getReprBinPcs())
   })
 
   it("IPcs affinePrimeForm", () => {
@@ -261,7 +261,7 @@ describe('IPcs unit tests', () => {
 
     // test when ipcs have already good orbit
     const ipcs2 = cMaj.affinePrimeForm()
-    expect(ipcs2.getReprBinPcs()).toEqual(ipcs2.transpose(2).affinePrimeForm().getReprBinPcs())
+    expect(ipcs2.getReprBinPcs()).toEqual(ipcs2.translation(2).affinePrimeForm().getReprBinPcs())
   })
 
 
@@ -275,7 +275,7 @@ describe('IPcs unit tests', () => {
     expect(primeForm.id).toEqual(ipcsMusaicPF.id)
 
     expect(primeForm.isDetached()).not.toBeTruthy()
-    const ipcsWithOrbit = primeForm.transpose(1)
+    const ipcsWithOrbit = primeForm.translation(1)
     expect(ipcsWithOrbit.isDetached()).not.toBeTruthy()
     expect(primeForm).toEqual(ipcsWithOrbit.musaicPrimeForm())
   });
@@ -569,7 +569,7 @@ describe('IPcs unit tests', () => {
       .toEqual(new IPcs({strPcs: '[0, 4, 7]', n: 12}).getReprBinPcs())
 
     // now verify if transposition in 7 has a good impact in 12 mapped
-    let secondeDegreeIn7 = firstDegree.transpose(1) // C,E,G => D,F,A
+    let secondeDegreeIn7 = firstDegree.translation(1) // C,E,G => D,F,A
     expect(firstDegree.abinPcs).toEqual([1, 0, 1, 0, 1, 0, 0])
     expect(secondeDegreeIn7.abinPcs).toEqual([0, 1, 0, 1, 0, 1, 0])
 
@@ -596,8 +596,11 @@ describe('IPcs unit tests', () => {
     // now get unMap, as 12 -> 12
     const ipcsDiatMaj = ipcsDiatMajMapped.unMap()
     expect(ipcsDiatMaj.n).toEqual(12)
-    expect(ipcsDiatMaj.nMapping).toEqual(0)
-    expect(ipcsDiatMaj.mappingBinPcs.length).toEqual(0)
+
+    // default mapping is n
+    expect(ipcsDiatMaj.nMapping).toEqual(12)
+    expect(ipcsDiatMaj.mappingBinPcs.length).toEqual(12)
+
     expect(ipcsDiatMaj.getReprBinPcs().length).toEqual(12)
   })
 

@@ -18,7 +18,7 @@ export class ManagerHomePcsService {
   }
 
   translateByM1Tx(x:number) {
-    this.pcs = this.pcs.affineOp(1, x)
+    this.pcs = this.pcs.translation(x)
     this.updatePcs.emit(this.pcs)
   }
 
@@ -27,19 +27,39 @@ export class ManagerHomePcsService {
     this.updatePcs.emit(this.pcs)
   }
 
+  modulation(direction : number) {
+    this.pcs = this.pcs.modulate(direction)
+    this.updatePcs.emit(this.pcs)
+  }
 
   toggleIndexOrSetIPivot(index: number) {
-    // TODO change because possible mapping
+    // inner index (no mapping index)
     if (this.pcs.abinPcs[index] === 0) {
       this.pcs = this.pcs.toggleIndexPC(index)
     } else {
-      if (index < this.pcs.n) {
+      if (index < this.pcs.n && index >= 0) {
         this.pcs =
-          new IPcs({strPcs: this.pcs.getPcsStr(), iPivot: index})
+          new IPcs({
+            strPcs: this.pcs.getPcsStr(),
+            iPivot: index,
+            n: this.pcs.n,
+            orbit:this.pcs.orbit,
+            mappingBinPcs: this.pcs.mappingBinPcs,
+            nMapping: this.pcs.nMapping
+          })
       } else {
         throw new Error("Invalid iPivot : " + index)
       }
     }
+    this.updatePcs.emit(this.pcs)
+  }
+
+  toggleIndex(index: number) {
+    this.pcs = this.pcs.toggleIndexPC(index)
+    this.updatePcs.emit(this.pcs)
+  }
+
+  refresh() {
     this.updatePcs.emit(this.pcs)
   }
 }

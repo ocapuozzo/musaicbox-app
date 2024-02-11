@@ -1,21 +1,21 @@
 <div class="is-clock" #containercanvas>
   <div #containercanvas id="containercanvas">
     <canvas #canvas></canvas>
-    <span>IV : &lt;{{ipcs.iv()}}&gt;</span>
+    <span>IV : &lt;{{ ipcs.iv() }}&gt;</span>
   </div>
   <div class="container">
     <div class="row">
       <div class="col-sm text-left">
-  <app-music-notation [ipcs]="ipcs">
-  </app-music-notation>
+        <app-music-notation [ipcs]="ipcs">
+        </app-music-notation>
       </div>
     </div>
     <div class="row">
       <div class="col-sm text-left">
-  <app-module-translation-control
-    (changePcsEvent)="changePcsFromModuleTranslationControl($event)">
-  </app-module-translation-control>
-
+        <app-module-translation-control
+          (changePcsEvent)="changePcsFromModuleTranslationControl($event)">
+        </app-module-translation-control>
+      </div>
+      </div>
     </div>
   </div>
-</div>

@@ -92,8 +92,11 @@ export class IPcs {
     this.orbit = orbit ?? new Orbit()
     this.id = IPcs.id(this.abinPcs)
     this.is = this._is()
-    this.mappingBinPcs = mappingBinPcs ?? []
-    this.nMapping = nMapping ?? 0
+
+    // TEST default mapping on himself
+    this.mappingBinPcs = mappingBinPcs ??  this.abinPcs.map((value, index) => index) // []
+
+    this.nMapping = nMapping ?? this.n
 
     // if mapping, create here bin array mapped of this
     // @see method getReprBinPcs()
@@ -208,7 +211,7 @@ export class IPcs {
   }
 
   /**
-   * return this by transpose iPivot to zero, useful for analyse (a mode)
+   * return this by translation iPivot to zero, useful for analyse (a mode)
    * @return {IPcs}
    */
   modalPrimeForm(): IPcs {
@@ -216,7 +219,7 @@ export class IPcs {
     if (!this.iPivot) {
       return this
     }
-    return this.transpose(-this.iPivot)
+    return this.translation(-this.iPivot)
   }
 
   /**
@@ -365,7 +368,7 @@ export class IPcs {
    * @param t
    * @returns {IPcs}
    */
-  transpose(t: number): IPcs {
+  translation(t: number): IPcs {
     return this.affineOp(1, t)
   }
 
@@ -593,7 +596,7 @@ export class IPcs {
     // let n = pcs.length
     // for (let i = (this.iPivot + 1) % n; i < pcs.length + this.iPivot; i++) {
     //   if (pcs[i % n] === 0) continue
-    //   let ipcs2 = this.transpose(-i + this.iPivot)
+    //   let ipcs2 = this.translation(-i + this.iPivot)
     //   // compareTo pcs without iPivot
     //   if (ipcs2.equalsPcs(this)) {
     //     break

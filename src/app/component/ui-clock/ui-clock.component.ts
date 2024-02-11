@@ -3,6 +3,7 @@ import {IPcs} from "../../core/IPcs";
 import {ClockDrawing} from "../../ui/ClockDrawing";
 import {MusicNotationComponent} from "../music-notation/music-notation.component";
 import {ModulationTranslationControlComponent} from "../modulation-translation-control/modulation-translation-control.component";
+import {ManagerHomePcsService} from "../../service/manager-home-pcs.service";
 
 @Component({
   selector: 'app-ui-clock',
@@ -22,7 +23,7 @@ export class UiClockComponent {
   private context: CanvasRenderingContext2D;
   private clockDrawing: ClockDrawing;
 
-  private _ipcs: IPcs = new IPcs({strPcs: "0,4,7,10"})
+  private _ipcs: IPcs
 
   @Output() changePcs = new EventEmitter<IPcs>();
 
@@ -36,6 +37,14 @@ export class UiClockComponent {
     return this._ipcs
   }
 
+  constructor(private managerHomePcsService : ManagerHomePcsService) {
+    this.managerHomePcsService.updatePcs.subscribe( (pcs: IPcs) => {
+      this.ipcs = pcs
+    })
+    this.ipcs = this.managerHomePcsService.pcs
+  }
+
+
   ngAfterViewInit() {
     // @ts-ignore
     this.context = this.canvas.nativeElement.getContext('2d');
@@ -46,7 +55,7 @@ export class UiClockComponent {
     this.canvas.nativeElement.height = len // square
 
     this.clockDrawing = new ClockDrawing( {
-      ipcs: this.ipcs,
+      ipcs: this.managerHomePcsService.pcs,
       ctx: this.context,
       width: len,
       height: len, // square
@@ -55,7 +64,12 @@ export class UiClockComponent {
     })
 
     this.setupEvents();
-    this.drawClock();
+    this.drawClock()
+  }
+
+  ngOnInit() {
+    // synchrone with pcs into service
+    this.managerHomePcsService.refresh()
   }
 
   private setupEvents(): void {
@@ -73,15 +87,6 @@ export class UiClockComponent {
     // // right click => selected index ?
     this.canvas.nativeElement.addEventListener('contextmenu',
       (event) => this.mouseup(event));
-    //
-    // // Resize the canvas to fit its parent's width.
-    // // Normally you'd use a more flexible resize system.
-    // let len = Math.min(containercanvas.clientWidth, containercanvas.clientHeight)
-    // this.$refs['canvas'].width = len
-    // this.$refs['canvas'].height = len
-    // this.n = this.ipcs.pcs.length
-
-    this.drawClock()
 
   }
 
@@ -123,10 +128,8 @@ export class UiClockComponent {
 
     // right click and long click => change iPivot
     if (isRightMB || longClick) {
-      // console.log("index :" + index + " this.getIPivot() :" +this.getIPivot())
       if (index !== this.getIPivot()) {
-        this._changePcsBySetIndexToOneOriPivot(index)
-        // this.drawClock()
+        this.managerHomePcsService.toggleIndexOrSetIPivot(index)
       }
       this.dateMouseDone = undefined
       return;
@@ -134,9 +137,7 @@ export class UiClockComponent {
 
     // accept unset iPivot when cardinal == 1 only
     if (index >= 0 && (index !== this.getIPivot() || this.ipcs.cardinal === 1)) {
-      this.ipcs = this.ipcs.toggleIndexPC(index)
-      // console.log("this.ipcs new = " + this.ipcs)
-    //  this.drawClock()
+      this.managerHomePcsService.toggleIndex(index)
     }
   }
 
@@ -145,8 +146,9 @@ export class UiClockComponent {
   }
 
   public setIPivot(newPivot: number) {
-    if (newPivot < this.ipcs.n) {
-      this.ipcs = new IPcs({strPcs: this.ipcs.getPcsStr(), iPivot: newPivot})
+    if (newPivot < this.ipcs.n && newPivot >= 0) {
+      this.managerHomePcsService.toggleIndexOrSetIPivot(newPivot)
+      // this.ipcs = new IPcs({strPcs: this.ipcs.getPcsStr(), iPivot: newPivot})
      // this.drawClock()
     } else {
       throw new Error("Invalid iPivot")
@@ -195,7 +197,7 @@ export class UiClockComponent {
   }
 
   isSelected(i: number): boolean {
-    return this.ipcs.abinPcs[i] === 1;
+    return this.ipcs.getReprBinPcs()[i] === 1;
   }
 
   touchstart(e: TouchEvent | MouseEvent) {
@@ -237,13 +239,7 @@ export class UiClockComponent {
   }
 
   _changePcsBySetIndexToOneOriPivot(index: number) {
-    // TODO change because possible mapping
-    if (this.ipcs.abinPcs[index] === 0) {
-      this.ipcs = this.ipcs.toggleIndexPC(index)
-    } else {
-      this.setIPivot(index);
-    }
-    // this.$root.$emit('onsetpcs');
+    this.managerHomePcsService.toggleIndexOrSetIPivot(index)
   }
 
   drawClock() {
@@ -251,11 +247,15 @@ export class UiClockComponent {
     this.clockDrawing.draw(this.ipcs)
   }
 
+  /**
+   * In n, Translation "T-1" or "T+1" or Modulation "M-1" or "M+1"
+   * @param $event
+   */
   changePcsFromModuleTranslationControl($event: string) {
     if ($event.startsWith('T')) {
-      this.ipcs = this.ipcs.transpose($event == '-1' ? -1 : +1)
+      this.managerHomePcsService.translateByM1Tx($event == 'T-1' ? -1 : +1)
     } else {
-      this.ipcs = this.ipcs.modulate($event == '-1' ? IPcs.PREV_MODULE : IPcs.NEXT_MODULE)
+      this.managerHomePcsService.modulation($event == 'M-1' ? IPcs.PREV_MODULE : IPcs.NEXT_MODULE)
     }
     this.drawClock()
     this.changePcs.emit(this.ipcs)
