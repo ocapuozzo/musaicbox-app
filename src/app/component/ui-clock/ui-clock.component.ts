@@ -197,7 +197,7 @@ export class UiClockComponent {
   }
 
   isSelected(i: number): boolean {
-    return this.ipcs.getReprBinPcs()[i] === 1;
+    return this.ipcs.getMappedBinPcs()[i] === 1;
   }
 
   touchstart(e: TouchEvent | MouseEvent) {

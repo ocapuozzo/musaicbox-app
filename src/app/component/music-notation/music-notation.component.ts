@@ -32,16 +32,16 @@ export class MusicNotationComponent {
     let notes = '';
     let chord = '[ ';
 
-    let n = this.ipcs.getReprBinPcs().length;
+    let n = this.ipcs.getMappedBinPcs().length;
 
     const someNotesForChange = [1, 3, 6, 8, 10]
 
     for (let i = this.ipcs.iPivot ?? 0; i < n + (this.ipcs.iPivot ?? 0); i++) {
-      if (this.ipcs.getReprBinPcs()[i % n] === 1) {
+      if (this.ipcs.getMappedBinPcs()[i % n] === 1) {
         let note = MusicNotationComponent.lettersNotation[i % n];
         if (someNotesForChange.indexOf(i % n) !== -1) {
           // change # in bemol
-          if (this.ipcs.getReprBinPcs()[(i + 1) % n] !== 1) {
+          if (this.ipcs.getMappedBinPcs()[(i + 1) % n] !== 1) {
             note = "_" + MusicNotationComponent.lettersNotation[(i + 1) % n]
           }
         }

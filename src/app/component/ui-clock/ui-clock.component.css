@@ -11,3 +11,8 @@ canvas {
   display: inline;
 }
 
+.analyse-pcs {
+  text-decoration-color: brown;
+  font-size: 1rem;
+  background-color: blanchedalmond;
+}

@@ -55,7 +55,7 @@ export class UiMusaicComponent {
 
     let w = this.containerCanvas.nativeElement.clientWidth ?? 40
 
-    let n = this.ipcs.getReprBinPcs().length;
+    let n = this.ipcs.getMappedBinPcs().length;
 
     let CEL_WIDTH =  Math.floor(w / (n + 1));
     w = CEL_WIDTH * (n+1)
@@ -77,7 +77,7 @@ export class UiMusaicComponent {
     let iPivot = this.ipcs.iPivot ?? 0
     for (let i = 0; i <= n; i++) {
       for (let j = 0; j <= n; j++) {
-        if (this.ipcs.getReprBinPcs()[(i + iPivot  + j * 5) % n] === 1) {
+        if (this.ipcs.getMappedBinPcs()[(i + iPivot  + j * 5) % n] === 1) {
           ctx.fillStyle = "black";
           ctx.fillRect(j * CEL_WIDTH, i * CEL_WIDTH, CEL_WIDTH, CEL_WIDTH);
         //  ctx.strokeRect(j * CEL_WIDTH, i * CEL_WIDTH, CEL_WIDTH, CEL_WIDTH);
@@ -107,15 +107,15 @@ export class UiMusaicComponent {
 
     // from matrix coord to indice linear
     let indexMapping = ((5 * Math.floor(x / this.CEL_WIDTH))
-      + (Math.floor(y / this.CEL_WIDTH)) + localPivot) % this.ipcs.getReprBinPcs().length;
+      + (Math.floor(y / this.CEL_WIDTH)) + localPivot) % this.ipcs.getMappedBinPcs().length;
 
     const isInnerIndex = (i: number) => i == indexMapping;
 
     console.log("=============================")
     console.log("indexMapping = " + indexMapping + " local pivot = " + localPivot + this.managerHomePcsService.pcs)
-    console.log("mapping = " +this.ipcs.mappingBinPcs)
+    console.log("mapping = " +this.ipcs.templateMappingBinPcs)
 
-    let index = this.ipcs.mappingBinPcs.findIndex(isInnerIndex)
+    let index = this.ipcs.templateMappingBinPcs.findIndex(isInnerIndex)
     console.log("index = " + index)
 
     // keep iPivot until cardinal = 1
