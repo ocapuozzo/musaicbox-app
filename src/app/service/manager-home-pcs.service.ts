@@ -55,7 +55,7 @@ export class ManagerHomePcsService {
   }
 
   toggleIndex(index: number) {
-    this.pcs = this.pcs.toggleIndexPC(index)
+    this.pcs = this.pcs.toggleIndexPC(this.pcs.indexMappedToIndexInner(index))
     this.updatePcs.emit(this.pcs)
   }
 

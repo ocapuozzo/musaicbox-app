@@ -13,7 +13,7 @@ import {IPcs} from "./IPcs";
 
 export class Group {
 
-  /** indexes for predefinedGroups
+  /** indexes for predefinedGroups12
    *  @see GroupAction.spec
    */
   static CYCLIC = 0
@@ -21,7 +21,7 @@ export class Group {
   static AFFINE = 2
   static MUSAIC = 3
 
-  static _predefinedGroups : Group[]
+  static _predefinedGroups12 : Group[]
 
   operations : MusaicPcsOperation[]
 
@@ -33,29 +33,27 @@ export class Group {
     this.operations = Group.buildOperationsGroupByCaylayTable(someGeneratorMusaicPcsOperations)
   }
 
-  static get predefinedGroups() : Group[]{
-    if (! this._predefinedGroups) {
-      this._predefinedGroups = []
+  static get predefinedGroups12() : Group[]{
+    if (! this._predefinedGroups12) {
+      this._predefinedGroups12 = []
       // index == 0 == Group.CYCLIC
       let opM1_T1 = new MusaicPcsOperation(12, 1, 1, false);
-      this._predefinedGroups.push(new  Group([opM1_T1]))
+      this._predefinedGroups12.push(new  Group([opM1_T1]))
 
       // index == 1 == Group.DIHEDRAL
       let opM11_T1 = new MusaicPcsOperation(12, 11, 1, false);
-      this._predefinedGroups.push(new  Group([opM1_T1, opM11_T1]))
+      this._predefinedGroups12.push(new  Group([opM1_T1, opM11_T1]))
 
       // index == 2 == Group.AFFINE
       let opM5_T1 = new MusaicPcsOperation(12, 5, 1, false);
-      this._predefinedGroups.push(new  Group([opM1_T1, opM11_T1, opM5_T1]))
+      this._predefinedGroups12.push(new  Group([opM1_T1, opM11_T1, opM5_T1]))
 
       // index == 3 == Group.MUSAIC
       let opCM1_T0 = new MusaicPcsOperation(12, 1, 0, true);
-      this._predefinedGroups.push(new  Group([opM1_T1, opM11_T1, opM5_T1, opCM1_T0]))
+      this._predefinedGroups12.push(new  Group([opM1_T1, opM11_T1, opM5_T1, opCM1_T0]))
     }
-    return this._predefinedGroups
+    return this._predefinedGroups12
   }
-
-
 
   /**
    *

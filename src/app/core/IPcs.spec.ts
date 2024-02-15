@@ -234,7 +234,7 @@ describe('IPcs unit tests', () => {
 
 
     let cyclicGroup12
-      = new GroupAction({group: Group.predefinedGroups[Group.CYCLIC]})
+      = new GroupAction({group: Group.predefinedGroups12[Group.CYCLIC]})
     ipcs = new IPcs({strPcs: "0, 3, 6, 9", iPivot: 0})
 
     let orbit = cyclicGroup12.getOrbitOf(ipcs)

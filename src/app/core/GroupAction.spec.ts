@@ -181,7 +181,7 @@ describe('GroupAction', () => {
 
   it("Predefined Musaic Group Action n=12", () => {
     let musaicGroup12
-      = new GroupAction({group: Group.predefinedGroups[Group.MUSAIC]})
+      = new GroupAction({group: Group.predefinedGroups12[Group.MUSAIC]})
 
     expect(musaicGroup12.operations.length).toEqual(96)
     expect(musaicGroup12.powerset.size).toEqual(Math.pow(2, 12))
@@ -203,9 +203,11 @@ describe('GroupAction', () => {
 
   it("Predefined Cyclic Group Action n=12", () => {
     let cyclicGroup12
-      = new GroupAction({group: Group.predefinedGroups[Group.CYCLIC]})
+      = new GroupAction({group: Group.predefinedGroups12[Group.CYCLIC]})
 
     expect(cyclicGroup12.operations.length).toEqual(12)
+    expect(cyclicGroup12.cardinal).toEqual(12)
+
     expect(cyclicGroup12.powerset.size).toEqual(Math.pow(2, 12))
     expect(cyclicGroup12.orbits.length).toEqual(352)
     expect(cyclicGroup12.orbitsSortedByMotifStabilizers.length).toEqual(1)
@@ -216,7 +218,7 @@ describe('GroupAction', () => {
 
   it("Predefined Dihedral Group Action n=12", () => {
     let dihedralGroup12
-      = new GroupAction({group: Group.predefinedGroups[Group.DIHEDRAL]})
+      = new GroupAction({group: Group.predefinedGroups12[Group.DIHEDRAL]})
 
     expect(dihedralGroup12.operations.length).toEqual(24)
     expect(dihedralGroup12.powerset.size).toEqual(Math.pow(2, 12))
@@ -230,7 +232,7 @@ describe('GroupAction', () => {
 
   it("Predefined Affine Group Action n=12", () => {
     let affineGroup12
-      = new GroupAction({group: Group.predefinedGroups[Group.AFFINE]})
+      = new GroupAction({group: Group.predefinedGroups12[Group.AFFINE]})
 
     expect(affineGroup12.operations.length).toEqual(48)
     expect(affineGroup12.powerset.size).toEqual(Math.pow(2, 12))
@@ -241,9 +243,19 @@ describe('GroupAction', () => {
     expect(affineGroup12.orbitsSortedByStabilizers.length).toEqual(31)
   })
 
+
+  it("Predefined Group Action n=7", () => {
+    const group7Cyclic = GroupAction.predefinedGroupsActions(7, Group.CYCLIC)
+    expect(group7Cyclic.cardinal).toEqual(7)
+    expect(group7Cyclic.powerset.size).toEqual(Math.pow(2, 7))
+
+  })
+
+
+
   it("getOrbitOf cyclic12", () => {
     let cyclicGroup12
-      = new GroupAction({group: Group.predefinedGroups[Group.CYCLIC]})
+      = new GroupAction({group: Group.predefinedGroups12[Group.CYCLIC]})
 
     let ipcs = new IPcs({strPcs: "0, 4, 8", iPivot: 0})
     let orbit = cyclicGroup12.getOrbitOf(ipcs)

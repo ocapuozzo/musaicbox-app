@@ -335,37 +335,10 @@ export class GroupAction {
   // initialize some predefined Groups Actions
   static predefinedGroupsActions(n: number, index: number): GroupAction {
     if (!GroupAction._predefinedGroupsActions) {
-      GroupAction._predefinedGroupsActions = new Map<number, GroupAction[]>
-      let groupsActions: GroupAction[] = new Array<GroupAction>()
-      // index == 0 == Group.CYCLIC
-      groupsActions.push(new GroupAction({group: Group.predefinedGroups[Group.CYCLIC]}))
-
-      // index == 1 == Group.DIHEDRAL
-      groupsActions.push(new GroupAction({group: Group.predefinedGroups[Group.DIHEDRAL]}))
-
-      // index == 2 == Group.AFFINE
-      groupsActions.push(new GroupAction({group: Group.predefinedGroups[Group.AFFINE]}))
-
-      // index == 3 == Group.MUSAIC
-      groupsActions.push(new GroupAction({group: Group.predefinedGroups[Group.MUSAIC]}))
-
-      GroupAction._predefinedGroupsActions.set(12, groupsActions)
-
-      groupsActions = new Array<GroupAction>()
-      let opM1_T1 = new MusaicPcsOperation(7, 1, 1, false);
-      groupsActions.push(new GroupAction({someMusaicOperations:[opM1_T1]}))
-      let opM6_T1 = new MusaicPcsOperation(7, 6, 1, false);
-      groupsActions.push(new GroupAction({someMusaicOperations:[opM1_T1, opM6_T1]}))
-
-      // 3ième
-      groupsActions.push(new GroupAction({someMusaicOperations:[opM1_T1]}))
-
-      let opM6_T1C = new MusaicPcsOperation(7, 6, 1, true);
-      groupsActions.push(new GroupAction({someMusaicOperations:[opM1_T1, opM6_T1C]}))
-
-      GroupAction._predefinedGroupsActions.set(7, groupsActions)
+      GroupAction.createPredefinedGroupAction()
     }
 
+    // TODO create if not existe with Cyclic ...
     if (GroupAction._predefinedGroupsActions.get(n) &&
       GroupAction._predefinedGroupsActions.get(n)![index]
     ) {
@@ -376,5 +349,42 @@ export class GroupAction {
 
   get cardinal() {
     return this.operations.length
+  }
+
+  private static createPredefinedGroupAction() : void {
+    GroupAction._predefinedGroupsActions = new Map<number, GroupAction[]>
+    let groupsActions: GroupAction[] = new Array<GroupAction>()
+    // index == 0 == Group.CYCLIC
+    groupsActions.push(new GroupAction({group: Group.predefinedGroups12[Group.CYCLIC]}))
+
+    // index == 1 == Group.DIHEDRAL
+    groupsActions.push(new GroupAction({group: Group.predefinedGroups12[Group.DIHEDRAL]}))
+
+    // index == 2 == Group.AFFINE
+    groupsActions.push(new GroupAction({group: Group.predefinedGroups12[Group.AFFINE]}))
+
+    // index == 3 == Group.MUSAIC
+    groupsActions.push(new GroupAction({group: Group.predefinedGroups12[Group.MUSAIC]}))
+
+    GroupAction._predefinedGroupsActions.set(12, groupsActions)
+
+    groupsActions = new Array<GroupAction>()
+    //Cyclic
+    let opM1_T1 = new MusaicPcsOperation(7, 1, 1, false);
+    let group7Cyclic = new GroupAction({n:7, someMusaicOperations:[opM1_T1]})
+    groupsActions.push(group7Cyclic)
+
+    //Dihedral
+    let opM6_T1 = new MusaicPcsOperation(7, 6, 1, false);
+    groupsActions.push(new GroupAction({n:7, someMusaicOperations:[opM1_T1, opM6_T1]}))
+
+    // bad Affine (Dihedral again, temporary for test)
+    groupsActions.push(new GroupAction({n:7, someMusaicOperations:[opM1_T1, opM6_T1]}))
+
+    // bad musaic
+    let opM6_T1C = new MusaicPcsOperation(7, 6, 1, true);
+    groupsActions.push(new GroupAction({n:7, someMusaicOperations:[opM1_T1, opM6_T1, opM6_T1C]}))
+
+    GroupAction._predefinedGroupsActions.set(7, groupsActions)
   }
 }

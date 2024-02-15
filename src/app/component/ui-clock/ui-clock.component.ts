@@ -2,7 +2,9 @@ import {Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@an
 import {IPcs} from "../../core/IPcs";
 import {ClockDrawing} from "../../ui/ClockDrawing";
 import {MusicNotationComponent} from "../music-notation/music-notation.component";
-import {ModulationTranslationControlComponent} from "../modulation-translation-control/modulation-translation-control.component";
+import {
+  ModulationTranslationControlComponent
+} from "../modulation-translation-control/modulation-translation-control.component";
 import {ManagerHomePcsService} from "../../service/manager-home-pcs.service";
 
 @Component({
@@ -27,18 +29,19 @@ export class UiClockComponent {
 
   @Output() changePcs = new EventEmitter<IPcs>();
 
-  @Input() set ipcs(value : IPcs) {
+  @Input() set ipcs(value: IPcs) {
     this._ipcs = value
     if (this.context) {
-       this.drawClock()
+      this.drawClock()
     }
   }
-  get ipcs() : IPcs {
+
+  get ipcs(): IPcs {
     return this._ipcs
   }
 
-  constructor(private managerHomePcsService : ManagerHomePcsService) {
-    this.managerHomePcsService.updatePcs.subscribe( (pcs: IPcs) => {
+  constructor(private managerHomePcsService: ManagerHomePcsService) {
+    this.managerHomePcsService.updatePcs.subscribe((pcs: IPcs) => {
       this.ipcs = pcs
     })
     this.ipcs = this.managerHomePcsService.pcs
@@ -54,13 +57,13 @@ export class UiClockComponent {
     this.canvas.nativeElement.width = len
     this.canvas.nativeElement.height = len // square
 
-    this.clockDrawing = new ClockDrawing( {
+    this.clockDrawing = new ClockDrawing({
       ipcs: this.managerHomePcsService.pcs,
       ctx: this.context,
       width: len,
       height: len, // square
-      pc_color : "yellow",
-      segmentsLineDash : [ [1, 2, 2, 1], [2, 3] ] // median, inter
+      pc_color: "yellow",
+      segmentsLineDash: [[1, 2, 2, 1], [2, 3]] // median, inter
     })
 
     this.setupEvents();
@@ -78,7 +81,7 @@ export class UiClockComponent {
     this.canvas.nativeElement.addEventListener('mousedown',
       (event) => this.mousedown(event));
     this.canvas.nativeElement.addEventListener('mousemove',
-      (event) => this.mousemove(event));
+      (event) => this.mouseMoveSetCursor(event));
     this.canvas.nativeElement.addEventListener('touchstart',
       (event) => this.touchstart(event), false);
     this.canvas.nativeElement.addEventListener('touchend',
@@ -90,25 +93,37 @@ export class UiClockComponent {
 
   }
 
-  mousemove(e: any) {
+  mouseMoveSetCursor(e:MouseEvent) {
     // https://developer.mozilla.org/fr/docs/Web/API/MouseEvent
-    let index = this.getSelected(e);
+    let index = this.getIndexSelectedFromUIClock(e);
     if (index >= 0) {
-      this.canvas.nativeElement.style.cursor = 'pointer'
-      // console.log('mouse move : index/pitch selected = ' + index)
+      this.canvas.nativeElement.style.cursor =
+        this.ipcs.templateMappingBinPcs.includes(index) ? 'pointer' : 'not-allowed'
     } else {
       this.canvas.nativeElement.style.cursor = 'default'
     }
   }
-  mousedown(e:any) {
+
+  mousedown(e: MouseEvent) {
     this.dateMouseDone = new Date()
   }
+
   mouseup(e: any) {
     e.preventDefault();
 
-    let index = this.getSelected(e);
+
+
+    // see https://developer.mozilla.org/en-US/docs/Web/API/Element/auxclick_event ?
+    // https://stackoverflow.com/questions/56260646/how-can-i-handle-the-angular-click-event-for-the-middle-mouse-button
+
+    let index = this.getIndexSelectedFromUIClock(e);
     if (index < 0 || this.touchendOk) {
       this.touchendOk = false
+      return;
+    }
+
+    // only select PCS in templateMappingBinPcs
+    if (! this.ipcs.templateMappingBinPcs.includes(index)) {
       return;
     }
 
@@ -149,7 +164,7 @@ export class UiClockComponent {
     if (newPivot < this.ipcs.n && newPivot >= 0) {
       this.managerHomePcsService.toggleIndexOrSetIPivot(newPivot)
       // this.ipcs = new IPcs({strPcs: this.ipcs.getPcsStr(), iPivot: newPivot})
-     // this.drawClock()
+      // this.drawClock()
     } else {
       throw new Error("Invalid iPivot")
     }
@@ -161,7 +176,7 @@ export class UiClockComponent {
 
   checkClockDrawing() {
     if (!this.clockDrawing) {
-      let len =  Math.min(this.context.canvas.clientWidth, this.context.canvas.clientHeight)
+      let len = Math.min(this.context.canvas.clientWidth, this.context.canvas.clientHeight)
       this.clockDrawing = new ClockDrawing(
         {
           ipcs: this.ipcs,
@@ -174,7 +189,7 @@ export class UiClockComponent {
     }
   }
 
-  getSelected(e: any) {
+  getIndexSelectedFromUIClock(e: any) {
     // const ctx = this.provider.context;
     let canvas = this.context.canvas;
     let rect = canvas.getBoundingClientRect();
@@ -213,7 +228,7 @@ export class UiClockComponent {
     }
     e.preventDefault();
 
-    let index = this.getSelected(e);
+    let index = this.getIndexSelectedFromUIClock(e);
 
     if (index < 0) {
       this.dateMouseDone = undefined
@@ -232,8 +247,6 @@ export class UiClockComponent {
       } else {
         // TODO why this difference in longClick...
         this._changePcsBySetIndexToOneOriPivot(index)
-        // this.$store.commit("ipcs/toggleindexpcs", index);
-        // this.$root.$emit('onsetpcs');
       }
     }
   }

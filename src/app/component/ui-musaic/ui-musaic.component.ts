@@ -112,17 +112,9 @@ export class UiMusaicComponent {
     // for compute with undefined
     let localPivot = (this.ipcs.iPivot === undefined) ? 0 : this.ipcs.iPivot
 
-    // from matrix coord to indice linear
-    let indexMapping = ((5 * Math.floor(x / this.CEL_WIDTH))
-      + (Math.floor(y / this.CEL_WIDTH)) + localPivot) % this.ipcs.getMappedBinPcs().length;
-
-    // // console.log("=============================")
-    // // console.log("indexMapping = " + indexMapping + " local pivot = " + localPivot + this.managerHomePcsService.pcs)
-    // // console.log("mapping = " +this.ipcs.templateMappingBinPcs)
-
-    const isInnerIndex = (i: number) => i == indexMapping;
-
-    return this.ipcs.templateMappingBinPcs.findIndex(isInnerIndex)
+    // from matrix coord to indice linear (for matrix armature 1 x 5)
+    return ((5 * Math.floor(x / this.CEL_WIDTH))
+      + (Math.floor(y / this.CEL_WIDTH)) + localPivot) % this.ipcs.nMapping
   }
 
   /**
@@ -132,11 +124,17 @@ export class UiMusaicComponent {
   mouseMoveSetCursor(e:any) {
     if (this.canvas == undefined) return
     let index = this.fromMatrixToIndexVector(e)
-    this.canvas.nativeElement.style.cursor = index >= 0 ? 'pointer' : 'not-allowed'
-
+    this.canvas.nativeElement.style.cursor =
+      this.ipcs.templateMappingBinPcs.includes(index) ? 'pointer' : 'not-allowed'
   }
   mouseup(e: any) {
     let index = this.fromMatrixToIndexVector(e)
+
+    // only select PCS in templateMappingBinPcs
+    if (! this.ipcs.templateMappingBinPcs.includes(index)) {
+      return;
+    }
+
     // keep iPivot until cardinal = 1
     if (index !== this.ipcs.iPivot || this.ipcs.cardinal===1) {
       this.managerHomePcsService.toggleIndex(index)
