@@ -14,33 +14,35 @@ import {Rect} from "../utils/Rect"
 import {Point} from "../utils/Point"
 
 const PITCH_LINE_WIDTH = 4;
+
 export class ClockDrawing {
   ipcs = new IPcs({strPcs: "[0,3,7"});
-  ctx ?:CanvasRenderingContext2D;  // canvas context
+  ctx ?: CanvasRenderingContext2D;  // canvas context
   width = 20;
   height = 20;
   pc_pivot_color = "red";
   pc_color = "yellow";
-  segmentsLineDash: number[][]= [ [1, 3], [1, 3, 3, 1] ] // median, inter
-  n:number // vector dimension
-  pointsRegions : Rect[]
+  segmentsLineDash: number[][] = [[1, 3], [1, 3, 3, 1]] // median, inter
+  n: number // vector dimension
+  pointsRegions: Rect[]
   pointsAxesSym: Point[]
+
   constructor(
     x: {
       ipcs?: IPcs,
-      ctx ?: CanvasRenderingContext2D,
+      ctx?: CanvasRenderingContext2D,
       width?: number,
       height?: number,
       pc_pivot_color?: string,
       pc_color?: string,
       segmentsLineDash?: number[][]
-    } = {})  {
+    } = {}) {
     if (!x.ctx)
       throw new Error("canvas context missing !!!")
 
     this.ipcs = x.ipcs ?? new IPcs({strPcs: "[0,3,7"})
     if (x.ctx)
-       this.ctx = x.ctx
+      this.ctx = x.ctx
 
     //this.ctx = x.ctx ?? null
 
@@ -48,18 +50,18 @@ export class ClockDrawing {
     this.height = x.height ?? 20
     this.pc_pivot_color = x.pc_pivot_color ?? "red"
     this.pc_color = x.pc_color ?? "yellow"
-    this.n = this.ipcs.n
+    this.n = this.ipcs.nMapping
     this.pointsRegions = []
     this.pointsAxesSym = []
-    this.segmentsLineDash = x.segmentsLineDash ?? [ [1, 3], [1, 3, 3, 1] ]
+    this.segmentsLineDash = x.segmentsLineDash ?? [[1, 3], [1, 3, 3, 1]]
   }
 
   setIpcs(ipcs: IPcs) {
     this.ipcs = ipcs
   }
 
-  isSelected(i : number):boolean {
-    return this.ipcs.abinPcs[i] === 1;
+  isSelected(i: number): boolean {
+    return this.ipcs.getMappedBinPcs()[i] === 1;
   }
 
   // pass IPcs instance in parameter ? for store reactive ?
@@ -91,9 +93,9 @@ export class ClockDrawing {
     // console.log("index : " + index + " selected : " + this.isSelected(index));
     ctx.fillStyle =
       (this.isSelected(index))
-        ? (index === this.ipcs.iPivot)
-        ? this.pc_pivot_color
-        : this.pc_color
+        ? (index === this.ipcs.templateMappingBinPcs[this.ipcs.iPivot ?? 0])
+          ? this.pc_pivot_color
+          : this.pc_color
         : 'white';
     ctx.fill();
     if (radius > 6) {
@@ -141,11 +143,11 @@ export class ClockDrawing {
     ctx.save();
     ctx.fillStyle = 'black';
     ctx.beginPath();
-    for (let i = 0; i < this.n /*ipcs.abinPcs.length*/; i++) {
-      if (this.ipcs.abinPcs[i] === 1 && firstPoint) {
+    for (let i = 0; i < this.n; i++) {
+      if (this.ipcs.getMappedBinPcs()[i] === 1 && firstPoint) {
         firstPoint = false;
         ctx.moveTo(pointsRegions[i].x, pointsRegions[i].y);
-      } else if (this.ipcs.abinPcs[i] === 1) {
+      } else if (this.ipcs.getMappedBinPcs()[i] === 1) {
         ctx.lineTo(pointsRegions[i].x, pointsRegions[i].y);
       }
     }
@@ -154,7 +156,7 @@ export class ClockDrawing {
     ctx.restore();
   }
 
-  drawAxeMedian(i:number, revOX:number, revOY:number, ctx: CanvasRenderingContext2D) {
+  drawAxeMedian(i: number, revOX: number, revOY: number, ctx: CanvasRenderingContext2D) {
     let points = this.pointsAxesSym;
     let x1 = points[i * 2].x
     let y1 = points[i * 2].y
@@ -174,7 +176,7 @@ export class ClockDrawing {
     ctx.restore()
   }
 
-  drawAxeInter(i:number, revOX:number, revOY:number, ctx: CanvasRenderingContext2D) {
+  drawAxeInter(i: number, revOX: number, revOY: number, ctx: CanvasRenderingContext2D) {
     let points = this.pointsAxesSym;
     let x1 = points[((i * 2 + 1) + this.n * 2) % (this.n * 2)].x
     let y1 = points[((i * 2 + 1) + this.n * 2) % (this.n * 2)].y
@@ -213,7 +215,7 @@ export class ClockDrawing {
     }
   }
 
-  computePitchesRegion(ox: number, oy:number, radius:number) {
+  computePitchesRegion(ox: number, oy: number, radius: number) {
     if (this.pointsRegions.length < this.n) {
       this.pointsRegions = new Array(this.n)
       this.pointsAxesSym = new Array(this.n * 2)

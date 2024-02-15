@@ -36,7 +36,7 @@
  *
  */
 
-import {Utils} from "../utils/Utils";
+import {StringHash} from "../utils/StringHash";
 import {IPcs} from "./IPcs";
 import {Stabilizer} from "./Stabilizer";
 
@@ -73,7 +73,7 @@ export class MusaicPcsOperation {
   }
 
   _makeHashCode() {
-    return Utils.stringHashCode(this._strRepr)
+    return StringHash.stringHashCode(this._strRepr)
   }
 
   equals(obj: any) {

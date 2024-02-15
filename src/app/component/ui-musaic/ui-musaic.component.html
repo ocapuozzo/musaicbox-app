@@ -1,8 +1,13 @@
 <div>
-  <div #containercanvas class="p-2 text-center">
-    <canvas #canvas id="canvas" class="actionable" style="border:1px solid black;"></canvas>
+  <div #containercanvas class="text-center">
+
+<!--    [ngClass]="ipcs.n == 12 ? 'actionable' : 'no-actionable'"-->
+    <canvas #canvas id="canvas"   style="border:1px solid black;"></canvas>
   </div>
-  <div class="extra content text-center aligned">
+  <div [hidden]="ipcs.n == 12" class="extra content text-center aligned">
+    <p class="font-italic">Mapping {{ipcs.n}} => {{ipcs.nMapping}}</p>
+  </div>
+  <div [hidden]="ipcs.n != 12" class="extra content text-center aligned">
       <img
         (click)="m11Click()"
         #m11
@@ -32,7 +37,7 @@
     />
   </div>
   <div class="extra content text-center aligned">
-      <span (click)="complement()" class="actionable">
+      <span [hidden]="ipcs.n != 12" (click)="complement()" class="actionable">
         <img
           src="./assets/img/cplt.png"
           title="complement"
@@ -43,7 +48,7 @@
       </span>
     <p class="text-center mt-1">
       IS :
-      <span class="analyse-pcs">({{ ipcs.is }})</span>
+      <span class="analyse-pcs">({{ ipcs.is() }})</span>
     </p>
   </div>
   <!-- p>{{pcs}}</p -->

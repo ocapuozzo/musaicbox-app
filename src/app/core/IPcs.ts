@@ -1,10 +1,39 @@
-/*
+/**
  * Copyright (c) 2019. Olivier Capuozzo
  *  This file is part of the musaicbox project
  *
  *  (c) Olivier Capuozzo <olivier.capuozzo@gmail.com>
  *
  *  For the full copyright and license information, please view the README.md file of this project.
+ *
+ *  A Pitch Class (ordered) Set with
+ *    - inner binary implementation and operations, vector in n dimension
+ *    - interface mapped binary representation and operations, vector in n+m dimension (default m=0)
+ *
+ *  Instance of IPcs can be created by a group action (@link GroupAction), in this case, such
+ *  instance is "not detached", i.e his orbit is not empty (and linked to an instance of GroupAction)
+ *  and has a stabilizer, else, by simple instanciation, an instance of IPcs is called "detached" (by default).
+ *
+ *  <pre>
+ *    Example :
+ *    IPcs cm7 = new IPcs({strPcs:'0, 3, 7, 10'});
+ *    cm7 =  new IPcs({strPcs:'{0, 3, 7, 10}'});
+ *    cm7 = new IPcs({strPcs:'[0, 7, 3, 10]', n:12}); // default n=12
+ *
+ *    cm7.getPcsStr() => '[0,3,7,10]'
+ *    cm7.abinPcs => [1,0,0,1,0,0,0,1,0,0,1,0]
+ *    cm7.getMappedBinPcs() => [1,0,0,1,0,0,0,1,0,0,1,0] // by default, automap on himself
+ *
+ *    const pcsDiatMajMapped = new IPcs({
+ *      strPcs: "[0, 2, 4]", // first 3-chord (C E G)
+ *      n: 7,
+ *      nMapping: 12,
+ *      mappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // pcs mapped into [0,4,7]
+ *    })
+ *    expect(pcsDiatMajMapped.getMappedPcsStr()).toEqual('[0,4,7]')
+ *    expect(pcsDiatMajMapped.is()).toEqual([4,3,5]);
+ *  </pre>
+ *
  *
  */
 
@@ -13,6 +42,7 @@ import {Orbit} from "./Orbit";
 import {GroupAction} from "./GroupAction";
 import {Group} from "./Group";
 import {Stabilizer} from "./Stabilizer";
+import {Mapping} from "../utils/Mapping";
 
 const NEXT_MODULATION = 1
 const PREV_MODULATION = 2
@@ -22,51 +52,97 @@ const negativeToPositiveModulo = (i: number, n: number): number => {
 }
 
 /**
- * Function call for create auto mapping on himself
- * Example of call (in constructor).
- *  <pre>
- *   this.templateMappingBinPcs = mapToHimSelf(this.abinPcs)
- *   if this.abinPcs = [1,0,0,1,0,0,0,1,0,0,1,0] // cm7 = [0,3,7,10]
- *   then this.templateMappingBinPcs will be : [0,1,2,3,4,5,6,7,8,9,10,11]
- *  </pre>
- * @param {number[]} binPcs a array bin pcs
- * @return {number[]} result.length == binPcs.length and elements of result are array index of binPcs
- */
-const mapToHimSelf = (binPcs : number[]) : number[] => {
-  return binPcs.map((value, index) => index)
-}
-
-
-/**
- * A Pitch Class Set with binary representation and operations
- *
- * <pre>
- * Example :
- *   IPcs cm7 = new IPcs({strPcs:'0, 3, 7, 10'});
- *       cm7 =  new IPcs({strPcs:'{0, 3, 7, 10}'});
- *       cm7 = new IPcs({strPcs:'[0, 7, 3, 10]', n:12}); // default n=12
- *
- *       cm7.getPcsStr() => '[0,3,7,10]'
- *       cm7.abinPcs => [1,0,0,1,0,0,0,1,0,0,1,0]
- *       cm7.getMappedBinPcs() => [1,0,0,1,0,0,0,1,0,0,1,0] // by default, automap on himself
- *
- * </pre>
- *
+ * @see at top of this file
  * @author Olivier Capuozzo
  */
 export class IPcs {
-  readonly n: number; // dimension of vector (default = 12)
-  iPivot?: number = undefined; // index reference, invariant for all Multiplication operations (Mx)
-  readonly abinPcs: number[]; // inner binary representation of pcs
-  orbit: Orbit; // orbit of this
-  readonly id: number; // id, abinPcs based
-  private _minCyclic ?: IPcs;  // prime forme cyclic of this
-  private _cardModesOrbits ?: number // number of different modes of this
-  readonly is: number[]  // intervallic structure of this
-  readonly templateMappingBinPcs: number[] // mapping of this for external representation
-  readonly nMapping: number = 0 // dimension of binary vector for external representation
-  private readonly _mappedBinPcs: number[] = [] // abinPcs mapped (_mappedBinPcs.length = nMapping)
-  _stabilizer: Stabilizer // stabilizer of this (it is into this orbit)
+  // inner representation
+  /**
+   *  dimension of vector (default = 12)
+   */
+  readonly n: number;
+
+  /**
+   * index reference, invariant for all Multiplication operations (Mx)
+   */
+  iPivot?: number = undefined;
+
+
+  /**
+   * inner binary representation of pcs (this.abinPcs.length == this.n)
+   */
+  readonly abinPcs: number[];
+
+  /**
+   * id, abinPcs based
+   */
+  readonly id: number;
+
+  /**
+   * predetermines prime forme cyclic of this
+   * @private
+   */
+  private _minCyclic ?: IPcs;
+
+  /**
+   * number of different modes of this
+   * @private
+   */
+  private _cardModesOrbits ?: number
+
+  // interface representation
+
+  /**
+   * dimension of binary vector for external representation
+   * this.nMapping == this.n+m, m=0 by default
+   */
+  readonly nMapping: number = 0
+
+  /**
+   * mapping of this, for external/interface representation
+   * this.templateMappingBinPcs.length == this.n
+   */
+  readonly templateMappingBinPcs: number[]
+
+  /**
+   * this is abinPcs mapped
+   * Be careful : _mappedBinPcs.length == n, not nMapping
+   * but element values of _mappedBinPcs are in [0..nMapping[
+   * @private
+   */
+  private readonly _mappedBinPcs: number[] = []
+
+
+  /**
+   * orbit of this (this.orbit.empty by default)
+   * orbit is setting by a group action (@link GroupAction)
+   */
+  orbit: Orbit;
+
+  /**
+   * stabilizer of this (getter/setter)
+   * is set by a group action @link GroupAction
+   * (also - and same - into this orbit)
+   */
+  _stabilizer: Stabilizer
+  set stabilizer(stab) {
+    this._stabilizer = stab
+  }
+  get stabilizer(): Stabilizer {
+    if (this.isDetached()) {
+      throw new Error('A detached PCS has no Stabilizer !')
+    }
+    // already defined by GroupAction constructor, so no need to search in this.orbit
+    // for (let i = 0; i < this.orbit.stabilizers.length; i++) {
+    //   let stab: Stabilizer = this.orbit.stabilizers[i]
+    //   if (stab.fixedPcs.some(pcs => pcs.id == this.id)) {
+    //     return stab
+    //   }
+    // }
+    return this._stabilizer
+    // attached PCS MUST have a Stabilizer !
+  }
+
 
   constructor(
     {pidVal, strPcs, binPcs, n, iPivot, orbit, mappingBinPcs, nMapping}:
@@ -109,22 +185,21 @@ export class IPcs {
     }
     this.n = this.abinPcs.length
     this.orbit = orbit ?? new Orbit()
+
     this.id = IPcs.id(this.abinPcs)
-    this.is = this._is()
 
     // default mapping on himself
-    this.templateMappingBinPcs = mappingBinPcs ?? mapToHimSelf(this.abinPcs)
+    this.templateMappingBinPcs = mappingBinPcs ?? Mapping.getAutoMapping(this.abinPcs)
 
     this.nMapping = nMapping ?? this.n
 
-    // if mapping, create here bin array mapped of this
     // @see method getMappedBinPcs()
-    // if (this.templateMappingBinPcs.length > 0 && this.nMapping > this.n) {
-      this._mappedBinPcs = new Array<number>(this.nMapping).fill(0)
-      for (let i = 0; i < this.templateMappingBinPcs.length; i++) {
-        this._mappedBinPcs[this.templateMappingBinPcs[i]] = this.abinPcs[i];
-      }
-    // }
+    // construct mappedBinPcs
+    this._mappedBinPcs = new Array<number>(this.nMapping).fill(0)
+    for (let i = 0; i < this.templateMappingBinPcs.length; i++) {
+      this._mappedBinPcs[this.templateMappingBinPcs[i]] = this.abinPcs[i];
+    }
+
   }
 
   /**
@@ -246,7 +321,7 @@ export class IPcs {
    *
    * @return IPcs
    */
-  cyclicPrimeForm() {
+  cyclicPrimeForm(): IPcs {
     if (this.cardinal === 0) {
       return this
     }
@@ -383,8 +458,8 @@ export class IPcs {
   }
 
   /**
-   * Transpose of this
-   * @param t
+   * Translation of this, in n
+   * @param t step
    * @returns {IPcs}
    */
   translation(t: number): IPcs {
@@ -392,13 +467,13 @@ export class IPcs {
   }
 
   /**
-   * Modulate of this (change iPivot)
+   * Modulation of this (change iPivot)
    * @param direction which next or previus degree of modulation
    *  Example : { 0, 4, 7 } iPivot=0,  next=> iPivot == 4,  prev=> iPivot == 7
    * @returns {IPcs} a new object
    *
    */
-  modulate(direction: number): IPcs {
+  modulation(direction: number): IPcs {
     let newiPivot = this.iPivot
     let pivot: number = this.iPivot ?? 0
     if (direction === IPcs.NEXT_MODULE) {
@@ -436,7 +511,7 @@ export class IPcs {
   }
 
   /**
-   * TODO mapping !!
+   * Get textuel representation of this in n (notation bracket)
    * string image of PCS from bin array
    * Example : [1,1,0,0,0,0,0,1,0,0,0,0] => "[0, 1, 7]"
    * @returns {string}
@@ -452,6 +527,7 @@ export class IPcs {
   }
 
   /**
+   * Get textuel representation of this in nMapping (notation bracket)
    * string image of PCS from bin array
    * Example : [1,1,0,0,0,0,0,1,0,0,0,0] => "[0, 1, 7]"
    * @returns {string}
@@ -515,8 +591,32 @@ export class IPcs {
    * Example : is("0,3,7") => [3,4,5]
    * Example : is( "1,5,8", iPivot:5) > [3, 5, 4]
    * Example : is( "1,5,8", iPivot:1) > [4, 3, 5]
+   *
+   * This function work on MappedBinPcs, because this is interface of inner abinPcs
    */
-  _is(): number[] {
+  is(): number[] {
+    const res: number[] = []
+    const binPcsMapped = this.getMappedBinPcs()
+    const nMapped = this.nMapping
+    const pivotMapped = this.templateMappingBinPcs[this.iPivot ?? 0]
+
+    for (let i = 0; i < nMapped; i++) {
+      if (binPcsMapped[(i + pivotMapped) % nMapped] === 1) {
+        let j;
+        for (let k = 0; k < nMapped; k++) {
+          j = (k + i + 1) % nMapped
+          if (binPcsMapped[(j + pivotMapped) % nMapped] === 1) {
+            // offset iPivot is not necessary (TODO : say why)
+            res.push((nMapped + j - i) % nMapped)
+            break
+          }
+        }
+      }
+    }
+    return res;
+  }
+
+  __is(): number[] {
     let n = this.n;
     let res: number[] = []
     for (let i = 0; i < n; i++) {
@@ -536,6 +636,7 @@ export class IPcs {
     }
     return res;
   }
+
 
 
   /**
@@ -702,8 +803,11 @@ export class IPcs {
   }
 
   toString() {
-    return JSON.stringify(this.abinPcs) + ", iPivot : "
+
+    return JSON.stringify(this.abinPcs) + " n = " + this.n + ", iPivot : "
       + JSON.stringify(this.iPivot)
+      + ((this.n != this.nMapping) ? '  Mapped on ' + this.nMapping : '')
+
     //	return JSON.stringify(this);
   }
 
@@ -753,7 +857,7 @@ export class IPcs {
   axeSymmetry(ipitch: number, arrResearchA: number[], arrResearchB: number[]): number {
     let iAxe
     let symmetryMedian = 1;
-    let nEven = this.n % 2 === 0;
+    let nEven = this.nMapping % 2 === 0;
     let symmetryIntercalare = nEven ? 10 : 0
     // param arrResearchA & B passed for performance
     // instanced by caller
@@ -761,21 +865,21 @@ export class IPcs {
     arrResearchB.fill(0)
     let right = ipitch; // start research
     let left = ipitch; //
-    let middle = Math.round(this.n / 2) + 1
-    for (iAxe = 0; iAxe < this.n; iAxe++) {
-      if (this.abinPcs[right] === 1)
+    let middle = Math.round(this.nMapping / 2) + 1
+    for (iAxe = 0; iAxe < this.nMapping; iAxe++) {
+      if (this.getMappedBinPcs()[right] === 1)
         arrResearchA[iAxe] = 1; // { in one way }
-      if (this.abinPcs[left] === 1)
+      if (this.getMappedBinPcs()[left] === 1)
         arrResearchB[iAxe] = 1; // { other way }
-      right = (right + 1) % this.n;
-      if (left === 0) left = this.n;
+      right = (right + 1) % this.nMapping;
+      if (left === 0) left = this.nMapping;
       left--;
     }
     // compare
     for (iAxe = 0; iAxe < middle; iAxe++) {
       if (arrResearchA[iAxe] !== arrResearchB[iAxe])
         symmetryMedian = 0;
-      if (nEven && arrResearchB[iAxe] !== arrResearchA[(iAxe + 1) % this.n]) {
+      if (nEven && arrResearchB[iAxe] !== arrResearchA[(iAxe + 1) % this.nMapping]) {
         symmetryIntercalare = 0;
       }
     }
@@ -791,8 +895,8 @@ export class IPcs {
    *     }
    */
   getAxialSymmetries() {
-    let symMedian: number[] = Array(this.n)
-    let symInter: number[] = Array(this.n)
+    let symMedian: number[] = Array(this.nMapping)
+    let symInter: number[] = Array(this.nMapping)
     symMedian.fill(0)
     symInter.fill(0);
 
@@ -800,11 +904,11 @@ export class IPcs {
     const INTERCAL = 10;
     const MEDIAN_INTERCAL = 11;
 
-    let nEven = this.n % 2 === 0;
-    let imax = nEven ? Math.round(this.n / 2) : this.n;
+    let nEven = this.nMapping % 2 === 0;
+    let imax = nEven ? Math.round(this.nMapping / 2) : this.nMapping;
 
-    let tempA: number[] = Array(this.n);
-    let tempB: number[] = Array(this.n);
+    let tempA: number[] = Array(this.nMapping);
+    let tempB: number[] = Array(this.nMapping);
     for (let i = 0; i < imax; i++) {
       let typeAxe = this.axeSymmetry(i, tempA, tempB);
       switch (typeAxe) {
@@ -961,33 +1065,6 @@ export class IPcs {
     return this.orbit.isDetached()
   }
 
-  set stabilizer(stab) {
-    this._stabilizer = stab
-  }
-
-  get stabilizer(): Stabilizer {
-    if (this.isDetached()) {
-      throw new Error('A detached PCS has no Stabilizer !')
-    }
-
-    // Be careful : don't work
-    // @ts-ignore (not all path return value)
-    // this.orbit.stabilizers.forEach((stab) => {
-    //   if (stab.fixedPcs.some(pcs => pcs.id == this.id)) {
-    //     return stab
-    //   }
-    // })
-    //
-    // for (let i = 0; i < this.orbit.stabilizers.length; i++) {
-    //   let stab: Stabilizer = this.orbit.stabilizers[i]
-    //   if (stab.fixedPcs.some(pcs => pcs.id == this.id)) {
-    //     return stab
-    //   }
-    // }
-    //
-    return this._stabilizer
-    // throw new Error('A attached PCS MUST have a Stabilizer ! ' + this.id)
-  }
 
   /**
    * Get correspondance index of a mappedIndex

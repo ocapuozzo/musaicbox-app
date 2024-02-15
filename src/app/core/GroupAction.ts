@@ -14,7 +14,7 @@ import {Group} from "./Group";
 import {Stabilizer} from "./Stabilizer";
 import {MusaicPcsOperation} from "./MusaicPcsOperation";
 import {MotifStabilizer} from "./MotifStabilizer";
-import {Utils} from "../utils/Utils";
+import {StringHash} from "../utils/StringHash";
 import {ISortedOrbits} from "./ISortedOrbits";
 
 export class GroupAction {
@@ -199,7 +199,7 @@ export class GroupAction {
         {
           groupingCriterion: name,
           // to avoid duplicate keys in vue
-          hashcode: Utils.stringHashCode(name) + Date.now(),
+          hashcode: StringHash.stringHashCode(name) + Date.now(),
           orbits: orbitsSortedByStabilizers.get(name) ?? [] //  always set
         }
       resultOrbitsSortedByStabilizers.push(obj)
@@ -233,7 +233,7 @@ export class GroupAction {
   //       {
   //         groupingCriterion: name,
   //         // to avoid duplicate keys in vue
-  //         hashcode: Utils.stringHashCode(name) + Date.now(),
+  //         hashcode: StringHash.stringHashCode(name) + Date.now(),
   //         orbits: orbitsSortedByStabilizers.get(name) ?? [] //  always set
   //       }
   //     resultOrbitsSortedByStabilizers.push(obj)
@@ -265,7 +265,7 @@ export class GroupAction {
         {
           groupingCriterion: motifStab.name,
           // to avoid duplicate keys in vue
-          hashcode: Utils.stringHashCode(motifStab.name) + Date.now(),
+          hashcode: StringHash.stringHashCode(motifStab.name) + Date.now(),
           orbits: orbitsSortedByMotifStabilizer.get(motifStab).sort(Orbit.comparePcsMin)
         }
       resultOrbitsSortedByMotifStabilizer.push(obj)
@@ -350,6 +350,20 @@ export class GroupAction {
       groupsActions.push(new GroupAction({group: Group.predefinedGroups[Group.MUSAIC]}))
 
       GroupAction._predefinedGroupsActions.set(12, groupsActions)
+
+      groupsActions = new Array<GroupAction>()
+      let opM1_T1 = new MusaicPcsOperation(7, 1, 1, false);
+      groupsActions.push(new GroupAction({someMusaicOperations:[opM1_T1]}))
+      let opM6_T1 = new MusaicPcsOperation(7, 6, 1, false);
+      groupsActions.push(new GroupAction({someMusaicOperations:[opM1_T1, opM6_T1]}))
+
+      // 3ième
+      groupsActions.push(new GroupAction({someMusaicOperations:[opM1_T1]}))
+
+      let opM6_T1C = new MusaicPcsOperation(7, 6, 1, true);
+      groupsActions.push(new GroupAction({someMusaicOperations:[opM1_T1, opM6_T1C]}))
+
+      GroupAction._predefinedGroupsActions.set(7, groupsActions)
     }
 
     if (GroupAction._predefinedGroupsActions.get(n) &&

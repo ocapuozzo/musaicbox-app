@@ -16,6 +16,16 @@
           (changePcsEvent)="changePcsFromModuleTranslationControl($event)">
         </app-module-translation-control>
       </div>
+    </div>
+    <div class="row">
+      <div class="col-sm text-left">
+        <div [hidden]="ipcs.n != 12">
+          <button (click)="autoMap()">Map</button>
+        </div>
+        <div [hidden]="ipcs.n == 12">
+          <button (click)="unMap()">UnMap</button>
+        </div>
       </div>
     </div>
   </div>
+</div>

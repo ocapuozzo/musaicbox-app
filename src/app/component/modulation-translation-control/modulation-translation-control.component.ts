@@ -18,7 +18,7 @@ export class ModulationTranslationControlComponent {
     this.changePcsEvent.emit("T" + direction)
   }
 
-  onChangeDegree(direction: string) : void{
+  onChangePivot(direction: string) : void{
     this.changePcsEvent.emit("M" + direction)
   }
 

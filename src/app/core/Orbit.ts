@@ -128,7 +128,7 @@ export class Orbit {
       let res = 0
       this.stabilizers.forEach(stab => res += stab.hashCode())
       this.ipcsset.forEach(pcs => res += pcs.id)
-      this._hashcode = res //Utils.stringHashCode(this.toString())
+      this._hashcode = res //StringHash.stringHashCode(this.toString())
     }
     return this._hashcode
   }

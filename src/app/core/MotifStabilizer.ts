@@ -8,7 +8,7 @@
  *
  */
 
-import {Utils} from "../utils/Utils";
+import {StringHash} from "../utils/StringHash";
 
 export class MotifStabilizer {
 
@@ -26,7 +26,7 @@ export class MotifStabilizer {
   constructor(name : string) {
     this.name = name;
     this.motifStabOperations = this.name.split(",").map(op=> op.trim());
-    this._hashCode = Utils.stringHashCode(this.name)
+    this._hashCode = StringHash.stringHashCode(this.name)
   }
 
   toString() {

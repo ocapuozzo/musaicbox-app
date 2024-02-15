@@ -8,7 +8,7 @@
  *
  */
 
-import {Utils} from "../utils/Utils";
+import {StringHash} from "../utils/StringHash";
 import {MotifStabilizer} from "./MotifStabilizer";
 import {IPcs} from "./IPcs";
 import {MusaicPcsOperation} from "./MusaicPcsOperation";
@@ -84,7 +84,7 @@ export class Stabilizer {
 
   hashCode() {
     if (!this._hashCode) {
-      this._hashCode = Utils.stringHashCode(this.getName())
+      this._hashCode = StringHash.stringHashCode(this.getName())
     }
     return this._hashCode
   }
@@ -195,7 +195,7 @@ export class Stabilizer {
 
   // TODO cache in const COMP_SHORT_NAME map with key is this.hashCode() ?
   static compareShortName(stab1: Stabilizer, stab2: Stabilizer) {
-    return Utils.stringHashCode(stab1.getShortName()) - Utils.stringHashCode(stab2.getShortName())
+    return StringHash.stringHashCode(stab1.getShortName()) - StringHash.stringHashCode(stab2.getShortName())
   }
 
   static compare(stab1: Stabilizer, stab2: Stabilizer) {

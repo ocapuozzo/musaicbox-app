@@ -1,6 +1,6 @@
 
 
-export class Utils {
+export class StringHash {
 
   // https://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript
  static stringHashCode(str: string) : number {

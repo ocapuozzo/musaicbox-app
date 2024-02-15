@@ -28,7 +28,7 @@ export class ManagerHomePcsService {
   }
 
   modulation(direction : number) {
-    this.pcs = this.pcs.modulate(direction)
+    this.pcs = this.pcs.modulation(direction)
     this.updatePcs.emit(this.pcs)
   }
 
@@ -62,4 +62,15 @@ export class ManagerHomePcsService {
   refresh() {
     this.updatePcs.emit(this.pcs)
   }
+
+  autoMap() {
+    this.pcs = this.pcs.autoMap()
+    this.updatePcs.emit(this.pcs)
+  }
+
+  unMap() {
+    this.pcs = this.pcs.unMap()
+    this.updatePcs.emit(this.pcs)
+  }
+
 }

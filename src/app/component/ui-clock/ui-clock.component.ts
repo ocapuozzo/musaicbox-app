@@ -260,4 +260,12 @@ export class UiClockComponent {
     this.drawClock()
     this.changePcs.emit(this.ipcs)
   }
+
+  autoMap() {
+    this.managerHomePcsService.autoMap()
+  }
+
+  unMap() {
+    this.managerHomePcsService.unMap()
+  }
 }

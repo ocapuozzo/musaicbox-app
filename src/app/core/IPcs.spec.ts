@@ -66,6 +66,31 @@ describe('IPcs unit tests', () => {
 
   });
 
+  it("pcsStr", () => {
+    const ipcsDiatMajMapped = new IPcs({
+      strPcs: "[0, 2, 4]", // first 3-chord
+      n: 7,
+      nMapping: 12,
+      mappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // mapped into [0,4,7] {C E G}
+    })
+    expect(ipcsDiatMajMapped.getPcsStr()).toEqual('[0,2,4]')
+    expect(ipcsDiatMajMapped.unMap().getPcsStr()).toEqual('[0,4,7]')
+  })
+
+  it("toString", () => {
+    const pcsDiatMajMapped = new IPcs({
+      strPcs: "[0, 2, 4]", // first 3-chord
+      n: 7,
+      nMapping: 12,
+      mappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // mapped into [0,4,7] {C E G}
+    })
+    expect(pcsDiatMajMapped.toString()).toEqual('[1,0,1,0,1,0,0] n = 7, iPivot : 0  Mapped on 12')
+
+    const pcsDefaultMapping = new IPcs({
+      strPcs: "[0, 4, 7]"
+    })
+    expect(pcsDefaultMapping.toString()).toEqual('[1,0,0,0,1,0,0,1,0,0,0,0] n = 12, iPivot : 0')
+  })
 
   it("IPcs cardinal", () => {
     const ipcs = new IPcs({strPcs: "0,4,7", iPivot: 0})
@@ -100,23 +125,23 @@ describe('IPcs unit tests', () => {
     expect(ipcs.translation(18)).toEqual(ipcs_other);
   });
 
-  it("IPcs modulate NEXT ", () => {
+  it("IPcs modulation NEXT ", () => {
     const ipcs = new IPcs({strPcs: "0,4,11", iPivot: 0})
     let ipcs_other1
     let ipcs_other2 = new IPcs({strPcs: "0,4,11", iPivot: 4})
 
-    expect(ipcs.modulate(IPcs.NEXT_MODULE)).toEqual(ipcs_other2);
+    expect(ipcs.modulation(IPcs.NEXT_MODULE)).toEqual(ipcs_other2);
     ipcs_other1 = new IPcs({strPcs: "0,4,11", iPivot: 11})
-    expect(ipcs_other2.modulate(IPcs.NEXT_MODULE)).toEqual(ipcs_other1);
+    expect(ipcs_other2.modulation(IPcs.NEXT_MODULE)).toEqual(ipcs_other1);
     ipcs_other2 = new IPcs({strPcs: "0,4,11", iPivot: 0})
-    expect(ipcs_other1.modulate(IPcs.NEXT_MODULE)).toEqual(ipcs_other2);
+    expect(ipcs_other1.modulation(IPcs.NEXT_MODULE)).toEqual(ipcs_other2);
   });
 
   it("IPcs cardinal PREVIOUS", () => {
     const ipcs = new IPcs({strPcs: "0,4,11", iPivot: 0})
     const ipcs_other = new IPcs({strPcs: "0,4,11", iPivot: 11})
 
-    expect(ipcs.modulate(IPcs.PREV_MODULE)).toEqual(ipcs_other);
+    expect(ipcs.modulation(IPcs.PREV_MODULE)).toEqual(ipcs_other);
   });
 
   it("IPcs equals ok ", () => {
@@ -412,6 +437,7 @@ describe('IPcs unit tests', () => {
 
     // detached set => full symmetries
     ipcs = new IPcs({strPcs: "", n: 7})
+    console.log(ipcs.getMappedBinPcs())
     symmetries = ipcs.getAxialSymmetries()
     symMedian = [1, 1, 1, 1, 1, 1, 1]
     // n is odd
@@ -424,22 +450,24 @@ describe('IPcs unit tests', () => {
    * @see https://sites.google.com/view/88musaics/88musaicsexplained
    */
   it("IPcs is function n=12", () => {
-    let ipcs = new IPcs({binPcs: [1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0]})
-    expect(ipcs.is).toEqual([3, 4, 5])
+    let ipcs = new IPcs({
+      binPcs: [1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0]
+    })
+    expect(ipcs.is()).toEqual([3, 4, 5])
     ipcs = new IPcs({strPcs: "0,2"})
-    expect(ipcs.is).toEqual([2, 10])
+    expect(ipcs.is()).toEqual([2, 10])
     ipcs = new IPcs({strPcs: "4"})
-    expect(ipcs.is).toEqual([0])
+    expect(ipcs.is()).toEqual([0])
     ipcs = new IPcs({strPcs: ""})
-    expect(ipcs.is).toEqual([])
+    expect(ipcs.is()).toEqual([])
     ipcs = new IPcs({strPcs: "0,1,2,3,4,5,6,7,8,9,10,11"})
-    expect(ipcs.is).toEqual([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
+    expect(ipcs.is()).toEqual([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
 
     ipcs = new IPcs({strPcs: "1,5,8", iPivot: 1}) // 1 ==> iPivot default value here
-    expect(ipcs.is).toEqual([4, 3, 5])
+    expect(ipcs.is()).toEqual([4, 3, 5])
 
     ipcs = new IPcs({strPcs: "1,5,8", iPivot: 5})
-    expect(ipcs.is).toEqual([3, 5, 4])
+    expect(ipcs.is()).toEqual([3, 5, 4])
   })
 
   it("toggleIndexPC", () => {
@@ -604,6 +632,16 @@ describe('IPcs unit tests', () => {
     expect(ipcsDiatMaj.getMappedBinPcs().length).toEqual(12)
   })
 
+  it("Default Mapping", () => {
+    const ipcsDminor = new IPcs({
+      strPcs: "[2, 5, 9]", // D minor
+      n: 12,
+    })
+    expect(ipcsDminor.nMapping).toEqual(ipcsDminor.n)
+    expect(ipcsDminor.nMapping).toEqual(12)
+    expect(ipcsDminor.templateMappingBinPcs).toEqual([0,1,2,3,4,5,6,7,8,9,10,11])
+  })
+
 
   it("unMap a pcs not mapped", () => {
     const ipcsDminor = new IPcs({
@@ -611,18 +649,6 @@ describe('IPcs unit tests', () => {
       n: 12,
     })
     expect(ipcsDminor.unMap()).toEqual(ipcsDminor)
-  })
-
-  it("pcsStr", () => {
-    const ipcsDiatMajMapped = new IPcs({
-      strPcs: "[0, 2, 4]", // first 3-chord
-      n: 7,
-      nMapping: 12,
-      mappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // mapped into [0,4,7] {C E G}
-    })
-    expect(ipcsDiatMajMapped.getPcsStr()).toEqual('[0,2,4]')
-    expect(ipcsDiatMajMapped.unMap().getPcsStr()).toEqual('[0,4,7]')
-
   })
 
 
@@ -692,6 +718,28 @@ describe('IPcs unit tests', () => {
     const cMaj = new IPcs({strPcs: '[0,4,7]', n: 12})
     expect(cMaj.iv()).toEqual([0, 0, 1, 1, 1, 0]);
   });
+
+  it("is Intervallic Structure", () => {
+    const cMaj = new IPcs({strPcs: '[0,4,7]', n: 12})
+    //  a Maj chord is composed by : 4 + 3 + 5 semi-tones
+    expect(cMaj.is()).toEqual([4,3,5]);
+
+    // Sum of elements of IS is n
+    expect(cMaj.is().reduce( (sum, e) => e+sum)).toEqual(cMaj.n)
+
+    const pcsDiatMajMapped = new IPcs({
+      strPcs: "[0, 2, 4]", // first 3-chord {C E G}
+      n: 7,
+      nMapping: 12,
+      mappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // pcs mapped into [0,4,7]
+    })
+    expect(pcsDiatMajMapped.getMappedPcsStr()).toEqual('[0,4,7]')
+    expect(pcsDiatMajMapped.is()).toEqual([4,3,5]);
+
+    // Sum of elements of IS is n
+    expect(pcsDiatMajMapped.is().reduce( (sum, e) => e+sum)).toEqual(pcsDiatMajMapped.nMapping)
+  });
+
 
   it("isDetached", () => {
     const ipcsMaj3Pitches: IPcs = new IPcs({

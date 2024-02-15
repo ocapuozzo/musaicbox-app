@@ -1,11 +1,14 @@
 import {Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {IPcs} from "../../core/IPcs";
 import {ManagerHomePcsService} from "../../service/manager-home-pcs.service";
+import {NgClass} from "@angular/common";
 
 @Component({
   selector: 'app-ui-musaic',
   standalone: true,
-  imports: [],
+  imports: [
+    NgClass
+  ],
   templateUrl: './ui-musaic.component.html',
   styleUrl: './ui-musaic.component.css'
 })
@@ -36,6 +39,9 @@ export class UiMusaicComponent {
     this.canvas.nativeElement.addEventListener('mouseup',
       (event) => this.mouseup(event));
 
+    this.canvas.nativeElement.addEventListener('mousemove',
+      (event) => this.mouseMoveSetCursor(event));
+
     // send by manager-home-pcs.service
     this.managerHomePcsService.updatePcs.subscribe( (pcs: IPcs) => {
       this.ipcs = pcs
@@ -55,7 +61,7 @@ export class UiMusaicComponent {
 
     let w = this.containerCanvas.nativeElement.clientWidth ?? 40
 
-    let n = this.ipcs.getMappedBinPcs().length;
+    let n = this.ipcs.nMapping //getMappedBinPcs().length;
 
     let CEL_WIDTH =  Math.floor(w / (n + 1));
     w = CEL_WIDTH * (n+1)
@@ -74,10 +80,11 @@ export class UiMusaicComponent {
     //   ipcs : ({0, 3, 6, 9}, iPivot=0)
     //   ipcs : ({1, 4, 7, 10}, iPivot=1)
     // are same IS, are same Musaic representation
-    let iPivot = this.ipcs.iPivot ?? 0
+    // let iPivot = this.ipcs.iPivot ?? 0
+    const pivotMapped = this.ipcs.templateMappingBinPcs[this.ipcs.iPivot ?? 0]
     for (let i = 0; i <= n; i++) {
       for (let j = 0; j <= n; j++) {
-        if (this.ipcs.getMappedBinPcs()[(i + iPivot  + j * 5) % n] === 1) {
+        if (this.ipcs.getMappedBinPcs()[(i + pivotMapped  + j * 5) % n] === 1) {
           ctx.fillStyle = "black";
           ctx.fillRect(j * CEL_WIDTH, i * CEL_WIDTH, CEL_WIDTH, CEL_WIDTH);
         //  ctx.strokeRect(j * CEL_WIDTH, i * CEL_WIDTH, CEL_WIDTH, CEL_WIDTH);
@@ -96,8 +103,8 @@ export class UiMusaicComponent {
     this.CEL_WIDTH = CEL_WIDTH;
   }
 
-  mouseup(e: any) {
-    if (this.canvas == undefined) return
+  fromMatrixToIndexVector(e: any) : number {
+
     let rect = this.canvas.nativeElement.getBoundingClientRect();
     let x = e.clientX - rect.left;
     let y = e.clientY - rect.top;
@@ -109,15 +116,27 @@ export class UiMusaicComponent {
     let indexMapping = ((5 * Math.floor(x / this.CEL_WIDTH))
       + (Math.floor(y / this.CEL_WIDTH)) + localPivot) % this.ipcs.getMappedBinPcs().length;
 
+    // // console.log("=============================")
+    // // console.log("indexMapping = " + indexMapping + " local pivot = " + localPivot + this.managerHomePcsService.pcs)
+    // // console.log("mapping = " +this.ipcs.templateMappingBinPcs)
+
     const isInnerIndex = (i: number) => i == indexMapping;
 
-    console.log("=============================")
-    console.log("indexMapping = " + indexMapping + " local pivot = " + localPivot + this.managerHomePcsService.pcs)
-    console.log("mapping = " +this.ipcs.templateMappingBinPcs)
+    return this.ipcs.templateMappingBinPcs.findIndex(isInnerIndex)
+  }
 
-    let index = this.ipcs.templateMappingBinPcs.findIndex(isInnerIndex)
-    console.log("index = " + index)
+  /**
+   * Adapt cursor for select cell compatible with mapping
+   * @param e
+   */
+  mouseMoveSetCursor(e:any) {
+    if (this.canvas == undefined) return
+    let index = this.fromMatrixToIndexVector(e)
+    this.canvas.nativeElement.style.cursor = index >= 0 ? 'pointer' : 'not-allowed'
 
+  }
+  mouseup(e: any) {
+    let index = this.fromMatrixToIndexVector(e)
     // keep iPivot until cardinal = 1
     if (index !== this.ipcs.iPivot || this.ipcs.cardinal===1) {
       this.managerHomePcsService.toggleIndex(index)
@@ -202,7 +221,7 @@ export class UiMusaicComponent {
     // clear css class
     this.clearRotateClasses();
 
-    // The geometric transformation is finished and we have determined
+    // The geometric transformation is finished, and we have determined
     // the algebraic transformation operation (opTransformation) that exactly
     // matches the geometrical transformation.
     //
