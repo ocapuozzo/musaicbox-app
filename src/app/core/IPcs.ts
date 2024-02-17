@@ -668,18 +668,19 @@ export class IPcs {
    * Example : iv("0,3,7") => [0,0,1,1,1,0]
    */
   iv(): number[] {
-    let n = this.abinPcs.length;
+    const nMapped = this.nMapping// getMappedBinPcs().length;
+    const binPcsMapped = this.getMappedBinPcs()
 
-    let res = new Array(Math.ceil(n / 2));
+    let res = new Array(Math.ceil(nMapped / 2));
     // Rem : So res.length is always even, even if n is odd
 
-    let max = n / 2;
+    let max = nMapped / 2;
     let v = 0;
     for (let i = 0; i < max; i++) {
       res[i] = 0;
       v++;
-      for (let j = 0; j < n; j++) {
-        if (this.abinPcs[j] === 1 && this.abinPcs[(j + v) % n] === 1)
+      for (let j = 0; j < nMapped; j++) {
+        if (binPcsMapped[j] === 1 && binPcsMapped[(j + v) % nMapped] === 1)
           res[i] = res[i] + 1;
       }
     }

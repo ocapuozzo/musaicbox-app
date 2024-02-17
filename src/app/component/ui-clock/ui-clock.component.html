@@ -6,7 +6,7 @@
   <div class="container">
     <div class="row">
       <div class="col-sm text-left">
-        <app-music-notation [ipcs]="ipcs">
+        <app-music-notation [ipcs]="ipcs"  style="height: 210px;" >
         </app-music-notation>
       </div>
     </div>
@@ -24,6 +24,9 @@
         </div>
         <div [hidden]="ipcs.n == 12">
           <button (click)="unMap()">UnMap</button>
+        </div>
+        <div>
+          <button (click)="addToList()">Add pcs</button>
         </div>
       </div>
     </div>

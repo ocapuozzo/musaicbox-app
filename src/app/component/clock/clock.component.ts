@@ -11,6 +11,7 @@ import {IPcs} from "../../core/IPcs";
 })
 export class ClockComponent {
   @ViewChild('canvas', { static: false }) canvas: ElementRef<HTMLCanvasElement>;
+  @ViewChild('containercanvas', {static: false}) containerCanvas: ElementRef<HTMLCanvasElement>;
   @Input() ipcs : IPcs = new IPcs({strPcs: "0,3,6,9"})
   private context: CanvasRenderingContext2D;
   private isDrawing: boolean = false;
@@ -25,25 +26,25 @@ export class ClockComponent {
     // @ts-ignore
     this.context = this.canvas.nativeElement.getContext('2d');
 
-    let len = this.size ? this.size : Math.min(this.context.canvas.clientWidth, this.context.canvas.clientHeight)
-    this.clockDrawing = new ClockDrawing( {
+    let len = Math.min(this.containerCanvas.nativeElement.clientWidth, this.containerCanvas.nativeElement.clientHeight)
+
+    this.canvas.nativeElement.width = len
+    this.canvas.nativeElement.height = len // square
+
+    this.clockDrawing = new ClockDrawing({
       ipcs: this.ipcs,
       ctx: this.context,
       width: len,
-      height: len + (0), // square
-      pc_color : "yellow",
-      segmentsLineDash : [ [1, 2, 2, 1], [2, 3] ] // median, inter
+      height: len, // square
+      pc_color_fill: "yellow",
+      segmentsLineDash: [[1, 2, 2, 1], [2, 3]] // median, inter
     })
-
     this.setupEvents();
     this.draw();
   }
 
+
   private setupEvents(): void {
-    // this.canvas.nativeElement.addEventListener('mousedown', (event) => this.startDrawing(event));
-    // this.canvas.nativeElement.addEventListener('mousemove', (event) => this.draw(event));
-    // this.canvas.nativeElement.addEventListener('mouseup', () => this.stopDrawing());
-    // this.canvas.nativeElement.addEventListener('mouseleave', () => this.stopDrawing());
   }
 
   private startDrawing(event: MouseEvent) {
@@ -51,18 +52,23 @@ export class ClockComponent {
     this.draw(); // To start drawing immediately from the initial point
   }
 
+  checkClockDrawing() {
+    if (!this.clockDrawing) {
+      let len = Math.min(this.containerCanvas.nativeElement.clientWidth, this.containerCanvas.nativeElement.clientHeight)
+      this.clockDrawing = new ClockDrawing(
+        {
+          ipcs: this.ipcs,
+          ctx: this.context,
+          width: len,
+          height: len,
+          pc_color_fill: "yellow",
+          segmentsLineDash: [[1, 2, 2, 1], [2, 3]] // median, inter
+        })
+    }
+  }
   private draw(): void {
-    let len = this.size ? this.size : Math.min(this.context.canvas.clientWidth, this.context.canvas.clientHeight)
-    //  console.log("len draw: " + len)
-
-    this.clockDrawing.width = len
-    this.clockDrawing.height = len
-    // this.$refs['canvas'].width = len
-    // this.$refs['canvas'].height = len
-    this.canvas.nativeElement.width = len
-    this.canvas.nativeElement.height = len
+    this.checkClockDrawing()
     this.clockDrawing.draw()
-
   }
 
   private stopDrawing() {

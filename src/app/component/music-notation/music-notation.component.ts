@@ -1,6 +1,7 @@
-import {Component, EventEmitter, Input} from '@angular/core';
+import {Component, ElementRef, Input, ViewChild} from '@angular/core';
 import {IPcs} from "../../core/IPcs";
 import * as abcjs from "abcjs";
+import {StringHash} from "../../utils/StringHash";
 
 @Component({
   selector: 'app-music-notation',
@@ -10,8 +11,11 @@ import * as abcjs from "abcjs";
   styleUrl: './music-notation.component.css'
 })
 export class MusicNotationComponent {
+  @ViewChild('containercanvas', {static: false}) containerCanvas: ElementRef<HTMLCanvasElement>;
   static lettersNotation: string[] = ['C', '^C', 'D', '^D', 'E', 'F', '^F', 'G', '^G', 'A', '^A', 'B'];
   private _ipcs : IPcs
+
+  randomId : string=""
 
   @Input() set ipcs(value : IPcs) {
     this._ipcs = value
@@ -21,10 +25,34 @@ export class MusicNotationComponent {
     return this._ipcs
   }
 
+
+constructor() {
+    this.randomId = StringHash.guidGenerator()
+}
+
   ngAfterViewInit() {
     this.refresh();
   }
 
+  refresh() {
+    // console.log("this.tune :" + this.tune)
+    // https://configurator.abcjs.net/visual/
+    if (! this.containerCanvas) return
+
+    let len = this.containerCanvas.nativeElement.clientWidth
+
+    abcjs.renderAbc(
+      "paper-" + this.randomId,
+      this.tune,
+      {
+        //scale: .9,
+        staffwidth: len,
+        paddingleft: 0,
+        responsive: "resize"
+      });
+  }
+
+  // TODO make pivot low pitch
   get tune(): string {
     if (!this.ipcs) return "";
 
@@ -45,30 +73,20 @@ export class MusicNotationComponent {
             note = "_" + MusicNotationComponent.lettersNotation[(i + 1) % n]
           }
         }
-        // make notes always up
+
+        // TODO make pitches always up iPivot pitch
         // http://abcnotation.com/blog/2010/01/31/how-to-understand-abc-the-basics/
         if ((i % n) < (this.ipcs.iPivot ?? 0)) {
           note += "'"
         }
-        notes = notes + note + " ";
+        notes = notes + note;
         chord = chord + note;
       }
     }
-    chord = ""; // (this.ipcs.cardinal() < 5) ? chord + ' ]  \n' : ''
-    return suffix + notes + chord; //'C4 ^E4 G4 [C4E4G4]\n';
-  }
+    chord = '' //(this.ipcs.cardinal < 5) ? chord + ' ]  \n' : '' // experimental
+    notes = chord ? notes+'|' : notes
 
-  refresh() {
-    // console.log("this.tune :" + this.tune)
-    // https://configurator.abcjs.net/visual/
-    abcjs.renderAbc(
-      "paper",
-      this.tune,
-      {
-        scale: .9,
-        staffwidth: 210,
-        paddingleft: 1,
-      });
+    return suffix + notes + chord; //'C4 ^E4 G4 [C4E4G4]\n';
   }
 
 }

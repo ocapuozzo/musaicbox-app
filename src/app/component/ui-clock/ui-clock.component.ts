@@ -6,6 +6,7 @@ import {
   ModulationTranslationControlComponent
 } from "../modulation-translation-control/modulation-translation-control.component";
 import {ManagerHomePcsService} from "../../service/manager-home-pcs.service";
+import {ManagerHomePcsListService} from "../../service/manager-home-pcs-list.service";
 
 @Component({
   selector: 'app-ui-clock',
@@ -40,13 +41,15 @@ export class UiClockComponent {
     return this._ipcs
   }
 
-  constructor(private managerHomePcsService: ManagerHomePcsService) {
+  constructor(
+     private managerHomePcsService: ManagerHomePcsService,
+     private managerHomePcsListService: ManagerHomePcsListService)
+  {
     this.managerHomePcsService.updatePcs.subscribe((pcs: IPcs) => {
       this.ipcs = pcs
     })
     this.ipcs = this.managerHomePcsService.pcs
   }
-
 
   ngAfterViewInit() {
     // @ts-ignore
@@ -62,7 +65,7 @@ export class UiClockComponent {
       ctx: this.context,
       width: len,
       height: len, // square
-      pc_color: "yellow",
+      pc_color_fill: "yellow",
       segmentsLineDash: [[1, 2, 2, 1], [2, 3]] // median, inter
     })
 
@@ -183,7 +186,7 @@ export class UiClockComponent {
           ctx: this.context,
           width: len,
           height: len,
-          pc_color: "yellow",
+          pc_color_fill: "yellow",
           segmentsLineDash: [[1, 2, 2, 1], [2, 3]] // median, inter
         })
     }
@@ -280,5 +283,9 @@ export class UiClockComponent {
 
   unMap() {
     this.managerHomePcsService.unMap()
+  }
+
+  addToList() {
+    this.managerHomePcsListService.addPcs(this.ipcs)
   }
 }

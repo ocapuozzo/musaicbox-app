@@ -1,0 +1,20 @@
+<div class="row row-cols-1 row-cols-md-6 g-4">
+
+  @for (pcs of pcsList; track pcs.id; let index= $index) {
+    <div class="col">
+      <div class="card text-center" style="width: 180px;">
+        <app-clock [ipcs]="pcs"></app-clock>
+        <div class="card-body">
+          <h6 class="card-title">{{ pcs.getMappedPcsStr() }}</h6>
+          <!--        <a href="#" class="btn btn-primary">Go somewhere</a>-->
+          <a href="#" (click)="doRemoveFromList(pcs)" class="btn btn-primary">x</a>
+          <app-music-notation [hidden]="! withMusicalNotation" [ipcs]="pcsList[index]"></app-music-notation>
+        </div>
+      </div>
+    </div>
+  } @empty {
+    <p>No PCS</p>
+  }
+</div>
+
+

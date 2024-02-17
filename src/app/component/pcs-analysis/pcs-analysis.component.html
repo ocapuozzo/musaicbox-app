@@ -1,153 +1,99 @@
- <div class="container" style="height:70%">
-    <div class="row">
-      <div class="col-sm text-left">
-        <p>
-         n :
-         <span class="analyse-pcs">{{ pcs.n }}</span>
-       </p>
-        <p>
-          PCS :
-          <span class="analyse-pcs"> {{ pcs.getPcsStr() }}<sub> {{ pcs.iPivot }} </sub></span> &nbsp;
-          Card :
-          <span class="analyse-pcs">#{{ pcs.cardinal }}</span>
-        </p>
-        <p>
-          Interval Vector :
-          <span class="analyse-pcs">{{ pcs.iv() }}</span>
-        </p>
-        <p>
-          Intervallic Structure :
-          <span class="analyse-pcs">{{ pcs.is() }}</span>
-        </p>
-        <p>
-          Forte :
-          <span class="analyse-pcs">{{ pcs.forteNum() }}</span>
-        </p>
-        <fieldset class="representation-border">
-          <legend class="representation-border">Fecundity</legend>
-          <p>
-            #Modes :
-            <span class="analyse-pcs">{{ pcs.cardOrbitMode() }}</span>
-          </p>
-          <p>
-            #OrbitCyclic :
-            <span class="analyse-pcs">{{ pcs.cardOrbitCyclic() }}</span>
-          </p>
-          <p>
-            #OrbitDihedral :
-            <span class="analyse-pcs">{{ pcs.dihedralPrimeForm().cardinal }}</span>
-          </p>
-          <p>
-            #OrbitAffine :
-            <span class="analyse-pcs">{{ pcs.affinePrimeForm().cardinal }}</span>
-          </p>
-          <p>
-            #OrbitMusaic :
-            <span class="analyse-pcs">{{ pcs.musaicPrimeForm().cardinal }}</span>
-          </p>
-        </fieldset>
-        <fieldset class="representation-border">
-          <legend class="representation-border">Prime Form</legend>
-          <p>
-            Modal :
-            <span class="analyse-pcs"> {{ pcs.modalPrimeForm().getPcsStr() }} <sub> {{ pcs.modalPrimeForm().iPivot }} </sub></span>
-          </p>
-          <p>
-            Cyclic :
-            <span class="analyse-pcs">{{ pcs.cyclicPrimeForm().getPcsStr() }}</span>
-          </p>
-          <p>
-            Dihedral :
-            <span class="analyse-pcs">{{ pcs.dihedralPrimeForm().getPcsStr() }}</span>
-          </p>
-          <p>
-            Affine :
-            <span class="analyse-pcs">{{ pcs.affinePrimeForm().getPcsStr() }}</span>
-          </p>
-          <p>
-            Musaic :
-            <span class="analyse-pcs">{{ pcs.musaicPrimeForm().getPcsStr() }}</span>
-          </p>
-        </fieldset>
-      </div>
-      <div class="col-sm text-left">
+<div class="container" style="height:70%">
+  <div class="row">
+    <div [hidden]="pcs.n == 12">
       <p>
         n :
         <span class="analyse-pcs">{{ pcs.n }}</span>
       </p>
-      <p>
+      <p [hidden]="pcs.n == 12">
         PCS :
         <span class="analyse-pcs"> {{ pcs.getPcsStr() }}<sub> {{ pcs.iPivot }} </sub></span> &nbsp;
         Card :
         <span class="analyse-pcs">#{{ pcs.cardinal }}</span>
+        PowerSet cardinal :
+        <span class="analyse-pcs">#{{ pcs.cyclicPrimeForm().orbit!.groupAction!.powerset.size }}</span>
       </p>
-      <p>
-        Interval Vector :
-        <span class="analyse-pcs">{{ pcs.iv() }}</span>
-      </p>
-      <p>
-        Intervallic Structure :
-        <span class="analyse-pcs">{{ pcs.is() }}</span>
-      </p>
-      <p>
-        Forte :
-        <span class="analyse-pcs">{{ pcs.forteNum() }}</span>
-      </p>
-      <fieldset class="representation-border">
-        <legend class="representation-border">Fecundity</legend>
-        <p>
-          #Modes :
-          <span class="analyse-pcs">{{ pcs.cardOrbitMode() }}</span>
-        </p>
-        <p>
-          #OrbitCyclic :
-          <span class="analyse-pcs">{{ pcs.cardOrbitCyclic() }}</span>
-        </p>
-        <p>
-          #OrbitDihedral :
-          <span class="analyse-pcs">{{ pcs.dihedralPrimeForm().cardinal }}</span>
-        </p>
-        <p>
-          #OrbitAffine :
-          <span class="analyse-pcs">{{ pcs.affinePrimeForm().cardinal }}</span>
-        </p>
-        <p>
-          #OrbitMusaic :
-          <span class="analyse-pcs">{{ pcs.musaicPrimeForm().cardinal }}</span>
-        </p>
-      </fieldset>
-      <fieldset class="representation-border">
-        <legend class="representation-border">Prime Form</legend>
-        <p>
-          Modal :
-          <span class="analyse-pcs"> {{ pcs.modalPrimeForm().getPcsStr() }} <sub> {{ pcs.modalPrimeForm().iPivot }} </sub></span>
-        </p>
-        <p>
-          Cyclic :
-          <span class="analyse-pcs">{{ pcs.cyclicPrimeForm().getPcsStr() }}</span>
-        </p>
-        <p>
-          Dihedral :
-          <span class="analyse-pcs">{{ pcs.dihedralPrimeForm().getPcsStr() }}</span>
-        </p>
-        <p>
-          Affine :
-          <span class="analyse-pcs">{{ pcs.affinePrimeForm().getPcsStr() }}</span>
-        </p>
-        <p>
-          Musaic :
-          <span class="analyse-pcs">{{ pcs.musaicPrimeForm().getPcsStr() }}</span>
-        </p>
-      </fieldset>
-    </div>
-
-
-    </div>
-    <div class="p-3">
-      <p>
-        (debug) iPCS :
-        <span class="analyse-pcs">{{ pcs.toString() }}</span> ~
-        <span class="id-pcs">id : {{ pcs.id }}</span> ~ <span class="id-pcs">pid : {{ pcs.pid() }}</span>
-      </p>
+      <hr>
     </div>
   </div>
+  <div class="col-sm text-left">
+    <p>
+      n :
+      <span class="analyse-pcs">{{ pcsMapped12.n }}</span>
+    </p>
+    <p>
+      PCS :
+      <span class="analyse-pcs"> {{ pcsMapped12.getPcsStr() }}<sub> {{ pcsMapped12.iPivot }} </sub></span> &nbsp;
+      Card :
+      <span class="analyse-pcs">#{{ pcsMapped12.cardinal }}</span>
+      PowerSet cardinal :
+      <span class="analyse-pcs">#{{ pcsMapped12.cyclicPrimeForm().orbit!.groupAction!.powerset.size }}</span>
+    </p>
+    <p>
+      Interval Vector :
+      <span class="analyse-pcs">{{ pcsMapped12.iv() }}</span>
+    </p>
+    <p>
+      Intervallic Structure :
+      <span class="analyse-pcs">{{ pcsMapped12.is() }}</span>
+    </p>
+    <p>
+      Forte :
+      <span class="analyse-pcs">{{ pcsMapped12.forteNum() }}</span>
+    </p>
+    <fieldset class="representation-border">
+      <legend class="representation-border">Fecundity</legend>
+      <p>
+        #Modes :
+        <span class="analyse-pcs">{{ pcsMapped12.cardOrbitMode() }}</span>
+      </p>
+      <p>
+        #OrbitCyclic :
+        <span class="analyse-pcs">{{ pcsMapped12.cardOrbitCyclic() }}</span>
+      </p>
+      <p>
+        #OrbitDihedral :
+        <span class="analyse-pcs">{{ pcsMapped12.dihedralPrimeForm().cardinal }}</span>
+      </p>
+      <p>
+        #OrbitAffine :
+        <span class="analyse-pcs">{{ pcsMapped12.affinePrimeForm().cardinal }}</span>
+      </p>
+      <p>
+        #OrbitMusaic :
+        <span class="analyse-pcs">{{ pcsMapped12.musaicPrimeForm().cardinal }}</span>
+      </p>
+    </fieldset>
+    <fieldset class="representation-border">
+      <legend class="representation-border">Prime Form</legend>
+      <p>
+        Modal :
+        <span class="analyse-pcs"> {{ pcsMapped12.modalPrimeForm().getPcsStr() }}
+          <sub> {{ pcsMapped12.modalPrimeForm().iPivot }} </sub></span>
+      </p>
+      <p>
+        Cyclic :
+        <span class="analyse-pcs">{{ pcsMapped12.cyclicPrimeForm().getPcsStr() }}</span>
+      </p>
+      <p>
+        Dihedral :
+        <span class="analyse-pcs">{{ pcsMapped12.dihedralPrimeForm().getPcsStr() }}</span>
+      </p>
+      <p>
+        Affine :
+        <span class="analyse-pcs">{{ pcsMapped12.affinePrimeForm().getPcsStr() }}</span>
+      </p>
+      <p>
+        Musaic :
+        <span class="analyse-pcs">{{ pcsMapped12.musaicPrimeForm().getPcsStr() }}</span>
+      </p>
+    </fieldset>
+  </div>
+  <div class="p-3">
+    <p>
+      (debug) iPCS :
+      <span class="analyse-pcs">{{ pcs.toString() }}</span> ~
+      <span class="id-pcs">id : {{ pcs.id }}</span> ~ <span class="id-pcs">pid : {{ pcs.pid() }}</span>
+    </p>
+  </div>
+</div>

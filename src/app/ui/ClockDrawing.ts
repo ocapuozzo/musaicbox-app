@@ -21,7 +21,8 @@ export class ClockDrawing {
   width = 20;
   height = 20;
   pc_pivot_color = "red";
-  pc_color = "yellow";
+  pc_color_fill = "yellow";
+  pc_color_stroke = "black";
   segmentsLineDash: number[][] = [[1, 3], [1, 3, 3, 1]] // median, inter
   n: number // vector dimension
   pointsRegions: Rect[]
@@ -34,7 +35,8 @@ export class ClockDrawing {
       width?: number,
       height?: number,
       pc_pivot_color?: string,
-      pc_color?: string,
+      pc_color_fill?: string,
+      pc_color_stroke?: string,
       segmentsLineDash?: number[][]
     } = {}) {
     if (!x.ctx)
@@ -49,7 +51,8 @@ export class ClockDrawing {
     this.width = x.width ?? 20
     this.height = x.height ?? 20
     this.pc_pivot_color = x.pc_pivot_color ?? "red"
-    this.pc_color = x.pc_color ?? "yellow"
+    this.pc_color_fill = x.pc_color_fill ?? "yellow"
+    this.pc_color_stroke = x.pc_color_stroke ?? 'black'
     this.n = this.ipcs.nMapping
     this.pointsRegions = []
     this.pointsAxesSym = []
@@ -88,6 +91,7 @@ export class ClockDrawing {
     let grad;
     ctx.save()
     ctx.beginPath();
+
     ctx.arc(0, 0, radius, 0, 2 * Math.PI);
     ctx.stroke()
     // console.log("index : " + index + " selected : " + this.isSelected(index));
@@ -95,8 +99,8 @@ export class ClockDrawing {
       (this.isSelected(index))
         ? (index === this.ipcs.templateMappingBinPcs[this.ipcs.iPivot ?? 0])
           ? this.pc_pivot_color
-          : this.pc_color
-        : 'white';
+          : this.pc_color_fill
+        : this.ipcs.templateMappingBinPcs.includes(index) ? 'white' : 'lightgray' ;
     ctx.fill();
     if (radius > 6) {
       grad = ctx.createRadialGradient(0, 0, radius * 0.8, 0, 0, radius * 1.2);
@@ -124,6 +128,7 @@ export class ClockDrawing {
     ctx.textBaseline = "middle";
     ctx.textAlign = "center";
     let radiusPitch = Math.round(radius / 9);
+    ctx.strokeStyle = this.pc_color_stroke
     for (let index = 0; index < this.n; index++) {
       ang = index * Math.PI / (this.n / 2);
       // console.log(this.$options.points[index].toString());
@@ -141,7 +146,7 @@ export class ClockDrawing {
     let pointsRegions = this.pointsRegions;
     let firstPoint = true;
     ctx.save();
-    ctx.fillStyle = 'black';
+    ctx.fillStyle = this.pc_color_stroke // 'black'
     ctx.beginPath();
     for (let i = 0; i < this.n; i++) {
       if (this.ipcs.getMappedBinPcs()[i] === 1 && firstPoint) {

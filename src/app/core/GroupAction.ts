@@ -39,7 +39,7 @@ export class GroupAction {
       this.group = group
       this.n = group.operations[0].n
     } else {
-      this.n = n ?? 12;
+      this.n = n ?? (someMusaicOperations ? someMusaicOperations[0].n : 12);
       this.group = new Group(someMusaicOperations ?? [new MusaicPcsOperation(this.n, 1, 0)]);
     }
     // this.group = new Group(someMusaicOperations ?? []);
@@ -337,14 +337,21 @@ export class GroupAction {
     if (!GroupAction._predefinedGroupsActions) {
       GroupAction.createPredefinedGroupAction()
     }
+    // if not exist, create only Cyclic group action
+    if ( ! GroupAction._predefinedGroupsActions.has(n)) {
+      const opM1T1 = new MusaicPcsOperation(n, 1,1, false)
+      const groupAction = new GroupAction({someMusaicOperations: [opM1T1]})
+      GroupAction._predefinedGroupsActions.set(n, [groupAction])
+    }
 
     // TODO create if not existe with Cyclic ...
-    if (GroupAction._predefinedGroupsActions.get(n) &&
-      GroupAction._predefinedGroupsActions.get(n)![index]
+    if (GroupAction._predefinedGroupsActions.has(n) &&
+      GroupAction._predefinedGroupsActions.get(n)![index] != undefined
     ) {
       return GroupAction._predefinedGroupsActions.get(n)![index]
     }
-    throw new Error('No predefined group action for n=' + n + 'and index=' + index + ' !')
+    return GroupAction._predefinedGroupsActions.get(n)![0]
+    // throw new Error('No predefined group action for n=' + n + 'and index=' + index + ' !')
   }
 
   get cardinal() {
