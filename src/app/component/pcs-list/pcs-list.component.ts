@@ -3,7 +3,6 @@ import {IPcs} from "../../core/IPcs";
 import {ClockComponent} from "../clock/clock.component";
 import {ManagerHomePcsListService} from "../../service/manager-home-pcs-list.service";
 import {MusicNotationComponent} from "../music-notation/music-notation.component";
-import {ILabeledListPcs} from "../../service/ILabeledListPcs";
 
 @Component({
   selector: 'app-pcs-list',

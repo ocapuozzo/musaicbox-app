@@ -1,19 +1,22 @@
 <div class="d-flex flex-wrap">
   @for (title of labeledListPcs.keys(); track labeledListPcs) {
     @if (title == '') {
-        <!--  each pcs into col separate  -->
-        @for (pcs of labeledListPcs.get(title); track pcs.id; let index = $index) {
-          <div class="card text-center m-2 shadow rounded" style="width: 180px;">
-            <app-clock [ipcs]="pcs"></app-clock>
-            <div class="card-body">
-              <h6 class="card-title">{{ pcs.getMappedPcsStr() }}</h6>
-              <i (click)="doRemoveFromList(pcs)" class="bi bi-trash" style="cursor: pointer"></i>
-              <app-music-notation [hidden]="! withMusicalNotation"
-                                  [ipcs]="pcs">
-              </app-music-notation>
-            </div>
+      <!--  each pcs into col separate  -->
+      @for (pcs of labeledListPcs.get(title); track pcs.id; let index = $index) {
+        <div class="card text-center m-2 shadow rounded" style="width: 180px;">
+          <app-clock [ipcs]="pcs"></app-clock>
+          <div class="card-body">
+            <p class="text-center mt-1">
+              <span>{{ pcs.chordName }}</span>
+            </p>
+            <h6 class="card-title">{{ pcs.getMappedPcsStr() }}</h6>
+            <i (click)="doRemoveFromList(pcs)" class="bi bi-trash" style="cursor: pointer"></i>
+            <app-music-notation [hidden]="! withMusicalNotation"
+                                [ipcs]="pcs">
+            </app-music-notation>
           </div>
-        }
+        </div>
+      }
     } @else {
       <!--  put list pcs into one col div-->
       <div class="text-center m-2 shadow rounded" style="width: 200px;">
@@ -24,7 +27,7 @@
             <div class="card-body">
               <h6 class="card-title">{{ pcs.getMappedPcsStr() }}</h6>
               <p class="text-center mt-1">
-                <span>{{pcs.chordName}}</span>
+                <span>{{ pcs.chordName }}</span>
               </p>
               <i (click)="doRemoveFromList(pcs)" class="bi bi-trash" style="cursor: pointer"></i>
               <app-music-notation [hidden]="! withMusicalNotation"
@@ -39,5 +42,3 @@
     <p>No PCS</p>
   }
 </div>
-
-

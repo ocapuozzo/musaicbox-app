@@ -7,6 +7,7 @@ import {
 } from "../modulation-translation-control/modulation-translation-control.component";
 import {ManagerHomePcsService} from "../../service/manager-home-pcs.service";
 import {ManagerHomePcsListService} from "../../service/manager-home-pcs-list.service";
+import {Analyse} from "../../utils/Analyse";
 
 @Component({
   selector: 'app-ui-clock',
@@ -287,5 +288,14 @@ export class UiClockComponent {
 
   addToList() {
     this.managerHomePcsListService.addPcs('', this.ipcs)
+  }
+
+  thirdChordList() {
+    const list3Chords = Analyse.getList3Chords(this.ipcs)
+    for (const list3Chord of list3Chords) {
+      for (let i = 0; i < list3Chord[1].length ; i++) {
+        this.managerHomePcsListService.addPcs(list3Chord[0], list3Chord[1][i])
+      }
+    }
   }
 }

@@ -19,15 +19,18 @@
     </div>
     <div class="row">
       <div class="col-sm text-left">
-        <div [hidden]="ipcs.n != 12">
+        <span [hidden]="ipcs.n != 12" class="m-1">
           <button (click)="autoMap()">Map</button>
-        </div>
-        <div [hidden]="ipcs.n == 12">
+        </span>
+        <span [hidden]="ipcs.n == 12" class="m-1">
           <button (click)="unMap()">UnMap</button>
-        </div>
-        <div>
+        </span>
+        <span class="m-1">
           <button (click)="addToList()">Add pcs</button>
-        </div>
+        </span>
+        <span class="m-1">
+          <button (click)="thirdChordList()">3-chords</button>
+        </span>
       </div>
     </div>
   </div>

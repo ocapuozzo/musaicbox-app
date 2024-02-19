@@ -1,6 +1,5 @@
 import {EventEmitter, Injectable, Output} from '@angular/core';
 import {IPcs} from "../core/IPcs";
-import {ILabeledListPcs} from "./ILabeledListPcs";
 
 @Injectable({
   providedIn: 'root'

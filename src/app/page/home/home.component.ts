@@ -2,13 +2,11 @@ import { Component } from '@angular/core';
 
 import {UiClockComponent} from "../../component/ui-clock/ui-clock.component";
 import {UiMusaicComponent} from "../../component/ui-musaic/ui-musaic.component";
-import {update} from "@angular-devkit/build-angular/src/tools/esbuild/angular/compilation/parallel-worker";
 import {IPcs} from "../../core/IPcs";
 import {ManagerHomePcsService} from "../../service/manager-home-pcs.service";
 import {PcsAnalysisComponent} from "../../component/pcs-analysis/pcs-analysis.component";
 import {PcsListComponent} from "../../component/pcs-list/pcs-list.component";
 import {ManagerHomePcsListService} from "../../service/manager-home-pcs-list.service";
-import {ILabeledListPcs} from "../../service/ILabeledListPcs";
 
 @Component({
   selector: 'app-home',
