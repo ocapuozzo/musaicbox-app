@@ -286,6 +286,6 @@ export class UiClockComponent {
   }
 
   addToList() {
-    this.managerHomePcsListService.addPcs(this.ipcs)
+    this.managerHomePcsListService.addPcs('', this.ipcs)
   }
 }

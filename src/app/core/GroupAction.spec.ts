@@ -346,9 +346,8 @@ describe('GroupAction', () => {
     expect(cyclicGroup).toBeTruthy()
     try {
       const badGroup = GroupAction.predefinedGroupsActions(10, Group.CYCLIC);
-      fail("Impossible operation !!")
     } catch (e: any) {
-      expect(e.message).toContain('No predefined group action for n=10')
+      fail("Cyclic group not construct !")
     }
   });
 

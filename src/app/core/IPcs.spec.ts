@@ -437,7 +437,7 @@ describe('IPcs unit tests', () => {
 
     // detached set => full symmetries
     ipcs = new IPcs({strPcs: "", n: 7})
-    console.log(ipcs.getMappedBinPcs())
+
     symmetries = ipcs.getAxialSymmetries()
     symMedian = [1, 1, 1, 1, 1, 1, 1]
     // n is odd
@@ -608,7 +608,6 @@ describe('IPcs unit tests', () => {
 
   })
 
-
   it("unMap 7 diat maj => 12", () => {
     const ipcsDiatMajMapped = new IPcs({
       strPcs: "[0, 2, 4]", // first 3-chord
@@ -770,5 +769,25 @@ describe('IPcs unit tests', () => {
     }
   })
 
+
+  it("chordName mapped diat maj => 12", () => {
+    const ipcsDiatMajMapped = new IPcs({
+      strPcs: "[0, 2, 4]", // first 3-chord
+      n: 7,
+      nMapping: 12,
+      mappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // mapped in {C E G}
+    })
+
+    // console.log(ipcsDiatMajMapped.getMappedPcsStr())
+    expect(ipcsDiatMajMapped.chordName).toEqual('Major triad')
+
+    let pcs = new IPcs({strPcs:'{0,3,7}'})
+   // console.log(pcs.cyclicPrimeForm().getMappedPcsStr())
+    expect(pcs.chordName).toEqual('Minor triad')
+
+    pcs = new IPcs({strPcs:'[11,2,5]' /*, iPivot:11*/})
+    expect(pcs.chordName).toEqual('Diminished triad')
+
+  })
 
 })

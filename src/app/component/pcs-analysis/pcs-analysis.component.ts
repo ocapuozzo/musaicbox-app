@@ -11,14 +11,12 @@ import {IPcs} from "../../core/IPcs";
 
 export class PcsAnalysisComponent {
 
-  // @Input() pcs: IPcs = new IPcs({strPcs:'[0,1,3,6,7,8]'})
-
-  private _pcs : IPcs
+  private _pcs : IPcs = new IPcs({strPcs:'0'})
 
   /**
    * image mapped in 12 of _pcs
    */
-  pcsMapped12 : IPcs
+  pcsMapped12 : IPcs = new IPcs({strPcs:'4,2'})
 
   @Input() set pcs(value : IPcs) {
     this._pcs = value

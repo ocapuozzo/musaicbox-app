@@ -43,6 +43,7 @@ import {GroupAction} from "./GroupAction";
 import {Group} from "./Group";
 import {Stabilizer} from "./Stabilizer";
 import {Mapping} from "../utils/Mapping";
+import {ChordName} from "./ChordName";
 
 const NEXT_MODULATION = 1
 const PREV_MODULATION = 2
@@ -160,6 +161,11 @@ export class IPcs {
       this.abinPcs = IPcs.intToBinArray(pidVal, n ?? 12)
     } else if (strPcs !== undefined) {
       this.abinPcs = this._fromStringTobinArray(strPcs, n)
+      if (! iPivot) {
+        this.iPivot = IPcs.defaultPivotFromStrBin(strPcs)
+        // set param iPivot
+        iPivot = this.iPivot
+      }
     } else if (Array.isArray(binPcs)) {
       // assume pcs bin vector [1,0,1, ... ]
       this.abinPcs = binPcs.slice()
@@ -217,9 +223,11 @@ export class IPcs {
 
     //  if "[1,3,5]" => "1,3,5"
     //  if "{1,3,5}" => "1,3,5"
-    if ((strpcs[0] === '[' && strpcs[strpcs.length - 1] === ']') ||
-      (strpcs[0] === '{' && strpcs[strpcs.length - 1] === '}')) {
-      strpcs = strpcs.substring(1, strpcs.length - 1);
+    if (strpcs.length > 0) {
+      if ((strpcs[0] === '[' && strpcs[strpcs.length - 1] === ']') ||
+        (strpcs[0] === '{' && strpcs[strpcs.length - 1] === '}')) {
+        strpcs = strpcs.substring(1, strpcs.length - 1);
+      }
     }
     if (strpcs) {
       let pitches = strpcs.split(',');
@@ -229,6 +237,26 @@ export class IPcs {
     }
     return bin;
   }
+
+  /**
+   * first pc is pivot by default
+   * @param strpcs a array bin Pcs in string
+   */
+  static defaultPivotFromStrBin(strpcs: string): number | undefined{
+    if (strpcs.length > 0) {
+      if ((strpcs[0] === '[' && strpcs[strpcs.length - 1] === ']') ||
+        (strpcs[0] === '{' && strpcs[strpcs.length - 1] === '}')) {
+        strpcs = strpcs.substring(1, strpcs.length - 1);
+      }
+    }
+    if (strpcs) {
+      let pitches = strpcs.split(',');
+      return Number(pitches[0])
+    }
+    return undefined;
+  }
+
+
 
   /**
    * Convert integer in binary pitches class set
@@ -636,8 +664,6 @@ export class IPcs {
     }
     return res;
   }
-
-
 
   /**
    * interval vector (generalized on n)
@@ -1085,6 +1111,10 @@ export class IPcs {
   indexMappedToIndexInner(indexMapped : number) : number {
     return this.templateMappingBinPcs.findIndex(value => indexMapped == value) ?? -1
   }
+
+ get chordName() : string {
+    return ChordName.getChordName(this)
+ }
 
   // TODO arranger les opérations en inner et mapped et peut-être sortir des fonctions utilitaires pour binpcs ?
 }

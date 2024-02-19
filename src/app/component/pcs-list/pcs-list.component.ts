@@ -3,6 +3,7 @@ import {IPcs} from "../../core/IPcs";
 import {ClockComponent} from "../clock/clock.component";
 import {ManagerHomePcsListService} from "../../service/manager-home-pcs-list.service";
 import {MusicNotationComponent} from "../music-notation/music-notation.component";
+import {ILabeledListPcs} from "../../service/ILabeledListPcs";
 
 @Component({
   selector: 'app-pcs-list',
@@ -16,13 +17,14 @@ import {MusicNotationComponent} from "../music-notation/music-notation.component
 })
 export class PcsListComponent {
 
-  pcsList : IPcs[] = []
+  labeledListPcs : Map<string, IPcs[]> = new Map<string, IPcs[]>()
+
   @Input() withMusicalNotation: boolean = true;
 
   constructor(private managerHomePcsListService : ManagerHomePcsListService) {
-    this.pcsList = this.managerHomePcsListService.pcsList
-    this.managerHomePcsListService.updatePcsList.subscribe( (pcsList: IPcs[]) => {
-      this.pcsList = pcsList
+    this.labeledListPcs = this.managerHomePcsListService.labeledListPcs
+    this.managerHomePcsListService.updatePcsList.subscribe( (labeledListPcs : Map<string, IPcs[]>) => {
+      this.labeledListPcs = labeledListPcs
     })
   }
 

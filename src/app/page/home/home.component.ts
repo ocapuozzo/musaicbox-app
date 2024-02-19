@@ -8,6 +8,7 @@ import {ManagerHomePcsService} from "../../service/manager-home-pcs.service";
 import {PcsAnalysisComponent} from "../../component/pcs-analysis/pcs-analysis.component";
 import {PcsListComponent} from "../../component/pcs-list/pcs-list.component";
 import {ManagerHomePcsListService} from "../../service/manager-home-pcs-list.service";
+import {ILabeledListPcs} from "../../service/ILabeledListPcs";
 
 @Component({
   selector: 'app-home',
@@ -24,19 +25,19 @@ import {ManagerHomePcsListService} from "../../service/manager-home-pcs-list.ser
 export class HomeComponent {
 
   pcs: IPcs = new IPcs({strPcs:"0,1,2,3"})
-  pcsList : IPcs[] = []
+  labeledListPcs : Map<string, IPcs[]> = new Map<string, IPcs[]>()
 
   constructor(
     private managerHomePcsService : ManagerHomePcsService,
     private managerHomePcsListService : ManagerHomePcsListService) {
     this.pcs = this.managerHomePcsService.pcs
-    this.pcsList = this.managerHomePcsListService.pcsList
+    this.labeledListPcs = this.managerHomePcsListService.labeledListPcs
 
     this.managerHomePcsService.updatePcs.subscribe( (pcs: IPcs) => {
       this.pcs = pcs
     })
-    this.managerHomePcsListService.updatePcsList.subscribe( (pcsList: IPcs[]) => {
-      this.pcsList = pcsList
+    this.managerHomePcsListService.updatePcsList.subscribe( (labeledListPcs : Map<string, IPcs[]>) => {
+      this.labeledListPcs = labeledListPcs
     })
   }
 
