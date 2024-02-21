@@ -1,0 +1,32 @@
+@startuml musaicbox
+
+class ActionGroup {
+  n
+}
+
+class Operation {
+  a
+  t
+  complement
+}
+
+class Orbit {
+  name
+}
+
+class IPcs {
+  pcs :  []
+  cardinal()
+}
+
+ActionGroup "1"  - " 1..*   " Operation : "                 "
+Orbit "1..*"  -* " 1   " ActionGroup : "                 "
+ActionGroup "1 "  o-- "\n       powerset \n1..*" IPcs :"                                           "
+
+Orbit "1..* "  -- "1..*" Stabilizer :"{derived partition}             "
+Orbit "  0..1"  o-- "ippcsset\n1..*" IPcs :" {partition}                     "
+IPcs "1..* \nfixed" -- "1" Stabilizer
+Stabilizer "1..*" - "1..*" Operation
+
+hide circle
+@enduml

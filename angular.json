@@ -16,7 +16,11 @@
             "allowedCommonJsDependencies": [
               "lodash", "abcjs"
             ],
-            "outputPath": "dist/musaic-box-app",
+            "outputPath": {
+              "base": "docs",
+              "browser": ""
+            },
+//            "outputPath": "docs/musaic-box-app",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
