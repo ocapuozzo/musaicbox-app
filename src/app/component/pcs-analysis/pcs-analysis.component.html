@@ -26,16 +26,16 @@
       <span class="analyse-pcs"> {{ pcsMapped12.getPcsStr() }}<sub> {{ pcsMapped12.iPivot }} </sub></span> &nbsp;
       Card :
       <span class="analyse-pcs">#{{ pcsMapped12.cardinal }}</span>
-      PowerSet cardinal :
+      &nbsp;PowerSet cardinal :
       <span class="analyse-pcs">#{{ pcsMapped12.cyclicPrimeForm().orbit!.groupAction!.powerset.size }}</span>
     </p>
     <p>
-      Interval Vector :
-      <span class="analyse-pcs">{{ pcsMapped12.iv() }}</span>
+      Intervallic Structure :
+      <span class="analyse-pcs">({{ pcsMapped12.is() }})</span>
     </p>
     <p>
-      Intervallic Structure :
-      <span class="analyse-pcs">{{ pcsMapped12.is() }}</span>
+      Interval Vector :
+      <span class="analyse-pcs">&lt;{{ pcsMapped12.iv() }}&gt;</span>
     </p>
     <p>
       Forte :

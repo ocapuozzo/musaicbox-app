@@ -28,7 +28,7 @@
  *      strPcs: "[0, 2, 4]", // first 3-chord (C E G)
  *      n: 7,
  *      nMapping: 12,
- *      mappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // pcs mapped into [0,4,7]
+ *      templateMappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // pcs mapped into [0,4,7]
  *    })
  *    expect(pcsDiatMajMapped.getMappedPcsStr()).toEqual('[0,4,7]')
  *    expect(pcsDiatMajMapped.is()).toEqual([4,3,5]);
@@ -146,7 +146,7 @@ export class IPcs {
 
 
   constructor(
-    {pidVal, strPcs, binPcs, n, iPivot, orbit, mappingBinPcs, nMapping}:
+    {pidVal, strPcs, binPcs, n, iPivot, orbit, templateMappingBinPcs, nMapping}:
       {
         pidVal?: number,
         strPcs?: string,
@@ -154,7 +154,7 @@ export class IPcs {
         n?: number,
         iPivot?: number,
         orbit?: Orbit,
-        mappingBinPcs?: number[],
+        templateMappingBinPcs?: number[],
         nMapping?: number
       } = {}) {
     if (pidVal !== undefined && pidVal >= 0) {
@@ -195,7 +195,7 @@ export class IPcs {
     this.id = IPcs.id(this.abinPcs)
 
     // default mapping on himself
-    this.templateMappingBinPcs = mappingBinPcs ?? Mapping.getAutoMapping(this.abinPcs)
+    this.templateMappingBinPcs = templateMappingBinPcs ?? Mapping.getAutoMapping(this.abinPcs)
 
     this.nMapping = nMapping ?? this.n
 
@@ -470,7 +470,7 @@ export class IPcs {
       binPcs: IPcs.getBinPcsPermute(a, t, newPivot, this.abinPcs),
       iPivot: newPivot,
       orbit: this.orbit,
-      mappingBinPcs: this.templateMappingBinPcs,
+      templateMappingBinPcs: this.templateMappingBinPcs,
       nMapping: this.nMapping
     })
   }
@@ -533,7 +533,7 @@ export class IPcs {
       binPcs: this.abinPcs.slice(),
       iPivot: newiPivot,
       orbit: this.orbit,
-      mappingBinPcs: this.templateMappingBinPcs,
+      templateMappingBinPcs: this.templateMappingBinPcs,
       nMapping: this.nMapping
     })
   }
@@ -605,7 +605,7 @@ export class IPcs {
       n: newBinPcs.length,
       iPivot: iPivot,
       orbit: this.orbit,
-      mappingBinPcs: this.templateMappingBinPcs,
+      templateMappingBinPcs: this.templateMappingBinPcs,
       nMapping: this.nMapping
     })
   }
@@ -819,7 +819,7 @@ export class IPcs {
       binPcs: pcs_cpt,
       iPivot: new_iPivot,
       orbit: this.orbit,
-      mappingBinPcs: this.templateMappingBinPcs,
+      templateMappingBinPcs: this.templateMappingBinPcs,
       nMapping: this.nMapping
     })
     if (this.orbit?.groupAction) {
@@ -979,7 +979,7 @@ export class IPcs {
         n: newBinPcs.length,
         iPivot: this.iPivot,
         orbit: this.orbit,
-        mappingBinPcs: this.templateMappingBinPcs,
+        templateMappingBinPcs: this.templateMappingBinPcs,
         nMapping: this.nMapping
       })
     } else {
@@ -993,7 +993,7 @@ export class IPcs {
           n: newBinPcs.length,
           iPivot: undefined,
           orbit: this.orbit,
-          mappingBinPcs: this.templateMappingBinPcs,
+          templateMappingBinPcs: this.templateMappingBinPcs,
           nMapping: this.nMapping
         })
       } else {
@@ -1011,7 +1011,7 @@ export class IPcs {
             n: newBinPcs.length,
             iPivot: newIPivot,
             orbit: this.orbit,
-            mappingBinPcs: this.templateMappingBinPcs,
+            templateMappingBinPcs: this.templateMappingBinPcs,
             nMapping: this.nMapping
           })
         } else {
@@ -1021,7 +1021,7 @@ export class IPcs {
             n: newBinPcs.length,
             iPivot: this.iPivot,
             orbit: this.orbit,
-            mappingBinPcs: this.templateMappingBinPcs,
+            templateMappingBinPcs: this.templateMappingBinPcs,
             nMapping: this.nMapping
           })
         }
@@ -1037,22 +1037,22 @@ export class IPcs {
    */
   autoMap(): IPcs {
     let newBinPcs = new Array(this.cardinal).fill(1);
-    let mappingBinPcs = new Array<number>(this.cardinal);
+    let templateMappingBinPcs = new Array<number>(this.cardinal);
 
     for (let i = 0, j = 0; i < this.abinPcs.length; i++) {
       if (this.abinPcs[i] == 1) {
-        mappingBinPcs[j++] = i;
+        templateMappingBinPcs[j++] = i;
       }
     } // end of loop : assert j === this.cardinal - 1
+    // assert value element of templateMappingBinPcs in [0..this.abinPcs.length[
 
     let new_nMapping: number = this.abinPcs.length
-    // assert value element of templateMappingBinPcs in [0..new_nMapping[
 
     return new IPcs(
       {
         binPcs: newBinPcs,
         n: this.cardinal,
-        mappingBinPcs: mappingBinPcs,
+        templateMappingBinPcs: templateMappingBinPcs,
         nMapping: new_nMapping
       })
   }
@@ -1100,7 +1100,7 @@ export class IPcs {
    *       strPcs: "[0, 2, 4]", // first 3-chord
    *       n: 7,
    *       nMapping: 12,
-   *       mappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // pcs mapped into [0,4,7] {C E G}
+   *       templateMappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // pcs mapped into [0,4,7] {C E G}
    *    })
    *    pcsDiatMajMapped.indexMappedToIndexInner(2) => 1
    *

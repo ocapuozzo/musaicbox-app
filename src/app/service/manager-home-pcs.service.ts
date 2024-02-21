@@ -44,7 +44,7 @@ export class ManagerHomePcsService {
             iPivot: index,
             n: this.pcs.n,
             orbit:this.pcs.orbit,
-            mappingBinPcs: this.pcs.templateMappingBinPcs,
+            templateMappingBinPcs: this.pcs.templateMappingBinPcs,
             nMapping: this.pcs.nMapping
           })
       } else {

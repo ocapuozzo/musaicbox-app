@@ -15,8 +15,6 @@ export class ManagerHomePcsListService {
   constructor() { }
 
   addPcs(title: string, pcs: IPcs) {
-    if (++this.compteur % 3 == 0 ) title = ''
-    else if(title == '') title = '' + (this.compteur % 3 == 0 ? 'A' : 'B')
 
     if (! this.labeledListPcs.has(title)) {
       this.labeledListPcs.set(title, [pcs])
@@ -41,5 +39,8 @@ export class ManagerHomePcsListService {
     }
   }
 
-
+  clearList() {
+    this.labeledListPcs.clear()
+    this.updatePcsList.emit(this.labeledListPcs)
+  }
 }

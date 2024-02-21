@@ -1,3 +1,4 @@
+<p class="ms-2" style="cursor: pointer" (click)="doClearList()" [hidden]="labeledListPcs.size==0">Clear all <i class="bi bi-trash3-fill" ></i></p>
 <div class="d-flex flex-wrap">
   @for (title of labeledListPcs.keys(); track labeledListPcs) {
     @if (title == '') {

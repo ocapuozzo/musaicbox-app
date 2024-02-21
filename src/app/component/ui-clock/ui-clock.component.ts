@@ -298,4 +298,13 @@ export class UiClockComponent {
       }
     }
   }
+
+  sevenChordList() {
+    const list3Chords = Analyse.getListSevenChords(this.ipcs)
+    for (const fourChord of list3Chords) {
+      for (let i = 0; i < fourChord[1].length ; i++) {
+        this.managerHomePcsListService.addPcs(fourChord[0], fourChord[1][i])
+      }
+    }
+  }
 }

@@ -20,7 +20,7 @@ describe('IPcs unit tests', () => {
         strPcs: "[0, 2, 7]",  // 7 not in [0..7[
         n: 7,
         nMapping: 12,
-        mappingBinPcs: [0, 2, 4, 5, 7, 9, 11]
+        templateMappingBinPcs: [0, 2, 4, 5, 7, 9, 11]
       })
       expect(ipcsDiatMajMapped).not.toBeTruthy()
       expect(ipcsDiatMajMapped.n).not.toEqual(8)
@@ -71,7 +71,7 @@ describe('IPcs unit tests', () => {
       strPcs: "[0, 2, 4]", // first 3-chord
       n: 7,
       nMapping: 12,
-      mappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // mapped into [0,4,7] {C E G}
+      templateMappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // mapped into [0,4,7] {C E G}
     })
     expect(ipcsDiatMajMapped.getPcsStr()).toEqual('[0,2,4]')
     expect(ipcsDiatMajMapped.unMap().getPcsStr()).toEqual('[0,4,7]')
@@ -82,7 +82,7 @@ describe('IPcs unit tests', () => {
       strPcs: "[0, 2, 4]", // first 3-chord
       n: 7,
       nMapping: 12,
-      mappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // mapped into [0,4,7] {C E G}
+      templateMappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // mapped into [0,4,7] {C E G}
     })
     expect(pcsDiatMajMapped.toString()).toEqual('[1,0,1,0,1,0,0] n = 7, iPivot : 0  Mapped on 12')
 
@@ -613,7 +613,7 @@ describe('IPcs unit tests', () => {
       strPcs: "[0, 2, 4]", // first 3-chord
       n: 7,
       nMapping: 12,
-      mappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // mapped in {C E G}
+      templateMappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // mapped in {C E G}
     })
 
     // verify mapping 7 -> 12
@@ -656,7 +656,7 @@ describe('IPcs unit tests', () => {
       strPcs: "[0, 2, 4]", // first 3-chord
       n: 7,
       nMapping: 12,
-      mappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // mapped into [0,4,7] {C E G}
+      templateMappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // mapped into [0,4,7] {C E G}
     })
     expect(ipcsDiatMajMapped.getPcsStr()).toEqual('[0,2,4]')
     expect(ipcsDiatMajMapped.getMappedPcsStr()).toEqual('[0,4,7]')
@@ -672,7 +672,7 @@ describe('IPcs unit tests', () => {
       strPcs: "[0, 2, 4]", // first 3-chord
       n: 7,
       nMapping: 12,
-      mappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // pcs mapped into [0,4,7] {C E G}
+      templateMappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // pcs mapped into [0,4,7] {C E G}
     })
     expect(pcsDiatMajMapped.indexMappedToIndexInner(0)).toEqual(0)
     expect(pcsDiatMajMapped.indexMappedToIndexInner(2)).toEqual(1)
@@ -730,7 +730,7 @@ describe('IPcs unit tests', () => {
       strPcs: "[0, 2, 4]", // first 3-chord {C E G}
       n: 7,
       nMapping: 12,
-      mappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // pcs mapped into [0,4,7]
+      templateMappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // pcs mapped into [0,4,7]
     })
     expect(pcsDiatMajMapped.getMappedPcsStr()).toEqual('[0,4,7]')
     expect(pcsDiatMajMapped.is()).toEqual([4,3,5]);
@@ -775,7 +775,7 @@ describe('IPcs unit tests', () => {
       strPcs: "[0, 2, 4]", // first 3-chord
       n: 7,
       nMapping: 12,
-      mappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // mapped in {C E G}
+      templateMappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // mapped in {C E G}
     })
 
     // console.log(ipcsDiatMajMapped.getMappedPcsStr())
@@ -786,7 +786,7 @@ describe('IPcs unit tests', () => {
     expect(pcs.chordName).toEqual('Minor triad')
 
     pcs = new IPcs({strPcs:'[11,2,5]' /*, iPivot:11*/})
-    expect(pcs.chordName).toEqual('Diminished triad')
+    expect(pcs.chordName).toEqual('Min Diminished triad')
 
   })
 

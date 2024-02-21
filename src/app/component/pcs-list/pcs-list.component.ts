@@ -30,4 +30,8 @@ export class PcsListComponent {
   doRemoveFromList(pcs: IPcs) {
     this.managerHomePcsListService.removePcs(pcs)
   }
+
+  doClearList() {
+    this.managerHomePcsListService.clearList()
+  }
 }
