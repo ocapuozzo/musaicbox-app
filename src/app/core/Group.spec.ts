@@ -16,10 +16,12 @@ describe('Group', () => {
     let someOps = [opM1_T0]
     let opsWaiting = someOps
     let allOps = Group.buildOperationsGroupByCaylayTable(someOps)
+    expect(1).toEqual(opsWaiting.length)
     expect(allOps).toEqual(opsWaiting)
+
   })
 
-  it("Generator group from M1T1", () => {
+  it("Generator group from M1-T1 and M5-T1", () => {
     let opM1_T1 = new MusaicPcsOperation(12, 1, 1, false);
     let someOps = [opM1_T1]
     let opsWaiting: MusaicPcsOperation[] = []
@@ -27,14 +29,18 @@ describe('Group', () => {
       opsWaiting.push(new MusaicPcsOperation(12, 1, i, false))
     }
     let allOperations = Group.buildOperationsGroupByCaylayTable(someOps)
+    expect(allOperations.length).toEqual(12)
     expect(allOperations).toEqual(opsWaiting)
+
+    let opM5_T1 = new MusaicPcsOperation(12, 5, 1, false);
+    someOps.push(opM5_T1)
+    expect(Group.buildOperationsGroupByCaylayTable(someOps).length).toEqual(24)
   })
 
   it("Predefined Cyclic Group", () => {
     let cyclicGroup = Group.predefinedGroups12[Group.CYCLIC]
     expect(cyclicGroup.operations.length).toEqual(12)
   })
-
 
   it("testCayleyGenerateOperationsAffine", () => {
     let someOperations: MusaicPcsOperation[] = []
@@ -122,12 +128,10 @@ describe('Group', () => {
     expect(Group.predefinedGroups12[Group.MUSAIC].operations.length).toEqual(96)
   })
 
-
   it("phiEulerElements", () => {
     expect(Group.phiEulerElements(12)).toEqual([1,5,7,11])
     expect(Group.phiEulerElements(7)).toEqual([1,2,3,4,5,6])
     expect(Group.phiEulerElements(5)).not.toEqual([1,2,3,4,5,6])
   })
-
 
 })
