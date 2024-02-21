@@ -16,11 +16,14 @@
             "allowedCommonJsDependencies": [
               "lodash", "abcjs"
             ],
+            // before : "outputPath": "docs/musaic-box-app",
+            // https://github.com/angular/angular-cli/issues/26304
+            // for githubpages, command is :
+            // ng build  --base-href /musaicbox-app/
             "outputPath": {
               "base": "docs",
               "browser": ""
             },
-//            "outputPath": "docs/musaic-box-app",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [

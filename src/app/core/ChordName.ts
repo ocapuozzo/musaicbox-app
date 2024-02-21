@@ -62,6 +62,6 @@ export class ChordName {
       chordName = 'Half-Diminished 7'
     }
 
-    return chordName
+    return chordName.trim()
   }
 }

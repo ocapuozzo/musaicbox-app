@@ -13,7 +13,7 @@ describe('Analyse', () => {
 
     expect(triadChords.size).toEqual(7)
     expect(triadChords.get('I')?.length).toEqual(1)
-    expect(triadChords.get('VII')?.length).toEqual(2)
+    expect(triadChords.get('VII')?.length).toEqual(1)
   })
 
 })
