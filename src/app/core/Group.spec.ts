@@ -80,7 +80,7 @@ describe('Group', () => {
     let allOps = Group.buildOperationsGroupByCaylayTable(someOperations)
 
     // test if aleaOp is in allOps
-    expect(allOps.find((e) => e.getHashCode() === aleaOp.getHashCode())).toBeTruthy()
+    expect(allOps.find((op) => op.getHashCode() === aleaOp.getHashCode())).toBeTruthy()
 
     // waiting 96 operations : 12 * each a = 48 and each complement (*2)
     expect(allOps.length).toEqual(order * 4 * 2)

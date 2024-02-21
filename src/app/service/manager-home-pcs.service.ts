@@ -8,7 +8,7 @@ export class ManagerHomePcsService {
 
   @Output() updatePcs = new EventEmitter<IPcs>();
 
-  pcs: IPcs = new IPcs({strPcs:'0,3,6'})
+  pcs: IPcs = new IPcs({strPcs:'0,2,4,5,7,9,11'})
 
   constructor() { }
 
