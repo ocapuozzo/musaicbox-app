@@ -28,10 +28,10 @@
         <span class="m-1">
           <button (click)="addToList()">Add pcs</button>
         </span>
-        <span class="m-1">
+        <span class="m-1" [hidden]="ipcs.cardinal < 5">
           <button (click)="thirdChordList()">3-chords</button>
         </span>
-        <span class="m-1">
+        <span class="m-1" [hidden]="ipcs.cardinal < 6">
           <button (click)="sevenChordList()">4-chords</button>
         </span>
       </div>
