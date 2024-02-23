@@ -40,6 +40,6 @@ export class PcsListComponent {
   }
 
   doSelectFromList(pcs: IPcs) {
-    this.managerHomePcsService.replace(pcs)
+    this.managerHomePcsService.replaceBy(pcs)
   }
 }

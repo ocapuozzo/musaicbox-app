@@ -341,7 +341,7 @@ export class Stabilizer {
         listOfa = listOfa.filter(a => ((a - racineValue) % step) !== 0)
       }
     }
-    // replace new value associate to nameOp key
+    // replaceBy new value associate to nameOp key
     mt.set(nameOp, listOfa)
     return shortName;
   }

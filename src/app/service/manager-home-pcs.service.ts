@@ -73,7 +73,7 @@ export class ManagerHomePcsService {
     this.updatePcs.emit(this.pcs)
   }
 
-  replace(pcs: IPcs) {
+  replaceBy(pcs: IPcs) {
     this.pcs = pcs.translation(0) // copy
     this.updatePcs.emit(this.pcs)
   }

@@ -85,7 +85,7 @@ export class Group {
     while (loop) {
       let cardinalOp = allOps.length
       loop = false;
-      // forloop:
+      forLoop:
       for (let i = 0; i < cardinalOp; i++) {
          for (let j = 0; j < cardinalOp; j++) {
            let newop = allOps[i].compose(allOps[j]);
@@ -96,16 +96,16 @@ export class Group {
              // TODO  must be demonstrated... and verified by tests unit
              allOps.push(newop)
              // loop = true;
-             // break forloop
+             // break forLoop
              cardinalOp++
            } else {
              // console.log("-------------------------------------")
              // console.log("newop = " + newop)
              // console.log("newop.getHashCode() : " + newop.getHashCode())
            }
-         }
-       }
-     }
+         }// for j
+       }// for i
+     } // while loop
     allOps.sort(MusaicPcsOperation.compare)
     return allOps
   }

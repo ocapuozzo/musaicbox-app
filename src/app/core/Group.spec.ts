@@ -11,15 +11,60 @@ const getRandomInt = (max: number)  => {
 }
 
 describe('Group', () => {
-  it("Generator group from M1T0", () => {
+  it("Trivial group Generator group from M1T0", () => {
     let opM1_T0 = new MusaicPcsOperation(12, 1, 0, false);
     let someOps = [opM1_T0]
     let opsWaiting = someOps
     let allOps = Group.buildOperationsGroupByCaylayTable(someOps)
     expect(1).toEqual(opsWaiting.length)
     expect(allOps).toEqual(opsWaiting)
+    expect(allOps.length).toEqual(1)
+  })
+
+  it("Generator group from M1-T1 (cyclic)", () => {
+    let opM1_T1 = new MusaicPcsOperation(12, 1, 1, false);
+    let someOps = [opM1_T1]
+    let opsWaiting: MusaicPcsOperation[] = []
+
+    let allOperations = Group.buildOperationsGroupByCaylayTable(someOps)
+
+    expect(allOperations.length).toEqual(12)
+
+    for (let i = 0; i < 12; i++) {
+      opsWaiting.push(new MusaicPcsOperation(12, 1, i, false))
+    }
+
+    expect(allOperations.length).toEqual(12)
+    expect(allOperations).toEqual(opsWaiting)
+
+    //
+    // let opM11_T1 = new MusaicPcsOperation(12, 11, 1, false);
+    // someOps.push(opM11_T1)
+    // allOperations = Group.buildOperationsGroupByCaylayTable(someOps)
+    // for (let i = 0; i < allOperations.length ; i++) {
+    //   console.log(allOperations[i].toString())
+    // }
+    // console.log("==================================================")
+    //
+    // let opM5_T1 = new MusaicPcsOperation(12, 5, 1, false);
+    // someOps.push(opM5_T1)
+    // allOperations = Group.buildOperationsGroupByCaylayTable(someOps)
+    // for (let i = 0; i < allOperations.length ; i++) {
+    //   console.log(allOperations[i].toString())
+    // }
+    // console.log("==================================================")
+    //
+    // let opCM5_T1 = new MusaicPcsOperation(12, 1, 1, true);
+    // someOps.push(opCM5_T1)
+    // allOperations = Group.buildOperationsGroupByCaylayTable(someOps)
+    // for (let i = 0; i < allOperations.length ; i++) {
+    //   console.log(allOperations[i].toString())
+    // }
+    //
+    // console.log("nb op : " + allOperations.length)
 
   })
+
 
   it("Generator group from M1-T1 and M5-T1", () => {
     let opM1_T1 = new MusaicPcsOperation(12, 1, 1, false);
@@ -56,8 +101,13 @@ describe('Group', () => {
     a = 11;
     someOperations.push(new MusaicPcsOperation(order, a, t, complement));
 
+    const allOperations = Group.buildOperationsGroupByCaylayTable(someOperations)
     // generate 48 operations : 12 * each a
-    expect(Group.buildOperationsGroupByCaylayTable(someOperations).length).toEqual(order * 4)
+    expect(allOperations.length).toEqual(order * 4)
+
+    // for (let i = 0; i < allOperations.length ; i++) {
+    //   console.log(allOperations[i].toString())
+    // }
   })
 
   it("testCayleyGenerateOperationsMusaic", () => {

@@ -223,7 +223,7 @@ export class UiMusaicComponent {
     // the algebraic transformation operation (opTransformation) that exactly
     // matches the geometrical transformation.
     //
-    // Now we perform the algebraic operation to replace the
+    // Now we perform the algebraic operation to replaceBy the
     // transformed musaic with its transform (and delete its
     // class css from the past operation)
     this.managerHomePcsService.transformeByMxT0(opTransf)
