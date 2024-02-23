@@ -29,40 +29,11 @@ describe('Group', () => {
     let allOperations = Group.buildOperationsGroupByCaylayTable(someOps)
 
     expect(allOperations.length).toEqual(12)
-
     for (let i = 0; i < 12; i++) {
       opsWaiting.push(new MusaicPcsOperation(12, 1, i, false))
     }
-
     expect(allOperations.length).toEqual(12)
     expect(allOperations).toEqual(opsWaiting)
-
-    //
-    // let opM11_T1 = new MusaicPcsOperation(12, 11, 1, false);
-    // someOps.push(opM11_T1)
-    // allOperations = Group.buildOperationsGroupByCaylayTable(someOps)
-    // for (let i = 0; i < allOperations.length ; i++) {
-    //   console.log(allOperations[i].toString())
-    // }
-    // console.log("==================================================")
-    //
-    // let opM5_T1 = new MusaicPcsOperation(12, 5, 1, false);
-    // someOps.push(opM5_T1)
-    // allOperations = Group.buildOperationsGroupByCaylayTable(someOps)
-    // for (let i = 0; i < allOperations.length ; i++) {
-    //   console.log(allOperations[i].toString())
-    // }
-    // console.log("==================================================")
-    //
-    // let opCM5_T1 = new MusaicPcsOperation(12, 1, 1, true);
-    // someOps.push(opCM5_T1)
-    // allOperations = Group.buildOperationsGroupByCaylayTable(someOps)
-    // for (let i = 0; i < allOperations.length ; i++) {
-    //   console.log(allOperations[i].toString())
-    // }
-    //
-    // console.log("nb op : " + allOperations.length)
-
   })
 
 

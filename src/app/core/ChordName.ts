@@ -54,7 +54,7 @@ export class ChordName {
     }
     if (binPcs[(pivot + 8) % n] == 1) {
       // Major seven
-      sixth = "m6"
+      sixth = " flat 6" // https://en.wikipedia.org/wiki/Sixth_chord
     }
     if (binPcs[(pivot + n - 1) % n] == 1) {
       // Major seven

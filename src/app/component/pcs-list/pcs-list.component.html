@@ -2,7 +2,7 @@
 <div class="d-flex flex-wrap">
   @for (title of labeledListPcs.keys(); track labeledListPcs) {
     @if (title == '') {
-      <!--  each pcs into col separate  -->
+      <!--  each pcs into separate col  -->
       @for (pcs of labeledListPcs.get(title); track pcs.id; let index = $index) {
         <div class="card text-center m-2 shadow rounded" style="width: 180px;">
           <app-clock [ipcs]="pcs"></app-clock>
