@@ -11,17 +11,17 @@ describe('IPcs unit tests', () => {
     })
 
     // console.log(ipcsDiatMajMapped.getMappedPcsStr())
-    expect(ipcsDiatMajMapped.chordName).toEqual('Major')
+    expect(ipcsDiatMajMapped.chordName).toEqual('CMaj')
 
     let pcs = ipcsDiatMajMapped.toggleIndexPC(6)
-    expect(pcs.chordName).toEqual('Major 7M')
+    expect(pcs.chordName).toEqual('CMaj7')
 
     pcs = new IPcs({strPcs: '{0,3,7}'})
     // console.log(pcs.cyclicPrimeForm().getMappedPcsStr())
-    expect(pcs.chordName).toEqual('Minor')
+    expect(pcs.chordName).toEqual('Cmin')
 
     pcs = new IPcs({strPcs: '[11,2,5]' /*, iPivot:11*/})
-    expect(pcs.chordName).toEqual('Minor Diminished')
+    expect(pcs.chordName).toEqual('Bmin Diminished')
 
   })
 

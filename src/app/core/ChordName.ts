@@ -69,10 +69,10 @@ export class ChordName {
       if (binPcs[(pivot + 1) % n] == 1) {
         nine = 'b9'
       } else if (binPcs[(pivot + 2) % n] == 1) {
-        nine = '9'
+        nine = 'sus9'
       }
       if (binPcs[(pivot + 5) % n] == 1) {
-        nine = '11'
+        nine = 'sus4'
       }
     }
 

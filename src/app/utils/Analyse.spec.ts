@@ -25,8 +25,8 @@ describe('Analyse chords list', () => {
     const seventhChords = Analyse.getListSevenChords(ipcsDiatMaj)
 
     expect(seventhChords.size).toEqual(7)
-    expect(seventhChords.get('I')?.length).toEqual(1)
-    expect(seventhChords.get('VII')?.length).toEqual(1)
+    expect(seventhChords.get('I')?.length).toEqual(2)
+    expect(seventhChords.get('VII')?.length).toEqual(2)
   })
 
   it("getListSeventhChords other scale", () => {
@@ -38,9 +38,9 @@ describe('Analyse chords list', () => {
     const seventhChords = Analyse.getListSevenChords(ipcsDiatMaj)
 
     expect(seventhChords.size).toEqual(7)
-    expect(seventhChords.get('I')?.length).toEqual(1)
-    expect(seventhChords.get('III')?.length).toEqual(2)
-    expect(seventhChords.get('VII')?.length).toEqual(1)
+    expect(seventhChords.get('I')?.length).toEqual(2)
+    expect(seventhChords.get('III')?.length).toEqual(4)
+    expect(seventhChords.get('VII')?.length).toEqual(2)
   })
 
 
