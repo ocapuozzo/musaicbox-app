@@ -45,21 +45,21 @@ export class Analyse {
           if (binPcs[(i + 7) % n] == 1) {
             const pcs =
               new IPcs({
-                strPcs: '' + (i % n) + ',' + ((i + 3) % n) + ',' + ((i + 7) % n)
+                strPcs: '' + (i % n) + ',' + ((i + 4) % n) + ',' + ((i + 7) % n)
               })
             Analyse.addPcs(thirdChordByDegree, nbDegree, pcs);
           } else if (binPcs[(i + 6) % n] == 1) {
             // flattened fifth (if near fifth)
             const pcs =
               new IPcs({
-                strPcs: '' + (i % n) + ',' + ((i + 3) % n) + ',' + ((i + 6) % n)
+                strPcs: '' + (i % n) + ',' + ((i + 4) % n) + ',' + ((i + 6) % n)
               })
             Analyse.addPcs(thirdChordByDegree, nbDegree, pcs);
           } else if (binPcs[(i + 8) % n] == 1) {
             // flattened fifth (if near fifth)
             const pcs =
               new IPcs({
-                strPcs: '' + (i % n) + ',' + ((i + 3) % n) + ',' + ((i + 8) % n)
+                strPcs: '' + (i % n) + ',' + ((i + 4) % n) + ',' + ((i + 8) % n)
               })
             Analyse.addPcs(thirdChordByDegree, nbDegree, pcs);
           }
@@ -89,7 +89,7 @@ export class Analyse {
               Analyse.addPcs(thirdChordByDegree, nbDegree, pcs);
             }
           }
-        }
+        } // no third
       }
     }
     return thirdChordByDegree
