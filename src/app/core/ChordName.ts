@@ -42,19 +42,19 @@ export class ChordName {
     if (binPcs[(pivot + 7) % n] == 0) {
       if (binPcs[(pivot + 6) % n] == 1) {
         // Major seven
-        fifth = "Diminished"
+        fifth = " ♭5"
       } else if (binPcs[(pivot + 8) % n] == 1) {
         // Major seven
         fifth = "Aug"
       }
     }
     if (binPcs[(pivot + 9) % n] == 1) {
-      // Major seven
       sixth = "6"
     }
     if (binPcs[(pivot + 8) % n] == 1) {
-      // Major seven
-      sixth = " ♭6" // https://en.wikipedia.org/wiki/Sixth_chord
+      if (fifth != "Aug") {
+        sixth = " ♭6" // https://en.wikipedia.org/wiki/Sixth_chord
+      }
     }
     if (binPcs[(pivot + n - 1) % n] == 1) {
       // Major seven
@@ -78,13 +78,14 @@ export class ChordName {
 
     let chordName = `${third}${fifth}${sixth}${seven}${nine}${eleven}`.trim()
 
-    if (chordName == 'minDiminished') {
-      chordName = 'min Diminished' // flat 5th'
-    } else if (chordName == 'minDiminished7') {
+    // if (chordName == 'minDiminished') {
+    //   chordName = 'min Diminished' // flat 5th'
+    // } else
+    if (chordName == 'min ♭57') {
       chordName = 'ø7' //<sub>7♭5</sub>' // 'ø7'
-    } else if (chordName == 'minDiminished6') {
+    } else if (chordName == 'min ♭56' /*'minDiminished6'*/) {
       chordName = 'o' //'dim'  // 'o ø7'
-    } else if (chordName == 'minDiminishedM7') {
+    } else if (chordName == 'min ♭5M7') { //'minDiminishedM7') {
       chordName = 'øM7' //'dim'  // 'o ø7'
     } else if (chordName == 'Maj7') {
       chordName = '7'
@@ -94,7 +95,7 @@ export class ChordName {
       chordName = '7Aug'  // 7#5  7+5
     } else if (chordName == 'MajAugM7') {
       chordName = 'AugM7'
-    } else if (chordName == 'MajDiminished7') {
+    } else if (chordName == 'Maj ♭57') { //'MajDiminished7') {
       chordName = '7b5'  // 7b5  7-5
     }
 

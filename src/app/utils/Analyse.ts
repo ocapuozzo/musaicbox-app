@@ -48,14 +48,14 @@ export class Analyse {
                 strPcs: '' + (i % n) + ',' + ((i + 4) % n) + ',' + ((i + 7) % n)
               })
             Analyse.addPcs(thirdChordByDegree, nbDegree, pcs);
-          } else if (binPcs[(i + 6) % n] == 1) {
+          } if (binPcs[(i + 6) % n] == 1) {
             // flattened fifth (if near fifth)
             const pcs =
               new IPcs({
                 strPcs: '' + (i % n) + ',' + ((i + 4) % n) + ',' + ((i + 6) % n)
               })
             Analyse.addPcs(thirdChordByDegree, nbDegree, pcs);
-          } else if (binPcs[(i + 8) % n] == 1) {
+          } if (binPcs[(i + 8) % n] == 1) {
             // flattened fifth (if near fifth)
             const pcs =
               new IPcs({
