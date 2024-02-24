@@ -11,7 +11,7 @@ describe('Analyse chords list', () => {
 
     const triadChords = Analyse.getList3Chords(ipcsDiatMaj)
 
-    expect(triadChords.get('I')![1].chordName).toEqual('CMajAug')
+    expect(triadChords.get('I')![1].getChordName()).toEqual('CAug')
 
   })
 
@@ -25,10 +25,10 @@ describe('Analyse chords list', () => {
 
     expect(triadChords.size).toEqual(7)
     expect(triadChords.get('I')?.length).toEqual(1)
-    expect(triadChords.get('VII')?.length).toEqual(1)
-    expect(triadChords.get('II')![0].chordName).toEqual('Dmin')
-    expect(triadChords.get('III')![0].chordName).toEqual('Emin')
-    expect(triadChords.get('IV')![0].chordName).toEqual('FMaj')
+    expect(triadChords.get('VII')?.length).toEqual(2)
+    expect(triadChords.get('II')![0].getChordName()).toEqual('Dmin')
+    expect(triadChords.get('III')![0].getChordName()).toEqual('Emin')
+    expect(triadChords.get('IV')![0].getChordName()).toEqual('FMaj')
   })
 
 

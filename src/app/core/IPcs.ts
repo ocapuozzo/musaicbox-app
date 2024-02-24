@@ -205,7 +205,6 @@ export class IPcs {
     for (let i = 0; i < this.templateMappingBinPcs.length; i++) {
       this._mappedBinPcs[this.templateMappingBinPcs[i]] = this.abinPcs[i];
     }
-
   }
 
   /**
@@ -1112,7 +1111,7 @@ export class IPcs {
     return this.templateMappingBinPcs.findIndex(value => indexMapped == value) ?? -1
   }
 
- get chordName() : string {
+ getChordName() : string {
     return ChordName.getChordName(this)
  }
 

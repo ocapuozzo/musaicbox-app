@@ -37,6 +37,7 @@ constructor() {
   refresh() {
     // console.log("this.tune :" + this.tune)
     // https://configurator.abcjs.net/visual/
+
     if (! this.containerCanvas) return
 
     let len = this.containerCanvas.nativeElement.clientWidth
@@ -50,6 +51,7 @@ constructor() {
         paddingleft: 0,
         responsive: "resize"
       });
+
   }
 
   // TODO make pivot low pitch

@@ -14,58 +14,35 @@ export class Analyse {
     for (let i = pivot; i < binPcs.length + pivot; i++) {
       if (binPcs[(i % n)] == 1) {
         nbDegree++
-        // minor
-        if (binPcs[(i + 3) % n] == 1) {
-          // fifth
-          if (binPcs[(i + 7) % n] == 1) {
-            const pcs =
-              new IPcs({
-                strPcs: '' + (i % n) + ',' + ((i + 3) % n) + ',' + ((i + 7) % n)
-              })
-            Analyse.addPcs(thirdChordByDegree, nbDegree, pcs);
-          } else if (binPcs[(i + 6) % n] == 1) {
-            // flattened fifth (if near fifth)
-            const pcs =
-              new IPcs({
-                strPcs: '' + (i % n) + ',' + ((i + 3) % n) + ',' + ((i + 6) % n)
-              })
-            Analyse.addPcs(thirdChordByDegree, nbDegree, pcs);
-          } else if (binPcs[(i + 8) % n] == 1) {
-            // flattened fifth (if near fifth)
-            const pcs =
-              new IPcs({
-                strPcs: '' + (i % n) + ',' + ((i + 3) % n) + ',' + ((i + 8) % n)
-              })
-            Analyse.addPcs(thirdChordByDegree, nbDegree, pcs);
+        // minor and major
+        for (const note of [3, 4]) {
+          if (binPcs[(i + note) % n] == 1) {
+            // fifth
+            if (binPcs[(i + 7) % n] == 1) {
+              const pcs =
+                new IPcs({
+                  strPcs: '' + (i % n) + ',' + ((i + note) % n) + ',' + ((i + 7) % n)
+                })
+              Analyse.addPcs(thirdChordByDegree, nbDegree, pcs);
+            }
+            if (binPcs[(i + 6) % n] == 1) {
+              const pcs =
+                new IPcs({
+                  strPcs: '' + (i % n) + ',' + ((i + note) % n) + ',' + ((i + 6) % n)
+                })
+              Analyse.addPcs(thirdChordByDegree, nbDegree, pcs);
+            }
+            if (binPcs[(i + 8) % n] == 1) {
+              const pcs =
+                new IPcs({
+                  strPcs: '' + (i % n) + ',' + ((i + note) % n) + ',' + ((i + 8) % n)
+                })
+              Analyse.addPcs(thirdChordByDegree, nbDegree, pcs);
+            }
           }
-        }
-        // major
-        if (binPcs[(i + 4) % n] == 1) {
-          // fifth
-          if (binPcs[(i + 7) % n] == 1) {
-            const pcs =
-              new IPcs({
-                strPcs: '' + (i % n) + ',' + ((i + 4) % n) + ',' + ((i + 7) % n)
-              })
-            Analyse.addPcs(thirdChordByDegree, nbDegree, pcs);
-          } if (binPcs[(i + 6) % n] == 1) {
-            // flattened fifth (if near fifth)
-            const pcs =
-              new IPcs({
-                strPcs: '' + (i % n) + ',' + ((i + 4) % n) + ',' + ((i + 6) % n)
-              })
-            Analyse.addPcs(thirdChordByDegree, nbDegree, pcs);
-          } if (binPcs[(i + 8) % n] == 1) {
-            // flattened fifth (if near fifth)
-            const pcs =
-              new IPcs({
-                strPcs: '' + (i % n) + ',' + ((i + 4) % n) + ',' + ((i + 8) % n)
-              })
-            Analyse.addPcs(thirdChordByDegree, nbDegree, pcs);
-          }
-        }
-        // no third
-        if ( binPcs[(i + 3) % n] == 0 && binPcs[(i + 4) % n] == 0 ) {
+        } // for minor / minor
+          // no third
+        if (binPcs[(i + 3) % n] == 0 && binPcs[(i + 4) % n] == 0) {
           if (binPcs[(i + 2) % n] == 1) { // sus4
             if (binPcs[(i + 7) % n] == 1) {
               const pcs =

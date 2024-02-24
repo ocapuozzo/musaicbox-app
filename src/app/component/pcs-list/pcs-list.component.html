@@ -8,7 +8,7 @@
           <app-clock [ipcs]="pcs"></app-clock>
           <div class="card-body">
             <p class="text-center mt-1">
-              <span>{{ pcs.chordName }}</span>
+              <span>{{ pcs.getChordName() }}</span>
             </p>
             <h6 class="card-title">{{ pcs.getMappedPcsStr() }}</h6>
             <i (click)="doRemoveFromList(pcs)" class="bi bi-trash" style="cursor: pointer"></i>
@@ -28,7 +28,7 @@
             <div class="card-body">
               <h6 class="card-title">{{ pcs.getMappedPcsStr() }}</h6>
               <p class="text-center mt-1">
-                <span>{{ pcs.chordName }}</span>
+                <span>{{ pcs.getChordName() }}</span>
               </p>
               <i (click)="doRemoveFromList(pcs)" class="bi bi-trash p-1" style="cursor: pointer"></i>
               <i (click)="doSelectFromList(pcs)" class="bi bi-eye p-1" style="cursor: pointer"></i>

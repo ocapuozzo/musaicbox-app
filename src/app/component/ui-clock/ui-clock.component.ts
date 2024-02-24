@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, NgZone, Output, Renderer2, ViewChild} from '@angular/core';
 import {IPcs} from "../../core/IPcs";
 import {ClockDrawing} from "../../ui/ClockDrawing";
 import {MusicNotationComponent} from "../music-notation/music-notation.component";
@@ -29,6 +29,8 @@ export class UiClockComponent {
 
   private _ipcs: IPcs
 
+  private unlisten: Function;
+
   @Output() changePcs = new EventEmitter<IPcs>();
 
   @Input() set ipcs(value: IPcs) {
@@ -44,7 +46,9 @@ export class UiClockComponent {
 
   constructor(
      private managerHomePcsService: ManagerHomePcsService,
-     private managerHomePcsListService: ManagerHomePcsListService)
+     private managerHomePcsListService: ManagerHomePcsListService,
+     private ngZone: NgZone,
+     private renderer: Renderer2)
   {
     this.managerHomePcsService.updatePcs.subscribe((pcs: IPcs) => {
       this.ipcs = pcs
@@ -84,8 +88,7 @@ export class UiClockComponent {
       (event) => this.mouseup(event));
     this.canvas.nativeElement.addEventListener('mousedown',
       (event) => this.mousedown(event));
-    this.canvas.nativeElement.addEventListener('mousemove',
-      (event) => this.mouseMoveSetCursor(event));
+
     this.canvas.nativeElement.addEventListener('touchstart',
       (event) => this.touchstart(event), false);
     this.canvas.nativeElement.addEventListener('touchend',
@@ -94,6 +97,18 @@ export class UiClockComponent {
     // // right click => selected index ?
     this.canvas.nativeElement.addEventListener('contextmenu',
       (event) => this.mouseup(event));
+
+    // this.canvas.nativeElement.addEventListener('mousemove',
+    //   (event) => this.mouseMoveSetCursor(event));
+
+    // https://medium.com/javascript-everyday/adding-event-listeners-outside-of-the-angular-zone-a22f9cfc80eb
+    this.ngZone.runOutsideAngular(() => {
+      this.unlisten = this.renderer.listen(
+        this.canvas.nativeElement,
+        'mousemove',
+        (e) => this.mouseMoveSetCursor(e)
+      );
+    });
 
   }
 

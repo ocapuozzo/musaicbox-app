@@ -10,8 +10,8 @@ chordName.set('[0,4,8]', 'Maj Augmented triad')
 
 export class ChordName {
 
-  static NOTE_NAMES_SHARP = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
-  static NOTE_NAMES_FLAT = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B']
+  static NOTE_NAMES_SHARP = ['C', 'C♯', 'D', 'D♯', 'E', 'F', 'F♯', 'G', 'G♯', 'A', 'A♯', 'B']
+  static NOTE_NAMES_FLAT = ['C', 'D♭', 'D', 'E♭', 'E', 'F', 'G♭', 'G', 'A♭', 'A', 'B♭', 'B']
   static INDEX_SHARP_FLAT = [1, 3, 6, 8, 10]
 
   /**
@@ -26,7 +26,7 @@ export class ChordName {
     let sixth = ''
     let seven = ""
     let eleven = ""
-    let nine = ''
+    let nine = ""
     let pivot = pcs.templateMappingBinPcs[pcs.iPivot ?? 0]
     let binPcs = pcs.getMappedBinPcs()
     let n = pcs.nMapping
@@ -41,18 +41,16 @@ export class ChordName {
     }
     if (binPcs[(pivot + 7) % n] == 0) {
       if (binPcs[(pivot + 6) % n] == 1) {
-        // Major seven
         fifth = " ♭5"
       } else if (binPcs[(pivot + 8) % n] == 1) {
-        // Major seven
-        fifth = "Aug"
+        fifth = " ♯5"
       }
     }
     if (binPcs[(pivot + 9) % n] == 1) {
       sixth = "6"
     }
     if (binPcs[(pivot + 8) % n] == 1) {
-      if (fifth != "Aug") {
+      if (fifth != " ♯5") {
         sixth = " ♭6" // https://en.wikipedia.org/wiki/Sixth_chord
       }
     }
@@ -76,27 +74,26 @@ export class ChordName {
       }
     }
 
-    let chordName = `${third}${fifth}${sixth}${seven}${nine}${eleven}`.trim()
+    let _chordName = `${third}${fifth}${sixth}${seven}${nine}${eleven}`//.trim()
 
-    // if (chordName == 'minDiminished') {
-    //   chordName = 'min Diminished' // flat 5th'
-    // } else
-    if (chordName == 'min ♭57') {
-      chordName = 'ø7' //<sub>7♭5</sub>' // 'ø7'
-    } else if (chordName == 'min ♭56' /*'minDiminished6'*/) {
-      chordName = 'o' //'dim'  // 'o ø7'
-    } else if (chordName == 'min ♭5M7') { //'minDiminishedM7') {
-      chordName = 'øM7' //'dim'  // 'o ø7'
-    } else if (chordName == 'Maj7') {
-      chordName = '7'
-    } else if (chordName == 'MajM7') {
-      chordName = 'Maj7'
-    } else if (chordName == 'MajAug7') {
-      chordName = '7Aug'  // 7#5  7+5
-    } else if (chordName == 'MajAugM7') {
-      chordName = 'AugM7'
-    } else if (chordName == 'Maj ♭57') { //'MajDiminished7') {
-      chordName = '7b5'  // 7b5  7-5
+    if (_chordName == 'min ♭57') {
+      _chordName = 'ø7' //<sub>7♭5</sub>' // 'ø7'
+    } else if (_chordName == 'min ♭56' /*'minDiminished6'*/) {
+      _chordName = 'o' //'dim'  // 'o ø7'
+    } else if (_chordName == 'min ♭5M7') { //'minDiminishedM7') {
+      _chordName = 'øM7' //'dim'  // 'o ø7'
+    } else if (_chordName == 'Maj7') {
+      _chordName = '7'
+    } else if (_chordName == 'MajM7') {
+      _chordName = 'Maj7'
+    } else if (_chordName == 'Maj ♯5') {
+      _chordName = 'Aug'
+    } else if (_chordName == 'Maj ♯57') {
+      _chordName = '7Aug'  // 7#5  7+5
+    } else if (_chordName == 'Maj ♯5M7') {
+      _chordName = 'AugM7'
+    } else if (_chordName == 'Maj ♭57') { //'MajDiminished7') {
+      _chordName = '7b5'  // 7b5  7-5
     }
 
     let nameRoot = ''
@@ -110,9 +107,14 @@ export class ChordName {
         nameRoot = ChordName.NOTE_NAMES_SHARP[indexNameRoot]
       }
     } else if (indexNameRoot >= 0) {
+      // no altered
       nameRoot = ChordName.NOTE_NAMES_FLAT[indexNameRoot] // or NOTE_NAMES_SHARP what does it matter
     }
+    // console.log('nameRoot = ' + nameRoot)
+    // console.log('chordName = ' + _chordName)
 
-    return nameRoot + chordName.trim()
+    if (_chordName  &&'♭♯'.indexOf(nameRoot[nameRoot.length-1]) >= 0  && '♭♯'.indexOf(_chordName[0]) >= 0)
+       return  nameRoot + ' ' + _chordName
+    return `${nameRoot}${_chordName}`
   }
 }

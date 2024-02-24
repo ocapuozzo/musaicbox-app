@@ -1,7 +1,8 @@
-import {Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, NgZone, Output, Renderer2, ViewChild} from '@angular/core';
 import {IPcs} from "../../core/IPcs";
 import {ManagerHomePcsService} from "../../service/manager-home-pcs.service";
 import {NgClass} from "@angular/common";
+// import {fromEvent} from "rxjs";
 
 @Component({
   selector: 'app-ui-musaic',
@@ -26,7 +27,10 @@ export class UiMusaicComponent {
   @Input() ipcs: IPcs //= new IPcs({strPcs: "0,3,6,9"})
   @Output() changePcsEvent = new EventEmitter<IPcs>();
 
-  constructor(private managerHomePcsService : ManagerHomePcsService) {
+  private unlisten: Function;
+
+  constructor(private managerHomePcsService : ManagerHomePcsService,
+              private ngZone: NgZone, private renderer: Renderer2) {
     this.ipcs = this.managerHomePcsService.pcs
   }
 
@@ -39,13 +43,23 @@ export class UiMusaicComponent {
     this.canvas.nativeElement.addEventListener('mouseup',
       (event) => this.mouseup(event));
 
-    this.canvas.nativeElement.addEventListener('mousemove',
-      (event) => this.mouseMoveSetCursor(event));
+    // const host = fromEvent(this.canvas.nativeElement,'mousemove').subscribe(c=>this.mouseMoveSetCursor(c));
+    // this.canvas.nativeElement.addEventListener('mousemove',
+    //   (event) => this.mouseMoveSetCursor(event));
+
+    // https://medium.com/javascript-everyday/adding-event-listeners-outside-of-the-angular-zone-a22f9cfc80eb
+    this.ngZone.runOutsideAngular(() => {
+      this.unlisten = this.renderer.listen(
+        this.canvas.nativeElement,
+        'mousemove',
+        (e) => this.mouseMoveSetCursor(e)
+      );
+    });
 
     // send by manager-home-pcs.service
     this.managerHomePcsService.updatePcs.subscribe( (pcs: IPcs) => {
-      this.ipcs = pcs
-      this.drawsMusaic()
+        this.ipcs = pcs
+        this.drawsMusaic()
     })
 
     // initial view
@@ -124,8 +138,18 @@ export class UiMusaicComponent {
   mouseMoveSetCursor(e:any) {
     if (this.canvas == undefined) return
     let index = this.fromMatrixToIndexVector(e)
-    this.canvas.nativeElement.style.cursor =
-      this.ipcs.templateMappingBinPcs.includes(index) ? 'pointer' : 'not-allowed'
+    const cursorPointer = this.ipcs.templateMappingBinPcs.includes(index)
+
+    // always repaint... even if style cursor not set...
+    if (cursorPointer) {
+      if (this.canvas.nativeElement.style.cursor != 'pointer')
+        this.canvas.nativeElement.style.cursor = 'pointer'
+    } else {
+      if (this.canvas.nativeElement.style.cursor != 'not-allowed')
+        this.canvas.nativeElement.style.cursor = 'not-allowed'
+    }
+    // this.canvas.nativeElement.style.cursor =
+    //   this.ipcs.templateMappingBinPcs.includes(index) ? 'pointer' : 'not-allowed'
   }
   mouseup(e: any) {
     let index = this.fromMatrixToIndexVector(e)
