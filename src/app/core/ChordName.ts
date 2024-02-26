@@ -21,10 +21,11 @@ export class ChordName {
    */
   static getChordName(pcs: IPcs): string {
     if (pcs.cardinal < 3) return ''
+
     let third = ''
     let fifth = ''
     let sixth = ''
-    let seven = ""
+    let seventh = ""
     let eleven = ""
     let nine = ""
     let pivot = pcs.templateMappingBinPcs[pcs.iPivot ?? 0]
@@ -32,13 +33,16 @@ export class ChordName {
     let n = pcs.nMapping
 
     if (binPcs[(pivot + 3) % n] == 1) {
-      // Major seven
       third = "min"
     }
     if (binPcs[(pivot + 4) % n] == 1) {
-      // Major seven
-      third = "Maj"
+      if(third == "min") {
+        third = ""
+      } else {
+        third = "Maj"
+      }
     }
+
     if (binPcs[(pivot + 7) % n] == 0) {
       if (binPcs[(pivot + 6) % n] == 1) {
         fifth = " ♭5"
@@ -56,11 +60,11 @@ export class ChordName {
     }
     if (binPcs[(pivot + n - 1) % n] == 1) {
       // Major seven
-      seven = "M7"
+      seventh = "M7"
     }
     // Minor seven ?
     if (binPcs[(pivot + n - 2) % n] == 1) {
-      seven = '7'
+      seventh = '7'
     }
 
     if (third == '') {
@@ -74,7 +78,13 @@ export class ChordName {
       }
     }
 
-    let _chordName = `${third}${fifth}${sixth}${seven}${nine}${eleven}`//.trim()
+    if  (seventh == "7" && third == "Maj") {
+      third = '' // 7 is Major
+      sixth = '' //
+      nine = '' //
+    }
+
+    let _chordName = `${third}${fifth}${seventh}${sixth}${nine}${eleven}`//.trim()
 
     if (_chordName == 'min ♭57') {
       _chordName = 'ø7' //<sub>7♭5</sub>' // 'ø7'

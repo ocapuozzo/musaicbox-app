@@ -101,6 +101,7 @@ export class UiClockComponent {
     // this.canvas.nativeElement.addEventListener('mousemove',
     //   (event) => this.mouseMoveSetCursor(event));
 
+    // too much refresh display, so put event mousemove outside angular zone
     // https://medium.com/javascript-everyday/adding-event-listeners-outside-of-the-angular-zone-a22f9cfc80eb
     this.ngZone.runOutsideAngular(() => {
       this.unlisten = this.renderer.listen(
