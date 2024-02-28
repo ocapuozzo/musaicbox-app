@@ -84,7 +84,7 @@ export class ChordName {
       nine = '' //
     }
 
-    let _chordName = `${third}${fifth}${seventh}${sixth}${nine}${eleven}`//.trim()
+    let _chordName = `${third}${fifth}${seventh}${sixth}${nine}${eleven}`.trim()
 
     if (_chordName == 'min ♭57') {
       _chordName = 'ø7' //<sub>7♭5</sub>' // 'ø7'
@@ -99,12 +99,16 @@ export class ChordName {
     } else if (_chordName == 'Maj ♯5') {
       _chordName = 'Aug'
     } else if (_chordName == 'Maj ♯57') {
-      _chordName = '7Aug'  // 7#5  7+5
+      _chordName = '7+5'  // 7#5  7+5
     } else if (_chordName == 'Maj ♯5M7') {
       _chordName = 'AugM7'
     } else if (_chordName == 'Maj ♭57') { //'MajDiminished7') {
       _chordName = '7b5'  // 7b5  7-5
     }
+    if (_chordName == '♯57') {
+      _chordName = '7+5'
+    }
+
 
     let nameRoot = ''
     const indexNameRoot = pcs.iPivot != undefined ? pcs.templateMappingBinPcs[pcs!.iPivot] : -1

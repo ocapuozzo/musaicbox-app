@@ -197,7 +197,18 @@ export class Analyse {
         const pcs =
           new IPcs({binPcs: binChord})
         Analyse.addPcs(sevenChordByDegree, nbDegree, pcs.translation(pivot));
-        binChord[10] = 0
+
+        if (binPcs[(i + 8) % n] == 1) {
+          binChord[7] = 0
+          binChord[8] = 1
+          // 7 +5
+          const pcs =
+            new IPcs({binPcs: binChord})
+          Analyse.addPcs(sevenChordByDegree, nbDegree, pcs.translation(pivot));
+          binChord[7] = 1
+          binChord[8] = 0
+        }
+          binChord[10] = 0
       }
       // }  // test sixth
       if (binPcs[(i + 9) % n] == 1) {
