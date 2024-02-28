@@ -12,10 +12,14 @@ import {IPcs} from "../../core/IPcs";
 export class ClockComponent {
   @ViewChild('canvas', { static: false }) canvas: ElementRef<HTMLCanvasElement>;
   @ViewChild('containercanvas', {static: false}) containerCanvas: ElementRef<HTMLCanvasElement>;
+
   @Input() ipcs : IPcs = new IPcs({strPcs: "0,3,6,9"})
+  @Input() pivotColor = 'red'
   private context: CanvasRenderingContext2D;
   private isDrawing: boolean = false;
   private clockDrawing : ClockDrawing;
+
+  @Input() pcColorSet = 'yellow'
 
   n: 0;
 
@@ -36,7 +40,8 @@ export class ClockComponent {
       ctx: this.context,
       width: len,
       height: len, // square
-      pc_color_fill: "yellow",
+      pc_pivot_color: this.pivotColor,
+      pc_color_fill: this.pcColorSet,
       segmentsLineDash: [[1, 2, 2, 1], [2, 3]] // median, inter
     })
     this.setupEvents();

@@ -10,10 +10,12 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <a class="nav-link active" aria-current="page" href="#"
+             routerLink="/" routerLinkActive="active" >Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link"  href="#" tabindex="-1">Group explorer</a>
+          <a class="nav-link"  href="#" tabindex="-1"
+             routerLink="/group-explorer" routerLinkActive="active" >GroupExplorer</a>
         </li>
         <li class="nav-item">
           <a class="nav-link"  href="#" tabindex="-1">Help</a>
@@ -38,7 +40,7 @@
 <!--        </li>-->
       </ul>
       <form [formGroup]="checkoutForm"  class="d-flex" (ngSubmit)="onSubmit()">
-        <input class="form-control me-2" type="search"   formControlName="pcsStr" placeholder="Search" aria-label="Search">
+        <input class="form-control me-2" type="search"   formControlName="pcsStr" placeholder="{0, 4, 8}" aria-label="Search">
         <button class="btn btn-outline-success"  type="submit">Search</button>
       </form>
     </div>

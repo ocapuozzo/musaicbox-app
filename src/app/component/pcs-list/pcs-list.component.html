@@ -11,7 +11,8 @@
               <span>{{ pcs.getChordName() }}</span>
             </p>
             <h6 class="card-title">{{ pcs.getMappedPcsStr() }}</h6>
-            <i (click)="doRemoveFromList(pcs)" class="bi bi-trash" style="cursor: pointer"></i>
+            <i (click)="doRemoveFromList(pcs)" class="bi bi-trash p-1" style="cursor: pointer"></i>
+            <i (click)="doSelectFromList(pcs)" class="bi bi-eye p-1" style="cursor: pointer"></i>
             <app-music-notation [hidden]="! withMusicalNotation"
                                 [ipcs]="pcs">
             </app-music-notation>

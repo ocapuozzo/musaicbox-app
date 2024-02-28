@@ -1,0 +1,35 @@
+<fieldset class="representation-border p-3 text-center">
+  <legend class="representation-border float-none w-auto px-3">
+    {{ orbitsGroup?.groupingCriterion }} ({{ orbitsGroup?.orbits?.length ?? 0 }})&nbsp;
+    @if (orbitsGroup ? orbitsGroup.orbits[0].getPcsMin().n === 12 : false) {
+      <button type="button" (click)="changeViewIPcs()" class="toggle" aria-pressed="false">
+        {{ textButtonViewMusaicClock }}
+      </button>
+    }
+  </legend>
+
+  @for (orbit of orbitsGroup?.orbits; track orbit.getPcsMin().id) {
+    @if (viewClock) {
+      <div [hidden]="viewClock" class="d-inline-block text-center clock-pcs">
+        <!--      {{orbit.getPcsMin().getMappedPcsStr()}}-->
+        <app-musaic
+          [ipcs]="orbit.getPcsMin()"
+          class="clock-pcs ms-1 p-1">
+        </app-musaic>
+        <span class="text-center label-ipcs">#{{ orbit.ipcsset.length }}</span>
+      </div>
+    } @else {
+      <div class="d-inline-block text-center clock-pcs m-1">
+        <!--      {{orbit.getPcsMin().getMappedPcsStr()}}-->
+        <app-clock
+          [ipcs]="orbit.getPcsMin()"
+          [pcColorSet]="pcColorSet"
+          [pivotColor]="pivotColor"
+          class="clock-pcs ms-1 p-1">
+        </app-clock>
+
+        <span class="text-center label-ipcs">#{{ orbit.ipcsset.length }}</span>
+      </div>
+    }
+  }
+</fieldset>

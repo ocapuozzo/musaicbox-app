@@ -2,6 +2,7 @@ import {Component, ElementRef, EventEmitter, Input, NgZone, Output, Renderer2, V
 import {IPcs} from "../../core/IPcs";
 import {ManagerHomePcsService} from "../../service/manager-home-pcs.service";
 import {NgClass} from "@angular/common";
+
 // import {fromEvent} from "rxjs";
 
 @Component({
@@ -22,14 +23,14 @@ export class UiMusaicComponent {
 
   private context: CanvasRenderingContext2D;
   private isDisableButtons: boolean = false
-  private CEL_WIDTH : number = 10
+  private CEL_WIDTH: number = 10
 
   @Input() ipcs: IPcs //= new IPcs({strPcs: "0,3,6,9"})
-  @Output() changePcsEvent = new EventEmitter<IPcs>();
+  @Output() changePcsEvent = new EventEmitter<IPcs>()
 
   private unlisten: Function;
 
-  constructor(private managerHomePcsService : ManagerHomePcsService,
+  constructor(private managerHomePcsService: ManagerHomePcsService,
               private ngZone: NgZone, private renderer: Renderer2) {
     this.ipcs = this.managerHomePcsService.pcs
   }
@@ -57,9 +58,9 @@ export class UiMusaicComponent {
     });
 
     // send by manager-home-pcs.service
-    this.managerHomePcsService.updatePcs.subscribe( (pcs: IPcs) => {
-        this.ipcs = pcs
-        this.drawsMusaic()
+    this.managerHomePcsService.updatePcs.subscribe((pcs: IPcs) => {
+      this.ipcs = pcs
+      this.drawsMusaic()
     })
 
     // initial view
@@ -77,10 +78,10 @@ export class UiMusaicComponent {
 
     let n = this.ipcs.nMapping //getMappedBinPcs().length;
 
-    let CEL_WIDTH =  Math.floor(w / (n + 1));
-    w = CEL_WIDTH * (n+1)
-       // dimension of musaic match with cell size
-       // square (n+1) x (n+1)
+    let CEL_WIDTH = Math.floor(w / (n + 1));
+    w = CEL_WIDTH * (n + 1)
+    // dimension of musaic match with cell size
+    // square (n+1) x (n+1)
 
     this.canvas.nativeElement.width = w
     this.canvas.nativeElement.height = w
@@ -98,10 +99,10 @@ export class UiMusaicComponent {
     const pivotMapped = this.ipcs.templateMappingBinPcs[this.ipcs.iPivot ?? 0]
     for (let i = 0; i <= n; i++) {
       for (let j = 0; j <= n; j++) {
-        if (this.ipcs.getMappedBinPcs()[(i + pivotMapped  + j * 5) % n] === 1) {
+        if (this.ipcs.getMappedBinPcs()[(i + pivotMapped + j * 5) % n] === 1) {
           ctx.fillStyle = "black";
           ctx.fillRect(j * CEL_WIDTH, i * CEL_WIDTH, CEL_WIDTH, CEL_WIDTH);
-        //  ctx.strokeRect(j * CEL_WIDTH, i * CEL_WIDTH, CEL_WIDTH, CEL_WIDTH);
+          //  ctx.strokeRect(j * CEL_WIDTH, i * CEL_WIDTH, CEL_WIDTH, CEL_WIDTH);
 
         } else {
           ctx.fillStyle = "white";
@@ -117,7 +118,7 @@ export class UiMusaicComponent {
     this.CEL_WIDTH = CEL_WIDTH;
   }
 
-  fromMatrixToIndexVector(e: any) : number {
+  fromMatrixToIndexVector(e: any): number {
 
     let rect = this.canvas.nativeElement.getBoundingClientRect();
     let x = e.clientX - rect.left;
@@ -135,7 +136,7 @@ export class UiMusaicComponent {
    * Adapt cursor for select cell compatible with mapping
    * @param e
    */
-  mouseMoveSetCursor(e:any) {
+  mouseMoveSetCursor(e: any) {
     if (this.canvas == undefined) return
     let index = this.fromMatrixToIndexVector(e)
     const cursorPointer = this.ipcs.templateMappingBinPcs.includes(index)
@@ -151,16 +152,17 @@ export class UiMusaicComponent {
     // this.canvas.nativeElement.style.cursor =
     //   this.ipcs.templateMappingBinPcs.includes(index) ? 'pointer' : 'not-allowed'
   }
+
   mouseup(e: any) {
     let index = this.fromMatrixToIndexVector(e)
 
     // only select PCS in templateMappingBinPcs
-    if (! this.ipcs.templateMappingBinPcs.includes(index)) {
+    if (!this.ipcs.templateMappingBinPcs.includes(index)) {
       return;
     }
 
     // keep iPivot until cardinal = 1
-    if (index !== this.ipcs.iPivot || this.ipcs.cardinal===1) {
+    if (index !== this.ipcs.iPivot || this.ipcs.cardinal === 1) {
       this.managerHomePcsService.toggleIndex(index)
     }
   }
@@ -226,7 +228,7 @@ export class UiMusaicComponent {
    * (After geometric operation) select algebraic operation and call
    *  transformsPcsAndDrawsMusaic()
    */
-  listenerEndAnim(event : any) {
+  listenerEndAnim(event: any) {
     //  console.log("event.animationName:" + event.animationName)
     let opTransf;
     if (event.target.classList.contains("rotateM11")) {
