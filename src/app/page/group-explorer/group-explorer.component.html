@@ -1,10 +1,10 @@
 <div class="group-action">
-  <h2>Group & group action explorer
-    <div [hidden]="!waitingCompute" class="btn status">
-      <span class="spinner-border spinner-border-sm status" role="status" aria-hidden="true"></span>
-      Working...
-    </div>
-  </h2>
+  <h3>Cyclic group ℤ<sub>n</sub> & group action explorer
+  <div [hidden]="!waitingCompute" class="btn status">
+    <span class="spinner-border spinner-border-sm status" role="status" aria-hidden="true"></span>
+    Working...
+  </div>
+  </h3>
   <div class="d-flex flex-row">
     <div class="input-group group-dim ">
       <div class="input-group-prepend ">
@@ -40,7 +40,11 @@
         </form>
 
         <fieldset class="representation-border p-3">
-          <legend class="representation-border float-none w-auto px-3">Translation</legend>
+          <legend class="representation-border float-none w-auto px-3">Translation
+            <span data-bs-toggle="tooltip" data-bs-placement="right" title="T1 => Equivalent under translation/transposition" style="cursor: help">
+              <i class="bi bi-info-circle"></i>
+            </span>
+          </legend>
           @for (t of makeArray(Math.ceil(n / 2)); track t; let index = $index) {
             <div class="form-check form-check-inline">
               @if(t===0) {
@@ -79,7 +83,7 @@
       }
     </fieldset>
   </div>
-  <div class="p-2">
+  <div class="p-2" [hidden]="preReactOrbits.length > 420">
     <button type="button" class="btn btn-primary m-1" (click)="showOrbits('Stabilizer')">
       Show orbits ({{ preReactOrbits.length }}) grouped by stabilizers
       @if (groupAction) {
@@ -103,6 +107,7 @@
   </div>
 
   <div class="p-2">
+    @if (preReactOrbits.length <= 420 && orbitsPartitions.length > 0) {
     <fieldset class="representation-border p-3">
       <legend class="representation-border float-none w-auto px-3">A set of orbits
         @if (groupAction) {
@@ -115,7 +120,13 @@
         <app-orbit [orbitsGroup]="orbitsList"></app-orbit>
       }
     </fieldset>
+    }
+    <div [hidden]="preReactOrbits.length <= 420" class="alert alert-warning" role="alert" style="width: fit-content">
+        Too many orbits ({{preReactOrbits.length}}). Please select more operations !
+    </div>
+
   </div>
+
 
   <div class="p-2">
     <fieldset class="representation-border p-3 ">
@@ -133,7 +144,9 @@
       <div><span>nb Stabilizers classes : <span *ngIf="groupAction"> ({{ groupAction.orbitsSortedByStabilizers.length }}
         )</span></span></div>
       <div><span>nb Stabilizers is-motif classes : <span
-        *ngIf="groupAction"> ({{ groupAction.orbitsSortedByMotifStabilizers.length }})</span></span></div>
+        *ngIf="groupAction"> ({{ groupAction.orbitsSortedByMotifStabilizers.length }})</span></span>
+      </div>
+
     </fieldset>
   </div>
 </div>
