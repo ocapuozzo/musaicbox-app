@@ -18,11 +18,14 @@ May be use as
 - Compositional tool
 - Application example of Group Theory (Zx Affine Group). Develop with group theory concepts and implemented by permutation operations (inside a vector).
 
-
 Note : produces no sound !
 
-
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.10.
+
+## Online
+
+[a GithubPage app](https://ocapuozzo.github.io/musaicbox-app/)
+
 
 ## Development server
 
