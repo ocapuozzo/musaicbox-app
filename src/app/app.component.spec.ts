@@ -1,10 +1,13 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed} from '@angular/core/testing';
+
 import { AppComponent } from './app.component';
+import {RouterTestingModule} from "@angular/router/testing";
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppComponent],
+      // adding RouterTestingModule in imports else NullInjectorError: No provider for ActivatedRoute!
+      imports: [AppComponent, RouterTestingModule],
     }).compileComponents();
   });
 

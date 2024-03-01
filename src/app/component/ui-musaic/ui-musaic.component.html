@@ -1,13 +1,13 @@
 <div>
   <div #containercanvas class="text-center">
 
-<!--    [ngClass]="ipcs.n == 12 ? 'actionable' : 'no-actionable'"-->
+<!--    [ngClass]="pcs.n == 12 ? 'actionable' : 'no-actionable'"-->
     <canvas #canvas id="canvas"   style="border:1px solid black;"></canvas>
   </div>
-  <div [hidden]="ipcs.n == 12" class="extra content text-center aligned">
-    <p class="font-italic">Mapping {{ipcs.n}} => {{ipcs.nMapping}}</p>
+  <div [hidden]="pcs.n == 12" class="extra content text-center aligned">
+    <p class="font-italic">Mapping {{pcs.n}} => {{pcs.nMapping}}</p>
   </div>
-  <div [hidden]="ipcs.n != 12" class="extra content text-center aligned">
+  <div [hidden]="pcs.n != 12" class="extra content text-center aligned">
       <img
         (click)="m11Click()"
         #m11
@@ -15,6 +15,7 @@
         src="./assets/img/m11.png"
         title="m11"
         class="actionable img-fluid anim-button"
+        alt="M11"
         width="60"
       />
     <img
@@ -25,6 +26,7 @@
       title="m5"
       class="actionable img-fluid anim-button"
       width="60"
+      alt="M5"
     />
     <img
       (click)="m7Click()"
@@ -34,10 +36,11 @@
       title="m7"
       class="actionable img-fluid anim-button"
       width="60"
+      alt="M7"
     />
   </div>
   <div class="extra content text-center aligned">
-      <span [hidden]="ipcs.n != 12" (click)="complement()" class="actionable">
+      <span [hidden]="pcs.n != 12" (click)="complement()" class="actionable">
         <img
           src="./assets/img/cplt.png"
           title="complement"
@@ -48,10 +51,10 @@
       </span>
     <p class="text-center mt-1">
       IS :
-      <span class="analyse-pcs">({{ ipcs.is() }})</span>
+      <span class="analyse-pcs">({{ pcs.is() }})</span>
     </p>
     <p class="text-center mt-1">
-      <span>{{ipcs.getChordName()}}</span>
+      <span> #{{ EightyEight.idNumberOf(pcs) }}</span>
     </p>
 
   </div>

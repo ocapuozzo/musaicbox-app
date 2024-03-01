@@ -14,14 +14,14 @@ describe('IPcs unit tests', () => {
     expect(ipcsDiatMajMapped.getChordName()).toEqual('CMaj')
 
     let pcs = ipcsDiatMajMapped.toggleIndexPC(6)
-    expect(pcs.getChordName()).toEqual('CMaj7')
+    expect(pcs.getChordName()).toEqual('CM7')
 
     pcs = new IPcs({strPcs: '{0,3,7}'})
     // console.log(pcs.cyclicPrimeForm().getMappedPcsStr())
     expect(pcs.getChordName()).toEqual('Cmin')
 
     pcs = new IPcs({strPcs: '[11,2,5]' /*, iPivot:11*/})
-    expect(pcs.getChordName()).toEqual('Bmin ♭5')
+    expect(pcs.getChordName()).toEqual('Bdim')
 
   })
 

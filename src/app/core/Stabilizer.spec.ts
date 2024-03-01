@@ -211,7 +211,7 @@ describe('Stabilizer', () => {
     let sumPcs = 0;
     group.orbits.forEach(orbit => sumPcs += orbit.ipcsset.length)
 
-    let mapPcs = new Map() // k : id, v : [] of ipcs
+    let mapPcs = new Map() // k : id, v : [] of pcs
     group.orbits.forEach((orbit) => {
       orbit.ipcsset.forEach((p) => {
         if (!mapPcs.has(p.id)) {

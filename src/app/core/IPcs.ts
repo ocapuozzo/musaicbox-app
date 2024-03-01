@@ -277,7 +277,7 @@ export class IPcs {
     return pitchesArray;
   }
 
-  static get NEXT_MODULE() {
+  static get NEXT_DEGREE() {
     return NEXT_MODULATION
   }
 
@@ -503,7 +503,7 @@ export class IPcs {
   modulation(direction: number): IPcs {
     let newiPivot = this.iPivot
     let pivot: number = this.iPivot ?? 0
-    if (direction === IPcs.NEXT_MODULE) {
+    if (direction === IPcs.NEXT_DEGREE) {
       let n = this.abinPcs.length
       for (let i = pivot + 1; i < n + pivot; i++) {
         if (this.abinPcs[i % n] === 1) {
@@ -559,7 +559,7 @@ export class IPcs {
    * Example : [1,1,0,0,0,0,0,1,0,0,0,0] => "[0, 1, 7]"
    * @returns {string}
    */
-  getMappedPcsStr(): string {
+  getMappedPcsStr(withBrack: boolean = true): string {
     let res = "";
     const mappedBin = this.getMappedBinPcs()
     for (let index = 0; index < mappedBin.length; index++) {
@@ -567,7 +567,8 @@ export class IPcs {
       if (element)
         res = (res) ? res + ',' + index.toString() : index.toString();
     }
-    return '[' + res + ']';
+    if (withBrack) return '[' + res + ']';
+    return  res
   }
 
 

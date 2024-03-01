@@ -8,13 +8,15 @@ import {
 import {ManagerHomePcsService} from "../../service/manager-home-pcs.service";
 import {ManagerHomePcsListService} from "../../service/manager-home-pcs-list.service";
 import {Analyse} from "../../utils/Analyse";
+import {NgOptimizedImage} from "@angular/common";
 
 @Component({
   selector: 'app-ui-clock',
   standalone: true,
   imports: [
     MusicNotationComponent,
-    ModulationTranslationControlComponent
+    ModulationTranslationControlComponent,
+    NgOptimizedImage
   ],
   templateUrl: './ui-clock.component.html',
   styleUrl: './ui-clock.component.css'
@@ -27,21 +29,21 @@ export class UiClockComponent {
   private context: CanvasRenderingContext2D;
   private clockDrawing: ClockDrawing;
 
-  private _ipcs: IPcs
+  private _pcs: IPcs
 
   private unlisten: Function;
 
   @Output() changePcs = new EventEmitter<IPcs>();
 
-  @Input() set ipcs(value: IPcs) {
-    this._ipcs = value
+  @Input() set pcs(value: IPcs) {
+    this._pcs = value
     if (this.context) {
       this.drawClock()
     }
   }
 
-  get ipcs(): IPcs {
-    return this._ipcs
+  get pcs(): IPcs {
+    return this._pcs
   }
 
   constructor(
@@ -51,9 +53,9 @@ export class UiClockComponent {
      private renderer: Renderer2)
   {
     this.managerHomePcsService.updatePcs.subscribe((pcs: IPcs) => {
-      this.ipcs = pcs
+      this.pcs = pcs
     })
-    this.ipcs = this.managerHomePcsService.pcs
+    this.pcs = this.managerHomePcsService.pcs
   }
 
   ngAfterViewInit() {
@@ -118,7 +120,7 @@ export class UiClockComponent {
     let index = this.getIndexSelectedFromUIClock(e);
     if (index >= 0) {
       this.canvas.nativeElement.style.cursor =
-        this.ipcs.templateMappingBinPcs.includes(index) ? 'pointer' : 'not-allowed'
+        this.pcs.templateMappingBinPcs.includes(index) ? 'pointer' : 'not-allowed'
     } else {
       this.canvas.nativeElement.style.cursor = 'default'
     }
@@ -143,7 +145,7 @@ export class UiClockComponent {
     }
 
     // only select PCS in templateMappingBinPcs
-    if (! this.ipcs.templateMappingBinPcs.includes(index)) {
+    if (! this.pcs.templateMappingBinPcs.includes(index)) {
       return;
     }
 
@@ -171,19 +173,19 @@ export class UiClockComponent {
     }
 
     // accept unset iPivot when cardinal == 1 only
-    if (index >= 0 && (index !== this.getIPivot() || this.ipcs.cardinal === 1)) {
+    if (index >= 0 && (index !== this.getIPivot() || this.pcs.cardinal === 1)) {
       this.managerHomePcsService.toggleIndex(index)
     }
   }
 
   public getIPivot(): number | undefined {
-    return this.ipcs.iPivot
+    return this.pcs.iPivot
   }
 
   public setIPivot(newPivot: number) {
-    if (newPivot < this.ipcs.n && newPivot >= 0) {
+    if (newPivot < this.pcs.n && newPivot >= 0) {
       this.managerHomePcsService.toggleIndexOrSetIPivot(newPivot)
-      // this.ipcs = new IPcs({strPcs: this.ipcs.getPcsStr(), iPivot: newPivot})
+      // this.pcs = new IPcs({strPcs: this.pcs.getPcsStr(), iPivot: newPivot})
       // this.drawClock()
     } else {
       throw new Error("Invalid iPivot")
@@ -191,7 +193,7 @@ export class UiClockComponent {
   }
 
   getCardinal() {
-    return this.ipcs.n
+    return this.pcs.n
   }
 
   checkClockDrawing() {
@@ -199,7 +201,7 @@ export class UiClockComponent {
       let len = Math.min(this.context.canvas.clientWidth, this.context.canvas.clientHeight)
       this.clockDrawing = new ClockDrawing(
         {
-          ipcs: this.ipcs,
+          ipcs: this.pcs,
           ctx: this.context,
           width: len,
           height: len,
@@ -232,7 +234,7 @@ export class UiClockComponent {
   }
 
   isSelected(i: number): boolean {
-    return this.ipcs.getMappedBinPcs()[i] === 1;
+    return this.pcs.getMappedBinPcs()[i] === 1;
   }
 
   touchstart(e: TouchEvent | MouseEvent) {
@@ -277,7 +279,7 @@ export class UiClockComponent {
 
   drawClock() {
     this.checkClockDrawing()
-    this.clockDrawing.draw(this.ipcs)
+    this.clockDrawing.draw(this.pcs)
   }
 
   /**
@@ -288,10 +290,10 @@ export class UiClockComponent {
     if ($event.startsWith('T')) {
       this.managerHomePcsService.translateByM1Tx($event == 'T-1' ? -1 : +1)
     } else {
-      this.managerHomePcsService.modulation($event == 'M-1' ? IPcs.PREV_MODULE : IPcs.NEXT_MODULE)
+      this.managerHomePcsService.modulation($event == 'M-1' ? IPcs.PREV_MODULE : IPcs.NEXT_DEGREE)
     }
     this.drawClock()
-    this.changePcs.emit(this.ipcs)
+    this.changePcs.emit(this.pcs)
   }
 
   autoMap() {
@@ -303,11 +305,11 @@ export class UiClockComponent {
   }
 
   addToList() {
-    this.managerHomePcsListService.addPcs('', this.ipcs)
+    this.managerHomePcsListService.addPcs('', this.pcs)
   }
 
-  thirdChordList() {
-    const list3Chords = Analyse.getList3Chords(this.ipcs)
+  threeChordList() {
+    const list3Chords = Analyse.getListChords(this.pcs, 3)
     for (const list3Chord of list3Chords) {
       for (let i = 0; i < list3Chord[1].length ; i++) {
         this.managerHomePcsListService.addPcs(list3Chord[0], list3Chord[1][i])
@@ -315,8 +317,8 @@ export class UiClockComponent {
     }
   }
 
-  sevenChordList() {
-    const listSeventhChords = Analyse.getListSevenChords(this.ipcs)
+  fourChordList() {
+    const listSeventhChords = Analyse.getListChords(this.pcs, 4)
     for (const fourChord of listSeventhChords) {
       for (let i = 0; i < fourChord[1].length ; i++) {
         this.managerHomePcsListService.addPcs(fourChord[0], fourChord[1][i])

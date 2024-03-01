@@ -14,7 +14,7 @@
             <i (click)="doRemoveFromList(pcs)" class="bi bi-trash p-1" style="cursor: pointer"></i>
             <i (click)="doSelectFromList(pcs)" class="bi bi-eye p-1" style="cursor: pointer"></i>
             <app-music-notation [hidden]="! withMusicalNotation"
-                                [ipcs]="pcs">
+                                [pcs]="pcs">
             </app-music-notation>
           </div>
         </div>
@@ -27,14 +27,14 @@
           <div class="card text-center m-2 shadow rounded" style="width: 180px;">
             <app-clock [ipcs]="pcs"></app-clock>
             <div class="card-body">
-              <h6 class="card-title">{{ pcs.getMappedPcsStr() }}</h6>
+              <h6 class="card-title">{{ pcs.getMappedPcsStr() }} <sub> {{ pcs.iPivot }}</sub></h6>
               <p class="text-center mt-1">
                 <span>{{ pcs.getChordName() }}</span>
               </p>
               <i (click)="doRemoveFromList(pcs)" class="bi bi-trash p-1" style="cursor: pointer"></i>
               <i (click)="doSelectFromList(pcs)" class="bi bi-eye p-1" style="cursor: pointer"></i>
               <app-music-notation [hidden]="! withMusicalNotation"
-                                  [ipcs]="pcs">
+                                  [pcs]="pcs">
               </app-music-notation>
             </div>
           </div>

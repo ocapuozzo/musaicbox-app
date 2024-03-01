@@ -17,3 +17,7 @@ canvas {
   background-color: blanchedalmond;
 }
 
+.panel-action {
+  display: flex;
+  justify-content: space-between;
+}

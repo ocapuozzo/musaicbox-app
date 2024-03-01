@@ -5,9 +5,7 @@
 import {GroupAction} from "./GroupAction"
 import {IPcs} from "./IPcs";
 import {MusaicPcsOperation} from "./MusaicPcsOperation";
-// import {ISortedOrbits} from "./ISortedOrbits";
 import {Group} from "./Group";
-import {Orbit} from "./Orbit";
 
 describe('GroupAction', () => {
 
@@ -128,7 +126,7 @@ describe('GroupAction', () => {
   /**
    * TODO : (a first ?) comment to be checked in proofreading / code review !!
    * If group has a complemented operation then this group must have CM1-T1 op
-   * because ipcs complemented lost his iPivot... So equivalence relation must include
+   * because pcs complemented lost his iPivot... So equivalence relation must include
    * "to a near transposition"
    */
   it("group with complemented op and no T (n = 12)", () => {
@@ -285,7 +283,7 @@ describe('GroupAction', () => {
     const ipcs = new IPcs({strPcs: "0, 1, 2", n: 5})
 
     try {
-      // ipcs.n = 5 or group is n = 12 !
+      // pcs.n = 5 or group is n = 12 !
       const orbit = cyclicGroup12.getOrbitOf(ipcs)
       // waiting exception
       fail("Impossible operation !!")
@@ -303,7 +301,7 @@ describe('GroupAction', () => {
       const ipcsWithOrbit = cyclicGroup12.getIPcsInOrbit(ipcs)
       expect(ipcsWithOrbit.orbit.cardinal).toEqual(6)
 
-      badIpcs = cyclicGroup12.getIPcsInOrbit(badIpcs)
+      cyclicGroup12.getIPcsInOrbit(badIpcs)
       // waiting exception
       fail("Impossible operation !!")
     } catch (e: any) {

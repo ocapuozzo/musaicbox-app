@@ -1,5 +1,6 @@
 import {IPcs} from "./IPcs";
 
+
 const chordName: Map<string, string> = new Map<string, string>()
 chordName.set('[0,3,7]', 'Minor triad')
 chordName.set('[0,4,7]', 'Major triad')
@@ -14,101 +15,193 @@ export class ChordName {
   static NOTE_NAMES_FLAT = ['C', 'D♭', 'D', 'E♭', 'E', 'F', 'G♭', 'G', 'A♭', 'A', 'B♭', 'B']
   static INDEX_SHARP_FLAT = [1, 3, 6, 8, 10]
 
-  /**
-   * Get chord name from cyclic primeform of mapped representation
-   * @param pcs
-   * @return {string} chord name
-   */
-  static getChordName(pcs: IPcs): string {
-    if (pcs.cardinal < 3) return ''
 
-    let third = ''
-    let fifth = ''
-    let sixth = ''
-    let seventh = ""
-    let eleven = ""
-    let nine = ""
+  static chord3pitches = new Map<string, string>()
+  static chord4pitches = new Map<string, string>()
+
+  static {
+    // 3-chords
+    ChordName.chord3pitches.set('0,4,7', 'Maj')
+    ChordName.chord3pitches.set('0,4,6', 'Maj ♭5')
+    ChordName.chord3pitches.set('0,4,8', 'aug')
+    ChordName.chord3pitches.set('0,4,9', 'Maj6')
+    ChordName.chord3pitches.set('0,5,7', 'Maj sus4')
+    ChordName.chord3pitches.set('0,2,7', 'Maj sus2')
+
+    ChordName.chord3pitches.set('0,5,7', 'sus4')
+    ChordName.chord3pitches.set('0,3,7', 'min')
+    ChordName.chord3pitches.set('0,3,6', 'dim')
+
+
+    // 4-chords
+    ChordName.chord4pitches.set('0,4,7,10', '7') // seventh
+    ChordName.chord4pitches.set('0,4,7,9', '6')
+    ChordName.chord4pitches.set('0,4,7,11', 'M7') // Major 7
+    ChordName.chord4pitches.set('0,4,8,10', '7 ♯5')
+    ChordName.chord4pitches.set('0,4,6,10', '7 ♭5')
+    ChordName.chord4pitches.set('0,5,7,10', '7 sus4') // seventh
+    ChordName.chord4pitches.set('0,4,8,11', 'augM7')
+    ChordName.chord4pitches.set('0,2,7,10', '7 sus2')
+
+    ChordName.chord4pitches.set('0,3,7,10', 'min7')
+    ChordName.chord4pitches.set('0,3,7,11', 'min M7')
+    ChordName.chord4pitches.set('0,3,7,9', 'min6')
+    ChordName.chord4pitches.set('0,3,6,10', 'ø')
+    ChordName.chord4pitches.set('0,3,6,9', 'o')
+  }
+
+
+  static getKeysChord(pcs: IPcs, nPitches: number): string[] {
+    let res: string[] = []
+
+    if (pcs.cardinal < 3) return res
+
     let pivot = pcs.templateMappingBinPcs[pcs.iPivot ?? 0]
     let binPcs = pcs.getMappedBinPcs()
     let n = pcs.nMapping
 
-    if (binPcs[(pivot + 3) % n] == 1) {
-      third = "min"
-    }
-    if (binPcs[(pivot + 4) % n] == 1) {
-      if(third == "min") {
-        third = ""
-      } else {
-        third = "Maj"
+    let key = ''
+    for (let minorMajor of [3, 4]) {
+      if (binPcs[(pivot + minorMajor) % n] == 1) {
+        key = '0,' + minorMajor
+        // for (let j = pivot + minorMajor + 1; j < (n + pivot); j++) {
+        // seventh first
+        for (let j = n + pivot -1; j > pivot + minorMajor ;  j--) {
+          if (binPcs[j % n] == 1) {
+            // 3Chord
+            let testKey = key + ',' + (j - pivot)
+            if (nPitches == 3) {
+              if (ChordName.chord3pitches.has(testKey)) {
+                res.push(testKey)
+              }
+            } else { // nPitches == 4
+              // form end, seventh first before sixth
+              let iStart = j + 1
+              let iEnd = n + pivot + 1
+              for (let k = iEnd; k >= iStart; k--) {
+                if (binPcs[k % n] == 1) {
+                  // 4Chord
+                  let testKey2 = testKey + ',' + ((k - pivot) % n)
+                  if (ChordName.chord4pitches.has(testKey2)) {
+                    res.push(testKey2)
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
+    // no third
+    if ((binPcs[(pivot + 3) % n] == 0) && (binPcs[(pivot + 4) % n] == 0)){
+     for( let sus of [2,5] ) {
+      if (binPcs[(pivot + sus) % n] == 1) {
+        // sus2 sus4 ?
+        key = '0,' + sus
+        if (binPcs[(pivot + 7) % n] == 1) {
+          let testKey = key + ',7'
+          if (nPitches == 3) {
+            if (ChordName.chord3pitches.has(testKey)) {
+              res.push(testKey)
+            }
+          } else { // 4Chord
+            if (binPcs[(pivot + 10) % n] == 1) {
+              let testKey2 = testKey + ',10'
+              if (ChordName.chord4pitches.has(testKey2)) {
+                // 7 sus2 or 7 sus4
+                res.push(testKey2)
+              }
+            }
+          }
+        }
+      }
+     }
+    }
+    if (nPitches == 3) {
+      // chord name small in first
+      res.sort( (s1,s2) =>
+        ChordName.chord3pitches.get(s1)!.length - ChordName.chord3pitches.get(s2)!.length)
+    }
+    return  res
+  }
 
-    if (binPcs[(pivot + 7) % n] == 0) {
-      if (binPcs[(pivot + 6) % n] == 1) {
-        fifth = " ♭5"
-      } else if (binPcs[(pivot + 8) % n] == 1) {
-        fifth = " ♯5"
+  static _getKeysChord(pcs: IPcs, nPitches: number): string[] {
+    let res: string[] = []
+
+    if (pcs.cardinal < 3) return res
+
+    let pivot = pcs.templateMappingBinPcs[pcs.iPivot ?? 0]
+    let binPcs = pcs.getMappedBinPcs()
+    let n = pcs.nMapping
+
+    // start pivot
+    let i = pivot;
+    let key = ''
+    if (binPcs[(i + 3) % n] == 1) {
+      key += '0,3'
+      for (let j = i + 4; j < (n + pivot); j++) {
+        if (binPcs[j % n] == 1) {
+          // 3Chord
+          let testKey = key + ',' + (j - i)
+          if (nPitches == 3 && ChordName.chord3pitches.has(testKey)
+            || nPitches == 4) {
+            if (nPitches == 3) {
+              res.push(testKey)
+            } else {
+              // form end, seventh first before sixth
+              for (let k = n + pivot + 1; k >= j + 1; k--) {
+                if (binPcs[k % n] == 1) {
+                  // 4Chord
+                  let testKey2 = testKey + ',' + (k - i)
+                  if (ChordName.chord4pitches.has(testKey2)) {
+                    res.push(testKey2)
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
-    if (binPcs[(pivot + 9) % n] == 1) {
-      sixth = "6"
-    }
-    if (binPcs[(pivot + 8) % n] == 1) {
-      if (fifth != " ♯5") {
-        sixth = " ♭6" // https://en.wikipedia.org/wiki/Sixth_chord
+    if (binPcs[(i + 4) % n] == 1) {
+      key = '0,4'
+      for (let j = i + 5; j < (n + pivot); j++) {
+        if (binPcs[j % n] == 1) {
+          // 3Chord
+          let testKey = key + ',' + (j - i)
+          if (nPitches == 3 && ChordName.chord3pitches.has(testKey)
+            || nPitches == 4) {
+            if (nPitches == 3) {
+              res.push(testKey)
+            } else {
+              // form end, seventh first before sixth
+              for (let k = n + pivot + 1; k >= j + 1; k--) {
+                if (binPcs[k % n] == 1) {
+                  // 4Chord
+                  let testKey2 = testKey + ',' + (k - i)
+                  if (ChordName.chord4pitches.has(testKey2)) {
+                    res.push(testKey2)
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
-    if (binPcs[(pivot + n - 1) % n] == 1) {
-      // Major seven
-      seventh = "M7"
-    }
-    // Minor seven ?
-    if (binPcs[(pivot + n - 2) % n] == 1) {
-      seventh = '7'
-    }
+    return res
+  }
 
-    if (third == '') {
-      if (binPcs[(pivot + 1) % n] == 1) {
-        nine = 'b9'
-      } else if (binPcs[(pivot + 2) % n] == 1) {
-        nine = 'sus9'
-      }
-      if (binPcs[(pivot + 5) % n] == 1) {
-        nine = 'sus4'
-      }
-    }
 
-    if  (seventh == "7" && third == "Maj") {
-      third = '' // 7 is Major
-      sixth = '' //
-      nine = '' //
-    }
+  static getChordName(pcs: IPcs): string {
+    const chords3pitches = ChordName.getKeysChord(pcs, 3)
+    const chords4pitches = ChordName.getKeysChord(pcs, 4)
 
-    let _chordName = `${third}${fifth}${seventh}${sixth}${nine}${eleven}`.trim()
+    const _chordName: string = ChordName.chord4pitches.get(chords4pitches[0])
+      ?? ChordName.chord3pitches.get(chords3pitches[0])
+      ?? ''
 
-    if (_chordName == 'min ♭57') {
-      _chordName = 'ø7' //<sub>7♭5</sub>' // 'ø7'
-    } else if (_chordName == 'min ♭56' /*'minDiminished6'*/) {
-      _chordName = 'o' //'dim'  // 'o ø7'
-    } else if (_chordName == 'min ♭5M7') { //'minDiminishedM7') {
-      _chordName = 'øM7' //'dim'  // 'o ø7'
-    } else if (_chordName == 'Maj7') {
-      _chordName = '7'
-    } else if (_chordName == 'MajM7') {
-      _chordName = 'Maj7'
-    } else if (_chordName == 'Maj ♯5') {
-      _chordName = 'Aug'
-    } else if (_chordName == 'Maj ♯57') {
-      _chordName = '7+5'  // 7#5  7+5
-    } else if (_chordName == 'Maj ♯5M7') {
-      _chordName = 'AugM7'
-    } else if (_chordName == 'Maj ♭57') { //'MajDiminished7') {
-      _chordName = '7b5'  // 7b5  7-5
-    }
-    if (_chordName == '♯57') {
-      _chordName = '7+5'
-    }
-
+    if (!_chordName) return ''
 
     let nameRoot = ''
     const indexNameRoot = pcs.iPivot != undefined ? pcs.templateMappingBinPcs[pcs!.iPivot] : -1
@@ -127,8 +220,9 @@ export class ChordName {
     // console.log('nameRoot = ' + nameRoot)
     // console.log('chordName = ' + _chordName)
 
-    if (_chordName  &&'♭♯'.indexOf(nameRoot[nameRoot.length-1]) >= 0  && '♭♯'.indexOf(_chordName[0]) >= 0)
-       return  nameRoot + ' ' + _chordName
+    if (_chordName && '♭♯'.indexOf(nameRoot[nameRoot.length - 1]) >= 0 && '♭♯'.indexOf(_chordName[0]) >= 0)
+      return nameRoot + ' ' + _chordName
     return `${nameRoot}${_chordName}`
   }
 }
+

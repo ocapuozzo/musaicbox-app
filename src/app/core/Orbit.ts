@@ -195,4 +195,7 @@ export class Orbit {
     return this.groupAction == undefined // this.ipcsset.length == 0
   }
 
+  has(pcs: IPcs):boolean {
+    return this.ipcsset.find( p => p.id == pcs.id) !== undefined
+  }
 }

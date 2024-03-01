@@ -2,6 +2,7 @@ import {Component, ElementRef, EventEmitter, Input, NgZone, Output, Renderer2, V
 import {IPcs} from "../../core/IPcs";
 import {ManagerHomePcsService} from "../../service/manager-home-pcs.service";
 import {NgClass} from "@angular/common";
+import {EightyEight} from "../../utils/EightyEight";
 
 // import {fromEvent} from "rxjs";
 
@@ -25,14 +26,14 @@ export class UiMusaicComponent {
   private isDisableButtons: boolean = false
   private CEL_WIDTH: number = 10
 
-  @Input() ipcs: IPcs //= new IPcs({strPcs: "0,3,6,9"})
+  @Input() pcs: IPcs //= new IPcs({strPcs: "0,3,6,9"})
   @Output() changePcsEvent = new EventEmitter<IPcs>()
 
   private unlisten: Function;
 
   constructor(private managerHomePcsService: ManagerHomePcsService,
               private ngZone: NgZone, private renderer: Renderer2) {
-    this.ipcs = this.managerHomePcsService.pcs
+    this.pcs = this.managerHomePcsService.pcs
   }
 
   ngAfterViewInit() {
@@ -59,7 +60,7 @@ export class UiMusaicComponent {
 
     // send by manager-home-pcs.service
     this.managerHomePcsService.updatePcs.subscribe((pcs: IPcs) => {
-      this.ipcs = pcs
+      this.pcs = pcs
       this.drawsMusaic()
     })
 
@@ -76,7 +77,7 @@ export class UiMusaicComponent {
 
     let w = this.containerCanvas.nativeElement.clientWidth ?? 40
 
-    let n = this.ipcs.nMapping //getMappedBinPcs().length;
+    let n = this.pcs.nMapping //getMappedBinPcs().length;
 
     let CEL_WIDTH = Math.floor(w / (n + 1));
     w = CEL_WIDTH * (n + 1)
@@ -92,14 +93,14 @@ export class UiMusaicComponent {
     // loop n+1 for exact correlation between geometry ops and algebra ops
     // display *iPivot centered* for bijective relation geometry <-> algebra
     // Example.
-    //   ipcs : ({0, 3, 6, 9}, iPivot=0)
-    //   ipcs : ({1, 4, 7, 10}, iPivot=1)
+    //   pcs : ({0, 3, 6, 9}, iPivot=0)
+    //   pcs : ({1, 4, 7, 10}, iPivot=1)
     // are same IS, are same Musaic representation
-    // let iPivot = this.ipcs.iPivot ?? 0
-    const pivotMapped = this.ipcs.templateMappingBinPcs[this.ipcs.iPivot ?? 0]
+    // let iPivot = this.pcs.iPivot ?? 0
+    const pivotMapped = this.pcs.templateMappingBinPcs[this.pcs.iPivot ?? 0]
     for (let i = 0; i <= n; i++) {
       for (let j = 0; j <= n; j++) {
-        if (this.ipcs.getMappedBinPcs()[(i + pivotMapped + j * 5) % n] === 1) {
+        if (this.pcs.getMappedBinPcs()[(i + pivotMapped + j * 5) % n] === 1) {
           ctx.fillStyle = "black";
           ctx.fillRect(j * CEL_WIDTH, i * CEL_WIDTH, CEL_WIDTH, CEL_WIDTH);
           //  ctx.strokeRect(j * CEL_WIDTH, i * CEL_WIDTH, CEL_WIDTH, CEL_WIDTH);
@@ -125,11 +126,11 @@ export class UiMusaicComponent {
     let y = e.clientY - rect.top;
 
     // for compute with undefined
-    let localPivot = (this.ipcs.iPivot === undefined) ? 0 : this.ipcs.iPivot
+    let localPivot = (this.pcs.iPivot === undefined) ? 0 : this.pcs.iPivot
 
     // from matrix coord to indice linear (for matrix armature 1 x 5)
     return ((5 * Math.floor(x / this.CEL_WIDTH))
-      + (Math.floor(y / this.CEL_WIDTH)) + localPivot) % this.ipcs.nMapping
+      + (Math.floor(y / this.CEL_WIDTH)) + localPivot) % this.pcs.nMapping
   }
 
   /**
@@ -139,7 +140,7 @@ export class UiMusaicComponent {
   mouseMoveSetCursor(e: any) {
     if (this.canvas == undefined) return
     let index = this.fromMatrixToIndexVector(e)
-    const cursorPointer = this.ipcs.templateMappingBinPcs.includes(index)
+    const cursorPointer = this.pcs.templateMappingBinPcs.includes(index)
 
     // always repaint... even if style cursor not set...
     if (cursorPointer) {
@@ -150,19 +151,19 @@ export class UiMusaicComponent {
         this.canvas.nativeElement.style.cursor = 'not-allowed'
     }
     // this.canvas.nativeElement.style.cursor =
-    //   this.ipcs.templateMappingBinPcs.includes(index) ? 'pointer' : 'not-allowed'
+    //   this.pcs.templateMappingBinPcs.includes(index) ? 'pointer' : 'not-allowed'
   }
 
   mouseup(e: any) {
     let index = this.fromMatrixToIndexVector(e)
 
     // only select PCS in templateMappingBinPcs
-    if (!this.ipcs.templateMappingBinPcs.includes(index)) {
+    if (!this.pcs.templateMappingBinPcs.includes(index)) {
       return;
     }
 
     // keep iPivot until cardinal = 1
-    if (index !== this.ipcs.iPivot || this.ipcs.cardinal === 1) {
+    if (index !== this.pcs.iPivot || this.pcs.cardinal === 1) {
       this.managerHomePcsService.toggleIndex(index)
     }
   }
@@ -257,4 +258,5 @@ export class UiMusaicComponent {
 
   }
 
+  protected readonly EightyEight = EightyEight;
 }

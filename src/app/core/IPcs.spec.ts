@@ -130,11 +130,11 @@ describe('IPcs unit tests', () => {
     let ipcs_other1
     let ipcs_other2 = new IPcs({strPcs: "0,4,11", iPivot: 4})
 
-    expect(ipcs.modulation(IPcs.NEXT_MODULE)).toEqual(ipcs_other2);
+    expect(ipcs.modulation(IPcs.NEXT_DEGREE)).toEqual(ipcs_other2);
     ipcs_other1 = new IPcs({strPcs: "0,4,11", iPivot: 11})
-    expect(ipcs_other2.modulation(IPcs.NEXT_MODULE)).toEqual(ipcs_other1);
+    expect(ipcs_other2.modulation(IPcs.NEXT_DEGREE)).toEqual(ipcs_other1);
     ipcs_other2 = new IPcs({strPcs: "0,4,11", iPivot: 0})
-    expect(ipcs_other1.modulation(IPcs.NEXT_MODULE)).toEqual(ipcs_other2);
+    expect(ipcs_other1.modulation(IPcs.NEXT_DEGREE)).toEqual(ipcs_other2);
   });
 
   it("IPcs cardinal PREVIOUS", () => {
@@ -218,7 +218,7 @@ describe('IPcs unit tests', () => {
     let ipcs = new IPcs({strPcs: "0, 3, 6, 9", iPivot: 0})
     expect(ipcs.cardOrbitCyclic()).toEqual(3)
     ipcs = ipcs.cyclicPrimeForm()
-    // ipcs is now attached with good orbit (for good average test)
+    // pcs is now attached with good orbit (for good average test)
     expect(ipcs.cardOrbitCyclic()).toEqual(3)
 
     ipcs = new IPcs({strPcs: "0, 4, 8", iPivot: 0})
@@ -272,7 +272,7 @@ describe('IPcs unit tests', () => {
     const cMajDihedralPF = new IPcs({strPcs: "0, 3, 7"})
     expect(cMaj.dihedralPrimeForm().getMappedBinPcs()).toEqual(cMajDihedralPF.getMappedBinPcs())
 
-    // test when ipcs have already good orbit
+    // test when pcs have already good orbit
     const ipcs2 = cMaj.dihedralPrimeForm()
     expect(ipcs2.getMappedBinPcs()).toEqual(ipcs2.translation(2).dihedralPrimeForm().getMappedBinPcs())
   })
@@ -284,7 +284,7 @@ describe('IPcs unit tests', () => {
     expect(ipcs.getMappedBinPcs()).toEqual([1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0])
     expect(ipcs.getMappedBinPcs()).toEqual(cMaj.affinePrimeForm().getMappedBinPcs())
 
-    // test when ipcs have already good orbit
+    // test when pcs have already good orbit
     const ipcs2 = cMaj.affinePrimeForm()
     expect(ipcs2.getMappedBinPcs()).toEqual(ipcs2.translation(2).affinePrimeForm().getMappedBinPcs())
   })
@@ -493,7 +493,7 @@ describe('IPcs unit tests', () => {
   it("toggleIndexPC bad index", () => {
     let ipcsOnePitch = new IPcs({strPcs: "6", n: 12, iPivot: 6})
     try {
-      let ipcsNew = ipcsOnePitch.toggleIndexPC(12)
+      ipcsOnePitch.toggleIndexPC(12)
       fail('ipcsNew must not be instantiated')
       //same : expect(ipcsNew).not.toBeTruthy()
     } catch (e) {
@@ -709,7 +709,7 @@ describe('IPcs unit tests', () => {
 
   it("Forte inversions are marked 8-4B", () => {
     let ipcs = new IPcs({strPcs: '[0,1,3,4,5,6,7,8]'})
-    // pass by ipcs.dihedralPrimeForm().pcsStr
+    // pass by pcs.dihedralPrimeForm().pcsStr
     expect(ipcs.forteNum()).toEqual('8-4');
   });
 

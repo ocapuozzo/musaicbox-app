@@ -311,11 +311,11 @@ export class GroupAction {
 
 
   getOrbitOf(ipcs: IPcs): Orbit {
-    if (ipcs.n !== this.n) throw new Error("Invalid dimension : ipcs.n and this.n : " + ipcs.n + " !== " + this.n)
-    //let orbit : Orbit | undefined = this.orbits.find(o => o.ipcsset.find(ipcs2 => ipcs2.compareTo(ipcs)==0))
+    if (ipcs.n !== this.n) throw new Error("Invalid dimension : pcs.n and this.n : " + ipcs.n + " !== " + this.n)
+    //let orbit : Orbit | undefined = this.orbits.find(o => o.ipcsset.find(ipcs2 => ipcs2.compareTo(pcs)==0))
     let orbit: Orbit | undefined = this.powerset.get(ipcs.id)?.orbit
     if (!orbit)
-      throw new Error("Invalid ipcs (is not in this group action)  ??? : " + ipcs)
+      throw new Error("Invalid pcs (is not in this group action)  ??? : " + ipcs)
     return orbit
   }
 
@@ -323,12 +323,12 @@ export class GroupAction {
    * From free IPcs (with no orbit) get a represented IPcs held by a group action
    * @param {IPcs} ipcs
    * @return {IPcs}
-   * @throws Error if not find ipcs in this group action
+   * @throws Error if not find pcs in this group action
    */
   getIPcsInOrbit(ipcs: IPcs): IPcs {
     let iPcsInOrbit: IPcs | undefined = this.powerset.get(ipcs.id)
     if (!iPcsInOrbit)
-      throw new Error("Invalid ipcs (is not in this group action)  ??? : " + ipcs)
+      throw new Error("Invalid pcs (is not in this group action)  ??? : " + ipcs)
     return iPcsInOrbit
   }
 

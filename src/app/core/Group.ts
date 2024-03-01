@@ -62,7 +62,7 @@ export class Group {
    */
   buildOrbitOf(ipcs: IPcs){
      if (ipcs.n !== this.operations[0].n) {
-       throw new Error("buildOrbitOf on ipcs which bad n:" + ipcs)
+       throw new Error("buildOrbitOf on pcs which bad n:" + ipcs)
      }
      let pcsCopy = new IPcs({pidVal : ipcs.id})
      this.operations.forEach(op => pcsCopy.addInOrbit(op.actionOn(pcsCopy)))
@@ -85,7 +85,7 @@ export class Group {
     while (loop) {
       let cardinalOp = allOps.length
       loop = false;
-      forLoop:
+      // forLoop:
       for (let i = 0; i < cardinalOp; i++) {
          for (let j = 0; j < cardinalOp; j++) {
            let newop = allOps[i].compose(allOps[j]);
