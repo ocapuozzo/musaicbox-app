@@ -7,6 +7,7 @@ import {ManagerHomePcsService} from "../../service/manager-home-pcs.service";
 import {PcsAnalysisComponent} from "../../component/pcs-analysis/pcs-analysis.component";
 import {PcsListComponent} from "../../component/pcs-list/pcs-list.component";
 import {ManagerHomePcsListService} from "../../service/manager-home-pcs-list.service";
+import {EightyEight} from "../../utils/EightyEight";
 
 @Component({
   selector: 'app-home',
@@ -43,4 +44,5 @@ export class HomeComponent {
     // this.pcs = this.managerHomePcsService.pcs
   }
 
+  protected readonly EightyEight = EightyEight;
 }
