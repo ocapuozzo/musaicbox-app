@@ -27,7 +27,8 @@ export class ChordName {
     ChordName.chord3pitches.set('0,4,9', 'Maj6')
     ChordName.chord3pitches.set('0,5,7', 'Maj sus4')
     ChordName.chord3pitches.set('0,2,7', 'Maj sus2')
-
+    ChordName.chord3pitches.set('0,2,8', 'Maj ♯5 sus2')
+    ChordName.chord3pitches.set('0,2,6', 'Maj ♭5 sus2')
     ChordName.chord3pitches.set('0,5,7', 'sus4')
     ChordName.chord3pitches.set('0,3,7', 'min')
     ChordName.chord3pitches.set('0,3,6', 'dim')
@@ -42,6 +43,8 @@ export class ChordName {
     ChordName.chord4pitches.set('0,5,7,10', '7 sus4') // seventh
     ChordName.chord4pitches.set('0,4,8,11', 'augM7')
     ChordName.chord4pitches.set('0,2,7,10', '7 sus2')
+    ChordName.chord4pitches.set('0,2,6,10', '7 ♭5 sus2')
+    ChordName.chord4pitches.set('0,2,8,10', '7 ♯5 sus2')
 
     ChordName.chord4pitches.set('0,3,7,10', 'min7')
     ChordName.chord4pitches.set('0,3,7,11', 'min M7')
@@ -66,7 +69,7 @@ export class ChordName {
         key = '0,' + minorMajor
         // for (let j = pivot + minorMajor + 1; j < (n + pivot); j++) {
         // seventh first
-        for (let j = n + pivot -1; j > pivot + minorMajor ;  j--) {
+        for (let j = n + pivot - 1; j > pivot + minorMajor; j--) {
           if (binPcs[j % n] == 1) {
             // 3Chord
             let testKey = key + ',' + (j - pivot)
@@ -93,36 +96,38 @@ export class ChordName {
       }
     }
     // no third
-    if ((binPcs[(pivot + 3) % n] == 0) && (binPcs[(pivot + 4) % n] == 0)){
-     for( let sus of [2,5] ) {
-      if (binPcs[(pivot + sus) % n] == 1) {
-        // sus2 sus4 ?
-        key = '0,' + sus
-        if (binPcs[(pivot + 7) % n] == 1) {
-          let testKey = key + ',7'
-          if (nPitches == 3) {
-            if (ChordName.chord3pitches.has(testKey)) {
-              res.push(testKey)
-            }
-          } else { // 4Chord
-            if (binPcs[(pivot + 10) % n] == 1) {
-              let testKey2 = testKey + ',10'
-              if (ChordName.chord4pitches.has(testKey2)) {
-                // 7 sus2 or 7 sus4
-                res.push(testKey2)
+    if ((binPcs[(pivot + 3) % n] == 0) && (binPcs[(pivot + 4) % n] == 0)) {
+      for (let sus of [2, 5]) {
+        if (binPcs[(pivot + sus) % n] == 1) {
+          // sus2 sus4 ?
+          key = '0,' + sus
+          for (const fifth of [6, 7, 8]) {
+            if (binPcs[(pivot + fifth) % n] == 1) {
+              let testKey = key + ',' + fifth
+              if (nPitches == 3) {
+                if (ChordName.chord3pitches.has(testKey)) {
+                  res.push(testKey)
+                }
+              } else { // 4Chord
+                if (binPcs[(pivot + 10) % n] == 1) {
+                  let testKey2 = testKey + ',10'
+                  if (ChordName.chord4pitches.has(testKey2)) {
+                    // 7 sus2 or 7 sus4
+                    res.push(testKey2)
+                  }
+                }
               }
             }
           }
         }
       }
-     }
     }
     if (nPitches == 3) {
       // chord name small in first
-      res.sort( (s1,s2) =>
+      res.sort((s1, s2) =>
         ChordName.chord3pitches.get(s1)!.length - ChordName.chord3pitches.get(s2)!.length)
     }
-    return  res
+    return res
   }
 
   static _getKeysChord(pcs: IPcs, nPitches: number): string[] {
