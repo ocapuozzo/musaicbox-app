@@ -1,56 +1,44 @@
 import {IPcs} from "./IPcs";
 
-
-const chordName: Map<string, string> = new Map<string, string>()
-chordName.set('[0,3,7]', 'Minor triad')
-chordName.set('[0,4,7]', 'Major triad')
-chordName.set('[0,3,6]', 'Min Diminished triad')
-chordName.set('[0,4,6]', 'Maj Diminished triad')
-chordName.set('[0,3,8]', 'Min Augmented triad')
-chordName.set('[0,4,8]', 'Maj Augmented triad')
-
 export class ChordName {
 
   static NOTE_NAMES_SHARP = ['C', 'C♯', 'D', 'D♯', 'E', 'F', 'F♯', 'G', 'G♯', 'A', 'A♯', 'B']
   static NOTE_NAMES_FLAT = ['C', 'D♭', 'D', 'E♭', 'E', 'F', 'G♭', 'G', 'A♭', 'A', 'B♭', 'B']
   static INDEX_SHARP_FLAT = [1, 3, 6, 8, 10]
 
-
-  static chord3pitches = new Map<string, string>()
-  static chord4pitches = new Map<string, string>()
+  static chordsModalPF = new Map<string, string>()
 
   static {
     // 3-chords
-    ChordName.chord3pitches.set('0,4,7', 'Maj')
-    ChordName.chord3pitches.set('0,4,6', 'Maj ♭5')
-    ChordName.chord3pitches.set('0,4,8', 'aug')
-    ChordName.chord3pitches.set('0,4,9', 'Maj6')
-    ChordName.chord3pitches.set('0,5,7', 'Maj sus4')
-    ChordName.chord3pitches.set('0,2,7', 'Maj sus2')
-    ChordName.chord3pitches.set('0,2,8', 'Maj ♯5 sus2')
-    ChordName.chord3pitches.set('0,2,6', 'Maj ♭5 sus2')
-    ChordName.chord3pitches.set('0,5,7', 'sus4')
-    ChordName.chord3pitches.set('0,3,7', 'min')
-    ChordName.chord3pitches.set('0,3,6', 'dim')
-
+    ChordName.chordsModalPF.set('0,4,7', 'Maj')
+    ChordName.chordsModalPF.set('0,4,6', 'Maj ♭5')
+    ChordName.chordsModalPF.set('0,4,8', 'aug')
+    ChordName.chordsModalPF.set('0,4,9', 'Maj6')
+    ChordName.chordsModalPF.set('0,5,7', 'Maj sus4')
+    ChordName.chordsModalPF.set('0,2,7', 'Maj sus2')
+    ChordName.chordsModalPF.set('0,2,8', 'Maj ♯5 sus2')
+    ChordName.chordsModalPF.set('0,2,6', 'Maj ♭5 sus2')
+    ChordName.chordsModalPF.set('0,5,7', 'sus4')
+    ChordName.chordsModalPF.set('0,3,7', 'min')
+    ChordName.chordsModalPF.set('0,3,6', 'dim')
 
     // 4-chords
-    ChordName.chord4pitches.set('0,4,7,10', '7') // seventh
-    ChordName.chord4pitches.set('0,4,7,9', '6')
-    ChordName.chord4pitches.set('0,4,7,11', 'M7') // Major 7
-    ChordName.chord4pitches.set('0,4,8,10', '7 ♯5')
-    ChordName.chord4pitches.set('0,4,6,10', '7 ♭5')
-    ChordName.chord4pitches.set('0,5,7,10', '7 sus4') // seventh
-    ChordName.chord4pitches.set('0,4,8,11', 'augM7')
-    ChordName.chord4pitches.set('0,2,7,10', '7 sus2')
-    ChordName.chord4pitches.set('0,2,6,10', '7 ♭5 sus2')
-    ChordName.chord4pitches.set('0,2,8,10', '7 ♯5 sus2')
+    ChordName.chordsModalPF.set('0,4,7,10', '7') // seventh
+    ChordName.chordsModalPF.set('0,4,7,9', '6')
+    ChordName.chordsModalPF.set('0,4,7,11', 'M7') // Major 7
+    ChordName.chordsModalPF.set('0,4,8,10', '7 ♯5')
+    ChordName.chordsModalPF.set('0,4,6,10', '7 ♭5')
+    ChordName.chordsModalPF.set('0,5,7,10', '7 sus4') // seventh
+    ChordName.chordsModalPF.set('0,4,8,11', 'augM7')
+    ChordName.chordsModalPF.set('0,2,7,10', '7 sus2')
+    ChordName.chordsModalPF.set('0,2,6,10', '7 ♭5 sus2')
+    ChordName.chordsModalPF.set('0,2,8,10', '7 ♯5 sus2')
 
-    ChordName.chord4pitches.set('0,3,7,10', 'min7')
-    ChordName.chord4pitches.set('0,3,7,11', 'min M7')
-    ChordName.chord4pitches.set('0,3,7,9', 'min6')
-    ChordName.chord4pitches.set('0,3,6,10', 'ø')
-    ChordName.chord4pitches.set('0,3,6,9', 'o')
+    ChordName.chordsModalPF.set('0,3,7,10', 'min7')
+    ChordName.chordsModalPF.set('0,3,7,11', 'min M7')
+    ChordName.chordsModalPF.set('0,3,7,9', 'min6')
+    ChordName.chordsModalPF.set('0,3,6,10', 'ø')
+    ChordName.chordsModalPF.set('0,3,6,9', 'o')
   }
 
 
@@ -74,7 +62,7 @@ export class ChordName {
             // 3Chord
             let testKey = key + ',' + (j - pivot)
             if (nPitches == 3) {
-              if (ChordName.chord3pitches.has(testKey)) {
+              if (ChordName.chordsModalPF.has(testKey)) {
                 res.push(testKey)
               }
             } else { // nPitches == 4
@@ -85,7 +73,7 @@ export class ChordName {
                 if (binPcs[k % n] == 1) {
                   // 4Chord
                   let testKey2 = testKey + ',' + ((k - pivot) % n)
-                  if (ChordName.chord4pitches.has(testKey2)) {
+                  if (ChordName.chordsModalPF.has(testKey2)) {
                     res.push(testKey2)
                   }
                 }
@@ -105,13 +93,13 @@ export class ChordName {
             if (binPcs[(pivot + fifth) % n] == 1) {
               let testKey = key + ',' + fifth
               if (nPitches == 3) {
-                if (ChordName.chord3pitches.has(testKey)) {
+                if (ChordName.chordsModalPF.has(testKey)) {
                   res.push(testKey)
                 }
               } else { // 4Chord
                 if (binPcs[(pivot + 10) % n] == 1) {
                   let testKey2 = testKey + ',10'
-                  if (ChordName.chord4pitches.has(testKey2)) {
+                  if (ChordName.chordsModalPF.has(testKey2)) {
                     // 7 sus2 or 7 sus4
                     res.push(testKey2)
                   }
@@ -125,85 +113,17 @@ export class ChordName {
     if (nPitches == 3) {
       // chord name small in first
       res.sort((s1, s2) =>
-        ChordName.chord3pitches.get(s1)!.length - ChordName.chord3pitches.get(s2)!.length)
+        ChordName.chordsModalPF.get(s1)!.length - ChordName.chordsModalPF.get(s2)!.length)
     }
     return res
   }
-
-  static _getKeysChord(pcs: IPcs, nPitches: number): string[] {
-    let res: string[] = []
-
-    if (pcs.cardinal < 3) return res
-
-    let pivot = pcs.templateMappingBinPcs[pcs.iPivot ?? 0]
-    let binPcs = pcs.getMappedBinPcs()
-    let n = pcs.nMapping
-
-    // start pivot
-    let i = pivot;
-    let key = ''
-    if (binPcs[(i + 3) % n] == 1) {
-      key += '0,3'
-      for (let j = i + 4; j < (n + pivot); j++) {
-        if (binPcs[j % n] == 1) {
-          // 3Chord
-          let testKey = key + ',' + (j - i)
-          if (nPitches == 3 && ChordName.chord3pitches.has(testKey)
-            || nPitches == 4) {
-            if (nPitches == 3) {
-              res.push(testKey)
-            } else {
-              // form end, seventh first before sixth
-              for (let k = n + pivot + 1; k >= j + 1; k--) {
-                if (binPcs[k % n] == 1) {
-                  // 4Chord
-                  let testKey2 = testKey + ',' + (k - i)
-                  if (ChordName.chord4pitches.has(testKey2)) {
-                    res.push(testKey2)
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    if (binPcs[(i + 4) % n] == 1) {
-      key = '0,4'
-      for (let j = i + 5; j < (n + pivot); j++) {
-        if (binPcs[j % n] == 1) {
-          // 3Chord
-          let testKey = key + ',' + (j - i)
-          if (nPitches == 3 && ChordName.chord3pitches.has(testKey)
-            || nPitches == 4) {
-            if (nPitches == 3) {
-              res.push(testKey)
-            } else {
-              // form end, seventh first before sixth
-              for (let k = n + pivot + 1; k >= j + 1; k--) {
-                if (binPcs[k % n] == 1) {
-                  // 4Chord
-                  let testKey2 = testKey + ',' + (k - i)
-                  if (ChordName.chord4pitches.has(testKey2)) {
-                    res.push(testKey2)
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    return res
-  }
-
 
   static getChordName(pcs: IPcs): string {
     const chords3pitches = ChordName.getKeysChord(pcs, 3)
     const chords4pitches = ChordName.getKeysChord(pcs, 4)
 
-    const _chordName: string = ChordName.chord4pitches.get(chords4pitches[0])
-      ?? ChordName.chord3pitches.get(chords3pitches[0])
+    const _chordName: string = ChordName.chordsModalPF.get(chords4pitches[0])
+      ?? ChordName.chordsModalPF.get(chords3pitches[0])
       ?? ''
 
     if (!_chordName) return ''
