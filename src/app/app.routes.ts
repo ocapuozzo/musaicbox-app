@@ -5,6 +5,7 @@ import {PageNotFoundComponent} from "./page/page-not-found/page-not-found.compon
 
 export const routes: Routes = [
   {path: '', component: HomeComponent},
+  {path: 'home', component: HomeComponent},
   {path: 'group-explorer', component: GroupExplorerComponent},
-  { path: '**', component: PageNotFoundComponent },
+  {path: '**', component: PageNotFoundComponent }
 ];

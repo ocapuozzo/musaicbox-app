@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, ElementRef, ViewChild} from '@angular/core';
 import {MusaicPcsOperation} from "../../core/MusaicPcsOperation";
 import {Group} from "../../core/Group";
 import {GroupAction} from "../../core/GroupAction";
@@ -7,7 +7,8 @@ import {ISortedOrbits} from "../../core/ISortedOrbits";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgIf} from "@angular/common";
 import {MusaicComponent} from "../../component/musaic/musaic.component";
-import {UiOrbitComponent} from "../../component/orbit/ui-orbit.component";
+import {UiOrbitComponent} from "../../component/ui-orbit/ui-orbit.component";
+import {ManagerExplorerService} from "../../service/manager-explorer.service";
 
 @Component({
   selector: 'app-group-explorer',
@@ -25,33 +26,63 @@ import {UiOrbitComponent} from "../../component/orbit/ui-orbit.component";
 export class GroupExplorerComponent {
   n = 12
   primesWithN = [1, 5, 7, 11]
-  opMultChoices= [1]
+  opMultChoices = [1]
   opTransChoices = [0]
   opComplement = false
   // array with neutral operation
   groupOperations = [new MusaicPcsOperation(this.n, 1, 0)]
-  groupAction :  GroupAction | null
-  orbitsPartitions : ISortedOrbits[] = []
-  preReactOrbits : Orbit[] = []
+  groupAction: GroupAction | null
+  orbitsPartitions: ISortedOrbits[] = []
+  preReactOrbits: Orbit[] = []
   waitingCompute = false
-  stabilizers = []
+
   showOrbitBy = "" // for UI
   debug = false
 
-  opForm: FormGroup;
-  toggleShowHide : string = "hidden"
+  toggleShowHide: string = "hidden"
 
   protected readonly Math = Math;
 
-  constructor(private fb: FormBuilder) { }
-
-  ngOnInit() {
-    this.opForm = this.fb.group({
-      opSelectedByUser: this.fb.array([])
-    });
+  constructor(private readonly managerExplorerService: ManagerExplorerService) {
+    this.updateConfig();
+    this.managerExplorerService.saveExplorerConfig.subscribe( () => {
+      this.saveConfig();
+    })
   }
 
-  doubleRaf(callback : FrameRequestCallback) {
+  private saveConfig() {
+    this.managerExplorerService.saveConfig({
+      n: this.n,
+      primesWithN: this.primesWithN,
+      opMultChoices: this.opMultChoices,
+      opTransChoices: this.opTransChoices,
+      opComplement: this.opComplement,
+      groupOperations: this.groupOperations,
+      groupAction: this.groupAction,
+      orbitsPartitions: this.orbitsPartitions,
+      preReactOrbits: this.preReactOrbits
+    })
+  }
+
+  private updateConfig() {
+    const currentState = this.managerExplorerService.getConfig()
+
+    this.n = currentState.n ?? 12
+    this.primesWithN = currentState.primesWithN ?? [1, 5, 7, 11]
+    this.opMultChoices = currentState.opMultChoices ?? [1]
+    this.opTransChoices = currentState.opTransChoices ?? [0]
+    this.opComplement = currentState.opComplement ?? false
+    this.groupOperations = currentState.groupOperations ?? [new MusaicPcsOperation(this.n, 1, 0)]
+    this.groupAction = currentState.groupAction ?? null
+    this.orbitsPartitions = currentState.orbitsPartitions ?? []
+    this.preReactOrbits = currentState.preReactOrbits ?? []
+  }
+
+  ngOnInit() {
+
+  }
+
+  doubleRaf(callback: FrameRequestCallback) {
     requestAnimationFrame(() => {
       requestAnimationFrame(callback)
     })
@@ -65,11 +96,10 @@ export class GroupExplorerComponent {
     this.groupAction = null
     this.orbitsPartitions = []
     this.preReactOrbits = []
-    this.stabilizers = []
     this.debug = true
     this.buildAllOperationsOfGroup();
-
   }
+
   /**
    * Get all operations group from user choices
    *
@@ -94,19 +124,18 @@ export class GroupExplorerComponent {
       this.groupAction = local_group
       this.preReactOrbits = this.groupAction.orbits
       this.orbitsPartitions = []
-      this.stabilizers = []
       this.showOrbitBy = ''
       this.nextTick()
     });
   }
 
-  nextTick =  () => {
-     this.waitingCompute = false
+  nextTick = () => {
+    this.waitingCompute = false
     this.toggleShowHide = 'hidden'
   }
 
   showOrbits(byCriteria = "MotifStabilizer") {
-    if (! this.groupAction) {
+    if (!this.groupAction) {
       this.buildAllOperationsOfGroup()
     } else {
       this.waitingCompute = true
@@ -133,7 +162,7 @@ export class GroupExplorerComponent {
    * @return {boolean} true iif one value of opTransChoices is prime with n
    */
   opTranspositionChoicesHasAtLeastOneValuePrimeWithN(): boolean {
-    return this.opTransChoices.some(t => (t===1) ||  (t > 0) && (this.n % t) !== 0)
+    return this.opTransChoices.some(t => (t === 1) || (t > 0) && (this.n % t) !== 0)
   }
 
   /**
@@ -156,12 +185,8 @@ export class GroupExplorerComponent {
     return someOperations
   }
 
-  makeArray(n : number) : number[] {
-    const arr = new Array(n)
-    for (let i = 0; i < arr.length; i++) {
-      arr[i] = i
-    }
-    return arr
+  makeArray(n: number): number[] {
+    return [...Array(n).keys()]
   }
 
   /**
@@ -170,8 +195,7 @@ export class GroupExplorerComponent {
    * @param event
    */
   changeOpMultChoices(op: number, event: any) {
-    // see ?  https://stackoverflow.com/questions/43423333/angular-how-to-get-the-multiple-checkbox-values
-    const index = this.opMultChoices.findIndex(v => v==op)
+    const index = this.opMultChoices.findIndex(v => v == op)
     if (index < 0 && event.target.checked) {
       this.opMultChoices.push(op)
     } else if (index > 0) {
@@ -181,7 +205,7 @@ export class GroupExplorerComponent {
   }
 
   changeOpTranslationChoices(t: number, $event: any) {
-    const index = this.opTransChoices.findIndex(v => v==t)
+    const index = this.opTransChoices.findIndex(v => v == t)
     if (index < 0 && $event.target.checked) {
       this.opTransChoices.push(t)
     } else if (index >= 0) {
@@ -194,4 +218,5 @@ export class GroupExplorerComponent {
     this.opComplement = $event.target.checked
     this.buildAllOperationsOfGroup()
   }
+
 }

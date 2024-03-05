@@ -38,3 +38,12 @@ legend.representation-border {
 button:focus {
   outline: none;
 }
+
+.menu {
+  display: flex;
+  /*flex-direction: column;*/
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgb(64 64 64 / 5%);
+  padding: 10px 0;
+}

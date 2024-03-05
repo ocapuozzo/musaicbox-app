@@ -25,6 +25,7 @@ export class HomeComponent {
 
   pcs: IPcs = new IPcs({strPcs:"0,1,2,3"})
   labeledListPcs : Map<string, IPcs[]> = new Map<string, IPcs[]>()
+  protected readonly EightyEight = EightyEight;
 
   constructor(
     private managerHomePcsService : ManagerHomePcsService,
@@ -35,14 +36,15 @@ export class HomeComponent {
     this.managerHomePcsService.updatePcs.subscribe( (pcs: IPcs) => {
       this.pcs = pcs
     })
+
     this.managerHomePcsListService.updatePcsList.subscribe( (labeledListPcs : Map<string, IPcs[]>) => {
       this.labeledListPcs = labeledListPcs
     })
+
   }
 
   ngAfterViewInit() {
     // this.pcs = this.managerHomePcsService.pcs
   }
 
-  protected readonly EightyEight = EightyEight;
 }

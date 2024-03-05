@@ -1,0 +1,72 @@
+import {EventEmitter, Injectable, Output} from '@angular/core';
+import {IDataExplorerState} from "./IDataExplorerState";
+import {MusaicPcsOperation} from "../core/MusaicPcsOperation";
+import {GroupAction} from "../core/GroupAction";
+import {ISortedOrbits} from "../core/ISortedOrbits";
+import {Orbit} from "../core/Orbit";
+import {Stabilizer} from "../core/Stabilizer";
+import {IPcs} from "../core/IPcs";
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ManagerExplorerService implements IDataExplorerState{
+
+  n = 12
+  primesWithN = [1, 5, 7, 11]
+  opMultChoices = [1]
+  opTransChoices = [0]
+  opComplement = false
+  groupOperations : MusaicPcsOperation[]
+  groupAction: GroupAction | null
+  orbitsPartitions: ISortedOrbits[]
+  preReactOrbits: Orbit[]
+  stabilizers : Stabilizer[]
+
+  @Output() saveExplorerConfig = new EventEmitter();
+
+  constructor() {
+  }
+
+  saveConfig(x: {
+    n: number,
+    primesWithN: number[],
+    opMultChoices: number[],
+    opTransChoices: number[],
+    opComplement: boolean,
+    groupOperations : MusaicPcsOperation[]
+    groupAction: GroupAction | null
+    orbitsPartitions: ISortedOrbits[]
+    preReactOrbits: Orbit[]
+  }) {
+    this.n = x.n ?? 12
+    this.primesWithN = x.primesWithN ?? [1, 5, 7, 11]
+    this.opMultChoices = x.opMultChoices ?? [1]
+    this.opTransChoices = x.opTransChoices ?? [0]
+    this.opComplement = x.opComplement ?? false
+    this.groupOperations = x.groupOperations ??  [new MusaicPcsOperation(this.n, 1, 0)]
+    this.groupAction = x.groupAction ?? null
+    this.orbitsPartitions = x.orbitsPartitions ?? []
+    this.preReactOrbits = x.preReactOrbits ?? []
+  }
+
+  getConfig() : IDataExplorerState {
+    return {
+      n: this.n,
+      primesWithN: this.primesWithN,
+      opMultChoices: this.opMultChoices,
+      opTransChoices: this.opTransChoices,
+      opComplement: this.opComplement,
+      groupOperations : this.groupOperations,
+      groupAction :  this.groupAction,
+      orbitsPartitions : this.orbitsPartitions,
+      preReactOrbits: this.preReactOrbits,
+      // stabilizers: this.stabilizers
+    }
+  }
+
+  doSaveConfig() {
+    // call group explorer component to save config
+    this.saveExplorerConfig.emit()
+  }
+}
