@@ -28,16 +28,23 @@ export class MusaicComponent {
   ngAfterViewInit() {
     // @ts-ignore
     this.context = this.canvas.nativeElement.getContext('2d');
-    let len = Math.min(this.containerCanvas.nativeElement.clientWidth, this.containerCanvas.nativeElement.clientHeight)
-    this.canvas.nativeElement.width = len
-    this.canvas.nativeElement.height = len // square
+    let w = Math.min(this.containerCanvas.nativeElement.clientWidth, this.containerCanvas.nativeElement.clientHeight)
+
+    let n = this.ipcs.nMapping //getMappedBinPcs().length;
+
+    let CEL_WIDTH =  Math.floor(w / (n + 1));
+    w = CEL_WIDTH * (n+1)
+    // dimension of musaic match with cell size
+    // square (n+1) x (n+1)
+
+    this.canvas.nativeElement.width = w
+    this.canvas.nativeElement.height = w // square
 
     // initial view
     this.drawsMusaic()
   }
 
   drawsMusaic() {
-
 
     let w = this.containerCanvas.nativeElement.clientWidth ?? 40
 
@@ -68,7 +75,7 @@ export class MusaicComponent {
         if (this.ipcs.getMappedBinPcs()[(i + pivotMapped  + j * 5) % n] === 1) {
           ctx.fillStyle = "black";
           ctx.fillRect(j * CEL_WIDTH, i * CEL_WIDTH, CEL_WIDTH, CEL_WIDTH);
-          //  ctx.strokeRect(j * CEL_WIDTH, i * CEL_WIDTH, CEL_WIDTH, CEL_WIDTH);
+          ctx.strokeRect(j * CEL_WIDTH, i * CEL_WIDTH, CEL_WIDTH, CEL_WIDTH); // or not stroke ?
 
         } else {
           ctx.fillStyle = "white";

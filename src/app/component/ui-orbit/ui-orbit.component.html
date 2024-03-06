@@ -25,12 +25,11 @@
 
   @for (orbit of orbitsGroup?.orbits; track orbit.getPcsMin().id) {
     @if (viewMusaic) {
-      <div class="d-inline-block text-center clock-pcs">
+      <div class="d-inline-block text-center musaic-pcs m-1">
         <!--      {{orbit.getPcsMin().getMappedPcsStr()}}-->
-<!--        TODO manque de definition, voir si scale ne serait pas inférieure à 1 -->
         <app-musaic
           [ipcs]="orbit.getPcsMin()"
-          class="clock-pcs ms-1 p-1">
+          class="ms-1">
         </app-musaic>
         <span class="text-center label-ipcs">#{{ orbit.ipcsset.length }}</span>
       </div>

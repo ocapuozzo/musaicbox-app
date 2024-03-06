@@ -2,6 +2,11 @@
   <div #containercanvas id="containercanvas">
     <canvas #canvas></canvas>
     IV : <span class="analyse-pcs"> &lt;{{ pcs.iv() }}&gt;</span>
+    <p class="m-1">
+      @if([3, 4].includes(pcs.cardinal)) {
+      <span>{{pcs.getChordName()}}</span>
+      }
+        </p>
   </div>
   <div class="container">
     <div class="row">
@@ -45,7 +50,7 @@
                (click)="threeChordList()" style="cursor: pointer">
            <i class="bi bi-chevron-double-down">3-chords</i>
          </span>
-          <span class="m-1" [hidden]="pcs.cardinal < 6"
+          <span class="m-1" [hidden]="pcs.cardinal < 5"
                 (click)="fourChordList()" style="cursor: pointer">
             <i class="bi bi-chevron-double-down">4-chords</i>
          </span>
