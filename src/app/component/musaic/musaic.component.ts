@@ -17,6 +17,7 @@ export class MusaicComponent {
   private CEL_WIDTH : number = 10
 
   @Input() ipcs: IPcs = new IPcs({strPcs: "0,3,6,9"})
+  @Input() opaque : boolean = true
 
   // ngOnInit() {
   //   // @ts-ignore
@@ -28,18 +29,7 @@ export class MusaicComponent {
   ngAfterViewInit() {
     // @ts-ignore
     this.context = this.canvas.nativeElement.getContext('2d');
-    let w = Math.min(this.containerCanvas.nativeElement.clientWidth, this.containerCanvas.nativeElement.clientHeight)
-
     let n = this.ipcs.nMapping //getMappedBinPcs().length;
-
-    let CEL_WIDTH =  Math.floor(w / (n + 1));
-    w = CEL_WIDTH * (n+1)
-    // dimension of musaic match with cell size
-    // square (n+1) x (n+1)
-
-    this.canvas.nativeElement.width = w
-    this.canvas.nativeElement.height = w // square
-
     // initial view
     this.drawsMusaic()
   }
@@ -47,7 +37,6 @@ export class MusaicComponent {
   drawsMusaic() {
 
     let w = this.containerCanvas.nativeElement.clientWidth ?? 40
-
     let n = this.ipcs.nMapping //getMappedBinPcs().length;
 
     let CEL_WIDTH =  Math.floor(w / (n + 1));
@@ -78,9 +67,11 @@ export class MusaicComponent {
           ctx.strokeRect(j * CEL_WIDTH, i * CEL_WIDTH, CEL_WIDTH, CEL_WIDTH); // or not stroke ?
 
         } else {
-          ctx.fillStyle = "white";
-          ctx.fillRect(j * CEL_WIDTH, i * CEL_WIDTH, CEL_WIDTH, CEL_WIDTH);
-          ctx.strokeRect(j * CEL_WIDTH, i * CEL_WIDTH, CEL_WIDTH, CEL_WIDTH);
+          if (this.opaque) {
+            ctx.fillStyle = "white";
+            ctx.fillRect(j * CEL_WIDTH, i * CEL_WIDTH, CEL_WIDTH, CEL_WIDTH);
+            ctx.strokeRect(j * CEL_WIDTH, i * CEL_WIDTH, CEL_WIDTH, CEL_WIDTH);
+          }
         }
       }
     }
