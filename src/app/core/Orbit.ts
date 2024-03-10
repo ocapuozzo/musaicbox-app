@@ -168,6 +168,9 @@ export class Orbit {
    *     M1-T0 M7-T3 CM5-T2 CM11-T5 (5
    *
    *  signature orbit, stabilizers based is : M1-T0 M7-T3~6* CM5-T2~4* CM11-T1~2*
+   *
+   *  TODO : refactor because too long !
+   *
    * @private
    */
   private buildStabilizersSignature() {
@@ -208,10 +211,10 @@ export class Orbit {
       return w1 - w2;
     })
 
+    // 3: reducer name
     // CM11-T3~6 CM11-T1~6  etc. => CM11-T6*  (equivalent 'up to step translation')
     // CM5-T2 CM5-T6 CM5-T10 => CM5-T2~4*
     // M11-T0 M11-T2 M11-T4 M11-T6 M11-T8 M11-T10 => M11-T0~2*
-
     for (let i = 0; i < nameOpsWithoutT.length; i++) {
       let nameOpWithoutT = nameOpsWithoutT[i]
       let shortName = ''
@@ -220,13 +223,13 @@ export class Orbit {
         // mt.get(nameOpWithoutT)?.forEach(a => console.log(a + ''))
         let step = mt.get(nameOpWithoutT)![1] - mt.get(nameOpWithoutT)![0]
         shortName = nameOpWithoutT + "-T" + mt.get(nameOpWithoutT)![0] + "~" + step + "*";
-        // when shortName is defined, delete entry from nt
+        // when shortName is defined, delete nt entry
         mt.delete(nameOpWithoutT)
 
         res = (res.length > 1) ? res + ' ' + shortName : shortName
       }
 
-      // put -Tx only if a
+      // 4: put -Tx only if a (mt is maybe reduce by preview phase 3)
       let the_as = mt.get(nameOpWithoutT) ?? []
       for (let j = 0; j < the_as.length; j++) {
         let a = the_as[j]
@@ -234,9 +237,10 @@ export class Orbit {
           res += " ";
         }
         res += nameOpWithoutT + "-T" + a;
-      }
-    }
-    // add M1-T0 if not (neutral operation)
+      } // loop a
+    } // loop for nameOpsWithoutT
+
+    // 5: add M1-T0 if not present (neutral operation)
     return res.startsWith('M1-T0') ? res : 'M1-T0 ' + res
   }
 

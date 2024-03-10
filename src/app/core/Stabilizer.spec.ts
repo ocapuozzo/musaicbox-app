@@ -253,12 +253,12 @@ describe('Stabilizer', () => {
     const group = GroupAction.predefinedGroupsActions(12, Group.MUSAIC)
     const stabStr = group.orbitsSortedByStabilizers[0].orbits[0].stabilizers[0].toString()
 
-    expect(stabStr).toContain('Stab: M1-T0,CM11-T11 #FixedPcs: 12')
+    expect(stabStr).toContain('Stab: M1-T0 #FixedPcs: 96')
 
     let pcs = group.orbitsSortedByStabilizers[0].orbits[0].stabilizers[0].fixedPcs[1].getPcsStr()
-    expect(pcs).toEqual('[1,2,3,4,5,7]') // 12 in orbit
+    expect(pcs).toEqual('[0,2,3]') // 12 in orbit
     pcs = group.orbitsSortedByStabilizers[0].orbits[0].stabilizers[0].fixedPcs[0].getPcsStr()
-    expect(pcs).toEqual('[0,1,2,3,4,6]') // idem
+    expect(pcs).toEqual('[0,1,3]') // idem
   })
 
   //

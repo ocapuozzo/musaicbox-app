@@ -85,6 +85,14 @@ export class UiClockComponent {
     this.managerHomePcsService.refresh()
   }
 
+  // TODO change by event angular ? touchstart not a good idea ?
+  /* ERROR (in chrome)
+  ui-clock.component.ts:102 [Violation]
+   Added non-passive event listener to a scroll-blocking 'touchstart' event.
+   Consider marking event handler as 'passive' to make the page more responsive.
+   See https://www.chromestatus.com/feature/5745543795965952
+   */
+
   private setupEvents(): void {
     this.canvas.nativeElement.addEventListener('mouseup',
       (event) => this.mouseup(event));

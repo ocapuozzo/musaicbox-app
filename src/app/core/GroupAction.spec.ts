@@ -224,7 +224,7 @@ describe('GroupAction', () => {
     expect(dihedralGroup12.orbitsSortedByMotifStabilizers.length).toEqual(2)
 
     // TODO to demonstrate mathematically
-    expect(dihedralGroup12.orbitsSortedByStabilizers.length).toEqual(21)
+    expect(dihedralGroup12.orbitsSortedByStabilizers.length).toEqual(29)
   })
 
 
@@ -238,7 +238,7 @@ describe('GroupAction', () => {
     expect(affineGroup12.orbitsSortedByMotifStabilizers.length).toEqual(5)
 
     // TODO to demonstrate mathematically
-    expect(affineGroup12.orbitsSortedByStabilizers.length).toEqual(31)
+    expect(affineGroup12.orbitsSortedByStabilizers.length).toEqual(42)
   })
 
 

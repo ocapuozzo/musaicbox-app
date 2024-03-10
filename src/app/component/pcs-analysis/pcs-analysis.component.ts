@@ -27,10 +27,10 @@ export class PcsAnalysisComponent {
     this.managerHomePcsService.updatePcs.subscribe((pcs: IPcs) => {
       this.pcs = pcs
       this.pcsMapped12 = this.pcs.n == 12 ? this.pcs : new IPcs({binPcs:this.pcs.getMappedBinPcs()})
-      if (this.pcs.orbit.stabilizers) {
-        console.log("this.pcs.orbit.stabilizers.length = " + this.pcs.orbit.stabilizers.length)
-        console.log("this.pcs.orbit.name = " + this.pcs.orbit.name)
-      }
+      // if (this.pcs.orbit.stabilizers) {
+      //   console.log("this.pcs.orbit.stabilizers.length = " + this.pcs.orbit.stabilizers.length)
+      //   console.log("this.pcs.orbit.name = " + this.pcs.orbit.name)
+      // }
     })
   }
 
