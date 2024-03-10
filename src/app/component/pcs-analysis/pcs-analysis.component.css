@@ -38,8 +38,6 @@ legend.representation-border {
   font-size: 1em !important;
   font-weight: bold !important;
   font-style: italic;
-  text-align: left !important;
-  width: auto;
   padding: 0 10px;
   border-bottom: none;
 }

@@ -42,7 +42,8 @@
       <span class="analyse-pcs">{{ pcsMapped12.forteNum() }}</span>
     </p>
     <fieldset class="representation-border">
-      <legend class="representation-border">Fecundity</legend>
+      <legend class="representation-border text-center">Fecundity</legend>
+      <hr>
       <p>
         #Modes :
         <span class="analyse-pcs">{{ pcsMapped12.cardOrbitMode() }}</span>
@@ -65,7 +66,8 @@
       </p>
     </fieldset>
     <fieldset class="representation-border">
-      <legend class="representation-border">Prime Form</legend>
+      <legend class="representation-border text-center">Prime Form</legend>
+      <hr>
       <p>
         Modal :
         <span class="analyse-pcs"> {{ pcsMapped12.modalPrimeForm().getPcsStr() }}
@@ -88,6 +90,32 @@
         <span class="analyse-pcs">{{ pcsMapped12.musaicPrimeForm().getPcsStr() }}</span>
       </p>
     </fieldset>
+    @if (!pcs.orbit.isDetached()) {
+      <fieldset class="representation-border">
+        <legend class="representation-border text-center">is orbit</legend>
+        <hr>
+        <p>
+          Cardinal :
+          <span class="analyse-pcs"> {{ pcs.orbit.cardinal }}</span>
+        </p>
+        <p>
+          Orbit name (stabilizers signature) :
+          <span class="analyse-pcs"> {{ pcs.orbit.name }}</span>
+        </p>
+        <p>
+          Stabilizers ({{ pcs.orbit.stabilizers.length }}):
+          @for (stab of pcs.orbit.stabilizers; track stab.hashCode()) {
+            <span class="analyse-pcs m-1">{{ stab.getShortName() }}</span> ({{ stab.fixedPcs.length }})
+          }
+        </p>
+        <p>
+         <span class="m-1"
+               (click)="fixedPcsList()" style="cursor: pointer">
+            <i class="bi bi-chevron-double-down">fixedPcs</i>
+         </span>
+        </p>
+      </fieldset>
+    }
   </div>
   <div class="p-3">
     <p>

@@ -13,32 +13,53 @@ export class ManagerHomePcsService {
   constructor() { }
 
   transformeByMxT0(x:number) {
-    this.pcs = this.pcs.affineOp(x, 0)
+    const newPcs = this.pcs.affineOp(x, 0)
+    if (this.pcs.orbit?.groupAction) {  // !isDetached()
+      this.pcs = this.pcs.orbit.groupAction.getIPcsInOrbit(newPcs)
+    } else {
+      this.pcs = newPcs
+    }
     this.updatePcs.emit(this.pcs)
   }
 
   translateByM1Tx(x:number) {
-    this.pcs = this.pcs.translation(x)
+    const newPcs = this.pcs.translation(x)
+    if (this.pcs.orbit?.groupAction) {  // !isDetached()
+      this.pcs = this.pcs.orbit.groupAction.getIPcsInOrbit(newPcs)
+    } else {
+      this.pcs = newPcs
+    }
     this.updatePcs.emit(this.pcs)
   }
 
   complement() {
-    this.pcs = this.pcs.complement()
+    const newPcs = this.pcs.complement()
+    if (this.pcs.orbit?.groupAction) {  // !isDetached()
+      this.pcs = this.pcs.orbit.groupAction.getIPcsInOrbit(newPcs)
+    } else {
+      this.pcs = newPcs
+    }
     this.updatePcs.emit(this.pcs)
   }
 
   modulation(direction : number) {
-    this.pcs = this.pcs.modulation(direction)
+    const newPcs = this.pcs.modulation(direction)
+    if (this.pcs.orbit?.groupAction) {  // !isDetached()
+      this.pcs = this.pcs.orbit.groupAction.getIPcsInOrbit(newPcs)
+    } else {
+      this.pcs = newPcs
+    }
     this.updatePcs.emit(this.pcs)
   }
 
   toggleIndexOrSetIPivot(index: number) {
     // inner index (no mapping index)
+    let newPcs: IPcs
     if (this.pcs.abinPcs[index] === 0) {
-      this.pcs = this.pcs.toggleIndexPC(index)
+      newPcs = this.pcs.toggleIndexPC(index)
     } else {
       if (index < this.pcs.n && index >= 0) {
-        this.pcs =
+        newPcs =
           new IPcs({
             strPcs: this.pcs.getPcsStr(),
             iPivot: index,
@@ -51,11 +72,21 @@ export class ManagerHomePcsService {
         throw new Error("Invalid iPivot : " + index)
       }
     }
+    if (this.pcs.orbit?.groupAction) {  // !isDetached()
+      this.pcs = this.pcs.orbit.groupAction.getIPcsInOrbit(newPcs)
+    } else {
+      this.pcs = newPcs
+    }
     this.updatePcs.emit(this.pcs)
   }
 
   toggleIndex(index: number) {
-    this.pcs = this.pcs.toggleIndexPC(this.pcs.indexMappedToIndexInner(index))
+    const newPcs = this.pcs.toggleIndexPC(this.pcs.indexMappedToIndexInner(index))
+    if (this.pcs.orbit?.groupAction) {  // !isDetached()
+      this.pcs = this.pcs.orbit.groupAction.getIPcsInOrbit(newPcs)
+    } else {
+      this.pcs = newPcs
+    }
     this.updatePcs.emit(this.pcs)
   }
 
@@ -74,9 +105,13 @@ export class ManagerHomePcsService {
   }
 
   replaceBy(pcs: IPcs) {
-    this.pcs = pcs.translation(0) // copy
+    const newPcs = pcs //.translation(0) // copy
+    if (this.pcs.orbit?.groupAction) {  // !isDetached()
+      this.pcs = this.pcs.orbit.groupAction.getIPcsInOrbit(newPcs)
+    } else {
+      this.pcs = newPcs
+    }
     this.updatePcs.emit(this.pcs)
   }
-
 
 }

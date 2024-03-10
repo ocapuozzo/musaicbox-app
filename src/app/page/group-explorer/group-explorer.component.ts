@@ -98,6 +98,7 @@ export class GroupExplorerComponent {
     this.preReactOrbits = []
     this.debug = true
     this.buildAllOperationsOfGroup();
+    this.saveConfig();
   }
 
   /**
@@ -125,6 +126,8 @@ export class GroupExplorerComponent {
       this.preReactOrbits = this.groupAction.orbits
       this.orbitsPartitions = []
       this.showOrbitBy = ''
+
+      this.saveConfig();
       this.nextTick()
     });
   }
@@ -153,6 +156,7 @@ export class GroupExplorerComponent {
           this.orbitsPartitions = this.groupAction!.orbitsSortedByCardinal
           this.showOrbitBy = "cardinal"
         }
+        this.saveConfig();
         this.nextTick()
       })
     }

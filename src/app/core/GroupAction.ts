@@ -182,7 +182,6 @@ export class GroupAction {
     let orbitsSortedByStabilizers = new Map<string, Orbit[]>() // k=name orbit based on his stabs, v=array of orbits
     this.orbits.forEach(orbit => {
       const orbitName = orbit.name  // stabilizer based
-
       if (!orbitsSortedByStabilizers.has(orbitName)) {
         orbitsSortedByStabilizers.set(orbitName, [orbit])
       } else {
@@ -193,6 +192,11 @@ export class GroupAction {
 
     // sort map on keys (lexical order)
     // make a "view adapter" for v-for
+
+    // TODO : la clé name ne semble pas complète, car si on prend une orbite (pcs min représenté)
+    //  et que l'on le push sur home, on s'aperçoit que le nom (groupingCriterion) est restreint à un des stabilisateurs
+    //  et non basé sur l'ensemble des stab. ????
+
     let resultOrbitsSortedByStabilizers: ISortedOrbits[] = []
     Array.from(orbitsSortedByStabilizers.keys()).sort().forEach((name) => {
       const obj: ISortedOrbits =

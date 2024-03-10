@@ -148,14 +148,96 @@ export class Orbit {
    }
 
    /**
-   * Based on stabilizers and their shortName
-   *
+   * Name based on stabilizers, by reduction
+   * Example (Musaic n° 84) : M1-T0 M7-T3~6* CM5-T2~4* CM11-T1~2*
    * @return {string}
    */
   get name() {
+    return this.buildStabilizersSignature();
+  }
+
+  /**
+   * Create a name signature of this orbit based on his stabilizers
+   * Example :
+   *   stabilizers of Musaic n° 84 (24 pcs in orbit) :
+   *     M1-T0 M7-T9 CM5-T10 CM11-T7 (4)
+   *     M1-T0 M7-T3 CM5-T10 CM11-T1 (4)
+   *     M1-T0 M7-T3 CM5-T6 CM11-T9 (3)
+   *     M1-T0 M7-T9 CM5-T6 CM11-T3 (3)
+   *     M1-T0 M7-T9 CM5-T2 CM11-T11 (5)
+   *     M1-T0 M7-T3 CM5-T2 CM11-T5 (5
+   *
+   *  signature orbit, stabilizers based is : M1-T0 M7-T3~6* CM5-T2~4* CM11-T1~2*
+   * @private
+   */
+  private buildStabilizersSignature() {
     let res = ""
-    this.stabilizers.forEach(stab => res = res ? " " + stab.getShortName() : stab.getShortName())
-    return res
+    // 1 get all operations
+    let mt = new Map<string, number[]>()
+    for (const stab of this.stabilizers) {
+      // assert in : operations is sorted
+      for (let i = 0; i < stab.operations.length; i++) {
+        let op = stab.operations[i]
+        let nameOpWithoutT = (op.complement ? "CM" : "M") + op.a;
+        if (!mt.has(nameOpWithoutT)) {
+          mt.set(nameOpWithoutT, []);
+        }
+        if (!mt.get(nameOpWithoutT)?.includes(op.t)) { // @ts-ignore
+          mt.get(nameOpWithoutT).push(op.t);
+        }
+      }
+    }
+
+    // 2: sort operations Mx < Mx+1 < CMx < CMx+1
+    let nameOpsWithoutT = Array.from(mt.keys())
+    nameOpsWithoutT.sort((o1, o2) => {
+      let cplt1 = o1.charAt(0) === 'C';
+      let cplt2 = o2.charAt(0) === 'C';
+      let w1;
+      let w2;
+      if (cplt1)
+        w1 = 100 + parseInt(o1.substring(2));
+      else
+        w1 = parseInt(o1.substring(1));
+
+      if (cplt2)
+        w2 = 100 + parseInt(o2.substring(2));
+      else
+        w2 = parseInt(o2.substring(1));
+
+      return w1 - w2;
+    })
+
+    // CM11-T3~6 CM11-T1~6  etc. => CM11-T6*  (equivalent 'up to step translation')
+    // CM5-T2 CM5-T6 CM5-T10 => CM5-T2~4*
+    // M11-T0 M11-T2 M11-T4 M11-T6 M11-T8 M11-T10 => M11-T0~2*
+
+    for (let i = 0; i < nameOpsWithoutT.length; i++) {
+      let nameOpWithoutT = nameOpsWithoutT[i]
+      let shortName = ''
+      if (mt.get(nameOpWithoutT)!.length > 1) {
+        mt.get(nameOpWithoutT)?.sort((a, b) => a - b)
+        // mt.get(nameOpWithoutT)?.forEach(a => console.log(a + ''))
+        let step = mt.get(nameOpWithoutT)![1] - mt.get(nameOpWithoutT)![0]
+        shortName = nameOpWithoutT + "-T" + mt.get(nameOpWithoutT)![0] + "~" + step + "*";
+        // when shortName is defined, delete entry from nt
+        mt.delete(nameOpWithoutT)
+
+        res = (res.length > 1) ? res + ' ' + shortName : shortName
+      }
+
+      // put -Tx only if a
+      let the_as = mt.get(nameOpWithoutT) ?? []
+      for (let j = 0; j < the_as.length; j++) {
+        let a = the_as[j]
+        if (res.length > 0) {
+          res += " ";
+        }
+        res += nameOpWithoutT + "-T" + a;
+      }
+    }
+    // add M1-T0 if not (neutral operation)
+    return res.startsWith('M1-T0') ? res : 'M1-T0 ' + res
   }
 
   /**

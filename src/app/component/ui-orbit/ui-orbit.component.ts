@@ -80,36 +80,36 @@ export class UiOrbitComponent {
   //   console.log('clic droit sur : ' + pcs.getMappedPcsStr())
   //   this._contextmenuService.showContextMenu(event, this._items);
   // }
-
-  public _onContextMenu(event: MouseEvent, pcs: IPcs): void {
-    event.preventDefault();
-    console.log('clic droit sur : ' + pcs.getMappedPcsStr())
-    const contextMenu = document.getElementById('contextMenu');
-    if (contextMenu) {
-      contextMenu.style.top = `${event.offsetY}px`;
-      contextMenu.style.left = `${event.offsetX}px`;
-      contextMenu.classList.add('show');
-
-      // Gérer les événements du menu contextuel
-
-      contextMenu.addEventListener('click', (event: MouseEvent) => {
-        contextMenu.classList.remove('show');
-        // Traiter l'action du menu en fonction de l'élément cliqué
-      });
-
-      document.addEventListener('click', () => {
-        contextMenu.classList.remove('show');
-      });
-    }
-  }
-
-  public doSomething(): void {
-    console.log('Option 1 clicked');
-  }
-
-  public doSomethingElse(): void {
-    console.log('Option 2 clicked');
-  }
+  //
+  // public _onContextMenu(event: MouseEvent, pcs: IPcs): void {
+  //   event.preventDefault();
+  //   console.log('clic droit sur : ' + pcs.getMappedPcsStr())
+  //   const contextMenu = document.getElementById('contextMenu');
+  //   if (contextMenu) {
+  //     contextMenu.style.top = `${event.offsetY}px`;
+  //     contextMenu.style.left = `${event.offsetX}px`;
+  //     contextMenu.classList.add('show');
+  //
+  //     // Gérer les événements du menu contextuel
+  //
+  //     contextMenu.addEventListener('click', (event: MouseEvent) => {
+  //       contextMenu.classList.remove('show');
+  //       // Traiter l'action du menu en fonction de l'élément cliqué
+  //     });
+  //
+  //     document.addEventListener('click', () => {
+  //       contextMenu.classList.remove('show');
+  //     });
+  //   }
+  // }
+  //
+  // public doSomething(): void {
+  //   console.log('Option 1 clicked');
+  // }
+  //
+  // public doSomethingElse(): void {
+  //   console.log('Option 2 clicked');
+  // }
 
   // public log(event: any) {
   //   this.mousePosition = `Mouse X: ${event.x},  Mouse Y: ${event.y}`;

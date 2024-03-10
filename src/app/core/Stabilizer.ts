@@ -232,10 +232,14 @@ export class Stabilizer {
   getShortName() {
     if (!this._shortName)
       this._shortName = this.makeShortName();
-    return this._shortName;
+   return this._shortName;
   }
 
+
   /**
+   *
+   * TODO : no perfect ! refactor from orbit get name
+   *
    * get short name of recure operations
    * CM1-T0 CM1-T4 CM1-T8 => CM1-T0~4*
    * CM1-T3 CM1-T9 => CM1-T3~6*
@@ -250,20 +254,19 @@ export class Stabilizer {
     // assert in : operations is sorted
     for (let i = 0; i < this.operations.length; i++) {
       let op = this.operations[i]
-      //  this.operations.forEach(op => {
       let nameOp = (op.complement ? "CM" : "M") + op.a;
       if (!mt.has(nameOp)) {
         mt.set(nameOp, []);
       }
       // @ts-ignore
       mt.get(nameOp).push(op.t);
-    } //)
+    }
 
     // let testnameOps = Array.from(mt.keys())
     // testnameOps.forEach(k => console.log("mt[" + k + "] = " + mt.get(k)))
-
-    let nameOps = Array.from(mt.keys())
-    nameOps.sort((o1, o2) => {
+    // CM1 < CM2 < M1 < M2
+    let nameOpsWithoutT = Array.from(mt.keys())
+    nameOpsWithoutT.sort((o1, o2) => {
       let cplt1 = o1.charAt(0) === 'C';
       let cplt2 = o2.charAt(0) === 'C';
       let w1;
@@ -284,26 +287,26 @@ export class Stabilizer {
     // System.out.println("ops :" + Arrays.toString(nameOps));
     //nameOps.forEach(nameOp => {
     let res = "";
-    for (let i = 0; i < nameOps.length; i++) {
-      let nameOp = nameOps[i]
-      let shortName = this.tryReduceListByShortName(mt, nameOp) + "";
+    for (let i = 0; i < nameOpsWithoutT.length; i++) {
+      let nameOpWithoutT = nameOpsWithoutT[i]
+      let shortName = this.tryReduceListByShortName(mt, nameOpWithoutT) + "";
 
       if (shortName.length > 0) {
         if (res.length > 0) {
           res += " ";
         }
-        res += nameOp + shortName;
+        res += nameOpWithoutT + shortName;
       }
       // put -Tx only if a
 
-      let the_as = mt.get(nameOp) ?? []
+      let the_as = mt.get(nameOpWithoutT) ?? []
       for (let j = 0; j < the_as.length; j++) {
         let a = the_as[j]
         // mt.get(nameOp).forEach(a => {
         if (res.length > 0) {
           res += " ";
         }
-        res += nameOp + "-T" + a;
+        res += nameOpWithoutT + "-T" + a;
       } //)
     }
     return res;
@@ -316,11 +319,11 @@ export class Stabilizer {
    *
    * @param {Map<string, number[]>} mt (mutable here) Map key = multiplication arg, value = translation values
    *
-   * @param {string} nameOp key string value (example : M2)
+   * @param {string} nameOpWithoutT key string value (example : M2)
    * @return String reduce name and reduce list mt.get(nameOp) or detached string and same list
    */
-  tryReduceListByShortName(mt: Map<string, number[]>, nameOp: string) {
-    let listOfa = mt.get(nameOp) ?? []
+  tryReduceListByShortName(mt: Map<string, number[]>, nameOpWithoutT: string) {
+    let listOfa = mt.get(nameOpWithoutT) ?? []
     let shortName = "";
     if (listOfa.length > 1) {
       // get n for modulo below
@@ -333,7 +336,8 @@ export class Stabilizer {
           cpt++
         }
       }
-      if (cpt * step === n) {
+      if (cpt * step === n)
+      {
         shortName = "-T" + listOfa[0] + "~" + step + "*";
         // delete multiple of step element of the list
         let racineValue = listOfa[0];
@@ -342,7 +346,7 @@ export class Stabilizer {
       }
     }
     // replaceBy new value associate to nameOp key
-    mt.set(nameOp, listOfa)
+    mt.set(nameOpWithoutT, listOfa)
     return shortName;
   }
 
