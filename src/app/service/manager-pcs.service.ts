@@ -11,6 +11,8 @@ export class ManagerPcsService {
   transformeByMxT0(pcs: IPcs, a:number): IPcs {
     let newPcs = pcs.affineOp(a, 0)
     // if not isDetached() get newPcs resulting of group action
+    // It is a question of performance. If newPcs is always in memory, it is no
+    // point in keeping two equal instances.
     if (pcs.orbit?.groupAction) {
       newPcs = pcs.orbit.groupAction.getIPcsInOrbit(newPcs)
     }
@@ -20,6 +22,8 @@ export class ManagerPcsService {
   translateByM1Tx(pcs: IPcs, t:number): IPcs {
     let newPcs = pcs.translation(t)
     // if not isDetached() get newPcs resulting of group action
+    // It is a question of performance. If newPcs is always in memory, it is no
+    // point in keeping two equal instances.
     if (pcs.orbit?.groupAction) {
       newPcs = pcs.orbit.groupAction.getIPcsInOrbit(newPcs)
     }
@@ -29,6 +33,8 @@ export class ManagerPcsService {
   complement(pcs: IPcs): IPcs {
     let newPcs = pcs.complement()
     // if not isDetached() get newPcs resulting of group action
+    // It is a question of performance. If newPcs is always in memory, it is no
+    // point in keeping two equal instances.
     if (pcs.orbit?.groupAction) {
       newPcs = pcs.orbit.groupAction.getIPcsInOrbit(newPcs)
     }
@@ -70,6 +76,8 @@ export class ManagerPcsService {
 
   toggleIndexFromMapped(pcs : IPcs, index: number): IPcs {
     let newPcs = pcs.toggleIndexPC(pcs.indexMappedToIndexInner(index))
+    // It is a question of performance. If newPcs is always in memory, it is no
+    // point in keeping two equal instances.
     if (pcs.orbit?.groupAction) {
       newPcs = pcs.orbit.groupAction.getIPcsInOrbit(newPcs)
     }

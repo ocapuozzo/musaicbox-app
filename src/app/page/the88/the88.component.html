@@ -9,6 +9,8 @@
         <app-musaic
           [ipcs]="orbit.getPcsMin()"
           [opaque] = "musaicDrawGrid"
+          (click)="doPushToHomePage(orbit.getPcsMin())"
+          style="cursor: pointer"
         >
         </app-musaic>
       </div>
