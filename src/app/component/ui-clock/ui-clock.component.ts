@@ -33,9 +33,12 @@ export class UiClockComponent {
 
   private unlisten: Function;
 
-  @Output() changePcs = new EventEmitter<IPcs>();
-
-  @Input() set pcs(value: IPcs) {
+  /**
+   * draw canvas when pcs change
+   *
+   * @param value newPcs
+   */
+  set pcs(value: IPcs) {
     this._pcs = value
     if (this.context) {
       this.drawClock()
@@ -85,22 +88,12 @@ export class UiClockComponent {
     this.managerHomePcsService.refresh()
   }
 
-  // TODO change by event angular ? touchstart not a good idea ?
-  /* ERROR (in chrome)
-  ui-clock.component.ts:102 [Violation]
-   Added non-passive event listener to a scroll-blocking 'touchstart' event.
-   Consider marking event handler as 'passive' to make the page more responsive.
-   See https://www.chromestatus.com/feature/5745543795965952
-   */
-
   private setupEvents(): void {
     this.canvas.nativeElement.addEventListener('mouseup',
       (event) => this.mouseup(event));
     this.canvas.nativeElement.addEventListener('mousedown',
       (event) => this.mousedown(event));
 
-    this.canvas.nativeElement.addEventListener('touchstart',
-      (event) => this.touchstart(event), false);
     this.canvas.nativeElement.addEventListener('touchend',
       (event) => this.touchend(event), false);
 
@@ -110,7 +103,6 @@ export class UiClockComponent {
 
     // this.canvas.nativeElement.addEventListener('mousemove',
     //   (event) => this.mouseMoveSetCursor(event));
-
     // too much refresh display, so put event mousemove outside angular zone
     // https://medium.com/javascript-everyday/adding-event-listeners-outside-of-the-angular-zone-a22f9cfc80eb
     this.ngZone.runOutsideAngular(() => {
@@ -120,7 +112,6 @@ export class UiClockComponent {
         (e) => this.mouseMoveSetCursor(e)
       );
     });
-
   }
 
   mouseMoveSetCursor(e:MouseEvent) {
@@ -140,8 +131,6 @@ export class UiClockComponent {
 
   mouseup(e: any) {
     e.preventDefault();
-
-
 
     // see https://developer.mozilla.org/en-US/docs/Web/API/Element/auxclick_event ?
     // https://stackoverflow.com/questions/56260646/how-can-i-handle-the-angular-click-event-for-the-middle-mouse-button
@@ -193,8 +182,6 @@ export class UiClockComponent {
   public setIPivot(newPivot: number) {
     if (newPivot < this.pcs.n && newPivot >= 0) {
       this.managerHomePcsService.toggleIndexOrSetIPivot(newPivot)
-      // this.pcs = new IPcs({strPcs: this.pcs.getPcsStr(), iPivot: newPivot})
-      // this.drawClock()
     } else {
       throw new Error("Invalid iPivot")
     }
@@ -245,13 +232,6 @@ export class UiClockComponent {
     return this.pcs.getMappedBinPcs()[i] === 1;
   }
 
-  touchstart(e: TouchEvent | MouseEvent) {
-    if (e) {
-      e.preventDefault();
-    }
-    this.dateMouseDone = new Date()
-  }
-
   touchend(e: TouchEvent) {
     if (!e) {
       return
@@ -297,11 +277,11 @@ export class UiClockComponent {
   changePcsFromModuleTranslationControl($event: string) {
     if ($event.startsWith('T')) {
       this.managerHomePcsService.translateByM1Tx($event == 'T-1' ? -1 : +1)
-    } else {
+    } else { // M
       this.managerHomePcsService.modulation($event == 'M-1' ? IPcs.PREV_MODULE : IPcs.NEXT_DEGREE)
     }
-    this.drawClock()
-    this.changePcs.emit(this.pcs)
+    // this.drawClock()
+    // this.changePcs.emit(this.pcs)
   }
 
   autoMap() {
