@@ -58,13 +58,8 @@ export class ManagerHomePcsService {
     this.updatePcs.emit(this.pcs)
   }
 
-  replaceBy(pcs: IPcs) {
-    const newPcs = pcs //.translation(0) // copy
-    if (this.pcs.orbit?.groupAction) {  // !isDetached()
-      this.pcs = this.pcs.orbit.groupAction.getIPcsInOrbit(newPcs)
-    } else {
-      this.pcs = newPcs
-    }
+  replaceBy(newPcs: IPcs): void {
+    this.pcs = newPcs
     this.updatePcs.emit(this.pcs)
   }
 }

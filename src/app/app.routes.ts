@@ -5,6 +5,11 @@ import {PageNotFoundComponent} from "./page/page-not-found/page-not-found.compon
 import {The88Component} from "./page/the88/the88.component";
 
 export const routes: Routes = [
+  // {
+  //   path: '',
+  //   redirectTo: 'about',
+  //   pathMatch: 'full'
+  // }
   {path: '', component: HomeComponent},
   {path: 'home', component: HomeComponent},
   {path: 'group-explorer', component: GroupExplorerComponent},

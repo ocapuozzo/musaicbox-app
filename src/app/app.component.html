@@ -1,3 +1,138 @@
-<app-header></app-header>
-<router-outlet></router-outlet>
-<app-footer></app-footer>
+<mat-toolbar class="toolbar">
+  <span><img src="./assets/img/88musaics-logo-35x35.png" alt="logo88musaics"></span>
+  <button
+    (click)="drawer.toggle()"
+    mat-icon-button
+    class="burger">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <div class="toolBarMainHoriz">
+    <button
+      mat-button color="primary"
+      routerLinkActive="mat-accent"
+      routerLink="home">PCS
+    </button>
+  </div>
+  <div class="toolBarMainHoriz">
+    <button
+      mat-button color="primar"
+      routerLinkActive="mat-accent"
+      routerLink="group-explorer">ℤnExplorer
+    </button>
+  </div>
+  <div class="toolBarMainHoriz">
+    <button
+      mat-button color="primary"
+      routerLinkActive="mat-accent"
+      routerLink="the88">88Musaics
+    </button>
+  </div>
+  <div class="toolBarMainHoriz">
+    <button
+      mat-button color="primary"
+      routerLinkActive="mat-accent"
+      routerLink="home">Whiteboard
+    </button>
+  </div>
+  <div class="toolBarMainHoriz">
+    <button
+      mat-button color="primary"
+      class="example-icon favorite-icon"
+      aria-label="Guitar P4 Tuning"
+      routerLinkActive="mat-accent"
+      routerLink="home">GuitarP4<fa-icon [icon]="faGuitar"></fa-icon>
+    </button>
+  </div>
+
+  <div class="toolBarMainHoriz">
+    <button
+      mat-button color="primary"
+      routerLinkActive="mat-accent"
+      routerLink="home">About
+    </button>
+  </div>
+  <span class="example-spacer"></span>
+
+  <div class="toolBarMainHoriz">
+    <a
+      mat-icon-button
+      class="link d-none d-sm-inline"
+      href="https://github.com/ocapuozzo/musaicbox-app"
+      target="_blank" rel="noopener noreferrer">
+      <fa-icon [icon]="faGithub"></fa-icon>
+    </a>
+  </div>
+</mat-toolbar>
+
+<mat-drawer-container
+
+  [hasBackdrop]="mdcBackdrop">
+  <mat-drawer #drawer class="drawer" [mode]="drawerMode">
+    <div class="sidenav-content">
+      <div class="drawerButton">
+        <button
+          (click)="drawer.toggle()"
+          mat-button color="primary"
+          routerLinkActive="mat-accent"
+          routerLink="home">PCS
+        </button>
+      </div>
+      <div class="drawerButton">
+        <button
+          (click)="drawer.toggle()"
+          mat-button color="primar"
+          routerLinkActive="mat-accent"
+          routerLink="group-explorer">ℤnExplorer
+        </button>
+      </div>
+      <div class="drawerButton">
+        <button
+          (click)="drawer.toggle()"
+          mat-button color="primary"
+          routerLinkActive="mat-accent"
+          routerLink="the88">88Musaics
+        </button>
+      </div>
+      <div class="drawerButton">
+        <button
+          (click)="drawer.toggle()"
+          mat-button color="primary"
+          routerLinkActive="mat-accent"
+          routerLink="home">Whiteboard
+        </button>
+      </div>
+
+      <div class="drawerButton">
+        <button
+          (click)="drawer.toggle()"
+          mat-button color="primary"
+          class="example-icon favorite-icon"
+          aria-label="Guitar P4 Tuning"
+          routerLinkActive="mat-accent"
+          routerLink="home">GuitarP4<fa-icon [icon]="faGuitar"></fa-icon>
+        </button>
+      </div>
+      <div class="drawerButton">
+        <button
+          (click)="drawer.toggle()"
+          mat-button color="primary"
+          routerLinkActive="mat-accent"
+          routerLink="home">About
+        </button>
+      </div>
+      <div class="drawerButton"  (click)="drawer.toggle()">
+        <a
+          mat-icon-button
+          class="link d-none d-sm-inline"
+          href="https://github.com/ocapuozzo/musaicbox-app"
+          target="_blank" rel="noopener noreferrer">
+          <fa-icon [icon]="faGithub"></fa-icon>
+        </a>
+      </div>
+    </div>
+  </mat-drawer>
+  <mat-drawer-content>
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container>

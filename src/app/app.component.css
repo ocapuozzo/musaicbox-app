@@ -1,0 +1,53 @@
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.example-icon {
+  padding: 0 14px;
+}
+
+.toolbar {
+  height:50px;
+  background-color: white;
+}
+
+.biggerbutton {
+  width:  100px!important;
+  height: 50px!important;
+  font-size: 10px!important;
+}
+
+.toolBarMainHoriz, .drawerButton {
+  padding: 4px;
+}
+
+.container {
+  height: 100%;
+  /*width: 100%;*/
+}
+
+.drawer {
+  background-color: white;
+  /*background-color: #BF55EC;*/
+  width: 150px;
+}
+
+.burger {
+  color: black;
+}
+
+@media all and (max-width: 500px) {
+
+  .toolBarMainHoriz {
+    display: none;
+  }
+
+  .toolbar {
+    height:5%;
+  }
+
+  .container {
+    height: 95%;
+  }
+
+}
