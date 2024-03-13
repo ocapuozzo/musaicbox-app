@@ -31,7 +31,7 @@ export class PcsListComponent {
   }
 
   doRemoveFromList(pcs: IPcs) {
-    console.log("doRemoveFromList :" + pcs.toString())
+    // console.log("doRemoveFromList :" + pcs.toString())
     this.managerHomePcsListService.removePcs(pcs)
   }
 

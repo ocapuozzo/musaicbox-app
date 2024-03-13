@@ -55,8 +55,6 @@ export class ChordName {
     for (let minorMajor of [3, 4]) {
       if (binPcs[(pivot + minorMajor) % n] == 1) {
         key = '0,' + minorMajor
-        // for (let j = pivot + minorMajor + 1; j < (n + pivot); j++) {
-        // seventh first
         for (let j = n + pivot - 1; j > pivot + minorMajor; j--) {
           if (binPcs[j % n] == 1) {
             // 3Chord
