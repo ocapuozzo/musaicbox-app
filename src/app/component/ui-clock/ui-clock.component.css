@@ -20,4 +20,9 @@ canvas {
 .panel-action {
   display: flex;
   justify-content: space-between;
+  margin: 10px;
+}
+
+.score-center {
+  margin-left: 10px;
 }

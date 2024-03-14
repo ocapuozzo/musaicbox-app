@@ -8,7 +8,7 @@
       <p [hidden]="pcs.n == 12">
         PCS :
         <span class="analyse-pcs"> {{ pcs.getPcsStr() }}<sub> {{ pcs.iPivot }} </sub></span> &nbsp;
-        Card :
+        Cardinal :
         <span class="analyse-pcs">#{{ pcs.cardinal }}</span>
         PowerSet cardinal :
         <span class="analyse-pcs">#{{ pcs.cyclicPrimeForm().orbit!.groupAction!.powerset.size }}</span>
@@ -16,7 +16,7 @@
       <hr>
     </div>
   </div>
-  <div class="col-sm text-left">
+  <div class="marge-5">
     <p>
       n :
       <span class="analyse-pcs">{{ pcsMapped12.n }}</span>
@@ -24,10 +24,10 @@
     <p>
       PCS :
       <span class="analyse-pcs"> {{ pcsMapped12.getPcsStr() }}<sub> {{ pcsMapped12.iPivot }} </sub></span> &nbsp;
-      Card :
+    </p>
+    <p>
+      Cardinal :
       <span class="analyse-pcs">#{{ pcsMapped12.cardinal }}</span>
-      &nbsp;PowerSet cardinal :
-      <span class="analyse-pcs">#{{ pcsMapped12.cyclicPrimeForm().orbit!.groupAction!.powerset.size }}</span>
     </p>
     <p>
       Intervallic Structure :
@@ -41,12 +41,14 @@
       Forte :
       <span class="analyse-pcs">{{ pcsMapped12.forteNum() }}</span>
     </p>
+
+    <div>
     <fieldset class="representation-border">
-      <legend class="representation-border text-center">Fecundity</legend>
+      <legend class="representation-border">Fecundity</legend>
       <hr>
       <p>
-        #Modes :
-        <span class="analyse-pcs">{{ pcsMapped12.cardOrbitMode() }}</span>
+        #Modes : {{ ''// sub sub => to have same height that next fieldset }}
+        <span class="analyse-pcs">{{ pcsMapped12.cardOrbitMode() }} <sub></sub></span>
       </p>
       <p>
         #OrbitCyclic :
@@ -65,8 +67,9 @@
         <span class="analyse-pcs">{{ pcsMapped12.musaicPrimeForm().orbit.cardinal }}</span>
       </p>
     </fieldset>
+
     <fieldset class="representation-border">
-      <legend class="representation-border text-center">Prime Form</legend>
+      <legend class="representation-border">Prime Form</legend>
       <hr>
       <p>
         Modal :
@@ -90,9 +93,11 @@
         <span class="analyse-pcs">{{ pcsMapped12.musaicPrimeForm().getPcsStr() }}</span>
       </p>
     </fieldset>
+    </div>
+
     @if (!pcs.orbit.isDetached()) {
       <fieldset class="representation-border">
-        <legend class="representation-border text-center">pcs in orbit</legend>
+        <legend class="representation-border">pcs in orbit</legend>
         <hr>
         <p>
           Orbit cardinal :
@@ -117,7 +122,7 @@
       </fieldset>
     }
   </div>
-  <div class="p-3">
+  <div class="padding-3">
     <p>
       (debug) iPCS :
       <span class="analyse-pcs">{{ pcs.toString() }}</span> ~

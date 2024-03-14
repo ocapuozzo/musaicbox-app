@@ -2,60 +2,50 @@
   <div #containercanvas id="containercanvas">
     <canvas #canvas></canvas>
     IV : <span class="analyse-pcs"> &lt;{{ pcs.iv() }}&gt;</span>
-    <p class="m-1">
-      @if([3, 4].includes(pcs.cardinal)) {
-        <span>{{pcs.getChordName()}}</span>
-      }
-    </p>
+
+    @if ([3, 4].includes(pcs.cardinal)) {
+      <p style="margin-top: 10px;">{{ pcs.getChordName() }}</p>
+    }
   </div>
-  <div class="container">
-    <div class="row">
-      <div class="col-sm ms-2">
-        <app-music-notation [pcs]="pcs" style="height: 210px;">
-        </app-music-notation>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm text-left">
-        <app-module-translation-control
-          (changePcsEvent)="changePcsFromModuleTranslationControl($event)">
-        </app-module-translation-control>
-      </div>
-    </div>
-    <hr>
-    <div class="row">
-      <div class="col-sm text-left">
-        <div class="panel-action">
-          @if (pcs.n == 12) {
-            <span class="m-1" (click)="autoMap()" style="cursor: pointer">
-              <span>
-              <i class="bi bi-circle-square"></i>Map
-              </span>
-            </span>
-          } @else {
-            @if (pcs.nMapping == 12) {
-              <span class="m-1" (click)="unMap()" style="cursor: pointer">
-               <span>
-                 <i class="bi bi-circle"></i>UnMap
-               </span>
-             </span>
-            }
-          }
-          <span class="m-1" (click)="addToList()" style="cursor: pointer">
-            <i class="bi bi-plus-circle"></i> Add pcs
-          </span>
-        </div>
-        <div class="panel-action">
-         <span class="m-1" [hidden]="pcs.cardinal < 5"
-               (click)="threeChordList()" style="cursor: pointer">
+  <div class="score-center">
+    <app-music-notation [pcs]="pcs" style="height: 150px;">
+    </app-music-notation>
+  </div>
+  <div>
+    <app-module-translation-control
+      (changePcsEvent)="changePcsFromModuleTranslationControl($event)">
+    </app-module-translation-control>
+  </div>
+  <hr>
+
+  <div class="panel-action">
+    @if (pcs.n == 12) {
+      <span (click)="autoMap()" style="cursor: pointer">
+        <span>
+          <i class="bi bi-circle-square"></i>Map
+        </span>
+      </span>
+    } @else {
+      @if (pcs.nMapping == 12) {
+        <span (click)="unMap()" style="cursor: pointer">
+           <span>
+              <i class="bi bi-circle"></i>UnMap
+           </span>
+        </span>
+      }
+    }
+    <span (click)="addToList()" style="cursor: pointer">
+       <i class="bi bi-plus-circle"></i> Add pcs
+    </span>
+  </div>
+  <div class="panel-action">
+    <span [hidden]="pcs.cardinal < 5"
+          (click)="threeChordList()" style="cursor: pointer">
            <i class="bi bi-chevron-double-down">3-chords</i>
-         </span>
-          <span class="m-1" [hidden]="pcs.cardinal < 5"
-                (click)="fourChordList()" style="cursor: pointer">
-            <i class="bi bi-chevron-double-down">4-chords</i>
-         </span>
-        </div>
-      </div>
-    </div>
+    </span>
+    <span [hidden]="pcs.cardinal < 5"
+          (click)="fourChordList()" style="cursor: pointer">
+           <i class="bi bi-chevron-double-down">4-chords</i>
+    </span>
   </div>
 </div>

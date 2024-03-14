@@ -51,3 +51,23 @@ legend.representation-border {
   width: 200px;
   height: 200px;
 }
+
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.box {
+  box-shadow: 0px 0px 10px 0px lightgray;
+  margin: 5px;
+  padding: 5px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.inner-box {
+  padding: 10px;
+}

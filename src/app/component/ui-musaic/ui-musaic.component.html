@@ -1,23 +1,23 @@
 <div>
   <div #containercanvas class="text-center">
 
-<!--    [ngClass]="pcs.n == 12 ? 'actionable' : 'no-actionable'"-->
-    <canvas #canvas id="canvas"   style="border:1px solid black;"></canvas>
+    <!--    [ngClass]="pcs.n == 12 ? 'actionable' : 'no-actionable'"-->
+    <canvas #canvas id="canvas" style="border:1px solid black;"></canvas>
   </div>
   <div [hidden]="pcs.n == 12" class="extra content text-center aligned">
-    <p class="font-italic">Mapping {{pcs.n}} => {{pcs.nMapping}}</p>
+    <p class="font-italic box-center">Mapping {{ pcs.n }} => {{ pcs.nMapping }}</p>
   </div>
-  <div [hidden]="pcs.n != 12" class="extra content text-center aligned">
-      <img
-        (click)="m11Click()"
-        #m11
-        id="m11"
-        src="./assets/img/m11.png"
-        title="m11"
-        class="actionable img-fluid anim-button"
-        alt="M11"
-        width="60"
-      />
+  <div [hidden]="pcs.n != 12" [class.box-center]="pcs.n == 12">
+    <img
+      (click)="m11Click()"
+      #m11
+      id="m11"
+      src="./assets/img/m11.png"
+      title="m11"
+      class="actionable img-fluid anim-button"
+      alt="M11"
+      width="60"
+    />
     <img
       (click)="m5Click()"
       #m5
@@ -39,20 +39,20 @@
       alt="M7"
     />
   </div>
-  <div class="extra content text-center aligned">
-      <span [hidden]="pcs.n != 12" (click)="complement()" class="actionable">
+
+  <span [hidden]="pcs.n != 12" (click)="complement()" [class.box-center]="pcs.n == 12" class="actionable">
         <img
           src="./assets/img/cplt.png"
           title="complement"
           class="actionable img-fluid anim-button"
           width="40"
         />
-        <!-- <font-awesome-icon icon="yin-yang"  size="lg"/> -->
+    <!-- <font-awesome-icon icon="yin-yang"  size="lg"/> -->
       </span>
-    <p class="text-center mt-1">
-      IS :
-      <span class="analyse-pcs">({{ pcs.is() }})</span>
-    </p>
-  </div>
+  <p class="box-center marge-5">
+    IS :
+    <span class="analyse-pcs">({{ pcs.is() }})</span>
+  </p>
 </div>
+
 

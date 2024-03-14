@@ -41,3 +41,11 @@ legend.representation-border {
   padding: 0 10px;
   border-bottom: none;
 }
+
+.padding-3 {
+  padding: 3px;
+}
+
+.marge-5 {
+  margin: 5px;
+}

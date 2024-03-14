@@ -1,16 +1,16 @@
 <p class="ms-2" style="cursor: pointer" (click)="doClearList()" [hidden]="labeledListPcs.size==0">Clear all <i class="bi bi-trash3-fill" ></i></p>
-<div class="d-flex flex-wrap">
+<div class="row">
   @for (title of labeledListPcs.keys(); track labeledListPcs) {
     @if (title == '') {
       <!--  each pcs into separate col  -->
       @for (pcs of labeledListPcs.get(title); track pcs.id; let index = $index) {
-        <div class="card text-center m-2 shadow rounded" style="width: 180px;">
+        <div class="box text-center" style="width: 180px;">
           <app-clock [ipcs]="pcs"></app-clock>
-          <div class="card-body">
-            <p class="text-center mt-1">
+          <div>
+            <p class="text-center">
               <span>{{ pcs.getChordName() }}</span>
             </p>
-            <h6 class="card-title">{{ pcs.getMappedPcsStr() }}</h6>
+            <h6>{{ pcs.getMappedPcsStr() }}</h6>
             <i (click)="doRemoveFromList(pcs)" class="bi bi-trash p-1" style="cursor: pointer"></i>
             <i (click)="doSelectFromList(pcs)" class="bi bi-eye p-1" style="cursor: pointer"></i>
             <app-music-notation [hidden]="! withMusicalNotation"
@@ -21,14 +21,14 @@
       }
     } @else {
       <!--  put list pcs into one col div-->
-      <div class="text-center m-2 shadow rounded" style="width: 200px;">
-        <p>{{ title }}</p>
+      <div class="box text-center" style="width: 200px;">
+        <p>{{ title }} ({{labeledListPcs.get(title)?.length}})</p>
         @for (pcs of labeledListPcs.get(title); track pcs.id; let index = $index) {
-          <div class="card text-center m-2 shadow rounded" style="width: 180px;">
+          <div class="box" style="width: 180px;">
             <app-clock [ipcs]="pcs"></app-clock>
             <div class="card-body">
-              <h6 class="card-title">{{ pcs.getMappedPcsStr() }} <sub> {{ pcs.iPivot }}</sub></h6>
-              <p class="text-center mt-1">
+              <h6>{{ pcs.getMappedPcsStr() }} <sub> {{ pcs.iPivot }}</sub></h6>
+              <p class="text-center">
                 <span>{{ pcs.getChordName() }}</span>
               </p>
               <i (click)="doRemoveFromList(pcs)" class="bi bi-trash p-1" style="cursor: pointer"></i>

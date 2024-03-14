@@ -1,11 +1,33 @@
 .box88-footer {
   font-size: 0.6em !important;
+  text-align: center;
 }
+
 
 .box88-id {
   font-size: 0.6em !important;
+  font-weight: bold;
+  text-align: center;
+  /*border-bottom: 1px solid;*/
 }
 
 .box88 {
+  border-style: solid;
+  border-color: lightgray;
+  margin: 2px;
+}
 
+.box88-body {
+
+}
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.box-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

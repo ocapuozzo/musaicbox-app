@@ -1,3 +1,14 @@
+
+.box-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.marge-5 {
+  margin: 5px;
+}
+
 .actionable {
   cursor: pointer;
 }
@@ -65,9 +76,9 @@
 
 @keyframes rotation {
   from {
-    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
   }
   to {
-    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
   }
 }
