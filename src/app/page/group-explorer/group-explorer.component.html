@@ -1,160 +1,197 @@
 <div class="group-action">
-  <h3>Cyclic group ℤ<sub>n</sub> & group action explorer
-  <div [hidden]="!waitingCompute" class="btn status">
-    <span class="spinner-border spinner-border-sm status" role="status" aria-hidden="true"></span>
-    Working...
-  </div>
-  </h3>
-  <div class="d-flex flex-row">
-    <div class="input-group group-dim ">
-      <div class="input-group-prepend ">
-        <label class="input-group-text " for="inputGroupSelect01"> N </label>
-      </div>
-      <select class="custom-select " id="inputGroupSelect01" (change)="onChangeN($event)">
-        @for (index of [3, 4, 5, 6, 7, 8, 9, 10, 11, 12]; track index) {
-          @if (n == index) {
-            <option value="{{index}}" selected>
-              {{ index }}
-            </option>
-          } @else {
-            <option value="{{index}}">
-              {{ index }}
-            </option>
-          }
-
-        }
-      </select>
+  <div class="row">
+    <div>
+      <h2>Cyclic group ℤ<sub>n</sub> & group action explorer</h2>
     </div>
-    <div class="pl-2">
-      <fieldset class="representation-border p-3">
-        <legend class="representation-border float-none w-auto px-3">Generator group operations</legend>
-        <form>
-          <fieldset class="representation-border p-3 ">
-            <legend class="representation-border float-none w-auto px-3">Multiplication</legend>
-            @for (generator of primesWithN; track generator; let index = $index) {
-              <div class="form-check form-check-inline">
-                @if (generator == 1) {
-                  <input class="form-check-input" type="checkbox" checked disabled>
-                } @else {
-                  <input class="form-check-input" type="checkbox" [checked]="opMultChoices.includes(generator)"
-                         (change)="changeOpMultChoices(generator, $event)">
-                }
-                <label class="form-check-label">M{{ generator }}</label>
-              </div>
-            }
-          </fieldset>
-        </form>
+    @if (waitingCompute) {
+      <div class="waiting">
+        <h2 class="waiting-message">Waiting...</h2>
+        <mat-spinner [diameter]="15" [color]="'warn'" class="spinner-align"></mat-spinner>
+      </div>
+    }
+  </div>
+  <div class="row">
+    <div>
+      <fieldset class="representation-border">
+        <legend class="representation-border">Cyclic group order</legend>
+        <div class="input-group group-dim ">
+          <div class="input-group-prepend " style="display: inline">
+            <label class="input-group-text " for="inputGroupSelect01" style="height: 80px"> N : </label>
+          </div>
+          <select id="inputGroupSelect01" (change)="onChangeN($event)">
+            @for (index of [3, 4, 5, 6, 7, 8, 9, 10, 11, 12]; track index) {
+              @if (n == index) {
+                <option value="{{index}}" selected>
+                  {{ index }}
+                </option>
+              } @else {
+                <option value="{{index}}">
+                  {{ index }}
+                </option>
+              }
 
-        <fieldset class="representation-border p-3">
-          <legend class="representation-border float-none w-auto px-3">Translation
-            <span data-bs-toggle="tooltip" data-bs-placement="right" title="T1 => Equivalent under translation/transposition" style="cursor: help">
+            }
+          </select>
+        </div>
+      </fieldset>
+    </div>
+    <div>
+      <fieldset class="representation-border">
+        <legend class="representation-border float-none w-auto px-3">Generator group operations</legend>
+        <div class="row">
+          <div>
+            <form>
+              <fieldset class="representation-border p-3 ">
+                <legend class="representation-border float-none w-auto px-3">Multiplication</legend>
+                <div class="row">
+                  @for (generator of primesWithN; track generator; let index = $index) {
+                    <div class="form-check">
+                      @if (generator == 1) {
+                        <input class="form-check-input" type="checkbox" checked disabled>
+                      } @else {
+                        <input class="form-check-input" type="checkbox" [checked]="opMultChoices.includes(generator)"
+                               (change)="changeOpMultChoices(generator, $event)">
+                      }
+                      <label class="form-check-label">M{{ generator }}</label>
+                    </div>
+                  }
+                </div>
+              </fieldset>
+            </form>
+          </div>
+
+          <div>
+            <fieldset class="representation-border p-3">
+              <legend class="representation-border float-none w-auto px-3">Translation
+                <span data-bs-toggle="tooltip" data-bs-placement="right"
+                      title="T1 => Equivalent under translation/transposition" style="cursor: help">
               <i class="bi bi-info-circle"></i>
             </span>
-          </legend>
-          @for (t of makeArray(Math.ceil(n / 2)); track t; let index = $index) {
-            <div class="form-check form-check-inline">
-              @if(t===0) {
-                <input class="form-check-input" type="checkbox" value="{{t}}" disabled checked>
-              } @else {
-                <input class="form-check-input" type="checkbox" value="{{t}}" [checked]="opTransChoices.includes(t)"
-                       (change)="changeOpTranslationChoices(t, $event)">
-              }
-              <label class="form-check-label">T{{ t }}</label>
-            </div>
-          }
-        </fieldset>
+              </legend>
+              <div class="row">
+                @for (t of makeArray(Math.ceil(n / 2)); track t; let index = $index) {
+                  <div class="form-check form-check-inline">
+                    @if (t === 0) {
+                      <input class="form-check-input" type="checkbox" value="{{t}}" disabled checked>
+                    } @else {
+                      <input class="form-check-input" type="checkbox" value="{{t}}"
+                             [checked]="opTransChoices.includes(t)"
+                             (change)="changeOpTranslationChoices(t, $event)">
+                    }
+                    <label class="form-check-label">T{{ t }}</label>
+                  </div>
+                }
+              </div>
+            </fieldset>
+          </div>
+        </div>
         <div class="form-check">
           <input class="form-check-input" [(ngModel)]="opComplement" type="checkbox"
                  (change)="changeOpComplementChoice($event)">
           <label class="form-check-label">Complement</label>
         </div>
+        <div class="pl-2">
+        </div>
 
       </fieldset>
     </div>
-    <div class="pl-2">
 
-    </div>
   </div>
-
   <div class="p-2">
     <fieldset class="representation-border p-3">
-      <legend class="representation-border float-none w-auto px-3">Group operations ({{ groupOperations.length }})</legend>
-      @for (operation of groupOperations; track operation; let index = $index) {
-        <div class="form-check form-check-inline">
-          <div class="form-check operation">
-            <!--            <input class="form-check-input" type="checkbox" @change="checkComplementedOp" :value="false">-->
-            <label class="form-check-label">{{ operation }}</label>
+      <legend class="representation-border float-none w-auto px-3">Group operations ({{ groupOperations.length }})
+      </legend>
+      <div class="row">
+        @for (operation of groupOperations; track operation; let index = $index) {
+          <div class="form-check">
+            <div class="form-check operation">
+              <label>{{ operation }}</label>
+            </div>
           </div>
-        </div>
-      }
+        }
+      </div>
     </fieldset>
   </div>
   <div class="p-2" [hidden]="preReactOrbits.length > 420">
-    <button type="button" class="btn btn-primary m-1" (click)="showOrbits('Stabilizer')">
-      Show orbits ({{ preReactOrbits.length }}) grouped by stabilizers
+    <button mat-raised-button color="primary" class="m4" (click)="showOrbits('Stabilizer')">
+      Show orbits ({{ preReactOrbits.length }}) grouped by Stabilizers Signature
       @if (groupAction) {
         <span>
           ({{ groupAction.orbitsSortedByStabilizers.length }})
         </span>
       }
     </button>
-    <button type="button" class="btn btn-primary m-1"
-            (click)="showOrbits('MotifStabilizer')" [disabled]="!opTranspositionChoicesHasAtLeastOneValuePrimeWithN()">
-      Show orbits ({{ preReactOrbits.length }}) grouped by IS-Motif stabilizers
+    <button mat-raised-button color="primary" class="m4"
+            (click)="showOrbits('MotifStabilizer')"
+            [disabled]="!opTranspositionChoicesHasAtLeastOneValuePrimeWithN()">
+      Show orbits ({{ preReactOrbits.length }}) grouped by Meta-Stabilizer (Motif)
       @if (groupAction) {
         <span>
           ({{ groupAction.orbitsSortedByMotifStabilizers.length }})
         </span>
       }
     </button>
-    <button type="button" class="btn btn-primary m-1" (click)="showOrbits('Cardinal')">
-      Show orbits ({{ preReactOrbits.length }}) grouped by cardinal
+    <button mat-raised-button color="primary" class="m4" (click)="showOrbits('Cardinal')">
+      Show orbits ({{ preReactOrbits.length }}) grouped by Cardinal
     </button>
   </div>
 
   <div class="p-2">
     @if (preReactOrbits.length <= 420 && orbitsPartitions.length > 0) {
-    <fieldset class="representation-border p-3">
-      <legend class="representation-border float-none w-auto px-3">A set of orbits
-        @if (groupAction) {
-          <span> ({{ preReactOrbits.length }}) partitioned according to equivalence class : "has same {{ showOrbitBy }}" ({{orbitsPartitions.length}})  </span>
-        } @else {
-          <span>(no computed)</span>
+      <fieldset class="representation-border p-3">
+        <legend class="representation-border float-none w-auto px-3">A set of orbits
+          @if (groupAction) {
+            <span> ({{ preReactOrbits.length }}
+              ) partitioned according to equivalence class : "has same {{ showOrbitBy }}
+              " ({{ orbitsPartitions.length }}
+              )  </span>
+          } @else {
+            <span>(no computed)</span>
+          }
+        </legend>
+
+        @for (orbitsList of orbitsPartitions; track orbitsList.hashcode; ) {
+          <app-orbit [orbitsGroup]="orbitsList"></app-orbit>
         }
-      </legend>
-      @for (orbitsList of orbitsPartitions; track orbitsList.hashcode; ) {
-        <app-orbit [orbitsGroup]="orbitsList"></app-orbit>
-      }
-    </fieldset>
+
+      </fieldset>
     }
-    <div [hidden]="preReactOrbits.length <= 420" class="alert alert-warning" role="alert" style="width: fit-content">
-        Too many orbits ({{preReactOrbits.length}}). Please select more operations !
+    <div [hidden]="preReactOrbits.length <= 420" class="alert alert-warning" role="alert"
+         style="width: fit-content">
+      Too many orbits ({{ preReactOrbits.length }}). Please select more operations !
     </div>
 
+
+    <div class="p-2">
+      <fieldset class="representation-border p-3 ">
+        <legend class="representation-border float-none w-auto px-3">Debug</legend>
+        <p>N : {{ n }}</p>
+        <div><span>ops Multiplication selected : [@for (op of opMultChoices; track op; let index = $index) {
+          <span [hidden]="index===0">,</span> <span>{{ op }}</span>
+        }]</span></div>
+        <div><span>ops Translation selected : [@for (op of opTransChoices; track op; let index = $index) {
+          <span [hidden]="index===0">,</span> <span>{{ op }}</span>
+        }]</span></div>
+        <div><span>ops Complement : {{ opComplement }}</span></div>
+        @if (groupAction != null) {
+          <div>
+            <span>cardinal powerset : {{ groupAction.powerset.size }}</span>
+          </div>
+        }
+        <div><span>nb Orbits : {{ preReactOrbits.length }} </span></div>
+        @if (groupAction != null) {
+          <div>
+            <span>nb Stabilizers classes : ({{ groupAction.orbitsSortedByStabilizers.length }})</span>
+          </div>
+        }
+        @if (groupAction != null) {
+          <div>
+            <span>nb Stabilizers is-motif classes : ({{ groupAction.orbitsSortedByMotifStabilizers.length }})</span>
+          </div>
+        }
+      </fieldset>
+    </div>
   </div>
-
-
-  <div class="p-2">
-    <fieldset class="representation-border p-3 ">
-      <legend class="representation-border float-none w-auto px-3">Debug</legend>
-      <p>N : {{n}}</p>
-      <div><span>ops Multiplication selected : [@for (op of opMultChoices; track op; let index = $index) {
-        <span [hidden]="index===0">,</span> <span>{{ op }}</span>
-      }]</span></div>
-      <div><span>ops Translation selected : [@for (op of opTransChoices; track op; let index = $index) {
-        <span [hidden]="index===0">,</span> <span>{{ op }}</span>
-      }]</span></div>
-      <div><span>ops Complement : {{ opComplement }}</span></div>
-      <div><span>cardinal powerset : <span *ngIf="groupAction"> {{ groupAction.powerset.size }}</span></span></div>
-      <div><span>nb Orbits : {{ preReactOrbits.length }} </span></div>
-      <div><span>nb Stabilizers classes : <span *ngIf="groupAction"> ({{ groupAction.orbitsSortedByStabilizers.length }}
-        )</span></span></div>
-      <div><span>nb Stabilizers is-motif classes : <span
-        *ngIf="groupAction"> ({{ groupAction.orbitsSortedByMotifStabilizers.length }})</span></span>
-      </div>
-
-    </fieldset>
-  </div>
-
 </div>
+
 

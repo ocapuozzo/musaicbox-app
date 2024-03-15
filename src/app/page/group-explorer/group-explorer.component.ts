@@ -9,6 +9,9 @@ import {NgIf} from "@angular/common";
 import {MusaicComponent} from "../../component/musaic/musaic.component";
 import {UiOrbitComponent} from "../../component/ui-orbit/ui-orbit.component";
 import {ManagerExplorerService} from "../../service/manager-explorer.service";
+import {MatLabel} from "@angular/material/form-field";
+import {MatProgressSpinner} from "@angular/material/progress-spinner";
+import {MatButton} from "@angular/material/button";
 
 @Component({
   selector: 'app-group-explorer',
@@ -18,7 +21,10 @@ import {ManagerExplorerService} from "../../service/manager-explorer.service";
     ReactiveFormsModule,
     FormsModule,
     MusaicComponent,
-    UiOrbitComponent
+    UiOrbitComponent,
+    MatLabel,
+    MatProgressSpinner,
+    MatButton
   ],
   templateUrl: './group-explorer.component.html',
   styleUrl: './group-explorer.component.css'
@@ -44,10 +50,14 @@ export class GroupExplorerComponent {
   protected readonly Math = Math;
 
   constructor(private readonly managerExplorerService: ManagerExplorerService) {
-    this.updateConfig();
     this.managerExplorerService.saveExplorerConfig.subscribe( () => {
       this.saveConfig();
     })
+  }
+
+
+  ngOnInit() {
+    this.updateConfig();
   }
 
   private saveConfig() {
@@ -76,10 +86,6 @@ export class GroupExplorerComponent {
     this.groupAction = currentState.groupAction ?? null
     this.orbitsPartitions = currentState.orbitsPartitions ?? []
     this.preReactOrbits = currentState.preReactOrbits ?? []
-  }
-
-  ngOnInit() {
-
   }
 
   doubleRaf(callback: FrameRequestCallback) {

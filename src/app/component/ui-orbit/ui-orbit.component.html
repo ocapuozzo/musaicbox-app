@@ -7,25 +7,10 @@
       </button>
     }
   </legend>
-<!--  <div contextmenu>-->
-<!--    Clic droit pour afficher le menu-->
-<!--  </div>-->
-
-<!--  <ng-template #contextMenu>-->
-<!--    <ul>-->
-<!--      <li (click)="doSomething()">Option 1</li>-->
-<!--      <li (click)="doSomethingElse()">Option 2</li>-->
-<!--    </ul>-->
-<!--  </ng-template>-->
-
-<!--  -->
-<!--  <div *ngIf="contextmenu">-->
-<!--    <app-context-menu-orbit-group-explorer [x]="contextmenuX" [y]="contextmenuY"></app-context-menu-orbit-group-explorer>-->
-<!--  </div>-->
-
+  <div class="row">
   @for (orbit of orbitsGroup?.orbits; track orbit.getPcsMin().id) {
     @if (viewMusaic) {
-      <div class="d-inline-block text-center musaic-pcs m-1">
+      <div class="boxPcs">
         <!--      {{orbit.getPcsMin().getMappedPcsStr()}}-->
         <app-musaic
           [ipcs]="orbit.getPcsMin()"
@@ -39,7 +24,7 @@
         </span>
       </div>
     } @else {
-      <div class="d-inline-block text-center clock-pcs m-1" >
+      <div class="boxPcs">
         <app-clock
           [ipcs]="orbit.getPcsMin()"
           [pcColorSet]="pcColorSet"
@@ -56,4 +41,5 @@
       </div>
     }
   }
+  </div>
 </fieldset>

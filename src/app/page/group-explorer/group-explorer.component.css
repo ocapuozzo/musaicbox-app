@@ -55,7 +55,6 @@ legend.representation-border {
   font-size: 0.7em !important;
 }
 
-
 .menu {
   display: flex;
   flex-direction: column;
@@ -63,4 +62,50 @@ legend.representation-border {
   border-radius: 10px;
   box-shadow: 0 10px 20px rgb(64 64 64 / 5%);
   padding: 10px 0;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-check {
+  margin: 2px;
+}
+
+.waiting {
+  margin-left: 10px;
+  padding-top: 2px;
+  display: flex;
+}
+
+.spinner-align {
+  /*vertical-align: middle;*/
+  padding-top: 5px;
+  margin-left: 3px;
+}
+
+.waiting-message {
+  color: red;
+  font-size: 1rem;
+  vertical-align: auto;
+}
+.p-2 {
+  padding: 2px;
+}
+
+.m4 {
+  margin: 4px;
+}
+
+.button-row {
+  display: table-cell;
+  max-width: 300px;
 }
