@@ -4,7 +4,7 @@ import {IPcs} from "../core/IPcs";
 @Injectable({
   providedIn: 'root'
 })
-export class ManagerHomePcsListService {
+export class ManagerPagePcsListService {
 
   @Output() updatePcsList = new EventEmitter<Map<string, IPcs[]>>();
 

@@ -1,8 +1,8 @@
 import {Component, Input} from '@angular/core';
 import {IPcs} from "../../core/IPcs";
 import {Analyse} from "../../utils/Analyse";
-import {ManagerHomePcsListService} from "../../service/manager-home-pcs-list.service";
-import {ManagerHomePcsService} from "../../service/manager-home-pcs.service";
+import {ManagerPagePcsListService} from "../../service/manager-page-pcs-list.service";
+import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
 
 @Component({
   selector: 'app-pcs-analysis',
@@ -21,8 +21,8 @@ export class PcsAnalysisComponent {
    */
   pcsMapped12 : IPcs = new IPcs({strPcs:'4,2'})
 
-  constructor(private readonly managerHomePcsListService: ManagerHomePcsListService,
-              private readonly managerHomePcsService: ManagerHomePcsService) {
+  constructor(private readonly managerHomePcsListService: ManagerPagePcsListService,
+              private readonly managerHomePcsService: ManagerPagePcsService) {
     // this.pcs = this.managerHomePcsService.pcs
     this.managerHomePcsService.updatePcs.subscribe((pcs: IPcs) => {
       this.pcs = pcs

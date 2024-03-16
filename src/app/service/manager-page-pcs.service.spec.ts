@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ManagerHomePcsService } from './manager-home-pcs.service';
+import { ManagerPagePcsService } from './manager-page-pcs.service';
 
 describe('ManagerHomePcsService', () => {
-  let service: ManagerHomePcsService;
+  let service: ManagerPagePcsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ManagerHomePcsService);
+    service = TestBed.inject(ManagerPagePcsService);
   });
 
   it('should be created', () => {

@@ -5,8 +5,8 @@ import {MusicNotationComponent} from "../music-notation/music-notation.component
 import {
   ModulationTranslationControlComponent
 } from "../modulation-translation-control/modulation-translation-control.component";
-import {ManagerHomePcsService} from "../../service/manager-home-pcs.service";
-import {ManagerHomePcsListService} from "../../service/manager-home-pcs-list.service";
+import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
+import {ManagerPagePcsListService} from "../../service/manager-page-pcs-list.service";
 import {Analyse} from "../../utils/Analyse";
 import {NgOptimizedImage} from "@angular/common";
 
@@ -50,8 +50,8 @@ export class UiClockComponent {
   }
 
   constructor(
-     private managerHomePcsService: ManagerHomePcsService,
-     private managerHomePcsListService: ManagerHomePcsListService,
+     private managerHomePcsService: ManagerPagePcsService,
+     private managerHomePcsListService: ManagerPagePcsListService,
      private ngZone: NgZone,
      private renderer: Renderer2)
   {

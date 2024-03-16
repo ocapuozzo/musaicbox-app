@@ -19,6 +19,7 @@
 
 .toolBarMainHoriz, .drawerButton {
   padding: 4px;
+
 }
 
 .container {
@@ -54,4 +55,43 @@
 
 .vertical-align {
   vertical-align: middle;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.example-form {
+  min-width: 150px;
+  max-width: 150px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+.m-3 {
+  margin: 10px;
+  padding: 10px;
+}
+
+.input-icons {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.input-icons i {
+  position: absolute;
+}
+
+.icon {
+  padding: 10px;
+  min-width: 40px;
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px;
+  text-align: center;
 }

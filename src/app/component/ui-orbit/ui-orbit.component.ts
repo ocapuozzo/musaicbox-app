@@ -4,7 +4,7 @@ import {NgIf, NgStyle} from "@angular/common";
 import {MusaicComponent} from "../musaic/musaic.component";
 import {ClockComponent} from "../clock/clock.component";
 import {IPcs} from "../../core/IPcs";
-import {ManagerHomePcsService} from "../../service/manager-home-pcs.service";
+import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
 import {Router} from "@angular/router";
 import {ManagerExplorerService} from "../../service/manager-explorer.service";
 
@@ -32,32 +32,19 @@ export class UiOrbitComponent {
   ngOnInit() {
   }
 
-  constructor(private readonly  managerHomePcsService : ManagerHomePcsService,
+  constructor(private readonly  managerPagePcsService : ManagerPagePcsService,
               private readonly managerExplorerService : ManagerExplorerService,
               private readonly router: Router) {}
-
-  //
-  // detectRightMouseClick($event: any, pcs:IPcs) {
-  //   if ($event.which === 3) {
-  //     this.contextMenuStyle = {
-  //       'display' : 'block',
-  //       'position' : 'absolute',
-  //       'left.x' : $event.offsetX,
-  //       'left.y' : $event.offsetY
-  //     }
-  //     this.currentPcs = pcs
-  //   }
-  // }
 
   changeViewIPcs() {
     this.viewMusaic = !this.viewMusaic;
     this.textButtonViewMusaicClock = this.viewMusaic  ?  "View Clock" : "View Musaic"
   }
 
-  doPushToHomePage(pcs: IPcs) {
-    this.managerHomePcsService.replaceBy(pcs)
+  doPushToPcsPage(pcs: IPcs) {
+    this.managerPagePcsService.replaceBy(pcs)
     this.managerExplorerService.doSaveConfig()
-    this.router.navigateByUrl('/home');
+    this.router.navigateByUrl('/pcs');
   }
 
 }

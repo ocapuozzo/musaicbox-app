@@ -2,7 +2,7 @@
 import {Component} from '@angular/core';
 import {FormBuilder, ReactiveFormsModule} from "@angular/forms";
 import {IPcs} from "../../core/IPcs";
-import {ManagerHomePcsService} from "../../service/manager-home-pcs.service";
+import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
 import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {CommonModule} from "@angular/common";
 
@@ -22,7 +22,7 @@ export class HeaderComponent {
   });
 
   constructor(private formBuilder: FormBuilder,
-              private managerHomePcsService: ManagerHomePcsService) {
+              private managerHomePcsService: ManagerPagePcsService) {
   }
 
   onSubmit(): void {

@@ -1,9 +1,9 @@
 import {Component, Input} from '@angular/core';
 import {IPcs} from "../../core/IPcs";
 import {ClockComponent} from "../clock/clock.component";
-import {ManagerHomePcsListService} from "../../service/manager-home-pcs-list.service";
+import {ManagerPagePcsListService} from "../../service/manager-page-pcs-list.service";
 import {MusicNotationComponent} from "../music-notation/music-notation.component";
-import {ManagerHomePcsService} from "../../service/manager-home-pcs.service";
+import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
 
 @Component({
   selector: 'app-pcs-list',
@@ -22,8 +22,8 @@ export class PcsListComponent {
   @Input() withMusicalNotation: boolean = true;
 
   constructor(
-    private managerHomePcsListService : ManagerHomePcsListService,
-    private managerHomePcsService : ManagerHomePcsService) {
+    private managerHomePcsListService : ManagerPagePcsListService,
+    private managerHomePcsService : ManagerPagePcsService) {
     this.labeledListPcs = this.managerHomePcsListService.labeledListPcs
     this.managerHomePcsListService.updatePcsList.subscribe( (labeledListPcs : Map<string, IPcs[]>) => {
       this.labeledListPcs = labeledListPcs

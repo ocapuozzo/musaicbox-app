@@ -54,6 +54,13 @@
   </div>
   <span class="example-spacer"></span>
 
+  <form [formGroup]="checkoutForm"  class="" (ngSubmit)="onSubmit()">
+    <i class="bi bi-search"></i>
+    <input class="vertical-align" style="margin-left: 4px" type="search"
+           formControlName="pcsStr" placeholder="Search PCS ex: 0,4,7"
+           aria-label="Search">
+  </form>
+
   <div class="toolBarMainHoriz">
     <a
       mat-icon-button
@@ -63,6 +70,7 @@
       <fa-icon [icon]="faGithub"></fa-icon>
     </a>
   </div>
+
 </mat-toolbar>
 
 <mat-drawer-container
@@ -75,7 +83,7 @@
           (click)="drawer.toggle()"
           mat-button color="primary"
           routerLinkActive="mat-accent"
-          routerLink="home">PCS
+          routerLink="pcs">PCS
         </button>
       </div>
       <div class="drawerButton">
@@ -99,10 +107,9 @@
           (click)="drawer.toggle()"
           mat-button color="primary"
           routerLinkActive="mat-accent"
-          routerLink="home">Whiteboard
+          routerLink="pcs">Whiteboard
         </button>
       </div>
-
       <div class="drawerButton">
         <button
           (click)="drawer.toggle()"
@@ -110,7 +117,7 @@
           class="example-icon favorite-icon"
           aria-label="Guitar P4 Tuning"
           routerLinkActive="mat-accent"
-          routerLink="home">GuitarP4<fa-icon [icon]="faGuitar"></fa-icon>
+          routerLink="pcs">GuitarP4<fa-icon [icon]="faGuitar"></fa-icon>
         </button>
       </div>
       <div class="drawerButton">
@@ -118,7 +125,7 @@
           (click)="drawer.toggle()"
           mat-button color="primary"
           routerLinkActive="mat-accent"
-          routerLink="home">About
+          routerLink="pcs">About
         </button>
       </div>
       <div class="drawerButton"  (click)="drawer.toggle()">

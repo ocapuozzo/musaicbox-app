@@ -16,7 +16,7 @@ import {Point} from "../utils/Point"
 const PITCH_LINE_WIDTH = 4;
 
 export class ClockDrawing {
-  ipcs = new IPcs({strPcs: "[0,3,7"});
+  ipcs = new IPcs({strPcs: "[0,3,7]"});
   ctx ?: CanvasRenderingContext2D;  // canvas context
   width = 20;
   height = 20;

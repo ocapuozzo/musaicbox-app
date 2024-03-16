@@ -5,7 +5,7 @@ import {ManagerPcsService} from "./manager-pcs.service";
 @Injectable({
   providedIn: 'root'
 })
-export class ManagerHomePcsService {
+export class ManagerPagePcsService {
 
   @Output() updatePcs = new EventEmitter<IPcs>();
 

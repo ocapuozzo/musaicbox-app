@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import {Router, RouterOutlet} from '@angular/router';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
 import { RouterLink, RouterLinkActive } from '@angular/router';
@@ -13,12 +13,20 @@ import { faCat } from '@fortawesome/free-solid-svg-icons';
 import { faGuitar } from '@fortawesome/free-solid-svg-icons';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faGithub} from '@fortawesome/free-brands-svg-icons';
+import {FormBuilder, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {IPcs} from "./core/IPcs";
+import {ManagerPagePcsService} from "./service/manager-page-pcs.service";
+import {MatFormField} from "@angular/material/form-field";
+import {MatInput} from "@angular/material/input";
+
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, RouterLink, RouterLinkActive,
-    MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, FontAwesomeModule
+    MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, FontAwesomeModule,
+    FormsModule, ReactiveFormsModule, MatFormField, MatInput
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -34,7 +42,15 @@ export class AppComponent {
   readonly breakpoint$ = this.breakpointObserver
     .observe([ '(max-width: 500px)']);
 
-  constructor(private breakpointObserver: BreakpointObserver) {
+
+  checkoutForm = this.formBuilder.group({
+    pcsStr: ''
+  });
+
+  constructor(private formBuilder: FormBuilder,
+              private readonly managerHomePcsService: ManagerPagePcsService,
+              private readonly breakpointObserver: BreakpointObserver,
+              private readonly router: Router) {
     this.breakpoint$.subscribe(() =>
       this.breakpointChanges()
     );
@@ -50,4 +66,21 @@ export class AppComponent {
     }
   }
 
+  onSubmit(): void {
+    // console.log('pscStr = ', this.checkoutForm.value.pcsStr?.trim());
+    if (this.checkoutForm.value.pcsStr) {
+
+        let pcsString = this.checkoutForm.value.pcsStr ?? ''
+        if (pcsString !== undefined) {
+          try {
+          let pcs = new IPcs({strPcs: pcsString})
+          if (pcs.cardinal > 0) {
+            this.checkoutForm.reset();
+            this.managerHomePcsService.replaceBy(pcs)
+            this.router.navigateByUrl('/pcs');
+          }
+        } catch (e: any) { }
+      }
+    }
+  }
 }

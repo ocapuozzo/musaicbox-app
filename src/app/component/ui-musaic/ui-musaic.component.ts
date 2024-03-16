@@ -1,6 +1,6 @@
 import {Component, ElementRef, EventEmitter, Input, NgZone, Output, Renderer2, ViewChild} from '@angular/core';
 import {IPcs} from "../../core/IPcs";
-import {ManagerHomePcsService} from "../../service/manager-home-pcs.service";
+import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
 import {NgClass} from "@angular/common";
 import {EightyEight} from "../../utils/EightyEight";
 
@@ -31,7 +31,7 @@ export class UiMusaicComponent {
 
   private unlisten: Function;
 
-  constructor(private managerHomePcsService: ManagerHomePcsService,
+  constructor(private managerHomePcsService: ManagerPagePcsService,
               private ngZone: NgZone, private renderer: Renderer2) {
     this.pcs = this.managerHomePcsService.pcs
   }

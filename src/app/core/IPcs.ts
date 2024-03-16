@@ -207,6 +207,25 @@ export class IPcs {
     }
   }
 
+  chekStrpcs(strpcs: string) {
+    if (strpcs.length > 0) {
+      if ((strpcs[0] === '[' && strpcs[strpcs.length - 1] === ']') ||
+        (strpcs[0] === '{' && strpcs[strpcs.length - 1] === '}')) {
+        strpcs = strpcs.substring(1, strpcs.length - 1);
+      }
+      if (strpcs) {
+        let pitches = strpcs.split(',');
+        for (let i = 0; i < pitches.length; i++) {
+          const x = Number(pitches[i])
+          if (Number.isNaN(x) || x < 0 || x > 12) {
+            throw new Error("Invalid PCS ! (" + strpcs + ')')
+          }
+        }
+      }
+    }
+  }
+
+
   /**
    * bin array image of PCS string
    * Example : "0, 1, 7" => [1,1,0,0,0,0,0,1,0,0,0,0] (default n = 12)
@@ -217,7 +236,10 @@ export class IPcs {
    * @returns {int[]} vector (length == n)
    */
   _fromStringTobinArray(strpcs: string, n: number = 12): Array<number> {
+
     // assume length = 12
+    this.chekStrpcs(strpcs.trim())
+
     let bin = new Array(n).fill(0);
 
     //  if "[1,3,5]" => "1,3,5"
