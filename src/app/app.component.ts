@@ -18,6 +18,9 @@ import {IPcs} from "./core/IPcs";
 import {ManagerPagePcsService} from "./service/manager-page-pcs.service";
 import {MatFormField} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
+import {NoopAnimationsModule} from "@angular/platform-browser/animations";
+import {BrowserModule} from "@angular/platform-browser";
+
 
 @Component({
   selector: 'app-root',
@@ -46,6 +49,8 @@ export class AppComponent {
   checkoutForm = this.formBuilder.group({
     pcsStr: ''
   });
+
+  // TODO unit test problem
 
   constructor(private formBuilder: FormBuilder,
               private readonly managerHomePcsService: ManagerPagePcsService,

@@ -3,6 +3,8 @@ import {IPcs} from "../../core/IPcs";
 import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
 import {NgClass} from "@angular/common";
 import {EightyEight} from "../../utils/EightyEight";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {MatCheckbox} from "@angular/material/checkbox";
 
 // import {fromEvent} from "rxjs";
 
@@ -10,7 +12,10 @@ import {EightyEight} from "../../utils/EightyEight";
   selector: 'app-ui-musaic',
   standalone: true,
   imports: [
-    NgClass
+    NgClass,
+    ReactiveFormsModule,
+    FormsModule,
+    MatCheckbox
   ],
   templateUrl: './ui-musaic.component.html',
   styleUrl: './ui-musaic.component.css'
@@ -25,6 +30,8 @@ export class UiMusaicComponent {
   private context: CanvasRenderingContext2D;
   private isDisableButtons: boolean = false
   private CEL_WIDTH: number = 10
+
+  @Input() optionDrawPitchIndex : boolean = true
 
   @Input() pcs: IPcs //= new IPcs({strPcs: "0,3,6,9"})
   @Output() changePcsEvent = new EventEmitter<IPcs>()
@@ -61,11 +68,11 @@ export class UiMusaicComponent {
     // send by manager-home-pcs.service
     this.managerHomePcsService.updatePcs.subscribe((pcs: IPcs) => {
       this.pcs = pcs
-      this.drawsMusaic()
+      this.drawsMusaic(this.optionDrawPitchIndex)
     })
 
     // initial view
-    this.drawsMusaic()
+    this.drawsMusaic(this.optionDrawPitchIndex)
   }
 
   /**
@@ -73,7 +80,7 @@ export class UiMusaicComponent {
    * (algebric) and draw its musaic representation (geometric)
    * so, no change visualy if ok !
    */
-  drawsMusaic() {
+  drawsMusaic(withDrawPitchIndex : boolean = false) {
 
     let w = this.containerCanvas.nativeElement.clientWidth ?? 40
 
@@ -87,6 +94,9 @@ export class UiMusaicComponent {
     this.canvas.nativeElement.width = w
     this.canvas.nativeElement.height = w
     let ctx = this.context
+
+    ctx.save()
+
     ctx.strokeStyle = "black";
 
     // Draws musaic
@@ -97,25 +107,55 @@ export class UiMusaicComponent {
     //   pcs : ({1, 4, 7, 10}, iPivot=1)
     // are same IS, are same Musaic representation
     // let iPivot = this.pcs.iPivot ?? 0
+    ctx.strokeStyle = 'black'
     const pivotMapped = this.pcs.templateMappingBinPcs[this.pcs.iPivot ?? 0]
     for (let i = 0; i <= n; i++) {
       for (let j = 0; j <= n; j++) {
         if (this.pcs.getMappedBinPcs()[(i + pivotMapped + j * 5) % n] === 1) {
+          ctx.strokeStyle = 'black'
           ctx.fillStyle = "black";
           ctx.fillRect(j * CEL_WIDTH, i * CEL_WIDTH, CEL_WIDTH, CEL_WIDTH);
           //  ctx.strokeRect(j * CEL_WIDTH, i * CEL_WIDTH, CEL_WIDTH, CEL_WIDTH);
 
+          if (withDrawPitchIndex) {
+            let x = CEL_WIDTH / 3 + j * CEL_WIDTH
+            let y = CEL_WIDTH / 1.4 + i * CEL_WIDTH
+            const pitch = (i + pivotMapped + (j + pivotMapped) * 5) % n
+            if (pitch > 9) {
+              // 2 characters
+              x -= 1
+            }
+            // ctx.strokeStyle = 'white'
+            ctx.fillStyle = 'white'
+            ctx.fillText(pitch.toString(), x, y, CEL_WIDTH)
+            // ctx.strokeStyle = saveStrokeStyle
+          }
         } else {
           ctx.fillStyle = "white";
+          ctx.strokeStyle = 'black'
           ctx.fillRect(j * CEL_WIDTH, i * CEL_WIDTH, CEL_WIDTH, CEL_WIDTH);
           ctx.strokeRect(j * CEL_WIDTH, i * CEL_WIDTH, CEL_WIDTH, CEL_WIDTH);
+
+          if (withDrawPitchIndex) {
+            let x = CEL_WIDTH/3 + j * CEL_WIDTH
+            let y = CEL_WIDTH/1.4 + i * CEL_WIDTH
+            const pitch = (i + pivotMapped + j * 5) % n
+            if (pitch > 9) {
+              // 2 characters
+              x -= 2
+            }
+            ctx.fillStyle = 'black'
+            ctx.fillText(pitch.toString(), x, y, CEL_WIDTH)
+          }
         }
       }
     }
+    ctx.strokeStyle = 'white' //saveStrokeStyle
     ctx.strokeRect(0, 0,
-      this.canvas.nativeElement!.parentElement!.clientWidth,
-      this.canvas.nativeElement!.parentElement!.clientWidth);
+      this.canvas.nativeElement!.parentElement!.clientWidth-2,
+      this.canvas.nativeElement!.parentElement!.clientWidth-2);
 
+    ctx.restore()
     this.CEL_WIDTH = CEL_WIDTH;
   }
 
@@ -177,21 +217,27 @@ export class UiMusaicComponent {
 
   m11Click() {
     if (this.isCursorWait()) return;
-
+    if (this.optionDrawPitchIndex) {
+      this.drawsMusaic(false)
+    }
     this.disableButtons();
     this.canvas.nativeElement.classList.add("rotateM11");
   };
 
   m5Click() {
     if (this.isCursorWait()) return;
-
+    if (this.optionDrawPitchIndex) {
+      this.drawsMusaic(false)
+    }
     this.disableButtons();
     this.canvas.nativeElement.classList.add("rotateM5");
   };
 
   m7Click() {
     if (this.isCursorWait()) return;
-
+    if (this.optionDrawPitchIndex) {
+      this.drawsMusaic(false)
+    }
     this.disableButtons();
     this.canvas.nativeElement.classList.add("rotateM7");
   };
@@ -254,9 +300,15 @@ export class UiMusaicComponent {
     // transformed musaic with its transform (and delete its
     // class css from the past operation)
     this.managerHomePcsService.transformeByMxT0(opTransf)
+    this.drawsMusaic(this.optionDrawPitchIndex)
     this.enabledButtons();
 
   }
 
   protected readonly EightyEight = EightyEight;
+
+  changeDrawPitchesIndex(checked : boolean) {
+    this.optionDrawPitchIndex = checked
+    this.drawsMusaic(this.optionDrawPitchIndex)
+  }
 }

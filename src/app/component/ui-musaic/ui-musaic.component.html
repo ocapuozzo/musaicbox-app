@@ -53,6 +53,15 @@
     IS :
     <span class="analyse-pcs">({{ pcs.is() }})</span>
   </p>
+  <div style="margin-top: 10px">
+    <mat-checkbox
+      [(ngModel)]="optionDrawPitchIndex"
+      [color]="'primary'"
+      (change)="changeDrawPitchesIndex($event.checked)">
+      Show pitches index
+    </mat-checkbox>
+<!--    <label class="form-check-label">Show draw pitches</label>-->
+  </div>
 </div>
 
 
