@@ -65,7 +65,7 @@ export class MusaicPcsOperation {
     this.n = n;
     this.complement = complement;
     let prefix = this.complement ? "C" : "";
-    this._strRepr = prefix + "M" + this.a + "-T" + this.t; // n ?
+    this._strRepr = prefix + "M" + this.a + "-T" + this.t; // n ? generally used into same Zn
     this._strReprWithoutTransp = prefix + "M" + a;
     this.fixedPcs = []  // new ArrayList<Pcs>();
     this.stabilizers = [] // new ArrayList<Stabilizer>();

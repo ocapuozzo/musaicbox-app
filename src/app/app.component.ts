@@ -45,7 +45,6 @@ export class AppComponent {
   readonly breakpoint$ = this.breakpointObserver
     .observe([ '(max-width: 500px)']);
 
-
   checkoutForm = this.formBuilder.group({
     pcsStr: ''
   });

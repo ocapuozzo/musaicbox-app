@@ -41,6 +41,8 @@ export class Orbit {
 
   _hashcode ?: number
 
+  _name : string
+
   constructor(
     {stabs, ipcsSet}:
       { stabs?: Stabilizer[], ipcsSet?: IPcs[] } = {}) {
@@ -48,6 +50,7 @@ export class Orbit {
     this.ipcsset = ipcsSet ?? []
     this._hashcode = undefined
     this.motifStabilizer = MotifStabilizer.manyMotifsStabilizer
+    this.buildStabilizersSignature()
   }
 
   get cardinal() {
@@ -150,11 +153,13 @@ export class Orbit {
    /**
    * Name based on stabilizers, by reduction
    * Example (Musaic n° 84) : M1-T0 M7-T3~6* CM5-T2~4* CM11-T1~2*
-   * TODO : cache property to avoid compute ?
    * @return {string}
    */
   get name() {
-    return this.buildStabilizersSignature();
+    if (!this._name) {
+      return this.buildStabilizersSignature();
+    }
+    return this._name
   }
 
   /**
@@ -242,7 +247,8 @@ export class Orbit {
     } // loop for nameOpsWithoutT
 
     // 5: add M1-T0 if not present (neutral operation)
-    return res.startsWith('M1-T0') ? res : 'M1-T0 ' + res
+    // return res.startsWith('M1-T0') ? res : 'M1-T0 ' + res
+    return this._name = res.startsWith('M1-T0') ? res : 'M1-T0 ' + res
   }
 
   /**

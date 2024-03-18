@@ -14,5 +14,10 @@ export const routes: Routes = [
   {path: 'pcs', component: PcsComponent},
   {path: 'group-explorer', component: GroupExplorerComponent},
   {path: 'the88', component: The88Component},
-  {path: '**', component: PageNotFoundComponent }
+  {
+    path: '**',
+    redirectTo: 'pcs',
+    pathMatch: 'full'
+  }
+  // {path: '**', component: PageNotFoundComponent }
 ];
