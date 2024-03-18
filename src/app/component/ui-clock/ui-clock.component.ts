@@ -92,7 +92,6 @@ export class UiClockComponent {
      this.unlisten()
   }
 
-
   private setupEvents(): void {
     this.canvas.nativeElement.addEventListener('mouseup',
       (event) => this.mouseup(event));
@@ -263,20 +262,16 @@ export class UiClockComponent {
     let longClick = (new Date() - this.dateMouseDone) >= 500
 
     this.dateMouseDone = undefined
+    const innerIndex = this.pcs.templateMappingBinPcs[index]
 
-    if (index !== this.getIPivot()) {
+    if (innerIndex !== this.getIPivot()) {
       this.touchendOk = true
       if (longClick) {
-        this._changePcsBySetIndexToOneOriPivot(index)
+        this.managerHomePcsService.toggleIndexOrSetIPivot(innerIndex)
       } else {
-        // TODO why this difference in longClick...
-        this._changePcsBySetIndexToOneOriPivot(index)
+        this.managerHomePcsService.toggleIndex(innerIndex)
       }
     }
-  }
-
-  _changePcsBySetIndexToOneOriPivot(index: number) {
-    this.managerHomePcsService.toggleIndexOrSetIPivot(index)
   }
 
   drawClock() {
