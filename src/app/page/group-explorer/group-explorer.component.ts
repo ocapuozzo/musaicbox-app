@@ -1,11 +1,10 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
+import {Component} from '@angular/core';
 import {MusaicPcsOperation} from "../../core/MusaicPcsOperation";
 import {Group} from "../../core/Group";
 import {GroupAction} from "../../core/GroupAction";
 import {Orbit} from "../../core/Orbit";
 import {ISortedOrbits} from "../../core/ISortedOrbits";
-import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {NgIf} from "@angular/common";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MusaicComponent} from "../../component/musaic/musaic.component";
 import {UiOrbitComponent} from "../../component/ui-orbit/ui-orbit.component";
 import {ManagerExplorerService} from "../../service/manager-explorer.service";
@@ -17,14 +16,13 @@ import {MatButton} from "@angular/material/button";
   selector: 'app-group-explorer',
   standalone: true,
   imports: [
-    NgIf,
     ReactiveFormsModule,
     FormsModule,
     MusaicComponent,
     UiOrbitComponent,
     MatLabel,
     MatProgressSpinner,
-    MatButton
+    MatButton,
   ],
   templateUrl: './group-explorer.component.html',
   styleUrl: './group-explorer.component.css'
@@ -185,7 +183,7 @@ export class GroupExplorerComponent {
     // add complemented operation to neutral op if complement operation is selected
     if (this.opComplement) {
       someOperations.push(new MusaicPcsOperation(this.n, 1, 0, true))
-      this.opTransChoices = [0, 1]
+      // this.opTransChoices = [0, 1]
     }
     // include neutral operation (constant pre-selected in UI)
     for (let i = 0; i < this.opMultChoices.length; i++)

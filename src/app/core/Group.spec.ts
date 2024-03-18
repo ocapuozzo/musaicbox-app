@@ -155,4 +155,40 @@ describe('Group', () => {
     expect(Group.phiEulerElements(5)).not.toEqual([1,2,3,4,5,6])
   })
 
+
+  it("Test Group M5 M7 Complement without Translation", () => {
+    let someOperations: MusaicPcsOperation[] = []
+    let order = 12;
+    let a = 1;
+    let t = 0;
+    let complement = false;
+    // neutral op
+    someOperations.push(new MusaicPcsOperation(order, a, t, complement));
+
+    a = 5;
+    someOperations.push(new MusaicPcsOperation(order, a, t, complement));
+
+    a = 7;
+    someOperations.push(new MusaicPcsOperation(order, a, t, complement));
+
+    a = 1
+    complement = true;
+    someOperations.push(new MusaicPcsOperation(order, a, t, complement));
+
+    let group = new Group(someOperations)
+
+    // waiting 96 operations : 12 * each a = 48 and each complement (*2)
+    expect(group.operations.length).toEqual(4 * 2)
+    //
+    // let ipcs = new IPcs({pidVal: 0, n: 12})
+    // ipcs = group.buildOrbitOf(ipcs)
+    // expect(ipcs.orbit.cardinal).toEqual(2)
+    //
+    // let ipcs_dim = new IPcs({strPcs: "0, 3, 6, 9"})
+    // ipcs_dim = group.buildOrbitOf(ipcs_dim)
+    // expect(ipcs_dim.orbit.cardinal).toEqual(6)
+
+  })
+
+
 })

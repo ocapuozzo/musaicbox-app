@@ -150,6 +150,7 @@ export class Orbit {
    /**
    * Name based on stabilizers, by reduction
    * Example (Musaic n° 84) : M1-T0 M7-T3~6* CM5-T2~4* CM11-T1~2*
+   * TODO : cache property to avoid compute ?
    * @return {string}
    */
   get name() {
@@ -257,6 +258,14 @@ export class Orbit {
    *   @return {MotifStabilizer} the motifStabilizer of this orbit
    */
   checkAndBuildMotifStabilizerOfOrbit(): MotifStabilizer {
+    const stabSignature =  this.buildStabilizersSignature()
+    // take left part of "M1-T0 CM11-Tx" => "M1 CM11"
+    const signatureWithoutTranslation =
+      stabSignature.split(" ").map(op=> op.trim().split("-")[0]).toString();
+    return this.motifStabilizer = new MotifStabilizer(signatureWithoutTranslation)
+  }
+
+  old_checkAndBuildMotifStabilizerOfOrbit(): MotifStabilizer {
     let motifStabilizersOfOrbit = new Map<number, MotifStabilizer>() // key hashCode
     this.stabilizers.forEach(
       stab => motifStabilizersOfOrbit.set(stab.motifStabilizer.hashCode(), stab.motifStabilizer)

@@ -31,7 +31,7 @@ export class UiClockComponent {
 
   private _pcs: IPcs
 
-  private unlisten: Function;
+  private unlisten  = () => {}; // Function
 
   /**
    * draw canvas when pcs change
@@ -53,7 +53,7 @@ export class UiClockComponent {
      private managerHomePcsService: ManagerPagePcsService,
      private managerHomePcsListService: ManagerPagePcsListService,
      private ngZone: NgZone,
-     private renderer: Renderer2)
+     private renderer2: Renderer2)
   {
     this.managerHomePcsService.updatePcs.subscribe((pcs: IPcs) => {
       this.pcs = pcs
@@ -88,11 +88,19 @@ export class UiClockComponent {
     this.managerHomePcsService.refresh()
   }
 
+  ngOnDestroy() {
+     this.unlisten()
+  }
+
+
   private setupEvents(): void {
     this.canvas.nativeElement.addEventListener('mouseup',
       (event) => this.mouseup(event));
     this.canvas.nativeElement.addEventListener('mousedown',
       (event) => this.mousedown(event));
+
+    this.canvas.nativeElement.addEventListener('touchstart',
+      (event) => this.touchstart(event), {passive: true});
 
     this.canvas.nativeElement.addEventListener('touchend',
       (event) => this.touchend(event), false);
@@ -106,7 +114,7 @@ export class UiClockComponent {
     // too much refresh display, so put event mousemove outside angular zone
     // https://medium.com/javascript-everyday/adding-event-listeners-outside-of-the-angular-zone-a22f9cfc80eb
     this.ngZone.runOutsideAngular(() => {
-      this.unlisten = this.renderer.listen(
+      this.unlisten = this.renderer2.listen(
         this.canvas.nativeElement,
         'mousemove',
         (e) => this.mouseMoveSetCursor(e)
@@ -131,7 +139,6 @@ export class UiClockComponent {
 
   mouseup(e: any) {
     e.preventDefault();
-
     // see https://developer.mozilla.org/en-US/docs/Web/API/Element/auxclick_event ?
     // https://stackoverflow.com/questions/56260646/how-can-i-handle-the-angular-click-event-for-the-middle-mouse-button
 
@@ -230,6 +237,13 @@ export class UiClockComponent {
 
   isSelected(i: number): boolean {
     return this.pcs.getMappedBinPcs()[i] === 1;
+  }
+
+  touchstart(e: TouchEvent | MouseEvent) {
+    if (e) {
+      e.preventDefault();
+    }
+    this.dateMouseDone = new Date()
   }
 
   touchend(e: TouchEvent) {

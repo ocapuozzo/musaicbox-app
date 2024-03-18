@@ -49,7 +49,7 @@
                       @if (generator == 1) {
                         <input class="form-check-input" type="checkbox" checked disabled>
                       } @else {
-                        <input class="form-check-input" type="checkbox" [checked]="opMultChoices.includes(generator)"
+                        <input  class="form-check-input" type="checkbox" [checked]="opMultChoices.includes(generator)"
                                (change)="changeOpMultChoices(generator, $event)">
                       }
                       <label class="form-check-label">M{{ generator }}</label>
@@ -112,7 +112,7 @@
       </div>
     </fieldset>
   </div>
-  <div class="p-2" [hidden]="preReactOrbits.length > 420">
+  <div class="p-2" [hidden]="preReactOrbits.length > 1000">
     <button mat-raised-button color="primary" class="m4" (click)="showOrbits('Stabilizer')">
       Show orbits ({{ preReactOrbits.length }}) grouped by Stabilizers Signature
       @if (groupAction) {
@@ -123,7 +123,8 @@
     </button>
     <button mat-raised-button color="primary" class="m4"
             (click)="showOrbits('MotifStabilizer')"
-            [disabled]="!opTranspositionChoicesHasAtLeastOneValuePrimeWithN()">
+           >
+<!--      [disabled]="!opTranspositionChoicesHasAtLeastOneValuePrimeWithN()"-->
       Show orbits ({{ preReactOrbits.length }}) grouped by Meta-Stabilizer (Motif)
       @if (groupAction) {
         <span>
@@ -137,7 +138,7 @@
   </div>
 
   <div class="p-2">
-    @if (preReactOrbits.length <= 420 && orbitsPartitions.length > 0) {
+    @if (preReactOrbits.length <= 1000 && orbitsPartitions.length > 0) {
       <fieldset class="representation-border p-3">
         <legend class="representation-border float-none w-auto px-3">A set of orbits
           @if (groupAction) {
@@ -156,7 +157,7 @@
 
       </fieldset>
     }
-    <div [hidden]="preReactOrbits.length <= 420" class="alert alert-warning" role="alert"
+    <div [hidden]="preReactOrbits.length <= 1000" class="alert alert-warning" role="alert"
          style="width: fit-content">
       Too many orbits ({{ preReactOrbits.length }}). Please select more operations !
     </div>

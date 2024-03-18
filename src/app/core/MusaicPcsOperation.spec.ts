@@ -93,16 +93,26 @@ describe('MusaicPcsOperation', () => {
     let opM5_T11 = new MusaicPcsOperation(12, 5, 11, false);
     let opM8_T11 = new MusaicPcsOperation(12, 8, 11, false);
 
-    // No commutative
-    // action M4-T3 first and M5-T11 second => opM8-T2
-    expect(opM8_T2.equals(opM5_T11.compose(opM4_T3))).toBeTruthy();
-    // action M5-T11 first and M4-T3 second => opM8-T11
-    expect(opM8_T11.equals(opM4_T3.compose(opM5_T11))).toBeTruthy();
-
     // associative ?  f . (g . h) = (f . g) . h
-    let right = opM8_T2.compose(opM5_T11.compose(opM4_T3))
-    let left = opM8_T2.compose(opM5_T11).compose(opM4_T3)
-    expect(right).toEqual(left)
+    let left = opM8_T2.compose(opM5_T11.compose(opM4_T3))
+    let right = opM8_T2.compose(opM5_T11).compose(opM4_T3)
+    expect(right.getHashCode()).toEqual(left.getHashCode())
+
+    // commutative if t=0 (no translation)
+    let opM7_T0 = new MusaicPcsOperation(12, 7, 0, false);
+    let opM5_T0 = new MusaicPcsOperation(12, 5, 0, false);
+    const op1 = opM7_T0.compose(opM5_T0)
+    const op2 = opM5_T0.compose(opM7_T0)
+    expect(op1.getHashCode()).toEqual(op2.getHashCode())
+
+    // No commutative
+    // action  M5-T11 ° M4-T3   => opM8-T2
+    expect(opM8_T2.getHashCode()).toEqual(opM5_T11.compose(opM4_T3).getHashCode())
+    // action  M4-T3  ° M5-T11  <> M5-T11 ° M4-T3
+    expect(opM8_T2.getHashCode()).not.toEqual(opM4_T3.compose(opM5_T11).getHashCode())
+    // action  M4-T3  ° M5-T11 => opM8-T11 (not opM8-T2)
+    expect(opM8_T11.getHashCode()).toEqual(opM4_T3.compose(opM5_T11).getHashCode())
+
     // ok TODO others test
   })
 
