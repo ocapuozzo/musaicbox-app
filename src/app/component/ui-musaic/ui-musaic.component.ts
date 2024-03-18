@@ -83,7 +83,6 @@ export class UiMusaicComponent {
   drawsMusaic(withDrawPitchIndex : boolean = false) {
 
     let w = this.containerCanvas.nativeElement.clientWidth ?? 40
-
     let n = this.pcs.nMapping //getMappedBinPcs().length;
 
     let CEL_WIDTH = Math.floor(w / (n + 1));
@@ -96,7 +95,6 @@ export class UiMusaicComponent {
     let ctx = this.context
 
     ctx.save()
-
     ctx.strokeStyle = "black";
 
     // Draws musaic
@@ -106,46 +104,40 @@ export class UiMusaicComponent {
     //   pcs : ({0, 3, 6, 9}, iPivot=0)
     //   pcs : ({1, 4, 7, 10}, iPivot=1)
     // are same IS, are same Musaic representation
-    // let iPivot = this.pcs.iPivot ?? 0
     ctx.strokeStyle = 'black'
     const pivotMapped = this.pcs.templateMappingBinPcs[this.pcs.iPivot ?? 0]
+
+    function drawPitch(j: number, i: number, pitch: number, color : string) {
+      let x = CEL_WIDTH / 3 + j * CEL_WIDTH
+      let y = CEL_WIDTH / 1.4 + i * CEL_WIDTH
+      if (pitch > 9) {
+        // 2 characters (10 wider than 11)
+        x -= (pitch == 10) ? 3 : 2
+      }
+      // ctx.strokeStyle = 'white'
+      ctx.fillStyle = color //'white'
+      ctx.fillText(pitch.toString(), x, y, CEL_WIDTH)
+      // ctx.strokeStyle = saveStrokeStyle
+    }
+
     for (let i = 0; i <= n; i++) {
       for (let j = 0; j <= n; j++) {
-        if (this.pcs.getMappedBinPcs()[(i + pivotMapped + j * 5) % n] === 1) {
+        const pitch = (pivotMapped + (i + j * 5)) % n
+        if (this.pcs.getMappedBinPcs()[pitch] === 1) {
           ctx.strokeStyle = 'black'
           ctx.fillStyle = "black";
           ctx.fillRect(j * CEL_WIDTH, i * CEL_WIDTH, CEL_WIDTH, CEL_WIDTH);
           //  ctx.strokeRect(j * CEL_WIDTH, i * CEL_WIDTH, CEL_WIDTH, CEL_WIDTH);
-
           if (withDrawPitchIndex) {
-            let x = CEL_WIDTH / 3 + j * CEL_WIDTH
-            let y = CEL_WIDTH / 1.4 + i * CEL_WIDTH
-            const pitch = (i + pivotMapped + (j + pivotMapped) * 5) % n
-            if (pitch > 9) {
-              // 2 characters
-              x -= 1
-            }
-            // ctx.strokeStyle = 'white'
-            ctx.fillStyle = 'white'
-            ctx.fillText(pitch.toString(), x, y, CEL_WIDTH)
-            // ctx.strokeStyle = saveStrokeStyle
+            drawPitch(j, i, pitch, 'white');
           }
         } else {
           ctx.fillStyle = "white";
           ctx.strokeStyle = 'black'
           ctx.fillRect(j * CEL_WIDTH, i * CEL_WIDTH, CEL_WIDTH, CEL_WIDTH);
           ctx.strokeRect(j * CEL_WIDTH, i * CEL_WIDTH, CEL_WIDTH, CEL_WIDTH);
-
           if (withDrawPitchIndex) {
-            let x = CEL_WIDTH/3 + j * CEL_WIDTH
-            let y = CEL_WIDTH/1.4 + i * CEL_WIDTH
-            const pitch = (i + pivotMapped + j * 5) % n
-            if (pitch > 9) {
-              // 2 characters
-              x -= 2
-            }
-            ctx.fillStyle = 'black'
-            ctx.fillText(pitch.toString(), x, y, CEL_WIDTH)
+            drawPitch(j, i, pitch, 'black');
           }
         }
       }
