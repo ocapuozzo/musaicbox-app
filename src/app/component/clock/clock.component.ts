@@ -20,6 +20,7 @@ export class ClockComponent {
   private clockDrawing : ClockDrawing;
 
   @Input() pcColorSet = 'yellow'
+  @Input() drawPivot = false
 
   n: 0;
 
@@ -42,6 +43,7 @@ export class ClockComponent {
       height: len, // square
       pc_pivot_color: this.pivotColor,
       pc_color_fill: this.pcColorSet,
+      drawPivot: this.drawPivot,
       segmentsLineDash: [[1, 2, 2, 1], [2, 3]] // median, inter
     })
     this.setupEvents();

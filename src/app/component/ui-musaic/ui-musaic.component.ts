@@ -31,7 +31,7 @@ export class UiMusaicComponent {
   private isDisableButtons: boolean = false
   private CEL_WIDTH: number = 10
 
-  @Input() optionDrawPitchIndex : boolean = true
+  @Input() optionDrawPitchIndex : boolean = false
 
   @Input() pcs: IPcs //= new IPcs({strPcs: "0,3,6,9"})
   @Output() changePcsEvent = new EventEmitter<IPcs>()

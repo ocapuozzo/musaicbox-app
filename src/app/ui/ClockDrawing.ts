@@ -23,6 +23,7 @@ export class ClockDrawing {
   pc_pivot_color = "red";
   pc_color_fill = "yellow";
   pc_color_stroke = "black";
+  drawPivot = true
   segmentsLineDash: number[][] = [[1, 3], [1, 3, 3, 1]] // median, inter
   n: number // vector dimension
   pointsRegions: Rect[]
@@ -37,7 +38,8 @@ export class ClockDrawing {
       pc_pivot_color?: string,
       pc_color_fill?: string,
       pc_color_stroke?: string,
-      segmentsLineDash?: number[][]
+      segmentsLineDash?: number[][],
+      drawPivot?:boolean
     } = {}) {
     if (!x.ctx)
       throw new Error("canvas context missing !!!")
@@ -50,9 +52,10 @@ export class ClockDrawing {
 
     this.width = x.width ?? 20
     this.height = x.height ?? 20
-    this.pc_pivot_color = x.pc_pivot_color ?? "red"
     this.pc_color_fill = x.pc_color_fill ?? "yellow"
+    this.pc_pivot_color = x.pc_pivot_color ?? "red"
     this.pc_color_stroke = x.pc_color_stroke ?? 'black'
+    this.drawPivot = x.drawPivot ?? true
     this.n = this.ipcs.nMapping
     this.pointsRegions = []
     this.pointsAxesSym = []
@@ -70,7 +73,7 @@ export class ClockDrawing {
   // pass IPcs instance in parameter ? for store reactive ?
   draw(ipcs?: IPcs) {
     if (!this.ctx) return
-
+console.log("this.drawPivot  = " + this.drawPivot)
     if (ipcs) this.ipcs = ipcs
     // console.log("pcs :" + this.pcs)
     let ox = this.width / 2;
@@ -98,7 +101,7 @@ export class ClockDrawing {
     ctx.fillStyle =
       (this.isSelected(index))
         ? (index === this.ipcs.templateMappingBinPcs[this.ipcs.iPivot ?? 0])
-          ? this.pc_pivot_color
+          ? this.drawPivot ? this.pc_pivot_color : this.pc_color_fill
           : this.pc_color_fill
         : this.ipcs.templateMappingBinPcs.includes(index) ? 'white' : 'lightgray' ;
     ctx.fill();

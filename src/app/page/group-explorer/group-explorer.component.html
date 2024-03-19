@@ -19,7 +19,7 @@
             <label class="input-group-text " for="inputGroupSelect01" style="height: 80px"> N : </label>
           </div>
           <select id="inputGroupSelect01" (change)="onChangeN($event)">
-            @for (index of [3, 4, 5, 6, 7, 8, 9, 10, 11, 12]; track index) {
+            @for (index of [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]; track index) {
               @if (n == index) {
                 <option value="{{index}}" selected>
                   {{ index }}

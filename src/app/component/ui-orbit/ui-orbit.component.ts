@@ -7,6 +7,8 @@ import {IPcs} from "../../core/IPcs";
 import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
 import {Router} from "@angular/router";
 import {ManagerExplorerService} from "../../service/manager-explorer.service";
+import {EightyEight} from "../../utils/EightyEight";
+import {MatTooltip} from "@angular/material/tooltip";
 
 @Component({
   selector: 'app-orbit',
@@ -16,6 +18,7 @@ import {ManagerExplorerService} from "../../service/manager-explorer.service";
     MusaicComponent,
     ClockComponent,
     NgStyle,
+    MatTooltip,
   ],
   templateUrl: './ui-orbit.component.html',
   styleUrl: './ui-orbit.component.css'
@@ -27,7 +30,6 @@ export class UiOrbitComponent {
   viewMusaic: boolean = false
   textButtonViewMusaicClock : string = "View Musaic"
   pcColorSet : string = 'black'
-  pivotColor: string = 'black';
 
   ngOnInit() {
   }
@@ -47,4 +49,5 @@ export class UiOrbitComponent {
     this.router.navigateByUrl('/pcs');
   }
 
+  protected readonly EightyEight = EightyEight;
 }
