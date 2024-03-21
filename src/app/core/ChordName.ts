@@ -17,7 +17,9 @@ export class ChordName {
     // let pcs : IPcs = new IPcs({strPcs:'[0,1,3,4,5,7,8,9,11]'})
     // console.log("pcs.is().toString() = " +  pcs.is().toString())
     // ChordName.scalesName.set(pcs.is().toString(), 'Tcherepnin Scale')
+    // https://en.wikipedia.org/wiki/Alexander_Tcherepnin
     ChordName.scalesName.set("1,2,1,1,2,1,1,2,1", 'Tcherepnin Scale')
+
     ChordName.scalesName.set("2,2,1,2,2,2,1", 'Major scale')
     ChordName.scalesName.set("2,1,2,2,2,1,2", 'Dorian mode')
     ChordName.scalesName.set("1,2,2,2,1,2,2", 'Phrygian mode')
@@ -25,8 +27,6 @@ export class ChordName {
     ChordName.scalesName.set("2,2,1,2,2,1,2", 'Mixolydian mode')
     ChordName.scalesName.set("2,1,2,2,1,2,2", 'Aeolian mode')
     ChordName.scalesName.set("1,2,2,1,2,2,2", 'Locrian mode')
-
-
 
   }
 

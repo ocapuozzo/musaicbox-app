@@ -70,12 +70,12 @@ constructor() {
       if (this.pcs.getMappedBinPcs()[i % n] === 1) {
         let note = MusicNotationComponent.lettersNotation[i % n];
         if (someNotesForChange.indexOf(i % n) !== -1) {
-          // change # in bemol
-          if (this.pcs.getMappedBinPcs()[(i + 1) % n] !== 1) {
+          // change # by b
+          if (this.pcs.getMappedBinPcs()[(i - 1) % n] === 1 &&
+              this.pcs.getMappedBinPcs()[(i + 1) % n] !== 1) {
             note = "_" + MusicNotationComponent.lettersNotation[(i + 1) % n]
           }
         }
-
         // TODO make pitches always up iPivot pitch
         // http://abcnotation.com/blog/2010/01/31/how-to-understand-abc-the-basics/
         if ((i % n) < (this.pcs.iPivot ?? 0)) {
