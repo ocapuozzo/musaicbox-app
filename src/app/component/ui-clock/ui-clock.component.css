@@ -26,3 +26,8 @@ canvas {
 .score-center {
   margin-left: 10px;
 }
+
+.chord-name {
+  margin-top: 10px;
+  font-style: italic;
+}

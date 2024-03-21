@@ -250,7 +250,6 @@ describe('GroupAction', () => {
   })
 
 
-
   it("getOrbitOf cyclic12", () => {
     let cyclicGroup12
       = new GroupAction({group: Group.predefinedGroups12[Group.CYCLIC]})
@@ -368,35 +367,70 @@ describe('GroupAction', () => {
       expect(orbit.cardinal).toEqual(
         groupMusaic.cardinal / min.stabilizer.cardinal)
     })
-})
+  })
 
 
-/**
- * <pre>
- * orbit-counting theorem - Burnside's lemma
- * |X/G| = (sum |Fix.g| for all g in G) / |G|
- * </pre>
- *
- * \left|X/G\right|={\frac {1}{\left|G\right|}}\sum _{g\in
- * G}\left|X^{g}\right|,
- *
- * @see https://en.wikipedia.org/wiki/Burnside%27s_lemma
- */
-it('test_Orbit_Counting_Theorem_Burnside', () => {
-  const groupMusaic = GroupAction.predefinedGroupsActions(12, Group.MUSAIC)
-  expect(groupMusaic.operations.length).toEqual(96)
+  /**
+   * <pre>
+   * orbit-counting theorem - Burnside's lemma
+   * |X/G| = (sum |Fix.g| for all g in G) / |G|
+   * </pre>
+   *
+   * \left|X/G\right|={\frac {1}{\left|G\right|}}\sum _{g\in
+   * G}\left|X^{g}\right|,
+   *
+   * @see https://en.wikipedia.org/wiki/Burnside%27s_lemma
+   */
+  it('test_Orbit_Counting_Theorem_Burnside', () => {
+    const groupMusaic = GroupAction.predefinedGroupsActions(12, Group.MUSAIC)
+    expect(groupMusaic.operations.length).toEqual(96)
 
-  const totalCardFixedPcs = groupMusaic.operations.reduce(
-    (cardFixedPcs: number, currentValue) =>
-      currentValue.getFixedPcs().length + cardFixedPcs,
-    0)
+    const totalCardFixedPcs = groupMusaic.operations.reduce(
+      (cardFixedPcs: number, currentValue) =>
+        currentValue.getFixedPcs().length + cardFixedPcs,
+      0)
 
-  expect(8448).toEqual(totalCardFixedPcs);
-  expect(groupMusaic.orbits.length).toEqual(totalCardFixedPcs / groupMusaic.operations.length);
+    expect(8448).toEqual(totalCardFixedPcs);
+    expect(groupMusaic.orbits.length).toEqual(totalCardFixedPcs / groupMusaic.operations.length);
 
-  // same as 88 = 8448 / 96
-  expect(88).toEqual(totalCardFixedPcs / 96);
+    // same as 88 = 8448 / 96
+    expect(88).toEqual(totalCardFixedPcs / 96);
+  })
 
-})
+
+// TODO calcul nombre de modes (group cyclic sum cardinalMode of each PCS)
+  it('compute number of modes ', () => {
+    const groupCyclic = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
+    let nbModes = 0
+    for (const orbit of groupCyclic.orbits) {
+      nbModes += orbit.getPcsMin().cardOrbitMode()
+    }
+    // for (let pcs of groupCyclic.powerset.values()) {
+    //   nbModes += pcs.cardOrbitMode()
+    // }
+    // TODO add ref here for 24318 (some says 24576 but is not because Limited Transposition)
+    // expect(nbModes).toEqual(24318)
+    expect(nbModes).toEqual(2048)
+
+    // other algorithm
+    const isDict = new Map<string, string[]>
+    for (let pcs of groupCyclic.powerset.values()) {
+      let cardinal = pcs.cardinal
+      for (let i = 0; i < cardinal; i++) {
+        if (!isDict.has(pcs.is().toString())) {
+          isDict.set(pcs.is().toString(), [] )
+        }
+        // @ts-ignore
+        isDict.get(pcs.is().toString()).push(pcs.getPcsStr())
+        pcs = pcs.modulation(IPcs.NEXT_DEGREE)
+      }
+    }
+
+    // @ts-ignore
+    // console.log(isDict.get('2,2,2,1,2,2,1'))
+    // expect(isDict.size).toEqual(24318)
+    expect(isDict.size).toEqual(2048)
+
+  })
 
 })

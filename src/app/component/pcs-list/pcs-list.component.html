@@ -21,16 +21,18 @@
       }
     } @else {
       <!--  put list pcs into one col div-->
-      <div class="box text-center" style="width: 200px;">
+      <div class="box text-center" style="width: 155px;">
         <p>{{ title }} ({{labeledListPcs.get(title)?.length}})</p>
         @for (pcs of labeledListPcs.get(title); track pcs.id; let index = $index) {
-          <div class="box" style="width: 180px;">
+          <div class="box" style="width: 145px;">
             <app-clock [ipcs]="pcs"></app-clock>
             <div class="card-body">
               <h6>{{ pcs.getMappedPcsStr() }} <sub> {{ pcs.iPivot }}</sub></h6>
+              @if ([3,4].includes(pcs.cardinal)) {
               <p class="text-center">
                 <span>{{ pcs.getChordName() }}</span>
               </p>
+              }
               <i (click)="doRemoveFromList(pcs)" class="bi bi-trash p-1" style="cursor: pointer"></i>
               <i (click)="doSelectFromList(pcs)" class="bi bi-eye p-1" style="cursor: pointer"></i>
               <app-music-notation [hidden]="! withMusicalNotation"

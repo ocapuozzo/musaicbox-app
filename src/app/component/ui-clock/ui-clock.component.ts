@@ -9,6 +9,7 @@ import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
 import {ManagerPagePcsListService} from "../../service/manager-page-pcs-list.service";
 import {Analyse} from "../../utils/Analyse";
 import {NgOptimizedImage} from "@angular/common";
+import {ChordName} from "../../core/ChordName";
 
 @Component({
   selector: 'app-ui-clock',
@@ -287,7 +288,7 @@ export class UiClockComponent {
     if ($event.startsWith('T')) {
       this.managerHomePcsService.translateByM1Tx($event == 'T-1' ? -1 : +1)
     } else { // M
-      this.managerHomePcsService.modulation($event == 'M-1' ? IPcs.PREV_MODULE : IPcs.NEXT_DEGREE)
+      this.managerHomePcsService.modulation($event == 'M-1' ? IPcs.PREV_DEGREE : IPcs.NEXT_DEGREE)
     }
     // this.drawClock()
     // this.changePcs.emit(this.pcs)
@@ -322,4 +323,6 @@ export class UiClockComponent {
       }
     }
   }
+
+  protected readonly ChordName = ChordName;
 }

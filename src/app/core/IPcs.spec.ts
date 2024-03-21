@@ -141,7 +141,7 @@ describe('IPcs unit tests', () => {
     const ipcs = new IPcs({strPcs: "0,4,11", iPivot: 0})
     const ipcs_other = new IPcs({strPcs: "0,4,11", iPivot: 11})
 
-    expect(ipcs.modulation(IPcs.PREV_MODULE)).toEqual(ipcs_other);
+    expect(ipcs.modulation(IPcs.PREV_DEGREE)).toEqual(ipcs_other);
   });
 
   it("IPcs equals ok ", () => {
@@ -638,7 +638,7 @@ describe('IPcs unit tests', () => {
     })
     expect(ipcsDminor.nMapping).toEqual(ipcsDminor.n)
     expect(ipcsDminor.nMapping).toEqual(12)
-    expect(ipcsDminor.templateMappingBinPcs).toEqual([0,1,2,3,4,5,6,7,8,9,10,11])
+    expect(ipcsDminor.templateMappingBinPcs).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
   })
 
 
@@ -721,10 +721,10 @@ describe('IPcs unit tests', () => {
   it("is Intervallic Structure", () => {
     const cMaj = new IPcs({strPcs: '[0,4,7]', n: 12})
     //  a Maj chord is composed by : 4 + 3 + 5 semi-tones
-    expect(cMaj.is()).toEqual([4,3,5]);
+    expect(cMaj.is()).toEqual([4, 3, 5]);
 
     // Sum of elements of IS is n
-    expect(cMaj.is().reduce( (sum, e) => e+sum)).toEqual(cMaj.n)
+    expect(cMaj.is().reduce((sum, e) => e + sum)).toEqual(cMaj.n)
 
     const pcsDiatMajMapped = new IPcs({
       strPcs: "[0, 2, 4]", // first 3-chord {C E G}
@@ -733,10 +733,10 @@ describe('IPcs unit tests', () => {
       templateMappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // pcs mapped into [0,4,7]
     })
     expect(pcsDiatMajMapped.getMappedPcsStr()).toEqual('[0,4,7]')
-    expect(pcsDiatMajMapped.is()).toEqual([4,3,5]);
+    expect(pcsDiatMajMapped.is()).toEqual([4, 3, 5]);
 
     // Sum of elements of IS is n
-    expect(pcsDiatMajMapped.is().reduce( (sum, e) => e+sum)).toEqual(pcsDiatMajMapped.nMapping)
+    expect(pcsDiatMajMapped.is().reduce((sum, e) => e + sum)).toEqual(pcsDiatMajMapped.nMapping)
   });
 
 
@@ -769,5 +769,11 @@ describe('IPcs unit tests', () => {
     }
   })
 
+  it("isLimitedTransposition", () => {
+    const noLT = new IPcs({strPcs: '[0,4,7]'})
+    expect(noLT.isLimitedTransposition()).not.toBeTruthy()
+    const majAUG = new IPcs({strPcs: '[0,4,8]'})
+    expect(majAUG.isLimitedTransposition()).toBeTruthy()
+  })
 
 })

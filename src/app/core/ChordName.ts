@@ -8,6 +8,28 @@ export class ChordName {
 
   static chordsModalPF = new Map<string, string>()
 
+  // key : is().toString(),
+  // value : scale name
+  // size = 2048 elements
+  static scalesName = new Map<string, string>()
+
+  static {
+    // let pcs : IPcs = new IPcs({strPcs:'[0,1,3,4,5,7,8,9,11]'})
+    // console.log("pcs.is().toString() = " +  pcs.is().toString())
+    // ChordName.scalesName.set(pcs.is().toString(), 'Tcherepnin Scale')
+    ChordName.scalesName.set("1,2,1,1,2,1,1,2,1", 'Tcherepnin Scale')
+    ChordName.scalesName.set("2,2,1,2,2,2,1", 'Major scale')
+    ChordName.scalesName.set("2,1,2,2,2,1,2", 'Dorian mode')
+    ChordName.scalesName.set("1,2,2,2,1,2,2", 'Phrygian mode')
+    ChordName.scalesName.set("2,2,2,1,2,2,1", 'Lydian mode')
+    ChordName.scalesName.set("2,2,1,2,2,1,2", 'Mixolydian mode')
+    ChordName.scalesName.set("2,1,2,2,1,2,2", 'Aeolian mode')
+    ChordName.scalesName.set("1,2,2,1,2,2,2", 'Locrian mode')
+
+
+
+  }
+
   static {
     // 3-chords
     ChordName.chordsModalPF.set('0,4,7', 'Maj')
@@ -39,6 +61,8 @@ export class ChordName {
     ChordName.chordsModalPF.set('0,3,7,9', 'min6')
     ChordName.chordsModalPF.set('0,3,6,10', 'ø')
     ChordName.chordsModalPF.set('0,3,6,9', 'o')
+    ChordName.chordsModalPF.set('0,1,3,4,5,7,8,9,11', 'Tcherepnin Scale')
+
   }
 
 
@@ -116,6 +140,32 @@ export class ChordName {
     return res
   }
 
+  /**
+   * Get name of pcs (chord or scale)
+   *
+   * @param pcs
+   */
+  static getScaleName(pcs: IPcs): string {
+    let cardinal = pcs.cardinal
+    let name = ''
+    for (let i = 0; i < cardinal ; i++) {
+      name = ChordName.scalesName.get(pcs.is().toString()) ?? ''
+      if (name && i==0) return name
+      if (name) return `degree ${i+1} of ${name}`
+      pcs = pcs.modulation(IPcs.PREV_DEGREE)
+    }
+    return name
+
+    // return ChordName.scalesName.get(pcs.is().toString()) ?? ''
+
+    // const modalPFPcs = pcs.modalPrimeForm()
+    // return ChordName.chordsModalPF.get(modalPFPcs.getPcsStr(false)) ?? ''
+  }
+
+  /**
+   * Get chord name 4 pitches first then 3 pitches
+   * @param pcs
+   */
   static getChordName(pcs: IPcs): string {
     const chords3pitches = ChordName.getKeysChord(pcs, 3)
     const chords4pitches = ChordName.getKeysChord(pcs, 4)

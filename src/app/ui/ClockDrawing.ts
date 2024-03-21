@@ -73,7 +73,6 @@ export class ClockDrawing {
   // pass IPcs instance in parameter ? for store reactive ?
   draw(ipcs?: IPcs) {
     if (!this.ctx) return
-console.log("this.drawPivot  = " + this.drawPivot)
     if (ipcs) this.ipcs = ipcs
     // console.log("pcs :" + this.pcs)
     let ox = this.width / 2;
@@ -105,21 +104,26 @@ console.log("this.drawPivot  = " + this.drawPivot)
           : this.pc_color_fill
         : this.ipcs.templateMappingBinPcs.includes(index) ? 'white' : 'lightgray' ;
     ctx.fill();
-    if (radius > 6) {
+    if (radius >= 6) {
       grad = ctx.createRadialGradient(0, 0, radius * 0.8, 0, 0, radius * 1.2);
-      grad.addColorStop(0, '#333');
-      grad.addColorStop(0.5, 'white');
-      grad.addColorStop(1, '#333');
+      if (radius > 10) {
+        grad.addColorStop(0, '#333');
+        grad.addColorStop(0.5, 'white');
+        grad.addColorStop(1, '#333');
+      }
       ctx.strokeStyle = grad;
-      ctx.lineWidth = PITCH_LINE_WIDTH;//lineWidth; //radius*0.1;
+      ctx.lineWidth = (radius > 10) ? PITCH_LINE_WIDTH : 1;//lineWidth; //radius*0.1;
       ctx.stroke();
       ctx.beginPath();
       ctx.fillStyle = '#333';
       ctx.fill();
+      let y = 0.66
       if (index < 10) {
-        ctx.fillText(index.toString(), -.1, 1);
+        ctx.fillText(index.toString(), -.1, y);
+      } else if (index < 11) {
+        ctx.fillText(index.toString(), -.4, y)
       } else {
-        ctx.fillText(index.toString(), -.4, 1)
+        ctx.fillText(index.toString(), -.2, y)
       }
     }
     ctx.restore()

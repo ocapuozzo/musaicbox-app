@@ -4,7 +4,9 @@
     IV : <span class="analyse-pcs"> &lt;{{ pcs.iv() }}&gt;</span>
 
     @if ([3, 4].includes(pcs.cardinal)) {
-      <p style="margin-top: 10px;">{{ pcs.getChordName() }}</p>
+      <p class="chord-name">{{ pcs.getChordName() }}</p>
+    } @else if (ChordName.getScaleName(pcs)){
+      <p class="chord-name">{{ ChordName.getScaleName(pcs) }}</p>
     }
   </div>
   <div class="score-center">

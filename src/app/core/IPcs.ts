@@ -144,7 +144,6 @@ export class IPcs {
     // attached PCS MUST have a Stabilizer !
   }
 
-
   constructor(
     {pidVal, strPcs, binPcs, n, iPivot, orbit, templateMappingBinPcs, nMapping}:
       {
@@ -303,7 +302,7 @@ export class IPcs {
     return NEXT_MODULATION
   }
 
-  static get PREV_MODULE() {
+  static get PREV_DEGREE() {
     return PREV_MODULATION
   }
 
@@ -533,7 +532,7 @@ export class IPcs {
           break
         }
       }
-    } else if (direction === IPcs.PREV_MODULE) {
+    } else if (direction === IPcs.PREV_DEGREE) {
       let n = this.abinPcs.length
       let i = pivot - 1
       if (i < 0) {
@@ -565,14 +564,17 @@ export class IPcs {
    * Example : [1,1,0,0,0,0,0,1,0,0,0,0] => "[0, 1, 7]"
    * @returns {string}
    */
-  getPcsStr(): string {
+  getPcsStr(withBracket: boolean = true): string {
     let res = "";
     for (let index = 0; index < this.abinPcs.length; index++) {
       const element = this.abinPcs[index];
       if (element)
         res = (res) ? res + ',' + index.toString() : index.toString();
     }
-    return '[' + res + ']';
+    if (withBracket) {
+      return '[' + res + ']';
+    }
+    return res;
   }
 
   /**
@@ -1137,6 +1139,10 @@ export class IPcs {
  getChordName() : string {
     return ChordName.getChordName(this)
  }
+
+  isLimitedTransposition(){
+    return this.cyclicPrimeForm().orbit.cardinal != this.n;
+  }
 
   // TODO arranger les opérations en inner et mapped et peut-être sortir des fonctions utilitaires pour binpcs ?
 }
