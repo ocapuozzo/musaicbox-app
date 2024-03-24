@@ -1,6 +1,5 @@
 import {Component, Input} from '@angular/core';
 import {IPcs} from "../../core/IPcs";
-import {Analyse} from "../../utils/Analyse";
 import {ManagerPagePcsListService} from "../../service/manager-page-pcs-list.service";
 import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
 

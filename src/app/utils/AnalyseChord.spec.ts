@@ -1,7 +1,7 @@
-import {Analyse} from "./Analyse";
+import {AnalyseChord} from "./AnalyseChord";
 import {IPcs} from "../core/IPcs";
 
-describe('Analyse chords list', () => {
+describe('AnalyseChord chords list', () => {
 
   it("0 2 4 5 7 8 11", () => {
     const ipcsDiatMaj = new IPcs({
@@ -9,7 +9,7 @@ describe('Analyse chords list', () => {
       n: 12,
     })
 
-    const triadChords = Analyse.getList3Chords(ipcsDiatMaj)
+    const triadChords = AnalyseChord.getList3Chords(ipcsDiatMaj)
 
     expect(triadChords.get('I')![0].getChordName()).toEqual('Caug')
     expect(triadChords.get('I')![1].getChordName()).toEqual('CMaj')
@@ -22,7 +22,7 @@ describe('Analyse chords list', () => {
       n: 12,
     })
 
-    const triadChords = Analyse.getList3Chords(ipcsDiatMaj)
+    const triadChords = AnalyseChord.getList3Chords(ipcsDiatMaj)
 
     expect(triadChords.size).toEqual(7)
     expect(triadChords.get('I')?.length).toEqual(2)
@@ -39,7 +39,7 @@ describe('Analyse chords list', () => {
       n: 12,
     })
 
-    const fourChords = Analyse.getList4Chords(ipcsDiatMaj)
+    const fourChords = AnalyseChord.getList4Chords(ipcsDiatMaj)
 
     expect(fourChords.size).toEqual(7)
     expect(fourChords.get('I')?.length).toEqual(2)
@@ -52,7 +52,7 @@ describe('Analyse chords list', () => {
       n: 12,
     })
 
-    const fourChords = Analyse.getList4Chords(ipcsDiatMaj)
+    const fourChords = AnalyseChord.getList4Chords(ipcsDiatMaj)
 
     expect(fourChords.size).toEqual(7)
     expect(fourChords.get('I')?.length).toEqual(2)

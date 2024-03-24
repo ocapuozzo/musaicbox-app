@@ -43,7 +43,7 @@ import {GroupAction} from "./GroupAction";
 import {Group} from "./Group";
 import {Stabilizer} from "./Stabilizer";
 import {Mapping} from "../utils/Mapping";
-import {ChordName} from "./ChordName";
+import {PcsNaming} from "./PcsNaming";
 
 const NEXT_MODULATION = 1
 const PREV_MODULATION = 2
@@ -353,7 +353,7 @@ export class IPcs {
   }
 
   /**
-   * return this by translation iPivot to zero, useful for analyse (a mode)
+   * return this by translation iPivot to zero, useful for analyse (musical mode)
    * @return {IPcs}
    */
   modalPrimeForm(): IPcs {
@@ -559,7 +559,7 @@ export class IPcs {
   }
 
   /**
-   * Get textuel representation of this in n (notation bracket)
+   * Get textuel representation of this in n (notation bracket by default)
    * string image of PCS from bin array
    * Example : [1,1,0,0,0,0,0,1,0,0,0,0] => "[0, 1, 7]"
    * @returns {string}
@@ -583,7 +583,7 @@ export class IPcs {
    * Example : [1,1,0,0,0,0,0,1,0,0,0,0] => "[0, 1, 7]"
    * @returns {string}
    */
-  getMappedPcsStr(withBrack: boolean = true): string {
+  getMappedPcsStr(withBracket: boolean = true): string {
     let res = "";
     const mappedBin = this.getMappedBinPcs()
     for (let index = 0; index < mappedBin.length; index++) {
@@ -591,13 +591,15 @@ export class IPcs {
       if (element)
         res = (res) ? res + ',' + index.toString() : index.toString();
     }
-    if (withBrack) return '[' + res + ']';
+    if (withBracket) {
+      return '[' + res + ']';
+    }
     return  res
   }
 
 
   /**
-   * Get Forte Num of this
+   * Get Forte Num of this or empty string
    */
   forteNum(): string {
     if (this.n != 12) return ""
@@ -635,12 +637,12 @@ export class IPcs {
   }
 
   /**
-   * intervallic structure
-   * @see http://architexte.ircam.fr/textes/Andreatta03e/index.pdf
+   * intervallic structure, useful to identify scales and modes from cyclic group
+   * @see http://architexte.ircam.fr/textes/Andreatta03e/index.pdf : Structure Intervallique page 4
    * @see https://sites.google.com/view/88musaics/88musaicsexplained
    * @returns {int[]}
    *
-   * Example : is("0,3,7") => [3,4,5]
+   * Example : is("0,3,7") => [3,4,5]  (pivot = 0)
    * Example : is( "1,5,8", iPivot:5) > [3, 5, 4]
    * Example : is( "1,5,8", iPivot:1) > [4, 3, 5]
    *
@@ -750,13 +752,20 @@ export class IPcs {
   }
 
   /**
-   * get cardinal of all modes
+   * Get number of all modes.
+   * For PCS NOT LT (LT = limited transposition), it's this.cardinal
+   * for others (limited transposition) it's this.cardinal divided by n/orbitCyclic.cardinal
+   *
+   * As for PCS NOT LT, n/orbitCyclic.cardinal === 1, general formula is valid for any PCS is
+   *
+   *      this.cardinal divided by n/orbitCyclic.cardinal
+   *
    * Examples :
    * <pre>
    * { 0, 3, 6, 9} => 1
    * { 0, 4, 8} => 1
    * { 0, 1, 6, 7} => 2
-   * { 0, 1, 2, 3} => 4
+   * { 0, 1, 2, 3} => 4  (NOT LT)
    * </pre>
    * @return {number}
    */
@@ -773,8 +782,8 @@ export class IPcs {
     // because groupAction Cyclic with n=12 is predefined
     // and cardinal orbit always divise n
     // return this.cardinal / (this.n / this.cyclicPrimeForm().orbit.cardinal)
-    // (lazy compute)
-    //
+    // (lazy and cache compute)
+    // implementation avoid two divisions
     return this._cardModesOrbits = (this.cardinal * this.cyclicPrimeForm().orbit.cardinal) / this.n
 
     // // old algorithm
@@ -892,6 +901,11 @@ export class IPcs {
     return IPcs.compare(this, ipcs2)
   }
 
+  /**
+   * Call in ActionGroup constructor
+   *
+   * @param newIPcs
+   */
   addInOrbit(newIPcs: IPcs) {
     if (!this.orbit) {
       this.orbit = new Orbit()
@@ -1137,11 +1151,13 @@ export class IPcs {
   }
 
  getChordName() : string {
-    return ChordName.getChordName(this)
+    return PcsNaming.getChordName(this)
  }
 
   isLimitedTransposition(){
-    return this.cyclicPrimeForm().orbit.cardinal != this.n;
+    // return this.cyclicPrimeForm().orbit.cardinal != this.n;
+    // Best implementation (use cache) :
+    return this.cardOrbitMode() != this.cardinal;
   }
 
   // TODO arranger les opérations en inner et mapped et peut-être sortir des fonctions utilitaires pour binpcs ?

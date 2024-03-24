@@ -5,8 +5,8 @@
 
     @if ([3, 4].includes(pcs.cardinal)) {
       <p class="chord-name">{{ pcs.getChordName() }}</p>
-    } @else if (ChordName.getScaleName(pcs)){
-      <p class="chord-name">{{ ChordName.getScaleName(pcs) }}</p>
+    } @else if (PcsNaming.getScaleName(pcs)){
+      <p class="chord-name">{{ PcsNaming.getScaleName(pcs) }}</p>
     }
   </div>
   <div class="score-center">

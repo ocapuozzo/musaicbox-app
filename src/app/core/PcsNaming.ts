@@ -1,6 +1,6 @@
 import {IPcs} from "./IPcs";
 
-export class ChordName {
+export class PcsNaming {
 
   static NOTE_NAMES_SHARP = ['C', 'C♯', 'D', 'D♯', 'E', 'F', 'F♯', 'G', 'G♯', 'A', 'A♯', 'B']
   static NOTE_NAMES_FLAT = ['C', 'D♭', 'D', 'E♭', 'E', 'F', 'G♭', 'G', 'A♭', 'A', 'B♭', 'B']
@@ -16,52 +16,67 @@ export class ChordName {
   static {
     // let pcs : IPcs = new IPcs({strPcs:'[0,1,3,4,5,7,8,9,11]'})
     // console.log("pcs.is().toString() = " +  pcs.is().toString())
-    // ChordName.scalesName.set(pcs.is().toString(), 'Tcherepnin Scale')
+    // PcsNaming.scalesName.set(pcs.is().toString(), 'Tcherepnin Scale')
     // https://en.wikipedia.org/wiki/Alexander_Tcherepnin
-    ChordName.scalesName.set("1,2,1,1,2,1,1,2,1", 'Tcherepnin Scale')
+    PcsNaming.scalesName.set("1,2,1,1,2,1,1,2,1", 'Tcherepnin Scale')
 
-    ChordName.scalesName.set("2,2,1,2,2,2,1", 'Major scale')
-    ChordName.scalesName.set("2,1,2,2,2,1,2", 'Dorian mode')
-    ChordName.scalesName.set("1,2,2,2,1,2,2", 'Phrygian mode')
-    ChordName.scalesName.set("2,2,2,1,2,2,1", 'Lydian mode')
-    ChordName.scalesName.set("2,2,1,2,2,1,2", 'Mixolydian mode')
-    ChordName.scalesName.set("2,1,2,2,1,2,2", 'Aeolian mode')
-    ChordName.scalesName.set("1,2,2,1,2,2,2", 'Locrian mode')
+    PcsNaming.scalesName.set("2,2,1,2,2,2,1", 'Major scale')
+    PcsNaming.scalesName.set("2,1,2,2,2,1,2", 'Dorian mode')
+    PcsNaming.scalesName.set("1,2,2,2,1,2,2", 'Phrygian mode')
+    PcsNaming.scalesName.set("2,2,2,1,2,2,1", 'Lydian mode')
+    PcsNaming.scalesName.set("2,2,1,2,2,1,2", 'Mixolydian mode')
+    PcsNaming.scalesName.set("2,1,2,2,1,2,2", 'Aeolian mode')
+    PcsNaming.scalesName.set("1,2,2,1,2,2,2", 'Locrian mode')
+
+    PcsNaming.scalesName.set("2,2,2,2,1,2,1", 'Lydian Augmented')
+    PcsNaming.scalesName.set("2,2,2,2,2,2", 'Whole tone scale')
+
+    PcsNaming.scalesName.set("4,2,1,4,1", 'Hirajoshi scale') // 0,4,6,7,11
+
+    PcsNaming.scalesName.set("2,2,1,2,2,1,1,1", 'Bebop dominant scale') // 0,2,4,5,7,9,10,11
+
+
+    // TODO make a file from  https://en.wikipedia.org/wiki/List_of_musical_scales_and_modes
+    // https://fretboardknowledge.com/guitar/kb/allan-holdsworths-10-most-usable-scales/
+
+    // and read it here to init
+
 
   }
 
   static {
     // 3-chords
-    ChordName.chordsModalPF.set('0,4,7', 'Maj')
-    ChordName.chordsModalPF.set('0,4,6', 'Maj ♭5')
-    ChordName.chordsModalPF.set('0,4,8', 'aug')
-    ChordName.chordsModalPF.set('0,4,9', 'Maj6')
-    ChordName.chordsModalPF.set('0,5,7', 'Maj sus4')
-    ChordName.chordsModalPF.set('0,2,7', 'Maj sus2')
-    ChordName.chordsModalPF.set('0,2,8', 'Maj ♯5 sus2')
-    ChordName.chordsModalPF.set('0,2,6', 'Maj ♭5 sus2')
-    ChordName.chordsModalPF.set('0,5,7', 'sus4')
-    ChordName.chordsModalPF.set('0,3,7', 'min')
-    ChordName.chordsModalPF.set('0,3,6', 'dim')
+    PcsNaming.chordsModalPF.set('0,4,7', 'Maj')
+    PcsNaming.chordsModalPF.set('0,4,6', 'Maj ♭5')
+    PcsNaming.chordsModalPF.set('0,4,8', 'aug')
+    PcsNaming.chordsModalPF.set('0,4,9', 'Maj6')
+    PcsNaming.chordsModalPF.set('0,5,7', 'Maj sus4')
+    PcsNaming.chordsModalPF.set('0,2,7', 'Maj sus2')
+    PcsNaming.chordsModalPF.set('0,2,8', 'Maj ♯5 sus2')
+    PcsNaming.chordsModalPF.set('0,2,6', 'Maj ♭5 sus2')
+    PcsNaming.chordsModalPF.set('0,5,7', 'sus4')
+    PcsNaming.chordsModalPF.set('0,3,7', 'min')
+    PcsNaming.chordsModalPF.set('0,3,6', 'dim')
 
     // 4-chords
-    ChordName.chordsModalPF.set('0,4,7,10', '7') // seventh
-    ChordName.chordsModalPF.set('0,4,7,9', '6')
-    ChordName.chordsModalPF.set('0,4,7,11', 'M7') // Major 7
-    ChordName.chordsModalPF.set('0,4,8,10', '7 ♯5')
-    ChordName.chordsModalPF.set('0,4,6,10', '7 ♭5')
-    ChordName.chordsModalPF.set('0,5,7,10', '7 sus4') // seventh
-    ChordName.chordsModalPF.set('0,4,8,11', 'augM7')
-    ChordName.chordsModalPF.set('0,2,7,10', '7 sus2')
-    ChordName.chordsModalPF.set('0,2,6,10', '7 ♭5 sus2')
-    ChordName.chordsModalPF.set('0,2,8,10', '7 ♯5 sus2')
+    PcsNaming.chordsModalPF.set('0,4,7,10', '7') // seventh
+    PcsNaming.chordsModalPF.set('0,4,7,9', '6')
+    PcsNaming.chordsModalPF.set('0,4,7,11', 'M7') // Major 7
+    PcsNaming.chordsModalPF.set('0,4,8,10', '7 ♯5')
+    PcsNaming.chordsModalPF.set('0,4,6,10', '7 ♭5')
+    PcsNaming.chordsModalPF.set('0,5,7,10', '7 sus4') // seventh
+    PcsNaming.chordsModalPF.set('0,4,8,11', 'augM7')
+    PcsNaming.chordsModalPF.set('0,2,7,10', '7 sus2')
+    PcsNaming.chordsModalPF.set('0,2,6,10', '7 ♭5 sus2')
+    PcsNaming.chordsModalPF.set('0,2,8,10', '7 ♯5 sus2')
 
-    ChordName.chordsModalPF.set('0,3,7,10', 'min7')
-    ChordName.chordsModalPF.set('0,3,7,11', 'min M7')
-    ChordName.chordsModalPF.set('0,3,7,9', 'min6')
-    ChordName.chordsModalPF.set('0,3,6,10', 'ø')
-    ChordName.chordsModalPF.set('0,3,6,9', 'o')
-    ChordName.chordsModalPF.set('0,1,3,4,5,7,8,9,11', 'Tcherepnin Scale')
+    PcsNaming.chordsModalPF.set('0,3,7,10', 'min7')
+    PcsNaming.chordsModalPF.set('0,3,7,11', 'min M7')
+    PcsNaming.chordsModalPF.set('0,3,7,9', 'min6')
+    PcsNaming.chordsModalPF.set('0,3,6,10', 'ø')
+    PcsNaming.chordsModalPF.set('0,3,6,9', 'o')
+
+    // PcsNaming.chordsModalPF.set('0,1,3,4,5,7,8,9,11', 'Tcherepnin Scale')
 
   }
 
@@ -84,7 +99,7 @@ export class ChordName {
             // 3Chord
             let testKey = key + ',' + (j - pivot)
             if (nPitches == 3) {
-              if (ChordName.chordsModalPF.has(testKey)) {
+              if (PcsNaming.chordsModalPF.has(testKey)) {
                 res.push(testKey)
               }
             } else { // nPitches == 4
@@ -95,7 +110,7 @@ export class ChordName {
                 if (binPcs[k % n] == 1) {
                   // 4Chord
                   let testKey2 = testKey + ',' + ((k - pivot) % n)
-                  if (ChordName.chordsModalPF.has(testKey2)) {
+                  if (PcsNaming.chordsModalPF.has(testKey2)) {
                     res.push(testKey2)
                   }
                 }
@@ -115,13 +130,13 @@ export class ChordName {
             if (binPcs[(pivot + fifth) % n] == 1) {
               let testKey = key + ',' + fifth
               if (nPitches == 3) {
-                if (ChordName.chordsModalPF.has(testKey)) {
+                if (PcsNaming.chordsModalPF.has(testKey)) {
                   res.push(testKey)
                 }
               } else { // 4Chord
                 if (binPcs[(pivot + 10) % n] == 1) {
                   let testKey2 = testKey + ',10'
-                  if (ChordName.chordsModalPF.has(testKey2)) {
+                  if (PcsNaming.chordsModalPF.has(testKey2)) {
                     // 7 sus2 or 7 sus4
                     res.push(testKey2)
                   }
@@ -135,31 +150,29 @@ export class ChordName {
     if (nPitches == 3) {
       // chord name small in first
       res.sort((s1, s2) =>
-        ChordName.chordsModalPF.get(s1)!.length - ChordName.chordsModalPF.get(s2)!.length)
+        PcsNaming.chordsModalPF.get(s1)!.length - PcsNaming.chordsModalPF.get(s2)!.length)
     }
     return res
   }
 
   /**
-   * Get name of pcs (chord or scale)
-   *
+   * Get scale name of pcs (mode or scale - or chordName ?)
+   * if get immediately a name, return this name
+   * else if get a name after modulation, return as degree of that name
+   * else pass to previous degree
+   * if no more degree, return empty string
    * @param pcs
    */
   static getScaleName(pcs: IPcs): string {
     let cardinal = pcs.cardinal
     let name = ''
     for (let i = 0; i < cardinal ; i++) {
-      name = ChordName.scalesName.get(pcs.is().toString()) ?? ''
+      name = PcsNaming.scalesName.get(pcs.is().toString()) ?? ''
       if (name && i==0) return name
       if (name) return `degree ${i+1} of ${name}`
       pcs = pcs.modulation(IPcs.PREV_DEGREE)
     }
     return name
-
-    // return ChordName.scalesName.get(pcs.is().toString()) ?? ''
-
-    // const modalPFPcs = pcs.modalPrimeForm()
-    // return ChordName.chordsModalPF.get(modalPFPcs.getPcsStr(false)) ?? ''
   }
 
   /**
@@ -167,28 +180,28 @@ export class ChordName {
    * @param pcs
    */
   static getChordName(pcs: IPcs): string {
-    const chords3pitches = ChordName.getKeysChord(pcs, 3)
-    const chords4pitches = ChordName.getKeysChord(pcs, 4)
+    const chords3pitches = PcsNaming.getKeysChord(pcs, 3)
+    const chords4pitches = PcsNaming.getKeysChord(pcs, 4)
 
-    const _chordName: string = ChordName.chordsModalPF.get(chords4pitches[0])
-      ?? ChordName.chordsModalPF.get(chords3pitches[0])
+    const _chordName: string = PcsNaming.chordsModalPF.get(chords4pitches[0])
+      ?? PcsNaming.chordsModalPF.get(chords3pitches[0])
       ?? ''
 
     if (!_chordName) return ''
 
     let nameRoot = ''
     const indexNameRoot = pcs.iPivot != undefined ? pcs.templateMappingBinPcs[pcs!.iPivot] : -1
-    if (indexNameRoot in ChordName.INDEX_SHARP_FLAT) {
+    if (indexNameRoot in PcsNaming.INDEX_SHARP_FLAT) {
       // select # or b.
       // If pitch p exists in mapping, do not select p#, but flatted (p+1)
       if (pcs.templateMappingBinPcs.includes(indexNameRoot)) {
-        nameRoot = ChordName.NOTE_NAMES_FLAT[indexNameRoot]
+        nameRoot = PcsNaming.NOTE_NAMES_FLAT[indexNameRoot]
       } else {
-        nameRoot = ChordName.NOTE_NAMES_SHARP[indexNameRoot]
+        nameRoot = PcsNaming.NOTE_NAMES_SHARP[indexNameRoot]
       }
     } else if (indexNameRoot >= 0) {
       // no altered
-      nameRoot = ChordName.NOTE_NAMES_FLAT[indexNameRoot] // or NOTE_NAMES_SHARP what does it matter
+      nameRoot = PcsNaming.NOTE_NAMES_FLAT[indexNameRoot] // or NOTE_NAMES_SHARP what does it matter
     }
     // console.log('nameRoot = ' + nameRoot)
     // console.log('chordName = ' + _chordName)
@@ -197,5 +210,9 @@ export class ChordName {
       return nameRoot + ' ' + _chordName
     return `${nameRoot}${_chordName}`
   }
+
+
+
+
 }
 

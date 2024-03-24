@@ -391,46 +391,54 @@ describe('GroupAction', () => {
       0)
 
     expect(8448).toEqual(totalCardFixedPcs);
-    expect(groupMusaic.orbits.length).toEqual(totalCardFixedPcs / groupMusaic.operations.length);
 
-    // same as 88 = 8448 / 96
+    // expect that 88 = 8448 / 96
+    expect(groupMusaic.orbits.length).toEqual(totalCardFixedPcs / groupMusaic.operations.length);
+    // same
     expect(88).toEqual(totalCardFixedPcs / 96);
+
   })
 
-
-// TODO calcul nombre de modes (group cyclic sum cardinalMode of each PCS)
-  it('compute number of modes ', () => {
+  it('List of modes/scales ', () => {
     const groupCyclic = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
     let nbModes = 0
     for (const orbit of groupCyclic.orbits) {
       nbModes += orbit.getPcsMin().cardOrbitMode()
     }
-    // for (let pcs of groupCyclic.powerset.values()) {
-    //   nbModes += pcs.cardOrbitMode()
-    // }
-    // TODO add ref here for 24318 (some says 24576 but is not because Limited Transposition)
-    // expect(nbModes).toEqual(24318)
+
     expect(nbModes).toEqual(2048)
 
     // other algorithm
-    const isDict = new Map<string, string[]>
+    // key : Intervallic Structure
+    // value : array of string (IPcs)
+    const isDict = new Map<string, string>()
+    let dic = []
     for (let pcs of groupCyclic.powerset.values()) {
-      let cardinal = pcs.cardinal
-      for (let i = 0; i < cardinal; i++) {
+      if (pcs.is().toString())
         if (!isDict.has(pcs.is().toString())) {
-          isDict.set(pcs.is().toString(), [] )
+          isDict.set(pcs.is().toString(), pcs.getPcsStr())
         }
-        // @ts-ignore
-        isDict.get(pcs.is().toString()).push(pcs.getPcsStr())
-        pcs = pcs.modulation(IPcs.NEXT_DEGREE)
-      }
     }
 
-    // @ts-ignore
-    // console.log(isDict.get('2,2,2,1,2,2,1'))
     // expect(isDict.size).toEqual(24318)
-    expect(isDict.size).toEqual(2048)
+    expect(isDict.size).toEqual(2048) // +1 for empty pcs
 
+    // from 4096 no cyclic equiv : 24318 (some says 24576 but is not because Limited Transposition)
+
+    // console.log("======== 2048 gammes/modes")
+
+    let array =
+      Array.from(isDict, ([name, value]) => ({
+        is: name,
+        name: '',
+        pcs: value,
+        sources: [
+          {source: ""}
+         ]
+      }));
+    expect(array.length).toEqual(2048)
+    // console.log(JSON.stringify(array))
+    // console.log(JSON.stringify(array.length))
   })
 
 })

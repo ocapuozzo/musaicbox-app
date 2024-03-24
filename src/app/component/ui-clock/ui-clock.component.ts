@@ -7,9 +7,9 @@ import {
 } from "../modulation-translation-control/modulation-translation-control.component";
 import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
 import {ManagerPagePcsListService} from "../../service/manager-page-pcs-list.service";
-import {Analyse} from "../../utils/Analyse";
+import {AnalyseChord} from "../../utils/AnalyseChord";
 import {NgOptimizedImage} from "@angular/common";
-import {ChordName} from "../../core/ChordName";
+import {PcsNaming} from "../../core/PcsNaming";
 
 @Component({
   selector: 'app-ui-clock',
@@ -307,7 +307,7 @@ export class UiClockComponent {
   }
 
   threeChordList() {
-    const list3Chords = Analyse.getListChords(this.pcs, 3)
+    const list3Chords = AnalyseChord.getListChords(this.pcs, 3)
     for (const list3Chord of list3Chords) {
       for (let i = 0; i < list3Chord[1].length ; i++) {
         this.managerHomePcsListService.addPcs(list3Chord[0], list3Chord[1][i])
@@ -316,7 +316,7 @@ export class UiClockComponent {
   }
 
   fourChordList() {
-    const listSeventhChords = Analyse.getListChords(this.pcs, 4)
+    const listSeventhChords = AnalyseChord.getListChords(this.pcs, 4)
     for (const fourChord of listSeventhChords) {
       for (let i = 0; i < fourChord[1].length ; i++) {
         this.managerHomePcsListService.addPcs(fourChord[0], fourChord[1][i])
@@ -324,5 +324,6 @@ export class UiClockComponent {
     }
   }
 
-  protected readonly ChordName = ChordName;
+  protected readonly ChordName = PcsNaming;
+  protected readonly PcsNaming = PcsNaming;
 }
