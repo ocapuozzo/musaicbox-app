@@ -39,7 +39,6 @@ export class PcsAnalysisComponent {
   }
 
   fixedPcsList() {
-    // TODO this.pcs is not update when changed (ngModel ?)
     const stabilizers = this.pcs.orbit.stabilizers
     for (const stab of stabilizers) {
       for (let i = 0; i < stab.fixedPcs.length ; i++) {

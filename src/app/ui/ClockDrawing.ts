@@ -55,7 +55,7 @@ export class ClockDrawing {
     this.pc_color_fill = x.pc_color_fill ?? "yellow"
     this.pc_pivot_color = x.pc_pivot_color ?? "red"
     this.pc_color_stroke = x.pc_color_stroke ?? 'black'
-    this.drawPivot = x.drawPivot ?? true
+    this.drawPivot = x.drawPivot == undefined  ? true : x.drawPivot
     this.n = this.ipcs.nMapping
     this.pointsRegions = []
     this.pointsAxesSym = []

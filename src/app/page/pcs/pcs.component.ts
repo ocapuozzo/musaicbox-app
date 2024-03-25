@@ -37,7 +37,7 @@ export class PcsComponent {
       this.pcs = pcs
     })
 
-    this.managerHomePcsListService.updatePcsList.subscribe( (labeledListPcs : Map<string, IPcs[]>) => {
+    this.managerHomePcsListService.updatePcsListEvent.subscribe( (labeledListPcs : Map<string, IPcs[]>) => {
       this.labeledListPcs = labeledListPcs
     })
 

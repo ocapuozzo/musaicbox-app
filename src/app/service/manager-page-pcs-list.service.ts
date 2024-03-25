@@ -6,7 +6,7 @@ import {IPcs} from "../core/IPcs";
 })
 export class ManagerPagePcsListService {
 
-  @Output() updatePcsList = new EventEmitter<Map<string, IPcs[]>>();
+  @Output() updatePcsListEvent = new EventEmitter<Map<string, IPcs[]>>();
 
   labeledListPcs : Map<string, IPcs[]> = new Map<string, IPcs[]>()
 
@@ -21,8 +21,7 @@ export class ManagerPagePcsListService {
     } else {
       this.labeledListPcs.get(title)?.push(pcs)
     }
-    // this.arrayLabeledListPcs.push( {title:title, pcsList:[pcs]})
-    this.updatePcsList.emit(this.labeledListPcs)
+    this.updatePcsListEvent.emit(this.labeledListPcs)
   }
 
   removePcs(pcs: IPcs) {
@@ -33,7 +32,7 @@ export class ManagerPagePcsListService {
         if (pcsList.length == 0) {
           this.labeledListPcs.delete(title)
         }
-        this.updatePcsList.emit(this.labeledListPcs)
+        this.updatePcsListEvent.emit(this.labeledListPcs)
         break
       }
     }
@@ -41,6 +40,6 @@ export class ManagerPagePcsListService {
 
   clearList() {
     this.labeledListPcs.clear()
-    this.updatePcsList.emit(this.labeledListPcs)
+    this.updatePcsListEvent.emit(this.labeledListPcs)
   }
 }

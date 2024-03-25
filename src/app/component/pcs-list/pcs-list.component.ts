@@ -25,7 +25,7 @@ export class PcsListComponent {
     private managerHomePcsListService : ManagerPagePcsListService,
     private managerHomePcsService : ManagerPagePcsService) {
     this.labeledListPcs = this.managerHomePcsListService.labeledListPcs
-    this.managerHomePcsListService.updatePcsList.subscribe( (labeledListPcs : Map<string, IPcs[]>) => {
+    this.managerHomePcsListService.updatePcsListEvent.subscribe( (labeledListPcs : Map<string, IPcs[]>) => {
       this.labeledListPcs = labeledListPcs
     })
   }

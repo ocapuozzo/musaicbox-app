@@ -776,4 +776,18 @@ describe('IPcs unit tests', () => {
     expect(majAUG.isLimitedTransposition()).toBeTruthy()
   })
 
+  it("setPivot by change state of instance - not immuable", () => {
+    const maj = new IPcs({strPcs: '[0,4,7]'})
+    expect(maj.getPivot()).toEqual(0)
+    maj.setPivot(4)
+    expect(maj.getPivot()).toEqual(4)
+    try {
+      maj.setPivot(5)
+      fail("Do not accept a invalid pivot")
+    }catch (e:any) {
+      expect(e.message).toContain('Invalid Pivot')
+    }
+  })
+
+
 })

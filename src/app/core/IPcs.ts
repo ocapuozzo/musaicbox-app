@@ -1160,5 +1160,27 @@ export class IPcs {
     return this.cardOrbitMode() != this.cardinal;
   }
 
+  getPivot(): number | undefined {
+    return this.iPivot;
+  }
+
+  /**
+   * Change state of this instance by update this.iPivot
+   * @param newPivot
+   * @throws Error is newPivot is not valid
+   */
+  setPivot(newPivot:number):void {
+    if (newPivot < 0 || newPivot >= this.n) {
+      throw new Error(`Invalid Pivot ! ( ${newPivot} with n = ${this.n} )`)
+    }
+    if (this.abinPcs[newPivot] == 0) {
+      throw new Error(`Invalid Pivot ! ( ${newPivot} not in PCS ${this.getPcsStr()} )`)
+    }
+    if (this.iPivot !== newPivot) {
+      this.iPivot = newPivot
+    }
+  }
+
   // TODO arranger les opérations en inner et mapped et peut-être sortir des fonctions utilitaires pour binpcs ?
+
 }

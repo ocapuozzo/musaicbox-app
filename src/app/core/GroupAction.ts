@@ -325,15 +325,21 @@ export class GroupAction {
 
   /**
    * From free IPcs (with no orbit) get a represented IPcs held by a group action
-   * @param {IPcs} ipcs
+   * @param {IPcs} pcs
+   * @param withPivot return pcs with this.iPivot = withPivot, if withPivot != -1 (and valid)
    * @return {IPcs}
-   * @throws Error if not find pcs in this group action
+   * @throws Error if not find pcs in this group action or if withPivot is invalid
    */
-  getIPcsInOrbit(ipcs: IPcs): IPcs {
-    let iPcsInOrbit: IPcs | undefined = this.powerset.get(ipcs.id)
-    if (!iPcsInOrbit)
-      throw new Error("Invalid pcs (is not in this group action)  ??? : " + ipcs)
-    return iPcsInOrbit
+  getIPcsInOrbit(pcs: IPcs, withPivot = -1): IPcs {
+    let pcsInOrbit: IPcs | undefined = this.powerset.get(pcs.id)
+    if (!pcsInOrbit)
+      throw new Error("Invalid pcs (is not in this group action)  ??? : " + pcs)
+
+    if (withPivot != -1) {
+      // change state (be careful : side effect !!) - Error if invalid new pivot
+      pcsInOrbit.setPivot(withPivot)
+    }
+    return pcsInOrbit
   }
 
   // initialize some predefined Groups Actions
