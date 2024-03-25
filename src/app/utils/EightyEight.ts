@@ -17,4 +17,14 @@ export class EightyEight {
     throw new Error('Invalid PCS ! (' + pcs.toString() + ')')
   }
 
+  /**
+   * Get representative PCS (prime forme) of a musaic group orbit, from a pcs
+   * @param pcs
+   * @return {IPcs} instance
+   */
+  static getMusaic(pcs : IPcs) {
+    const group88 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC)
+    return group88.orbits[EightyEight.idNumberOf(pcs) -1].getPcsMin()
+  }
+
 }

@@ -1,8 +1,10 @@
 <div>
   <div class="row">
-    <div [hidden]="pcs.nMapping != 12" class="box"
+    <div [hidden]="pcs.nMapping != 12" class="box text-center"
          style="max-width:260px;">
-      <h5 class="text-center title-detail">Musaic n° {{EightyEight.idNumberOf(pcs)}}</h5>
+      <button mat-button color="primary" (click)="gotoMusaic()">
+        Musaic n° {{EightyEight.idNumberOf(pcs)}}
+      </button>
       <div class="inner-box">
         <app-ui-musaic style="width: 200px; height: 340px;"></app-ui-musaic>
       </div>

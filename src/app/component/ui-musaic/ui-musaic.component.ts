@@ -151,7 +151,7 @@ export class UiMusaicComponent {
     this.CEL_WIDTH = CEL_WIDTH;
   }
 
-  fromMatrixToIndexVector(e: any): number {
+  fromMatrixPointerToIndexVector(e: any): number {
 
     let rect = this.canvas.nativeElement.getBoundingClientRect();
     let x = e.clientX - rect.left;
@@ -171,7 +171,7 @@ export class UiMusaicComponent {
    */
   mouseMoveSetCursor(e: any) {
     if (this.canvas == undefined) return
-    let index = this.fromMatrixToIndexVector(e)
+    let index = this.fromMatrixPointerToIndexVector(e)
     const cursorPointer = this.pcs.templateMappingBinPcs.includes(index)
 
     // always repaint... even if style cursor not set...
@@ -187,7 +187,7 @@ export class UiMusaicComponent {
   }
 
   mouseup(e: any) {
-    let index = this.fromMatrixToIndexVector(e)
+    let index = this.fromMatrixPointerToIndexVector(e)
 
     // only select PCS in templateMappingBinPcs
     if (!this.pcs.templateMappingBinPcs.includes(index)) {
@@ -294,7 +294,6 @@ export class UiMusaicComponent {
     this.managerHomePcsService.transformeByMxT0(opTransf)
     this.drawsMusaic(this.optionDrawPitchIndex)
     this.enabledButtons();
-
   }
 
   protected readonly EightyEight = EightyEight;

@@ -41,7 +41,6 @@ export class PcsNaming {
 
     // and read it here to init
 
-
   }
 
   static {
@@ -55,6 +54,8 @@ export class PcsNaming {
     PcsNaming.chordsModalPF.set('0,2,8', 'Maj ♯5 sus2')
     PcsNaming.chordsModalPF.set('0,2,6', 'Maj ♭5 sus2')
     PcsNaming.chordsModalPF.set('0,5,7', 'sus4')
+    PcsNaming.chordsModalPF.set('0,3,8', 'min ♯5')
+
     PcsNaming.chordsModalPF.set('0,3,7', 'min')
     PcsNaming.chordsModalPF.set('0,3,6', 'dim')
 

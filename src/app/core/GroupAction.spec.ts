@@ -432,12 +432,13 @@ describe('GroupAction', () => {
         is: name,
         name: '',
         pcs: value,
+        id88: 0,
         sources: [
           {source: ""}
          ]
       }));
     expect(array.length).toEqual(2048)
-    // console.log(JSON.stringify(array))
+    console.log(JSON.stringify(array))
     // console.log(JSON.stringify(array.length))
   })
 

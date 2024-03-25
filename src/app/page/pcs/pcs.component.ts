@@ -8,6 +8,8 @@ import {PcsAnalysisComponent} from "../../component/pcs-analysis/pcs-analysis.co
 import {PcsListComponent} from "../../component/pcs-list/pcs-list.component";
 import {ManagerPagePcsListService} from "../../service/manager-page-pcs-list.service";
 import {EightyEight} from "../../utils/EightyEight";
+import {Router} from "@angular/router";
+import {MatButton} from "@angular/material/button";
 
 @Component({
   selector: 'app-pcs',
@@ -16,7 +18,8 @@ import {EightyEight} from "../../utils/EightyEight";
     UiClockComponent,
     UiMusaicComponent,
     PcsAnalysisComponent,
-    PcsListComponent
+    PcsListComponent,
+    MatButton
   ],
   templateUrl: './pcs.component.html',
   styleUrl: './pcs.component.css'
@@ -28,8 +31,9 @@ export class PcsComponent {
   protected readonly EightyEight = EightyEight;
 
   constructor(
-    private managerHomePcsService : ManagerPagePcsService,
-    private managerHomePcsListService : ManagerPagePcsListService) {
+    private readonly managerHomePcsService : ManagerPagePcsService,
+    private readonly managerHomePcsListService : ManagerPagePcsListService,
+    private readonly router: Router) {
     this.pcs = this.managerHomePcsService.pcs
     this.labeledListPcs = this.managerHomePcsListService.labeledListPcs
 
@@ -47,4 +51,7 @@ export class PcsComponent {
     // this.pcs = this.managerHomePcsService.pcs
   }
 
+  gotoMusaic() {
+    this.managerHomePcsService.replaceBy(EightyEight.getMusaic(this.pcs))
+  }
 }

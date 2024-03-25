@@ -1,5 +1,3 @@
-import scales2048 from "../../../analyse/2048scales.json";
-import {IScaleName} from "./IScaleName";
 import {Scales2048Name} from "./Scales2048Name";
 import {IPcs} from "./IPcs";
 
