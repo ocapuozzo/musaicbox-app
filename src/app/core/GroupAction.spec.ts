@@ -438,7 +438,7 @@ describe('GroupAction', () => {
          ]
       }));
     expect(array.length).toEqual(2048)
-    console.log(JSON.stringify(array))
+    // console.log(JSON.stringify(array))
     // console.log(JSON.stringify(array.length))
   })
 
