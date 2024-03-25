@@ -10,26 +10,48 @@ export class ManagerPcsService {
 
   transformeByMxT0(pcs: IPcs, a:number): IPcs {
     // if not isDetached() get newPcs resulting of group action
-    // It is a question of performance. If newPcs is always in memory, it is no
-    // point in keeping two equal instances in memory ?
-    // let newPcs = pcs.affineOp(a, 0)
-    // if (pcs.orbit?.groupAction) {
-    //   newPcs = pcs.orbit.groupAction.getIPcsInOrbit(newPcs)
-    // }
-    // in "primitive" core operation, orbit is ref shared
-    return pcs.affineOp(a, 0)
+    let newPcs = pcs.affineOp(a, 0)
+    if (pcs.orbit?.groupAction) {
+      newPcs = pcs.orbit.groupAction.getIPcsInOrbit(newPcs)
+    }
+
+    return newPcs
   }
 
   translateByM1Tx(pcs: IPcs, t:number): IPcs {
-    return pcs.translation(t)
+    let pcsTranslated = pcs.translation(t)
+    let newPcs = pcsTranslated
+    if (pcs.orbit?.groupAction) {
+      newPcs = pcs.orbit.groupAction.getIPcsInOrbit(pcsTranslated)
+      // set pivot from pivot obtained by translation
+      if (pcsTranslated.iPivot !== undefined) {
+        newPcs.setPivot(pcsTranslated.iPivot)
+      }
+    }
+
+    return newPcs
   }
 
   complement(pcs: IPcs): IPcs {
-    return pcs.complement()
+    let newPcs = pcs.complement()
+    if (pcs.orbit?.groupAction) {
+      newPcs = pcs.orbit.groupAction.getIPcsInOrbit(newPcs)
+    }
+    return newPcs
   }
 
+  /**
+   * Change state of pcs, by set a new pivot
+   * @param pcs
+   * @param direction
+   */
   modulation(pcs: IPcs, direction : number): IPcs {
-    return pcs.modulation(direction)
+    let newPcs = pcs.modulation(direction)
+    // set pivot from pivot obtained by translation
+    if (newPcs.iPivot !== undefined) {
+      pcs.setPivot(newPcs.iPivot)
+    }
+    return pcs
   }
 
   toggleInnerIndexOrSetIPivot(pcs: IPcs, index: number): IPcs {
@@ -59,7 +81,11 @@ export class ManagerPcsService {
   }
 
   toggleIndexFromMapped(pcs : IPcs, index: number): IPcs {
-    return pcs.toggleIndexPC(pcs.indexMappedToIndexInner(index))
+    let newPcs = pcs.toggleIndexPC(pcs.indexMappedToIndexInner(index))
+    if (pcs.orbit?.groupAction) {
+      newPcs = pcs.orbit.groupAction.getIPcsInOrbit(newPcs)
+    }
+    return newPcs
   }
 
 }
