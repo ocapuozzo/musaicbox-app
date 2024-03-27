@@ -101,7 +101,7 @@
 
     @if (!pcs.orbit.isDetached()) {
       <fieldset class="representation-border">
-        <legend class="representation-border">Pcs in orbit. Group name : {{pcs.orbit?.groupAction?.group?.name}} </legend>
+        <legend class="representation-border">Pcs in orbit. Group name : {{pcs.orbit!.groupAction!.group!.name}} </legend>
         <hr>
         <p>
           Orbit cardinal :
