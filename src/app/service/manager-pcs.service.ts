@@ -24,11 +24,11 @@ export class ManagerPcsService {
     if (pcs.orbit?.groupAction) {
       newPcs = pcs.orbit.groupAction.getIPcsInOrbit(pcsTranslated)
       // set pivot from pivot obtained by translation
-      if (pcsTranslated.iPivot !== undefined) {
+      // rem: pivot is not signifiant for pcs identity
+      if (pcsTranslated.iPivot !== undefined && newPcs.iPivot !== pcsTranslated.iPivot) {
         newPcs.setPivot(pcsTranslated.iPivot)
       }
     }
-
     return newPcs
   }
 
@@ -46,12 +46,8 @@ export class ManagerPcsService {
    * @param direction
    */
   modulation(pcs: IPcs, direction : number): IPcs {
-    let newPcs = pcs.modulation(direction)
-    // set pivot from pivot obtained by translation
-    if (newPcs.iPivot !== undefined) {
-      pcs.setPivot(newPcs.iPivot)
-    }
-    return pcs
+    // return new instance, even if same pcs (<> pivot) for reactive update ui by angular
+    return pcs.modulation(direction)
   }
 
   toggleInnerIndexOrSetIPivot(pcs: IPcs, index: number): IPcs {
@@ -82,10 +78,15 @@ export class ManagerPcsService {
 
   toggleIndexFromMapped(pcs : IPcs, index: number): IPcs {
     let newPcs = pcs.toggleIndexPC(pcs.indexMappedToIndexInner(index))
+    let savNewPcs = newPcs
     if (pcs.orbit?.groupAction) {
       newPcs = pcs.orbit.groupAction.getIPcsInOrbit(newPcs)
+      // set pivot from pivot obtained by translation
+      // rem: pivot is not signifiant for pcs identity
+      if (savNewPcs.iPivot !== undefined && newPcs.iPivot !== savNewPcs.iPivot) {
+        newPcs.setPivot(savNewPcs.iPivot)
+      }
     }
     return newPcs
   }
-
 }
