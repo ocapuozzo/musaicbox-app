@@ -2,7 +2,10 @@
   <div #containercanvas class="text-center">
 
     <!--    [ngClass]="pcs.n == 12 ? 'actionable' : 'no-actionable'"-->
-    <canvas #canvas id="canvas" style="border:1px solid black;"></canvas>
+    <canvas #canvas id="canvas"
+            [ngClass]="{'roundedImageBorder roundedImageShadow': !pcs.isDetached(), 'box-musaic': pcs.isDetached()}"
+
+            style="border:1px solid black;"></canvas>
   </div>
   <div [hidden]="pcs.n == 12" class="extra content text-center aligned">
     <p class="font-italic box-center">Mapping {{ pcs.n }} => {{ pcs.nMapping }}</p>
@@ -57,9 +60,15 @@
     <mat-checkbox
       [(ngModel)]="optionDrawPitchIndex"
       [color]="'primary'"
-      (change)="changeDrawPitchesIndex($event.checked)">
+      (change)="toggleDrawPitchesIndex($event.checked)">
       Show pitches index
     </mat-checkbox>
+
+    <div [hidden]="pcs.isDetached()" style="margin-top: 10px">
+      <button mat-raised-button
+        (click)="detachPcs()">
+        Detach this PCS
+      </button>
 <!--    <label class="form-check-label">Show draw pitches</label>-->
   </div>
 </div>

@@ -40,7 +40,7 @@ export class GroupExplorerComponent {
   preReactOrbits: Orbit[] = []
   waitingCompute = false
 
-  showOrbitBy = "" // for UI
+  criteriaEquiv = "" // for UI
   debug = false
 
 
@@ -130,7 +130,7 @@ export class GroupExplorerComponent {
       this.groupAction = local_group
       this.preReactOrbits = this.groupAction.orbits
       this.orbitsPartitions = []
-      this.showOrbitBy = ''
+      this.criteriaEquiv = ''
 
       this.saveConfig();
       this.nextTick()
@@ -153,13 +153,13 @@ export class GroupExplorerComponent {
         //this.fixedPcsInPrimeForms = this.groupAction.stabilizers.fixedPcsInPrimeForm()
         if (byCriteria === "MotifStabilizer") {
           this.orbitsPartitions = this.groupAction!.orbitsSortedByMotifStabilizers
-          this.showOrbitBy = "set of motifs stabilizer"
+          this.criteriaEquiv = "set of meta-stabilizer"
         } else if (byCriteria === "Stabilizer") {
           this.orbitsPartitions = this.groupAction!.orbitsSortedByStabilizers
-          this.showOrbitBy = "set of stabilizers"
+          this.criteriaEquiv = "set of stabilizers"
         } else if (byCriteria === "Cardinal") {
           this.orbitsPartitions = this.groupAction!.orbitsSortedByCardinal
-          this.showOrbitBy = "cardinal"
+          this.criteriaEquiv = "cardinal"
         }
         this.saveConfig();
         this.nextTick()

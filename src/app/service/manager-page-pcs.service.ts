@@ -1,6 +1,7 @@
 import {EventEmitter, Injectable, Output} from '@angular/core';
 import {IPcs} from "../core/IPcs";
 import {ManagerPcsService} from "./manager-pcs.service";
+import {Orbit} from "../core/Orbit";
 
 @Injectable({
   providedIn: 'root'
@@ -60,6 +61,13 @@ export class ManagerPagePcsService {
 
   replaceBy(newPcs: IPcs): void {
     this.pcs = newPcs
+    this.updatePcs.emit(this.pcs)
+  }
+
+  detachPcs() {
+    this.pcs = this.pcs.translation(0)
+    // set "empty" orbit
+    this.pcs.orbit = new Orbit()
     this.updatePcs.emit(this.pcs)
   }
 }

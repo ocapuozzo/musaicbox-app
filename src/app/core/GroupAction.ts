@@ -25,9 +25,13 @@ export class GroupAction {
   powerset: Map<number, IPcs>;
   orbits: Orbit[];
 
+
+
   private _orbitsSortedByStabilizers ?: ISortedOrbits[];
   private _orbitsSortedByMotifStabilizers ?: ISortedOrbits[];
   private _orbitsSortedByCardinal ?: ISortedOrbits[];
+
+
 
   private static _predefinedGroupsActions: Map<number, GroupAction[]>
 

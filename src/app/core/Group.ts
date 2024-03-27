@@ -25,12 +25,15 @@ export class Group {
 
   operations : MusaicPcsOperation[]
 
+  name: string
+
   /**
    * initialize instance by generate all operations from operations passed in parameter
    * @param {MusaicPcsOperation[]} someGeneratorMusaicPcsOperations
    */
   constructor(someGeneratorMusaicPcsOperations : MusaicPcsOperation[]) {
     this.operations = Group.buildOperationsGroupByCaylayTable(someGeneratorMusaicPcsOperations)
+    this.name = this.buildNameGroup()
   }
 
   static get predefinedGroups12() : Group[]{
@@ -155,4 +158,32 @@ export class Group {
     return this.operations.some(op => op.isComplemented() )
   }
 
+  /**
+   *  Group.CYCLIC name => n=12 [M1, T1]
+   *  Group.MUSAIC name => n=12 [M1, M5, M7, M11, Cplt, T1]
+   *
+   * @private
+   */
+  private buildNameGroup() {
+    const dico: Map<number, number> = new Map<number, number>()
+    for (const op of this.operations) {
+      if (dico.has(op.a)) {
+        // @ts-ignore
+        dico.set(op.a, dico.get(op.a) + op.t)
+      } else {
+        dico.set(op.a, op.t)
+      }
+    }
+    let opsM= ''
+    let opT = 0
+    for (const ops_a of dico.keys()) {
+      opsM += opsM ? ', M' + ops_a : 'M' + ops_a
+      opT += dico.get(ops_a) ?? 0
+    }
+    opsM += this.isComplemented() ? ', Cplt' : ''
+    opsM += opT>1 ? ', T1' : ', T0'
+
+    opsM = '[' + opsM + ']'
+    return `n=${this.operations[0].n} ${opsM}`
+  }
 }

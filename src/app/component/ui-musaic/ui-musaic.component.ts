@@ -5,6 +5,7 @@ import {NgClass} from "@angular/common";
 import {EightyEight} from "../../utils/EightyEight";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatCheckbox} from "@angular/material/checkbox";
+import {MatButton} from "@angular/material/button";
 
 // import {fromEvent} from "rxjs";
 
@@ -15,7 +16,8 @@ import {MatCheckbox} from "@angular/material/checkbox";
     NgClass,
     ReactiveFormsModule,
     FormsModule,
-    MatCheckbox
+    MatCheckbox,
+    MatButton
   ],
   templateUrl: './ui-musaic.component.html',
   styleUrl: './ui-musaic.component.css'
@@ -298,8 +300,12 @@ export class UiMusaicComponent {
 
   protected readonly EightyEight = EightyEight;
 
-  changeDrawPitchesIndex(checked : boolean) {
+  toggleDrawPitchesIndex(checked : boolean) {
     this.optionDrawPitchIndex = checked
     this.drawsMusaic(this.optionDrawPitchIndex)
+  }
+
+  detachPcs() {
+    this.managerHomePcsService.detachPcs()
   }
 }

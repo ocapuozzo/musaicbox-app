@@ -55,19 +55,19 @@
         <span class="analyse-pcs">{{ pcsMapped12.cardOrbitMode() }} <sub></sub></span>
       </p>
       <p>
-        #OrbitCyclic :
+        #OrbitCyclic (T1) :
         <span class="analyse-pcs">{{ pcsMapped12.cardOrbitCyclic() }}</span>
       </p>
       <p>
-        #OrbitDihedral :
+        #OrbitDihedral (M11, T1):
         <span class="analyse-pcs">{{ pcsMapped12.dihedralPrimeForm().orbit.cardinal }}</span>
       </p>
       <p>
-        #OrbitAffine :
+        #OrbitAffine (M5, M7, M11, T1):
         <span class="analyse-pcs">{{ pcsMapped12.affinePrimeForm().orbit.cardinal }}</span>
       </p>
       <p>
-        #OrbitMusaic :
+        #OrbitMusaic (M1, M5, M7, M11, Cplt, T1) :
         <span class="analyse-pcs">{{ pcsMapped12.musaicPrimeForm().orbit.cardinal }}</span>
       </p>
     </fieldset>
@@ -101,7 +101,7 @@
 
     @if (!pcs.orbit.isDetached()) {
       <fieldset class="representation-border">
-        <legend class="representation-border">pcs in orbit</legend>
+        <legend class="representation-border">Pcs in orbit. Group name : {{pcs.orbit?.groupAction?.group?.name}} </legend>
         <hr>
         <p>
           Orbit cardinal :
