@@ -56,7 +56,7 @@ export class UiClockComponent {
      private ngZone: NgZone,
      private renderer2: Renderer2)
   {
-    this.managerHomePcsService.updatePcs.subscribe((pcs: IPcs) => {
+    this.managerHomePcsService.updatePcsEvent.subscribe((pcs: IPcs) => {
       this.pcs = pcs
     })
     this.pcs = this.managerHomePcsService.pcs

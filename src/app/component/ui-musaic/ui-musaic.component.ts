@@ -68,7 +68,7 @@ export class UiMusaicComponent {
     });
 
     // send by manager-home-pcs.service
-    this.managerHomePcsService.updatePcs.subscribe((pcs: IPcs) => {
+    this.managerHomePcsService.updatePcsEvent.subscribe((pcs: IPcs) => {
       this.pcs = pcs
       this.drawsMusaic(this.optionDrawPitchIndex)
     })

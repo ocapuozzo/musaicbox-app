@@ -23,7 +23,7 @@ export class ManagerExplorerService implements IDataExplorerState{
   preReactOrbits: Orbit[]
   stabilizers : Stabilizer[]
 
-  @Output() saveExplorerConfig = new EventEmitter();
+  @Output() saveExplorerConfigEvent = new EventEmitter();
 
   constructor() {
   }
@@ -67,6 +67,6 @@ export class ManagerExplorerService implements IDataExplorerState{
 
   doSaveConfig() {
     // call group explorer component to save config
-    this.saveExplorerConfig.emit()
+    this.saveExplorerConfigEvent.emit()
   }
 }

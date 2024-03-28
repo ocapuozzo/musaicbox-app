@@ -49,7 +49,7 @@ export class GroupExplorerComponent {
   protected readonly Math = Math;
 
   constructor(private readonly managerExplorerService: ManagerExplorerService) {
-    this.managerExplorerService.saveExplorerConfig.subscribe( () => {
+    this.managerExplorerService.saveExplorerConfigEvent.subscribe( () => {
       this.saveConfig();
     })
   }

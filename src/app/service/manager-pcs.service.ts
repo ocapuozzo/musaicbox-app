@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {IPcs} from "../core/IPcs";
+import {Orbit} from "../core/Orbit";
 
 @Injectable({
   providedIn: 'root'
@@ -88,5 +89,13 @@ export class ManagerPcsService {
       }
     }
     return newPcs
+  }
+
+  doDetach(pcs: IPcs) : IPcs {
+    // translation of zero step (kind of clone)
+    let newPcs = pcs.translation(0)
+    // set "empty" orbit
+    newPcs.orbit = new Orbit()
+    return newPcs;
   }
 }

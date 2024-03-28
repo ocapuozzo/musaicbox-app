@@ -23,7 +23,7 @@ export class PcsAnalysisComponent {
   constructor(private readonly managerHomePcsListService: ManagerPagePcsListService,
               private readonly managerHomePcsService: ManagerPagePcsService) {
     // this.pcs = this.managerHomePcsService.pcs
-    this.managerHomePcsService.updatePcs.subscribe((pcs: IPcs) => {
+    this.managerHomePcsService.updatePcsEvent.subscribe((pcs: IPcs) => {
       this.pcs = pcs
       this.pcsMapped12 = this.pcs.n == 12 ? this.pcs : new IPcs({binPcs:this.pcs.getMappedBinPcs()})
       // if (this.pcs.orbit.stabilizers) {
