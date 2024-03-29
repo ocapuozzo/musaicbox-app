@@ -13,43 +13,46 @@ export class ManagerPagePcsService {
 
   pcs: IPcs = new IPcs({strPcs:'0,2,4,5,7,9,11'})
 
-  historyPcs = new HistoryPcs()
+  historyPcs : HistoryPcs
 
-  constructor(private readonly managerPcsService: ManagerPcsService) { }
+  constructor(private readonly managerPcsService: ManagerPcsService) {
+    this.historyPcs = new HistoryPcs()
+    this.historyPcs.pushInPast(this.pcs)
+  }
 
   transformeByMxT0(x:number) {
-    this.historyPcs.pushInPast(this.pcs)
     this.pcs = this.managerPcsService.transformeByMxT0(this.pcs, x)
+    this.historyPcs.pushInPast(this.pcs)
     this.updatePcsEvent.emit(this.pcs)
   }
 
   translateByM1Tx(x:number) {
-    this.historyPcs.pushInPast(this.pcs)
     this.pcs = this.managerPcsService.translateByM1Tx(this.pcs, x)
+    this.historyPcs.pushInPast(this.pcs)
     this.updatePcsEvent.emit(this.pcs)
   }
 
   complement() {
-    this.historyPcs.pushInPast(this.pcs)
     this.pcs = this.managerPcsService.complement(this.pcs)
+    this.historyPcs.pushInPast(this.pcs)
     this.updatePcsEvent.emit(this.pcs)
   }
 
   modulation(direction : number) {
-    this.historyPcs.pushInPast(this.pcs)
     this.pcs = this.managerPcsService.modulation(this.pcs, direction)
+    this.historyPcs.pushInPast(this.pcs)
     this.updatePcsEvent.emit(this.pcs)
   }
 
   toggleIndexOrSetIPivot(index: number) {
-    this.historyPcs.pushInPast(this.pcs)
     this.pcs = this.managerPcsService.toggleInnerIndexOrSetIPivot(this.pcs, index)
+    this.historyPcs.pushInPast(this.pcs)
     this.updatePcsEvent.emit(this.pcs)
   }
 
   toggleIndex(index: number) {
-    this.historyPcs.pushInPast(this.pcs)
     this.pcs = this.managerPcsService.toggleIndexFromMapped(this.pcs, index)
+    this.historyPcs.pushInPast(this.pcs)
     this.updatePcsEvent.emit(this.pcs)
   }
 
@@ -58,32 +61,32 @@ export class ManagerPagePcsService {
   }
 
   autoMap() {
-    this.historyPcs.pushInPast(this.pcs)
     this.pcs = this.pcs.autoMap()
+    this.historyPcs.pushInPast(this.pcs)
     this.updatePcsEvent.emit(this.pcs)
   }
 
   unMap() {
-    this.historyPcs.pushInPast(this.pcs)
     this.pcs = this.pcs.unMap()
+    this.historyPcs.pushInPast(this.pcs)
     this.updatePcsEvent.emit(this.pcs)
   }
 
   replaceBy(newPcs: IPcs): void {
-    this.historyPcs.pushInPast(this.pcs)
     this.pcs = newPcs
+    this.historyPcs.pushInPast(this.pcs)
     this.updatePcsEvent.emit(this.pcs)
   }
 
   detachPcs() {
-    this.historyPcs.pushInPast(this.pcs)
     this.pcs = this.managerPcsService.doDetach(this.pcs)
+    this.historyPcs.pushInPast(this.pcs)
     this.updatePcsEvent.emit(this.pcs)
   }
 
   unDoPcs() {
     // save also actual pcs (parameter to unDoToPresent)
-    let pcs = this.historyPcs.unDoToPresent(this.pcs)
+    let pcs = this.historyPcs.unDoToPresent()
     if (pcs != undefined) {
       this.pcs = pcs
       this.updatePcsEvent.emit(this.pcs)
