@@ -101,4 +101,13 @@ export class ManagerPagePcsService {
     }
   }
 
+  canUndo() : boolean {
+    return this.historyPcs.canUndo()
+  }
+
+  canRedo() : boolean {
+    return this.historyPcs.canRedo()
+  }
+
+
 }

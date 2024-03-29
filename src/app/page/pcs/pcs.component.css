@@ -91,3 +91,15 @@ legend.representation-border {
 .actionable {
   cursor: pointer;
 }
+
+.space-right {
+  margin-right: 30px;
+}
+
+.space-left {
+  margin-left: 30px;
+}
+
+.text-small {
+  font-size: smaller;
+}

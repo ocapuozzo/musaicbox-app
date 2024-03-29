@@ -11,7 +11,15 @@
     </div>
     <div class="box"
          style="max-width:280px; min-width:280px;" >
-      <h5 class="text-center title-detail">iPCS</h5>
+      <h5 class="text-center title-detail">
+       <button mat-button [disabled]="!canUndo" (click)="doUnDo()" style="cursor: pointer" class="space-right text-small">
+       <mat-icon>undo</mat-icon> Undo
+    </button>
+        iPCS
+        <button  mat-button [disabled]="!canRedo" (click)="doReDo()" style="cursor: pointer" class="space-left text-small">
+              <mat-icon>redo</mat-icon> Redo
+    </button>
+      </h5>
       <div class="inner-box">
             <app-ui-clock  class="is-clock"></app-ui-clock>
       </div>

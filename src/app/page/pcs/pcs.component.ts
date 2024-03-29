@@ -10,6 +10,7 @@ import {ManagerPagePcsListService} from "../../service/manager-page-pcs-list.ser
 import {EightyEight} from "../../utils/EightyEight";
 import {Router} from "@angular/router";
 import {MatButton} from "@angular/material/button";
+import {MatIcon} from "@angular/material/icon";
 
 @Component({
   selector: 'app-pcs',
@@ -19,7 +20,8 @@ import {MatButton} from "@angular/material/button";
     UiMusaicComponent,
     PcsAnalysisComponent,
     PcsListComponent,
-    MatButton
+    MatButton,
+    MatIcon
   ],
   templateUrl: './pcs.component.html',
   styleUrl: './pcs.component.css'
@@ -35,26 +37,26 @@ export class PcsComponent {
   keyEvent(event: KeyboardEvent) {
     if((event.ctrlKey || event.metaKey) && event.key == "z") {
       // console.log('CTRL + Z');
-      this.managerHomePcsService.unDoPcs()
+      this.doUnDo()
     }
     if((event.ctrlKey || event.metaKey) && event.key == "y") {
       // console.log('CTRL + Y');
-      this.managerHomePcsService.reDoPcs()
+      this.doReDo()
     }
   }
 
   constructor(
-    private readonly managerHomePcsService : ManagerPagePcsService,
-    private readonly managerHomePcsListService : ManagerPagePcsListService,
+    private readonly managerPagePcsService : ManagerPagePcsService,
+    private readonly managerPagePcsListService : ManagerPagePcsListService,
     private readonly router: Router) {
-    this.pcs = this.managerHomePcsService.pcs
-    this.labeledListPcs = this.managerHomePcsListService.labeledListPcs
+    this.pcs = this.managerPagePcsService.pcs
+    this.labeledListPcs = this.managerPagePcsListService.labeledListPcs
 
-    this.managerHomePcsService.updatePcsEvent.subscribe( (pcs: IPcs) => {
+    this.managerPagePcsService.updatePcsEvent.subscribe( (pcs: IPcs) => {
       this.pcs = pcs
     })
 
-    this.managerHomePcsListService.updatePcsListEvent.subscribe( (labeledListPcs : Map<string, IPcs[]>) => {
+    this.managerPagePcsListService.updatePcsListEvent.subscribe( (labeledListPcs : Map<string, IPcs[]>) => {
       this.labeledListPcs = labeledListPcs
     })
 
@@ -62,10 +64,27 @@ export class PcsComponent {
   }
 
   ngAfterViewInit() {
-    // this.pcs = this.managerHomePcsService.pcs
+    // this.pcs = this.managerPagePcsService.pcs
   }
 
   gotoMusaic() {
-    this.managerHomePcsService.replaceBy(EightyEight.getMusaic(this.pcs))
+    this.managerPagePcsService.replaceBy(EightyEight.getMusaic(this.pcs))
   }
+
+  doUnDo() {
+    this.managerPagePcsService.unDoPcs()
+  }
+
+  doReDo() {
+    this.managerPagePcsService.reDoPcs()
+  }
+
+  get canUndo() : boolean
+  { return this.managerPagePcsService.canUndo()}
+
+
+  get canRedo() : boolean {
+    return this.managerPagePcsService.canRedo()
+  }
+
 }

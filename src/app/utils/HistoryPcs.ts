@@ -3,6 +3,7 @@ import {IPcs} from "../core/IPcs";
 export class HistoryPcs {
   history: IPcs[] = []
   currentIndexPast = -1
+  debug = false
 
   constructor() {
   }
@@ -17,7 +18,7 @@ export class HistoryPcs {
     // ref to it
     this.currentIndexPast = this.history.length - 1
 
-    // this.printStateOnConsole();
+    if (this.debug) this.printStateOnConsole();
   }
 
   unDoToPresent(): IPcs | undefined {
@@ -25,7 +26,7 @@ export class HistoryPcs {
       --this.currentIndexPast
     }
 
-    // this.printStateOnConsole();
+    if (this.debug) this.printStateOnConsole();
 
     if (this.currentIndexPast >= 0) {
       return this.history[this.currentIndexPast]
@@ -37,12 +38,23 @@ export class HistoryPcs {
     if (this.currentIndexPast < this.history.length - 1) {
       ++this.currentIndexPast
     }
-    this.printStateOnConsole()
+    if (this.debug) this.printStateOnConsole();
+
     return this.history[this.currentIndexPast]
   }
+
+  canUndo() : boolean {
+    return this.currentIndexPast > 0
+  }
+
+  canRedo() : boolean {
+    return this.currentIndexPast < this.history.length - 1
+  }
+
 
   private printStateOnConsole() {
     console.log("this.history = " + this.history)
     console.log("this.currentIndexPast = " + this.currentIndexPast)
   }
+
 }
