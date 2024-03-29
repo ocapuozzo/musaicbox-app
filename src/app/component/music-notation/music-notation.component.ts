@@ -76,6 +76,13 @@ constructor() {
             note = "_" + MusicNotationComponent.lettersNotation[(i + 1) % n]
           }
         }
+        // case third if #D and not E, then bE
+        if ( note == '^D') {
+          if (this.pcs.getMappedBinPcs()[4] === 0) {
+            note = '_E'
+          }
+        }
+
         // TODO make pitches always up iPivot pitch
         // http://abcnotation.com/blog/2010/01/31/how-to-understand-abc-the-basics/
         if ((i % n) < (this.pcs.iPivot ?? 0)) {
