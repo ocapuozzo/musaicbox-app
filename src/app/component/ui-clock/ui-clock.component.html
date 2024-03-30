@@ -5,8 +5,11 @@
 
     @if ([3, 4].includes(pcs.cardinal)) {
       <p class="chord-name">{{ pcs.getChordName() }}</p>
-    } @else if (PcsNaming.getScaleName(pcs)){
-      <p class="chord-name">{{ PcsNaming.getScaleName(pcs) }}</p>
+    } @else if (Scales2048Name.getScaleName(pcs)){
+      <p  class="chord-name"
+          matTooltip= "{{ Scales2048Name.getScaleName(pcs) //all names }}">
+        {{ Scales2048Name.getScaleName(pcs).split(",")[0] }}
+      </p>
     }
   </div>
   <div class="score-center">

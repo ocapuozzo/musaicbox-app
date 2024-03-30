@@ -36,6 +36,7 @@ export class PcsNaming {
     PcsNaming.scalesName.set("2,2,1,2,2,1,1,1", 'Bebop dominant scale') // 0,2,4,5,7,9,10,11
 
 
+
     // TODO make a file from  https://en.wikipedia.org/wiki/List_of_musical_scales_and_modes
     // https://fretboardknowledge.com/guitar/kb/allan-holdsworths-10-most-usable-scales/
 

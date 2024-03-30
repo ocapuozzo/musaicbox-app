@@ -4,9 +4,9 @@ import {IPcs} from "./IPcs";
 describe('test getScaleName from 2048pcs.json', () => {
 
   it("Test name Major Triad", () => {
-    const scales2048 = new Scales2048Name()
+    // const scales2048 = new Scales2048Name()
     const pcsMajTriad = new IPcs({strPcs:"0,4,7"})
-    expect(scales2048.getScaleName(pcsMajTriad).name).toEqual('Major Triad')
+    expect(Scales2048Name.getScaleName(pcsMajTriad)).toEqual('Major Triad')
   })
 
 })

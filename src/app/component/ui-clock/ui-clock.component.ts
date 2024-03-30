@@ -10,6 +10,8 @@ import {ManagerPagePcsListService} from "../../service/manager-page-pcs-list.ser
 import {AnalyseChord} from "../../utils/AnalyseChord";
 import {NgOptimizedImage} from "@angular/common";
 import {PcsNaming} from "../../core/PcsNaming";
+import {Scales2048Name} from "../../core/Scales2048Name";
+import {MatTooltip} from "@angular/material/tooltip";
 
 @Component({
   selector: 'app-ui-clock',
@@ -17,7 +19,8 @@ import {PcsNaming} from "../../core/PcsNaming";
   imports: [
     MusicNotationComponent,
     ModulationTranslationControlComponent,
-    NgOptimizedImage
+    NgOptimizedImage,
+    MatTooltip
   ],
   templateUrl: './ui-clock.component.html',
   styleUrl: './ui-clock.component.css'
@@ -326,4 +329,5 @@ export class UiClockComponent {
 
   protected readonly ChordName = PcsNaming;
   protected readonly PcsNaming = PcsNaming;
+  protected readonly Scales2048Name = Scales2048Name;
 }

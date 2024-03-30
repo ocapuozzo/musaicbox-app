@@ -51,7 +51,6 @@ export class HistoryPcs {
     return this.currentIndexPast < this.history.length - 1
   }
 
-
   private printStateOnConsole() {
     console.log("this.history = " + this.history)
     console.log("this.currentIndexPast = " + this.currentIndexPast)
