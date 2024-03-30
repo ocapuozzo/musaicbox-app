@@ -133,9 +133,9 @@ export class MusaicPcsOperation {
    * action on a IPcs is define by
    * <pre>
    *   is this action is complemented
-   *     return complement(affineOperation(pcs))
+   *     return complement(affineOperation(pcsList))
    *   else
-   *     return affineOperation(pcs)
+   *     return affineOperation(pcsList)
    * </pre>
    * @param ipcs IPcs
    * @return a new IPcs

@@ -65,7 +65,7 @@ export class Group {
    */
   buildOrbitOf(ipcs: IPcs){
      if (ipcs.n !== this.operations[0].n) {
-       throw new Error("buildOrbitOf on pcs which bad n:" + ipcs)
+       throw new Error("buildOrbitOf on pcsList which bad n:" + ipcs)
      }
      let pcsCopy = new IPcs({pidVal : ipcs.id})
      this.operations.forEach(op => pcsCopy.addInOrbit(op.actionOn(pcsCopy)))

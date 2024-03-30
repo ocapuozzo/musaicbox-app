@@ -12,18 +12,22 @@ describe('History', () => {
      h.pushInPast(pcsPF)
      const pcsOther = maj.affineOp(7,1)
 
-     expect(h.unDoToPresent(pcsOther)?.id).toEqual(pcsPF.id)
-     expect(h.reDoToPresent()?.id).toEqual(pcsOther.id)
-     expect(h.unDoToPresent(pcsOther)?.id).toEqual(pcsPF.id)
-     let pcs = h.unDoToPresent(pcsPF)
-     pcs = h.unDoToPresent(pcs!)
+     expect(h.unDoToPresent()?.id).toEqual(maj.translation(1).id)
+     expect(h.reDoToPresent()?.id).toEqual(pcsPF.id)
+     expect(h.unDoToPresent()?.id).toEqual(maj.translation(1).id)
+     let pcs = h.unDoToPresent()
+     pcs = h.unDoToPresent()
      expect(pcs?.id).toEqual(maj.id)
-     pcs = h.unDoToPresent(pcs!)
-     expect(pcs).not.toBeTruthy() // undefined
 
-     h.pushInPast(pcsPF)
-     // console.log(h.history.length) // 1
-     // console.log(h.currentIndexPast) // 0
+     pcs = h.unDoToPresent()
+     expect(pcs?.id).toEqual(maj.id)
+      // stay on first !!
+     pcs = h.unDoToPresent()
+     expect(pcs?.id).toEqual(maj.id)
+
+     pcs = h.reDoToPresent()
+     expect(pcs?.id).toEqual(maj.translation(1).id)
+
   })
 
  })

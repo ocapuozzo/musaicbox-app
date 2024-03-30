@@ -211,7 +211,7 @@ describe('Stabilizer', () => {
     let sumPcs = 0;
     group.orbits.forEach(orbit => sumPcs += orbit.ipcsset.length)
 
-    let mapPcs = new Map() // k : id, v : [] of pcs
+    let mapPcs = new Map() // k : id, v : [] of pcsList
     group.orbits.forEach((orbit) => {
       orbit.ipcsset.forEach((p) => {
         if (!mapPcs.has(p.id)) {
@@ -245,7 +245,7 @@ describe('Stabilizer', () => {
 
     shortNames = []
     group.orbitsSortedByStabilizers.forEach(stab => shortNames.push(stab.groupingCriterion))
-    // neutral op and detached and full IPcs (2 pcs) transposables 7 times in same state by step 1
+    // neutral op and detached and full IPcs (2 pcsList) transposables 7 times in same state by step 1
     expect(shortNames).toEqual(["M1-T0", "M1-T0~1*"])
   })
 

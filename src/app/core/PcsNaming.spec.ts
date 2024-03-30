@@ -17,7 +17,7 @@ describe('IPcs unit tests', () => {
     expect(pcs.getChordName()).toEqual('CM7')
 
     pcs = new IPcs({strPcs: '{0,3,7}'})
-    // console.log(pcs.cyclicPrimeForm().getMappedPcsStr())
+    // console.log(pcsList.cyclicPrimeForm().getMappedPcsStr())
     expect(pcs.getChordName()).toEqual('Cmin')
 
     pcs = new IPcs({strPcs: '[11,2,5]' /*, iPivot:11*/})

@@ -23,7 +23,7 @@ export class HistoryPcs {
 
   unDoToPresent(): IPcs | undefined {
     if (this.currentIndexPast > 0) {
-      --this.currentIndexPast
+      this.currentIndexPast = this.currentIndexPast - 1
     }
 
     if (this.debug) this.printStateOnConsole();

@@ -4,6 +4,7 @@ import {ClockComponent} from "../clock/clock.component";
 import {ManagerPagePcsListService} from "../../service/manager-page-pcs-list.service";
 import {MusicNotationComponent} from "../music-notation/music-notation.component";
 import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
+import {IElementListPcs} from "../../service/IElementListPcs";
 
 @Component({
   selector: 'app-pcs-list',
@@ -17,7 +18,7 @@ import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
 })
 export class PcsListComponent {
 
-  labeledListPcs : Map<string, IPcs[]> = new Map<string, IPcs[]>()
+  labeledListPcs = new Map<string, IElementListPcs>()
 
   @Input() withMusicalNotation: boolean = true;
 
@@ -25,13 +26,14 @@ export class PcsListComponent {
     private managerHomePcsListService : ManagerPagePcsListService,
     private managerHomePcsService : ManagerPagePcsService) {
     this.labeledListPcs = this.managerHomePcsListService.labeledListPcs
-    this.managerHomePcsListService.updatePcsListEvent.subscribe( (labeledListPcs : Map<string, IPcs[]>) => {
-      this.labeledListPcs = labeledListPcs
+    this.managerHomePcsListService.updatePcsListEvent
+      .subscribe((labeledListPcs : Map<string, IElementListPcs>) => {
+         this.labeledListPcs = labeledListPcs
     })
   }
 
   doRemoveFromList(pcs: IPcs) {
-    // console.log("doRemoveFromList :" + pcs.toString())
+    // console.log("doRemoveFromList :" + pcsList.toString())
     this.managerHomePcsListService.removePcs(pcs)
   }
 
@@ -39,7 +41,7 @@ export class PcsListComponent {
     this.managerHomePcsListService.clearList()
   }
 
-  doSelectFromList(pcs: IPcs) {
+  doPushPcsFromList(pcs: IPcs) {
     this.managerHomePcsService.replaceBy(pcs)
   }
 }

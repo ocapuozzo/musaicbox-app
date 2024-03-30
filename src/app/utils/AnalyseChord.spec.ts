@@ -43,7 +43,7 @@ describe('AnalyseChord chords list', () => {
 
     expect(fourChords.size).toEqual(7)
     expect(fourChords.get('I')?.length).toEqual(2)
-    expect(fourChords.get('VII')?.length).toEqual(1)
+    expect(fourChords.get('VII')?.length).toEqual(2)
   })
 
   it("getList4Chords other scale", () => {
@@ -56,7 +56,7 @@ describe('AnalyseChord chords list', () => {
 
     expect(fourChords.size).toEqual(7)
     expect(fourChords.get('I')?.length).toEqual(2)
-    expect(fourChords.get('III')?.length).toEqual(3)
+    expect(fourChords.get('III')?.length).toEqual(4)
     expect(fourChords.get('VII')?.length).toEqual(1)
   })
 

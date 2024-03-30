@@ -130,7 +130,7 @@ describe('Orbit', () => {
   })
 
 
-  it("pcs only in one stabilizer in this orbit", () => {
+  it("pcsList only in one stabilizer in this orbit", () => {
     let group = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
 
     group.orbits.forEach((orbit) => {

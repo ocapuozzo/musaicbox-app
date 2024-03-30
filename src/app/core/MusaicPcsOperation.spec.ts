@@ -123,7 +123,7 @@ describe('MusaicPcsOperation', () => {
     expect(op.toString()).toEqual('M1-T2')
     expect(op.getFixedPcs().length).toEqual(4)
 
-    // fixed pcs :
+    // fixed pcsList :
     // '[]'
     // '[0,2,4,6,8,10]'
     // '[1,3,5,7,9,11]'

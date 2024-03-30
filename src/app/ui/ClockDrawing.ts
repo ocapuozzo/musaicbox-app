@@ -74,7 +74,7 @@ export class ClockDrawing {
   draw(ipcs?: IPcs) {
     if (!this.ctx) return
     if (ipcs) this.ipcs = ipcs
-    // console.log("pcs :" + this.pcs)
+    // console.log("pcsList :" + this.pcsList)
     let ox = this.width / 2;
     let oy = this.height / 2;
     let radius = Math.round(ox * .8);

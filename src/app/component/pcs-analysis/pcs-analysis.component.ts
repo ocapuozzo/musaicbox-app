@@ -7,6 +7,7 @@ import {Group} from "../../core/Group";
 import {MatButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {IScaleName} from "../../core/IScaleName";
+import {PcsListComponent} from "../pcs-list/pcs-list.component";
 
 @Component({
   selector: 'app-pcs-analysis',
@@ -34,13 +35,13 @@ export class PcsAnalysisComponent {
 
   constructor(private readonly managerHomePcsListService: ManagerPagePcsListService,
               private readonly managerHomePcsService: ManagerPagePcsService) {
-    // this.pcs = this.managerHomePcsService.pcs
+    // this.pcsList = this.managerHomePcsService.pcsList
     this.managerHomePcsService.updatePcsEvent.subscribe((pcs: IPcs) => {
       this.pcs = pcs
       this.pcsMapped12 = this.pcs.n == 12 ? this.pcs : new IPcs({binPcs:this.pcs.getMappedBinPcs()})
-      // if (this.pcs.orbit.stabilizers) {
-      //   console.log("this.pcs.orbit.stabilizers.length = " + this.pcs.orbit.stabilizers.length)
-      //   console.log("this.pcs.orbit.name = " + this.pcs.orbit.name)
+      // if (this.pcsList.orbit.stabilizers) {
+      //   console.log("this.pcsList.orbit.stabilizers.length = " + this.pcsList.orbit.stabilizers.length)
+      //   console.log("this.pcsList.orbit.name = " + this.pcsList.orbit.name)
       // }
     })
   }
@@ -81,7 +82,7 @@ export class PcsAnalysisComponent {
   doPushModesOf(pcs: IPcs) {
     let cardinal = pcs.cardinal
     for (let degree = 0; degree < cardinal ; degree++) {
-      this.managerHomePcsListService.addPcs(PcsAnalysisComponent.ROMAIN[degree], pcs)
+      this.managerHomePcsListService.addPcs(PcsAnalysisComponent.ROMAIN[degree], pcs, true)
       pcs = pcs.modulation(IPcs.NEXT_DEGREE)
     }
   }

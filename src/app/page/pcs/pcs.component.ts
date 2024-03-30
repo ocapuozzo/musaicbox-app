@@ -5,23 +5,25 @@ import {UiMusaicComponent} from "../../component/ui-musaic/ui-musaic.component";
 import {IPcs} from "../../core/IPcs";
 import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
 import {PcsAnalysisComponent} from "../../component/pcs-analysis/pcs-analysis.component";
-import {PcsListComponent} from "../../component/pcs-list/pcs-list.component";
 import {ManagerPagePcsListService} from "../../service/manager-page-pcs-list.service";
 import {EightyEight} from "../../utils/EightyEight";
 import {Router} from "@angular/router";
 import {MatButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
+import {IElementListPcs} from "../../service/IElementListPcs";
+import {PcsListComponent} from "../../component/pcs-list/pcs-list.component";
+
 
 @Component({
-  selector: 'app-pcs',
+  selector: 'app-page-pcs',
   standalone: true,
   imports: [
     UiClockComponent,
     UiMusaicComponent,
     PcsAnalysisComponent,
-    PcsListComponent,
     MatButton,
-    MatIcon
+    MatIcon,
+    PcsListComponent
   ],
   templateUrl: './pcs.component.html',
   styleUrl: './pcs.component.css'
@@ -30,7 +32,7 @@ import {MatIcon} from "@angular/material/icon";
 export class PcsComponent {
 
   pcs: IPcs = new IPcs({strPcs:"0,1,2,3"})
-  labeledListPcs : Map<string, IPcs[]> = new Map<string, IPcs[]>()
+  labeledListPcs = new Map<string, IElementListPcs>()
   protected readonly EightyEight = EightyEight;
 
   @HostListener('window:keyup', ['$event'])
@@ -56,7 +58,7 @@ export class PcsComponent {
       this.pcs = pcs
     })
 
-    this.managerPagePcsListService.updatePcsListEvent.subscribe( (labeledListPcs : Map<string, IPcs[]>) => {
+    this.managerPagePcsListService.updatePcsListEvent.subscribe( (labeledListPcs : Map<string, IElementListPcs>) => {
       this.labeledListPcs = labeledListPcs
     })
 
@@ -64,7 +66,7 @@ export class PcsComponent {
   }
 
   ngAfterViewInit() {
-    // this.pcs = this.managerPagePcsService.pcs
+    // this.pcsList = this.managerPagePcsService.pcsList
   }
 
   gotoMusaic() {

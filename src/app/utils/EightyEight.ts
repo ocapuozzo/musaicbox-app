@@ -18,7 +18,7 @@ export class EightyEight {
   }
 
   /**
-   * Get representative PCS (prime forme) of a musaic group orbit, from a pcs
+   * Get representative PCS (prime forme) of a musaic group orbit, from a pcsList
    * @param pcs
    * @return {IPcs} instance
    */

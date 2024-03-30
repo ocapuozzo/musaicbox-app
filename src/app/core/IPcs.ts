@@ -28,7 +28,7 @@
  *      strPcs: "[0, 2, 4]", // first 3-chord (C E G)
  *      n: 7,
  *      nMapping: 12,
- *      templateMappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // pcs mapped into [0,4,7]
+ *      templateMappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // pcsList mapped into [0,4,7]
  *    })
  *    expect(pcsDiatMajMapped.getMappedPcsStr()).toEqual('[0,4,7]')
  *    expect(pcsDiatMajMapped.is()).toEqual([4,3,5]);
@@ -71,7 +71,7 @@ export class IPcs {
 
 
   /**
-   * inner binary representation of pcs (this.abinPcs.length == this.n)
+   * inner binary representation of pcsList (this.abinPcs.length == this.n)
    */
   readonly abinPcs: number[];
 
@@ -137,7 +137,7 @@ export class IPcs {
     // already defined by GroupAction constructor, so no need to search in this.orbit
     // for (let i = 0; i < this.orbit.stabilizers.length; i++) {
     //   let stab: Stabilizer = this.orbit.stabilizers[i]
-    //   if (stab.fixedPcs.some(pcs => pcs.id == this.id)) {
+    //   if (stab.fixedPcs.some(pcsList => pcsList.id == this.id)) {
     //     return stab
     //   }
     // }
@@ -167,27 +167,27 @@ export class IPcs {
         iPivot = this.iPivot
       }
     } else if (Array.isArray(binPcs)) {
-      // assume pcs bin vector [1,0,1, ... ]
+      // assume pcsList bin vector [1,0,1, ... ]
       this.abinPcs = binPcs.slice()
     } else {
       throw new Error("Can't create IPcs instance (bad args = " + strPcs + ")")
     }
-    // detached set as valid pcs
+    // detached set as valid pcsList
     if (this.cardinal === 0) {
       this.iPivot = undefined
     } else if (!iPivot && iPivot !== 0) {
       // iPivot is min pc
       this.iPivot = this.abinPcs.findIndex((pc => pc === 1))
     } else {
-      // check iPivot in pcs
+      // check iPivot in pcsList
       if (this.abinPcs[iPivot] === 1) {
         this.iPivot = iPivot
       } else {
-        throw new Error("Can't create IPcs instance (bad iPivot = " + iPivot + " for pcs " + this.abinPcs + ")")
+        throw new Error("Can't create IPcs instance (bad iPivot = " + iPivot + " for pcsList " + this.abinPcs + ")")
       }
     }
     if (n && n !== this.abinPcs.length) {
-      throw new Error("Can't create IPcs instance (bad n = " + n + " for pcs " + this.abinPcs + ")")
+      throw new Error("Can't create IPcs instance (bad n = " + n + " for pcsList " + this.abinPcs + ")")
     }
     this.n = this.abinPcs.length
     this.orbit = orbit ?? new Orbit()
@@ -475,14 +475,14 @@ export class IPcs {
    *  1/ translate :        1 + -iPivot
    *  2/ affine operation : ax + t
    *  3/ translate :        1 + iPivot
-   *  so : ax + ( -(a-1) * iPivot + t ) (for each pc in pcs)
+   *  so : ax + ( -(a-1) * iPivot + t ) (for each pc in pcsList)
    * @param  a : number   {number}
    * @param  t : number   [0..11]
    * @return IPcs
    */
   permute(a: number, t: number): IPcs {
     if (this.cardinal === 0) {
-      // detached pcs no change
+      // detached pcsList no change
       return this
     }
     // @ts-ignore
@@ -790,12 +790,12 @@ export class IPcs {
     // // old algorithm
     // let modesOrbits = []
     // modesOrbits.push(this)
-    // let pcs = this.abinPcs.slice()
-    // let n = pcs.length
-    // for (let i = (this.iPivot + 1) % n; i < pcs.length + this.iPivot; i++) {
-    //   if (pcs[i % n] === 0) continue
+    // let pcsList = this.abinPcs.slice()
+    // let n = pcsList.length
+    // for (let i = (this.iPivot + 1) % n; i < pcsList.length + this.iPivot; i++) {
+    //   if (pcsList[i % n] === 0) continue
     //   let ipcs2 = this.translation(-i + this.iPivot)
-    //   // compareTo pcs without iPivot
+    //   // compareTo pcsList without iPivot
     //   if (ipcs2.equalsPcs(this)) {
     //     break
     //   } else {
@@ -984,7 +984,7 @@ export class IPcs {
         case INTERCAL:
           symInter[i] = 1;
           break;
-        case MEDIAN_INTERCAL: // pcs detached n even
+        case MEDIAN_INTERCAL: // pcsList detached n even
           symMedian[i] = 1;
           symInter[i] = 1;
           break;
@@ -1026,7 +1026,7 @@ export class IPcs {
       newBinPcs[ipc] = 0
       let cardinal = this.cardinal
       if (cardinal == 1) {
-        // make empty pcs
+        // make empty pcsList
         newIPcs = new IPcs({
           binPcs: newBinPcs,
           n: newBinPcs.length,
@@ -1114,7 +1114,7 @@ export class IPcs {
 
   /**
    * Get representative binary pitches class set.
-   * In this project, un PCS is always a projection of a pcs of dim inf or equal
+   * In this project, un PCS is always a projection of a pcsList of dim inf or equal
    * Example : binPcs = [0,1,1], mappingBinPitches = [0, 4, 7],
    * nMapping = 12 return [0,0,0,0,1,0,0,1,0,0,0,0]
    *
@@ -1139,7 +1139,7 @@ export class IPcs {
    *       strPcs: "[0, 2, 4]", // first 3-chord
    *       n: 7,
    *       nMapping: 12,
-   *       templateMappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // pcs mapped into [0,4,7] {C E G}
+   *       templateMappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // pcsList mapped into [0,4,7] {C E G}
    *    })
    *    pcsDiatMajMapped.indexMappedToIndexInner(2) => 1
    *

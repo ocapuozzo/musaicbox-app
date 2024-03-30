@@ -1,7 +1,7 @@
 <div>
   <div #containercanvas class="text-center">
 
-    <!--    [ngClass]="pcs.n == 12 ? 'actionable' : 'no-actionable'"-->
+    <!--    [ngClass]="pcsList.n == 12 ? 'actionable' : 'no-actionable'"-->
     <canvas #canvas id="canvas"
             [ngClass]="{'roundedImageBorder roundedImageShadow': !pcs.isDetached(), 'box-musaic': pcs.isDetached()}"
 

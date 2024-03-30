@@ -85,7 +85,7 @@ export class ManagerPagePcsService {
   }
 
   unDoPcs() {
-    // save also actual pcs (parameter to unDoToPresent)
+    // save also actual pcsList (parameter to unDoToPresent)
     let pcs = this.historyPcs.unDoToPresent()
     if (pcs != undefined) {
       this.pcs = pcs

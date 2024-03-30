@@ -14,9 +14,9 @@ export class PcsNaming {
   static scalesName = new Map<string, string>()
 
   static {
-    // let pcs : IPcs = new IPcs({strPcs:'[0,1,3,4,5,7,8,9,11]'})
-    // console.log("pcs.is().toString() = " +  pcs.is().toString())
-    // PcsNaming.scalesName.set(pcs.is().toString(), 'Tcherepnin Scale')
+    // let pcsList : IPcs = new IPcs({strPcs:'[0,1,3,4,5,7,8,9,11]'})
+    // console.log("pcsList.is().toString() = " +  pcsList.is().toString())
+    // PcsNaming.scalesName.set(pcsList.is().toString(), 'Tcherepnin Scale')
     // https://en.wikipedia.org/wiki/Alexander_Tcherepnin
     PcsNaming.scalesName.set("1,2,1,1,2,1,1,2,1", 'Tcherepnin Scale')
 
@@ -159,7 +159,7 @@ export class PcsNaming {
   }
 
   /**
-   * Get scale name of pcs (mode or scale - or chordName ?)
+   * Get scale name of pcsList (mode or scale - or chordName ?)
    * if get immediately a name, return this name
    * else if get a name after modulation, return as degree of that name
    * else pass to previous degree

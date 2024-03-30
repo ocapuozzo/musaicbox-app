@@ -126,7 +126,7 @@ describe('GroupAction', () => {
   /**
    * TODO : (a first ?) comment to be checked in proofreading / code review !!
    * If group has a complemented operation then this group must have CM1-T1 op
-   * because pcs complemented lost his iPivot... So equivalence relation must include
+   * because pcsList complemented lost his iPivot... So equivalence relation must include
    * "to a near transposition"
    */
   it("group with complemented op and no T (n = 12)", () => {
@@ -277,12 +277,12 @@ describe('GroupAction', () => {
 
   })
 
-  it("getOrbitOf with bad pcs", () => {
+  it("getOrbitOf with bad pcsList", () => {
     const cyclicGroup12 = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
     const ipcs = new IPcs({strPcs: "0, 1, 2", n: 5})
 
     try {
-      // pcs.n = 5 or group is n = 12 !
+      // pcsList.n = 5 or group is n = 12 !
       const orbit = cyclicGroup12.getOrbitOf(ipcs)
       // waiting exception
       fail("Impossible operation !!")
@@ -291,7 +291,7 @@ describe('GroupAction', () => {
     }
   })
 
-  it("getIPcsInOrbit with bad pcs", () => {
+  it("getIPcsInOrbit with bad pcsList", () => {
     const cyclicGroup12 = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
     let badIpcs = new IPcs({strPcs: "0, 1, 2", n: 5})
     const ipcs = new IPcs({strPcs: "0, 6", n: 12})
@@ -421,7 +421,7 @@ describe('GroupAction', () => {
     }
 
     // expect(isDict.size).toEqual(24318)
-    expect(isDict.size).toEqual(2048) // +1 for empty pcs
+    expect(isDict.size).toEqual(2048) // +1 for empty pcsList
 
     // from 4096 no cyclic equiv : 24318 (some says 24576 but is not because Limited Transposition)
 

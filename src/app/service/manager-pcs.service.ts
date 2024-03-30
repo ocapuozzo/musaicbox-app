@@ -25,7 +25,7 @@ export class ManagerPcsService {
     if (pcs.orbit?.groupAction) {
       newPcs = pcs.orbit.groupAction.getIPcsInOrbit(pcsTranslated)
       // set pivot from pivot obtained by translation
-      // rem: pivot is not signifiant for pcs identity
+      // rem: pivot is not signifiant for pcsList identity
       if (pcsTranslated.iPivot !== undefined && newPcs.iPivot !== pcsTranslated.iPivot) {
         newPcs.setPivot(pcsTranslated.iPivot)
       }
@@ -42,12 +42,12 @@ export class ManagerPcsService {
   }
 
   /**
-   * Change state of pcs, by set a new pivot
+   * Change state of pcsList, by set a new pivot
    * @param pcs
    * @param direction
    */
   modulation(pcs: IPcs, direction : number): IPcs {
-    // return new instance, even if same pcs (<> pivot) for reactive update ui by angular
+    // return new instance, even if same pcsList (<> pivot) for reactive update ui by angular
     return pcs.modulation(direction)
   }
 
@@ -83,7 +83,7 @@ export class ManagerPcsService {
     if (pcs.orbit?.groupAction) {
       newPcs = pcs.orbit.groupAction.getIPcsInOrbit(newPcs)
       // set pivot from pivot obtained by translation
-      // rem: pivot is not signifiant for pcs identity
+      // rem: pivot is not signifiant for pcsList identity
       if (savNewPcs.iPivot !== undefined && newPcs.iPivot !== savNewPcs.iPivot) {
         newPcs.setPivot(savNewPcs.iPivot)
       }

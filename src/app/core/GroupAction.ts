@@ -98,7 +98,7 @@ export class GroupAction {
         let op = this.operations[i]
         let pcs_other = this.powerset.get(op.actionOn(pcs).id);
         if (pcs_other && tmpPowerset.has(pcs_other.id)) {
-          // new image pcs by op
+          // new image pcsList by op
           pcs.addInOrbit(pcs_other)
           pcs_other.orbit = pcs.orbit // share same orbit
           tmpPowerset.delete(pcs_other.id)
@@ -111,10 +111,10 @@ export class GroupAction {
   }
 
   /**
-   * pre-assert : each pcs has an orbit, and orbit has his set of pcs.
+   * pre-assert : each pcsList has an orbit, and orbit has his set of pcsList.
    *              orbits are build via buildOrbitsByActionOnPowerset()
-   *              Each pcs in orbit is image of any pcs in this same orbit
-   *              by action of G on this pcs
+   *              Each pcsList in orbit is image of any pcsList in this same orbit
+   *              by action of G on this pcsList
    *
    * Build stabilizers orbit for all orbits
    */
@@ -124,7 +124,7 @@ export class GroupAction {
         let newStab = new Stabilizer();
         this.operations.forEach(op => {
           if (pcs.equalsPcs(op.actionOn(pcs))) {
-            // operation fix this pcs
+            // operation fix this pcsList
             newStab.addFixedPcs(pcs);
             newStab.addOperation(op);
             op.addFixedPcs(pcs);
@@ -141,7 +141,7 @@ export class GroupAction {
           // bi-directional link
           pcs.stabilizer = findStab
         }
-      }) // en loop all pcs in current orbit
+      }) // en loop all pcsList in current orbit
       // order operations and fixedPcs for each stabilizer in current orbit.
       // rem : if CYCLIC group, stabilizers.length==1
       orbit.stabilizers.forEach(stab => {
@@ -197,7 +197,7 @@ export class GroupAction {
     // sort map on keys (lexical order)
     // make a "view adapter" for v-for
 
-    // TODO : la clé name ne semble pas complète, car si on prend une orbite (pcs min représenté)
+    // TODO : la clé name ne semble pas complète, car si on prend une orbite (pcsList min représenté)
     //  et que l'on le push sur home, on s'aperçoit que le nom (groupingCriterion) est restreint à un des stabilisateurs
     //  et non basé sur l'ensemble des stab. ????
 
@@ -319,25 +319,25 @@ export class GroupAction {
 
 
   getOrbitOf(ipcs: IPcs): Orbit {
-    if (ipcs.n !== this.n) throw new Error("Invalid dimension : pcs.n and this.n : " + ipcs.n + " !== " + this.n)
-    //let orbit : Orbit | undefined = this.orbits.find(o => o.ipcsset.find(ipcs2 => ipcs2.compareTo(pcs)==0))
+    if (ipcs.n !== this.n) throw new Error("Invalid dimension : pcsList.n and this.n : " + ipcs.n + " !== " + this.n)
+    //let orbit : Orbit | undefined = this.orbits.find(o => o.ipcsset.find(ipcs2 => ipcs2.compareTo(pcsList)==0))
     let orbit: Orbit | undefined = this.powerset.get(ipcs.id)?.orbit
     if (!orbit)
-      throw new Error("Invalid pcs (is not in this group action)  ??? : " + ipcs)
+      throw new Error("Invalid pcsList (is not in this group action)  ??? : " + ipcs)
     return orbit
   }
 
   /**
    * From free IPcs (with no orbit) get a represented IPcs held by a group action
    * @param {IPcs} pcs
-   * @param withPivot return pcs with this.iPivot = withPivot, if withPivot != -1 (and valid)
+   * @param withPivot return pcsList with this.iPivot = withPivot, if withPivot != -1 (and valid)
    * @return {IPcs}
-   * @throws Error if not find pcs in this group action or if withPivot is invalid
+   * @throws Error if not find pcsList in this group action or if withPivot is invalid
    */
   getIPcsInOrbit(pcs: IPcs, withPivot = -1): IPcs {
     let pcsInOrbit: IPcs | undefined = this.powerset.get(pcs.id)
     if (!pcsInOrbit)
-      throw new Error("Invalid pcs (is not in this group action)  ??? : " + pcs)
+      throw new Error("Invalid pcsList (is not in this group action)  ??? : " + pcs)
 
     if (withPivot != -1) {
       // change state (be careful : side effect !!) - Error if invalid new pivot

@@ -165,7 +165,7 @@ export class Orbit {
   /**
    * Create a name signature of this orbit based on his stabilizers
    * Example :
-   *   stabilizers of Musaic n° 84 (24 pcs in orbit) :
+   *   stabilizers of Musaic n° 84 (24 pcsList in orbit) :
    *     M1-T0 M7-T9 CM5-T10 CM11-T7 (4)
    *     M1-T0 M7-T3 CM5-T10 CM11-T1 (4)
    *     M1-T0 M7-T3 CM5-T6 CM11-T9 (3)

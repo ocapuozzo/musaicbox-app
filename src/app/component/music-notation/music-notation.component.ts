@@ -92,7 +92,7 @@ constructor() {
         chord = chord + note;
       }
     }
-    chord = '' //(this.pcs.cardinal < 5) ? chord + ' ]  \n' : '' // experimental
+    chord = '' //(this.pcsList.cardinal < 5) ? chord + ' ]  \n' : '' // experimental
     notes = chord ? notes+'|' : notes
 
     return suffix + notes + chord; //'C4 ^E4 G4 [C4E4G4]\n';

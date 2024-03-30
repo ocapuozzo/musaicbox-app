@@ -1,35 +1,35 @@
 import {EventEmitter, Injectable, Output} from '@angular/core';
 import {IPcs} from "../core/IPcs";
+import {IElementListPcs} from "./IElementListPcs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ManagerPagePcsListService {
 
-  @Output() updatePcsListEvent = new EventEmitter<Map<string, IPcs[]>>();
+  @Output() updatePcsListEvent = new EventEmitter<Map<string, IElementListPcs>>();
 
-  labeledListPcs : Map<string, IPcs[]> = new Map<string, IPcs[]>()
+  labeledListPcs= new Map<string, IElementListPcs>()
 
   compteur  = 0
 
   constructor() { }
 
-  addPcs(title: string, pcs: IPcs, displayScaleName = false) {
-
+  addPcs(title: string, pcs: IPcs, displayPivot = false) {
     if (! this.labeledListPcs.has(title)) {
-      this.labeledListPcs.set(title, [pcs])
+      this.labeledListPcs.set(title,{drawPivot:displayPivot, pcsList: [pcs]})
     } else {
-      this.labeledListPcs.get(title)?.push(pcs)
+      this.labeledListPcs.get(title)?.pcsList.push(pcs)
     }
     this.updatePcsListEvent.emit(this.labeledListPcs)
   }
 
   removePcs(pcs: IPcs) {
-    for (const [title, pcsList] of this.labeledListPcs) {
-      const index = pcsList.findIndex((p) => p.id == pcs.id )
+    for (const [title, eltList] of this.labeledListPcs) {
+      const index = eltList.pcsList.findIndex((p) => p.id == pcs.id )
       if (index >= 0) {
-        pcsList.splice(index,1)
-        if (pcsList.length == 0) {
+        eltList.pcsList.splice(index,1)
+        if (eltList.pcsList.length == 0) {
           this.labeledListPcs.delete(title)
         }
         this.updatePcsListEvent.emit(this.labeledListPcs)
