@@ -14,7 +14,7 @@ export class ManagerPagePcsListService {
 
   constructor() { }
 
-  addPcs(title: string, pcs: IPcs) {
+  addPcs(title: string, pcs: IPcs, displayScaleName = false) {
 
     if (! this.labeledListPcs.has(title)) {
       this.labeledListPcs.set(title, [pcs])

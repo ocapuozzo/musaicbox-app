@@ -44,6 +44,7 @@ import {Group} from "./Group";
 import {Stabilizer} from "./Stabilizer";
 import {Mapping} from "../utils/Mapping";
 import {PcsNaming} from "./PcsNaming";
+import {Scales2048Name} from "./Scales2048Name";
 
 const NEXT_MODULATION = 1
 const PREV_MODULATION = 2
@@ -1183,4 +1184,7 @@ export class IPcs {
 
   // TODO arranger les opérations en inner et mapped et peut-être sortir des fonctions utilitaires pour binpcs ?
 
+  getScaleName() {
+    return Scales2048Name.getScaleName(this);
+  }
 }

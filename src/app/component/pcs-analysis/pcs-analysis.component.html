@@ -50,37 +50,48 @@
     <fieldset class="representation-border">
       <legend class="representation-border">Fecundity</legend>
       <hr>
-      <p>
-        #Modes : {{ ''// sub sub => to have same height that next fieldset }}
-        <span class="analyse-pcs">{{ pcsMapped12.cardOrbitMode() }} <sub></sub></span>
+      <p style="margin: 1px">
+        <button mat-button (click)="doPushModesOf(pcsMapped12)">
+          <mat-icon>filter_tilt_shift</mat-icon> Modes  :
+        </button>
+         {{ ''// sub sub => to have same height that next fieldset }}
+        <span class="analyse-pcs">#{{ pcsMapped12.cardOrbitMode() }} <sub></sub></span>
       </p>
-      <p>
-        #OrbitCyclic (T1) :
-        <span class="analyse-pcs">{{ pcsMapped12.cardOrbitCyclic() }}</span>
+      <p style="margin: 1px">
+        <button mat-button (click)="doPushOrbitCyclicPF(pcsMapped12)">
+          <mat-icon>sync</mat-icon>OrbitCyclic (M0-T1) :
+        </button>
+        <span class="analyse-pcs">#{{ pcsMapped12.cardOrbitCyclic() }}</span>
       </p>
-      <p>
-        #OrbitDihedral (M11, T1):
-        <span class="analyse-pcs">{{ pcsMapped12.dihedralPrimeForm().orbit.cardinal }}</span>
+      <p style="margin: 1px">
+        <button mat-button (click)="doPushOrbitDihedralPF(pcsMapped12)">
+        <mat-icon>swap_vertical_circle</mat-icon>OrbitDihedral (M11, T1):
+        </button>
+        <span class="analyse-pcs">#{{ pcsMapped12.dihedralPrimeForm().orbit.cardinal }}</span>
       </p>
-      <p>
-        #OrbitAffine (M5, M7, M11, T1):
-        <span class="analyse-pcs">{{ pcsMapped12.affinePrimeForm().orbit.cardinal }}</span>
+      <p style="margin: 1px">
+        <button mat-button (click)="doPushOrbitAffinePF(pcsMapped12)">
+          <mat-icon>star</mat-icon> OrbitAffine (M5, M7, M11, T1):
+        </button>
+        <span class="analyse-pcs">#{{ pcsMapped12.affinePrimeForm().orbit.cardinal }}</span>
       </p>
-      <p>
-        #OrbitMusaic (M5, M7, M11, Cplt, T1) :
-        <span class="analyse-pcs">{{ pcsMapped12.musaicPrimeForm().orbit.cardinal }}</span>
+      <p style="margin: 1px">
+        <button mat-button (click)="doPushOrbitMusaicPF(pcsMapped12)">
+          <mat-icon>star_half</mat-icon> OrbitMusaic (M5, M7, M11, Cplt, T1) :
+        </button>
+        <span class="analyse-pcs">#{{ pcsMapped12.musaicPrimeForm().orbit.cardinal }}</span>
       </p>
     </fieldset>
 
     <fieldset class="representation-border">
       <legend class="representation-border">Prime Form</legend>
       <hr>
-      <p>
+      <p style="margin: 15px">
         Modal :
         <span class="analyse-pcs"> {{ pcsMapped12.modalPrimeForm().getPcsStr() }}
           <sub> {{ pcsMapped12.modalPrimeForm().iPivot }} </sub></span>
       </p>
-      <p>
+      <p style="margin: 15px">
         Cyclic :
         <span class="analyse-pcs">{{ pcsMapped12.cyclicPrimeForm().getPcsStr() }}</span>
       </p>
@@ -88,11 +99,11 @@
         Dihedral :
         <span class="analyse-pcs">{{ pcsMapped12.dihedralPrimeForm().getPcsStr() }}</span>
       </p>
-      <p>
+      <p style="margin: 15px">
         Affine :
         <span class="analyse-pcs">{{ pcsMapped12.affinePrimeForm().getPcsStr() }}</span>
       </p>
-      <p>
+      <p style="margin: 15px">
         Musaic :
         <span class="analyse-pcs">{{ pcsMapped12.musaicPrimeForm().getPcsStr() }}</span>
       </p>

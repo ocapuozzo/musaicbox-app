@@ -32,6 +32,10 @@
               <p class="text-center">
                 <span>{{ pcs.getChordName() }}</span>
               </p>
+              } @else {
+                <p class="text-center">
+                  <span>{{ pcs.getScaleName() }}</span>
+                </p>
               }
               <i (click)="doRemoveFromList(pcs)" class="bi bi-trash p-1" style="cursor: pointer"></i>
               <i (click)="doSelectFromList(pcs)" class="bi bi-eye p-1" style="cursor: pointer"></i>

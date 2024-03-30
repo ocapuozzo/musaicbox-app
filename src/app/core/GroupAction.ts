@@ -364,7 +364,7 @@ export class GroupAction {
     ) {
       return GroupAction._predefinedGroupsActions.get(n)![index]
     }
-    return GroupAction._predefinedGroupsActions.get(n)![0]
+    return GroupAction._predefinedGroupsActions.get(n)![0] // undefined ??
     // throw new Error('No predefined group action for n=' + n + 'and index=' + index + ' !')
   }
 
