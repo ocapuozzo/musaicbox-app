@@ -11,7 +11,7 @@ export class Scales2048Name {
   }
 
   static getScaleName(pcs: IPcs): string {
-    let cardinal = pcs.cardinal
+    let cardinal = pcs.cardOrbitMode()
     let scaleName :IScaleName
     for (let i = 0; i < cardinal ; i++) {
       scaleName = Scales2048Name.getScale2048Name(pcs)
