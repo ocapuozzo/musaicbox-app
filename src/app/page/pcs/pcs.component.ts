@@ -12,6 +12,7 @@ import {MatButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {IElementListPcs} from "../../service/IElementListPcs";
 import {PcsListComponent} from "../../component/pcs-list/pcs-list.component";
+import {NgClass} from "@angular/common";
 
 
 @Component({
@@ -23,7 +24,8 @@ import {PcsListComponent} from "../../component/pcs-list/pcs-list.component";
     PcsAnalysisComponent,
     MatButton,
     MatIcon,
-    PcsListComponent
+    PcsListComponent,
+    NgClass
   ],
   templateUrl: './pcs.component.html',
   styleUrl: './pcs.component.css'

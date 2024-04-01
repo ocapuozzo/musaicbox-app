@@ -29,7 +29,7 @@
       </div>
     } @else {
       <div class="boxPcs"
-           matTooltip ="Musaic reference N° {{EightyEight.idNumberOf(orbit.getPcsMin())}}" >
+        matTooltip ="{{orbit.getPcsMin().n == 12 ? 'Musaic reference N° ' + EightyEight.idNumberOf(orbit.getPcsMin()): ''}}">
         <app-clock
           [ipcs]="orbit.getPcsMin()"
           [pcColorSet]="pcColorSet"
@@ -38,8 +38,7 @@
         >
         </app-clock>
         <span class="text-center label-ipcs">#{{ orbit.ipcsset.length }}</span>
-<!--        TODO ? : to show only if this div is clicked (toggle)-->
-        <span>
+        <span [hidden]="orbit.getPcsMin().n != 12">
           <i (click)="doPushToPcsPage(orbit.getPcsMin())" class="bi bi-eye p-1" style="cursor: pointer">
           </i>
         </span>

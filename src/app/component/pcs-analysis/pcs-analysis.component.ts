@@ -27,7 +27,7 @@ export class PcsAnalysisComponent {
   /**
    * image mapped in 12 of _pcs
    */
-  pcsMapped12 : IPcs = new IPcs({strPcs:'4,2'})
+  pcsMapped : IPcs = new IPcs({strPcs:'4,2'})
 
 
   static ROMAIN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII']
@@ -38,7 +38,7 @@ export class PcsAnalysisComponent {
     // this.pcsList = this.managerHomePcsService.pcsList
     this.managerHomePcsService.updatePcsEvent.subscribe((pcs: IPcs) => {
       this.pcs = pcs
-      this.pcsMapped12 = this.pcs.n == 12 ? this.pcs : new IPcs({binPcs:this.pcs.getMappedBinPcs()})
+      this.pcsMapped = this.pcs.n == 12 ? this.pcs : new IPcs({binPcs:this.pcs.getMappedBinPcs()})
       // if (this.pcsList.orbit.stabilizers) {
       //   console.log("this.pcsList.orbit.stabilizers.length = " + this.pcsList.orbit.stabilizers.length)
       //   console.log("this.pcsList.orbit.name = " + this.pcsList.orbit.name)
@@ -48,7 +48,7 @@ export class PcsAnalysisComponent {
 
   ngOnInit() {
     this.pcs = this.managerHomePcsService.pcs
-    this.pcsMapped12 = this.pcs.n == 12 ? this.pcs : new IPcs({binPcs:this.pcs.getMappedBinPcs()})
+    this.pcsMapped = this.pcs.n == 12 ? this.pcs : new IPcs({binPcs:this.pcs.getMappedBinPcs()})
   }
 
   fixedPcsList() {
@@ -61,22 +61,30 @@ export class PcsAnalysisComponent {
   }
 
   doPushOrbitCyclicPF(pcs : IPcs) {
-    const cyclicGroup = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
-    this.managerHomePcsService.replaceBy(cyclicGroup.getIPcsInOrbit(pcs))
+    if (pcs.n == 12) {
+      const cyclicGroup = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
+      this.managerHomePcsService.replaceBy(cyclicGroup.getIPcsInOrbit(pcs))
+    }
   }
 
   doPushOrbitDihedralPF(pcs: IPcs) {
-    const dGroup = GroupAction.predefinedGroupsActions(12, Group.DIHEDRAL)
-    this.managerHomePcsService.replaceBy(dGroup.getIPcsInOrbit(pcs))
+    if (pcs.n == 12) {
+      const dGroup = GroupAction.predefinedGroupsActions(12, Group.DIHEDRAL)
+      this.managerHomePcsService.replaceBy(dGroup.getIPcsInOrbit(pcs))
+    }
   }
 
   doPushOrbitAffinePF(pcs: IPcs) {
-    const afGroup = GroupAction.predefinedGroupsActions(12, Group.AFFINE)
-    this.managerHomePcsService.replaceBy(afGroup.getIPcsInOrbit(pcs))
+    if (pcs.n == 12) {
+      const afGroup = GroupAction.predefinedGroupsActions(12, Group.AFFINE)
+      this.managerHomePcsService.replaceBy(afGroup.getIPcsInOrbit(pcs))
+    }
   }
   doPushOrbitMusaicPF(pcs: IPcs) {
-    const musGroup = GroupAction.predefinedGroupsActions(12, Group.MUSAIC)
-    this.managerHomePcsService.replaceBy(musGroup.getIPcsInOrbit(pcs))
+    if (pcs.n == 12) {
+      const musGroup = GroupAction.predefinedGroupsActions(12, Group.MUSAIC)
+      this.managerHomePcsService.replaceBy(musGroup.getIPcsInOrbit(pcs))
+    }
   }
 
   doPushModesOf(pcs: IPcs) {

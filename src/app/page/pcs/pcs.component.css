@@ -76,9 +76,16 @@ legend.representation-border {
   padding: 10px;
   margin: 1px;
 }
+
 .inner-box-musaic {
   padding: 10px;
-  margin-top: 28px;
+  margin-top: 2px;
+}
+
+.inner-box-musaic-orbit {
+  /*padding: 2px;*/
+  /*margin-top: 5px;*/
+  /*margin-top: 3px;*/
 }
 
 

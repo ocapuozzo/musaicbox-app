@@ -1,4 +1,4 @@
-import scales2048 from './2048scales.json';
+import scales2048 from '../data/2048scales.json';
 import {IPcs} from "./IPcs";
 import {IScaleName} from "./IScaleName";
 

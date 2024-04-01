@@ -7,7 +7,7 @@ import {IPcs} from "../../core/IPcs";
 import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-the88',
+  selector: 'app-page-the88',
   standalone: true,
   imports: [
     MusaicComponent

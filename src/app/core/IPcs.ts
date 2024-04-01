@@ -490,7 +490,7 @@ export class IPcs {
     return new IPcs({
       binPcs: IPcs.getBinPcsPermute(a, t, newPivot, this.abinPcs),
       iPivot: newPivot,
-      orbit: this.orbit,
+      orbit: new Orbit(), //this.orbit,
       templateMappingBinPcs: this.templateMappingBinPcs,
       nMapping: this.nMapping
     })
@@ -519,7 +519,7 @@ export class IPcs {
    * Modulation of this (change iPivot)
    * @param direction which next or previus degree of modulation
    *  Example : { 0, 4, 7 } iPivot=0,  next=> iPivot == 4,  prev=> iPivot == 7
-   * @returns {IPcs} a new object
+   * @returns {IPcs} a new object, but same pcs (just pivot change)
    *
    */
   modulation(direction: number): IPcs {
@@ -553,7 +553,7 @@ export class IPcs {
     return new IPcs({
       binPcs: this.abinPcs.slice(),
       iPivot: newiPivot,
-      orbit: this.orbit,
+      orbit: this.orbit, // same orbit because same pcs
       templateMappingBinPcs: this.templateMappingBinPcs,
       nMapping: this.nMapping
     })
@@ -622,7 +622,7 @@ export class IPcs {
    *
    * @param iPivot
    *
-   * @return new instance
+   * @return new instance, but same orbit because same pcs is returned (just pivot change)
    */
   getWithNewPivot(iPivot: number): IPcs {
     // exception is catch when bad iPivot (in constructor logic)
@@ -631,7 +631,7 @@ export class IPcs {
       binPcs: newBinPcs,
       n: newBinPcs.length,
       iPivot: iPivot,
-      orbit: this.orbit,
+      orbit: this.orbit, // same orbit because same pcs, just pivot change
       templateMappingBinPcs: this.templateMappingBinPcs,
       nMapping: this.nMapping
     })
@@ -852,15 +852,21 @@ export class IPcs {
     let newIpcsComplement = new IPcs({
       binPcs: pcs_cpt,
       iPivot: new_iPivot,
-      orbit: this.orbit,
+      orbit: new Orbit(), // as new pcs, here we don't know its orbit (old orbit is this.orbit)
       templateMappingBinPcs: this.templateMappingBinPcs,
       nMapping: this.nMapping
     })
-    if (this.orbit?.groupAction) {
-      return this.orbit.groupAction.getIPcsInOrbit(newIpcsComplement)
-    } else {
-      return newIpcsComplement
-    }
+    // is the good place to make this job ??
+    // Not sure. @see ManagerPcsService.ts complement method
+    // Discussion : if this is a good idea to make the job her, then
+    // we do same job with other transformation operations.
+
+    // if (this.orbit?.groupAction) {
+    //   return this.orbit.groupAction.getIPcsInOrbit(newIpcsComplement)
+    // } else {
+    //   return newIpcsComplement
+    // }
+    return newIpcsComplement
   }
 
   toString() {
@@ -1017,7 +1023,7 @@ export class IPcs {
         binPcs: newBinPcs,
         n: newBinPcs.length,
         iPivot: this.iPivot,
-        orbit: this.orbit,
+        orbit:  new Orbit(), // not same pcs (old orbit = this.orbit),
         templateMappingBinPcs: this.templateMappingBinPcs,
         nMapping: this.nMapping
       })
@@ -1031,7 +1037,7 @@ export class IPcs {
           binPcs: newBinPcs,
           n: newBinPcs.length,
           iPivot: undefined,
-          orbit: this.orbit,
+          orbit: new Orbit(), // not same pcs (old orbit = this.orbit)
           templateMappingBinPcs: this.templateMappingBinPcs,
           nMapping: this.nMapping
         })
@@ -1049,7 +1055,7 @@ export class IPcs {
             binPcs: newBinPcs,
             n: newBinPcs.length,
             iPivot: newIPivot,
-            orbit: this.orbit,
+            orbit: new Orbit(), // not same pcs (old orbit = this.orbit)
             templateMappingBinPcs: this.templateMappingBinPcs,
             nMapping: this.nMapping
           })
@@ -1059,7 +1065,7 @@ export class IPcs {
             binPcs: newBinPcs,
             n: newBinPcs.length,
             iPivot: this.iPivot,
-            orbit: this.orbit,
+            orbit: new Orbit(), // not same pcs (old orbit = this.orbit)
             templateMappingBinPcs: this.templateMappingBinPcs,
             nMapping: this.nMapping
           })
@@ -1157,7 +1163,7 @@ export class IPcs {
 
   isLimitedTransposition(){
     // return this.cyclicPrimeForm().orbit.cardinal != this.n;
-    // Best implementation (use cache) :
+    // other implementation :
     return this.cardOrbitMode() != this.cardinal;
   }
 

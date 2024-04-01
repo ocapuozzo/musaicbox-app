@@ -1,47 +1,52 @@
-<p class="ms-2" style="cursor: pointer" (click)="doClearList()" [hidden]="labeledListPcs.size==0">Clear all <i class="bi bi-trash3-fill" ></i></p>
+<p class="ms-2" style="cursor: pointer" (click)="doClearList()" [hidden]="labeledListPcs.size==0">Clear all <i
+  class="bi bi-trash3-fill"></i></p>
 <div class="row">
   @for (title of labeledListPcs.keys(); track labeledListPcs) {
     @if (title == '') {
       <!--  each pcsList into separate col  -->
       @for (pcs of labeledListPcs.get(title)?.pcsList; track pcs.id; let index = $index) {
         <div class="box text-center" style="width: 180px;">
-          <app-clock [ipcs]="pcs" [drawPivot]="labeledListPcs.get(title)?.drawPivot ?? true" ></app-clock>
+          <app-clock [ipcs]="pcs" [drawPivot]="labeledListPcs.get(title)?.drawPivot ?? true"></app-clock>
           <div>
             <p class="text-center">
               <span>{{ pcs.getChordName() }}</span>
             </p>
             <h6>{{ pcs.getMappedPcsStr() }}</h6>
             <i (click)="doRemoveFromList(pcs)" class="bi bi-trash p-1" style="cursor: pointer"></i>
-            <i (click)="doPushPcsFromList(pcs)" class="bi bi-eye p-1" style="cursor: pointer"></i>
-            <app-music-notation [hidden]="! withMusicalNotation"
-                                [pcs]="pcs">
-            </app-music-notation>
+            @if (pcs.n == 12) {
+              <i (click)="doPushPcsFromList(pcs)" class="bi bi-eye p-1" style="cursor: pointer"></i>
+              <app-music-notation [hidden]="! withMusicalNotation"
+                                  [pcs]="pcs">
+              </app-music-notation>
+            }
           </div>
         </div>
       }
     } @else {
       <!--  put list pcsList into one col div-->
       <div class="box text-center" style="width: 155px;">
-        <p>{{ title }} ({{labeledListPcs.get(title)?.pcsList?.length}})</p>
+        <p>{{ title }} ({{ labeledListPcs.get(title)?.pcsList?.length }})</p>
         @for (pcs of labeledListPcs.get(title)?.pcsList; track pcs.id; let index = $index) {
           <div class="box" style="width: 145px;">
             <app-clock [ipcs]="pcs" [drawPivot]="labeledListPcs.get(title)?.drawPivot ?? true"></app-clock>
             <div class="card-body">
               <h6>{{ pcs.getMappedPcsStr() }} <sub> {{ pcs.iPivot }}</sub></h6>
-              @if ([3,4].includes(pcs.cardinal)) {
-              <p class="text-center">
-                <span>{{ pcs.getChordName() }}</span>
-              </p>
+              @if ([3, 4].includes(pcs.cardinal)) {
+                <p class="text-center">
+                  <span>{{ pcs.getChordName() }}</span>
+                </p>
               } @else {
                 <p class="text-center">
                   <span>{{ pcs.getScaleName() }}</span>
                 </p>
               }
               <i (click)="doRemoveFromList(pcs)" class="bi bi-trash p-1" style="cursor: pointer"></i>
-              <i (click)="doPushPcsFromList(pcs)" class="bi bi-eye p-1" style="cursor: pointer"></i>
-              <app-music-notation [hidden]="! withMusicalNotation"
-                                  [pcs]="pcs">
-              </app-music-notation>
+              @if (pcs.n == 12) {
+                <i (click)="doPushPcsFromList(pcs)" class="bi bi-eye p-1" style="cursor: pointer"></i>
+                <app-music-notation [hidden]="! withMusicalNotation"
+                                    [pcs]="pcs">
+                </app-music-notation>
+              }
             </div>
           </div>
         }

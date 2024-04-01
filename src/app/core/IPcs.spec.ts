@@ -301,7 +301,10 @@ describe('IPcs unit tests', () => {
 
     expect(primeForm.isDetached()).not.toBeTruthy()
     const ipcsWithOrbit = primeForm.translation(1)
-    expect(ipcsWithOrbit.isDetached()).not.toBeTruthy()
+
+    // only ManagerPcsService manage state orbit
+    expect(ipcsWithOrbit.isDetached()).toBeTruthy()
+
     expect(primeForm).toEqual(ipcsWithOrbit.musaicPrimeForm())
   });
 
@@ -511,7 +514,9 @@ describe('IPcs unit tests', () => {
     expect(ipcsWithOrbit.isDetached()).not.toBeTruthy()
 
     expect(ipcsWithoutOrbit.complement().isDetached()).toBeTruthy()
-    expect(ipcsWithOrbit.complement().isDetached()).not.toBeTruthy()
+
+    // only ManagerPcsService manage state orbit
+    expect(ipcsWithOrbit.complement().isDetached()).toBeTruthy()
   })
 
   it("get new Pivot", () => {

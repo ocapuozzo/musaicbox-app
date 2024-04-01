@@ -19,31 +19,31 @@
   <div class="marge-5">
     <p>
       n :
-      <span class="analyse-pcs">{{ pcsMapped12.n }}</span>
+      <span class="analyse-pcs">{{ pcsMapped.n }}</span>
     </p>
     <p>
       PCS :
-      <span class="analyse-pcs"> {{ pcsMapped12.getPcsStr() }}<sub> {{ pcsMapped12.iPivot }} </sub></span> &nbsp;
+      <span class="analyse-pcs"> {{ pcsMapped.getPcsStr() }}<sub> {{ pcsMapped.iPivot }} </sub></span> &nbsp;
     </p>
     <p>
       Cardinal :
-      <span class="analyse-pcs">#{{ pcsMapped12.cardinal }}</span>
+      <span class="analyse-pcs">#{{ pcsMapped.cardinal }}</span>
     </p>
     <p>
       Intervallic Structure :
-      <span class="analyse-pcs">({{ pcsMapped12.is() }})</span>
+      <span class="analyse-pcs">({{ pcsMapped.is() }})</span>
     </p>
     <p>
       Interval Vector :
-      <span class="analyse-pcs">&lt;{{ pcsMapped12.iv() }}&gt;</span>
+      <span class="analyse-pcs">&lt;{{ pcsMapped.iv() }}&gt;</span>
     </p>
     <p>
       Forte :
-      <span class="analyse-pcs">{{ pcsMapped12.forteNum() }}</span>
+      <span class="analyse-pcs">{{ pcsMapped.forteNum() }}</span>
     </p>
     <p>
       Limited Transposition :
-      <span class="analyse-pcs">{{ pcsMapped12.isLimitedTransposition() }}</span>
+      <span class="analyse-pcs">{{ pcsMapped.isLimitedTransposition() }}</span>
     </p>
 
     <div>
@@ -51,35 +51,35 @@
       <legend class="representation-border">Fecundity</legend>
       <hr>
       <p style="margin: 1px">
-        <button mat-button (click)="doPushModesOf(pcsMapped12)">
+        <button mat-button (click)="doPushModesOf(pcsMapped)">
           <mat-icon>filter_tilt_shift</mat-icon> <i class="bi bi-chevron-double-down"> Modes  :</i>
         </button>
          {{ ''// sub sub => to have same height that next fieldset }}
-        <span class="analyse-pcs">#{{ pcsMapped12.cardOrbitMode() }} <sub></sub></span>
+        <span class="analyse-pcs">#{{ pcsMapped.cardOrbitMode() }} <sub></sub></span>
       </p>
       <p style="margin: 1px">
-        <button mat-button (click)="doPushOrbitCyclicPF(pcsMapped12)">
+        <button mat-button (click)="doPushOrbitCyclicPF(pcsMapped)">
           <mat-icon>sync</mat-icon>OrbitCyclic (M0-T1) :
         </button>
-        <span class="analyse-pcs">#{{ pcsMapped12.cardOrbitCyclic() }}</span>
+        <span class="analyse-pcs">#{{ pcsMapped.cardOrbitCyclic() }}</span>
       </p>
       <p style="margin: 1px">
-        <button mat-button (click)="doPushOrbitDihedralPF(pcsMapped12)">
+        <button mat-button (click)="doPushOrbitDihedralPF(pcsMapped)">
         <mat-icon>swap_vertical_circle</mat-icon>OrbitDihedral (M11, T1):
         </button>
-        <span class="analyse-pcs">#{{ pcsMapped12.dihedralPrimeForm().orbit.cardinal }}</span>
+        <span class="analyse-pcs">#{{ pcsMapped.dihedralPrimeForm().orbit.cardinal }}</span>
       </p>
       <p style="margin: 1px">
-        <button mat-button (click)="doPushOrbitAffinePF(pcsMapped12)">
+        <button mat-button (click)="doPushOrbitAffinePF(pcsMapped)">
           <mat-icon>star</mat-icon> OrbitAffine (M5, M7, M11, T1):
         </button>
-        <span class="analyse-pcs">#{{ pcsMapped12.affinePrimeForm().orbit.cardinal }}</span>
+        <span class="analyse-pcs">#{{ pcsMapped.affinePrimeForm().orbit.cardinal }}</span>
       </p>
       <p style="margin: 1px">
-        <button mat-button (click)="doPushOrbitMusaicPF(pcsMapped12)">
+        <button mat-button (click)="doPushOrbitMusaicPF(pcsMapped)">
           <mat-icon>star_half</mat-icon> OrbitMusaic (M5, M7, M11, Cplt, T1) :
         </button>
-        <span class="analyse-pcs">#{{ pcsMapped12.musaicPrimeForm().orbit.cardinal }}</span>
+        <span class="analyse-pcs">#{{ pcsMapped.musaicPrimeForm().orbit.cardinal }}</span>
       </p>
     </fieldset>
 
@@ -88,31 +88,31 @@
       <hr>
       <p style="margin: 15px">
         Modal :
-        <span class="analyse-pcs"> {{ pcsMapped12.modalPrimeForm().getPcsStr() }}
-          <sub> {{ pcsMapped12.modalPrimeForm().iPivot }} </sub></span>
+        <span class="analyse-pcs"> {{ pcsMapped.modalPrimeForm().getPcsStr() }}
+          <sub> {{ pcsMapped.modalPrimeForm().iPivot }} </sub></span>
       </p>
       <p style="margin: 15px">
         Cyclic :
-        <span class="analyse-pcs">{{ pcsMapped12.cyclicPrimeForm().getPcsStr() }}</span>
+        <span class="analyse-pcs">{{ pcsMapped.cyclicPrimeForm().getPcsStr() }}</span>
       </p>
       <p>
         Dihedral :
-        <span class="analyse-pcs">{{ pcsMapped12.dihedralPrimeForm().getPcsStr() }}</span>
+        <span class="analyse-pcs">{{ pcsMapped.dihedralPrimeForm().getPcsStr() }}</span>
       </p>
       <p style="margin: 15px">
         Affine :
-        <span class="analyse-pcs">{{ pcsMapped12.affinePrimeForm().getPcsStr() }}</span>
+        <span class="analyse-pcs">{{ pcsMapped.affinePrimeForm().getPcsStr() }}</span>
       </p>
       <p style="margin: 15px">
         Musaic :
-        <span class="analyse-pcs">{{ pcsMapped12.musaicPrimeForm().getPcsStr() }}</span>
+        <span class="analyse-pcs">{{ pcsMapped.musaicPrimeForm().getPcsStr() }}</span>
       </p>
     </fieldset>
     </div>
 
     @if (!pcs.orbit.isDetached()) {
       <fieldset class="representation-border">
-        <legend class="representation-border">Pcs in orbit. Group name : {{pcs.orbit!.groupAction!.group!.name}} </legend>
+        <legend class="representation-border">Pcs in orbit. Group : {{pcs.orbit!.groupAction!.group!.name}} </legend>
         <hr>
         <p>
           Orbit cardinal :
