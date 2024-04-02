@@ -399,7 +399,7 @@ describe('GroupAction', () => {
 
   })
 
-  it('List of modes/scales ', () => {
+  it('Skeleton for initiate list of 2048 modes/scales ', () => {
     const groupCyclic = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
     let nbModes = 0
     for (const orbit of groupCyclic.orbits) {
@@ -441,5 +441,38 @@ describe('GroupAction', () => {
     // console.log(JSON.stringify(array))
     // console.log(JSON.stringify(array.length))
   })
+
+
+  it('List of scales grouped by same IV', () => {
+    const groupCyclic  = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
+    expect(groupCyclic.operations.length).toEqual(12)
+    expect(groupCyclic.orbits.length).toEqual(352)
+    const pcsGroupedByIV = new Map<string, IPcs[]>
+    for (const orbit of groupCyclic.orbits) {
+      const pcsPF = orbit.getPcsMin()
+      if ( ! pcsGroupedByIV.has(pcsPF.iv().toString())) {
+        pcsGroupedByIV.set(pcsPF.iv().toString(), [pcsPF])
+      } else {
+        pcsGroupedByIV.get(pcsPF.iv().toString())!.push(pcsPF)
+      }
+    }
+    // check how many groupings are there
+    console.log("pcsGroupedByIV.size = " + pcsGroupedByIV.size)
+
+    // TODO find reference !
+    expect(pcsGroupedByIV.size).toEqual(200)
+
+    // show pcs that are alone in this grouping
+    let soloIV = 0
+    for (const pcsGroupingByIV of pcsGroupedByIV) {
+      if (pcsGroupingByIV[1].length == 1) {
+        soloIV++
+        // console.log("pcs alone : iv() =" + pcsGroupingByIV[0]
+        //   + " pcs=" + pcsGroupingByIV[1][0].getPcsStr(false)
+        // )
+      }
+    }
+    console.log("nb pcs with unique iv() : " + soloIV)
+  });
 
 })

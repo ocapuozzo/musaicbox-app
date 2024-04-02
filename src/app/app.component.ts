@@ -1,18 +1,18 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import {Component, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import {Router, RouterOutlet} from '@angular/router';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import {RouterLink, RouterLinkActive} from '@angular/router';
 import {MatDrawerMode, MatSidenavModule} from '@angular/material/sidenav';
 import {MatIconModule} from '@angular/material/icon';
-import { BooleanInput } from '@angular/cdk/coercion';
+import {BooleanInput} from '@angular/cdk/coercion';
 import {BreakpointObserver} from '@angular/cdk/layout';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {faCoffee, IconDefinition} from '@fortawesome/free-solid-svg-icons';
-import { faCat } from '@fortawesome/free-solid-svg-icons';
-import { faGuitar } from '@fortawesome/free-solid-svg-icons';
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { faGithub} from '@fortawesome/free-brands-svg-icons';
+import {faCat} from '@fortawesome/free-solid-svg-icons';
+import {faGuitar} from '@fortawesome/free-solid-svg-icons';
+import {FaIconComponent} from '@fortawesome/angular-fontawesome';
+import {faGithub} from '@fortawesome/free-brands-svg-icons';
 import {FormBuilder, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {IPcs} from "./core/IPcs";
 import {ManagerPagePcsService} from "./service/manager-page-pcs.service";
@@ -38,12 +38,12 @@ export class AppComponent {
   mdcBackdrop: BooleanInput = false;
   drawerMode: MatDrawerMode = "push";
   faCoffee = faCoffee;
-  faCat :IconDefinition =  faCat
+  faCat: IconDefinition = faCat
   faGuitar = faGuitar
   faGithub = faGithub
 
   readonly breakpoint$ = this.breakpointObserver
-    .observe([ '(max-width: 500px)']);
+    .observe(['(max-width: 500px)']);
 
   checkoutForm = this.formBuilder.group({
     pcsStr: ''
@@ -74,16 +74,21 @@ export class AppComponent {
     // console.log('pscStr = ', this.checkoutForm.value.pcsStr?.trim());
     if (this.checkoutForm.value.pcsStr) {
 
-        let pcsString = this.checkoutForm.value.pcsStr ?? ''
-        if (pcsString !== undefined) {
-          try {
+      let pcsString = this.checkoutForm.value.pcsStr ?? ''
+
+      // replace sep _ or space by comma
+      pcsString = pcsString.replace(/[ _]/g,",");
+
+      if (pcsString !== undefined) {
+        try {
           let pcs = new IPcs({strPcs: pcsString})
           if (pcs.cardinal > 0) {
             this.checkoutForm.reset();
             this.managerHomePcsService.replaceBy(pcs)
             this.router.navigateByUrl('/pcs');
           }
-        } catch (e: any) { }
+        } catch (e: any) {
+        }
       }
     }
   }
