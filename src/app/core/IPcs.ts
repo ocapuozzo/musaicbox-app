@@ -754,19 +754,17 @@ export class IPcs {
 
   /**
    * Get number of all modes.
-   * For PCS NOT LT (LT = limited transposition), it's this.cardinal
-   * for others (limited transposition) it's this.cardinal divided by n/orbitCyclic.cardinal
+   * For PCS NOT LT (LT = limited transposition), it's this.cardinal, but this observation
+   * hides a more complex formula which is : this.cardinal divided by n/orbitCyclic.cardinal
    *
-   * As for PCS NOT LT, n/orbitCyclic.cardinal === 1, general formula is valid for any PCS is
-   *
-   *      this.cardinal divided by n/orbitCyclic.cardinal
+   * As for PCS NOT LT, n/orbitCyclic.cardinal == 1, so it is this.cardinal
    *
    * Examples :
    * <pre>
-   * { 0, 3, 6, 9} => 1
-   * { 0, 4, 8} => 1
-   * { 0, 1, 6, 7} => 2
-   * { 0, 1, 2, 3} => 4  (NOT LT)
+   * { 0, 3, 6, 9} => 1 (PCS in LT, orbit cyclic card = 3, so 4 /(12/3) = 1)
+   * { 0, 4, 8}    => 1 (PCS in LT, orbit cyclic card = 4, so 3 /(12/4) = 1)
+   * { 0, 1, 6, 7} => 2 (PCS in LT, orbit cyclic card = 6, so 4 /(12/6) = 2)
+   * { 0, 1, 2, 3} => 4 (PCS NOT in LT => orbit cyclic card = 12, so 4 /(12/12) = 4)
    * </pre>
    * @return {number}
    */
@@ -781,7 +779,7 @@ export class IPcs {
     }
 
     // because groupAction Cyclic with n=12 is predefined
-    // and cardinal orbit always divise n
+    // and cardinal orbit always divise n (Lagrange's theorem)
     // return this.cardinal / (this.n / this.cyclicPrimeForm().orbit.cardinal)
     // (lazy and cache compute)
     // implementation avoid two divisions
@@ -1165,6 +1163,7 @@ export class IPcs {
     // return this.cyclicPrimeForm().orbit.cardinal != this.n;
     // other implementation :
     return this.cardOrbitMode() != this.cardinal;
+    // twice have private property in lazy/cache, so have same complexity O(n) (?)
   }
 
   getPivot(): number | undefined {

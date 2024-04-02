@@ -13,24 +13,30 @@ export class ManagerPcsService {
     // if not isDetached() get newPcs resulting of group action
     let newPcs = pcs.affineOp(a, 0)
     if (pcs.orbit?.groupAction) {
-      newPcs = pcs.orbit.groupAction.getIPcsInOrbit(newPcs)
+      let newPcsInOrbit = pcs.orbit.groupAction.getIPcsInOrbit(newPcs)
+      // set pivot from pivot obtained by translation
+      // rem: pivot is not signifiant for pcsList identity
+      if (newPcs.iPivot !== undefined && newPcs.iPivot !== newPcsInOrbit.iPivot) {
+        newPcsInOrbit.setPivot(newPcs.iPivot)
+      }
+      return newPcsInOrbit
     }
-
     return newPcs
   }
 
   translateByM1Tx(pcs: IPcs, t:number): IPcs {
     let pcsTranslated = pcs.translation(t)
-    let newPcs = pcsTranslated
+    // let newPcs = pcsTranslated
     if (pcs.orbit?.groupAction) {
-      newPcs = pcs.orbit.groupAction.getIPcsInOrbit(pcsTranslated)
+      let newPcsInOrbit = pcs.orbit.groupAction.getIPcsInOrbit(pcsTranslated)
       // set pivot from pivot obtained by translation
       // rem: pivot is not signifiant for pcsList identity
-      if (pcsTranslated.iPivot !== undefined && newPcs.iPivot !== pcsTranslated.iPivot) {
-        newPcs.setPivot(pcsTranslated.iPivot)
+      if (pcsTranslated.iPivot !== undefined && newPcsInOrbit.iPivot !== pcsTranslated.iPivot) {
+        newPcsInOrbit.setPivot(pcsTranslated.iPivot)
       }
+      return newPcsInOrbit
     }
-    return newPcs
+    return pcsTranslated
   }
 
   complement(pcs: IPcs): IPcs {
