@@ -93,14 +93,16 @@ export class GroupAction {
       let pcs = tmpPowerset.values().next().value
       pcs.addInOrbit(pcs); // add himself in orbit
       pcs.orbit.groupAction = this // add ref to this group action
+      // this pcs is processed, we can remove it from tmpPowerset
       tmpPowerset.delete(pcs.id);
       for (let i = 0; i < this.operations.length; i++) {
         let op = this.operations[i]
         let pcs_other = this.powerset.get(op.actionOn(pcs).id);
         if (pcs_other && tmpPowerset.has(pcs_other.id)) {
-          // new image pcsList by op
+          // pcs_other is new image pcs by op
           pcs.addInOrbit(pcs_other)
           pcs_other.orbit = pcs.orbit // share same orbit
+          // this pcs is processed, we can remove it from tmpPowerset
           tmpPowerset.delete(pcs_other.id)
         }
       }

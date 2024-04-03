@@ -447,24 +447,26 @@ describe('GroupAction', () => {
     const groupCyclic  = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
     expect(groupCyclic.operations.length).toEqual(12)
     expect(groupCyclic.orbits.length).toEqual(352)
-    const pcsGroupedByIV = new Map<string, IPcs[]>
+    const pcsGroupedBySameIV = new Map<string, IPcs[]>
     for (const orbit of groupCyclic.orbits) {
       const pcsPF = orbit.getPcsMin()
-      if ( ! pcsGroupedByIV.has(pcsPF.iv().toString())) {
-        pcsGroupedByIV.set(pcsPF.iv().toString(), [pcsPF])
+      if ( ! pcsGroupedBySameIV.has(pcsPF.iv().toString())) {
+        pcsGroupedBySameIV.set(pcsPF.iv().toString(), [pcsPF])
       } else {
-        pcsGroupedByIV.get(pcsPF.iv().toString())!.push(pcsPF)
+        pcsGroupedBySameIV.get(pcsPF.iv().toString())!.push(pcsPF)
       }
     }
     // check how many groupings are there
-    console.log("pcsGroupedByIV.size = " + pcsGroupedByIV.size)
+    console.log("pcsGroupedByIV.size = " + pcsGroupedBySameIV.size)
 
     // TODO find reference !
-    expect(pcsGroupedByIV.size).toEqual(200)
+    expect(pcsGroupedBySameIV.size).toEqual(200)
+
+     console.log("Example pcs with same IV() : " + Array.from(pcsGroupedBySameIV.values())[43])
 
     // show pcs that are alone in this grouping
     let soloIV = 0
-    for (const pcsGroupingByIV of pcsGroupedByIV) {
+    for (const pcsGroupingByIV of pcsGroupedBySameIV) {
       if (pcsGroupingByIV[1].length == 1) {
         soloIV++
         // console.log("pcs alone : iv() =" + pcsGroupingByIV[0]

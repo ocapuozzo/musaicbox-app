@@ -1,7 +1,7 @@
 <div class="is-clock" #containercanvas>
   <div #containercanvas id="containercanvas">
     <canvas #canvas></canvas>
-    IV : <span class="analyse-pcs"> &lt;{{ pcs.iv() }}&gt;</span>
+    IS : <span class="analyse-pcs"> ({{ pcs.is() }})</span>
 
     @if ([3, 4].includes(pcs.cardinal)) {
       <p class="chord-name">{{ pcs.getChordName() }}</p>

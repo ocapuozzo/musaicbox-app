@@ -159,6 +159,8 @@ export class IPcs {
       } = {}) {
     if (pidVal !== undefined && pidVal >= 0) {
       this.abinPcs = IPcs.intToBinArray(pidVal, n ?? 12)
+      // first index to 1 is iPivot
+      this.iPivot = this.abinPcs.findIndex((pc => pc === 1))
     } else if (strPcs !== undefined) {
       this.abinPcs = this._fromStringTobinArray(strPcs, n)
       if (! iPivot) {
@@ -261,12 +263,15 @@ export class IPcs {
 
   /**
    * first pc is pivot by default
-   * @param strpcs a array bin Pcs in string
+   * Case if strpcs is not in  normal form
+   * Example : [11, 4, 5] => 11 is iPivot
+   * @param strpcs a str Pcs
    */
   static defaultPivotFromStrBin(strpcs: string): number | undefined{
+    strpcs = strpcs.trim()
     if (strpcs.length > 0) {
-      if ((strpcs[0] === '[' && strpcs[strpcs.length - 1] === ']') ||
-        (strpcs[0] === '{' && strpcs[strpcs.length - 1] === '}')) {
+      if (isNaN(Number(strpcs[0]))) {
+        // Suppose it is framed by a symbol, delete it
         strpcs = strpcs.substring(1, strpcs.length - 1);
       }
     }
