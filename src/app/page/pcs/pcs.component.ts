@@ -83,8 +83,9 @@ export class PcsComponent {
     this.managerPagePcsService.reDoPcs()
   }
 
-  get canUndo() : boolean
-  { return this.managerPagePcsService.canUndo()}
+  get canUndo() : boolean {
+    return this.managerPagePcsService.canUndo()
+  }
 
 
   get canRedo() : boolean {

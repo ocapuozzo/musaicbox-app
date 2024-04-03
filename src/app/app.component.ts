@@ -20,6 +20,9 @@ import {MatFormField} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {BrowserModule} from "@angular/platform-browser";
+import {GroupAction} from "./core/GroupAction";
+import {Group} from "./core/Group";
+import {ManagerPagePcsListService} from "./service/manager-page-pcs-list.service";
 
 
 @Component({
@@ -53,6 +56,7 @@ export class AppComponent {
 
   constructor(private formBuilder: FormBuilder,
               private readonly managerHomePcsService: ManagerPagePcsService,
+              private readonly managerHomePcsListService: ManagerPagePcsListService,
               private readonly breakpointObserver: BreakpointObserver,
               private readonly router: Router) {
     this.breakpoint$.subscribe(() =>
@@ -77,19 +81,46 @@ export class AppComponent {
       let pcsString = this.checkoutForm.value.pcsStr ?? ''
 
       // replace sep _ or space by comma
-      pcsString = pcsString.replace(/[ _]/g,",");
+      pcsString = pcsString.replace(/[ _]/g, ",").trim();
 
-      if (pcsString !== undefined) {
-        try {
-          let pcs = new IPcs({strPcs: pcsString})
-          if (pcs.cardinal > 0) {
-            this.checkoutForm.reset();
-            this.managerHomePcsService.replaceBy(pcs)
-            this.router.navigateByUrl('/pcs');
+      if (pcsString) {
+        if (pcsString.startsWith('iv:')) {
+          this.searchPcsWithThisIV(pcsString.substring(3))
+        } else {
+          try {
+            let pcs = new IPcs({strPcs: pcsString})
+            if (pcs.cardinal > 0) {
+              this.checkoutForm.reset();
+              this.managerHomePcsService.replaceBy(pcs)
+              this.router.navigateByUrl('/pcs');
+            }
+          } catch (e: any) {
           }
-        } catch (e: any) {
         }
       }
     }
   }
+
+  private searchPcsWithThisIV(searchIV: string) {
+    const pcsWithSameIV: IPcs[] = []
+    const groupCyclic = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
+    for (const orbit of groupCyclic.orbits) {
+      const pcsPF = orbit.getPcsMin()
+      if (pcsPF.iv().toString() == searchIV) {
+        pcsWithSameIV.push(pcsPF)
+      }
+    }
+    // console.log("pcsWithSameIV : " + pcsWithSameIV)
+    if (pcsWithSameIV.length > 0) {
+      // select the first of list as current pcs
+      this.managerHomePcsService.replaceBy(pcsWithSameIV[0])
+      // push all pcs havine same IV into list pcs of pcs page
+      for (const pcs of pcsWithSameIV) {
+        this.managerHomePcsListService.addPcs('iv:' + searchIV, pcs)
+      }
+      this.router.navigateByUrl('/pcs');
+    }
+
+  }
+
 }
