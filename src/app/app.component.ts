@@ -78,7 +78,7 @@ export class AppComponent {
     // console.log('pscStr = ', this.checkoutForm.value.pcsStr?.trim());
     if (this.checkoutForm.value.pcsStr) {
 
-      let pcsString = this.checkoutForm.value.pcsStr ?? ''
+      let pcsString = this.checkoutForm.value.pcsStr.trim() ?? ''
 
       // replace sep _ or space by comma
       pcsString = pcsString.replace(/[ _]/g, ",").trim();

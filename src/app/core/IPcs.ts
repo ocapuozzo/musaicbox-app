@@ -130,6 +130,7 @@ export class IPcs {
   set stabilizer(stab) {
     this._stabilizer = stab
   }
+
   get stabilizer(): Stabilizer {
     if (this.isDetached()) {
       throw new Error('A detached PCS has no Stabilizer !')
@@ -163,7 +164,7 @@ export class IPcs {
       this.iPivot = this.abinPcs.findIndex((pc => pc === 1))
     } else if (strPcs !== undefined) {
       this.abinPcs = this._fromStringTobinArray(strPcs, n)
-      if (! iPivot) {
+      if (!iPivot) {
         this.iPivot = IPcs.defaultPivotFromStrBin(strPcs)
         // set param iPivot
         iPivot = this.iPivot
@@ -240,21 +241,26 @@ export class IPcs {
   _fromStringTobinArray(strpcs: string, n: number = 12): Array<number> {
 
     // assume length = 12
-    this.chekStrpcs(strpcs.trim())
+    // this.chekStrpcs(strpcs.trim())
 
     let bin = new Array(n).fill(0);
 
+    strpcs = strpcs.trim()
     //  if "[1,3,5]" => "1,3,5"
     //  if "{1,3,5}" => "1,3,5"
     if (strpcs.length > 0) {
-      if ((strpcs[0] === '[' && strpcs[strpcs.length - 1] === ']') ||
-        (strpcs[0] === '{' && strpcs[strpcs.length - 1] === '}')) {
-        strpcs = strpcs.substring(1, strpcs.length - 1);
+      if (isNaN(Number(strpcs[0]))) {
+        // is framed by symbols, remove them
+        strpcs = strpcs.substring(1, isNaN(Number(strpcs[strpcs.length - 1])) ? strpcs.length - 1 : undefined);
+        strpcs = strpcs.trim()
       }
     }
     if (strpcs) {
       let pitches = strpcs.split(',');
       for (let i = 0; i < pitches.length; i++) {
+        if (isNaN(Number(pitches[i])) || Number(pitches[i]) < 0 || Number(pitches[i]) > 12) {
+          continue
+        }
         bin[Number(pitches[i])] = 1;
       }
     }
@@ -267,7 +273,7 @@ export class IPcs {
    * Example : [11, 4, 5] => 11 is iPivot
    * @param strpcs a str Pcs
    */
-  static defaultPivotFromStrBin(strpcs: string): number | undefined{
+  static defaultPivotFromStrBin(strpcs: string): number | undefined {
     strpcs = strpcs.trim()
     if (strpcs.length > 0) {
       if (isNaN(Number(strpcs[0]))) {
@@ -277,11 +283,13 @@ export class IPcs {
     }
     if (strpcs) {
       let pitches = strpcs.split(',');
-      return Number(pitches[0])
+      for (let i = 0; i < pitches.length ; i++) {
+        if (isNaN(Number(pitches[i]))) continue;
+        return Number(pitches[i])
+      }
     }
     return undefined;
   }
-
 
 
   /**
@@ -600,7 +608,7 @@ export class IPcs {
     if (withBracket) {
       return '[' + res + ']';
     }
-    return  res
+    return res
   }
 
 
@@ -766,10 +774,10 @@ export class IPcs {
    *
    * Examples :
    * <pre>
-   * { 0, 3, 6, 9} => 1 (PCS in LT, orbit cyclic card = 3, so 4 /(12/3) = 1)
-   * { 0, 4, 8}    => 1 (PCS in LT, orbit cyclic card = 4, so 3 /(12/4) = 1)
-   * { 0, 1, 6, 7} => 2 (PCS in LT, orbit cyclic card = 6, so 4 /(12/6) = 2)
-   * { 0, 1, 2, 3} => 4 (PCS NOT in LT => orbit cyclic card = 12, so 4 /(12/12) = 4)
+   * { 0, 3, 6, 9} => 1 (PCS is LT, orbit cyclic card = 3, so 4 /(12/3) = 1)
+   * { 0, 4, 8}    => 1 (PCS is LT, orbit cyclic card = 4, so 3 /(12/4) = 1)
+   * { 0, 1, 6, 7} => 2 (PCS is LT, orbit cyclic card = 6, so 4 /(12/6) = 2)
+   * { 0, 1, 2, 3} => 4 (PCS NOT is LT => orbit cyclic card = 12, so 4 /(12/12) = 4)
    * </pre>
    * @return {number}
    */
@@ -1026,7 +1034,7 @@ export class IPcs {
         binPcs: newBinPcs,
         n: newBinPcs.length,
         iPivot: this.iPivot,
-        orbit:  new Orbit(), // not same pcs (old orbit = this.orbit),
+        orbit: new Orbit(), // not same pcs (old orbit = this.orbit),
         templateMappingBinPcs: this.templateMappingBinPcs,
         nMapping: this.nMapping
       })
@@ -1156,15 +1164,15 @@ export class IPcs {
    * @return index for inner binary vector (abinPcs)
    *         or -1 if not statut index mapped
    */
-  indexMappedToIndexInner(indexMapped : number) : number {
+  indexMappedToIndexInner(indexMapped: number): number {
     return this.templateMappingBinPcs.findIndex(value => indexMapped == value) ?? -1
   }
 
- getChordName() : string {
+  getChordName(): string {
     return PcsNaming.getChordName(this)
- }
+  }
 
-  isLimitedTransposition(){
+  isLimitedTransposition() {
     // return this.cyclicPrimeForm().orbit.cardinal != this.n;
     // other implementation :
     return this.cardOrbitMode() != this.cardinal;
@@ -1180,7 +1188,7 @@ export class IPcs {
    * @param newPivot
    * @throws Error is newPivot is not valid
    */
-  setPivot(newPivot:number):void {
+  setPivot(newPivot: number): void {
     if (newPivot < 0 || newPivot >= this.n) {
       throw new Error(`Invalid Pivot ! ( ${newPivot} with n = ${this.n} )`)
     }
