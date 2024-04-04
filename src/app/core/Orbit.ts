@@ -299,4 +299,9 @@ export class Orbit {
   has(pcs: IPcs):boolean {
     return this.ipcsset.find( p => p.id == pcs.id) !== undefined
   }
+
+  getPcsWithThisIS(intervallicStructure: string):IPcs | undefined {
+    return this.ipcsset.find( p => p.is().toString() == intervallicStructure)
+  }
+
 }

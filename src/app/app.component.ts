@@ -23,6 +23,7 @@ import {BrowserModule} from "@angular/platform-browser";
 import {GroupAction} from "./core/GroupAction";
 import {Group} from "./core/Group";
 import {ManagerPagePcsListService} from "./service/manager-page-pcs-list.service";
+import {MatTooltip} from "@angular/material/tooltip";
 
 
 @Component({
@@ -30,7 +31,7 @@ import {ManagerPagePcsListService} from "./service/manager-page-pcs-list.service
   standalone: true,
   imports: [RouterOutlet, RouterLink, RouterLinkActive,
     MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, FontAwesomeModule,
-    FormsModule, ReactiveFormsModule, MatFormField, MatInput
+    FormsModule, ReactiveFormsModule, MatFormField, MatInput, MatTooltip
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './app.component.html',
@@ -86,6 +87,8 @@ export class AppComponent {
       if (pcsString) {
         if (pcsString.startsWith('iv:')) {
           this.searchPcsWithThisIV(pcsString.substring(3))
+        }else if (pcsString.startsWith('is:')) {
+          this.searchPcsWithThisIS(pcsString.substring(3))
         } else {
           try {
             let pcs = new IPcs({strPcs: pcsString})
@@ -101,6 +104,13 @@ export class AppComponent {
     }
   }
 
+  /**
+   * Search PCS having intervallic vector from cyclic group
+   * Ex : 0,0,4,0,0,2 => PCS : { 0, 3, 7 }, { 0, 4, 7 }
+   * If is found, push result on pcs page.
+   * @param searchIV intervallic vector
+   * @private
+   */
   private searchPcsWithThisIV(searchIV: string) {
     const pcsWithSameIV: IPcs[] = []
     const groupCyclic = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
@@ -118,6 +128,24 @@ export class AppComponent {
       for (const pcs of pcsWithSameIV) {
         this.managerHomePcsListService.addPcs('iv:' + searchIV, pcs)
       }
+      this.router.navigateByUrl('/pcs');
+    }
+  }
+
+  /**
+   * Search PCS having intervallic structure from cyclic group
+   * Ex : 3,3,3,3 => PCS : { 0, 3, 6, 9 }
+   * If is found, push result on pcs page.
+   * @param searchIS intervallic structure
+   * @private
+   */
+  private searchPcsWithThisIS(searchIS: string) {
+    const groupCyclic = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
+    const pcs = groupCyclic.getPcsWithThisIS(searchIS)
+
+    if (pcs) {
+      // select the first of list as current pcs
+      this.managerHomePcsService.replaceBy(pcs)
       this.router.navigateByUrl('/pcs');
     }
 

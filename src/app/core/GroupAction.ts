@@ -410,4 +410,12 @@ export class GroupAction {
 
     GroupAction._predefinedGroupsActions.set(7, groupsActions)
   }
+
+  getPcsWithThisIS(intervallicStructure : string): IPcs | undefined {
+    for (const orbit of this.orbits) {
+      const pcs = orbit.getPcsWithThisIS(intervallicStructure)
+      if (pcs) return pcs
+    }
+    return undefined
+  }
 }

@@ -112,3 +112,9 @@ legend.representation-border {
 .text-small {
   font-size: smaller;
 }
+
+/*https://stackoverflow.com/questions/64169256/angular-material-mattooltip-break-line-elements*/
+/*separator: &#13;&#10;*/
+.line-broken-tooltip {
+  white-space: pre-line;
+}
