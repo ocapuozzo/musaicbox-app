@@ -38,7 +38,9 @@
       <span class="analyse-pcs" style="margin-right: 10px">&lt;{{ pcsMapped.iv() }}&gt;</span>shared by (cyclicPF) :
       @for (pcs of pcsWithSameIVas(pcsMapped); track pcs) {
         <button mat-button (click)="doReplaceBy(pcs)">
-          <span class="other-pcs-same-iv">{{pcs.getPcsStr()}}</span>
+          <span class="other-pcs-same-iv">
+            {{pcs.getPcsStr()}}@if(pcs.cyclicPrimeForm().id == pcsMapped.cyclicPrimeForm().id){*}
+          </span>
         </button>
       }
     </p>

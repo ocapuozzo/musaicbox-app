@@ -4,6 +4,11 @@ import {Group} from "../core/Group";
 
 export class PcsSearch {
 
+  /**
+   * Search PCS having same interval vector from cyclic group
+   * @param searchIV
+   * @return IPcs[]
+   */
   static searchPcsWithThisIV(searchIV:string): IPcs[] {
     const pcsWithSameIV: IPcs[] = []
     const groupCyclic = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
@@ -16,5 +21,15 @@ export class PcsSearch {
     return pcsWithSameIV
   }
 
+  /**
+   * Search PCS having intervallic structure from cyclic group
+   * Ex : 3,3,3,3 => PCS : { 0, 3, 6, 9 }
+   * @param searchIS intervallic structure
+   * @return IPcs or undefined
+   */
+  static searchPcsWithThisIS(searchIS : string) : IPcs  | undefined{
+    const groupCyclic = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
+    return groupCyclic.getPcsWithThisIS(searchIS)
+  }
 
 }

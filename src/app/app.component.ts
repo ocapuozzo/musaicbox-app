@@ -136,15 +136,12 @@ export class AppComponent {
    * @private
    */
   private searchPcsWithThisIS(searchIS: string) {
-    const groupCyclic = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
-    const pcs = groupCyclic.getPcsWithThisIS(searchIS)
-
+    const pcs = PcsSearch.searchPcsWithThisIS(searchIS)
     if (pcs) {
       // select the first of list as current pcs
       this.managerHomePcsService.replaceBy(pcs)
       this.router.navigateByUrl('/pcs');
     }
-
   }
 
 }
