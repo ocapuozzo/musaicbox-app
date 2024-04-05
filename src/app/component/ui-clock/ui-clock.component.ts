@@ -156,6 +156,8 @@ export class UiClockComponent {
       return;
     }
 
+    // console.log("index = " + index)
+
     // https://stackoverflow.com/questions/2405771/is-right-click-a-javascript-event
     let isRightMB = false;
     e = e || window.Event;
@@ -168,8 +170,8 @@ export class UiClockComponent {
     // @ts-ignore
     let longClick = (new Date() - this.dateMouseDone) >= 1000
 
-    // console.log("index :" + index + " this.getIPivot() :" +this.getIPivot())
-
+    console.log("index :" + index + " this.getIPivot() :" +this.getIPivot())
+    index = this.pcs.indexMappedToIndexInner(index)
     // right click and long click => change iPivot
     if (isRightMB || longClick) {
       if (index !== this.getIPivot()) {
