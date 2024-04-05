@@ -11,6 +11,10 @@ h5 {
   border-width: 1px;
   border-bottom-color: lightgray;
 }
+.other-pcs-same-iv {
+  font-size: 1rem;
+  background-color: #ffebef;
+}
 
 .analyse-pcs {
   text-decoration-color: brown;

@@ -8,6 +8,7 @@ import {MatButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {IScaleName} from "../../core/IScaleName";
 import {PcsListComponent} from "../pcs-list/pcs-list.component";
+import {PcsSearch} from "../../utils/PcsSearch";
 
 @Component({
   selector: 'app-pcs-analysis',
@@ -92,35 +93,41 @@ export class PcsAnalysisComponent {
     }
   }
 
-  doPushModalPF(pcsMapped: IPcs) {
-    if (pcsMapped.n == 12) {
-      this.managerHomePcsService.replaceBy(pcsMapped.modalPrimeForm())
+  doPushModalPF(pcs: IPcs) {
+    if (pcs.n == 12) {
+      this.managerHomePcsService.replaceBy(pcs.modalPrimeForm())
     }
   }
 
-  doPushCyclicPF(pcsMapped: IPcs) {
-    if (pcsMapped.n == 12) {
-      this.managerHomePcsService.replaceBy(pcsMapped.cyclicPrimeForm())
+  doPushCyclicPF(pcs: IPcs) {
+    if (pcs.n == 12) {
+      this.managerHomePcsService.replaceBy(pcs.cyclicPrimeForm())
     }
   }
 
-  doPushDihedralPF(pcsMapped: IPcs) {
-    if (pcsMapped.n == 12) {
-      this.managerHomePcsService.replaceBy(pcsMapped.dihedralPrimeForm())
+  doPushDihedralPF(pcs: IPcs) {
+    if (pcs.n == 12) {
+      this.managerHomePcsService.replaceBy(pcs.dihedralPrimeForm())
     }
   }
 
-  doPushAffinePF(pcsMapped: IPcs) {
-    if (pcsMapped.n == 12) {
-      this.managerHomePcsService.replaceBy(pcsMapped.affinePrimeForm())
+  doPushAffinePF(pcs: IPcs) {
+    if (pcs.n == 12) {
+      this.managerHomePcsService.replaceBy(pcs.affinePrimeForm())
     }
   }
 
-  doPushMusaicPF(pcsMapped: IPcs) {
-    if (pcsMapped.n == 12) {
-      this.managerHomePcsService.replaceBy(pcsMapped.musaicPrimeForm())
+  doPushMusaicPF(pcs: IPcs) {
+    if (pcs.n == 12) {
+      this.managerHomePcsService.replaceBy(pcs.musaicPrimeForm())
     }
   }
 
+  pcsWithSameIVas(pcs: IPcs) : IPcs[] {
+    return PcsSearch.searchPcsWithThisIV(pcs.iv().toString())
+  }
 
+  doReplaceBy(pcs: IPcs){
+    this.managerHomePcsService.replaceBy(pcs)
+  }
 }

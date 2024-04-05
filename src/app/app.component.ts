@@ -24,6 +24,7 @@ import {GroupAction} from "./core/GroupAction";
 import {Group} from "./core/Group";
 import {ManagerPagePcsListService} from "./service/manager-page-pcs-list.service";
 import {MatTooltip} from "@angular/material/tooltip";
+import {PcsSearch} from "./utils/PcsSearch";
 
 
 @Component({
@@ -114,14 +115,7 @@ export class AppComponent {
    * @private
    */
   private searchPcsWithThisIV(searchIV: string) {
-    const pcsWithSameIV: IPcs[] = []
-    const groupCyclic = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
-    for (const orbit of groupCyclic.orbits) {
-      const pcsPF = orbit.getPcsMin()
-      if (pcsPF.iv().toString() == searchIV) {
-        pcsWithSameIV.push(pcsPF)
-      }
-    }
+    const pcsWithSameIV: IPcs[] = PcsSearch.searchPcsWithThisIV(searchIV)
     // console.log("pcsWithSameIV : " + pcsWithSameIV)
     if (pcsWithSameIV.length > 0) {
       // select the first of list as current pcs
