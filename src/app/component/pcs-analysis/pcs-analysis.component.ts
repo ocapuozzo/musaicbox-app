@@ -32,17 +32,14 @@ export class PcsAnalysisComponent {
 
   static ROMAIN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII']
 
-
   constructor(private readonly managerHomePcsListService: ManagerPagePcsListService,
               private readonly managerHomePcsService: ManagerPagePcsService) {
     // this.pcsList = this.managerHomePcsService.pcsList
     this.managerHomePcsService.updatePcsEvent.subscribe((pcs: IPcs) => {
       this.pcs = pcs
-      this.pcsMapped = this.pcs.n == 12 ? this.pcs : new IPcs({binPcs:this.pcs.getMappedBinPcs()})
-      // if (this.pcsList.orbit.stabilizers) {
-      //   console.log("this.pcsList.orbit.stabilizers.length = " + this.pcsList.orbit.stabilizers.length)
-      //   console.log("this.pcsList.orbit.name = " + this.pcsList.orbit.name)
-      // }
+      this.pcsMapped = this.pcs.n == 12
+        ? this.pcs
+        : new IPcs({binPcs:this.pcs.getMappedBinPcs()})
     })
   }
 
@@ -94,4 +91,36 @@ export class PcsAnalysisComponent {
       pcs = pcs.modulation(IPcs.NEXT_DEGREE)
     }
   }
+
+  doPushModalPF(pcsMapped: IPcs) {
+    if (pcsMapped.n == 12) {
+      this.managerHomePcsService.replaceBy(pcsMapped.modalPrimeForm())
+    }
+  }
+
+  doPushCyclicPF(pcsMapped: IPcs) {
+    if (pcsMapped.n == 12) {
+      this.managerHomePcsService.replaceBy(pcsMapped.cyclicPrimeForm())
+    }
+  }
+
+  doPushDihedralPF(pcsMapped: IPcs) {
+    if (pcsMapped.n == 12) {
+      this.managerHomePcsService.replaceBy(pcsMapped.dihedralPrimeForm())
+    }
+  }
+
+  doPushAffinePF(pcsMapped: IPcs) {
+    if (pcsMapped.n == 12) {
+      this.managerHomePcsService.replaceBy(pcsMapped.affinePrimeForm())
+    }
+  }
+
+  doPushMusaicPF(pcsMapped: IPcs) {
+    if (pcsMapped.n == 12) {
+      this.managerHomePcsService.replaceBy(pcsMapped.musaicPrimeForm())
+    }
+  }
+
+
 }

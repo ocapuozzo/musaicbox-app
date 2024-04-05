@@ -6,6 +6,7 @@ import {GroupAction} from "./GroupAction"
 import {IPcs} from "./IPcs";
 import {MusaicPcsOperation} from "./MusaicPcsOperation";
 import {Group} from "./Group";
+import {map} from "rxjs";
 
 describe('GroupAction', () => {
 
@@ -413,6 +414,7 @@ describe('GroupAction', () => {
     // value : array of string (IPcs)
     const isDict = new Map<string, string>()
     let dic = []
+    // from 4096 to 2048
     for (let pcs of groupCyclic.powerset.values()) {
       if (pcs.is().toString())
         if (!isDict.has(pcs.is().toString())) {
@@ -466,15 +468,53 @@ describe('GroupAction', () => {
 
     // show pcs that are alone in this grouping
     let soloIV = 0
+    let nbPcsWithIVMoreThan2 = 0
+    let nbPcsWithIVequal2 = 0
     for (const pcsGroupingByIV of pcsGroupedBySameIV) {
-      if (pcsGroupingByIV[1].length == 1) {
-        soloIV++
+      if (pcsGroupingByIV[1].length > 2) {
+        console.log("iv (" + pcsGroupingByIV[0] + ") partagé par : " + pcsGroupingByIV[1].length + " pcs")
+        // soloIV++
+        nbPcsWithIVMoreThan2++
         // console.log("pcs alone : iv() =" + pcsGroupingByIV[0]
         //   + " pcs=" + pcsGroupingByIV[1][0].getPcsStr(false)
         // )
       }
+      if (pcsGroupingByIV[1].length == 2) {
+        nbPcsWithIVequal2++
+      }
+
     }
-    console.log("nb pcs with unique iv() : " + soloIV)
+    // console.log("nb pcs with unique iv() : " + soloIV)
+    console.log("nb pcs  (parmi les 352) partageant leur iv avec plus de 2 autres : " + nbPcsWithIVMoreThan2)
+    console.log("nb pcs  (parmi les 352) partageant leur iv avec 2 autres : " + nbPcsWithIVequal2)
+    expect(nbPcsWithIVequal2).toEqual(112)
+
   });
 
-})
+
+  it('Test powerset grouped by is() Pascal Triangle', () => {
+    const groupCyclic  = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
+    const mapIs = new Map<string, IPcs[]>()
+    for (const pcs of groupCyclic.powerset.values()) {
+      let pcsIs = pcs.is().toString()
+      if (mapIs.has(pcsIs)) {
+        mapIs.get(pcsIs)?.push(pcs)
+      } else {
+        mapIs.set(pcsIs, [pcs])
+      }
+    }
+    expect(mapIs.size).toEqual(groupCyclic.powerset.size/2 + 1) // 2048+1, empty matter 1 ??
+
+    let arrayCard = Array(13).fill(0)
+    for (const entryPcs of mapIs) {
+      arrayCard[entryPcs[1].length]++
+    }
+
+    for (let i = (0+1); i < arrayCard.length; i++) {
+       console.log(`[${i}] = ${arrayCard[i]}`)
+    }
+
+  })
+
+
+  })

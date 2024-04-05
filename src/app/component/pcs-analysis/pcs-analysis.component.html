@@ -86,26 +86,31 @@
     <fieldset class="representation-border">
       <legend class="representation-border">Prime Form</legend>
       <hr>
-      <p style="margin: 15px">
-        Modal :
+      <p style="margin: 1px">
+        <button mat-button (click)="doPushModalPF(pcsMapped)">Modal :
         <span class="analyse-pcs"> {{ pcsMapped.modalPrimeForm().getPcsStr() }}
           <sub> {{ pcsMapped.modalPrimeForm().iPivot }} </sub></span>
+        </button>
       </p>
-      <p style="margin: 15px">
-        Cyclic :
+      <p style="margin: 1px">
+        <button mat-button (click)="doPushCyclicPF(pcsMapped)">Cyclic :
         <span class="analyse-pcs">{{ pcsMapped.cyclicPrimeForm().getPcsStr() }}</span>
+        </button>
       </p>
-      <p>
-        Dihedral :
+      <p style="margin: 1px">
+        <button mat-button (click)="doPushDihedralPF(pcsMapped)">Dihedral :
         <span class="analyse-pcs">{{ pcsMapped.dihedralPrimeForm().getPcsStr() }}</span>
+        </button>
       </p>
-      <p style="margin: 15px">
-        Affine :
+      <p style="margin: 1px">
+        <button mat-button (click)="doPushAffinePF(pcsMapped)">Affine :
         <span class="analyse-pcs">{{ pcsMapped.affinePrimeForm().getPcsStr() }}</span>
+        </button>
       </p>
-      <p style="margin: 15px">
-        Musaic :
+      <p style="margin: 1px">
+        <button mat-button (click)="doPushMusaicPF(pcsMapped)">Musaic :
         <span class="analyse-pcs">{{ pcsMapped.musaicPrimeForm().getPcsStr() }}</span>
+        </button>
       </p>
     </fieldset>
     </div>

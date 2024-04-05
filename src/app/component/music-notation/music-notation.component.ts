@@ -81,6 +81,10 @@ constructor() {
           if (this.pcs.getMappedBinPcs()[4] === 0) {
             note = '_E'
           }
+        } else if ( note == '^A') {
+          if (this.pcs.getMappedBinPcs()[9] === 0) {
+            note = '_B'
+          }
         }
 
         // TODO make pitches always up iPivot pitch

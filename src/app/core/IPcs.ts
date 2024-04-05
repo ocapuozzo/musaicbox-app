@@ -258,7 +258,7 @@ export class IPcs {
     if (strpcs) {
       let pitches = strpcs.split(',');
       for (let i = 0; i < pitches.length; i++) {
-        if (isNaN(Number(pitches[i])) || Number(pitches[i]) < 0 || Number(pitches[i]) > 12) {
+        if (!pitches[i] || isNaN(Number(pitches[i])) || Number(pitches[i]) < 0 || Number(pitches[i]) > 12) {
           continue
         }
         bin[Number(pitches[i])] = 1;
@@ -416,7 +416,7 @@ export class IPcs {
   }
 
   dihedralPrimeForm() {
-    if (this.orbit?.groupAction == GroupAction.predefinedGroupsActions(this.n, Group.DIHEDRAL))
+    if (this.orbit?.groupAction === GroupAction.predefinedGroupsActions(this.n, Group.DIHEDRAL))
       return this.orbit.getPcsMin()
     else {
       return GroupAction.predefinedGroupsActions(this.n, Group.DIHEDRAL).getOrbitOf(this).getPcsMin()

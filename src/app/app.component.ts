@@ -83,6 +83,8 @@ export class AppComponent {
 
       // replace sep _ or space by comma
       pcsString = pcsString.replace(/[ _]/g, ",").trim();
+      // replace double comma by single comma
+      pcsString = pcsString.replace(/,,/g, ",").trim();
 
       if (pcsString) {
         if (pcsString.startsWith('iv:')) {
