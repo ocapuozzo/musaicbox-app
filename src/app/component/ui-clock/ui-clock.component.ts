@@ -253,6 +253,7 @@ export class UiClockComponent {
     e.preventDefault();
 
     let index = this.getIndexSelectedFromUIClock(e);
+    index = this.pcs.indexMappedToIndexInner(index)
 
     if (index < 0) {
       this.dateMouseDone = undefined
@@ -263,14 +264,13 @@ export class UiClockComponent {
     let longClick = (new Date() - this.dateMouseDone) >= 500
 
     this.dateMouseDone = undefined
-    const innerIndex = this.pcs.templateMappingBinPcs[index]
 
-    if (innerIndex !== this.getIPivot()) {
+    if (index !== this.getIPivot()) {
       this.touchendOk = true
       if (longClick) {
-        this.managerHomePcsService.toggleIndexOrSetIPivot(innerIndex)
+        this.managerHomePcsService.toggleIndexOrSetIPivot(index)
       } else {
-        this.managerHomePcsService.toggleIndex(innerIndex)
+        this.managerHomePcsService.toggleIndex(index)
       }
     }
   }
