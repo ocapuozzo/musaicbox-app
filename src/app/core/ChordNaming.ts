@@ -53,11 +53,16 @@ export class ChordNaming {
 
   }
 
-
+  /**
+   * From pcs, get list of possible currents chords
+   * @param pcs
+   * @param nPitches 3 or 4 (3 or 4 pitches chords) to obtain
+   * @return string[] list of pcs in string representation (cardinal 3 or 4)
+   */
   static getKeysChord(pcs: IPcs, nPitches: number): string[] {
-    let res: string[] = []
+    let chordPcsList: string[] = []
 
-    if (pcs.cardinal < 3) return res
+    if (pcs.cardinal < 3) return chordPcsList
 
     let pivot = pcs.templateMappingBinPcs[pcs.iPivot ?? 0]
     let binPcs = pcs.getMappedBinPcs()
@@ -73,7 +78,7 @@ export class ChordNaming {
             let testKey = key + ',' + (j - pivot)
             if (nPitches == 3) {
               if (ChordNaming.chordsModalPF.has(testKey)) {
-                res.push(testKey)
+                chordPcsList.push(testKey)
               }
             } else { // nPitches == 4
               // form end, seventh first before sixth
@@ -84,7 +89,7 @@ export class ChordNaming {
                   // 4Chord
                   let testKey2 = testKey + ',' + ((k - pivot) % n)
                   if (ChordNaming.chordsModalPF.has(testKey2)) {
-                    res.push(testKey2)
+                    chordPcsList.push(testKey2)
                   }
                 }
               }
@@ -104,14 +109,14 @@ export class ChordNaming {
               let testKey = key + ',' + fifth
               if (nPitches == 3) {
                 if (ChordNaming.chordsModalPF.has(testKey)) {
-                  res.push(testKey)
+                  chordPcsList.push(testKey)
                 }
               } else { // 4Chord
                 if (binPcs[(pivot + 10) % n] == 1) {
                   let testKey2 = testKey + ',10'
                   if (ChordNaming.chordsModalPF.has(testKey2)) {
                     // 7 sus2 or 7 sus4
-                    res.push(testKey2)
+                    chordPcsList.push(testKey2)
                   }
                 }
               }
@@ -120,21 +125,15 @@ export class ChordNaming {
         }
       }
     }
-    if (nPitches == 3) {
-      // chord name small in first
-      res.sort((s1, s2) =>
-        ChordNaming.chordsModalPF.get(s1)!.length - ChordNaming.chordsModalPF.get(s2)!.length)
-    } else {
-      // put altered chords after others
-      res.sort((s1, s2) => {
-        const chord1 = ChordNaming.chordsModalPF.get(s1) ?? ''
-        const chord2 = ChordNaming.chordsModalPF.get(s2) ?? ''
-        return (chord1.indexOf("♯")+chord1.indexOf("♭")+chord1.indexOf("sus"))
-               -
-               (chord2.indexOf("♯")+chord2.indexOf("♭")+chord2.indexOf("sus"))
-      })
-    }
-    return res
+    // put "altered" chords after others
+    chordPcsList.sort((s1, s2) => {
+      const chord1 = ChordNaming.chordsModalPF.get(s1) ?? ''
+      const chord2 = ChordNaming.chordsModalPF.get(s2) ?? ''
+      return (chord1.indexOf("♯") + chord1.indexOf("♭") + chord1.indexOf("sus") + chord1.indexOf("6"))
+        -
+        (chord2.indexOf("♯") + chord2.indexOf("♭") + chord2.indexOf("sus") + chord2.indexOf("6"))
+    })
+    return chordPcsList
   }
 
   /**
@@ -172,8 +171,6 @@ export class ChordNaming {
       return nameRoot + ' ' + _chordName
     return `${nameRoot}${_chordName}`
   }
-
-
 
 
 }
