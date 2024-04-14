@@ -1169,7 +1169,11 @@ export class IPcs {
   }
 
   getChordName(): string {
-    return ChordNaming.getChordName(this)
+    return ([3, 4].includes(this.cardinal)) ? ChordNaming.getChordName(this) : this.getScaleName() // or empty ??
+  }
+
+  getScaleName() {
+    return Scales2048Name.getScaleName(this);
   }
 
   isLimitedTransposition() {
@@ -1184,7 +1188,7 @@ export class IPcs {
   }
 
   /**
-   * Change state of this instance by update this.iPivot
+   * Change state of this instance by update this.iPivot (rem : do not change identity - id)
    * @param newPivot
    * @throws Error is newPivot is not valid
    */
@@ -1202,7 +1206,4 @@ export class IPcs {
 
   // TODO arranger les opérations en inner et mapped et peut-être sortir des fonctions utilitaires pour binpcs ?
 
-  getScaleName() {
-    return Scales2048Name.getScaleName(this);
-  }
 }
