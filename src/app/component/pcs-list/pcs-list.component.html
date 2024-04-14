@@ -15,9 +15,9 @@
             <i (click)="doRemoveFromList(pcs)" class="bi bi-trash p-1" style="cursor: pointer"></i>
             @if (pcs.n == 12) {
               <i (click)="doPushPcsFromList(pcs)" class="bi bi-eye p-1" style="cursor: pointer"></i>
-              <app-music-notation [hidden]="! withMusicalNotation"
+              <app-score-notation [hidden]="! withMusicalNotation"
                                   [pcs]="pcs">
-              </app-music-notation>
+              </app-score-notation>
             }
           </div>
         </div>
@@ -43,9 +43,9 @@
               <i (click)="doRemoveFromList(pcs)" class="bi bi-trash p-1" style="cursor: pointer"></i>
               @if (pcs.n == 12) {
                 <i (click)="doPushPcsFromList(pcs)" class="bi bi-eye p-1" style="cursor: pointer"></i>
-                <app-music-notation [hidden]="! withMusicalNotation"
+                <app-score-notation [hidden]="! withMusicalNotation"
                                     [pcs]="pcs">
-                </app-music-notation>
+                </app-score-notation>
               }
             </div>
           </div>

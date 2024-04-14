@@ -43,7 +43,7 @@ import {GroupAction} from "./GroupAction";
 import {Group} from "./Group";
 import {Stabilizer} from "./Stabilizer";
 import {Mapping} from "../utils/Mapping";
-import {PcsNaming} from "./PcsNaming";
+import {ChordNaming} from "./ChordNaming";
 import {Scales2048Name} from "./Scales2048Name";
 
 const NEXT_MODULATION = 1
@@ -1021,7 +1021,7 @@ export class IPcs {
    */
   toggleIndexPC(ipc: number): IPcs {
     if (ipc < 0 || ipc >= this.abinPcs.length)
-      throw new Error("Invalid index pitch class !")
+      throw new Error("Invalid index pitch class ! (" + ipc +")")
 
     let newIPcs: IPcs
     let newBinPcs = this.abinPcs.slice()
@@ -1169,7 +1169,7 @@ export class IPcs {
   }
 
   getChordName(): string {
-    return PcsNaming.getChordName(this)
+    return ChordNaming.getChordName(this)
   }
 
   isLimitedTransposition() {

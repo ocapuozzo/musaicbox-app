@@ -4,13 +4,13 @@ import * as abcjs from "abcjs";
 import {StringHash} from "../../utils/StringHash";
 
 @Component({
-  selector: 'app-music-notation',
+  selector: 'app-score-notation',
   standalone: true,
   imports: [],
-  templateUrl: './music-notation.component.html',
-  styleUrl: './music-notation.component.css'
+  templateUrl: './score-notation.component.html',
+  styleUrl: './score-notation.component.css'
 })
-export class MusicNotationComponent {
+export class ScoreNotationComponent {
   @ViewChild('containercanvas', {static: false}) containerCanvas: ElementRef<HTMLCanvasElement>;
   static lettersNotation: string[] = ['C', '^C', 'D', '^D', 'E', 'F', '^F', 'G', '^G', 'A', '^A', 'B'];
   private _pcs : IPcs
@@ -68,12 +68,12 @@ constructor() {
 
     for (let i = this.pcs.iPivot ?? 0; i < n + (this.pcs.iPivot ?? 0); i++) {
       if (this.pcs.getMappedBinPcs()[i % n] === 1) {
-        let note = MusicNotationComponent.lettersNotation[i % n];
+        let note = ScoreNotationComponent.lettersNotation[i % n];
         if (someNotesForChange.indexOf(i % n) !== -1) {
           // change # by b
           if (this.pcs.getMappedBinPcs()[(i - 1) % n] === 1 &&
               this.pcs.getMappedBinPcs()[(i + 1) % n] !== 1) {
-            note = "_" + MusicNotationComponent.lettersNotation[(i + 1) % n]
+            note = "_" + ScoreNotationComponent.lettersNotation[(i + 1) % n]
           }
         }
         // case third if #D and not E, then bE

@@ -1,5 +1,5 @@
 import {IPcs} from "../core/IPcs";
-import {PcsNaming} from "../core/PcsNaming";
+import {ChordNaming} from "../core/ChordNaming";
 
 export class AnalyseChord {
 
@@ -13,9 +13,9 @@ export class AnalyseChord {
     for (let nbDegree = 0; nbDegree < cardinal; nbDegree++) {
       let keysChord: string[]
       if (nOfPitches == 3) {
-        keysChord = PcsNaming.getKeysChord(pcsWorking, 3)
+        keysChord = ChordNaming.getKeysChord(pcsWorking, 3)
       } else {
-        keysChord = PcsNaming.getKeysChord(pcsWorking, 4)
+        keysChord = ChordNaming.getKeysChord(pcsWorking, 4)
       }
       for (const keyChord of keysChord) {
         const chord = new IPcs({strPcs:keyChord})

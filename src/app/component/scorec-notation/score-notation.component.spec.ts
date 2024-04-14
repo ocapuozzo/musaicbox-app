@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MusicNotationComponent } from './music-notation.component';
+import { ScoreNotationComponent } from './score-notation.component';
 
 describe('MusicNotationComponent', () => {
-  let component: MusicNotationComponent;
-  let fixture: ComponentFixture<MusicNotationComponent>;
+  let component: ScoreNotationComponent;
+  let fixture: ComponentFixture<ScoreNotationComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MusicNotationComponent]
+      imports: [ScoreNotationComponent]
     })
     .compileComponents();
-    
-    fixture = TestBed.createComponent(MusicNotationComponent);
+
+    fixture = TestBed.createComponent(ScoreNotationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

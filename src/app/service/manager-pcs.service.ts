@@ -84,7 +84,7 @@ export class ManagerPcsService {
   }
 
   toggleIndexFromMapped(pcs : IPcs, index: number): IPcs {
-    let newPcs = pcs.toggleIndexPC(pcs.indexMappedToIndexInner(index))
+    let newPcs = pcs.toggleIndexPC(index)
     let savNewPcs = newPcs
     if (pcs.orbit?.groupAction) {
       newPcs = pcs.orbit.groupAction.getIPcsInOrbit(newPcs)

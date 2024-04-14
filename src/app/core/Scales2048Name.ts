@@ -23,4 +23,10 @@ export class Scales2048Name {
   }
 
 
+  //  @see
+  //  https://en.wikipedia.org/wiki/Alexander_Tcherepnin
+  //  https://en.wikipedia.org/wiki/List_of_musical_scales_and_modes
+  //  https://fretboardknowledge.com/guitar/kb/allan-holdsworths-10-most-usable-scales/
+  //  ...
+
 }

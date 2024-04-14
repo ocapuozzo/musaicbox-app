@@ -2,7 +2,7 @@ import {Component, Input} from '@angular/core';
 import {IPcs} from "../../core/IPcs";
 import {ClockComponent} from "../clock/clock.component";
 import {ManagerPagePcsListService} from "../../service/manager-page-pcs-list.service";
-import {MusicNotationComponent} from "../music-notation/music-notation.component";
+import {ScoreNotationComponent} from "../scorec-notation/score-notation.component";
 import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
 import {IElementListPcs} from "../../service/IElementListPcs";
 
@@ -11,7 +11,7 @@ import {IElementListPcs} from "../../service/IElementListPcs";
   standalone: true,
   imports: [
     ClockComponent,
-    MusicNotationComponent
+    ScoreNotationComponent
   ],
   templateUrl: './pcs-list.component.html',
   styleUrl: './pcs-list.component.css'

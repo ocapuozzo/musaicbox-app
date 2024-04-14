@@ -1,7 +1,7 @@
 import {Component, ElementRef, EventEmitter, Input, NgZone, Output, Renderer2, ViewChild} from '@angular/core';
 import {IPcs} from "../../core/IPcs";
 import {ClockDrawing} from "../../ui/ClockDrawing";
-import {MusicNotationComponent} from "../music-notation/music-notation.component";
+import {ScoreNotationComponent} from "../scorec-notation/score-notation.component";
 import {
   ModulationTranslationControlComponent
 } from "../modulation-translation-control/modulation-translation-control.component";
@@ -9,7 +9,7 @@ import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
 import {ManagerPagePcsListService} from "../../service/manager-page-pcs-list.service";
 import {AnalyseChord} from "../../utils/AnalyseChord";
 import {NgOptimizedImage} from "@angular/common";
-import {PcsNaming} from "../../core/PcsNaming";
+import {ChordNaming} from "../../core/ChordNaming";
 import {Scales2048Name} from "../../core/Scales2048Name";
 import {MatTooltip} from "@angular/material/tooltip";
 
@@ -17,7 +17,7 @@ import {MatTooltip} from "@angular/material/tooltip";
   selector: 'app-ui-clock',
   standalone: true,
   imports: [
-    MusicNotationComponent,
+    ScoreNotationComponent,
     ModulationTranslationControlComponent,
     NgOptimizedImage,
     MatTooltip
@@ -146,17 +146,12 @@ export class UiClockComponent {
     // https://stackoverflow.com/questions/56260646/how-can-i-handle-the-angular-click-event-for-the-middle-mouse-button
 
     let index = this.getIndexSelectedFromUIClock(e);
+    index = this.pcs.indexMappedToIndexInner(index)
+
     if (index < 0 || this.touchendOk) {
       this.touchendOk = false
       return;
     }
-
-    // only select PCS in templateMappingBinPcs
-    if (! this.pcs.templateMappingBinPcs.includes(index)) {
-      return;
-    }
-
-    // console.log("index = " + index)
 
     // https://stackoverflow.com/questions/2405771/is-right-click-a-javascript-event
     let isRightMB = false;
@@ -170,8 +165,8 @@ export class UiClockComponent {
     // @ts-ignore
     let longClick = (new Date() - this.dateMouseDone) >= 1000
 
-    console.log("index :" + index + " this.getIPivot() :" +this.getIPivot())
-    index = this.pcs.indexMappedToIndexInner(index)
+    // console.log("index :" + index + " this.getIPivot() :" +this.getIPivot())
+    // index = this.pcs.indexMappedToIndexInner(index)
     // right click and long click => change iPivot
     if (isRightMB || longClick) {
       if (index !== this.getIPivot()) {
@@ -329,7 +324,7 @@ export class UiClockComponent {
     }
   }
 
-  protected readonly ChordName = PcsNaming;
-  protected readonly PcsNaming = PcsNaming;
+  protected readonly ChordName = ChordNaming;
+  protected readonly PcsNaming = ChordNaming;
   protected readonly Scales2048Name = Scales2048Name;
 }
