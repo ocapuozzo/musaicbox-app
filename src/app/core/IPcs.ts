@@ -1162,7 +1162,7 @@ export class IPcs {
    *
    * @param indexMapped
    * @return index for inner binary vector (abinPcs)
-   *         or -1 if not statut index mapped
+   *         or -1 if indexMapped is not mapped
    */
   indexMappedToIndexInner(indexMapped: number): number {
     return this.templateMappingBinPcs.findIndex(value => indexMapped == value) ?? -1

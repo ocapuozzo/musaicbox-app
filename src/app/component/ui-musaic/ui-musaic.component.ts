@@ -196,6 +196,8 @@ export class UiMusaicComponent {
       return;
     }
 
+    index = this.pcs.indexMappedToIndexInner(index)
+
     // keep iPivot until cardinal = 1
     if (index !== this.pcs.iPivot || this.pcs.cardinal === 1) {
       this.managerHomePcsService.toggleIndex(index)

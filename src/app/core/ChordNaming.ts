@@ -26,7 +26,7 @@ export class ChordNaming {
     ChordNaming.chordsModalPF.set('0,2,7', 'Maj sus2')
     ChordNaming.chordsModalPF.set('0,2,8', 'Maj ♯5 sus2')
     ChordNaming.chordsModalPF.set('0,2,6', 'Maj ♭5 sus2')
-    ChordNaming.chordsModalPF.set('0,5,7', 'sus4')
+    // ChordNaming.chordsModalPF.set('0,5,7', 'sus4')
 
     ChordNaming.chordsModalPF.set('0,3,8', 'min ♯5')
     ChordNaming.chordsModalPF.set('0,3,7', 'min')
@@ -36,6 +36,8 @@ export class ChordNaming {
     ChordNaming.chordsModalPF.set('0,4,7,10', '7') // seventh
     ChordNaming.chordsModalPF.set('0,4,7,9', '6')
     ChordNaming.chordsModalPF.set('0,4,7,11', 'M7') // Major 7
+    ChordNaming.chordsModalPF.set('0,4,7,8', 'M♭6') //
+
     ChordNaming.chordsModalPF.set('0,4,8,10', '7 ♯5')
     ChordNaming.chordsModalPF.set('0,4,6,10', '7 ♭5')
     ChordNaming.chordsModalPF.set('0,5,7,10', '7 sus4') // seventh
@@ -137,7 +139,8 @@ export class ChordNaming {
   }
 
   /**
-   * Get chord name 4 pitches first then 3 pitches
+   * Get chord name 4 pitches first then 3 pitches if exists else empty string
+   * Root chord is given by iPivot
    * @param pcs
    */
   static getChordName(pcs: IPcs): string {
@@ -172,6 +175,4 @@ export class ChordNaming {
     return `${nameRoot}${_chordName}`
   }
 
-
 }
-
