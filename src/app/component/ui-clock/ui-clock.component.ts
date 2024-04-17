@@ -1,7 +1,7 @@
 import {Component, ElementRef, EventEmitter, Input, NgZone, Output, Renderer2, ViewChild} from '@angular/core';
 import {IPcs} from "../../core/IPcs";
 import {ClockDrawing} from "../../ui/ClockDrawing";
-import {ScoreNotationComponent} from "../scorec-notation/score-notation.component";
+import {ScoreNotationComponent} from "../score-notation/score-notation.component";
 import {
   ModulationTranslationControlComponent
 } from "../modulation-translation-control/modulation-translation-control.component";

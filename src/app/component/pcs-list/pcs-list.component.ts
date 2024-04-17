@@ -2,7 +2,7 @@ import {Component, Input} from '@angular/core';
 import {IPcs} from "../../core/IPcs";
 import {ClockComponent} from "../clock/clock.component";
 import {ManagerPagePcsListService} from "../../service/manager-page-pcs-list.service";
-import {ScoreNotationComponent} from "../scorec-notation/score-notation.component";
+import {ScoreNotationComponent} from "../score-notation/score-notation.component";
 import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
 import {IElementListPcs} from "../../service/IElementListPcs";
 
