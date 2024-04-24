@@ -50,10 +50,15 @@
       <span class="analyse-pcs">{{ pcsMapped.forteNum() }}</span>
     </p>
     <p>
-      Limited Transposition :
+      Limited (Cyclic) Transposition :
       <span class="analyse-pcs">{{ pcsMapped.isLimitedTransposition() }}</span>
     </p>
-
+    @if (!pcs.isDetached()) {
+    <p>
+      Invariant by :
+      <span class="analyse-pcs">{{ pcs.orbit.name }}</span>
+    </p>
+    }
     <div>
     <fieldset class="representation-border">
       <legend class="representation-border">Fecundity</legend>
