@@ -357,17 +357,17 @@ export class GroupAction {
     if ( ! GroupAction._predefinedGroupsActions.has(n)) {
       const opM1T1 = new MusaicPcsOperation(n, 1,1, false)
       const groupAction = new GroupAction({someMusaicOperations: [opM1T1]})
+      // add Cyclic group action (Group.CYCLIC is 0, match index first element of array)
       GroupAction._predefinedGroupsActions.set(n, [groupAction])
     }
 
-    // TODO create if not existe with Cyclic ...
-    if (GroupAction._predefinedGroupsActions.has(n) &&
-      GroupAction._predefinedGroupsActions.get(n)![index] != undefined
-    ) {
+    if (index < 0 && index >= GroupAction._predefinedGroupsActions.get(n)?.length!) {
+      throw new Error('No predefined group action for n=' + n + ' and index=' + index + ' ! ')
+      // return GroupAction._predefinedGroupsActions.get(n)![Group.CYCLIC]
+    } else {
       return GroupAction._predefinedGroupsActions.get(n)![index]
     }
-    return GroupAction._predefinedGroupsActions.get(n)![0] // undefined ??
-    // throw new Error('No predefined group action for n=' + n + 'and index=' + index + ' !')
+
   }
 
   get cardinal() {

@@ -64,8 +64,11 @@ export class MusaicComponent {
         if (this.ipcs.getMappedBinPcs()[(i + pivotMapped  + j * 5) % n] === 1) {
           ctx.fillStyle = "black";
           ctx.fillRect(j * CEL_WIDTH, i * CEL_WIDTH, CEL_WIDTH, CEL_WIDTH);
-          ctx.strokeRect(j * CEL_WIDTH, i * CEL_WIDTH, CEL_WIDTH, CEL_WIDTH); // or not stroke ?
-
+          // when black is minority, add outline
+          // TODO in future, check when nbCEL is < n
+          if (this.opaque || this.ipcs.cardinal < 6) {
+            ctx.strokeRect(j * CEL_WIDTH, i * CEL_WIDTH, CEL_WIDTH, CEL_WIDTH); // or not stroke ?
+          }
         } else {
           if (this.opaque) {
             ctx.fillStyle = "white";
