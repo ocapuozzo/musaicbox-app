@@ -297,14 +297,19 @@ export class GroupAction {
       else
         orbitsSortedByCardinal.get(card).push(orbit)
     })
+    const isComplemented = this.group.isComplemented()
     // sort operations
-    // make a "view adapter" for v-for
+    // make a "view adapter"
     let resultOrbitsSortedByCardinal: ISortedOrbits[] = []
     // default, sort cast key to string...
     Array.from(orbitsSortedByCardinal.keys()).sort((a, b) => (Number(a) - Number(b))).forEach(card => {
+      let _groupingCriterion : string= ' card : ' + card
+      if (isComplemented) {
+        _groupingCriterion += "/" + (this.n - card)
+      }
       const obj: ISortedOrbits =
         {
-          groupingCriterion: "card : " + this.group.isComplemented() ? card + "/" + (this.n - card) : card + "",
+          groupingCriterion: _groupingCriterion,
           // to avoid duplicate keys in vue
           hashcode: card + Date.now(),
           orbits: orbitsSortedByCardinal.get(card).sort(Orbit.comparePcsMin)
@@ -313,7 +318,6 @@ export class GroupAction {
     })
     return resultOrbitsSortedByCardinal
   }
-
 
   cardinalOfOrbitStabilized() {
     return this.orbitsSortedByStabilizers.reduce((sum, sortedOrbits) => sum + sortedOrbits.orbits.length, 0)

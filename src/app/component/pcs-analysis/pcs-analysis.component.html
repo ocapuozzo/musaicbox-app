@@ -50,8 +50,11 @@
       <span class="analyse-pcs">{{ pcsMapped.forteNum() }}</span>
     </p>
     <p>
-      Limited (Cyclic) Transposition :
+      PCS in Limited Transposition :
       <span class="analyse-pcs">{{ pcsMapped.isLimitedTransposition() }}</span>
+      @if (pcsMapped.isLimitedTransposition()) {
+        ( <span class="analyse-pcs">{{ pcs.cyclicPrimeForm().orbit.name }}</span> )
+      }
     </p>
     @if (!pcs.isDetached()) {
     <p>
@@ -65,7 +68,7 @@
       <hr>
       <p style="margin: 1px">
         <button mat-button (click)="doPushModesOf(pcsMapped)">
-          <mat-icon>filter_tilt_shift</mat-icon> <i class="bi bi-chevron-double-down"> Modes  :</i>
+          <mat-icon>filter_tilt_shift</mat-icon> <i class="bi bi-chevron-double-down"> Modes : </i>
         </button>
          {{ ''// sub sub => to have same height that next fieldset }}
         <span class="analyse-pcs">#{{ pcsMapped.cardOrbitMode() }} <sub></sub></span>
@@ -78,13 +81,13 @@
       </p>
       <p style="margin: 1px">
         <button mat-button (click)="doPushOrbitDihedralPF(pcsMapped)">
-        <mat-icon>swap_vertical_circle</mat-icon>OrbitDihedral (M11, T1):
+        <mat-icon>swap_vertical_circle</mat-icon>OrbitDihedral (M11, T1) :
         </button>
         <span class="analyse-pcs">#{{ pcsMapped.dihedralPrimeForm().orbit.cardinal }}</span>
       </p>
       <p style="margin: 1px">
         <button mat-button (click)="doPushOrbitAffinePF(pcsMapped)">
-          <mat-icon>star</mat-icon> OrbitAffine (M5, M7, M11, T1):
+          <mat-icon>star</mat-icon> OrbitAffine (M5, M7, M11, T1) :
         </button>
         <span class="analyse-pcs">#{{ pcsMapped.affinePrimeForm().orbit.cardinal }}</span>
       </p>

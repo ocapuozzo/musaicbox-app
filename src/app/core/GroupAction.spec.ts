@@ -400,59 +400,15 @@ describe('GroupAction', () => {
 
   })
 
-  it('Skeleton for initiate list of 2048 modes/scales ', () => {
-    const groupCyclic = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
-    let nbModes = 0
-    for (const orbit of groupCyclic.orbits) {
-      nbModes += orbit.getPcsMin().cardOrbitMode()
-    }
-
-    expect(nbModes).toEqual(2048)
-
-    // other algorithm
-    // key : Intervallic Structure
-    // value : array of string (IPcs)
-    const isDict = new Map<string, string>()
-    let dic = []
-    // from 4096 to 2048
-    for (let pcs of groupCyclic.powerset.values()) {
-      if (pcs.is().toString())
-        if (!isDict.has(pcs.is().toString())) {
-          isDict.set(pcs.is().toString(), pcs.getPcsStr())
-        }
-    }
-
-    // expect(isDict.size).toEqual(24318)
-    expect(isDict.size).toEqual(2048) // +1 for empty pcsList
-
-    // from 4096 no cyclic equiv : 24318 (some says 24576 but is not because Limited Transposition)
-
-    // console.log("======== 2048 gammes/modes")
-
-    let array =
-      Array.from(isDict, ([name, value]) => ({
-        is: name,
-        name: '',
-        pcs: value,
-        id88: 0,
-        sources: [
-          {source: ""}
-         ]
-      }));
-    expect(array.length).toEqual(2048)
-    // console.log(JSON.stringify(array))
-    // console.log(JSON.stringify(array.length))
-  })
-
 
   it('List of scales grouped by same IV', () => {
-    const groupCyclic  = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
+    const groupCyclic = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
     expect(groupCyclic.operations.length).toEqual(12)
     expect(groupCyclic.orbits.length).toEqual(352)
     const pcsGroupedBySameIV = new Map<string, IPcs[]>
     for (const orbit of groupCyclic.orbits) {
       const pcsPF = orbit.getPcsMin()
-      if ( ! pcsGroupedBySameIV.has(pcsPF.iv().toString())) {
+      if (!pcsGroupedBySameIV.has(pcsPF.iv().toString())) {
         pcsGroupedBySameIV.set(pcsPF.iv().toString(), [pcsPF])
       } else {
         pcsGroupedBySameIV.get(pcsPF.iv().toString())!.push(pcsPF)
@@ -464,7 +420,7 @@ describe('GroupAction', () => {
     // TODO find reference !
     expect(pcsGroupedBySameIV.size).toEqual(200)
 
-     console.log("Example pcs with same IV() : " + Array.from(pcsGroupedBySameIV.values())[43])
+    console.log("Example pcs with same IV() : " + Array.from(pcsGroupedBySameIV.values())[43])
 
     // show pcs that are alone in this grouping
     let soloIV = 0
@@ -493,28 +449,29 @@ describe('GroupAction', () => {
 
 
   it('Test powerset grouped by is() Pascal Triangle', () => {
-    const groupCyclic  = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
+    const groupCyclic = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
     const mapIs = new Map<string, IPcs[]>()
     for (const pcs of groupCyclic.powerset.values()) {
       let pcsIs = pcs.is().toString()
       if (mapIs.has(pcsIs)) {
-        mapIs.get(pcsIs)?.push(pcs)
+        mapIs.get(pcsIs)!.push(pcs)
       } else {
         mapIs.set(pcsIs, [pcs])
       }
     }
-    expect(mapIs.size).toEqual(groupCyclic.powerset.size/2 + 1) // 2048+1, empty matter 1 ??
+    expect(mapIs.size).toEqual(groupCyclic.powerset.size / 2 + 1) // 2048+1, empty matter 1 ??
 
     let arrayCard = Array(13).fill(0)
+
     for (const entryPcs of mapIs) {
       arrayCard[entryPcs[1].length]++
     }
 
-    for (let i = (0+1); i < arrayCard.length; i++) {
-       console.log(`[${i}] = ${arrayCard[i]}`)
+    for (let i = (0 + 1); i < arrayCard.length; i++) {
+      console.log(`[${i}] = ${arrayCard[i]}`)
     }
 
   })
 
 
-  })
+})
