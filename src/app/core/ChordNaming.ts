@@ -19,6 +19,7 @@ export class ChordNaming {
   static {
     // 3-chords
     ChordNaming.chordsModalPF.set('0,4,7', 'Maj')
+    ChordNaming.chordsModalPF.set('0,4,10', '7')
     ChordNaming.chordsModalPF.set('0,4,6', 'Maj ♭5')
     ChordNaming.chordsModalPF.set('0,4,8', 'aug')
     ChordNaming.chordsModalPF.set('0,4,9', 'Maj6')
@@ -41,6 +42,7 @@ export class ChordNaming {
     ChordNaming.chordsModalPF.set('0,4,8,10', '7 ♯5')
     ChordNaming.chordsModalPF.set('0,4,6,10', '7 ♭5')
     ChordNaming.chordsModalPF.set('0,5,7,10', '7 sus4') // seventh
+    ChordNaming.chordsModalPF.set('0,5,7,11', 'sus4M7')
     ChordNaming.chordsModalPF.set('0,4,8,11', 'augM7')
     ChordNaming.chordsModalPF.set('0,2,7,10', '7 sus2')
     ChordNaming.chordsModalPF.set('0,2,6,10', '7 ♭5 sus2')
@@ -119,6 +121,13 @@ export class ChordNaming {
                   let testKey2 = testKey + ',10'
                   if (ChordNaming.chordsModalPF.has(testKey2)) {
                     // 7 sus2 or 7 sus4
+                    chordPcsList.push(testKey2)
+                  }
+                }
+                if (binPcs[(pivot + 11) % n] == 1) {
+                  let testKey2 = testKey + ',11'
+                  if (ChordNaming.chordsModalPF.has(testKey2)) {
+                    // sus2 or sus4 M7
                     chordPcsList.push(testKey2)
                   }
                 }

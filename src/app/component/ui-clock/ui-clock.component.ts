@@ -309,7 +309,9 @@ export class UiClockComponent {
   threeChordList() {
     const list3Chords = AnalyseChord.getListChords(this.pcs, 3)
     for (const list3Chord of list3Chords) {
-      for (let i = 0; i < list3Chord[1].length ; i++) {
+      if (list3Chord[1].length == 0) {
+        this.managerHomePcsListService.addPcs(list3Chord[0], null, true)
+      } else for (let i = 0; i < list3Chord[1].length ; i++) {
         this.managerHomePcsListService.addPcs(list3Chord[0], list3Chord[1][i], true)
       }
     }
@@ -318,7 +320,9 @@ export class UiClockComponent {
   fourChordList() {
     const listSeventhChords = AnalyseChord.getListChords(this.pcs, 4)
     for (const fourChord of listSeventhChords) {
-      for (let i = 0; i < fourChord[1].length ; i++) {
+      if (fourChord[1].length == 0) {
+        this.managerHomePcsListService.addPcs(fourChord[0], null, true)
+      } else for (let i = 0; i < fourChord[1].length ; i++) {
         this.managerHomePcsListService.addPcs(fourChord[0], fourChord[1][i], true)
       }
     }

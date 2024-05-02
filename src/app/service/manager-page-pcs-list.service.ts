@@ -15,11 +15,13 @@ export class ManagerPagePcsListService {
 
   constructor() { }
 
-  addPcs(title: string, pcs: IPcs, displayPivot = false) {
+  addPcs(title: string, pcs: IPcs | null, displayPivot = false) {
     if (! this.labeledListPcs.has(title)) {
-      this.labeledListPcs.set(title,{drawPivot:displayPivot, pcsList: [pcs]})
+      this.labeledListPcs.set(title,{drawPivot:displayPivot, pcsList: pcs ? [pcs] : []})
     } else {
-      this.labeledListPcs.get(title)?.pcsList.push(pcs)
+      if (pcs) {
+        this.labeledListPcs.get(title)?.pcsList.push(pcs)
+      }
     }
     this.updatePcsListEvent.emit(this.labeledListPcs)
   }

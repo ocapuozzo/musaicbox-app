@@ -11,13 +11,15 @@ export class AnalyseChord {
 
     let pcsWorking = pcs
     for (let nbDegree = 0; nbDegree < cardinal; nbDegree++) {
-      let keysChord: string[]
+      let keysChords: string[]
       if (nOfPitches == 3) {
-        keysChord = ChordNaming.getKeysChord(pcsWorking, 3)
+        keysChords = ChordNaming.getKeysChord(pcsWorking, 3)
       } else {
-        keysChord = ChordNaming.getKeysChord(pcsWorking, 4)
+        keysChords = ChordNaming.getKeysChord(pcsWorking, 4)
       }
-      for (const keyChord of keysChord) {
+      if (keysChords.length == 0) {
+        chordsByDegree.set(AnalyseChord.ROMAIN[nbDegree], [])
+      } else for (const keyChord of keysChords) {
         const chord = new IPcs({strPcs:keyChord})
         AnalyseChord.addPcs(chordsByDegree, nbDegree + 1, chord.translation(pcsWorking.iPivot ?? 0));
       }
