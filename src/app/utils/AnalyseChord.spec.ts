@@ -56,7 +56,7 @@ describe('AnalyseChord chords list', () => {
 
     expect(fourChords.size).toEqual(7)
     expect(fourChords.get('I')?.length).toEqual(3)
-    expect(fourChords.get('III')?.length).toEqual(5)
+    expect(fourChords.get('III')?.length).toEqual(6)
     expect(fourChords.get('VII')?.length).toEqual(1)
   })
 
