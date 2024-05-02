@@ -1,6 +1,7 @@
 import {IPcs} from "../core/IPcs";
 import {GroupAction} from "../core/GroupAction";
 import {Group} from "../core/Group";
+import {Orbit} from "../core/Orbit";
 
 export class PcsSearch {
 
@@ -16,6 +17,7 @@ export class PcsSearch {
       const pcsPF = orbit.getPcsMin()
       if (pcsPF.iv().toString() == searchIV) {
         pcsWithSameIV.push(pcsPF)
+          // new IPcs({strPcs:pcsPF.getPcsStr(), orbit: new Orbit()}))
       }
     }
     return pcsWithSameIV

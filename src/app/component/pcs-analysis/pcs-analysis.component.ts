@@ -9,6 +9,7 @@ import {MatIcon} from "@angular/material/icon";
 import {IScaleName} from "../../core/IScaleName";
 import {PcsListComponent} from "../pcs-list/pcs-list.component";
 import {PcsSearch} from "../../utils/PcsSearch";
+import {ManagerPcsService} from "../../service/manager-pcs.service";
 
 @Component({
   selector: 'app-pcs-analysis',
@@ -34,7 +35,8 @@ export class PcsAnalysisComponent {
   static ROMAIN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII']
 
   constructor(private readonly managerHomePcsListService: ManagerPagePcsListService,
-              private readonly managerHomePcsService: ManagerPagePcsService) {
+              private readonly managerHomePcsService: ManagerPagePcsService
+  ) {
     // this.pcsList = this.managerHomePcsService.pcsList
     this.managerHomePcsService.updatePcsEvent.subscribe((pcs: IPcs) => {
       this.pcs = pcs
@@ -124,7 +126,12 @@ export class PcsAnalysisComponent {
   }
 
   pcsWithSameIVas(pcs: IPcs) : IPcs[] {
-    return PcsSearch.searchPcsWithThisIV(pcs.iv().toString())
+    let pcsList =  PcsSearch.searchPcsWithThisIV(pcs.iv().toString())
+    if (pcs.orbit?.groupAction) {
+      // @ts-ignore
+      pcsList = pcsList.map((pcsSameIV) => pcs.orbit.groupAction.getIPcsInOrbit(pcsSameIV))
+    }
+    return pcsList
   }
 
   doReplaceBy(pcs: IPcs){
