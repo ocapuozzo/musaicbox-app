@@ -15071,13 +15071,12 @@
   },
   {
     "is": "2,2,1,2,2,2,1",
-    "name": "Major scale",
+    "name": "Major scale | Ionian mode",
     "pcs": "[0,2,4,5,7,9,11]",
     "id88": 38,
     "sources": [
-      {
-        "source": "https://fr.wikipedia.org/wiki/Mode_majeur"
-      }
+      "https://fr.wikipedia.org/wiki/Mode_majeur",
+      "https://en.wikipedia.org/wiki/Ionian_mode"
     ]
   },
   {
@@ -15085,11 +15084,7 @@
     "name": "",
     "pcs": "[0,1,2,4,5,7,9,11]",
     "id88": 0,
-    "sources": [
-      {
-        "source": ""
-      }
-    ]
+    "sources": [""]
   },
   {
     "is": "3,1,1,2,2,2,1",
@@ -15097,9 +15092,7 @@
     "pcs": "[0,3,4,5,7,9,11]",
     "id88": 0,
     "sources": [
-      {
-        "source": ""
-      }
+      ""
     ]
   },
   {

@@ -8,7 +8,7 @@
     } @else if (Scales2048Name.getScaleName(pcs)){
       <p  class="chord-name"
           matTooltip= "{{ Scales2048Name.getScaleName(pcs) //all names }}">
-        {{ Scales2048Name.getScaleName(pcs).split(",")[0] }}
+        {{ Scales2048Name.getScaleName(pcs).split("|")[0] }}
       </p>
     }
   </div>

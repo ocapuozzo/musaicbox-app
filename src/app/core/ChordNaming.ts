@@ -50,6 +50,7 @@ export class ChordNaming {
     ChordNaming.chordsModalPF.set('0,3,7,11', 'min M7')
     ChordNaming.chordsModalPF.set('0,3,8,10', 'min7 ♯5')
     ChordNaming.chordsModalPF.set('0,3,7,9', 'min6')
+    ChordNaming.chordsModalPF.set('0,3,7,8', 'min ♭6')
     ChordNaming.chordsModalPF.set('0,3,6,10', 'ø')
     ChordNaming.chordsModalPF.set('0,3,6,9', 'dim7')
 

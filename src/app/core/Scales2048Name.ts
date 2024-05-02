@@ -10,6 +10,7 @@ export class Scales2048Name {
     return scales2048.find((row: IScaleName) => row.is == isOfPcs)
   }
 
+  // TODO comment
   static getScaleName(pcs: IPcs): string {
     let cardinal = pcs.cardOrbitMode()
     let scaleName :IScaleName

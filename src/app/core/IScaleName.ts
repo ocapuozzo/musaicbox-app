@@ -3,5 +3,5 @@ export interface IScaleName {
   "name": string,
   "pcs": string,
   "id88": number,
-  "sources": [ {"source": string} ]
+  "sources": [ string ]
 }
