@@ -9,6 +9,7 @@ import {Router} from "@angular/router";
 import {ManagerExplorerService} from "../../service/manager-explorer.service";
 import {EightyEight} from "../../utils/EightyEight";
 import {MatTooltip} from "@angular/material/tooltip";
+import {CardinalColor} from "../../color/CardinalColor";
 
 @Component({
   selector: 'app-orbit',
@@ -50,4 +51,5 @@ export class UiOrbitComponent {
   }
 
   protected readonly EightyEight = EightyEight;
+  protected readonly CardinalColor = CardinalColor;
 }

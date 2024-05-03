@@ -88,7 +88,7 @@ export class PcsAnalysisComponent {
   }
 
   doPushModesOf(pcs: IPcs) {
-    let cardinal = pcs.cardinal
+    let cardinal = pcs.cardOrbitMode()
     for (let degree = 0; degree < cardinal ; degree++) {
       this.managerHomePcsListService.addPcs(PcsAnalysisComponent.ROMAIN[degree], pcs, true)
       pcs = pcs.modulation(IPcs.NEXT_DEGREE)

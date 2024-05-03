@@ -18,6 +18,7 @@ export class MusaicComponent {
 
   @Input() ipcs: IPcs = new IPcs({strPcs: "0,3,6,9"})
   @Input() opaque : boolean = true
+  @Input() pcColorSet = 'black'
 
   // ngOnInit() {
   //   // @ts-ignore
@@ -48,7 +49,7 @@ export class MusaicComponent {
     this.canvas.nativeElement.height = w
 
     let ctx = this.context
-    ctx.strokeStyle = "black";
+    ctx.strokeStyle = this.pcColorSet //"black";
 
     // Draws musaic
     // loop n+1 for exact correlation between geometry ops and algebra ops
@@ -62,7 +63,7 @@ export class MusaicComponent {
     for (let i = 0; i <= n; i++) {
       for (let j = 0; j <= n; j++) {
         if (this.ipcs.getMappedBinPcs()[(i + pivotMapped  + j * 5) % n] === 1) {
-          ctx.fillStyle = "black";
+          ctx.fillStyle = this.pcColorSet;
           ctx.fillRect(j * CEL_WIDTH, i * CEL_WIDTH, CEL_WIDTH, CEL_WIDTH);
           // when black is minority, add outline
           // TODO in future, check when nbCEL is < n

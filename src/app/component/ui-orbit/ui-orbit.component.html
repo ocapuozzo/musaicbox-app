@@ -32,7 +32,7 @@
         matTooltip ="{{orbit.getPcsMin().n == 12 ? 'Musaic reference N° ' + EightyEight.idNumberOf(orbit.getPcsMin()): ''}}">
         <app-clock
           [ipcs]="orbit.getPcsMin()"
-          [pcColorSet]="pcColorSet"
+          [pcColorSet]="orbit!.groupAction!.cardinal > orbit.cardinal ? CardinalColor.getColor(orbit.cardinal) : pcColorSet"
           [drawPivot]="false"
           class="clock-pcs ms-1 p-1"
         >

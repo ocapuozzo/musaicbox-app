@@ -5,6 +5,7 @@ import {MusaicComponent} from "../../component/musaic/musaic.component";
 import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
 import {IPcs} from "../../core/IPcs";
 import {Router} from "@angular/router";
+import {CardinalColor} from "../../color/CardinalColor";
 
 @Component({
   selector: 'app-page-the88',
@@ -26,4 +27,6 @@ export class The88Component {
     this.managerHomePcsService.replaceBy(pcs)
     this.router.navigateByUrl('/pcs');
   }
+
+  protected readonly CardinalColor = CardinalColor;
 }

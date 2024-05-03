@@ -47,6 +47,7 @@ export class ChordNaming {
     ChordNaming.chordsModalPF.set('0,2,7,10', '7 sus2')
     ChordNaming.chordsModalPF.set('0,2,6,10', '7 ♭5 sus2')
     ChordNaming.chordsModalPF.set('0,2,8,10', '7 ♯5 sus2')
+    ChordNaming.chordsModalPF.set('0,2,5,10', '9sus2') // no fifth
 
     ChordNaming.chordsModalPF.set('0,3,7,10', 'min7')
     ChordNaming.chordsModalPF.set('0,3,7,11', 'min M7')
@@ -109,7 +110,7 @@ export class ChordNaming {
         if (binPcs[(pivot + sus) % n] == 1) {
           // sus2 sus4 ?
           key = '0,' + sus
-          for (const fifth of [6, 7, 8]) {
+          for (const fifth of [5, 6, 7, 8]) {
             if (binPcs[(pivot + fifth) % n] == 1) {
               let testKey = key + ',' + fifth
               if (nPitches == 3) {
@@ -120,7 +121,7 @@ export class ChordNaming {
                 if (binPcs[(pivot + 10) % n] == 1) {
                   let testKey2 = testKey + ',10'
                   if (ChordNaming.chordsModalPF.has(testKey2)) {
-                    // 7 sus2 or 7 sus4
+                    // 7 sus
                     chordPcsList.push(testKey2)
                   }
                 }
