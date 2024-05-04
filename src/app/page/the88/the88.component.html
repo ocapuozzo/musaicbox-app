@@ -9,7 +9,7 @@
         <app-musaic
           [ipcs]="orbit.getPcsMin()"
           [opaque] = "musaicDrawGrid"
-          [pcColorSet]="orbit!.groupAction!.cardinal > orbit.cardinal ? CardinalColor.getColor(orbit.cardinal) : 'black'"
+          [pcColorSet]="colorOrbit(orbit)"
           (click)="doPushToHomePage(orbit.getPcsMin())"
           style="cursor: pointer"
         >

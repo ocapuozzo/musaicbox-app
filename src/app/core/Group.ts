@@ -21,9 +21,9 @@ export class Group {
   static AFFINE = 2
   static MUSAIC = 3
 
-  static _predefinedGroups12 : Group[]
+  static _predefinedGroups12: Group[]
 
-  operations : MusaicPcsOperation[]
+  operations: MusaicPcsOperation[]
 
   name: string
 
@@ -31,29 +31,29 @@ export class Group {
    * initialize instance by generate all operations from operations passed in parameter
    * @param {MusaicPcsOperation[]} someGeneratorMusaicPcsOperations
    */
-  constructor(someGeneratorMusaicPcsOperations : MusaicPcsOperation[]) {
+  constructor(someGeneratorMusaicPcsOperations: MusaicPcsOperation[]) {
     this.operations = Group.buildOperationsGroupByCaylayTable(someGeneratorMusaicPcsOperations)
     this.name = this.buildNameGroup()
   }
 
-  static get predefinedGroups12() : Group[]{
-    if (! this._predefinedGroups12) {
+  static get predefinedGroups12(): Group[] {
+    if (!this._predefinedGroups12) {
       this._predefinedGroups12 = []
       // index == 0 == Group.CYCLIC
       let opM1_T1 = new MusaicPcsOperation(12, 1, 1, false);
-      this._predefinedGroups12.push(new  Group([opM1_T1]))
+      this._predefinedGroups12.push(new Group([opM1_T1]))
 
       // index == 1 == Group.DIHEDRAL
       let opM11_T1 = new MusaicPcsOperation(12, 11, 1, false);
-      this._predefinedGroups12.push(new  Group([opM1_T1, opM11_T1]))
+      this._predefinedGroups12.push(new Group([opM1_T1, opM11_T1]))
 
       // index == 2 == Group.AFFINE
       let opM5_T1 = new MusaicPcsOperation(12, 5, 1, false);
-      this._predefinedGroups12.push(new  Group([opM1_T1, opM11_T1, opM5_T1]))
+      this._predefinedGroups12.push(new Group([opM1_T1, opM11_T1, opM5_T1]))
 
       // index == 3 == Group.MUSAIC
       let opCM1_T0 = new MusaicPcsOperation(12, 1, 0, true);
-      this._predefinedGroups12.push(new  Group([opM1_T1, opM11_T1, opM5_T1, opCM1_T0]))
+      this._predefinedGroups12.push(new Group([opM1_T1, opM11_T1, opM5_T1, opCM1_T0]))
     }
     return this._predefinedGroups12
   }
@@ -63,13 +63,13 @@ export class Group {
    * @param {IPcs} ipcs
    * @return IPcs copy with orbit
    */
-  buildOrbitOf(ipcs: IPcs){
-     if (ipcs.n !== this.operations[0].n) {
-       throw new Error("buildOrbitOf on pcsList which bad n:" + ipcs)
-     }
-     let pcsCopy = new IPcs({pidVal : ipcs.id})
-     this.operations.forEach(op => pcsCopy.addInOrbit(op.actionOn(pcsCopy)))
-     return pcsCopy
+  buildOrbitOf(ipcs: IPcs) {
+    if (ipcs.n !== this.operations[0].n) {
+      throw new Error("buildOrbitOf on pcsList which bad n:" + ipcs)
+    }
+    let pcsCopy = new IPcs({pidVal: ipcs.id})
+    this.operations.forEach(op => pcsCopy.addInOrbit(op.actionOn(pcsCopy)))
+    return pcsCopy
   }
 
 
@@ -90,25 +90,25 @@ export class Group {
       loop = false;
       // forLoop:
       for (let i = 0; i < cardinalOp; i++) {
-         for (let j = 0; j < cardinalOp; j++) {
-           let newop = allOps[i].compose(allOps[j]);
-           if (!allOps.find(op => op.getHashCode() === newop.getHashCode())) {
-             // ho ! add a line and column to the calay table
-             // no more restart from begin index because
-             // up vector dimension add redundant by symmetry
-             // TODO  must be demonstrated... and verified by tests unit
-             allOps.push(newop)
-             // loop = true;
-             // break forLoop
-             cardinalOp++
-           } else {
-             // console.log("-------------------------------------")
-             // console.log("newop = " + newop)
-             // console.log("newop.getHashCode() : " + newop.getHashCode())
-           }
-         }// for j
-       }// for i
-     } // while loop
+        for (let j = 0; j < cardinalOp; j++) {
+          let newop = allOps[i].compose(allOps[j]);
+          if (!allOps.find(op => op.getHashCode() === newop.getHashCode())) {
+            // ho ! add a line and column to the calay table
+            // no more restart from begin index because
+            // up vector dimension add redundant by symmetry
+            // TODO  must be demonstrated... and verified by tests unit
+            allOps.push(newop)
+            // loop = true;
+            // break forLoop
+            cardinalOp++
+          } else {
+            // console.log("-------------------------------------")
+            // console.log("newop = " + newop)
+            // console.log("newop.getHashCode() : " + newop.getHashCode())
+          }
+        }// for j
+      }// for i
+    } // while loop
     allOps.sort(MusaicPcsOperation.compare)
     return allOps
   }
@@ -120,7 +120,7 @@ export class Group {
    * @param {number} n
    * @return {number}
    */
-  static gcd(m:number, n:number):number {
+  static gcd(m: number, n: number): number {
     if (m < n) {
       let t = m;
       m = n;
@@ -142,8 +142,8 @@ export class Group {
    * @param {number} n  n > 0
    * @return {number[]} minimum elts necessary for generate phiEulerElements of n
    */
-  static phiEulerElements(n:number):number[] {
-    let eltsMinGenerator : number[] = []
+  static phiEulerElements(n: number): number[] {
+    let eltsMinGenerator: number[] = []
     eltsMinGenerator.push(1);
     // TODO stop to n/2, and define others by symmetry
     for (let i = 2; i < n; i++) {
@@ -154,8 +154,8 @@ export class Group {
     return eltsMinGenerator;
   }
 
-  isComplemented(){
-    return this.operations.some(op => op.isComplemented() )
+  isComplemented() {
+    return this.operations.some(op => op.isComplemented())
   }
 
   /**
@@ -174,14 +174,14 @@ export class Group {
         dico.set(op.a, op.t)
       }
     }
-    let opsM= ''
+    let opsM = ''
     let opT = 0
     for (const ops_a of dico.keys()) {
       opsM += opsM ? ', M' + ops_a : 'M' + ops_a
       opT += dico.get(ops_a) ?? 0
     }
     opsM += this.isComplemented() ? ', Cplt' : ''
-    opsM += opT>1 ? ', T1' : ', T0'
+    opsM += opT > 1 ? ', T1' : ', T0'
 
     opsM = '[' + opsM + ']'
     return `n=${this.operations[0].n} ${opsM}`

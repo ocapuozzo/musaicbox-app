@@ -9,7 +9,8 @@ import {Router} from "@angular/router";
 import {ManagerExplorerService} from "../../service/manager-explorer.service";
 import {EightyEight} from "../../utils/EightyEight";
 import {MatTooltip} from "@angular/material/tooltip";
-import {CardinalColor} from "../../color/CardinalColor";
+import {PcsColor} from "../../color/PcsColor";
+import {Orbit} from "../../core/Orbit";
 
 @Component({
   selector: 'app-orbit',
@@ -51,5 +52,15 @@ export class UiOrbitComponent {
   }
 
   protected readonly EightyEight = EightyEight;
-  protected readonly CardinalColor = CardinalColor;
+  protected readonly PcsColor = PcsColor;
+  protected readonly parseInt = parseInt;
+  protected readonly Math = Math;
+
+  colorOrbit(orbit: Orbit): string {
+    if (orbit!.groupAction!.cardinal == orbit.cardinal) {
+      // no stabilizer
+      return 'black'
+    }
+    return PcsColor.getColor(orbit.motifStabilizer.name);
+  }
 }
