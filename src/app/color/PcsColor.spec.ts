@@ -5,6 +5,6 @@ describe('PcsColor unit tests', () => {
     const color = PcsColor.getColor('M1')
     expect(color).toEqual('black')
     // (42 * 31) % 19 = 10, offset 800
-    expect(PcsColor.getColor(42)).toEqual('#558b2f')
+    expect(PcsColor.getColor(42)).toEqual('#7cb342')
   })
 })

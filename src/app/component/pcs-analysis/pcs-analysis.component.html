@@ -73,7 +73,7 @@
             <mat-icon>filter_tilt_shift</mat-icon>
             <i class="bi bi-chevron-double-down"> Modes : </i>
           </button>
-          {{ ''// sub sub => to have same height that next fieldset  }}
+          {{ ''// sub sub => to have same height that next fieldset   }}
           <span class="analyse-pcs">#{{ pcsMapped.cardOrbitMode() }} <sub></sub></span>
         </p>
         <p style="margin: 1px">
@@ -137,33 +137,31 @@
         </p>
       </fieldset>
     </div>
+    @if (pcsMapped.n == 12) {
     <fieldset class="representation-border">
-      <legend class="representation-border">Musaics shearing same set of meta-stabilizers ({{pcsMapped.musaicPrimeForm().orbit.motifStabilizer.name}})</legend>
+      <legend class="representation-border">Musaics shearing same set of meta-stabilizers
+        ({{ pcsMapped.musaicPrimeForm().orbit.motifStabilizer.name }})
+      </legend>
       <hr>
       <div class="row">
         @for (pcsRepr of orbitWithSameMetaStabilizersOf(pcsMapped); track pcsRepr.id) {
-        <div class="boxPcs" style="max-width: 60px; margin-left: 4px">
-<!--             matTooltip="Musaic reference N° {{EightyEight.idNumberOf(pcsRepr)}}">-->
-
-                    <span class="text-center label-ipcs">N° {{EightyEight.idNumberOf(pcsRepr)}}</span>
-
-          <!--      {{orbit.getPcsMin().getMappedPcsStr()}}-->
-          <app-musaic
-            [ipcs]="pcsRepr"
-            [opaque]="false"
-            [pcColorSet]="colorOrbit(pcsRepr)"
-            class="ms-1">
-          </app-musaic>
-          <span class="text-center label-ipcs">#{{ pcsRepr.orbit.cardinal }}</span>
-          <span>
-          <i (click)="doPushToPcsPage(pcsRepr)" class="bi bi-eye p-1" style="cursor: pointer">
-          </i>
-        </span>
-        </div>
+          <div class="boxPcs" style="max-width: 60px; margin-left: 4px">
+            <span class="text-center label-ipcs">N° {{ EightyEight.idNumberOf(pcsRepr) }}</span>
+            <app-musaic
+              [ipcs]="pcsRepr"
+              [opaque]="false"
+              [pcColorSet]="colorOrbit(pcsRepr)"
+              (click)="doPushToPcsPage(pcsRepr)"
+              class="ms-1"
+              style="cursor: pointer"
+            >
+            </app-musaic>
+            <span class="text-center label-ipcs">#{{ pcsRepr.orbit.cardinal }}</span>
+          </div>
         }
       </div>
     </fieldset>
-
+    }
     @if (!pcs.orbit.isDetached()) {
       <fieldset class="representation-border">
         <legend class="representation-border">Pcs in orbit. Group : {{ pcs.orbit!.groupAction!.group!.name }}</legend>
