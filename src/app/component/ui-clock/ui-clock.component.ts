@@ -341,4 +341,8 @@ export class UiClockComponent {
   protected readonly ChordName = ChordNaming;
   protected readonly PcsNaming = ChordNaming;
   protected readonly Scales2048Name = Scales2048Name;
+
+  getLinkName() {
+    return Scales2048Name.getScale2048Name(this.pcs).sources[0]
+  }
 }

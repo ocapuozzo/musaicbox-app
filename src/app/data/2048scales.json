@@ -13160,7 +13160,7 @@
   },
   {
     "is": "2,1,2,1,2,1,2,1",
-    "name": "G Dominant Diminished - Messiaen Mode M2",
+    "name": "G Dominant Diminished | Messiaen Mode M2",
     "pcs": "[0,2,3,5,6,8,9,11]",
     "id88": 37,
     "sources": [
@@ -13515,6 +13515,7 @@
     "pcs": "[0,1,3,4,5,7,8,9,11]",
     "id88": 16,
     "sources": [
+      "https://en.wikipedia.org/wiki/Alexander_Tcherepnin",
       "https://ianring.com/musictheory/scales/3003"
     ]
   },
