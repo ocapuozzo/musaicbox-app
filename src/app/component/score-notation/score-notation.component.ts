@@ -66,6 +66,7 @@ constructor() {
 
     const someNotesForChange = [1, 3, 6, 8, 10]
 
+    let prevNote = ''
     for (let i = this.pcs.iPivot ?? 0; i < n + (this.pcs.iPivot ?? 0); i++) {
       if (this.pcs.getMappedBinPcs()[i % n] === 1) {
         let note = ScoreNotationComponent.lettersNotation[i % n];
@@ -81,20 +82,34 @@ constructor() {
           if (this.pcs.getMappedBinPcs()[4] === 0) {
             note = '_E'
           }
-        } else if ( note == '^A') {
+        } else if ( note == '^A' && prevNote.includes("A")) {
           if (this.pcs.getMappedBinPcs()[9] === 0) {
             note = '_B'
           }
+        } else if ( note == '^G' && prevNote.includes("G")) {
+          if (this.pcs.getMappedBinPcs()[8] === 1) {
+            note = '_A'
+          }
+        } else if ( note == 'B' && prevNote.includes("B")) {
+          if (this.pcs.getMappedBinPcs()[10] === 1 && this.pcs.getMappedBinPcs()[0] === 0) {
+            note = "_C'"
+          }
         }
+        // // console.log('note = ' + note +  'bin = ' + this.pcs.getMappedBinPcs())
 
-        // TODO make pitches always up iPivot pitch
+         // TODO make pitches always up iPivot pitch
         // http://abcnotation.com/blog/2010/01/31/how-to-understand-abc-the-basics/
         if ((i % n) < (this.pcs.iPivot ?? 0)) {
           note += "'"
         }
+        prevNote = note
         notes = notes + note;
         chord = chord + note;
       }
+    }
+    // TODO bad algo, I do hack for G# Major scales... it is hard to place 7 in 12...
+    if (this.pcs.id === 32106) {
+      notes = "^F^G^AB^C'^D'^E'"
     }
     chord = '' //(this.pcsList.cardinal < 5) ? chord + ' ]  \n' : '' // experimental
     notes = chord ? notes+'|' : notes
