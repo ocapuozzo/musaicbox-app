@@ -139,7 +139,7 @@
     </div>
     @if (pcsMapped.n == 12) {
     <fieldset class="representation-border">
-      <legend class="representation-border">Musaics shearing same set of meta-stabilizers
+      <legend class="representation-border">Musaics sharing same set of meta-stabilizers
         ({{ pcsMapped.musaicPrimeForm().orbit.motifStabilizer.name }})
       </legend>
       <hr>
@@ -175,7 +175,7 @@
           <span class="analyse-pcs"> {{ pcs.orbit.name }}</span>
         </p>
         <p>
-          Stabilizers ({{ pcs.orbit.stabilizers.length }}):
+          {{ pcs.orbit.stabilizers.length }} Stabilizers :
           @for (stab of pcs.orbit.stabilizers; track stab.hashCode()) {
             <span class="analyse-pcs m-1">{{ stab.getShortName() }}</span> ({{ stab.fixedPcs.length }})
           }

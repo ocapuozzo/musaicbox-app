@@ -35,6 +35,10 @@ export class UiClockComponent {
 
   private _pcs: IPcs
 
+  private list3chordsGenerated : number[] = []
+  private list4chordsGenerated : number[] = []
+
+
   private unlisten  = () => {}; // Function
 
   /**
@@ -307,6 +311,8 @@ export class UiClockComponent {
   }
 
   threeChordList() {
+    if (this.managerHomePcsListService.isAlreadyCompute3Chords(this.pcs.id)) return
+
     const list3Chords = AnalyseChord.getListChords(this.pcs, 3)
     for (const list3Chord of list3Chords) {
       if (list3Chord[1].length == 0) {
@@ -315,9 +321,12 @@ export class UiClockComponent {
         this.managerHomePcsListService.addPcs(list3Chord[0], list3Chord[1][i], true)
       }
     }
+    this.managerHomePcsListService.addCompute3Chords(this.pcs.id)
   }
 
   fourChordList() {
+    if (this.managerHomePcsListService.isAlreadyCompute4Chords(this.pcs.id)) return
+
     const listSeventhChords = AnalyseChord.getListChords(this.pcs, 4)
     for (const fourChord of listSeventhChords) {
       if (fourChord[1].length == 0) {
@@ -326,6 +335,7 @@ export class UiClockComponent {
         this.managerHomePcsListService.addPcs(fourChord[0], fourChord[1][i], true)
       }
     }
+    this.managerHomePcsListService.addCompute4Chords(this.pcs.id)
   }
 
   protected readonly ChordName = ChordNaming;

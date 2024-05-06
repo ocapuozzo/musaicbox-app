@@ -11,7 +11,8 @@ export class ManagerPagePcsListService {
 
   labeledListPcs= new Map<string, IElementListPcs>()
 
-  compteur  = 0
+  private list3chordsGenerated: number[] = [];
+  private list4chordsGenerated: number[] = [];
 
   constructor() { }
 
@@ -43,5 +44,26 @@ export class ManagerPagePcsListService {
   clearList() {
     this.labeledListPcs.clear()
     this.updatePcsListEvent.emit(this.labeledListPcs)
+    this.list4chordsGenerated = []
+    this.list3chordsGenerated = []
   }
+
+  isAlreadyCompute3Chords(idPcs: number) {
+    return this.list3chordsGenerated.includes(idPcs)
+  }
+
+  isAlreadyCompute4Chords(idPcs: number) {
+    return (this.list4chordsGenerated.includes(idPcs))
+  }
+
+  addCompute3Chords(idPcs: number) {
+    if (! this.list3chordsGenerated.includes(idPcs))
+       this.list3chordsGenerated.push(idPcs)
+  }
+
+  addCompute4Chords(idPcs: number) {
+    if (! this.list4chordsGenerated.includes(idPcs))
+       this.list4chordsGenerated.push(idPcs)
+  }
+
 }
