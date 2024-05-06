@@ -62,3 +62,26 @@ legend.representation-border {
 .marge-5 {
   margin: 5px;
 }
+
+/**** orbits same stab */
+
+.label-ipcs {
+  font-size: 0.7em !important;
+  margin-right: 4px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+boxPcs {
+  /*border-style: solid;*/
+  /*border-color: lightgray;*/
+  margin: 3px;
+  width: 60px;
+  max-width: 60px;
+  padding: 3px;
+}

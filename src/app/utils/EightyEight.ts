@@ -27,4 +27,16 @@ export class EightyEight {
     return group88.orbits[EightyEight.idNumberOf(pcs) -1].getPcsMin()
   }
 
+  static getMusaicsWithSameMetaStabilizersOf(pcs: IPcs) : IPcs[] {
+    const group88 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC)
+    const orbit =  group88.getOrbitOf(pcs)
+    let pcsReprOfMusaic : IPcs[] = []
+    group88.orbits.forEach((o) =>
+    {
+      if (o.motifStabilizer.name == orbit.motifStabilizer.name) {
+        pcsReprOfMusaic.push(o.getPcsMin())
+      }
+    })
+    return pcsReprOfMusaic;
+  }
 }

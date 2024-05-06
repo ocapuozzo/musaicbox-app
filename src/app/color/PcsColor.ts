@@ -11,7 +11,7 @@ const colorMotifs: Map<string, string> = new Map([
   ['M1,M5,M7,M11', 'lime'],
   ['M1,M5,CM1,CM5', 'amber'],
   ['M1,M5,CM7,CM11', 'orange'],
-  ['M1,M7,CM5,CM11', 'brown'],
+  ['M1,M7,CM5,CM11', 'pink'],
   ['M1,M11,CM1,CM11', 'lightgreen'],
   ['M1,M11,CM5,CM7', 'bluegrey'],
   ['M1,M5,M7,M11,CM1,CM5,CM7,CM11', 'lightblue']

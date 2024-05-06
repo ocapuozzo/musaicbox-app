@@ -19,6 +19,7 @@
         <app-musaic
           [ipcs]="orbit.getPcsMin()"
           [opaque]="false"
+          [pcColorSet]="colorOrbit(orbit)"
           class="ms-1">
         </app-musaic>
         <span class="text-center label-ipcs">#{{ orbit.ipcsset.length }}</span>

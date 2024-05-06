@@ -40,7 +40,9 @@
       @for (pcs of pcsWithSameIVas(pcsMapped); track pcs) {
         <button mat-button (click)="doReplaceBy(pcs)">
           <span class="other-pcs-same-iv">
-            {{pcs.getPcsStr()}}@if(pcs.cyclicPrimeForm().id == pcsMapped.cyclicPrimeForm().id){*}
+            {{ pcs.getPcsStr() }}@if (pcs.cyclicPrimeForm().id == pcsMapped.cyclicPrimeForm().id) {
+            *
+          }
           </span>
         </button>
       }
@@ -57,83 +59,114 @@
       }
     </p>
     @if (!pcs.isDetached()) {
-    <p>
-      Invariant by :
-      <span class="analyse-pcs">{{ pcs.orbit.name }}</span>
-    </p>
+      <p>
+        Invariant by :
+        <span class="analyse-pcs">{{ pcs.orbit.name }}</span>
+      </p>
     }
     <div>
-    <fieldset class="representation-border">
-      <legend class="representation-border">Fecundity</legend>
-      <hr>
-      <p style="margin: 1px">
-        <button mat-button (click)="doPushModesOf(pcsMapped)">
-          <mat-icon>filter_tilt_shift</mat-icon> <i class="bi bi-chevron-double-down"> Modes : </i>
-        </button>
-         {{ ''// sub sub => to have same height that next fieldset }}
-        <span class="analyse-pcs">#{{ pcsMapped.cardOrbitMode() }} <sub></sub></span>
-      </p>
-      <p style="margin: 1px">
-        <button mat-button (click)="doPushOrbitCyclicPF(pcsMapped)">
-          <mat-icon>sync</mat-icon>OrbitCyclic (M1-T1) :
-        </button>
-        <span class="analyse-pcs">#{{ pcsMapped.cardOrbitCyclic() }}</span>
-      </p>
-      <p style="margin: 1px">
-        <button mat-button (click)="doPushOrbitDihedralPF(pcsMapped)">
-        <mat-icon>swap_vertical_circle</mat-icon>OrbitDihedral (M11, T1) :
-        </button>
-        <span class="analyse-pcs">#{{ pcsMapped.dihedralPrimeForm().orbit.cardinal }}</span>
-      </p>
-      <p style="margin: 1px">
-        <button mat-button (click)="doPushOrbitAffinePF(pcsMapped)">
-          <mat-icon>star</mat-icon> OrbitAffine (M5, M7, M11, T1) :
-        </button>
-        <span class="analyse-pcs">#{{ pcsMapped.affinePrimeForm().orbit.cardinal }}</span>
-      </p>
-      <p style="margin: 1px">
-        <button mat-button (click)="doPushOrbitMusaicPF(pcsMapped)">
-          <mat-icon>star_half</mat-icon> OrbitMusaic (M5, M7, M11, Cplt, T1) :
-        </button>
-        <span class="analyse-pcs">#{{ pcsMapped.musaicPrimeForm().orbit.cardinal }}</span>
-      </p>
-    </fieldset>
+      <fieldset class="representation-border">
+        <legend class="representation-border">Fecundity</legend>
+        <hr>
+        <p style="margin: 1px">
+          <button mat-button (click)="doPushModesOf(pcsMapped)">
+            <mat-icon>filter_tilt_shift</mat-icon>
+            <i class="bi bi-chevron-double-down"> Modes : </i>
+          </button>
+          {{ ''// sub sub => to have same height that next fieldset  }}
+          <span class="analyse-pcs">#{{ pcsMapped.cardOrbitMode() }} <sub></sub></span>
+        </p>
+        <p style="margin: 1px">
+          <button mat-button (click)="doPushOrbitCyclicPF(pcsMapped)">
+            <mat-icon>sync</mat-icon>
+            OrbitCyclic (M1-T1) :
+          </button>
+          <span class="analyse-pcs">#{{ pcsMapped.cardOrbitCyclic() }}</span>
+        </p>
+        <p style="margin: 1px">
+          <button mat-button (click)="doPushOrbitDihedralPF(pcsMapped)">
+            <mat-icon>swap_vertical_circle</mat-icon>
+            OrbitDihedral (M11, T1) :
+          </button>
+          <span class="analyse-pcs">#{{ pcsMapped.dihedralPrimeForm().orbit.cardinal }}</span>
+        </p>
+        <p style="margin: 1px">
+          <button mat-button (click)="doPushOrbitAffinePF(pcsMapped)">
+            <mat-icon>star</mat-icon>
+            OrbitAffine (M5, M7, M11, T1) :
+          </button>
+          <span class="analyse-pcs">#{{ pcsMapped.affinePrimeForm().orbit.cardinal }}</span>
+        </p>
+        <p style="margin: 1px">
+          <button mat-button (click)="doPushOrbitMusaicPF(pcsMapped)">
+            <mat-icon>star_half</mat-icon>
+            OrbitMusaic (M5, M7, M11, Cplt, T1) :
+          </button>
+          <span class="analyse-pcs">#{{ pcsMapped.musaicPrimeForm().orbit.cardinal }}</span>
+        </p>
+      </fieldset>
 
-    <fieldset class="representation-border">
-      <legend class="representation-border">Prime Form</legend>
-      <hr>
-      <p style="margin: 1px">
-        <button mat-button (click)="doPushModalPF(pcsMapped)">Modal :
-        <span class="analyse-pcs"> {{ pcsMapped.modalPrimeForm().getPcsStr() }}
-          <sub> {{ pcsMapped.modalPrimeForm().iPivot }} </sub></span>
-        </button>
-      </p>
-      <p style="margin: 1px">
-        <button mat-button (click)="doPushCyclicPF(pcsMapped)">Cyclic :
-        <span class="analyse-pcs">{{ pcsMapped.cyclicPrimeForm().getPcsStr() }}</span>
-        </button>
-      </p>
-      <p style="margin: 1px">
-        <button mat-button (click)="doPushDihedralPF(pcsMapped)">Dihedral :
-        <span class="analyse-pcs">{{ pcsMapped.dihedralPrimeForm().getPcsStr() }}</span>
-        </button>
-      </p>
-      <p style="margin: 1px">
-        <button mat-button (click)="doPushAffinePF(pcsMapped)">Affine :
-        <span class="analyse-pcs">{{ pcsMapped.affinePrimeForm().getPcsStr() }}</span>
-        </button>
-      </p>
-      <p style="margin: 1px">
-        <button mat-button (click)="doPushMusaicPF(pcsMapped)">Musaic :
-        <span class="analyse-pcs">{{ pcsMapped.musaicPrimeForm().getPcsStr() }}</span>
-        </button>
-      </p>
-    </fieldset>
+      <fieldset class="representation-border">
+        <legend class="representation-border">Prime Form</legend>
+        <hr>
+        <p style="margin: 1px">
+          <button mat-button (click)="doPushModalPF(pcsMapped)">Modal :
+            <span class="analyse-pcs"> {{ pcsMapped.modalPrimeForm().getPcsStr() }}
+              <sub> {{ pcsMapped.modalPrimeForm().iPivot }} </sub></span>
+          </button>
+        </p>
+        <p style="margin: 1px">
+          <button mat-button (click)="doPushCyclicPF(pcsMapped)">Cyclic :
+            <span class="analyse-pcs">{{ pcsMapped.cyclicPrimeForm().getPcsStr() }}</span>
+          </button>
+        </p>
+        <p style="margin: 1px">
+          <button mat-button (click)="doPushDihedralPF(pcsMapped)">Dihedral :
+            <span class="analyse-pcs">{{ pcsMapped.dihedralPrimeForm().getPcsStr() }}</span>
+          </button>
+        </p>
+        <p style="margin: 1px">
+          <button mat-button (click)="doPushAffinePF(pcsMapped)">Affine :
+            <span class="analyse-pcs">{{ pcsMapped.affinePrimeForm().getPcsStr() }}</span>
+          </button>
+        </p>
+        <p style="margin: 1px">
+          <button mat-button (click)="doPushMusaicPF(pcsMapped)">Musaic :
+            <span class="analyse-pcs">{{ pcsMapped.musaicPrimeForm().getPcsStr() }}</span>
+          </button>
+        </p>
+      </fieldset>
     </div>
+    <fieldset class="representation-border">
+      <legend class="representation-border">Musaics shearing same set of meta-stabilizers ({{pcsMapped.musaicPrimeForm().orbit.motifStabilizer.name}})</legend>
+      <hr>
+      <div class="row">
+        @for (pcsRepr of orbitWithSameMetaStabilizersOf(pcsMapped); track pcsRepr.id) {
+        <div class="boxPcs" style="max-width: 60px; margin-left: 4px">
+<!--             matTooltip="Musaic reference N° {{EightyEight.idNumberOf(pcsRepr)}}">-->
+
+                    <span class="text-center label-ipcs">N° {{EightyEight.idNumberOf(pcsRepr)}}</span>
+
+          <!--      {{orbit.getPcsMin().getMappedPcsStr()}}-->
+          <app-musaic
+            [ipcs]="pcsRepr"
+            [opaque]="false"
+            [pcColorSet]="colorOrbit(pcsRepr)"
+            class="ms-1">
+          </app-musaic>
+          <span class="text-center label-ipcs">#{{ pcsRepr.orbit.cardinal }}</span>
+          <span>
+          <i (click)="doPushToPcsPage(pcsRepr)" class="bi bi-eye p-1" style="cursor: pointer">
+          </i>
+        </span>
+        </div>
+        }
+      </div>
+    </fieldset>
 
     @if (!pcs.orbit.isDetached()) {
       <fieldset class="representation-border">
-        <legend class="representation-border">Pcs in orbit. Group : {{pcs.orbit!.groupAction!.group!.name}} </legend>
+        <legend class="representation-border">Pcs in orbit. Group : {{ pcs.orbit!.groupAction!.group!.name }}</legend>
         <hr>
         <p>
           Orbit cardinal :

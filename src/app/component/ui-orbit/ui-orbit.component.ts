@@ -57,10 +57,10 @@ export class UiOrbitComponent {
   protected readonly Math = Math;
 
   colorOrbit(orbit: Orbit): string {
-    if (orbit!.groupAction!.cardinal == orbit.cardinal) {
-      // no stabilizer
-      return 'black'
-    }
+    // if (orbit!.groupAction!.cardinal == orbit.cardinal) {
+    //   // no stabilizer
+    //   return 'black'
+    // }
     return PcsColor.getColor(orbit.motifStabilizer.name);
   }
 }

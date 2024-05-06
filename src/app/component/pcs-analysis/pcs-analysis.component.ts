@@ -10,13 +10,17 @@ import {IScaleName} from "../../core/IScaleName";
 import {PcsListComponent} from "../pcs-list/pcs-list.component";
 import {PcsSearch} from "../../utils/PcsSearch";
 import {ManagerPcsService} from "../../service/manager-pcs.service";
+import {MusaicComponent} from "../musaic/musaic.component";
+import {EightyEight} from "../../utils/EightyEight";
+import {PcsColor} from "../../color/PcsColor";
 
 @Component({
   selector: 'app-pcs-analysis',
   standalone: true,
   imports: [
     MatButton,
-    MatIcon
+    MatIcon,
+    MusaicComponent
   ],
   templateUrl: './pcs-analysis.component.html',
   styleUrl: './pcs-analysis.component.css'
@@ -136,5 +140,20 @@ export class PcsAnalysisComponent {
 
   doReplaceBy(pcs: IPcs){
     this.managerHomePcsService.replaceBy(pcs)
+  }
+
+  doPushToPcsPage(pcs: IPcs) {
+    this.managerHomePcsService.replaceBy(pcs)
+  }
+
+  protected readonly EightyEight = EightyEight;
+
+  orbitWithSameMetaStabilizersOf(pcs: IPcs): IPcs[] {
+    return EightyEight.getMusaicsWithSameMetaStabilizersOf(pcs)
+
+  }
+
+  colorOrbit(pcsRepr: IPcs) {
+    return PcsColor.getColor(pcsRepr.orbit.motifStabilizer.name);
   }
 }
