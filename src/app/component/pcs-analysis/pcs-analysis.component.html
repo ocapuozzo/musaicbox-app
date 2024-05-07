@@ -137,6 +137,8 @@
         </p>
       </fieldset>
     </div>
+  </div>
+  <div class="marge-5">
     @if (pcsMapped.n == 12) {
     <fieldset class="representation-border">
       <legend class="representation-border">{{orbitWithSameMetaStabilizersOf(pcsMapped).length}} Musaics sharing same set of meta-stabilizers
@@ -162,6 +164,8 @@
       </div>
     </fieldset>
     }
+  </div>
+  <div class="marge-5">
     @if (!pcs.orbit.isDetached()) {
       <fieldset class="representation-border">
         <legend class="representation-border">Pcs in orbit. Group : {{ pcs.orbit!.groupAction!.group!.name }}</legend>
