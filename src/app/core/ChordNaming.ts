@@ -154,7 +154,7 @@ export class ChordNaming {
    * Root chord is given by iPivot
    * @param pcs
    */
-  static getChordName(pcs: IPcs): string {
+  static getFirstChordName(pcs: IPcs): string {
     const chords3pitches = ChordNaming.getKeysChord(pcs, 3)
     const chords4pitches = ChordNaming.getKeysChord(pcs, 4)
 

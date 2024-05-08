@@ -141,8 +141,8 @@
   <div class="marge-5">
     @if (pcsMapped.n == 12) {
     <fieldset class="representation-border">
-      <legend class="representation-border">{{orbitWithSameMetaStabilizersOf(pcsMapped).length}} Musaics sharing same set of meta-stabilizers
-        ({{ pcsMapped.musaicPrimeForm().orbit.motifStabilizer.name }})
+      <legend class="representation-border">{{orbitWithSameMetaStabilizersOf(pcsMapped).length}} Musaics sharing exactly same set of meta-stabilizers (up to transposition) :
+        {{ pcsMapped.musaicPrimeForm().orbit.motifStabilizer.name }}
       </legend>
       <hr>
       <div class="row">

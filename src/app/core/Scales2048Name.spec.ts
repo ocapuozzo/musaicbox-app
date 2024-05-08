@@ -1,17 +1,18 @@
 import {Scales2048Name} from "./Scales2048Name";
 import scales2048 from '../data/2048scales.json';
 import {IPcs} from "./IPcs";
-import {IScaleName} from "./IScaleName";
+// import {INameDefLink, IScaleName, IScaleNameNew} from "./IScaleName";
 import {EightyEight} from "../utils/EightyEight";
 import {GroupAction} from "./GroupAction";
 import {Group} from "./Group";
+import {IScaleName} from "./IScaleName";
 
-describe('test getScaleName from 2048pcs.json', () => {
+describe('test getFirstScaleName from 2048pcs.json', () => {
 
   it("Test name Major Triad", () => {
     // const scales2048 = new Scales2048Name()
-    const pcsMajTriad = new IPcs({strPcs:"0,4,7"})
-    expect(Scales2048Name.getScaleName(pcsMajTriad)).toEqual('Major Triad')
+    const pcsMajTriad = new IPcs({strPcs: "0,4,7"})
+    expect(Scales2048Name.getFirstScaleNameOrDerived(pcsMajTriad)?.name).toEqual('Major Triad')
   })
 
 
@@ -27,7 +28,6 @@ describe('test getScaleName from 2048pcs.json', () => {
     // key : Intervallic Structure
     // value : array of string (IPcs)
     const isDict = new Map<string, string>()
-    let dic = []
     // from 4096 to 2048
     for (let pcs of groupCyclic.powerset.values()) {
       if (pcs.is().toString())
@@ -42,12 +42,17 @@ describe('test getScaleName from 2048pcs.json', () => {
     // expect(allDict.size).toEqual(24318)
 
     let array =
-      Array.from(isDict, ([name, value]) => ({
-        is: name,
-        name: '',
-        pcs: value,
-        id88:  EightyEight.idNumberOf(new IPcs({strPcs:value})),
-        sources: [""]
+      Array.from(isDict, ([isValue, pcsValue]) => ({
+        is: isValue,
+        pcs: pcsValue,
+        id88: EightyEight.idNumberOf(new IPcs({strPcs: pcsValue})),
+        sources: [
+          {
+            "name": '',
+            "url": '',
+            "type": ''
+          }
+        ]
       }));
 
     expect(array[42].id88).toEqual(28)
@@ -57,19 +62,65 @@ describe('test getScaleName from 2048pcs.json', () => {
     // console.log(JSON.stringify(array.length))
   })
 
-
   it("find id88 2048Name", () => {
     expect(scales2048.length).toEqual(2048)
 
+    const pcs = scales2048.find((s: IScaleName) => s.is == "2,2,1,2,2,2,1")
+    expect(pcs.id88).toEqual(38)
+  })
+
+  it("find first name pcs:0,2,3,7,11", () => {
+    expect(scales2048.length).toEqual(2048)
+
+    const pcs = new IPcs({strPcs:"[0,2,3,7,11]"})
+    let scaleName = Scales2048Name.getFirstScaleNameOrDerived(pcs)?.name ?? ''
+    expect(scaleName).toEqual('Zagitonic')
+
+    pcs.setPivot(3)
+    scaleName = Scales2048Name.getFirstScaleNameOrDerived(pcs)?.name ?? ''
+    expect(scaleName).toEqual('degree 2 of Lagitonic')
+  })
+
+
+  it("convert to new interface with INameDefLink", () => {
     // Example of update from existing data (set id88 value)
     // for (let i = 0; i < scales2048.length; i++) {
     //   const pcs = new IPcs({strPcs:scales2048[i].pcs})
     //   scales2048[i].id88 = EightyEight.idNumberOf(pcs)
     // }
 
-    const pcs = scales2048.find( (s : IScaleName) => s.is=="2,2,1,2,2,2,1")
-    expect(pcs.id88).toEqual(38)
+    // let new2048Scales: IScaleNameNew[] = []
+    //
+    // for (let i = 0; i < scales2048.length; i++) {
+    //   const links = scales2048[i].sources
+    //   const names = scales2048[i].name.split("|")
+    //
+    //   if (links.length != names.length) {
+    //     console.log(scales2048[i].pcs)
+    //   }
+    //   expect(links.length).toEqual(names.length)
+    //   let res: INameDefLink[] = []
+    //   for (let j = 0; j < names.length; j++) {
+    //     let typeSource = ''
+    //     if (links[j].includes("wikipedia")) typeSource = "wikipedia"
+    //     else if (links[j].includes("ianring")) typeSource = "ianring"
+    //     else if (links[j].includes("allthescales")) typeSource = "allthescales"
+    //     else if (links[j].includes("stanleyjordan")) typeSource = "stanleyjordan"
+    //     res.push(
+    //       {
+    //         name: names[j],
+    //         url: links[j],
+    //         type: typeSource
+    //       })
+    //   }
+    //   new2048Scales.push({
+    //     is: scales2048[i].is,
+    //     pcs: scales2048[i].pcs,
+    //     id88: scales2048[i].id88,
+    //     sources: res
+    //   })
+    // }
+    // console.log(JSON.stringify(new2048Scales))
   })
-
 
 })

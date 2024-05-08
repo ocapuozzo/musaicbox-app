@@ -24,10 +24,13 @@ canvas {
 }
 
 .score-center {
-  margin-left: 10px;
+  margin-left: auto;
 }
 
 .chord-name {
-  margin-top: 10px;
+
+}
+
+.chord-name-def {
   font-style: italic;
 }

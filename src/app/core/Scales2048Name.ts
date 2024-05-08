@@ -1,6 +1,6 @@
 import scales2048 from '../data/2048scales.json';
 import {IPcs} from "./IPcs";
-import {IScaleName} from "./IScaleName";
+import {INameDefLink, IScaleName} from "./IScaleName";
 
 export class Scales2048Name {
   // https://github.com/json-world/how-to-read-local-json-file-in-angular-application
@@ -10,18 +10,33 @@ export class Scales2048Name {
     return scales2048.find((row: IScaleName) => row.is == isOfPcs)
   }
 
-  // TODO comment
-  static getScaleName(pcs: IPcs): string {
-    let cardinal = pcs.cardOrbitMode()
-    let scaleName :IScaleName
-    for (let i = 0; i < cardinal ; i++) {
-      scaleName = Scales2048Name.getScale2048Name(pcs)
-      if (scaleName.name && i==0) return scaleName.name
-      if (scaleName.name) return `degree ${i+1} of ${scaleName.name}`
+
+  /**
+   * Get first scale name or degree of close one
+   * @param pcs
+   * @return {IScaleName} containing name infos, may be to contain empty value
+   */
+  static getFirstScaleNameOrDerived(pcs: IPcs): INameDefLink  {
+    let cardinalMode = pcs.cardOrbitMode()
+    for (let i = 0; i < cardinalMode ; i++) {
+      let nameDefLink = Scales2048Name.getScale2048Name(pcs).sources[0]
+      let scaleName = nameDefLink.name
+      if (scaleName && i==0) return Scales2048Name.getScale2048Name(pcs).sources[0]
+      if (scaleName) return {
+        name :  `degree ${i+1} of ${scaleName}`,
+        url : nameDefLink.url,
+        type: nameDefLink.type
+      }
       pcs = pcs.modulation(IPcs.PREV_DEGREE)
     }
-    return ''
+    return {
+      name: '',
+      url: '',
+      type: ''
+    }
   }
+
+
 
 
   //  @see

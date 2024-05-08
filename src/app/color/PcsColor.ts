@@ -13,7 +13,7 @@ const colorMotifs: Map<string, string> = new Map([
   ['M1,M5,CM7,CM11', materialColors['orange'][900]],
   ['M1,M7,CM5,CM11', materialColors['pink'][900]],
   ['M1,M11,CM1,CM11', materialColors['lightgreen'][700]],
-  ['M1,M11,CM5,CM7', materialColors['bluegrey'][900]],
+  ['M1,M11,CM5,CM7', materialColors['red'][600]],
   ['M1,M5,M7,M11,CM1,CM5,CM7,CM11', materialColors['lightblue'][900]]
   ])
 
@@ -24,10 +24,6 @@ export class PcsColor {
 
   static getColor(key: any) : string {
     if (colorMotifs.has(key)) {
-      // console.log('color motif for ' + key + ' = ' + colorMotifs.get(key))
-      // if (key == 'M1') {
-      //   return colorMotifs.get(key)! // black
-      // }
       return colorMotifs.get(key)!
     }
     if (!Number.isInteger(key)) {

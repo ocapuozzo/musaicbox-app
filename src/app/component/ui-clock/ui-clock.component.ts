@@ -8,10 +8,11 @@ import {
 import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
 import {ManagerPagePcsListService} from "../../service/manager-page-pcs-list.service";
 import {AnalyseChord} from "../../utils/AnalyseChord";
-import {NgOptimizedImage} from "@angular/common";
+import {NgForOf, NgOptimizedImage} from "@angular/common";
 import {ChordNaming} from "../../core/ChordNaming";
 import {Scales2048Name} from "../../core/Scales2048Name";
 import {MatTooltip} from "@angular/material/tooltip";
+import {INameDefLink} from "../../core/IScaleName";
 
 @Component({
   selector: 'app-ui-clock',
@@ -20,7 +21,8 @@ import {MatTooltip} from "@angular/material/tooltip";
     ScoreNotationComponent,
     ModulationTranslationControlComponent,
     NgOptimizedImage,
-    MatTooltip
+    MatTooltip,
+    NgForOf
   ],
   templateUrl: './ui-clock.component.html',
   styleUrl: './ui-clock.component.css'
@@ -35,8 +37,7 @@ export class UiClockComponent {
 
   private _pcs: IPcs
 
-  private list3chordsGenerated : number[] = []
-  private list4chordsGenerated : number[] = []
+  pcsFirstScaleNameOrDerived : INameDefLink
 
 
   private unlisten  = () => {}; // Function
@@ -48,6 +49,7 @@ export class UiClockComponent {
    */
   set pcs(value: IPcs) {
     this._pcs = value
+    this.pcsFirstScaleNameOrDerived = this._pcs.getFirstScaleNameOrDerived()
     if (this.context) {
       this.drawClock()
     }
@@ -344,5 +346,16 @@ export class UiClockComponent {
 
   getLinkName() {
     return Scales2048Name.getScale2048Name(this.pcs).sources[0]
+  }
+
+  getLinksNameDefs() : INameDefLink[] {
+    let res: INameDefLink[] = []
+    const links = Scales2048Name.getScale2048Name(this.pcs).sources
+    for (let i = 0; i < links.length ; i++) {
+      if (links[i].name) {
+        res.push({url: links[i].url, name: links[i].name, type: links[i].type})
+      }
+    }
+    return res
   }
 }

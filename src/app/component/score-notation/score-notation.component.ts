@@ -49,6 +49,7 @@ constructor() {
         //scale: .9,
         staffwidth: len,
         paddingleft: 0,
+        paddingright: 10,
         responsive: "resize"
       });
 

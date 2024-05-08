@@ -4,12 +4,21 @@
     IS : <span class="analyse-pcs"> ({{ pcs.is() }})</span>
 
     @if ([3, 4].includes(pcs.cardinal)) {
-<!--      <p class="chord-name"><a href="{{ pcs.getScaleName()}}">{{ pcs.getChordName() }}</a></p>-->
-      <p class="chord-name">{{ pcs.getChordName() }}</p>
-    } @else if (Scales2048Name.getScaleName(pcs)){
-      <p  class="chord-name"
-          matTooltip= "{{ Scales2048Name.getScaleName(pcs) //all names }}">
-        <a href="{{getLinkName()}}" target="_blank">{{ Scales2048Name.getScaleName(pcs).split("|")[0] }}</a>
+      <p class="chord-name-def" style="margin-top: 10px; padding: 0">{{ pcs.getChordName() }}</p>
+    }
+    <p></p>
+    @if (getLinksNameDefs().length > 0) {
+      <p *ngFor="let linkNameDef of getLinksNameDefs(); index as i; " class="chord-name-def" style="margin: 0; padding: 0">
+        <!--        <i class="bi bi-wikipedia"></i>-->
+        <a href="{{linkNameDef.url}}" target="_blank">{{ linkNameDef.name }}</a>
+      </p>
+    } @else if (pcsFirstScaleNameOrDerived.name) {
+      <p class="chord-name-def" style="margin: 0; padding: 0">
+<!--        no elvis op...-->
+        <a href="{{pcsFirstScaleNameOrDerived.url ? pcsFirstScaleNameOrDerived.url : '#'}}"
+           target="_blank">
+          {{ pcsFirstScaleNameOrDerived.name }}
+        </a>
       </p>
     }
   </div>

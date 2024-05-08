@@ -1169,11 +1169,11 @@ export class IPcs {
   }
 
   getChordName(): string {
-    return ([3, 4].includes(this.cardinal)) ? ChordNaming.getChordName(this) : this.getScaleName() // or empty ??
+    return ([3, 4].includes(this.cardinal)) ? ChordNaming.getFirstChordName(this) : (this.getFirstScaleNameOrDerived().name ?? '') // or empty ??
   }
 
-  getScaleName() {
-    return Scales2048Name.getScaleName(this);
+  getFirstScaleNameOrDerived() {
+    return Scales2048Name.getFirstScaleNameOrDerived(this);
   }
 
   isLimitedTransposition() {

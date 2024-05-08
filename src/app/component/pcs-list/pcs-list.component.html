@@ -37,7 +37,7 @@
                 </p>
               } @else {
                 <p class="text-center">
-                  <span>{{ pcs.getScaleName() }}</span>
+                  <span>{{ pcs.getFirstScaleNameOrDerived().name }}</span>
                 </p>
               }
               <i (click)="doRemoveFromList(pcs)" class="bi bi-trash p-1" style="cursor: pointer"></i>
