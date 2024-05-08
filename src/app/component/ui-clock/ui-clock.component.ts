@@ -8,7 +8,7 @@ import {
 import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
 import {ManagerPagePcsListService} from "../../service/manager-page-pcs-list.service";
 import {AnalyseChord} from "../../utils/AnalyseChord";
-import {NgForOf, NgOptimizedImage} from "@angular/common";
+import {NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {ChordNaming} from "../../core/ChordNaming";
 import {Scales2048Name} from "../../core/Scales2048Name";
 import {MatTooltip} from "@angular/material/tooltip";
@@ -22,7 +22,8 @@ import {INameDefLink} from "../../core/IScaleName";
     ModulationTranslationControlComponent,
     NgOptimizedImage,
     MatTooltip,
-    NgForOf
+    NgForOf,
+    NgIf
   ],
   templateUrl: './ui-clock.component.html',
   styleUrl: './ui-clock.component.css'
