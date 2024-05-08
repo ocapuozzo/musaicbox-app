@@ -5,7 +5,8 @@ import {IPcs} from "./IPcs";
 import {EightyEight} from "../utils/EightyEight";
 import {GroupAction} from "./GroupAction";
 import {Group} from "./Group";
-import {IScaleName} from "./IScaleName";
+import {INameDefLink, IScaleName} from "./IScaleName";
+import {Ianring} from "../data/ianringScaleNames";
 
 describe('test getFirstScaleName from 2048pcs.json', () => {
 
@@ -121,6 +122,59 @@ describe('test getFirstScaleName from 2048pcs.json', () => {
     //   })
     // }
     // console.log(JSON.stringify(new2048Scales))
+  })
+
+  it("generate array 2048 pid and is", () => {
+    expect(scales2048.length).toEqual(2048)
+    let array2048pid: number[] = []
+    let array2048sid: string[] = []
+    scales2048.forEach((s:IScaleName) => {
+      const pcs = new IPcs({strPcs:s.pcs})
+      array2048pid.push(pcs.pid())
+      array2048sid.push(pcs.is().toString())
+    })
+    // console.log(JSON.stringify(array2048pid))
+    console.log(JSON.stringify(array2048sid))
+  })
+
+  it("prepare and update 2048 from ianring scale names", () => {
+    expect(scales2048.length).toEqual(2048)
+    // let array2048pid: number[] = []
+    // let array2048sid: string[] = []
+    // scales2048.forEach((s:IScaleName) => {
+    //   const pcs = new IPcs({strPcs:s.pcs})
+    //   array2048pid.push(pcs.pid())
+    //   array2048sid.push(pcs.is().toString())
+    // })
+    // console.log(JSON.stringify(array2048pid))
+    // console.log(JSON.stringify(array2048sid))
+    // bs4-web-scraping-ianring.py for generate
+    // python3 ./bs4-web-scraping-ianring.py > ianringScaleNames.js
+
+    scales2048.forEach((s: IScaleName) => {
+      const pcs = new IPcs({strPcs: s.pcs})
+      const nameScale = Ianring.ianringScaleNames.get(s.is)
+      if (nameScale) {
+        const scaleNames = Scales2048Name.getScale2048Name(pcs)
+        if (scaleNames.sources.find((s) => s.name == nameScale)) {
+          // already exists
+        } else {
+          const nameScaleDef: INameDefLink = {
+            name: nameScale,
+            url: 'https://ianring.com/musictheory/scales/' + pcs.pid(),
+            type: 'ianring'
+          }
+          if (scaleNames.sources[0].name) {
+            // add a new entry
+            scaleNames.sources.push(nameScaleDef)
+          } else {
+            // update first entry (default name is empty)
+            scaleNames.sources[0] = nameScaleDef
+          }
+        }
+      }
+    })
+    // console.log(JSON.stringify(scales2048))
   })
 
 })
