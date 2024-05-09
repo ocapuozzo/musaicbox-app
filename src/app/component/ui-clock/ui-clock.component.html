@@ -9,10 +9,10 @@
     <p></p>
     @if (getLinksNameDefs().length > 0) {
       <p *ngFor="let linkNameDef of getLinksNameDefs(); index as i; " class="chord-name-def" style="margin: 0; padding: 0">
-<!--        <a  *ngIf="linkNameDef.type=='ianring'" href="{{linkNameDef.url}}" target="_blank"> {{ linkNameDef.name }} <img src="assets/img/ianring-logo.png" width="15px"  style="margin-top: 4px; vertical-align: top"></a>-->
-<!--        <a  *ngIf="linkNameDef.type=='wikipedia'" href="{{linkNameDef.url}}" target="_blank"> {{ linkNameDef.name }} <i class="bi bi-wikipedia"></i></a><a  *ngIf="linkNameDef.type=='ianring'" href="{{linkNameDef.url}}" target="_blank"> {{ linkNameDef.name }} <img src="assets/img/ianring-logo.png" width="15px"  style="margin-top: 4px; vertical-align: top"></a>-->
         <a href="{{linkNameDef.url}}" target="_blank"> {{ linkNameDef.name }}
-          <i *ngIf="linkNameDef.type=='ianring'"> <img  src="assets/img/ianring-logo.png" width="15px"  style="margin-top: 4px; vertical-align: top"></i>
+          <i *ngIf="linkNameDef.type=='ianring'">
+            <img src="/assets/img/ianring-logo.png" alt="ianring logo" width="15"  style="margin-top: 4px; vertical-align: top">
+          </i>
           <i *ngIf="linkNameDef.type=='wikipedia'"  class="bi bi-wikipedia"></i>
           <i *ngIf="linkNameDef.type=='zeitler'"  class="bi bi-globe2"></i>
         </a>

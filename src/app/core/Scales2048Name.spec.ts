@@ -79,7 +79,10 @@ describe('test getFirstScaleName from 2048pcs.json', () => {
 
     pcs.setPivot(3)
     scaleName = Scales2048Name.getFirstScaleNameOrDerived(pcs)?.name ?? ''
-    expect(scaleName).toEqual('degree 2 of Lagitonic')
+    // before integration scales name ianring
+    // expect(scaleName).toEqual('degree 2 of Lagitonic')
+    expect(scaleName).toEqual('Dolitonic')
+
   })
 
 
