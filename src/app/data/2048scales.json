@@ -13392,6 +13392,11 @@
         "name": "Ionian Pentatonic",
         "url": "https://ianring.com/musictheory/scales/2225",
         "type": "ianring"
+      },
+      {
+        "name": "Gonitonic",
+        "url": "https://allthescales.org/scales.php?n=5",
+        "type": "zeitler"
       }
     ]
   },
@@ -16495,7 +16500,7 @@
         "type": "wikipedia"
       },
       {
-        "name": " Ionian mode",
+        "name": "Ionian mode",
         "url": "https://en.wikipedia.org/wiki/Ionian_mode",
         "type": "wikipedia"
       },
