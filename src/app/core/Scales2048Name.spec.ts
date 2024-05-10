@@ -81,12 +81,13 @@ describe('test getFirstScaleName from 2048pcs.json', () => {
     scaleName = Scales2048Name.getFirstScaleNameOrDerived(pcs)?.name ?? ''
     // before integration scales name ianring
     // expect(scaleName).toEqual('degree 2 of Lagitonic')
+    // after:
     expect(scaleName).toEqual('Dolitonic')
 
   })
 
 
-  it("convert to new interface with INameDefLink", () => {
+  // it("convert to new interface with INameDefLink", () => {
     // Example of update from existing data (set id88 value)
     // for (let i = 0; i < scales2048.length; i++) {
     //   const pcs = new IPcs({strPcs:scales2048[i].pcs})
@@ -125,8 +126,8 @@ describe('test getFirstScaleName from 2048pcs.json', () => {
     //   })
     // }
     // console.log(JSON.stringify(new2048Scales))
-  })
-
+  // })
+/*
   it("generate array 2048 pid and is", () => {
     expect(scales2048.length).toEqual(2048)
     let array2048pid: number[] = []
@@ -139,7 +140,7 @@ describe('test getFirstScaleName from 2048pcs.json', () => {
     // console.log(JSON.stringify(array2048pid))
     console.log(JSON.stringify(array2048sid))
   })
-
+*/
   it("prepare and update 2048 from ianring scale names", () => {
     expect(scales2048.length).toEqual(2048)
     // let array2048pid: number[] = []
@@ -152,7 +153,9 @@ describe('test getFirstScaleName from 2048pcs.json', () => {
     // console.log(JSON.stringify(array2048pid))
     // console.log(JSON.stringify(array2048sid))
     // bs4-web-scraping-ianring.py for generate
-    // python3 ./bs4-web-scraping-ianring.py > ianringScaleNames.js
+    // python3 ./bs4-web-scraping-ianring.py > ianringScaleNames.ts
+
+    expect(Ianring.ianringScaleNames.size).toEqual(2048)
 
     scales2048.forEach((s: IScaleName) => {
       const pcs = new IPcs({strPcs: s.pcs})
