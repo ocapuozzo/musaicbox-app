@@ -163,7 +163,7 @@
         <legend class="representation-border float-none w-auto px-3">Debug</legend>
         <p>N : {{ n }}</p>
         <div><span>ops Multiplication selected : [@for (op of opMultChoices; track op; let index = $index) {
-          <span [hidden]="index===0">,</span> <span>{{ op }}</span>
+          <span [hidden]="index===0">, </span> <span>{{ op }}</span>
         }]</span></div>
         <div><span>ops Multiplication in group : [{{ groupAction?.operationsNameWithoutTxStr }}]</span></div>
 

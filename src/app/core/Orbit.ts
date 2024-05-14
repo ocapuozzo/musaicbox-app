@@ -35,7 +35,7 @@ export class Orbit {
   groupAction ?: GroupAction = undefined
 
   /**
-   * @see checkAndBuildMotifStabilizerOfOrbit
+   * @see buildNameAndMotifStabilizerName
    */
   motifStabilizer: MotifStabilizer  // stab without Tx
 
@@ -50,13 +50,18 @@ export class Orbit {
     this.ipcsset = ipcsSet ?? []
     this._hashcode = undefined
     this.motifStabilizer = MotifStabilizer.manyMotifsStabilizer
-    this.buildStabilizersSignature()
+    // this.buildStabilizersSignatureName() no, do not !
+
+    // orbit is not an immutable class. During the GroupAction constructor,
+    // the orbit instance changes state until the orbit construction is complete.
+    // When it's done, the GroupAction constructor calls this.buildStabilizersSignatureName()
+    // and, only then, does the orbit become immutable.
+
   }
 
   get cardinal() {
     return this.ipcsset.length
   }
-
 
   /**
    *
@@ -157,7 +162,7 @@ export class Orbit {
    */
   get name() {
     if (!this._name) {
-      return this.buildStabilizersSignature();
+      return this.buildStabilizersSignatureName();
     }
     return this._name
   }
@@ -179,7 +184,7 @@ export class Orbit {
    *
    * @private
    */
-  private buildStabilizersSignature() {
+  private buildStabilizersSignatureName() {
     let res = ""
     // 1 get all operations
     let mt = new Map<string, number[]>()
@@ -256,32 +261,21 @@ export class Orbit {
    * example n=12 :
    *   stabilizers 1 :  M1-T0,M5-T8,M7-T9,M11-T5
    *   stabilizers 2 :  M1-T0,M5-T4,M7-T3,M11-T7
-   *   motif stab => M1, M5, M7, M11  (invariant ISMotif by M1, M5, M7, M11)
+   *
+   *   same motif stab => M1, M5, M7, M11  (invariant ISMotif by M1, M5, M7, M11)
    *   without worrying about transposition Tx
    *
    * Only one call, by GroupAction constructor when this orbit is complete
    *
    *   @return {MotifStabilizer} the motifStabilizer of this orbit
    */
-  checkAndBuildMotifStabilizerOfOrbit(): MotifStabilizer {
-    const stabSignature =  this.buildStabilizersSignature()
-    // take left part of "M1-T0 CM11-Tx" => "M1 CM11"
+  buildNameAndMotifStabilizerName(): MotifStabilizer {
+    const stabSignature = this.buildStabilizersSignatureName() // set this.name
+    // take left part of "M1-T0 CM11-Tx~m" => "M1 CM11"
+    // note : there are no 2 CM11-Tx CM11-Ty in a same stabilizer
     const signatureWithoutTranslation =
-      stabSignature.split(" ").map(op=> op.trim().split("-")[0]).toString();
+      stabSignature.split(" ").map(op=> op.trim().split("-")[0]).join(" ");
     return this.motifStabilizer = new MotifStabilizer(signatureWithoutTranslation)
-  }
-
-  old_checkAndBuildMotifStabilizerOfOrbit(): MotifStabilizer {
-    let motifStabilizersOfOrbit = new Map<number, MotifStabilizer>() // key hashCode
-    this.stabilizers.forEach(
-      stab => motifStabilizersOfOrbit.set(stab.motifStabilizer.hashCode(), stab.motifStabilizer)
-    )
-
-    this.motifStabilizer = (motifStabilizersOfOrbit.size === 1)
-      ? this.stabilizers[0].motifStabilizer  // take any, we choose first
-      : MotifStabilizer.manyMotifsStabilizer // *
-
-    return this.motifStabilizer
   }
 
   /**

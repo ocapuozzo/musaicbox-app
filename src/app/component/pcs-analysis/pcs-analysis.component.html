@@ -58,13 +58,14 @@
         ( <span class="analyse-pcs">{{ pcs.cyclicPrimeForm().orbit.name }}</span> )
       }
     </p>
-    @if (!pcs.isDetached()) {
+<!--    @if (!pcs.isDetached()) {-->
       <p>
         Invariant by :
-        <span class="analyse-pcs">{{ pcsMapped.musaicPrimeForm().orbit.motifStabilizer.name }}</span> &nbsp;&nbsp;(
-        <span class="analyse-pcs">{{ pcs.orbit.name }}</span> )
+        <span class="analyse-pcs">{{ pcsMapped.musaicPrimeForm().orbit.motifStabilizer.name }}</span> &nbsp;&nbsp;
+<!--        (-->
+<!--        <span class="analyse-pcs">{{ pcs.orbit.name }}</span> )-->
       </p>
-    }
+<!--    }-->
     <div>
       <fieldset class="representation-border">
         <legend class="representation-border">Fecundity</legend>

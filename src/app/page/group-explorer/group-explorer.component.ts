@@ -11,8 +11,6 @@ import {ManagerExplorerService} from "../../service/manager-explorer.service";
 import {MatLabel} from "@angular/material/form-field";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {MatButton} from "@angular/material/button";
-import {MotifStabilizer} from "../../core/MotifStabilizer";
-import {group} from "@angular/animations";
 
 @Component({
   selector: 'app-group-explorer',

@@ -152,8 +152,8 @@ export class GroupAction {
       // order collection stabilizers in current orbit
       orbit.stabilizers.sort(Stabilizer.compareShortName)
 
-      // orbit is complete, we can set his motif stabilizer property (orbit.motifStabilizer)
-      orbit.checkAndBuildMotifStabilizerOfOrbit()
+      // orbit is complete, we can set his name and motif stabilizer property (orbit.motifStabilizer)
+      orbit.buildNameAndMotifStabilizerName()
     }) // end loop orbits
   }
 
