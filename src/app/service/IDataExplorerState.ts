@@ -8,7 +8,7 @@ export interface IDataExplorerState {
 
   n: number
   primesWithN: number[]
-  opMultChoices: number[]
+  opMultChoices: string[]
   opTransChoices: number[]
   opComplement: boolean
   groupOperations : MusaicPcsOperation[]

@@ -11,6 +11,8 @@ import {ManagerExplorerService} from "../../service/manager-explorer.service";
 import {MatLabel} from "@angular/material/form-field";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {MatButton} from "@angular/material/button";
+import {MotifStabilizer} from "../../core/MotifStabilizer";
+import {group} from "@angular/animations";
 
 @Component({
   selector: 'app-group-explorer',
@@ -30,7 +32,10 @@ import {MatButton} from "@angular/material/button";
 export class GroupExplorerComponent {
   n = 12
   primesWithN = [1, 5, 7, 11]
-  opMultChoices = [1]
+  primesWithNOperations: string[] = ["M1", "M5", "M7", "M11", "CM1", "CM5", "CM7", "CM11"]
+
+  // opMultChoices = [1]
+  opMultChoices: string[] = ["M1"]
   opTransChoices = [0]
   opComplement = false
   // array with neutral operation
@@ -42,7 +47,6 @@ export class GroupExplorerComponent {
 
   criteriaEquiv = "" // for UI
   debug = false
-
 
   toggleShowHide: string = "hidden"
 
@@ -96,7 +100,14 @@ export class GroupExplorerComponent {
   onChangeN($event: any) {
     this.n = Number.parseInt($event.target.value) ?? 12
     this.primesWithN = Group.phiEulerElements(this.n);
-    this.opMultChoices = [1];
+    this.primesWithNOperations = []
+    for (let i = 0; i < this.primesWithN.length; i++) {
+      this.primesWithNOperations.push(`M${this.primesWithN[i]}`)
+    }
+    for (let i = 0; i < this.primesWithN.length; i++) {
+      this.primesWithNOperations.push(`CM${this.primesWithN[i]}`)
+    }
+    this.opMultChoices = ["M1"];
     this.opTransChoices = [0];
     this.groupAction = null
     this.orbitsPartitions = []
@@ -180,16 +191,13 @@ export class GroupExplorerComponent {
    */
   getGeneratedSetOperationsFromUI(): MusaicPcsOperation[] {
     let someOperations = [];
-
-    // add complemented operation to neutral op if complement operation is selected
-    if (this.opComplement) {
-      someOperations.push(new MusaicPcsOperation(this.n, 1, 0, true))
-      // this.opTransChoices = [0, 1]
-    }
-    // include neutral operation (constant pre-selected in UI)
     for (let i = 0; i < this.opMultChoices.length; i++)
       for (let j = 0; j < this.opTransChoices.length; j++) {
-        someOperations.push(new MusaicPcsOperation(this.n, this.opMultChoices[i], this.opTransChoices[j]))
+        const a = this.opMultChoices[i].startsWith("C") ?
+          parseInt(this.opMultChoices[i].substring(2)) :
+          parseInt(this.opMultChoices[i].substring(1))
+        const complement = this.opMultChoices[i].startsWith("C")
+        someOperations.push(new MusaicPcsOperation(this.n, a, this.opTransChoices[j], complement))
       }
     return someOperations
   }
@@ -203,16 +211,37 @@ export class GroupExplorerComponent {
    * @param op number
    * @param event
    */
-  changeOpMultChoices(op: number, event: any) {
-    const index = this.opMultChoices.findIndex(v => v == op)
+  changeOpMultChoices(op: string, event: any) {
+    // this.opMultChoices = []
+    const index = this.opMultChoices.findIndex(v => v === op)
     if (index < 0 && event.target.checked) {
       this.opMultChoices.push(op)
     } else if (index > 0) {
       this.opMultChoices.splice(index, 1)
     }
+
+    // sort. Ex : M1 < M5 < CM1
+    this.opMultChoices.sort((op1: string, op2: string) => {
+      let w1 = 0;
+      let w2 = 0;
+      if (op1.startsWith('C'))
+        w1 = this.n // max coef
+      if (op2.startsWith('C'))
+        w2 = this.n
+
+      const wa1 = parseInt(op1.substring(op1.startsWith('C') ? 2 : 1))
+      const wa2 = parseInt(op2.substring(op2.startsWith('C') ? 2 : 1))
+
+      return (w1 + wa1) - (w2 + wa2);
+    })
     this.buildAllOperationsOfGroup()
   }
 
+  /**
+   * When user select/unselect a mult value (Ma or CMa)
+   * @param t
+   * @param $event
+   */
   changeOpTranslationChoices(t: number, $event: any) {
     const index = this.opTransChoices.findIndex(v => v == t)
     if (index < 0 && $event.target.checked) {

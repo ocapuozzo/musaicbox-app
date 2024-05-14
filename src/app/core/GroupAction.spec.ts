@@ -405,6 +405,7 @@ describe('GroupAction', () => {
     const groupCyclic = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
     expect(groupCyclic.operations.length).toEqual(12)
     expect(groupCyclic.orbits.length).toEqual(352)
+
     const pcsGroupedBySameIV = new Map<string, IPcs[]>
     for (const orbit of groupCyclic.orbits) {
       const pcsPF = orbit.getPcsMin()
@@ -424,26 +425,31 @@ describe('GroupAction', () => {
 
     // show pcs that are alone in this grouping
     let soloIV = 0
-    let nbPcsWithIVMoreThan2 = 0
+    let nbPcsWithIVequal4 = 0
     let nbPcsWithIVequal2 = 0
+    let nbPcsWithIVequal3 = 0
     for (const pcsGroupingByIV of pcsGroupedBySameIV) {
-      if (pcsGroupingByIV[1].length > 2) {
+      if (pcsGroupingByIV[1].length == 4) {
         console.log("iv (" + pcsGroupingByIV[0] + ") partagé par : " + pcsGroupingByIV[1].length + " pcs")
-        // soloIV++
-        nbPcsWithIVMoreThan2++
-        // console.log("pcs alone : iv() =" + pcsGroupingByIV[0]
-        //   + " pcs=" + pcsGroupingByIV[1][0].getPcsStr(false)
-        // )
-      }
-      if (pcsGroupingByIV[1].length == 2) {
+        nbPcsWithIVequal4++
+      } else if (pcsGroupingByIV[1].length == 3) {
+        console.log("iv (" + pcsGroupingByIV[0] + ") partagé par : " + pcsGroupingByIV[1].length + " pcs")
+        nbPcsWithIVequal3++
+      } else if (pcsGroupingByIV[1].length == 2) {
         nbPcsWithIVequal2++
+      } else if (pcsGroupingByIV[1].length == 1) {
+        soloIV++
       }
-
     }
-    // console.log("nb pcs with unique iv() : " + soloIV)
-    console.log("nb pcs  (parmi les 352) partageant leur iv avec plus de 2 autres : " + nbPcsWithIVMoreThan2)
-    console.log("nb pcs  (parmi les 352) partageant leur iv avec 2 autres : " + nbPcsWithIVequal2)
+    console.log("nb pcs with unique iv() : " + soloIV)
+    console.log("nb pcs (into 352) shearing iv with more than exactly 2 others : " + nbPcsWithIVequal2)
+    console.log("nb pcs (into 352) shearing iv with more than exactly 3 others : " + nbPcsWithIVequal3)
+    console.log("nb pcs (into 352) shearing iv with more than 3 others : " + nbPcsWithIVequal4)
+
     expect(nbPcsWithIVequal2).toEqual(112)
+
+    // do get 352 pcs, so groupCyclic.orbits.length
+    expect(nbPcsWithIVequal4 * 4 + nbPcsWithIVequal3 * 3 + nbPcsWithIVequal2 * 2 + soloIV).toEqual(352)
 
   });
 

@@ -14,7 +14,7 @@ export class ManagerExplorerService implements IDataExplorerState{
 
   n = 12
   primesWithN = [1, 5, 7, 11]
-  opMultChoices = [1]
+  opMultChoices = ["M1"]
   opTransChoices = [0]
   opComplement = false
   groupOperations : MusaicPcsOperation[]
@@ -31,7 +31,7 @@ export class ManagerExplorerService implements IDataExplorerState{
   saveConfig(x: {
     n: number,
     primesWithN: number[],
-    opMultChoices: number[],
+    opMultChoices: string[],
     opTransChoices: number[],
     opComplement: boolean,
     groupOperations : MusaicPcsOperation[]

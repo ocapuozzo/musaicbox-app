@@ -25,13 +25,11 @@ export class GroupAction {
   powerset: Map<number, IPcs>;
   orbits: Orbit[];
 
-
+  operationsNameWithoutTxStr : string
 
   private _orbitsSortedByStabilizers ?: ISortedOrbits[];
   private _orbitsSortedByMotifStabilizers ?: ISortedOrbits[];
   private _orbitsSortedByCardinal ?: ISortedOrbits[];
-
-
 
   private static _predefinedGroupsActions: Map<number, GroupAction[]>
 
@@ -57,7 +55,8 @@ export class GroupAction {
     this._orbitsSortedByCardinal = undefined
 
     this.buildOrbitMotifStabilizers()
-
+    // build operations name without Tx
+    this.operationsNameWithoutTxStr = this.buildOpNameWithoutTxToString()
   }
 
   /**
@@ -421,5 +420,20 @@ export class GroupAction {
       if (pcs) return pcs
     }
     return undefined
+  }
+
+  /**
+   * form operations list build simple name
+   * Ex: M1-T0, M1-T5, M5-T1, M5-T8 => M1, M5
+   * @private
+   */
+  private buildOpNameWithoutTxToString() {
+    const isStabilizersMap = new Map<string, boolean>()
+    this.operations.forEach((o) => isStabilizersMap.set(o.toStringWithoutTransp(), true))
+    let isOpWithoutT = ''
+    for (const opWithoutTElement of isStabilizersMap.keys()) {
+      isOpWithoutT = isOpWithoutT ? isOpWithoutT +', ' + opWithoutTElement : opWithoutTElement
+    }
+    return isOpWithoutT
   }
 }
