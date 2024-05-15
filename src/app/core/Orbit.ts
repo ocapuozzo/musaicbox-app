@@ -187,23 +187,25 @@ export class Orbit {
   private buildStabilizersSignatureName() {
     let res = ""
     // 1 get all operations
-    let mt = new Map<string, number[]>()
+    // key : "Ma" or "CMa" op name (Ex: M5, CM5) nameOpsWithoutT
+    // value : x of TX (Ex : 2, 3, 4) transposition value
+    let cmt = new Map<string, number[]>()
     for (const stab of this.stabilizers) {
       // assert in : operations is sorted
       for (let i = 0; i < stab.operations.length; i++) {
         let op = stab.operations[i]
         let nameOpWithoutT = (op.complement ? "CM" : "M") + op.a;
-        if (!mt.has(nameOpWithoutT)) {
-          mt.set(nameOpWithoutT, []);
+        if (!cmt.has(nameOpWithoutT)) {
+          cmt.set(nameOpWithoutT, []);
         }
-        if (!mt.get(nameOpWithoutT)?.includes(op.t)) { // @ts-ignore
-          mt.get(nameOpWithoutT).push(op.t);
+        if (!cmt.get(nameOpWithoutT)?.includes(op.t)) {
+          cmt.get(nameOpWithoutT)!.push(op.t);
         }
       }
     }
 
     // 2: sort operations Mx < Mx+1 < CMx < CMx+1
-    let nameOpsWithoutT = Array.from(mt.keys())
+    let nameOpsWithoutT = Array.from(cmt.keys())
     nameOpsWithoutT.sort((o1, o2) => {
       let cplt1 = o1.charAt(0) === 'C';
       let cplt2 = o2.charAt(0) === 'C';
@@ -223,25 +225,24 @@ export class Orbit {
     })
 
     // 3: reducer name
-    // CM11-T3~6 CM11-T1~6  etc. => CM11-T6*  (equivalent 'up to step translation')
-    // CM5-T2 CM5-T6 CM5-T10 => CM5-T2~4*
+    // CM5-T2 CM5-T6 CM5-T10 => CM5-T2~4*  (equivalent 'up to step translation')
     // M11-T0 M11-T2 M11-T4 M11-T6 M11-T8 M11-T10 => M11-T0~2*
     for (let i = 0; i < nameOpsWithoutT.length; i++) {
       let nameOpWithoutT = nameOpsWithoutT[i]
       let shortName = ''
-      if (mt.get(nameOpWithoutT)!.length > 1) {
-        mt.get(nameOpWithoutT)?.sort((a, b) => a - b)
-        // mt.get(nameOpWithoutT)?.forEach(a => console.log(a + ''))
-        let step = mt.get(nameOpWithoutT)![1] - mt.get(nameOpWithoutT)![0]
-        shortName = nameOpWithoutT + "-T" + mt.get(nameOpWithoutT)![0] + "~" + step + "*";
-        // when shortName is defined, delete nt entry
-        mt.delete(nameOpWithoutT)
+      if (cmt.get(nameOpWithoutT)!.length > 1) {
+        cmt.get(nameOpWithoutT)?.sort((a, b) => a - b)
+        // cmt.get(nameOpWithoutT)?.forEach(a => console.log(a + ''))
+        let step = cmt.get(nameOpWithoutT)![1] - cmt.get(nameOpWithoutT)![0]
+        shortName = nameOpWithoutT + "-T" + cmt.get(nameOpWithoutT)![0] + "~" + step + "*";
+        // when shortName is defined, delete entry
+        cmt.delete(nameOpWithoutT)
 
         res = (res.length > 1) ? res + ' ' + shortName : shortName
       }
 
       // 4: put -Tx only if a (mt is maybe reduce by preview phase 3)
-      let the_as = mt.get(nameOpWithoutT) ?? []
+      let the_as = cmt.get(nameOpWithoutT) ?? []
       for (let j = 0; j < the_as.length; j++) {
         let a = the_as[j]
         if (res.length > 0) {
