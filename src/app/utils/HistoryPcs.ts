@@ -51,9 +51,24 @@ export class HistoryPcs {
     return this.currentIndexPast < this.history.length - 1
   }
 
+  getCurrentPcs() : IPcs | undefined {
+    if (this.currentIndexPast >= 0) {
+      return this.history[this.currentIndexPast]
+    }
+    return undefined
+  }
+
+  getPrevCurrentPcs() {
+    if (this.currentIndexPast > 0) {
+      return this.history[this.currentIndexPast -1]
+    }
+    return undefined
+  }
+
   private printStateOnConsole() {
     console.log("this.history = " + this.history)
     console.log("this.currentIndexPast = " + this.currentIndexPast)
   }
+
 
 }

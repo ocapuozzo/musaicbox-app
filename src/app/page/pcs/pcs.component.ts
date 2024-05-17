@@ -57,7 +57,17 @@ export class PcsComponent {
     this.labeledListPcs = this.managerPagePcsListService.labeledListPcs
 
     this.managerPagePcsService.updatePcsEvent.subscribe( (pcs: IPcs) => {
-      this.pcs = this.trySetPivotFromSymmetry(pcs)
+      // same pcs as previous current ?
+      // certainly with other iPivot (rem iPivot  is "transient", id is not based on iPivot)
+      const prevCurrentPcs = this.managerPagePcsService.getPrevCurrentPcs()
+      if (prevCurrentPcs && pcs.equalsPcs(prevCurrentPcs) && pcs.iPivot !== prevCurrentPcs.iPivot) {
+      // if (pcs.equalsPcs(this.managerPagePcsService.getPrevCurrentPcs())) {
+        // no change iPivot
+        this.pcs = pcs
+      } else {
+        // new pcs, try well set iPivot
+        this.pcs = this.trySetPivotFromSymmetry(pcs)
+      }
     })
 
     this.managerPagePcsListService.updatePcsListEvent.subscribe( (labeledListPcs : Map<string, IElementListPcs>) => {
@@ -114,6 +124,8 @@ export class PcsComponent {
       if (firstIndexInter >= 0) {
         if (newPcs.abinPcs[firstIndexInter] === 1) {
           newPcs.setPivot(firstIndexInter)
+        } else if (newPcs.abinPcs[(firstIndexInter + 6) % newPcs.n ] === 1)  {
+            newPcs.setPivot((firstIndexInter + 6 ) % newPcs.n)
         }
       }
     }

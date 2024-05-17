@@ -30,4 +30,14 @@ describe('History', () => {
 
   })
 
+
+  it("getCurrentPcs", () => {
+    const h = new HistoryPcs()
+    const maj = new IPcs({strPcs: "1,5,8"})
+
+    expect(h.getCurrentPcs()).not.toBeTruthy()
+    h.pushInPast(maj)
+    expect(h.getCurrentPcs()).toEqual(maj)
+  })
+
  })

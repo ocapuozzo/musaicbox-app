@@ -109,5 +109,11 @@ export class ManagerPagePcsService {
     return this.historyPcs.canRedo()
   }
 
+  getCurrentPcs() : IPcs | undefined {
+    return this.historyPcs.getCurrentPcs()
+  }
 
+  getPrevCurrentPcs() {
+    return this.historyPcs.getPrevCurrentPcs()
+  }
 }
