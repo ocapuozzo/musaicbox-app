@@ -12,14 +12,10 @@
     @if (viewMusaic) {
       <div class="boxPcs"
         matTooltip ="Musaic reference N° {{EightyEight.idNumberOf(orbit.getPcsMin())}}" >
-<!--        @if(orbit!.groupAction!.orbits.length == 88 && orbit!.groupAction!.n == 12) {-->
-<!--          <span class="text-center label-ipcs">N° {{EightyEight.idNumberOf(orbit.getPcsMin())}}</span>-->
-<!--        }-->
-        <!--      {{orbit.getPcsMin().getMappedPcsStr()}}-->
         <app-musaic
           [ipcs]="orbit.getPcsMin()"
           [opaque]="false"
-          [pcColorSet]="colorOrbit(orbit)"
+          [pcColorSet]="colorOrbitCriterion(orbitsGroup?.groupingCriterion ?? orbit.motifStabilizer.name)"
           class="ms-1">
         </app-musaic>
         <span class="text-center label-ipcs">#{{ orbit.ipcsset.length }}</span>

@@ -3,6 +3,7 @@ import {StringHash} from "../utils/StringHash";
 
 const colorMotifs: Map<string, string> = new Map([
   ['M1','black'],
+  ['M1-T0','black'],
   ['M1 M5', materialColors['purple'][900]],
   ['M1 M7', materialColors['green'][800]],
   ['M1 M11', materialColors['blue'][900]],

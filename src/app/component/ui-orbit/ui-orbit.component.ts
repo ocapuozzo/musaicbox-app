@@ -56,6 +56,10 @@ export class UiOrbitComponent {
   protected readonly parseInt = parseInt;
   protected readonly Math = Math;
 
+  colorOrbitCriterion(criterion: string): string {
+    return PcsColor.getColor(criterion);
+  }
+
   colorOrbit(orbit: Orbit): string {
     // if (orbit!.groupAction!.cardinal == orbit.cardinal) {
     //   // no stabilizer
