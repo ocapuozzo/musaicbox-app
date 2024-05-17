@@ -895,7 +895,8 @@ export class IPcs {
 
   equalsPcs(other: any) {
     if (other instanceof IPcs) {
-      return this.abinPcs.every((v, i) => v === other.abinPcs[i])
+      return this.id === other.id
+      // return this.abinPcs.every((v, i) => v === other.abinPcs[i])
     }
     return false
   }

@@ -398,6 +398,7 @@ describe('IPcs unit tests', () => {
     // dim chord two symmetries
     ipcs = new IPcs({strPcs: "0, 3, 6, 9"})
     symmetries = ipcs.getAxialSymmetries()
+    console.log("symmetries.symMedian = " + symmetries.symMedian)
     symMedian = [1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0]
     symInter = [0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
     expect(symmetries.symMedian).toEqual(symMedian)
@@ -428,6 +429,22 @@ describe('IPcs unit tests', () => {
     expect(symmetries.symInter).toEqual(symInter)
 
   })
+
+  it("IPcs symmetry n=12 no strat with zero", () => {
+    // aug chord one median symmetry
+    let ipcs = new IPcs({strPcs: "1, 5, 9"})
+    let symmetries = ipcs.getAxialSymmetries()
+    let symMedian = [0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0]
+    let symInter = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    expect(symmetries.symMedian).toEqual(symMedian)
+    expect(symmetries.symInter).toEqual(symInter)
+    ipcs = new IPcs({strPcs: "1,4,5,6,7,10"})
+    symmetries = ipcs.getAxialSymmetries()
+    console.log(symmetries.symMedian)
+    console.log(symmetries.symInter)
+    expect(symmetries.symInter).toEqual([0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0])
+  })
+
 
   it("IPcs symmetry n=7", () => {
     // n = 7
@@ -793,6 +810,5 @@ describe('IPcs unit tests', () => {
       expect(e.message).toContain('Invalid Pivot')
     }
   })
-
 
 })

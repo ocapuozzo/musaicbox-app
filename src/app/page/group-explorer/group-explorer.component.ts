@@ -32,12 +32,11 @@ export class GroupExplorerComponent {
   primesWithN = [1, 5, 7, 11]
   primesWithNOperations: string[] = ["M1", "M5", "M7", "M11", "CM1", "CM5", "CM7", "CM11"]
 
-  // opMultChoices = [1]
   opMultChoices: string[] = ["M1"]
-  opTransChoices = [0]
+  opTransChoices = [1]
   opComplement = false
   // array with neutral operation
-  groupOperations = [new MusaicPcsOperation(this.n, 1, 0)]
+  groupOperations : MusaicPcsOperation[] = []  //new MusaicPcsOperation(this.n, 1, 1)]
   groupAction: GroupAction | null
   orbitsPartitions: ISortedOrbits[] = []
   preReactOrbits: Orbit[] = []
@@ -51,14 +50,14 @@ export class GroupExplorerComponent {
   protected readonly Math = Math;
 
   constructor(private readonly managerExplorerService: ManagerExplorerService) {
-    this.managerExplorerService.saveExplorerConfigEvent.subscribe( () => {
+    this.managerExplorerService.saveExplorerConfigEvent.subscribe(() => {
       this.saveConfig();
     })
   }
 
-
   ngOnInit() {
     this.updateConfig();
+    this.buildAllOperationsOfGroup()
   }
 
   private saveConfig() {
@@ -80,10 +79,10 @@ export class GroupExplorerComponent {
 
     this.n = currentState.n ?? 12
     this.primesWithN = currentState.primesWithN ?? [1, 5, 7, 11]
-    this.opMultChoices = currentState.opMultChoices ?? [1]
-    this.opTransChoices = currentState.opTransChoices ?? [0]
+    this.opMultChoices = currentState.opMultChoices ?? ["M1"]
+    this.opTransChoices = currentState.opTransChoices ?? [1]
     this.opComplement = currentState.opComplement ?? false
-    this.groupOperations = currentState.groupOperations ?? [new MusaicPcsOperation(this.n, 1, 0)]
+    this.groupOperations = currentState.groupOperations ?? []//new MusaicPcsOperation(this.n, 1, 0)]
     this.groupAction = currentState.groupAction ?? null
     this.orbitsPartitions = currentState.orbitsPartitions ?? []
     this.preReactOrbits = currentState.preReactOrbits ?? []
@@ -106,7 +105,7 @@ export class GroupExplorerComponent {
       this.primesWithNOperations.push(`CM${this.primesWithN[i]}`)
     }
     this.opMultChoices = ["M1"];
-    this.opTransChoices = [0];
+    this.opTransChoices = [1];
     this.groupAction = null
     this.orbitsPartitions = []
     this.preReactOrbits = []
@@ -160,12 +159,12 @@ export class GroupExplorerComponent {
       this.doubleRaf(() => {
         //this.stabilizers = this.groupAction.stabilizers
         //this.fixedPcsInPrimeForms = this.groupAction.stabilizers.fixedPcsInPrimeForm()
-        if (byCriteria === "MotifStabilizer") {
-          this.orbitsPartitions = this.groupAction!.orbitsSortedByMotifStabilizers
-          this.criteriaEquiv = "set of meta-stabilizer"
-        } else if (byCriteria === "Stabilizer") {
+        if (byCriteria === "Stabilizer") {
           this.orbitsPartitions = this.groupAction!.orbitsSortedByStabilizers
           this.criteriaEquiv = "set of stabilizers"
+        } else if (byCriteria === "MotifStabilizer") {
+          this.orbitsPartitions = this.groupAction!.orbitsSortedByMotifStabilizers
+          this.criteriaEquiv = "set of meta-stabilizer"
         } else if (byCriteria === "Cardinal") {
           this.orbitsPartitions = this.groupAction!.orbitsSortedByCardinal
           this.criteriaEquiv = "cardinal"

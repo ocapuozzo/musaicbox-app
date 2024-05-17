@@ -193,10 +193,10 @@ describe('Group', () => {
 
  it("group name", () => {
     const groupCyclic = Group.predefinedGroups12[Group.CYCLIC]
-    expect(groupCyclic.name).toEqual("n=12 [M1, T1]")
+    expect(groupCyclic.name).toEqual("n=12 [M1 T1]")
 
    const groupMusaic = Group.predefinedGroups12[Group.MUSAIC]
-   expect(groupMusaic.name).toEqual("n=12 [M1, M5, M7, M11, Cplt, T1]")
+   expect(groupMusaic.name).toEqual("n=12 [M1 M5 M7 M11 CM1 CM5 CM7 CM11 T1]")
 
  })
 })

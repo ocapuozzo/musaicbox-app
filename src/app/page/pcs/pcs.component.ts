@@ -57,7 +57,7 @@ export class PcsComponent {
     this.labeledListPcs = this.managerPagePcsListService.labeledListPcs
 
     this.managerPagePcsService.updatePcsEvent.subscribe( (pcs: IPcs) => {
-      this.pcs = pcs
+      this.pcs = this.trySetPivotFromSymmetry(pcs)
     })
 
     this.managerPagePcsListService.updatePcsListEvent.subscribe( (labeledListPcs : Map<string, IElementListPcs>) => {
@@ -92,4 +92,31 @@ export class PcsComponent {
     return this.managerPagePcsService.canRedo()
   }
 
+  /**
+   * Try to define iPivot from symmetries of pcs
+   * Rem : change transient state of his argument
+   * @param newPcs
+   * @private
+   */
+  private trySetPivotFromSymmetry(newPcs: IPcs): IPcs {
+    if (newPcs.n !== 12) throw Error("pcs.n = " + newPcs.n + " invalid (must be 12 digits)")
+    // experimental : select a pivot from axe symmetry
+    let symmetries = newPcs.getAxialSymmetries()
+    const firstIndexInter = symmetries.symInter.findIndex((value) => value === 1)
+    const firstIndexMedian = symmetries.symMedian.findIndex((value) => value === 1)
+    if (firstIndexMedian >= 0) {
+      if (newPcs.abinPcs[firstIndexMedian] === 1) {
+        newPcs.setPivot(firstIndexMedian)
+      } else if (newPcs.abinPcs[(firstIndexMedian + 6) % newPcs.n] === 1) { // ok normally...
+        newPcs.setPivot((firstIndexMedian + 6) % newPcs.n )
+      }
+    } else {
+      if (firstIndexInter >= 0) {
+        if (newPcs.abinPcs[firstIndexInter] === 1) {
+          newPcs.setPivot(firstIndexInter)
+        }
+      }
+    }
+    return newPcs
+  }
 }

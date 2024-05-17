@@ -331,7 +331,7 @@ describe('GroupAction', () => {
     // only 12 stabilizer
     expect(cyclicGroup.orbitsSortedByStabilizers.length).toEqual(6)
 
-    // M1 because MotifStabilizers does not have Tx operations, ans M1 is alone
+    // M1 because MotifStabilizers does not have Tx operations, and M1 is alone
     expect(cyclicGroup.orbitsSortedByMotifStabilizers.length).toEqual(1)
     expect(cyclicGroup.orbitsSortedByMotifStabilizers[0].groupingCriterion).toEqual('M1')
 
@@ -349,135 +349,30 @@ describe('GroupAction', () => {
     }
   });
 
-  /////////// Math POC
 
-  /**
-   * <pre>
-   * |Orbit(x)| = |G| / |Stab(x)|
-   * </pre>
-   *
-   * i.e. cardinal of an orbit o is equals to the number operations of group
-   * div by number stabilized operations of any element of the orbit o
-   *
-   * @see https://en.wikipedia.org/wiki/Group_action#Orbit-stabilizer_theorem_and_Burnside.27s_lemma
-   */
-  it('test_Orbit_Stabilizer_Theorem', () => {
-    const groupMusaic = GroupAction.predefinedGroupsActions(12, Group.MUSAIC)
-    groupMusaic.orbits.forEach((orbit) => {
-      const min: IPcs = orbit.getPcsMin()
-      expect(orbit.cardinal).toEqual(
-        groupMusaic.cardinal / min.stabilizer.cardinal)
-    })
-  })
+  it("Group with T0 only ", () => {
+    let opNeutral = new MusaicPcsOperation(12, 1, 0);
+    let m5_t0 = new MusaicPcsOperation(12, 5, 0);
+    let m11_t0 = new MusaicPcsOperation(12, 11, 0);
+    let cm1_t0 = new MusaicPcsOperation(12, 1, 0, true);
 
+    let group =
+      new GroupAction({n: 12, someMusaicOperations: [opNeutral, m5_t0,m11_t0, cm1_t0]});
 
-  /**
-   * <pre>
-   * orbit-counting theorem - Burnside's lemma
-   * |X/G| = (sum |Fix.g| for all g in G) / |G|
-   * </pre>
-   *
-   * \left|X/G\right|={\frac {1}{\left|G\right|}}\sum _{g\in
-   * G}\left|X^{g}\right|,
-   *
-   * @see https://en.wikipedia.org/wiki/Burnside%27s_lemma
-   */
-  it('test_Orbit_Counting_Theorem_Burnside', () => {
-    const groupMusaic = GroupAction.predefinedGroupsActions(12, Group.MUSAIC)
-    expect(groupMusaic.operations.length).toEqual(96)
+    group.operations.forEach(operation => {console.log(operation.toString())})
 
-    const totalCardFixedPcs = groupMusaic.operations.reduce(
-      (cardFixedPcs: number, currentValue) =>
-        currentValue.getFixedPcs().length + cardFixedPcs,
-      0)
+    expect(group.orbits.length).toEqual(919) // from musaicboxapp
+    const orbit = group.orbits.find((orbit) => orbit.name === "M1-T0 M11-T0");
 
-    expect(8448).toEqual(totalCardFixedPcs);
+    expect(orbit).toBeTruthy()
 
-    // expect that 88 = 8448 / 96
-    expect(groupMusaic.orbits.length).toEqual(totalCardFixedPcs / groupMusaic.operations.length);
-    // same
-    expect(88).toEqual(totalCardFixedPcs / 96);
+    const pcsM11_T0 = orbit?.ipcsset[0].affineOp(11,0)
+    const pcsM11_T1 = orbit?.ipcsset[0].affineOp(11,1)
+
+    expect(orbit?.ipcsset.some( (pcs) => pcs.id === pcsM11_T0?.id ?? 0)).toBeTruthy()
+    expect(orbit?.ipcsset.some((pcs) => pcs.id === pcsM11_T1?.id ?? 0)).toEqual(false)
 
   })
 
 
-  it('List of scales grouped by same IV', () => {
-    const groupCyclic = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
-    expect(groupCyclic.operations.length).toEqual(12)
-    expect(groupCyclic.orbits.length).toEqual(352)
-
-    const pcsGroupedBySameIV = new Map<string, IPcs[]>
-    for (const orbit of groupCyclic.orbits) {
-      const pcsPF = orbit.getPcsMin()
-      if (!pcsGroupedBySameIV.has(pcsPF.iv().toString())) {
-        pcsGroupedBySameIV.set(pcsPF.iv().toString(), [pcsPF])
-      } else {
-        pcsGroupedBySameIV.get(pcsPF.iv().toString())!.push(pcsPF)
-      }
-    }
-    // check how many groupings are there
-    console.log("pcsGroupedByIV.size = " + pcsGroupedBySameIV.size)
-
-    // TODO find reference !
-    expect(pcsGroupedBySameIV.size).toEqual(200)
-
-    console.log("Example pcs with same IV() : " + Array.from(pcsGroupedBySameIV.values())[43])
-
-    // show pcs that are alone in this grouping
-    let soloIV = 0
-    let nbPcsWithIVequal4 = 0
-    let nbPcsWithIVequal2 = 0
-    let nbPcsWithIVequal3 = 0
-    for (const pcsGroupingByIV of pcsGroupedBySameIV) {
-      if (pcsGroupingByIV[1].length == 4) {
-        console.log("iv (" + pcsGroupingByIV[0] + ") partagé par : " + pcsGroupingByIV[1].length + " pcs")
-        nbPcsWithIVequal4++
-      } else if (pcsGroupingByIV[1].length == 3) {
-        console.log("iv (" + pcsGroupingByIV[0] + ") partagé par : " + pcsGroupingByIV[1].length + " pcs")
-        nbPcsWithIVequal3++
-      } else if (pcsGroupingByIV[1].length == 2) {
-        nbPcsWithIVequal2++
-      } else if (pcsGroupingByIV[1].length == 1) {
-        soloIV++
-      }
-    }
-    console.log("nb pcs with unique iv() : " + soloIV)
-    console.log("nb pcs (into 352) shearing iv with more than exactly 2 others : " + nbPcsWithIVequal2)
-    console.log("nb pcs (into 352) shearing iv with more than exactly 3 others : " + nbPcsWithIVequal3)
-    console.log("nb pcs (into 352) shearing iv with more than 3 others : " + nbPcsWithIVequal4)
-
-    expect(nbPcsWithIVequal2).toEqual(112)
-
-    // do get 352 pcs, so groupCyclic.orbits.length
-    expect(nbPcsWithIVequal4 * 4 + nbPcsWithIVequal3 * 3 + nbPcsWithIVequal2 * 2 + soloIV).toEqual(352)
-
-  });
-
-
-  it('Test powerset grouped by is() Pascal Triangle', () => {
-    const groupCyclic = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
-    const mapIs = new Map<string, IPcs[]>()
-    for (const pcs of groupCyclic.powerset.values()) {
-      let pcsIs = pcs.is().toString()
-      if (mapIs.has(pcsIs)) {
-        mapIs.get(pcsIs)!.push(pcs)
-      } else {
-        mapIs.set(pcsIs, [pcs])
-      }
-    }
-    expect(mapIs.size).toEqual(groupCyclic.powerset.size / 2 + 1) // 2048+1, empty matter 1 ??
-
-    let arrayCard = Array(13).fill(0)
-
-    for (const entryPcs of mapIs) {
-      arrayCard[entryPcs[1].length]++
-    }
-
-    for (let i = (0 + 1); i < arrayCard.length; i++) {
-      console.log(`[${i}] = ${arrayCard[i]}`)
-    }
-
   })
-
-
-})

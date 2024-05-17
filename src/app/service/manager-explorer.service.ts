@@ -15,7 +15,7 @@ export class ManagerExplorerService implements IDataExplorerState{
   n = 12
   primesWithN = [1, 5, 7, 11]
   opMultChoices = ["M1"]
-  opTransChoices = [0]
+  opTransChoices = [1]
   opComplement = false
   groupOperations : MusaicPcsOperation[]
   groupAction: GroupAction | null
@@ -42,9 +42,9 @@ export class ManagerExplorerService implements IDataExplorerState{
     this.n = x.n ?? 12
     this.primesWithN = x.primesWithN ?? [1, 5, 7, 11]
     this.opMultChoices = x.opMultChoices ?? [1]
-    this.opTransChoices = x.opTransChoices ?? [0]
+    this.opTransChoices = x.opTransChoices ?? [1]
     this.opComplement = x.opComplement ?? false
-    this.groupOperations = x.groupOperations ??  [new MusaicPcsOperation(this.n, 1, 0)]
+    this.groupOperations = x.groupOperations ??  []
     this.groupAction = x.groupAction ?? null
     this.orbitsPartitions = x.orbitsPartitions ?? []
     this.preReactOrbits = x.preReactOrbits ?? []

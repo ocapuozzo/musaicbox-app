@@ -159,12 +159,43 @@ export class Group {
   }
 
   /**
+   *  Be careful : M1 M5 CM11 => M1-T0 M5-T0 CM7-T0 CM11-T0  (no CM5 !)
+   *               so, name : M1 M5 CM7 CM11 T0
+   *  Group.CYCLIC name => n=12 [M1 T1]
+   *  Group.MUSAIC name => n=12 [M1 M5 M7 M11 CM1 CM5 CM7 CM11 T1]
+   *
+   * @private
+   */
+  private buildNameGroup() {
+    let dico: string[] = []
+    let t = 0
+    for (const op of this.operations) {
+      if (t < op.t) t = op.t
+      const opNameWithoutT = op.toStringWithoutTransp()
+      if (! dico.includes(opNameWithoutT)) {
+        dico.push(opNameWithoutT)
+      }
+    }
+
+    let opsM = ''
+    for (const opNameWithoutT of dico) {
+      opsM += opsM ? ' ' + opNameWithoutT : opNameWithoutT
+    }
+    opsM += t > 1 ? ' T1' : ' T0'
+
+    opsM = '[' + opsM + ']'
+    return `n=${this.operations[0].n} ${opsM}`
+  }
+
+  /**
+   *  Be careful : M1 M5 CM11 => M1-T0 M5-T0 CM7-T0 CM11-T0  (no CM5 !)
+   *
    *  Group.CYCLIC name => n=12 [M1, T1]
    *  Group.MUSAIC name => n=12 [M1, M5, M7, M11, Cplt, T1]
    *
    * @private
    */
-  private buildNameGroup() {
+  private sav_buildNameGroup() {
     const dico: Map<number, number> = new Map<number, number>()
     for (const op of this.operations) {
       if (dico.has(op.a)) {
