@@ -143,12 +143,12 @@
   <div class="marge-5">
     @if (pcsMapped.n == 12) {
     <fieldset class="representation-border">
-      <legend class="representation-border">{{orbitWithSameMetaStabilizersOf(pcsMapped).length}} Musaics sharing exactly same set of meta-stabilizers (up to transposition) :
+      <legend class="representation-border">{{orbitWithSameMotifStabilizersOf(pcsMapped).length}} Musaics sharing exactly same set of motif-stabilizers (up to transposition) :
         {{ pcsMapped.musaicPrimeForm().orbit.motifStabilizer.name }}
       </legend>
       <hr>
       <div class="row">
-        @for (pcsRepr of orbitWithSameMetaStabilizersOf(pcsMapped); track pcsRepr.id) {
+        @for (pcsRepr of orbitWithSameMotifStabilizersOf(pcsMapped); track pcsRepr.id) {
           <div class="boxPcs" style="max-width: 60px; margin-left: 5px">
             <span class="text-center label-ipcs">N° {{ EightyEight.idNumberOf(pcsRepr) }}</span>
             <app-musaic

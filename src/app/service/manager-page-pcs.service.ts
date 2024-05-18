@@ -82,8 +82,8 @@ export class ManagerPagePcsService {
       this.pcs = newPcs
     } else {
       // new pcs, try set better iPivot (if possible)
-      const savPivot = newPcs.getPivot()
       this.trySetPivotFromSymmetry(newPcs)
+      // when, or if, done, center pcs on this pivot
       newPcs = newPcs.modalPrimeForm()
       this.pcs = this.trySetPivotFromSymmetry(newPcs)
     }

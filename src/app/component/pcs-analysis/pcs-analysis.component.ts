@@ -150,9 +150,8 @@ export class PcsAnalysisComponent {
 
   protected readonly EightyEight = EightyEight;
 
-  orbitWithSameMetaStabilizersOf(pcs: IPcs): IPcs[] {
-    return EightyEight.getMusaicsWithSameMetaStabilizersOf(pcs)
-
+  orbitWithSameMotifStabilizersOf(pcs: IPcs): IPcs[] {
+    return EightyEight.getMusaicsWithSameMotifStabilizersOf(pcs)
   }
 
   colorOrbit(pcsRepr: IPcs) {
