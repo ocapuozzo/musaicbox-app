@@ -1,7 +1,7 @@
-import {IPcs} from "./IPcs";
-import {GroupAction} from "./GroupAction";
-import {Group} from "./Group";
-import {MusaicPcsOperation} from "./MusaicPcsOperation";
+import {IPcs} from "../core/IPcs";
+import {GroupAction} from "../core/GroupAction";
+import {Group} from "../core/Group";
+import {MusaicPcsOperation} from "../core/MusaicPcsOperation";
 
 
 describe('Laboratory explorer', () => {
