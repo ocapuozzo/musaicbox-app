@@ -811,4 +811,21 @@ describe('IPcs unit tests', () => {
     }
   })
 
+  it("trySetPivotFromSymmetry", ()=>{
+    const pcs = new IPcs({strPcs: '[0,1,2]'})
+    expect(pcs.getPivot()).toEqual(0)
+
+    const p2 = pcs.trySetPivotFromSymmetry()
+    expect(p2.getPivot()).toEqual(1)
+    expect(p2.getPcsStr()).toEqual('[0,1,2]')
+
+    const p3 = p2.modalPrimeForm()
+    expect(p3.getPcsStr()).toEqual('[0,1,11]')
+
+    const p4 = pcs.modalPrimeForm()
+    expect(p4.getPcsStr()).toEqual('[0,1,11]')
+
+
+  })
+
 })

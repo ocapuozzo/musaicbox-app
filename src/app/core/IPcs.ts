@@ -371,11 +371,32 @@ export class IPcs {
    * @return {IPcs}
    */
   modalPrimeForm(): IPcs {
-    // if iPivot is undefined or already equals to zero, return this
-    if (!this.iPivot) {
+    // if iPivot is undefined, return this
+    if (!this.iPivot === undefined) {
       return this
     }
-    return this.translation(-this.iPivot)
+
+    let newIPcs = new IPcs({
+      binPcs: this.abinPcs,
+      iPivot: this.iPivot,
+      orbit: this.orbit,
+      templateMappingBinPcs: this.templateMappingBinPcs,
+      nMapping: this.nMapping
+    })
+
+    // try set better iPivot (if possible)
+    // when, or if, done, center pcs on this pivot
+
+    newIPcs.trySetPivotFromSymmetry()
+    newIPcs = newIPcs.translation(newIPcs.n - (newIPcs.iPivot ?? 0))
+
+    if (newIPcs.orbit?.groupAction) {
+      newIPcs =  newIPcs.orbit.groupAction.getIPcsInOrbit(newIPcs, newIPcs.iPivot)
+    }
+
+    // console.log("modalPrimeForm() :" + newPcs.getPcsStr())
+    // return this.translation(this.n - (this.iPivot ?? 0))
+    return  newIPcs
   }
 
   /**
@@ -1204,6 +1225,38 @@ export class IPcs {
       this.iPivot = newPivot
     }
   }
+
+  /**
+   * Try to define iPivot from symmetries of pcs, if possible
+   * Rem : change transient state of his argument
+   * @private
+   * @return newPcs (same ref) with, perhaps, its iPivot changed
+   */
+  public trySetPivotFromSymmetry(): IPcs {
+    let newPcs = this
+    if (newPcs.n !== 12) throw Error("pcs.n = " + newPcs.n + " invalid (must be 12 digits)")
+    // experimental : select a pivot from axe symmetry
+    let symmetries = newPcs.getAxialSymmetries()
+    const firstIndexInter = symmetries.symInter.findIndex((value) => value === 1)
+    const firstIndexMedian = symmetries.symMedian.findIndex((value) => value === 1)
+    if (firstIndexMedian >= 0) {
+      if (newPcs.abinPcs[firstIndexMedian] === 1) {
+        newPcs.setPivot(firstIndexMedian)
+      } else if (newPcs.abinPcs[(firstIndexMedian + 6) % newPcs.n] === 1) { // ok normally...
+        newPcs.setPivot((firstIndexMedian + 6) % newPcs.n)
+      }
+    } else {
+      if (firstIndexInter >= 0) {
+        if (newPcs.abinPcs[firstIndexInter] === 1) {
+          newPcs.setPivot(firstIndexInter)
+        } else if (newPcs.abinPcs[(firstIndexInter + 6) % newPcs.n] === 1) {
+          newPcs.setPivot((firstIndexInter + 6) % newPcs.n)
+        }
+      }
+    }
+    return newPcs
+  }
+
 
   // TODO arranger les opérations en inner et mapped et peut-être sortir des fonctions utilitaires pour binpcs ?
 

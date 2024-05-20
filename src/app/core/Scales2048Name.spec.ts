@@ -6,7 +6,7 @@ import {EightyEight} from "../utils/EightyEight";
 import {GroupAction} from "./GroupAction";
 import {Group} from "./Group";
 import {INameDefLink, IScaleName} from "./IScaleName";
-import {Ianring} from "../data/ianringScaleNames";
+// import {Ianring} from "../data/ianringScaleNames";
 
 describe('test getFirstScaleName from 2048pcs.json', () => {
 
@@ -141,6 +141,8 @@ describe('test getFirstScaleName from 2048pcs.json', () => {
     console.log(JSON.stringify(array2048sid))
   })
 */
+
+  /*
   it("prepare and update 2048 from ianring scale names", () => {
     expect(scales2048.length).toEqual(2048)
     // let array2048pid: number[] = []
@@ -182,5 +184,5 @@ describe('test getFirstScaleName from 2048pcs.json', () => {
     })
     // console.log(JSON.stringify(scales2048))
   })
-
+*/
 })
