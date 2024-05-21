@@ -10,7 +10,7 @@
           [ipcs]="orbit.getPcsMin()"
           [opaque] = "musaicDrawGrid"
           [pcColorSet]="colorOrbit(orbit)"
-          (click)="doPushToHomePage(orbit.getPcsMin())"
+          (click)="doPushToHomePage(orbit.getPcsMin().modalPrimeForm())"
           style="cursor: pointer"
         >
         </app-musaic>

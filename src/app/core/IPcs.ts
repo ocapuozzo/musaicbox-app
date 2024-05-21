@@ -386,16 +386,13 @@ export class IPcs {
 
     // try set better iPivot (if possible)
     // when, or if, done, center pcs on this pivot
-
     newIPcs.trySetPivotFromSymmetry()
     newIPcs = newIPcs.translation(newIPcs.n - (newIPcs.iPivot ?? 0))
 
-    if (newIPcs.orbit?.groupAction) {
-      newIPcs =  newIPcs.orbit.groupAction.getIPcsInOrbit(newIPcs, newIPcs.iPivot)
+    if (this.orbit?.groupAction) {
+      newIPcs =  this.orbit.groupAction.getIPcsInOrbit(newIPcs, newIPcs.iPivot)
     }
 
-    // console.log("modalPrimeForm() :" + newPcs.getPcsStr())
-    // return this.translation(this.n - (this.iPivot ?? 0))
     return  newIPcs
   }
 

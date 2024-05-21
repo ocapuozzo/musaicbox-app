@@ -824,8 +824,7 @@ describe('IPcs unit tests', () => {
 
     const p4 = pcs.modalPrimeForm()
     expect(p4.getPcsStr()).toEqual('[0,1,11]')
-
-
+    expect(p4.getPivot()).toEqual(0)
   })
 
 })
