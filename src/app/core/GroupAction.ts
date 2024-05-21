@@ -22,7 +22,7 @@ export class GroupAction {
   group: Group;
   operations: MusaicPcsOperation[];
   // min operation = neutral operation = operations.get(0)
-  powerset: Map<number, IPcs>;
+  powerset: Map<number, IPcs>
   orbits: Orbit[];
 
   operationsNameWithoutTxStr : string
@@ -340,19 +340,14 @@ export class GroupAction {
   /**
    * From free IPcs (with no orbit) get a represented IPcs held by a group action
    * @param {IPcs} pcs
-   * @param withPivot return pcs with this.iPivot = withPivot, if withPivot != -1 (and valid)
    * @return {IPcs}
-   * @throws Error if not find pcs in this group action or if withPivot is invalid
+   * @throws Error if not find pcs in this group action
    */
-  getIPcsInOrbit(pcs: IPcs, withPivot = -1): IPcs {
+  getIPcsInOrbit(pcs: IPcs): IPcs {
     let pcsInOrbit: IPcs | undefined = this.powerset.get(pcs.id)
     if (!pcsInOrbit)
       throw new Error("Invalid pcs (is not in this group action)  ??? : " + pcs)
 
-    if (withPivot != -1) {
-      // change state (be careful : side effect !!) - Error if invalid new pivot
-      pcsInOrbit.setPivot(withPivot)
-    }
     return pcsInOrbit
   }
 

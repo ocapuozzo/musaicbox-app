@@ -283,7 +283,7 @@ export class IPcs {
     }
     if (strpcs) {
       let pitches = strpcs.split(',');
-      for (let i = 0; i < pitches.length ; i++) {
+      for (let i = 0; i < pitches.length; i++) {
         if (isNaN(Number(pitches[i]))) continue;
         return Number(pitches[i])
       }
@@ -376,24 +376,26 @@ export class IPcs {
       return this
     }
 
-    let newIPcs = new IPcs({
-      binPcs: this.abinPcs,
-      iPivot: this.iPivot,
-      orbit: this.orbit,
-      templateMappingBinPcs: this.templateMappingBinPcs,
-      nMapping: this.nMapping
-    })
+    // no direct change this (side effect)
+    // set pcs into prime forme for get same pivot symmetry with somme pcs as [1,2,3,4,8,9] and [1,2,6,7,8,9]
+    let newIPcs = this.cyclicPrimeForm()
 
-    // try set better iPivot (if possible)
+    // try get better iPivot (if possible)
     // when, or if, done, center pcs on this pivot
-    newIPcs.trySetPivotFromSymmetry()
-    newIPcs = newIPcs.translation(newIPcs.n - (newIPcs.iPivot ?? 0))
-
-    if (this.orbit?.groupAction) {
-      newIPcs =  this.orbit.groupAction.getIPcsInOrbit(newIPcs, newIPcs.iPivot)
+    // work with a copy (no side effect)
+    let newPivot = newIPcs.getPivotFromSymmetry()
+    if (newPivot >= 0) {
+      const newIPcs2 = newIPcs.translation(newIPcs.n - newPivot)
+      // newIPcs2 is in orbit (cyclic is base default)
+      newIPcs = new IPcs({
+        binPcs: newIPcs2.abinPcs,
+        iPivot: 0,
+        orbit: this.orbit,
+        templateMappingBinPcs: this.templateMappingBinPcs,
+        nMapping: this.nMapping
+      })
     }
-
-    return  newIPcs
+    return newIPcs
   }
 
   /**
@@ -1040,7 +1042,7 @@ export class IPcs {
    */
   toggleIndexPC(ipc: number): IPcs {
     if (ipc < 0 || ipc >= this.abinPcs.length)
-      throw new Error("Invalid index pitch class ! (" + ipc +")")
+      throw new Error("Invalid index pitch class ! (" + ipc + ")")
 
     let newIPcs: IPcs
     let newBinPcs = this.abinPcs.slice()
@@ -1225,33 +1227,59 @@ export class IPcs {
 
   /**
    * Try to define iPivot from symmetries of pcs, if possible
-   * Rem : change transient state of his argument
-   * @private
-   * @return newPcs (same ref) with, perhaps, its iPivot changed
+   * @return pivot value or -1 if not found
    */
-  public trySetPivotFromSymmetry(): IPcs {
-    let newPcs = this
-    if (newPcs.n !== 12) throw Error("pcs.n = " + newPcs.n + " invalid (must be 12 digits)")
+  public getPivotFromSymmetry(): number {
+    // create new instance for test
+    let pcsForTest = new IPcs({
+      binPcs: this.abinPcs,
+      iPivot: this.iPivot,
+      orbit: this.orbit,
+      templateMappingBinPcs: this.templateMappingBinPcs,
+      nMapping: this.nMapping
+    })
+
+    if (this.n !== 12) throw Error("pcs.n = " + this.n + " invalid (must be 12 digits)")
     // experimental : select a pivot from axe symmetry
-    let symmetries = newPcs.getAxialSymmetries()
+    let symmetries = pcsForTest.getAxialSymmetries()
     const firstIndexInter = symmetries.symInter.findIndex((value) => value === 1)
     const firstIndexMedian = symmetries.symMedian.findIndex((value) => value === 1)
     if (firstIndexMedian >= 0) {
-      if (newPcs.abinPcs[firstIndexMedian] === 1) {
-        newPcs.setPivot(firstIndexMedian)
-      } else if (newPcs.abinPcs[(firstIndexMedian + 6) % newPcs.n] === 1) { // ok normally...
-        newPcs.setPivot((firstIndexMedian + 6) % newPcs.n)
+      if (pcsForTest.abinPcs[firstIndexMedian] === 1) {
+        pcsForTest.setPivot(firstIndexMedian)
+      } else if (pcsForTest.abinPcs[(firstIndexMedian + 6) % pcsForTest.n] === 1) { // ok normally...
+        pcsForTest.setPivot((firstIndexMedian + 6) % pcsForTest.n)
+      }
+    } else if (firstIndexInter >= 0) {
+      if (pcsForTest.abinPcs[firstIndexInter] === 1) {
+        pcsForTest.setPivot(firstIndexInter)
+      } else if (pcsForTest.abinPcs[(firstIndexInter + 6) % pcsForTest.n] === 1) {
+        pcsForTest.setPivot((firstIndexInter + 6) % pcsForTest.n)
       }
     } else {
-      if (firstIndexInter >= 0) {
-        if (newPcs.abinPcs[firstIndexInter] === 1) {
-          newPcs.setPivot(firstIndexInter)
-        } else if (newPcs.abinPcs[(firstIndexInter + 6) % newPcs.n] === 1) {
-          newPcs.setPivot((firstIndexInter + 6) % newPcs.n)
+      // no symmetry but exists stab in T0 other that M1-T0 ?
+      // example : musaic n° 53
+      const orbitAffine = GroupAction.predefinedGroupsActions(12, Group.AFFINE)
+      const pcsInAffine = orbitAffine.getIPcsInOrbit(this)
+      const opStab = pcsInAffine.orbit.getFirstOperationWithTZeroOtherThanM1()
+      if (opStab) {
+        // find good pivot
+        const id = this.id
+        for (let i = 0; i < pcsForTest.abinPcs.length; i++) {
+          if (pcsForTest.abinPcs[i] === 1) {
+            pcsForTest.setPivot(i)
+            if (id === opStab.actionOn(pcsForTest).id) {
+              // good pivot
+              return i
+              // break
+            }
+          }
         }
+        // no found after loop, set initial value to iPivot
+        pcsForTest.iPivot = this.iPivot
       }
     }
-    return newPcs
+    return pcsForTest.iPivot ?? -1
   }
 
 

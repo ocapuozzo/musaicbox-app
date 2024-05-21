@@ -12,6 +12,7 @@ import {IPcs} from "./IPcs";
 import {MotifStabilizer} from "./MotifStabilizer";
 import {Stabilizer} from "./Stabilizer";
 import {GroupAction} from "./GroupAction";
+import {MusaicPcsOperation} from "./MusaicPcsOperation";
 
 export class Orbit {
   /**
@@ -298,5 +299,19 @@ export class Orbit {
   getPcsWithThisIS(intervallicStructure: string):IPcs | undefined {
     return this.ipcsset.find( p => p.is().toString() == intervallicStructure)
   }
+
+  /**
+   * Find, if exists, first stabilizer operation other than M1-T0 in this orbit
+   */
+  getFirstOperationWithTZeroOtherThanM1() : MusaicPcsOperation | undefined {
+     for (let i = 0; i < this.stabilizers.length; i++) {
+       const stab = this.stabilizers[i]
+       const operation = stab.operations.find((op) => op.t === 0 && op.a !== 1)
+       if (operation != undefined) {
+         return operation
+       }
+     }
+     return undefined
+}
 
 }

@@ -75,25 +75,6 @@ export class ManagerPagePcsService {
   // TODO define modalPF and SymmetryMPF ...
   replaceBy(newPcs: IPcs): void {
     this.pcs = newPcs
-    // // if (!modalSymmetryPrimeForme) {
-    // //   this.pcs = newPcs
-    // // } else
-    // {
-    //   // same pcs as current ?
-    //   // certainly with other iPivot (rem iPivot  is "transient", id is not based on iPivot)
-    //   const currentPcs = this.historyPcs.getCurrentPcs()
-    //   if (currentPcs && newPcs.equalsPcs(currentPcs) && newPcs.iPivot !== currentPcs.iPivot) {
-    //     //or: if (pcs.equalsPcs(this.managerPagePcsService.getCurrentPcs())) {
-    //     // no change iPivot
-    //     this.pcs = newPcs
-    //   } else {
-    //     // new pcs, try set better iPivot (if possible)
-    //     this.trySetPivotFromSymmetry(newPcs)
-    //     // when, or if, done, center pcs on this pivot
-    //     newPcs = newPcs.modalPrimeForm()
-    //     this.pcs = this.trySetPivotFromSymmetry(newPcs)
-    //   }
-    // }
     this.historyPcs.pushInPast(this.pcs)
     this.updatePcsEvent.emit(this.pcs)
   }

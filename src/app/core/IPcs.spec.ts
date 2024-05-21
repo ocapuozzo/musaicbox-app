@@ -374,17 +374,48 @@ describe('IPcs unit tests', () => {
     let ipcs2 = new IPcs({strPcs: "0"})
     let ipcs3 = new IPcs({strPcs: "0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11", iPivot: 4})
     let ipcs4 = new IPcs({strPcs: "0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11", iPivot: 0})
-    expect(ipcs3.modalPrimeForm()).toEqual(ipcs4)
-    expect(ipcs2.modalPrimeForm()).toEqual(ipcs2)
-    expect(ipcs1.modalPrimeForm()).toEqual(ipcs1)
-    let majBass3 = new IPcs({strPcs: "0, 4, 7", iPivot: 4})
-    let minB6 = new IPcs({strPcs: "0, 3, 8", iPivot: 0})
+    expect(ipcs3.modalPrimeForm().id).toEqual(ipcs4.id)
+    expect(ipcs2.modalPrimeForm().id).toEqual(ipcs2.id)
+    expect(ipcs1.modalPrimeForm().id).toEqual(ipcs1.id)
 
-    expect(majBass3.modalPrimeForm()).toEqual(minB6)
-    let minBass3 = new IPcs({strPcs: "0, 3, 7", iPivot: 3})
-    let maj6 = new IPcs({strPcs: "0, 4, 9", iPivot: 0})
-    expect(minBass3.modalPrimeForm()).toEqual(maj6)
+    let Emin_5plus = new IPcs({strPcs: "0, 4, 7", iPivot: 4})
+    let CMaj = new IPcs({strPcs: "0, 4, 7", iPivot: 0})
+    expect(Emin_5plus.modalPrimeForm().id).toEqual(CMaj.id)
   })
+
+
+  it("getPivotFromSymmetry", ()=>{
+    let pcs = new IPcs({strPcs: '[0,1,2]'})
+    expect(pcs.getPivot()).toEqual(0)
+
+    const p3 = pcs.modalPrimeForm()
+    expect(p3.getPcsStr()).toEqual('[0,1,11]')
+
+    const p4 = pcs.modalPrimeForm()
+    expect(p4.getPcsStr()).toEqual('[0,1,11]')
+    expect(p4.getPivot()).toEqual(0)
+
+    pcs = new IPcs({strPcs: '[4,5,6,7,8]'})
+    let pivot = pcs.getPivotFromSymmetry()
+    expect(pivot).toEqual(6)
+
+  })
+
+  it("modalPrimeForm with symmetry if possible", () => {
+    let pcs = new IPcs({strPcs: '[1,2,6,7,8,9]'})
+    let pcsMPF = pcs.modalPrimeForm()
+    let pcsM = new IPcs({strPcs: '[0,1,2,6,7,11]'})
+    console.log("pcs Modal waiting = " + pcsM.getPcsStr())
+    console.log("pcsMPF of " + pcs.getPcsStr() + " = " + pcsMPF.getPcsStr())
+    expect(pcsMPF.id).toEqual(pcsM.id)
+
+    pcs = new IPcs({strPcs: '[1,2,3,4,8,9]'})
+    pcsMPF = pcs.modalPrimeForm()
+    console.log("pcsMPF of " + pcs.getPcsStr() + " = " + pcsMPF.getPcsStr())
+    expect(pcsMPF.id).toEqual(pcsM.id)
+  })
+
+
 
   it("IPcs symmetry n=12", () => {
     // aug chord one median symmetry
@@ -809,22 +840,6 @@ describe('IPcs unit tests', () => {
     }catch (e:any) {
       expect(e.message).toContain('Invalid Pivot')
     }
-  })
-
-  it("trySetPivotFromSymmetry", ()=>{
-    const pcs = new IPcs({strPcs: '[0,1,2]'})
-    expect(pcs.getPivot()).toEqual(0)
-
-    const p2 = pcs.trySetPivotFromSymmetry()
-    expect(p2.getPivot()).toEqual(1)
-    expect(p2.getPcsStr()).toEqual('[0,1,2]')
-
-    const p3 = p2.modalPrimeForm()
-    expect(p3.getPcsStr()).toEqual('[0,1,11]')
-
-    const p4 = pcs.modalPrimeForm()
-    expect(p4.getPcsStr()).toEqual('[0,1,11]')
-    expect(p4.getPivot()).toEqual(0)
   })
 
 })

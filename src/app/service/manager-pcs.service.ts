@@ -12,6 +12,23 @@ export class ManagerPcsService {
   transformeByMxT0(pcs: IPcs, a:number): IPcs {
     // if not isDetached() get newPcs resulting of group action
     let newPcs = pcs.affineOp(a, 0)
+    const savPivot = newPcs.getPivot()
+    if (pcs.orbit?.groupAction) {
+      let newPcsInOrbit = pcs.orbit.groupAction.getIPcsInOrbit(newPcs)
+      newPcs = new IPcs({
+        binPcs: newPcsInOrbit.abinPcs,
+        iPivot: savPivot,
+        orbit: newPcsInOrbit.orbit,
+        templateMappingBinPcs: newPcsInOrbit.templateMappingBinPcs,
+        nMapping: newPcsInOrbit.nMapping
+      })
+    }
+    return newPcs
+  }
+
+  sav_transformeByMxT0(pcs: IPcs, a:number): IPcs {
+    // if not isDetached() get newPcs resulting of group action
+    let newPcs = pcs.affineOp(a, 0)
     if (pcs.orbit?.groupAction) {
       let newPcsInOrbit = pcs.orbit.groupAction.getIPcsInOrbit(newPcs)
       // set pivot from pivot obtained by translation
@@ -44,7 +61,18 @@ export class ManagerPcsService {
     if (pcs.orbit?.groupAction) {
       newPcs = pcs.orbit.groupAction.getIPcsInOrbit(newPcs)
     }
-    return newPcs
+    // lost iPivot, set a new
+    const newPivot = newPcs.getPivotFromSymmetry()
+    if (newPivot >= 0) {
+      return new IPcs({
+        binPcs: newPcs.abinPcs,
+        iPivot: newPivot,
+        orbit: newPcs.orbit,
+        templateMappingBinPcs: newPcs.templateMappingBinPcs,
+        nMapping: newPcs.nMapping
+      })
+    }
+     return newPcs
   }
 
   /**

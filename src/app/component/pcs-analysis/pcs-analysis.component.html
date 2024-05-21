@@ -11,7 +11,7 @@
         Cardinal :
         <span class="analyse-pcs">#{{ pcs.cardinal }}</span>
         PowerSet cardinal :
-        <span class="analyse-pcs">#{{ pcs.cyclicPrimeForm().orbit!.groupAction!.powerset.size }}</span>
+        <span class="analyse-pcs">#{{ pcs.cyclicPrimeForm().orbit.groupAction?.powerset?.size ?? 0 }}</span>
       </p>
       <hr>
     </div>

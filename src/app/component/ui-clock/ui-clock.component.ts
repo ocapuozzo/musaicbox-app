@@ -351,7 +351,7 @@ export class UiClockComponent {
 
   getLinksNameDefs() : INameDefLink[] {
     let res: INameDefLink[] = []
-    const links = Scales2048Name.getScale2048Name(this.pcs).sources
+    const links = Scales2048Name.getScale2048Name(this.pcs)?.sources ?? res
     for (let i = 0; i < links.length ; i++) {
       if (links[i].name) {
         res.push({url: links[i].url, name: links[i].name, type: links[i].type})
