@@ -304,14 +304,16 @@ export class Orbit {
    * Find, if exists, first stabilizer operation other than M1-T0 in this orbit
    */
   getFirstOperationWithTZeroOtherThanM1() : MusaicPcsOperation | undefined {
-     for (let i = 0; i < this.stabilizers.length; i++) {
+    let operation : MusaicPcsOperation | undefined = undefined
+    for (let i = 0; i < this.stabilizers.length && operation === undefined; i++) {
        const stab = this.stabilizers[i]
-       const operation = stab.operations.find((op) => op.t === 0 && op.a !== 1)
-       if (operation != undefined) {
-         return operation
+       // first M11-T0 (vertical axe)
+       operation = stab.operations.find((op) => op.t === 0 && op.a == 11)
+       if (operation === undefined) {
+         operation = stab.operations.find((op) => op.t === 0 && op.a !== 1)
        }
      }
-     return undefined
+     return operation
 }
 
 }

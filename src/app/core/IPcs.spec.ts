@@ -388,16 +388,31 @@ describe('IPcs unit tests', () => {
     let pcs = new IPcs({strPcs: '[0,1,2]'})
     expect(pcs.getPivot()).toEqual(0)
 
+    let pivot = pcs.getPivotFromSymmetry()
+    expect(pivot).toEqual(1)
+
     const p3 = pcs.modalPrimeForm()
     expect(p3.getPcsStr()).toEqual('[0,1,11]')
-
-    const p4 = pcs.modalPrimeForm()
-    expect(p4.getPcsStr()).toEqual('[0,1,11]')
-    expect(p4.getPivot()).toEqual(0)
+    expect(p3.getPivot()).toEqual(0)
 
     pcs = new IPcs({strPcs: '[4,5,6,7,8]'})
-    let pivot = pcs.getPivotFromSymmetry()
+    pivot = pcs.getPivotFromSymmetry()
     expect(pivot).toEqual(6)
+
+    // musaic n° 80
+    pcs = new IPcs({strPcs: '[0,2,3,5,6,8]'})
+    pivot = pcs.getPivotFromSymmetry()
+    expect(pivot).toEqual(3) // invariant by M7-T0
+
+   // musaic n° 32
+    pcs = new IPcs({strPcs: '[0,3,4,7]'})
+    pivot = pcs.getPivotFromSymmetry()
+    expect(pivot).toEqual(-1) // no invariant by Mx-T0 (x != 1)
+
+   // musaic n° 35
+    pcs = new IPcs({strPcs: '[0,2,4,8]'})
+    pivot = pcs.getPivotFromSymmetry()
+    expect(pivot).toEqual(2) // invariant by M11-T0, M7-T0
 
   })
 

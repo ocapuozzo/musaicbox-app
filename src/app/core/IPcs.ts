@@ -45,6 +45,7 @@ import {Stabilizer} from "./Stabilizer";
 import {Mapping} from "../utils/Mapping";
 import {ChordNaming} from "./ChordNaming";
 import {Scales2048Name} from "./Scales2048Name";
+import {MusaicPcsOperation} from "./MusaicPcsOperation";
 
 const NEXT_MODULATION = 1
 const PREV_MODULATION = 2
@@ -1225,8 +1226,15 @@ export class IPcs {
     }
   }
 
+  static OperationsT0Stab_M11_M5_M7 = [
+    new MusaicPcsOperation(12, 11, 0, false),
+    new MusaicPcsOperation(12, 5, 0, false),
+    new MusaicPcsOperation(12, 7, 0, false)
+  ]
+
   /**
    * Try to define iPivot from symmetries of pcs, if possible
+   * test first M11, M5 then M7, in this order, the first found is winner
    * @return pivot value or -1 if not found
    */
   public getPivotFromSymmetry(): number {
@@ -1240,46 +1248,22 @@ export class IPcs {
     })
 
     if (this.n !== 12) throw Error("pcs.n = " + this.n + " invalid (must be 12 digits)")
-    // experimental : select a pivot from axe symmetry
-    let symmetries = pcsForTest.getAxialSymmetries()
-    const firstIndexInter = symmetries.symInter.findIndex((value) => value === 1)
-    const firstIndexMedian = symmetries.symMedian.findIndex((value) => value === 1)
-    if (firstIndexMedian >= 0) {
-      if (pcsForTest.abinPcs[firstIndexMedian] === 1) {
-        pcsForTest.setPivot(firstIndexMedian)
-      } else if (pcsForTest.abinPcs[(firstIndexMedian + 6) % pcsForTest.n] === 1) { // ok normally...
-        pcsForTest.setPivot((firstIndexMedian + 6) % pcsForTest.n)
-      }
-    } else if (firstIndexInter >= 0) {
-      if (pcsForTest.abinPcs[firstIndexInter] === 1) {
-        pcsForTest.setPivot(firstIndexInter)
-      } else if (pcsForTest.abinPcs[(firstIndexInter + 6) % pcsForTest.n] === 1) {
-        pcsForTest.setPivot((firstIndexInter + 6) % pcsForTest.n)
-      }
-    } else {
-      // no symmetry but exists stab in T0 other that M1-T0 ?
-      // example : musaic n° 53
-      const orbitAffine = GroupAction.predefinedGroupsActions(12, Group.AFFINE)
-      const pcsInAffine = orbitAffine.getIPcsInOrbit(this)
-      const opStab = pcsInAffine.orbit.getFirstOperationWithTZeroOtherThanM1()
-      if (opStab) {
-        // find good pivot
-        const id = this.id
-        for (let i = 0; i < pcsForTest.abinPcs.length; i++) {
-          if (pcsForTest.abinPcs[i] === 1) {
-            pcsForTest.setPivot(i)
-            if (id === opStab.actionOn(pcsForTest).id) {
-              // good pivot
-              return i
-              // break
-            }
+
+    // no symmetry but exists stab in T0 other that M1-T0 ?
+    // example : musaic n° 53, 35 (see unit test)
+    const id = this.id
+    for (let i = 0; i < IPcs.OperationsT0Stab_M11_M5_M7.length; i++) {
+      for (let j = 0; j < pcsForTest.abinPcs.length; j++) {
+        if (pcsForTest.abinPcs[j] === 1) {
+          pcsForTest.setPivot(j)
+          if (id === IPcs.OperationsT0Stab_M11_M5_M7[i].actionOn(pcsForTest).id) {
+            // good pivot
+            return j
           }
         }
-        // no found after loop, set initial value to iPivot
-        pcsForTest.iPivot = this.iPivot
       }
     }
-    return pcsForTest.iPivot ?? -1
+    return -1
   }
 
 
