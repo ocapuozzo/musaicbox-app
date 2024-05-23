@@ -56,12 +56,14 @@ legend.representation-border {
 .row {
   display: flex;
   flex-direction: row;
+  flex-flow: row wrap;
 }
 
 .box {
   box-shadow: 0px 0px 10px 0px lightgray;
   margin: 3px;
   padding: 5px;
+  /*flex-flow: row wrap;*/
 }
 
 .text-center {

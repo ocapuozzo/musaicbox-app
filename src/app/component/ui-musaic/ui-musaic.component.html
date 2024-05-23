@@ -10,6 +10,7 @@
     <p class="font-italic box-center">Mapping {{ pcs.n }} => {{ pcs.nMapping }}</p>
   </div>
   <div [hidden]="pcs.n != 12" [class.box-center]="pcs.n == 12">
+    <figure style="max-width: 60px; margin: 0">
     <img
       (click)="m11Click()"
       #m11
@@ -19,7 +20,11 @@
       class="actionable img-fluid anim-button"
       alt="M11"
       width="60"
+      style="margin-bottom: 0"
     />
+      <figcaption>m11</figcaption>
+    </figure>
+    <figure style="max-width: 60px; margin: 0">
     <img
       (click)="m5Click()"
       #m5
@@ -30,6 +35,9 @@
       width="60"
       alt="M5"
     />
+      <figcaption>m5</figcaption>
+    </figure>
+    <figure style="max-width: 60px; margin: 0">
     <img
       (click)="m7Click()"
       #m7
@@ -40,17 +48,24 @@
       width="60"
       alt="M7"
     />
+        <figcaption>m7</figcaption>
+      </figure>
   </div>
-
-  <span [hidden]="pcs.n != 12" (click)="complement()"  class="class.box-center actionable">
+  <div [hidden]="pcs.n != 12" [class.box-center]="pcs.n == 12">
+<!--  <span [hidden]="pcs.n != 12" (click)="complement()"  class="class.box-center actionable">-->
+    <figure style="max-width: 60px; margin-bottom: 20px">
         <img
+          (click)="complement()"
           src="./assets/img/cplt.png"
           title="complement"
           class="actionable img-fluid anim-button"
           width="40"
         />
+      <figcaption>cplt</figcaption>
+    </figure>
     <!-- <font-awesome-icon icon="yin-yang"  size="lg"/> -->
-      </span>
+<!--      </span>-->
+  </div>
   <p class="box-center marge-5">
     IS :
     <span class="analyse-pcs">({{ pcs.is() }})</span>
