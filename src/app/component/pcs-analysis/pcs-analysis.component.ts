@@ -14,6 +14,7 @@ import {MusaicComponent} from "../musaic/musaic.component";
 import {EightyEight} from "../../utils/EightyEight";
 import {PcsColor} from "../../color/PcsColor";
 import {MatTooltip} from "@angular/material/tooltip";
+import {MusaicPcsOperation} from "../../core/MusaicPcsOperation";
 
 @Component({
   selector: 'app-pcs-analysis',
@@ -30,12 +31,12 @@ import {MatTooltip} from "@angular/material/tooltip";
 
 export class PcsAnalysisComponent {
 
-   pcs : IPcs = new IPcs({strPcs:'0'})
+  pcs: IPcs = new IPcs({strPcs: '0'})
 
   /**
    * image mapped in 12 of _pcs
    */
-  pcsMapped : IPcs = new IPcs({strPcs:'4,2'})
+  pcsMapped: IPcs = new IPcs({strPcs: '4,2'})
 
 
   static ROMAIN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII']
@@ -48,25 +49,25 @@ export class PcsAnalysisComponent {
       this.pcs = pcs
       this.pcsMapped = this.pcs.n == 12
         ? this.pcs
-        : new IPcs({binPcs:this.pcs.getMappedBinPcs()})
+        : new IPcs({binPcs: this.pcs.getMappedBinPcs()})
     })
   }
 
   ngOnInit() {
     this.pcs = this.managerPagePcsService.pcs
-    this.pcsMapped = this.pcs.n == 12 ? this.pcs : new IPcs({binPcs:this.pcs.getMappedBinPcs()})
+    this.pcsMapped = this.pcs.n == 12 ? this.pcs : new IPcs({binPcs: this.pcs.getMappedBinPcs()})
   }
 
   fixedPcsList() {
     const stabilizers = this.pcs.orbit.stabilizers
     for (const stab of stabilizers) {
-      for (let i = 0; i < stab.fixedPcs.length ; i++) {
+      for (let i = 0; i < stab.fixedPcs.length; i++) {
         this.managerPagePcsListService.addPcs(stab.getShortName(), stab.fixedPcs[i])
       }
     }
   }
 
-  doPushOrbitCyclicPF(pcs : IPcs) {
+  doPushOrbitCyclicPF(pcs: IPcs) {
     if (pcs.n == 12) {
       const cyclicGroup = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
       this.managerPagePcsService.replaceBy(cyclicGroup.getIPcsInOrbit(pcs))
@@ -86,6 +87,7 @@ export class PcsAnalysisComponent {
       this.managerPagePcsService.replaceBy(afGroup.getIPcsInOrbit(pcs))
     }
   }
+
   doPushOrbitMusaicPF(pcs: IPcs) {
     if (pcs.n == 12) {
       const musGroup = GroupAction.predefinedGroupsActions(12, Group.MUSAIC)
@@ -95,7 +97,7 @@ export class PcsAnalysisComponent {
 
   doPushModesOf(pcs: IPcs) {
     let cardinal = pcs.cardOrbitMode()
-    for (let degree = 0; degree < cardinal ; degree++) {
+    for (let degree = 0; degree < cardinal; degree++) {
       this.managerPagePcsListService.addPcs(PcsAnalysisComponent.ROMAIN[degree], pcs, true)
       pcs = pcs.modulation(IPcs.NEXT_DEGREE)
     }
@@ -131,8 +133,8 @@ export class PcsAnalysisComponent {
     }
   }
 
-  pcsWithSameIVas(pcs: IPcs) : IPcs[] {
-    let pcsList =  PcsSearch.searchPcsWithThisIV(pcs.iv().toString())
+  pcsWithSameIVas(pcs: IPcs): IPcs[] {
+    let pcsList = PcsSearch.searchPcsWithThisIV(pcs.iv().toString())
     if (pcs.orbit?.groupAction) {
       // @ts-ignore
       pcsList = pcsList.map((pcsSameIV) => pcs.orbit.groupAction.getIPcsInOrbit(pcsSameIV))
@@ -140,7 +142,7 @@ export class PcsAnalysisComponent {
     return pcsList
   }
 
-  doReplaceBy(pcs: IPcs){
+  doReplaceBy(pcs: IPcs) {
     this.managerPagePcsService.replaceBy(pcs)
   }
 
@@ -156,5 +158,17 @@ export class PcsAnalysisComponent {
 
   colorOrbit(pcsRepr: IPcs) {
     return PcsColor.getColor(pcsRepr.orbit.motifStabilizer.name);
+  }
+
+  operationsStabilizerOf(pcsMapped: IPcs) {
+    if (pcsMapped.n !== 12) throw Error("Waiting n = 12")
+    let operationStab: MusaicPcsOperation[] = []
+    const operations: MusaicPcsOperation[] = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).operations
+    operations.forEach(operation => {
+      if (operation.actionOn(pcsMapped).id === pcsMapped.id) {
+        operationStab.push(operation)
+      }
+    })
+    return operationStab.map( (operationStab) => operationStab.toString()).join(" ");
   }
 }

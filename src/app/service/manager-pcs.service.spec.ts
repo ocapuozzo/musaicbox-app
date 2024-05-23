@@ -4,15 +4,15 @@ import { ManagerPcsService } from './manager-pcs.service';
 import {IPcs} from "../core/IPcs";
 
 describe('ManagerPcsService', () => {
-  let service: ManagerPcsService;
+  let managerPcsService: ManagerPcsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ManagerPcsService);
+    managerPcsService = TestBed.inject(ManagerPcsService);
   });
 
   it('should be created', () => {
-    expect(service).toBeTruthy();
+    expect(managerPcsService).toBeTruthy();
   });
 
   it(' detached complement state or not', () => {
@@ -23,13 +23,19 @@ describe('ManagerPcsService', () => {
     expect(ipcsMusaicPF.isDetached()).not.toBeTruthy()
 
     // difference between service or not
-    expect(service.complement(ipcsMusaicPF).isDetached()).not.toBeTruthy()
+    expect(managerPcsService.complement(ipcsMusaicPF).isDetached()).not.toBeTruthy()
     expect(ipcsMusaicPF.complement().isDetached()).toBeTruthy()
 
     // when pcs is detached, then stay detached after op
-    expect(service.complement(ipcsWithNoOrbit).isDetached()).toBeTruthy()
+    expect(managerPcsService.complement(ipcsWithNoOrbit).isDetached()).toBeTruthy()
 
   });
+
+  it('doTransformeAffine', () => {
+    const pcs = new IPcs({strPcs: "0, 1, 11", iPivot: 0})
+    const pcs2 = new IPcs({strPcs: "0, 1, 2", iPivot: 1})
+    expect(managerPcsService.doTransformeAffine(pcs, 1, 1).id).toEqual(pcs2.id)
+  })
 
   it('transformeByMxT0', () => {
 

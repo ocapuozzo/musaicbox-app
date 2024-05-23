@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {IPcs} from "../core/IPcs";
-import {Orbit} from "../core/Orbit";
+import {GroupAction} from "../core/GroupAction";
 
 @Injectable({
   providedIn: 'root'
@@ -10,20 +10,7 @@ export class ManagerPcsService {
   constructor() { }
 
   transformeByMxT0(pcs: IPcs, a:number): IPcs {
-    // if not isDetached() get newPcs resulting of group action
-    let newPcs = pcs.affineOp(a, 0)
-    const savPivot = newPcs.getPivot()
-    if (pcs.orbit?.groupAction) {
-      let newPcsInOrbit = pcs.orbit.groupAction.getIPcsInOrbit(newPcs)
-      newPcs = new IPcs({
-        binPcs: newPcsInOrbit.abinPcs,
-        iPivot: savPivot,
-        orbit: newPcsInOrbit.orbit,
-        templateMappingBinPcs: newPcsInOrbit.templateMappingBinPcs,
-        nMapping: newPcsInOrbit.nMapping
-      })
-    }
-    return newPcs
+    return this.doTransformeAffine(pcs, a, 0)
   }
 
   sav_transformeByMxT0(pcs: IPcs, a:number): IPcs {
@@ -32,7 +19,7 @@ export class ManagerPcsService {
     if (pcs.orbit?.groupAction) {
       let newPcsInOrbit = pcs.orbit.groupAction.getIPcsInOrbit(newPcs)
       // set pivot from pivot obtained by translation
-      // rem: pivot is not signifiant for pcsList identity
+      // rem: pivot is not signifiant for pcs identity
       if (newPcs.iPivot !== undefined && newPcs.iPivot !== newPcsInOrbit.iPivot) {
         newPcsInOrbit.setPivot(newPcs.iPivot)
       }
@@ -42,19 +29,7 @@ export class ManagerPcsService {
   }
 
   translateByM1Tx(pcs: IPcs, t:number): IPcs {
-    let pcsTranslated = pcs.translation(t)
-    // let newPcs = pcsTranslated
-    if (pcs.orbit?.groupAction) {
-      let newPcsInOrbit = pcs.orbit.groupAction.getIPcsInOrbit(pcsTranslated)
-      // set pivot from pivot obtained by translation
-      // rem: pivot is not signifiant for pcsList identity,
-      // TODO side effect ! better create new instance ? instead of change state (for all services here)
-      if (pcsTranslated.iPivot !== undefined && newPcsInOrbit.iPivot !== pcsTranslated.iPivot) {
-        newPcsInOrbit.setPivot(pcsTranslated.iPivot)
-      }
-      return newPcsInOrbit
-    }
-    return pcsTranslated
+    return this.doTransformeAffine(pcs, 1, t)
   }
 
   complement(pcs: IPcs): IPcs {
@@ -77,12 +52,13 @@ export class ManagerPcsService {
   }
 
   /**
-   * Change state of pcsList, by set a new pivot
+   * Change state of pcs, by set a new pivot
    * @param pcs
    * @param direction
    */
   modulation(pcs: IPcs, direction : number): IPcs {
-    // return new instance, even if same pcsList (<> pivot) for reactive update ui by angular
+    // return new instance, even if same pcs (<> pivot) for reactive update ui by angular
+    // with same orbit
     return pcs.modulation(direction)
   }
 
@@ -96,10 +72,11 @@ export class ManagerPcsService {
       }
     } else {
       if (index < pcs.n && index >= 0) {
+        // change pivot only
         newPcs =
           new IPcs({
             binPcs: pcs.abinPcs,
-            iPivot: index,
+            iPivot: index,  // change pivot
             n: pcs.n,
             orbit:pcs.orbit,
             templateMappingBinPcs: pcs.templateMappingBinPcs,
@@ -114,23 +91,47 @@ export class ManagerPcsService {
 
   toggleIndexFromMapped(pcs : IPcs, index: number): IPcs {
     let newPcs = pcs.toggleIndexPC(index)
-    let savNewPcs = newPcs
     if (pcs.orbit?.groupAction) {
-      newPcs = pcs.orbit.groupAction.getIPcsInOrbit(newPcs)
-      // set pivot from pivot obtained by translation
-      // rem: pivot is not signifiant for pcsList identity
-      if (savNewPcs.iPivot !== undefined && newPcs.iPivot !== savNewPcs.iPivot) {
-        newPcs.setPivot(savNewPcs.iPivot)
-      }
+      newPcs = ManagerPcsService.makeNewInstanceOf(newPcs, pcs.orbit?.groupAction, newPcs.getPivot());
     }
     return newPcs
   }
 
+  /**
+   * Get new instance àf this argument, with "empty" orbit
+   * @param pcs a detached PCS
+   */
   doDetach(pcs: IPcs) : IPcs {
+    // set "empty" ( x.orbit = new Orbit() is done by translation op )
     // translation of zero step (kind of clone)
-    let newPcs = pcs.translation(0)
-    // set "empty" orbit
-    newPcs.orbit = new Orbit()
-    return newPcs;
+    return pcs.translation(0);
   }
+
+  doTransformeAffine(pcs : IPcs, a : number, t : number) : IPcs {
+    let newPcs = pcs.affineOp(a, t)
+    const savPivot = newPcs.getPivot()
+    if (pcs.orbit?.groupAction) {
+      newPcs = ManagerPcsService.makeNewInstanceOf(newPcs, pcs.orbit?.groupAction, savPivot);
+    }
+    return newPcs
+  }
+
+  /**
+   * Build instance of IPcs from pcs and group action (king of clone, with pivot may be changed)
+   * @param pcs to find image in action group
+   * @param groupAction where to find
+   * @param newPivot
+   * @private
+   */
+  private static makeNewInstanceOf(pcs: IPcs, groupAction: GroupAction, newPivot: number | undefined) {
+    let newPcsInOrbit = groupAction.getIPcsInOrbit(pcs)
+    return new IPcs({
+      binPcs: newPcsInOrbit.abinPcs,
+      iPivot: newPivot,
+      orbit: newPcsInOrbit.orbit,
+      templateMappingBinPcs: newPcsInOrbit.templateMappingBinPcs,
+      nMapping: newPcsInOrbit.nMapping
+    })
+  }
+
 }
