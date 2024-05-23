@@ -1,5 +1,5 @@
 html, body { height: 100%; background-color: white}
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin-left: 2px; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .line-broken-tooltip {
   white-space: pre-line;

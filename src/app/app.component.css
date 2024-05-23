@@ -51,6 +51,18 @@
     height: 95%;
   }
 
+  .analysis-panel {
+
+  }
+
+}
+
+
+@media all and (max-width: 500px) {
+  .analysis-panel {
+     max-width: fit-content;
+  }
+
 }
 
 .vertical-align {
