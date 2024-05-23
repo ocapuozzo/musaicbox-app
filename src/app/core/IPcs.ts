@@ -396,6 +396,9 @@ export class IPcs {
         nMapping: this.nMapping
       })
     }
+    if (this.orbit?.groupAction) {
+      newIPcs = this.orbit.groupAction.getIPcsInOrbit(newIPcs)
+    }
     return newIPcs
   }
 

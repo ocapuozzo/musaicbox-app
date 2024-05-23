@@ -416,17 +416,15 @@ describe('IPcs unit tests', () => {
 
   })
 
-  it("modalPrimeForm with symmetry if possible", () => {
+  it("modalPrimeForm with symmetry if not possible", () => {
     let pcs = new IPcs({strPcs: '[1,2,6,7,8,9]'})
     let pcsMPF = pcs.modalPrimeForm()
-    let pcsM = new IPcs({strPcs: '[0,1,2,6,7,11]'})
-    console.log("pcs Modal waiting = " + pcsM.getPcsStr())
-    console.log("pcsMPF of " + pcs.getPcsStr() + " = " + pcsMPF.getPcsStr())
-    expect(pcsMPF.id).toEqual(pcsM.id)
 
-    pcs = new IPcs({strPcs: '[1,2,3,4,8,9]'})
-    pcsMPF = pcs.modalPrimeForm()
-    console.log("pcsMPF of " + pcs.getPcsStr() + " = " + pcsMPF.getPcsStr())
+    // cyclic PF
+    let pcsM = new IPcs({strPcs: '[0,1,2,3,7,8]'})
+
+    // console.log("pcs Modal waiting = " + pcsM.getPcsStr())
+    // console.log("pcsMPF of " + pcs.getPcsStr() + " = " + pcsMPF.getPcsStr())
     expect(pcsMPF.id).toEqual(pcsM.id)
   })
 

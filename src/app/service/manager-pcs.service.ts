@@ -47,7 +47,8 @@ export class ManagerPcsService {
     if (pcs.orbit?.groupAction) {
       let newPcsInOrbit = pcs.orbit.groupAction.getIPcsInOrbit(pcsTranslated)
       // set pivot from pivot obtained by translation
-      // rem: pivot is not signifiant for pcsList identity
+      // rem: pivot is not signifiant for pcsList identity,
+      // TODO side effect ! better create new instance ? instead of change state (for all services here)
       if (pcsTranslated.iPivot !== undefined && newPcsInOrbit.iPivot !== pcsTranslated.iPivot) {
         newPcsInOrbit.setPivot(pcsTranslated.iPivot)
       }

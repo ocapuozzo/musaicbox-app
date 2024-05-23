@@ -40,11 +40,11 @@ export class PcsAnalysisComponent {
 
   static ROMAIN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII']
 
-  constructor(private readonly managerHomePcsListService: ManagerPagePcsListService,
-              private readonly managerHomePcsService: ManagerPagePcsService
+  constructor(private readonly managerPagePcsListService: ManagerPagePcsListService,
+              private readonly managerPagePcsService: ManagerPagePcsService
   ) {
     // this.pcsList = this.managerHomePcsService.pcsList
-    this.managerHomePcsService.updatePcsEvent.subscribe((pcs: IPcs) => {
+    this.managerPagePcsService.updatePcsEvent.subscribe((pcs: IPcs) => {
       this.pcs = pcs
       this.pcsMapped = this.pcs.n == 12
         ? this.pcs
@@ -53,7 +53,7 @@ export class PcsAnalysisComponent {
   }
 
   ngOnInit() {
-    this.pcs = this.managerHomePcsService.pcs
+    this.pcs = this.managerPagePcsService.pcs
     this.pcsMapped = this.pcs.n == 12 ? this.pcs : new IPcs({binPcs:this.pcs.getMappedBinPcs()})
   }
 
@@ -61,7 +61,7 @@ export class PcsAnalysisComponent {
     const stabilizers = this.pcs.orbit.stabilizers
     for (const stab of stabilizers) {
       for (let i = 0; i < stab.fixedPcs.length ; i++) {
-        this.managerHomePcsListService.addPcs(stab.getShortName(), stab.fixedPcs[i])
+        this.managerPagePcsListService.addPcs(stab.getShortName(), stab.fixedPcs[i])
       }
     }
   }
@@ -69,65 +69,65 @@ export class PcsAnalysisComponent {
   doPushOrbitCyclicPF(pcs : IPcs) {
     if (pcs.n == 12) {
       const cyclicGroup = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
-      this.managerHomePcsService.replaceBy(cyclicGroup.getIPcsInOrbit(pcs))
+      this.managerPagePcsService.replaceBy(cyclicGroup.getIPcsInOrbit(pcs))
     }
   }
 
   doPushOrbitDihedralPF(pcs: IPcs) {
     if (pcs.n == 12) {
       const dGroup = GroupAction.predefinedGroupsActions(12, Group.DIHEDRAL)
-      this.managerHomePcsService.replaceBy(dGroup.getIPcsInOrbit(pcs))
+      this.managerPagePcsService.replaceBy(dGroup.getIPcsInOrbit(pcs))
     }
   }
 
   doPushOrbitAffinePF(pcs: IPcs) {
     if (pcs.n == 12) {
       const afGroup = GroupAction.predefinedGroupsActions(12, Group.AFFINE)
-      this.managerHomePcsService.replaceBy(afGroup.getIPcsInOrbit(pcs))
+      this.managerPagePcsService.replaceBy(afGroup.getIPcsInOrbit(pcs))
     }
   }
   doPushOrbitMusaicPF(pcs: IPcs) {
     if (pcs.n == 12) {
       const musGroup = GroupAction.predefinedGroupsActions(12, Group.MUSAIC)
-      this.managerHomePcsService.replaceBy(musGroup.getIPcsInOrbit(pcs))
+      this.managerPagePcsService.replaceBy(musGroup.getIPcsInOrbit(pcs))
     }
   }
 
   doPushModesOf(pcs: IPcs) {
     let cardinal = pcs.cardOrbitMode()
     for (let degree = 0; degree < cardinal ; degree++) {
-      this.managerHomePcsListService.addPcs(PcsAnalysisComponent.ROMAIN[degree], pcs, true)
+      this.managerPagePcsListService.addPcs(PcsAnalysisComponent.ROMAIN[degree], pcs, true)
       pcs = pcs.modulation(IPcs.NEXT_DEGREE)
     }
   }
 
   doPushModalPF(pcs: IPcs) {
     if (pcs.n == 12) {
-      this.managerHomePcsService.replaceBy(pcs.modalPrimeForm())
+      this.managerPagePcsService.replaceBy(pcs.modalPrimeForm())
     }
   }
 
   doPushCyclicPF(pcs: IPcs) {
     if (pcs.n == 12) {
-      this.managerHomePcsService.replaceBy(pcs.cyclicPrimeForm())
+      this.managerPagePcsService.replaceBy(pcs.cyclicPrimeForm())
     }
   }
 
   doPushDihedralPF(pcs: IPcs) {
     if (pcs.n == 12) {
-      this.managerHomePcsService.replaceBy(pcs.dihedralPrimeForm())
+      this.managerPagePcsService.replaceBy(pcs.dihedralPrimeForm())
     }
   }
 
   doPushAffinePF(pcs: IPcs) {
     if (pcs.n == 12) {
-      this.managerHomePcsService.replaceBy(pcs.affinePrimeForm())
+      this.managerPagePcsService.replaceBy(pcs.affinePrimeForm())
     }
   }
 
   doPushMusaicPF(pcs: IPcs) {
     if (pcs.n == 12) {
-      this.managerHomePcsService.replaceBy(pcs.musaicPrimeForm())
+      this.managerPagePcsService.replaceBy(pcs.musaicPrimeForm())
     }
   }
 
@@ -141,11 +141,11 @@ export class PcsAnalysisComponent {
   }
 
   doReplaceBy(pcs: IPcs){
-    this.managerHomePcsService.replaceBy(pcs)
+    this.managerPagePcsService.replaceBy(pcs)
   }
 
   doPushToPcsPage(pcs: IPcs) {
-    this.managerHomePcsService.replaceBy(pcs)
+    this.managerPagePcsService.replaceBy(pcs)
   }
 
   protected readonly EightyEight = EightyEight;

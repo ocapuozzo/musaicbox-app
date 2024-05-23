@@ -6,7 +6,7 @@ Olivier Capuozzo <olivier.capuozzo@gmail.com>
 :listing-caption: Listing
 :toc-title: Table des matières
 :toc: left
-:toclevels: 3
+:toclevels: 4
 :url-quickref: https://docs.asciidoctor.org/asciidoc/latest/syntax-quick-reference/
 
 ifdef::backend-pdf[]
@@ -19,7 +19,10 @@ endif::[]
 
 This document presents the main concepts illustrated on the 88musaics.org site, plus others (concept of modes and scales). The implementation chosen for this application are detailed, and certain concepts from Musial Set Theory are discussed.
 
-== Representation modes
+== PCS
+
+
+== Representation
 
 === Set
 === Vector
@@ -27,14 +30,19 @@ This document presents the main concepts illustrated on the 88musaics.org site, 
 === Geometry
 
 ==== Circle
-==== Musaic
+==== DIS
+===== Tonetz, Musaic and more
 
 === Together
 
 == Equivalence relations
 
 === Octave equivalence
+
+Reduce to 12 pitch classes and its 4096 PCS (2^12)
+
 === Intervallic structure equivalence
+
 
 === Dihedral equivalence
 
@@ -49,8 +57,12 @@ image::image-file-name.png[I am the image alt text.]
 
 This is another paragraph.footnote:[I am footnote text and will be displayed at the bottom of the article.]
 
-== level heading
+== Prime Form
 
+=== What Prime Form is
+=== What Prime Form is not
+
+modal prime form
 .Unordered list title
 * list item 1
 ** nested list item
