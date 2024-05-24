@@ -2,6 +2,13 @@
 .panel-navigate {
   display: flex;
   justify-content: space-between;
+  text-align: center;
+  margin-left: auto;
+}
+
+.panel-navigate span {
+  display: table;
+  margin: 0 auto;
 }
 
 .actionable {
