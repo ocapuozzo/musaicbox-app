@@ -425,7 +425,7 @@ describe('IPcs unit tests', () => {
     let pcs = new IPcs({strPcs: '[1,2,6,7,8,9]'})
     let pcsMPF = pcs.modalPrimeForm()
 
-    // cyclic modal PF waiting (M11-T1 - not T0, one step for symmetry)
+    // cyclic modal PF waiting (No Mx-T0 op, but M11-T1, one step for symmetry)
     let pcsModalPFWaiting = new IPcs({strPcs: '[0,1,2,6,7,11]'})
 
     expect(pcsMPF.id).toEqual(pcsModalPFWaiting.id)

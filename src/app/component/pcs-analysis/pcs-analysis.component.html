@@ -1,6 +1,6 @@
 <div class="container" style="height:70%">
   <fieldset class="representation-border" style="max-width: 450px;">
-    <legend class="representation-border">Somme properties</legend>
+    <legend class="representation-border">Some properties</legend>
     <hr>
     <div [hidden]="pcs.n == 12">
       <p>
@@ -27,6 +27,11 @@
       <p>
         PCS :
         <span class="analyse-pcs"> {{ pcsMapped.getPcsStr() }}<sub> {{ pcsMapped.iPivot }} </sub></span> &nbsp;
+        Vector : <span class="analyse-pcs">[{{ pcsMapped.getMappedBinPcs() }}]<sub> {{ pcsMapped.iPivot }} </sub></span> &nbsp;
+      </p>
+      <p>
+        Polynomial id :
+        <span class="analyse-pcs">#{{ pcsMapped.pid() }}</span>
       </p>
       <p>
         Cardinal :
