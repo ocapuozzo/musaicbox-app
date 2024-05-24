@@ -117,6 +117,7 @@ export class UiMusaicComponent {
         x -= (pitch == 10) ? 3 : 2
       }
       // ctx.strokeStyle = 'white'
+      ctx.font = "8px sans-serif";
       ctx.fillStyle = color //'white'
       ctx.fillText(pitch.toString(), x, y, CEL_WIDTH)
       // ctx.strokeStyle = saveStrokeStyle

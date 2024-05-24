@@ -407,12 +407,17 @@ describe('IPcs unit tests', () => {
    // musaic n° 32
     pcs = new IPcs({strPcs: '[0,3,4,7]'})
     pivot = pcs.getPivotFromSymmetry()
-    expect(pivot).toEqual(-1) // no invariant by Mx-T0 (x != 1)
+    expect(pivot).toEqual(3) // no invariant by Mx-T0 but M11-T1
 
    // musaic n° 35
     pcs = new IPcs({strPcs: '[0,2,4,8]'})
     pivot = pcs.getPivotFromSymmetry()
     expect(pivot).toEqual(2) // invariant by M11-T0, M7-T0
+
+    // musaic n° 64
+    pcs = new IPcs({strPcs: '[0,1,2,3,4,6]'})
+    pivot = pcs.getPivotFromSymmetry()
+    expect(pivot).toEqual(0) // invariant by CM11-T11
 
   })
 
@@ -420,12 +425,10 @@ describe('IPcs unit tests', () => {
     let pcs = new IPcs({strPcs: '[1,2,6,7,8,9]'})
     let pcsMPF = pcs.modalPrimeForm()
 
-    // cyclic PF
-    let pcsM = new IPcs({strPcs: '[0,1,2,3,7,8]'})
+    // cyclic modal PF waiting (M11-T1 - not T0, one step for symmetry)
+    let pcsModalPFWaiting = new IPcs({strPcs: '[0,1,2,6,7,11]'})
 
-    // console.log("pcs Modal waiting = " + pcsM.getPcsStr())
-    // console.log("pcsMPF of " + pcs.getPcsStr() + " = " + pcsMPF.getPcsStr())
-    expect(pcsMPF.id).toEqual(pcsM.id)
+    expect(pcsMPF.id).toEqual(pcsModalPFWaiting.id)
   })
 
 

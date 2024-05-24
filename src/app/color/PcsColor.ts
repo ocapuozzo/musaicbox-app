@@ -8,7 +8,7 @@ const colorMotifs: Map<string, string> = new Map([
   ['M1 M7', materialColors['green'][800]],
   ['M1 M11', materialColors['blue'][900]],
   ['M1 CM5', materialColors['yellow'][800]],
-  ['M1 CM11', materialColors['green'][900]],
+  ['M1 CM11', materialColors['green'][800]],
   ['M1 M5 M7 M11', materialColors['lime'][800]],
   ['M1 M5 CM1 CM5', materialColors['amber'][900]],
   ['M1 M5 CM7 CM11', materialColors['orange'][900]],

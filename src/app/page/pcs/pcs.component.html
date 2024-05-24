@@ -1,36 +1,41 @@
 <div>
   <div class="row">
     <div [hidden]="pcs.nMapping != 12" class="box text-center"
-         style="max-width:250px;">
-      <h5 class="ext-center title-detail actionable">
+         style="max-width:200px;">
+      <h5 class="text-center title-detail actionable">
         <button mat-button (click)="gotoMusaic()">
-          Musaic n° {{EightyEight.idNumberOf(pcs)}}
+          Musaic n° {{ EightyEight.idNumberOf(pcs) }}
         </button>
       </h5>
       <div [ngClass]="{'inner-box-musaic-orbit':!pcs.isDetached(), 'inner-box-musaic':pcs.isDetached() }">
-        <p class="text-small">{{pcs.orbit.groupAction?.group?.name}}</p>
-        <app-ui-musaic style="width: 200px; height: 340px;"></app-ui-musaic>
+        <p class="text-small">{{ pcs.orbit.groupAction?.group?.name }}</p>
+        <app-ui-musaic style="width: 150px; height: 340px;"></app-ui-musaic>
       </div>
     </div>
     <div class="box"
-         style="max-width:280px; min-width:280px;" >
-      <h5 class="text-center title-detail">
-       <button mat-button [disabled]="!canUndo" (click)="doUnDo()"
-               style="cursor: pointer" class="space-right text-small">
-       <mat-icon>undo</mat-icon> Undo
-    </button>
-        iPCS
+         style="max-width:240px; min-width:240px;">
+     <div  class="text-center title-detail">
+        <button mat-button [disabled]="!canUndo" (click)="doUnDo()"
+                style="cursor: pointer;" class="space-right text-small" >
+          <mat-icon>undo</mat-icon>
+          Undo
+        </button>
+      <span>PCS</span>
         <button mat-button [disabled]="!canRedo" (click)="doReDo()"
-                style="cursor: pointer" class="space-left text-small">
-              <mat-icon>redo</mat-icon> Redo
-    </button>
-      </h5>
+                style="cursor: pointer;" class="space-left text-small">
+          <mat-icon>redo</mat-icon>
+          Redo
+        </button>
+     </div>
+
       <div class="inner-box">
-            <app-ui-clock  class="is-clock"></app-ui-clock>
+        <app-ui-clock class="is-clock"></app-ui-clock>
       </div>
     </div>
     <div class="box" style="min-width:200px; max-width: fit-content">
-      <h5 class="text-center title-detail">Analysis</h5>
+      <h5 class="text-center title-detail">
+        <button mat-button>Analysis</button>
+      </h5>
       <app-pcs-analysis></app-pcs-analysis>
     </div>
   </div>

@@ -1208,10 +1208,13 @@ export class IPcs {
     }
   }
 
-  static OperationsT0Stab_M11_M5_M7 = [
+  static OperationsT0_M11_M5_M7_CM11_CM5_CM7 = [
     new MusaicPcsOperation(12, 11, 0, false),
     new MusaicPcsOperation(12, 5, 0, false),
-    new MusaicPcsOperation(12, 7, 0, false)
+    new MusaicPcsOperation(12, 7, 0, false),
+    new MusaicPcsOperation(12, 11, 0, true),
+    new MusaicPcsOperation(12, 5, 0, true),
+    new MusaicPcsOperation(12, 7, 0, true)
   ]
 
   /**
@@ -1234,11 +1237,59 @@ export class IPcs {
     // no symmetry but exists stab in T0 other that M1-T0 ?
     // example : musaic n° 53, 35 (see unit test)
     const id = this.id
-    for (let i = 0; i < IPcs.OperationsT0Stab_M11_M5_M7.length; i++) {
+    for (let t = 0; t < this.n/6; t++) {
+      for (let i = 0; i < IPcs.OperationsT0_M11_M5_M7_CM11_CM5_CM7.length; i++) {
+        for (let j = 0; j < pcsForTest.abinPcs.length; j++) {
+          if (pcsForTest.abinPcs[j] === 1) {
+            pcsForTest.setPivot(j)
+            if (t === 0) {
+              // no need to translate when t == 0
+              if (id === IPcs.OperationsT0_M11_M5_M7_CM11_CM5_CM7[i].actionOn(pcsForTest).id) {
+                // good pivot
+                return j
+              }
+            } else {
+              // if we are here, then no direct op invariant found (t == 0)
+              // let's try with a value of t which moves away from zero
+              if (id === IPcs.OperationsT0_M11_M5_M7_CM11_CM5_CM7[i].actionOn(pcsForTest).translation(t).id
+              ||
+                id === IPcs.OperationsT0_M11_M5_M7_CM11_CM5_CM7[i].actionOn(pcsForTest).translation(this.n-t).id) {
+                // Closest value to zero
+                return j
+              }
+            }
+          }
+        }
+      }
+    }
+    return -1 // never ??
+  }
+
+  /**
+   * Try to define iPivot from symmetries of pcs, if possible
+   * test first M11, M5 then M7, in this order, the first found is winner
+   * @return pivot value or -1 if not found
+   */
+  public sav_getPivotFromSymmetry(): number {
+    // create new instance for test
+    let pcsForTest = new IPcs({
+      binPcs: this.abinPcs,
+      iPivot: this.iPivot,
+      orbit: this.orbit,
+      templateMappingBinPcs: this.templateMappingBinPcs,
+      nMapping: this.nMapping
+    })
+
+    if (this.n !== 12) throw Error("pcs.n = " + this.n + " invalid (must be 12 digits)")
+
+    // no symmetry but exists stab in T0 other that M1-T0 ?
+    // example : musaic n° 53, 35 (see unit test)
+    const id = this.id
+    for (let i = 0; i < IPcs.OperationsT0_M11_M5_M7_CM11_CM5_CM7.length; i++) {
       for (let j = 0; j < pcsForTest.abinPcs.length; j++) {
         if (pcsForTest.abinPcs[j] === 1) {
           pcsForTest.setPivot(j)
-          if (id === IPcs.OperationsT0Stab_M11_M5_M7[i].actionOn(pcsForTest).id) {
+          if (id === IPcs.OperationsT0_M11_M5_M7_CM11_CM5_CM7[i].actionOn(pcsForTest).id) {
             // good pivot
             return j
           }
@@ -1247,8 +1298,6 @@ export class IPcs {
     }
     return -1
   }
-
-
   // TODO arranger les opérations en inner et mapped et peut-être sortir des fonctions utilitaires pour binpcs ?
 
 }
