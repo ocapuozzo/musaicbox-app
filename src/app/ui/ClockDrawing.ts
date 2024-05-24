@@ -117,7 +117,7 @@ export class ClockDrawing {
       ctx.beginPath();
       ctx.fillStyle = '#333';
       ctx.fill();
-      ctx.font = "9px sans-serif";
+      ctx.font = "10px serif";
       let y = 0.66
       if (index < 10) {
         ctx.fillText(index.toString(), -.1, y);
