@@ -3,8 +3,8 @@
     <div [hidden]="pcs.nMapping != 12" class="box text-center"
          style="max-width:170px;">
       <h5 class="text-center title-detail actionable">
-        <button mat-button (click)="gotoMusaic()">
-          Musaic n° {{ EightyEight.idNumberOf(pcs) }}
+        <button mat-button (click)="gotoMusaic()" class="text-small" style="height: 24px">
+          <span>Musaic n° {{ EightyEight.idNumberOf(pcs) }}</span>
         </button>
       </h5>
       <div [ngClass]="{'inner-box-musaic-orbit':!pcs.isDetached(), 'inner-box-musaic':pcs.isDetached() }">
@@ -20,7 +20,7 @@
           <mat-icon>undo</mat-icon>
           Undo
         </button>
-      <span>PCS</span>
+         <span style="color: black">PCS</span>
         <button mat-button [disabled]="!canRedo" (click)="doReDo()"
                 style="cursor: pointer;" class="space-left text-small small-icon-button">
           <mat-icon>redo</mat-icon>
@@ -33,8 +33,8 @@
       </div>
     </div>
     <div class="box" style="min-width:200px; max-width: fit-content">
-      <h5 class="text-center title-detail">
-        <button mat-button>Analysis</button>
+      <h5 class="text-center title-detail" style="height: 24px">
+        <span>Analysis</span>
       </h5>
       <app-pcs-analysis></app-pcs-analysis>
     </div>
