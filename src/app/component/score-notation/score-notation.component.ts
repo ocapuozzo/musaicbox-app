@@ -67,32 +67,38 @@ constructor() {
 
     const someNotesForChange = [1, 3, 6, 8, 10]
 
+    let  pcsMapped = this.pcs
+    if (this.pcs.n != 12) {
+      pcsMapped = new IPcs({binPcs: this.pcs.getMappedBinPcs()})
+      pcsMapped.setPivot(this.pcs.templateMappingBinPcs[this.pcs.getPivot() ?? 0])
+    }
+
     let prevNote = ''
-    for (let i = this.pcs.iPivot ?? 0; i < n + (this.pcs.iPivot ?? 0); i++) {
-      if (this.pcs.getMappedBinPcs()[i % n] === 1) {
+    for (let i = pcsMapped.iPivot ?? 0; i < n + (pcsMapped.iPivot ?? 0); i++) {
+      if (pcsMapped.abinPcs[i % n] === 1) {
         let note = ScoreNotationComponent.lettersNotation[i % n];
         if (someNotesForChange.indexOf(i % n) !== -1) {
           // change # by b
-          if (this.pcs.getMappedBinPcs()[(i - 1) % n] === 1 &&
-              this.pcs.getMappedBinPcs()[(i + 1) % n] !== 1) {
+          if (pcsMapped.abinPcs[(i - 1) % n] === 1 &&
+            pcsMapped.abinPcs[(i + 1) % n] !== 1) {
             note = "_" + ScoreNotationComponent.lettersNotation[(i + 1) % n]
           }
         }
         // case third if #D and not E, then bE
         if ( note == '^D') {
-          if (this.pcs.getMappedBinPcs()[4] === 0) {
+          if (pcsMapped.abinPcs[4] === 0) {
             note = '_E'
           }
         } else if ( note == '^A' && prevNote.includes("A")) {
-          if (this.pcs.getMappedBinPcs()[9] === 0) {
+          if (pcsMapped.abinPcs[9] === 0) {
             note = '_B'
           }
         } else if ( note == '^G' && prevNote.includes("G")) {
-          if (this.pcs.getMappedBinPcs()[8] === 1) {
+          if (pcsMapped.abinPcs[8] === 1) {
             note = '_A'
           }
         } else if ( note == 'B' && prevNote.includes("B")) {
-          if (this.pcs.getMappedBinPcs()[10] === 1 && this.pcs.getMappedBinPcs()[0] === 0) {
+          if (pcsMapped.abinPcs[10] === 1 && pcsMapped.abinPcs[0] === 0) {
             note = "_C'"
           }
         }
@@ -100,7 +106,7 @@ constructor() {
 
          // TODO make pitches always up iPivot pitch
         // http://abcnotation.com/blog/2010/01/31/how-to-understand-abc-the-basics/
-        if ((i % n) < (this.pcs.iPivot ?? 0)) {
+        if ((i % n) < (pcsMapped.iPivot ?? 0)) {
           note += "'"
         }
         prevNote = note

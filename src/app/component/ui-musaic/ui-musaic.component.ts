@@ -123,6 +123,7 @@ export class UiMusaicComponent {
       // ctx.strokeStyle = saveStrokeStyle
     }
 
+    // TODO fix bug pivot <> zero ....
     for (let i = 0; i <= n; i++) {
       for (let j = 0; j <= n; j++) {
         const pitch = (pivotMapped + (i + j * 5)) % n

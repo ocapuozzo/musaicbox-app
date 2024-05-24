@@ -28,7 +28,8 @@
       </p>
     }
   </div>
-  <div [hidden]="pcs.n != 12" class="score-center">
+<!--  [hidden]="pcs.n != 12"-->
+  <div  class="score-center">
     <app-score-notation [pcs]="pcs" style="height: 150px;">
     </app-score-notation>
   </div>
@@ -46,9 +47,7 @@
           <i class="bi bi-circle-square"></i> Map
         </span>
       </span>
-    } @else {refactor modalPrimeForm : generic algo
-+ reduce size of ui in home (pcs page)
-      @if (pcs.nMapping == 12) {
+    } @else {@if (pcs.nMapping == 12) {
         <span (click)="unMap()" style="cursor: pointer">
            <span>
               <i class="bi bi-circle"></i> UnMap

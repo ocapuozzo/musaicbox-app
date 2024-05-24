@@ -1219,10 +1219,23 @@ export class IPcs {
 
   /**
    * Try to define iPivot from symmetries of pcs, if possible
-   * test first M11, M5 then M7, in this order, the first found is winner
-   * @return pivot value or -1 if not found
+   * Begin first with M11, M5 then M7, and their complement, in this order,
+   * The first closest to zero win (exclus M1-Tx) !
+   * Example of winners : M5-T0, CM5-T11 or CM5-T1 (same distance to zero)
+   * @return pivot value or -1 if not found (Not sure this case could exist)
    */
   public getPivotFromSymmetry(): number {
+    return this.getPivotFromSymmetryByBruteForce()
+  }
+
+  /**
+   * Try to define iPivot from symmetries of pcs, if possible
+   * Begin first with M11, M5 then M7, and their complement, in this order,
+   * The first closest to zero win (exclus M1-Tx) !
+   * Example of winners : M5-T0, CM5-T11 or CM5-T1 (same distance to zero)
+   * @return pivot value or -1 if not found (Not sure this case could exist)
+   */
+  public getPivotFromSymmetryByBruteForce(): number {
     // create new instance for test
     let pcsForTest = new IPcs({
       binPcs: this.abinPcs,
@@ -1234,7 +1247,7 @@ export class IPcs {
 
     if (this.n !== 12) throw Error("pcs.n = " + this.n + " invalid (must be 12 digits)")
 
-    // no symmetry but exists stab in T0 other that M1-T0 ?
+    // exists stab in T0 other that M1-T0 ?
     // example : musaic n° 53, 35 (see unit test)
     const id = this.id
     for (let t = 0; t < this.n/6; t++) {
@@ -1249,12 +1262,13 @@ export class IPcs {
                 return j
               }
             } else {
-              // if we are here, then no direct op invariant found (t == 0)
-              // let's try with a value of t which moves away from zero
+              // The case T has been exhausted, let's search with values of T greater than zero.
+              // let's try with a value of t which gradually moves away from zero
+              // Note : this.n-t and t are both same distance from zero.
               if (id === IPcs.OperationsT0_M11_M5_M7_CM11_CM5_CM7[i].actionOn(pcsForTest).translation(t).id
-              ||
+                ||
                 id === IPcs.OperationsT0_M11_M5_M7_CM11_CM5_CM7[i].actionOn(pcsForTest).translation(this.n-t).id) {
-                // Closest value to zero
+                // Closest value to zero find
                 return j
               }
             }
@@ -1264,6 +1278,7 @@ export class IPcs {
     }
     return -1 // never ??
   }
+
 
   /**
    * Try to define iPivot from symmetries of pcs, if possible

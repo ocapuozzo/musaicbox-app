@@ -50,12 +50,16 @@ export class PcsAnalysisComponent {
       this.pcsMapped = this.pcs.n == 12
         ? this.pcs
         : new IPcs({binPcs: this.pcs.getMappedBinPcs()})
+
+      this.pcsMapped.setPivot(this.pcs.templateMappingBinPcs[this.pcs.getPivot() ?? 0])
     })
   }
 
   ngOnInit() {
     this.pcs = this.managerPagePcsService.pcs
     this.pcsMapped = this.pcs.n == 12 ? this.pcs : new IPcs({binPcs: this.pcs.getMappedBinPcs()})
+    // set pivot to pcsMapped
+    this.pcsMapped.setPivot(this.pcs.templateMappingBinPcs[this.pcs.getPivot() ?? 0])
   }
 
   fixedPcsList() {
