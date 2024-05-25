@@ -845,28 +845,28 @@ export class IPcs {
    *
    */
   complement(): IPcs {
-    let pcs_cpt = this.abinPcs.map(pc => (pc === 1 ? 0 : 1)) //;slice() and inverse 0/1
+    let binCplt = this.abinPcs.map(pc => (pc === 1 ? 0 : 1)) //;slice() and inverse 0/1
     let new_iPivot = undefined
     let actual_iPivot = this.iPivot ?? 0
-    let n = pcs_cpt.length
+    let n = binCplt.length
     // iPivot is lost by complement... set a new iPivot of complement
     // opposite is a good candidate when n is even
-    if (/*actualiPivot === undefined &&*/ pcs_cpt[0] === 1) {
+    if (/*actualiPivot === undefined &&*/ binCplt[0] === 1) {
       new_iPivot = 0
-    } else if ((n % 2) === 0 && pcs_cpt[(actual_iPivot + n / 2) % n] === 1) {
+    } else if ((n % 2) === 0 && binCplt[(actual_iPivot + n / 2) % n] === 1) {
       new_iPivot = (actual_iPivot + n / 2) % n
     } else {
       // TODO best strategy to find new iPivot
-      // here the first in right circular research
+      // here the first in right circular search
       for (let i = actual_iPivot + 1; i < actual_iPivot + n; i++) {
-        if (pcs_cpt[i % n] === 1) {
+        if (binCplt[i % n] === 1) {
           new_iPivot = i % n
           break
         }
       }
     }
     let newIpcsComplement = new IPcs({
-      binPcs: pcs_cpt,
+      binPcs: binCplt,
       iPivot: new_iPivot,
       orbit: new Orbit(), // as new pcs, here we don't know its orbit (old orbit is this.orbit)
       templateMappingBinPcs: this.templateMappingBinPcs,
