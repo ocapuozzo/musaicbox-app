@@ -6,6 +6,17 @@
  *
  *  For the full copyright and license information, please view the README.md file of this project.
  *
+ *  This class implement a group action (from group theory) on powerset of a finite set Zn (Z/nZ)
+ *
+ *  Each element of powerset (elements are instances of IPcs) has an unique id (into its powerset)
+ *  Powerset is partitioned in sub-sets naming orbits
+ *  An orbit has, in other, as property a set of elements of powerset (some instances of IPcs), named ipcsset
+ *
+ *  Important : As PrimeForm concept builds (implemented) with concept of Orbit (min pcs of orbit), implementation
+ *  of orbit in constructor of GroupAction must not refer to PrimeForm function.
+ *
+ *  Once GroupAction constructed, IPcs objects are immutable, expected iPivot property which
+ *  not participated in id (business logic) of IPcs instance.
  */
 
 import {IPcs} from "./IPcs";
@@ -22,7 +33,9 @@ export class GroupAction {
   group: Group;
   operations: MusaicPcsOperation[];
   // min operation = neutral operation = operations.get(0)
+
   powerset: Map<number, IPcs>
+
   orbits: Orbit[];
 
   operationsNameWithoutTxStr : string
@@ -32,7 +45,6 @@ export class GroupAction {
   private _orbitsSortedByCardinal ?: ISortedOrbits[];
 
   private static _predefinedGroupsActions: Map<number, GroupAction[]>
-
 
   constructor(
     {n, someMusaicOperations, group}:
@@ -82,7 +94,7 @@ export class GroupAction {
    * pre-assert : powerset sorted
    *
    * @return {Array} of Orbit of powerset by action of group operations on them
-   *         (partition)
+   *         (partition of powerset)
    *
    */
   private buildOrbitsByActionOnPowerset(): Orbit[] {
@@ -115,12 +127,12 @@ export class GroupAction {
   }
 
   /**
-   * pre-assert : each pcs has an orbit, and orbit has his set of pcs.
+   * pre-assert : each pcs has an orbit, and orbit has his set of pcs (bi-directionnel link)
    *              orbits are build via buildOrbitsByActionOnPowerset()
    *              Each pcs in orbit is image of any pcs in this same orbit
    *              by action of G on this pcs
    *
-   * Build stabilizers orbit for all orbits
+   * Build stabilizers of orbit for all orbits (therefore all powerset because orbits is partition of powerset)
    */
   private buildOrbitMotifStabilizers() {
     this.orbits.forEach(orbit => {
@@ -129,7 +141,7 @@ export class GroupAction {
         this.operations.forEach(op => {
           // if not match, perhaps same op with other Tx will match
           // so, work only if Tx with x prime with n, be careful !
-          if (pcs.equalsPcs(op.actionOn(pcs))) {
+          if (pcs.id === op.actionOn(pcs).id) {
             // operation fix this pcs
             newStab.addFixedPcs(pcs);
             newStab.addOperation(op);
@@ -183,9 +195,9 @@ export class GroupAction {
     return this._orbitsSortedByCardinal
   }
 
-
   /**
-   * Partitionne each orbit in sub-orbits based on their stabilizers
+   * Partitionne orbits list in "sets" of orbit. Each set is grouped by
+   * equivalence relation "have same stabilizer set"
    * @return {ISortedOrbits[]} array of ISortedOrbits
    */
   private computeOrbitSortedByStabilizers(): ISortedOrbits[] {
@@ -199,13 +211,6 @@ export class GroupAction {
         orbitsSortedByStabilizers.get(orbitName)!.push(orbit)
       }
     }) // end loop orbits
-
-    // sort map on keys (lexical order)
-    // make a "view adapter" for v-for
-
-    // TODO : la clé name ne semble pas complète, car si on prend une orbite (pcs min représenté)
-    //  et que l'on le push sur home, on s'aperçoit que le nom (groupingCriterion) est restreint à un des stabilisateurs
-    //  et non basé sur l'ensemble des stab. ????
 
     let resultOrbitsSortedByStabilizers: ISortedOrbits[] = []
     Array.from(orbitsSortedByStabilizers.keys()).sort().forEach((name) => {
@@ -437,20 +442,4 @@ export class GroupAction {
     return isOpWithoutT
   }
 
-  private invariant(pcs: IPcs, op: MusaicPcsOperation) {
-    // const cardinal = pcs.cardOrbitMode()
-    const binArray = pcs.abinPcs
-    for (let i = 0; i < binArray.length ; i++) {
-      if (binArray[i] === 1) {
-        pcs.setPivot(i)
-        if (pcs.equalsPcs(op.actionOn(pcs))) return true
-      }
-    }
-    //
-    // for (let degree = 0; degree < cardinal ; degree++) {
-    //   if (pcs.equalsPcs(op.actionOn(pcs))) return true
-    //   pcs = pcs.modulation(IPcs.NEXT_DEGREE)
-    // }
-    return false;
-  }
 }

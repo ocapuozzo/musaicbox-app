@@ -840,8 +840,7 @@ export class IPcs {
   /**
    * get complement of this.
    * Important : complement loses iPivot
-   * @return {IPcs} a new instance (free, not attached to an orbit). If not detached orbit,
-   * get instance (already exit) of complement held by this group action (this.orbit.getIPcs(complement))
+   * @return {IPcs} a new instance (free, not attached to an orbit).
    *
    */
   complement(): IPcs {
@@ -868,20 +867,17 @@ export class IPcs {
     let newIpcsComplement = new IPcs({
       binPcs: binCplt,
       iPivot: new_iPivot,
-      orbit: new Orbit(), // as new pcs, here we don't know its orbit (old orbit is this.orbit)
+      orbit: new Orbit(), // as new pcs, here we don't know its orbit (see note below)
       templateMappingBinPcs: this.templateMappingBinPcs,
       nMapping: this.nMapping
     })
-    // TODO is the good place to make this job ??
-    // Not sure. @see ManagerPcsService.ts complement method
-    // Discussion : if this is a good idea to make the job here, then
-    // we do same job with other transformation operations.
 
-    // if (this.orbit?.groupAction) {
-    //   return this.orbit.groupAction.getIPcsInOrbit(newIpcsComplement)
-    // } else {
-    //   return newIpcsComplement
-    // }
+    // Note :  if this come from a group action (not detached) then newIpcsComplement already exists in
+    // an orbit of this.orbit.groupAction, and its orbit is not empty.
+    // @see ManagerPcsService.ts complement method
+    // Discussion : is a good idea to make the job of ManagerPcsService here ?
+    // hum... no, risk of side effect when construct group action ?
+    // if not then we do same job with other transformation operations.
     return newIpcsComplement
   }
 
