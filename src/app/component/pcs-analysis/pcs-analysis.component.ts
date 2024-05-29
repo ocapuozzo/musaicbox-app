@@ -173,6 +173,7 @@ export class PcsAnalysisComponent {
         operationStab.push(operation)
       }
     })
+    operationStab.sort(MusaicPcsOperation.compareStab)
     return operationStab.map( (operationStab) => operationStab.toString()).join(" ");
   }
 }

@@ -12,7 +12,9 @@ import {MatButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {IElementListPcs} from "../../service/IElementListPcs";
 import {PcsListComponent} from "../../component/pcs-list/pcs-list.component";
-import {NgClass} from "@angular/common";
+import {NgClass, NgStyle} from "@angular/common";
+import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
+import {Subject, takeUntil} from "rxjs";
 
 
 @Component({
@@ -25,7 +27,8 @@ import {NgClass} from "@angular/common";
     MatButton,
     MatIcon,
     PcsListComponent,
-    NgClass
+    NgClass,
+    NgStyle
   ],
   templateUrl: './pcs.component.html',
   styleUrl: './pcs.component.css'
@@ -36,6 +39,22 @@ export class PcsComponent {
   pcs: IPcs = new IPcs({strPcs:"0,1,2,3"})
   labeledListPcs = new Map<string, IElementListPcs>()
   protected readonly EightyEight = EightyEight;
+
+  maxWidthParentUiMusaic: string = "270px";
+  maxWidthUiMusaic: string = "250px"
+  // widthUiClock: string;
+
+  destroyed = new Subject<void>();
+  currentScreenSize: string;
+  // Create a map to display breakpoint names for demonstration purposes.
+  displayNameMap = new Map([
+    [Breakpoints.XSmall, 'XSmall'],
+    [Breakpoints.Small, 'Small'],
+    [Breakpoints.Medium, 'Medium'],
+    [Breakpoints.Large, 'Large'],
+    [Breakpoints.XLarge, 'XLarge'],
+  ]);
+
 
   @HostListener('window:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {
@@ -51,7 +70,8 @@ export class PcsComponent {
 
   constructor(
     private readonly managerPagePcsService : ManagerPagePcsService,
-    private readonly managerPagePcsListService : ManagerPagePcsListService) {
+    private readonly managerPagePcsListService : ManagerPagePcsListService,
+    private responsive: BreakpointObserver) {
 
     this.pcs = this.managerPagePcsService.pcs
     this.labeledListPcs = this.managerPagePcsListService.labeledListPcs
@@ -66,10 +86,52 @@ export class PcsComponent {
   }
 
   ngOnInit() {
-    // this.pcs = this.managerPagePcsService.pcs
+    // from https://material.angular.io/cdk/layout/overview
+    this.responsive
+      .observe([
+        Breakpoints.XSmall,
+        Breakpoints.Small,
+        Breakpoints.Medium,
+        Breakpoints.Large,
+        Breakpoints.XLarge,
+      ])
+      .pipe(takeUntil(this.destroyed))
+      .subscribe(result => {
+        for (const query of Object.keys(result.breakpoints)) {
+          if (result.breakpoints[query]) {
+            this.currentScreenSize = this.displayNameMap.get(query) ?? 'Unknown';
+            switch (this.currentScreenSize) {
+              case "Small":
+              case "XSmall" :
+                this.maxWidthParentUiMusaic = "170px"
+                this.maxWidthUiMusaic = "150px"
+                // this.widthUiClock = "220px"
+                break
+              case "Medium":
+                this.maxWidthParentUiMusaic = "210px"
+                this.maxWidthUiMusaic = "190px"
+                // this.widthUiClock = "240px"
+                break
+              default : // large
+                this.maxWidthParentUiMusaic = "270px"
+                this.maxWidthUiMusaic = "250px"
+                // this.widthUiClock = "320px"
+            }
+            this.managerPagePcsService.refresh()
+            break
+          }
+        }
+        // console.log("this.currentScreenSize : " + this.currentScreenSize )
+      });
   }
-  gotoMusaic() {
-    this.managerPagePcsService.replaceBy(EightyEight.getMusaic(this.pcs))
+
+  ngOnDestroy() {
+    this.destroyed.next();
+    this.destroyed.complete();
+  }
+
+  changeByMusaic() {
+    this.managerPagePcsService.replaceBy(EightyEight.getMusaic(this.pcs).modalPrimeForm())
   }
 
   doUnDo() {

@@ -1,42 +1,44 @@
 <div>
   <div class="row">
-    <div [hidden]="pcs.nMapping != 12" class="box text-center"
-         style="max-width:170px;">
-      <h5 class="text-center title-detail actionable">
-        <button mat-button (click)="gotoMusaic()" class="text-small" style="height: 24px">
+    <div [hidden]="pcs.nMapping != 12" class="box text-center" [style.max-width]="maxWidthParentUiMusaic"
+         [style.width]="maxWidthParentUiMusaic">
+      <h5 class="text-center title-detail actionable" style="margin-bottom: 0">
+        <button mat-button (click)="changeByMusaic()"  style="height: 24px">
           <span>Musaic n° {{ EightyEight.idNumberOf(pcs) }}</span>
         </button>
       </h5>
-      <div [ngClass]="{'inner-box-musaic-orbit':!pcs.isDetached(), 'inner-box-musaic':pcs.isDetached() }">
-        <p class="text-small">{{ pcs.orbit.groupAction?.group?.name }}</p>
-        <app-ui-musaic style="width: 150px; height: 340px;"></app-ui-musaic>
+      <div [ngClass]="{'inner-box-musaic-orbit':!pcs.isDetached(), 'inner-box-musaic':pcs.isDetached()}">
+        <p class="text-small">{{ pcs.orbit.groupAction?.group?.name?.substring(4) }}</p>
+        <app-ui-musaic [style.max-width]="maxWidthUiMusaic" ></app-ui-musaic>
       </div>
     </div>
     <div class="box"
-         style="max-width:180px; min-width:180px;">
-     <div  class="text-center title-detail">
+         [style.max-width]="maxWidthParentUiMusaic"
+         [style.width]="maxWidthParentUiMusaic"
+    >
+      <div class="text-center title-detail">
         <button mat-button [disabled]="!canUndo" (click)="doUnDo()"
-                style="cursor: pointer;" class="space-right text-small small-icon-button" >
+                style="cursor: pointer;" class="space-right text-small small-icon-button">
           <mat-icon>undo</mat-icon>
           Undo
         </button>
-         <span style="color: black">PCS</span>
+        <span style="color: black">PCS</span>
         <button mat-button [disabled]="!canRedo" (click)="doReDo()"
                 style="cursor: pointer;" class="space-left text-small small-icon-button">
           <mat-icon>redo</mat-icon>
           Redo
         </button>
-     </div>
-
-      <div class="inner-box">
-        <app-ui-clock class="is-clock"></app-ui-clock>
+      </div>
+      <div [ngStyle]="{'margin': pcs.isDetached() ? '10px 0 15px 0' : '25px 0 15px 0'}">
+        <app-ui-clock></app-ui-clock>
       </div>
     </div>
-    <div class="box" style="min-width:200px; max-width: fit-content">
+
+    <div class="box"  style="min-width:200px; max-width: fit-content">
       <h5 class="text-center title-detail" style="height: 24px">
         <span>Analysis</span>
       </h5>
-      <app-pcs-analysis></app-pcs-analysis>
+      <app-pcs-analysis style="max-width: fit-content"></app-pcs-analysis>
     </div>
   </div>
   <div>

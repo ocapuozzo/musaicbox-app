@@ -177,6 +177,33 @@ export class MusaicPcsOperation {
     return comp;
   }
 
+  /**
+   * major sort as T0, T1, ...
+   * minor sort as M1, M11, M5, M5, CM1, CM11, CM5, CM7
+   *   M1-T1 M2-T2 ...
+   * So:    M1-T3, M1-T0, CM1-T5, M5-T0, CM7-T8, CM7-T3
+   * give : M1-T0, M5-T0, M1-T3, CM7-T3, CM1-T5, CM7-T8
+   */
+  static compareStab(op1: MusaicPcsOperation, op2: MusaicPcsOperation) {
+    let w1 = op1.t;
+    let w2 = op2.t;
+
+    let comp = w1 - w2
+
+    if (comp === 0) {
+      if (op1.complement)
+        w1 = op1.n;
+      if (op2.complement)
+        w2 = op1.n;
+
+      comp = (w1 + op1.a) - (w2 + op2.a);
+    }
+
+    return comp;
+  }
+
+
+
   compareTo(other: MusaicPcsOperation) {
     return MusaicPcsOperation.compare(this, other)
   }

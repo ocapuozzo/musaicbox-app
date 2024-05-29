@@ -70,14 +70,6 @@ legend.representation-border {
   text-align: center;
 }
 
-.inner-box {
-  padding: 10px;
-}
-
-.inner-box-clock {
-  padding: 10px;
-  margin: 1px;
-}
 
 .inner-box-musaic {
   padding: 10px;
@@ -112,7 +104,7 @@ legend.representation-border {
 }
 
 .text-small {
-  font-size: smaller;
+  font-size: xx-small;
 }
 
 /*https://stackoverflow.com/questions/64169256/angular-material-mattooltip-break-line-elements*/
@@ -146,4 +138,22 @@ legend.representation-border {
     width: 24px !important;
     height: 24px !important;
   }
+
+  /* =================== */
+
+  /*.ui-musaic {*/
+  /*  max-width: 250px;*/
+  /*  height: 340px;*/
+  /*}*/
+
+  /*@media all and (max-width: 500px) {*/
+  /*  .ui-musaic {*/
+  /*    max-width: 150px;*/
+  /*    height: 340px;*/
+  /*  }*/
+
+  /*}*/
+
+
+
 }

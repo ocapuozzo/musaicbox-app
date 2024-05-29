@@ -13,6 +13,7 @@ import {ChordNaming} from "../../core/ChordNaming";
 import {Scales2048Name} from "../../core/Scales2048Name";
 import {MatTooltip} from "@angular/material/tooltip";
 import {INameDefLink} from "../../core/IScaleName";
+import {BreakpointObserver} from "@angular/cdk/layout";
 
 @Component({
   selector: 'app-ui-clock',
@@ -64,7 +65,8 @@ export class UiClockComponent {
      private managerHomePcsService: ManagerPagePcsService,
      private managerHomePcsListService: ManagerPagePcsListService,
      private ngZone: NgZone,
-     private renderer2: Renderer2)
+     private renderer2: Renderer2,
+     private responsive: BreakpointObserver)
   {
     this.managerHomePcsService.updatePcsEvent.subscribe((pcs: IPcs) => {
       this.pcs = pcs
@@ -73,6 +75,37 @@ export class UiClockComponent {
   }
 
   ngAfterViewInit() {
+    this.updateGraphicContext()
+    this.setupEvents();
+    this.drawClock()
+  }
+
+  ngOnInit() {
+    // synchrone with pcsList into service
+    const layoutChanges = this.responsive.observe([
+      '(orientation: portrait)',
+      '(orientation: landscape)',
+    ]);
+
+    layoutChanges.subscribe(result => {
+      // if (this.containerCanvas) this.drawClock()
+      if (this.context)
+      this.updateGraphicContext();
+      //
+      // if(this.clockDrawing ) {
+      //   let len = Math.min(this.containerCanvas.nativeElement.clientWidth, this.containerCanvas.nativeElement.clientHeight)
+      //   console.log("len layout change = " + len)
+      //   this.context.clearRect(0, 0, this.canvas.nativeElement.clientWidth, this.canvas.nativeElement.clientHeight);
+      //   this.clockDrawing.width = len
+      //   this.clockDrawing.height = len
+        this.managerHomePcsService.refresh()
+      // }
+    });
+
+    this.managerHomePcsService.refresh()
+  }
+
+  private updateGraphicContext() {
     // @ts-ignore
     this.context = this.canvas.nativeElement.getContext('2d');
 
@@ -89,14 +122,6 @@ export class UiClockComponent {
       pc_color_fill: "yellow",
       segmentsLineDash: [[1, 2, 2, 1], [2, 3]] // median, inter
     })
-
-    this.setupEvents();
-    this.drawClock()
-  }
-
-  ngOnInit() {
-    // synchrone with pcsList into service
-    this.managerHomePcsService.refresh()
   }
 
   ngOnDestroy() {
@@ -206,18 +231,36 @@ export class UiClockComponent {
   }
 
   checkClockDrawing() {
-    if (!this.clockDrawing) {
-      let len = Math.min(this.context.canvas.clientWidth, this.context.canvas.clientHeight)
-      this.clockDrawing = new ClockDrawing(
-        {
-          ipcs: this.pcs,
-          ctx: this.context,
-          width: len,
-          height: len,
-          pc_color_fill: "yellow",
-          segmentsLineDash: [[1, 2, 2, 1], [2, 3]] // median, inter
-        })
-    }
+   // if(this.clockDrawing ) {
+   //   let len = Math.min(this.containerCanvas.nativeElement.clientWidth, this.containerCanvas.nativeElement.clientHeight)
+   //   console.log("len = " + len)
+   //   this.clockDrawing.width = len - 20
+   //   this.clockDrawing.height = len - 20
+   // }
+    // if (!this.clockDrawing)
+    // {
+    //   // let len = Math.min(this.context.canvas.clientWidth, this.context.canvas.clientHeight)
+    //
+    //   // this.canvas.nativeElement.width = len
+    //   // this.canvas.nativeElement.height = len // square
+    //
+    //
+    //   let len = Math.min(this.containerCanvas.nativeElement.clientWidth, this.containerCanvas.nativeElement.clientHeight)
+    //   console.log("len = " + len)
+    //   this.canvas.nativeElement.width = len
+    //   this.canvas.nativeElement.height = len // square
+    //
+    //
+    //   this.clockDrawing = new ClockDrawing(
+    //     {
+    //       ipcs: this.pcs,
+    //       ctx: this.context,
+    //       width: len,
+    //       height: len,
+    //       pc_color_fill: "yellow",
+    //       segmentsLineDash: [[1, 2, 2, 1], [2, 3]] // median, inter
+    //     })
+    // }
   }
 
   getIndexSelectedFromUIClock(e: any) {
@@ -248,7 +291,7 @@ export class UiClockComponent {
 
   touchstart(e: TouchEvent | MouseEvent) {
     if (e) {
-      e.preventDefault();
+      // e.preventDefault();
     }
     this.dateMouseDone = new Date()
   }

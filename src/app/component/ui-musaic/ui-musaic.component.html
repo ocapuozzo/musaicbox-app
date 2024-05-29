@@ -1,9 +1,8 @@
 <div>
   <div #containercanvas class="text-center">
-    <!--    [ngClass]="pcsList.n == 12 ? 'actionable' : 'no-actionable'"-->
     <canvas #canvas id="canvas"
             [ngClass]="{'roundedImageBorder roundedImageShadow': !pcs.isDetached(), 'box-musaic': pcs.isDetached()}"
-            style="border:1px solid black;">
+            style="border:1px solid black;" >
     </canvas>
   </div>
   <div [hidden]="pcs.n == 12" class="extra content text-center aligned">
@@ -52,7 +51,6 @@
       </figure>
   </div>
   <div [hidden]="pcs.n != 12" [class.box-center]="pcs.n == 12">
-<!--  <span [hidden]="pcs.n != 12" (click)="complement()"  class="class.box-center actionable">-->
     <figure style="max-width: 60px; margin-bottom: 20px">
         <img
           (click)="complement()"
@@ -63,8 +61,6 @@
         />
       <figcaption>cplt</figcaption>
     </figure>
-    <!-- <font-awesome-icon icon="yin-yang"  size="lg"/> -->
-<!--      </span>-->
   </div>
   <p class="box-center marge-5">
     IS :
@@ -83,7 +79,6 @@
               (click)="detachPcs()">
         Detach this PCS
       </button>
-      <!--    <label class="form-check-label">Show draw pitches</label>-->
     </div>
   </div>
 </div>

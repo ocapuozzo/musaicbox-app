@@ -6,6 +6,7 @@ import {EightyEight} from "../../utils/EightyEight";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatCheckbox} from "@angular/material/checkbox";
 import {MatButton} from "@angular/material/button";
+import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 
 // import {fromEvent} from "rxjs";
 
@@ -33,7 +34,7 @@ export class UiMusaicComponent {
   private isDisableButtons: boolean = false
   private CEL_WIDTH: number = 10
 
-  @Input() optionDrawPitchIndex : boolean = false
+  @Input() optionDrawPitchIndex: boolean = false
 
   @Input() pcs: IPcs //= new IPcs({strPcs: "0,3,6,9"})
   @Output() changePcsEvent = new EventEmitter<IPcs>()
@@ -41,9 +42,21 @@ export class UiMusaicComponent {
   private unlisten: Function;
 
   constructor(private managerHomePcsService: ManagerPagePcsService,
-              private ngZone: NgZone, private renderer: Renderer2) {
+              private ngZone: NgZone, private renderer: Renderer2, private responsive: BreakpointObserver) {
     this.pcs = this.managerHomePcsService.pcs
   }
+
+  ngOnInit() {
+    const layoutChanges = this.responsive.observe([
+      '(orientation: portrait)',
+      '(orientation: landscape)',
+    ]);
+
+    layoutChanges.subscribe(result => {
+      if (this.containerCanvas) this.drawsMusaic(this.optionDrawPitchIndex)
+    });
+  }
+
 
   ngAfterViewInit() {
     // @ts-ignore
@@ -79,10 +92,10 @@ export class UiMusaicComponent {
 
   /**
    * After geometrical transformation, set pcsList transformation
-   * (algebric) and draw its musaic representation (geometric)
-   * so, no change visualy if ok !
+   * (algebra) and draw its musaic representation (geometric)
+   * so, no change visually if ok !
    */
-  drawsMusaic(withDrawPitchIndex : boolean = false) {
+  drawsMusaic(withDrawPitchIndex: boolean = false) {
 
     let w = this.containerCanvas.nativeElement.clientWidth ?? 40
     let n = this.pcs.nMapping //getMappedBinPcs().length;
@@ -109,7 +122,7 @@ export class UiMusaicComponent {
     ctx.strokeStyle = 'black'
     const pivotMapped = this.pcs.templateMappingBinPcs[this.pcs.iPivot ?? 0]
 
-    function drawPitch(j: number, i: number, pitch: number, color : string) {
+    function drawPitch(j: number, i: number, pitch: number, color: string) {
       let x = CEL_WIDTH / 3 + j * CEL_WIDTH
       let y = CEL_WIDTH / 1.4 + i * CEL_WIDTH
       if (pitch > 9) {
@@ -148,8 +161,8 @@ export class UiMusaicComponent {
     }
     ctx.strokeStyle = 'white' //saveStrokeStyle
     ctx.strokeRect(0, 0,
-      this.canvas.nativeElement!.parentElement!.clientWidth-2,
-      this.canvas.nativeElement!.parentElement!.clientWidth-2);
+      this.canvas.nativeElement!.parentElement!.clientWidth - 2,
+      this.canvas.nativeElement!.parentElement!.clientWidth - 2);
 
     ctx.restore()
     this.CEL_WIDTH = CEL_WIDTH;
@@ -304,7 +317,7 @@ export class UiMusaicComponent {
 
   protected readonly EightyEight = EightyEight;
 
-  toggleDrawPitchesIndex(checked : boolean) {
+  toggleDrawPitchesIndex(checked: boolean) {
     this.optionDrawPitchIndex = checked
     this.drawsMusaic(this.optionDrawPitchIndex)
   }

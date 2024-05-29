@@ -59,6 +59,30 @@ describe('MusaicPcsOperation', () => {
     expect(pcs.equalsPcs(opT5.actionOn(opCM7.actionOn(pcs)))).toBeTruthy();
   });
 
+  it("MusaicPcsOp test op stab sort", () => {
+    // So:    M1-T3, M1-T0, CM1-T5, M5-T0, CM7-T8, CM7-T3
+    // give : M1-T0, M5-T0, M1-T3, CM7-T3, CM1-T5, CM7-T8
+    let opCM7_T3 = new MusaicPcsOperation(12, 7, 3, true);
+    let opCM7_T8 = new MusaicPcsOperation(12, 7, 8, true);
+    let opM1_T0 = new MusaicPcsOperation(12, 1, 0, false);
+    let opM1_T3 = new MusaicPcsOperation(12, 1, 3, false);
+    let opM5_T0 = new MusaicPcsOperation(12, 5, 0, false);
+    let opCM1_T5 = new MusaicPcsOperation(12, 1, 5, true);
+
+    let ops = [opM1_T3, opM1_T0,  opCM1_T5 , opM5_T0, opCM7_T8, opCM7_T3]
+
+    let opsSortedWaiting = [opM1_T0, opM5_T0, opM1_T3, opCM7_T3, opCM1_T5, opCM7_T8]
+
+    expect(ops).not.toEqual(opsSortedWaiting)
+
+    ops.sort(MusaicPcsOperation.compareStab)
+
+    // ops.forEach( (op) => console.log(op._strRepr) )
+
+    expect(ops).toEqual(opsSortedWaiting)
+  })
+
+
   it("MusaicPcsOp test sort", () => {
     let opCM7_T5 = new MusaicPcsOperation(12, 7, 5, true);
     let opM1_T0 = new MusaicPcsOperation(12, 1, 0, false);
@@ -76,6 +100,8 @@ describe('MusaicPcsOperation', () => {
 
     expect(ops).toEqual(opsSortedWaiting)
   })
+
+
 
   it("no Commutative but Associative operation ", () => {
     let opM1_T2 = new MusaicPcsOperation(12, 1, 2, false);
