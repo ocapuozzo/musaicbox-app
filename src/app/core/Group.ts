@@ -161,8 +161,8 @@ export class Group {
   /**
    *  Be careful : M1 M5 CM11 => M1-T0 M5-T0 CM7-T0 CM11-T0  (no CM5 !)
    *               so, name : M1 M5 CM7 CM11 T0
-   *  Group.CYCLIC name => n=12 [M1 T1]
-   *  Group.MUSAIC name => n=12 [M1 M5 M7 M11 CM1 CM5 CM7 CM11 T1]
+   *  Group.CYCLIC name => n=12 [M1 Tx]
+   *  Group.MUSAIC name => n=12 [M1 M5 M7 M11 CM1 CM5 CM7 CM11 Tx]
    *
    * @private
    */
@@ -181,7 +181,7 @@ export class Group {
     for (const opNameWithoutT of dico) {
       opsM += opsM ? ' ' + opNameWithoutT : opNameWithoutT
     }
-    opsM += t > 1 ? ' T1' : ' T0'
+    opsM += t > 1 ? ' Tx' : ' T0'
 
     opsM = '[' + opsM + ']'
     return `n=${this.operations[0].n} ${opsM}`

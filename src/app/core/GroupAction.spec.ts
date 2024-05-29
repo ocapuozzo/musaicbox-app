@@ -6,7 +6,6 @@ import {GroupAction} from "./GroupAction"
 import {IPcs} from "./IPcs";
 import {MusaicPcsOperation} from "./MusaicPcsOperation";
 import {Group} from "./Group";
-import {map} from "rxjs";
 
 describe('GroupAction', () => {
 
@@ -359,7 +358,7 @@ describe('GroupAction', () => {
     let group =
       new GroupAction({n: 12, someMusaicOperations: [opNeutral, m5_t0,m11_t0, cm1_t0]});
 
-    group.operations.forEach(operation => {console.log(operation.toString())})
+    // group.operations.forEach(operation => {console.log(operation.toString())})
 
     expect(group.orbits.length).toEqual(919) // from musaicboxapp
     const orbit = group.orbits.find((orbit) => orbit.name === "M1-T0 M11-T0");

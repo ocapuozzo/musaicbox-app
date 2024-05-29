@@ -138,12 +138,11 @@ export class PcsAnalysisComponent {
   }
 
   pcsWithSameIVas(pcs: IPcs): IPcs[] {
-    let pcsList = PcsSearch.searchPcsWithThisIV(pcs.iv().toString())
+    let pcsSameIV = PcsSearch.searchPcsWithThisIV(pcs.iv().toString())
     if (pcs.orbit?.groupAction) {
-      // @ts-ignore
-      pcsList = pcsList.map((pcsSameIV) => pcs.orbit.groupAction.getIPcsInOrbit(pcsSameIV))
+      pcsSameIV = pcsSameIV.map((pcsSameIV) => pcs.orbit!.groupAction!.getIPcsInOrbit(pcsSameIV))
     }
-    return pcsList
+    return pcsSameIV
   }
 
   doReplaceBy(pcs: IPcs) {
@@ -164,12 +163,17 @@ export class PcsAnalysisComponent {
     return PcsColor.getColor(pcsRepr.orbit.motifStabilizer.name);
   }
 
-  operationsStabilizerOf(pcsMapped: IPcs) {
-    if (pcsMapped.n !== 12) throw Error("Waiting n = 12")
+  /**
+   * Get string composed of operations name of musaic group action which stabilize pcs argument
+   * Example : "M1-T0 M11-T0"
+   * @param pcs
+   */
+  operationsStabilizerOf(pcs: IPcs) {
+    if (pcs.n !== 12) throw Error("Waiting n = 12")
     let operationStab: MusaicPcsOperation[] = []
     const operations: MusaicPcsOperation[] = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).operations
     operations.forEach(operation => {
-      if (operation.actionOn(pcsMapped).id === pcsMapped.id) {
+      if (operation.actionOn(pcs).id === pcs.id) {
         operationStab.push(operation)
       }
     })
