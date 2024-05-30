@@ -2,6 +2,7 @@ import {IPcs} from "../core/IPcs";
 import {GroupAction} from "../core/GroupAction";
 import {Group} from "../core/Group";
 import {MusaicPcsOperation} from "../core/MusaicPcsOperation";
+import {EightyEight} from "../utils/EightyEight";
 
 
 describe('Laboratory explorer', () => {
@@ -202,5 +203,42 @@ describe('Laboratory explorer', () => {
         console.log([...g].map((op) => op.toString())))
       console.log("=====================================")
     }
+  })
+
+  /**
+   * Specification of Major Scale is it shared by others scales ?
+   */
+  it("Get scales composed only by intervals 1 and 2, with no more two 1 consecutive", () => {
+    const groupCyclic = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
+    const scalesWithOnly_1_2_intervals =
+      groupCyclic.orbits.filter(orbit => orbit.getPcsMin().is().every(bit => [1,2].includes(bit)))
+        .filter(orbit => orbit.getPcsMin().is().some(bit => bit === 1))
+
+    // 32 - whole tone scale and [] (empty scale ??) ==> 30
+    expect(scalesWithOnly_1_2_intervals.length).toEqual(30)
+
+    // scalesWithOnly_1_2_intervals.forEach(orbit => console.log(orbit.getPcsMin().is()))
+
+    // no more two 1 consecutive
+    const res = scalesWithOnly_1_2_intervals.filter(orbit => {
+      const is = orbit.getPcsMin().is()
+      let cpt1 = 0
+      let cpt0 = 0
+
+      for (let i = 0; i < is.length; i++) {
+        if (is[i] === 1) {
+          cpt1++
+          if (cpt1>1) return false
+          cpt0 = 0
+        } else {
+          cpt0++
+          //if (cpt0>4) return false
+          cpt1 = 0
+        }
+      }
+      return cpt0 > 0 || cpt1 > 0
+    })
+    res.forEach(orbit => console.log(orbit.getPcsMin().is() + " Mus n° " + EightyEight.idNumberOf(orbit.getPcsMin()) ))
+    expect(res.length).toEqual(3)
   })
 })
