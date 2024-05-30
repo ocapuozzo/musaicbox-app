@@ -115,24 +115,24 @@ export class ClockDrawing {
       ctx.lineWidth = (radius > 10) ? PITCH_LINE_WIDTH : 1;//lineWidth; //radius*0.1;
       ctx.stroke();
       ctx.beginPath();
+
       ctx.fillStyle = '#333';
       ctx.fill();
-      ctx.font = "9px serif";
-      let y = 0.66
-      if (index < 10) {
-        ctx.fillText(index.toString(), -.1, y);
-      } else if (index < 11) {
-        ctx.fillText(index.toString(), -.4, y)
-      } else {
-        ctx.fillText(index.toString(), -.2, y)
-      }
+      ctx.fillStyle = "black"
+      let pitch = index.toString()
+      let textWidth = ctx.measureText(pitch).width;
+      let y = 0 // 0.66
+      let x = Math.round(textWidth/2/Math.ceil(radius*2))
+
+      ctx.fillText(pitch, -x, y);
+
     }
     ctx.restore()
   }
 
   drawPitches(ctx: CanvasRenderingContext2D, radius: number) {
     let ang;
-    ctx.font = radius * 0.1 + "px arial";
+    ctx.font = Math.round(radius * 0.1) + "px arial";
     ctx.textBaseline = "middle";
     ctx.textAlign = "center";
     let radiusPitch = Math.round(radius / 9);

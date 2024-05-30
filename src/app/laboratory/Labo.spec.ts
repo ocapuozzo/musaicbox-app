@@ -23,7 +23,7 @@ describe('Laboratory explorer', () => {
     const groupMusaic = GroupAction.predefinedGroupsActions(12, Group.MUSAIC)
     groupMusaic.orbits.forEach((orbit) => {
       const min: IPcs = orbit.getPcsMin()
-       expect(orbit.cardinal).toEqual(groupMusaic.cardinal / min.stabilizer.cardinal)
+      expect(orbit.cardinal).toEqual(groupMusaic.cardinal / min.stabilizer.cardinal)
     })
   })
 
@@ -207,11 +207,13 @@ describe('Laboratory explorer', () => {
 
   /**
    * Specification of Major Scale is it shared by others scales ?
+   * Intervallic structure major scale : 2,2,1,2,2,2,1
    */
   it("Get scales composed only by intervals 1 and 2, with no more two 1 consecutive", () => {
     const groupCyclic = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
     const scalesWithOnly_1_2_intervals =
-      groupCyclic.orbits.filter(orbit => orbit.getPcsMin().is().every(bit => [1,2].includes(bit)))
+      groupCyclic.orbits
+        .filter(orbit => orbit.getPcsMin().is().every(bit => [1, 2].includes(bit)))
         .filter(orbit => orbit.getPcsMin().is().some(bit => bit === 1))
 
     // 32 - whole tone scale and [] (empty scale ??) ==> 30
@@ -222,23 +224,24 @@ describe('Laboratory explorer', () => {
     // no more two 1 consecutive
     const res = scalesWithOnly_1_2_intervals.filter(orbit => {
       const is = orbit.getPcsMin().is()
-      let cpt1 = 0
-      let cpt0 = 0
+      let cpt1successive = 0
+      let cpt2successive = 0
 
       for (let i = 0; i < is.length; i++) {
         if (is[i] === 1) {
-          cpt1++
-          if (cpt1>1) return false
-          cpt0 = 0
-        } else {
-          cpt0++
+          cpt1successive++
+          if (cpt1successive > 1) return false
+          cpt2successive = 0
+        } else { // is[i] === 2
+          cpt2successive++
           //if (cpt0>4) return false
-          cpt1 = 0
+          cpt1successive = 0
         }
       }
-      return cpt0 > 0 || cpt1 > 0
+      return cpt2successive > 0 || cpt1successive > 0
     })
-    res.forEach(orbit => console.log(orbit.getPcsMin().is() + " Mus n° " + EightyEight.idNumberOf(orbit.getPcsMin()) ))
+    res.forEach(orbit =>
+      console.log(orbit.getPcsMin().is() + " Mus n° " + EightyEight.idNumberOf(orbit.getPcsMin())))
     expect(res.length).toEqual(3)
   })
 })
