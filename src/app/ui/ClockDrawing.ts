@@ -119,13 +119,15 @@ export class ClockDrawing {
       ctx.fillStyle = '#333';
       ctx.fill();
       ctx.fillStyle = "black"
+      ctx.strokeStyle = "black";
       let pitch = index.toString()
       let textWidth = ctx.measureText(pitch).width;
-      let y = 0 // 0.66
+      // Math.round(radius * 0.1) is font size (drawPitches)
+      let y = Math.round(radius * 0.1) /2
       let x = Math.round(textWidth/2/Math.ceil(radius*2))
-
+      ctx.textBaseline = "middle";
+      ctx.textAlign = "center";
       ctx.fillText(pitch, -x, y);
-
     }
     ctx.restore()
   }
@@ -133,8 +135,6 @@ export class ClockDrawing {
   drawPitches(ctx: CanvasRenderingContext2D, radius: number) {
     let ang;
     ctx.font = Math.round(radius * 0.1) + "px arial";
-    ctx.textBaseline = "middle";
-    ctx.textAlign = "center";
     let radiusPitch = Math.round(radius / 9);
     ctx.strokeStyle = this.pc_color_stroke
     for (let index = 0; index < this.n; index++) {

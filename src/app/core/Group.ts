@@ -181,7 +181,9 @@ export class Group {
     for (const opNameWithoutT of dico) {
       opsM += opsM ? ' ' + opNameWithoutT : opNameWithoutT
     }
-    opsM += t > 1 ? ' Tx' : ' T0'
+    // opsM += t > 1 ? ' Tx' : ' T0'
+    // Tx = up to transposition, always set
+    opsM += t > 1 ? '' : ' T0'
 
     opsM = '[' + opsM + ']'
     return `n=${this.operations[0].n} ${opsM}`

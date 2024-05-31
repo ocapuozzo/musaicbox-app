@@ -1,4 +1,14 @@
-import {Component, ElementRef, EventEmitter, Input, NgZone, Output, Renderer2, ViewChild} from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  NgZone,
+  Output,
+  Renderer2,
+  ViewChild
+} from '@angular/core';
 import {IPcs} from "../../core/IPcs";
 import {ClockDrawing} from "../../ui/ClockDrawing";
 import {ScoreNotationComponent} from "../score-notation/score-notation.component";
@@ -14,6 +24,7 @@ import {Scales2048Name} from "../../core/Scales2048Name";
 import {MatTooltip} from "@angular/material/tooltip";
 import {INameDefLink} from "../../core/IScaleName";
 import {BreakpointObserver} from "@angular/cdk/layout";
+import {timeout} from "rxjs";
 
 @Component({
   selector: 'app-ui-clock',
@@ -81,31 +92,30 @@ export class UiClockComponent {
   }
 
   ngOnInit() {
-    // synchrone with pcsList into service
     const layoutChanges = this.responsive.observe([
       '(orientation: portrait)',
       '(orientation: landscape)',
     ]);
 
     layoutChanges.subscribe(result => {
-      // if (this.containerCanvas) this.drawClock()
-      if (this.context)
-      this.updateGraphicContext();
-      //
-      // if(this.clockDrawing ) {
-      //   let len = Math.min(this.containerCanvas.nativeElement.clientWidth, this.containerCanvas.nativeElement.clientHeight)
-      //   console.log("len layout change = " + len)
-      //   this.context.clearRect(0, 0, this.canvas.nativeElement.clientWidth, this.canvas.nativeElement.clientHeight);
-      //   this.clockDrawing.width = len
-      //   this.clockDrawing.height = len
-        this.managerHomePcsService.refresh()
-      // }
+      // console.log("layoutChanges = " + window.innerWidth)
+      if (this.context)  this.doUpdateGraphics();
     });
 
+  }
+
+  @HostListener('window:resize', ['$event.target.innerWidth'])
+  onResize(width: number) {
+    // console.log("onResize = " + window.innerWidth)
+    this.doUpdateGraphics()
+  }
+
+  doUpdateGraphics() {
+    this.updateGraphicContext()
     this.managerHomePcsService.refresh()
   }
 
-  private updateGraphicContext() {
+  updateGraphicContext() {
     // @ts-ignore
     this.context = this.canvas.nativeElement.getContext('2d');
 

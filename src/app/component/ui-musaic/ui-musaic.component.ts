@@ -1,4 +1,14 @@
-import {Component, ElementRef, EventEmitter, Input, NgZone, Output, Renderer2, ViewChild} from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  NgZone,
+  Output,
+  Renderer2,
+  ViewChild
+} from '@angular/core';
 import {IPcs} from "../../core/IPcs";
 import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
 import {NgClass} from "@angular/common";
@@ -55,6 +65,12 @@ export class UiMusaicComponent {
     layoutChanges.subscribe(result => {
       if (this.containerCanvas) this.drawsMusaic(this.optionDrawPitchIndex)
     });
+  }
+
+  @HostListener('window:resize', ['$event.target.innerWidth'])
+  onResize(width: number) {
+    // console.log("onResize = " + window.innerWidth)
+    if (this.containerCanvas) this.drawsMusaic(this.optionDrawPitchIndex)
   }
 
 
