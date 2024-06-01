@@ -67,7 +67,7 @@ export class AppComponent {
   }
 
   breakpointChanges(): void {
-    if (this.breakpointObserver.isMatched('(max-width: 500px)')) {
+    if (this.breakpointObserver.isMatched('(max-width: 800px)')) {
       this.drawerMode = "over";
       this.mdcBackdrop = true;
     } else {

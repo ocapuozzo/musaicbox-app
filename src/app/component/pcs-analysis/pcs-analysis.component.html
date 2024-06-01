@@ -78,7 +78,7 @@
   <div class="marge-5">
   <fieldset class="representation-border">
     <legend class="representation-border">Fecundity</legend>
-    <hr>
+    <hr />
     <p style="margin: 1px">
       <button mat-button (click)="doPushModesOf(pcsMapped)">
         <mat-icon>filter_tilt_shift</mat-icon>
@@ -87,34 +87,36 @@
       {{ ''// sub sub => to have same height that next fieldset    }}
       <span class="analyse-pcs">#{{ pcsMapped.cardOrbitMode() }} <sub></sub></span>
     </p>
+
     <p style="margin: 1px">
       <button mat-button (click)="doPushOrbitCyclicPF(pcsMapped)">
         <mat-icon>sync</mat-icon>
-        <span style="font-size: small">OrbitCyclic (M1) :</span>
+        <span style="font-size: small">Cyclic (M1) :</span>
       </button>
       <span class="analyse-pcs">#{{ pcsMapped.cardOrbitCyclic() }}</span>
     </p>
     <p style="margin: 1px">
       <button mat-button (click)="doPushOrbitDihedralPF(pcsMapped)">
         <mat-icon>swap_vertical_circle</mat-icon>
-        <span style="font-size: small">OrbitDihedral (M11) : </span>
+        <span style="font-size: small">Dihedral (M11) : </span>
       </button>
       <span class="analyse-pcs">#{{ pcsMapped.dihedralPrimeForm().orbit.cardinal }}</span>
     </p>
     <p style="margin: 1px">
       <button mat-button (click)="doPushOrbitAffinePF(pcsMapped)">
         <mat-icon>star</mat-icon>
-        <span style="font-size: small">OrbitAffine (M5, M7, M11) :</span>
+        <span style="font-size: small">Affine (M5, M7, M11) :</span>
       </button>
       <span class="analyse-pcs">#{{ pcsMapped.affinePrimeForm().orbit.cardinal }}</span>
     </p>
     <p style="margin: 1px">
       <button mat-button (click)="doPushOrbitMusaicPF(pcsMapped)">
         <mat-icon>star_half</mat-icon>
-        <span style="font-size: small">OrbitMusaic (M5, M7, M11, Cplt) :</span>
+        <span style="font-size: small">Musaic (M5, M7, M11, Cplt) :</span>
       </button>
       <span class="analyse-pcs">#{{ pcsMapped.musaicPrimeForm().orbit.cardinal }}</span>
     </p>
+
   </fieldset>
 
   <fieldset class="representation-border">
@@ -148,8 +150,8 @@
     </p>
   </fieldset>
 </div>
-  <div class="marge-5">
 @if (pcsMapped.n == 12) {
+  <div class="marge-5">
   <fieldset class="representation-border" style="max-width: 350px;">
     <legend class="representation-border">{{ orbitWithSameMotifStabilizersOf(pcsMapped).length }} Musaics sharing
       exactly same set of motif-stabilizers (up to transposition) :
@@ -174,9 +176,9 @@
       }
     </div>
   </fieldset>
+  </div>
 }
 
-  </div>
 @if (!pcs.orbit.isDetached()) {
   <div class="marge-5">
   <fieldset class="representation-border" style="max-width: 400px">
@@ -214,3 +216,4 @@
   </p>
 </div>
 
+</div>

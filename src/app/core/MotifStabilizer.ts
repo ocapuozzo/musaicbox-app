@@ -21,11 +21,8 @@ export class MotifStabilizer {
 
   /**
    *
-   * @param {string} name as "M1,M5,CM11" (sorted and without -Tx)
+   * @param {string} name as "M1,M5,CM11" or "M1 M5 CM11" (sorted and without -Tx)
    */
-
- // un problème ici, car présence d'une virgule comme  séparateur alors que ligne 271 de Orbit.ts c'est un espace...
-
   constructor(name : string) {
     this.name = name;
     if (name.includes(","))

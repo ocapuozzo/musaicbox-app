@@ -1,16 +1,16 @@
 <h2 class="text-center">88 Musaics</h2>
 <div class="row" style="margin: auto; width: 80%">
-  @for (orbit of group88.orbits; track orbit.hashCode(); let index = $index) {
-    <div class="box88" style="width: 60px;">
+<!--  @for (orbit of musaicOrbits; track orbit.pcs.id; let index = $index) {-->
+    <div *ngFor="let orbit of musaicOrbits; index as index" class="box88" style="width: 60px;">
       <div class="box88-id text-muted p-0">
         {{ index + 1 }}
       </div>
       <div class="box88-body">
         <app-musaic
-          [ipcs]="orbit.getPcsMin()"
+          [ipcs]="orbit.pcs"
           [opaque] = "musaicDrawGrid"
-          [pcColorSet]="colorOrbit(orbit)"
-          (click)="doPushToHomePage(orbit.getPcsMin().modalPrimeForm())"
+          [pcColorSet]="orbit.color"
+          (click)="doPushToHomePage(orbit.pcs)"
           style="cursor: pointer"
         >
         </app-musaic>
@@ -19,6 +19,21 @@
         #{{ orbit.cardinal }}
       </div>
     </div>
-  }
+<!--  }-->
 </div>
 
+ <div class="text-center" style="margin-top: 20px">
+   <h3> select : @for (op of currentSelectedOp; track op) { {{op}} } - {{nbMusaicsMatch ? nbMusaicsMatch : 'All'}} match</h3>
+
+  <h5>Select musaics which stabilized by</h5>
+   <div class="button-row">
+     <input type="checkbox" class="operation" id="m1" checked disabled /> <label for="m1">M1&nbsp;&nbsp;</label>
+     <input type="checkbox" class="operation" id="m5" (click)="changeOp('M5')" /> <label for="m5">M5&nbsp;&nbsp;</label>
+     <input type="checkbox" class="operation" id="m7" (click)="changeOp('M7')" /> <label for="m7">M7&nbsp;&nbsp;</label>
+     <input type="checkbox" class="operation" id="m11" (click)="changeOp('M11')" /> <label for="m11">M11&nbsp;&nbsp;</label>
+     <input type="checkbox" class="operation" id="cm1" (click)="changeOp('CM1')" /> <label for="cm1">CM1&nbsp;&nbsp;</label>
+     <input type="checkbox" class="operation" id="cm5" (click)="changeOp('CM5')" /> <label for="cm5">CM5&nbsp;&nbsp;</label>
+     <input type="checkbox" class="operation" id="cm7" (click)="changeOp('CM7')" /> <label for="cm7">CM7&nbsp;&nbsp;</label>
+     <input type="checkbox" class="operation" id="cm11" (click)="changeOp('CM11')" /> <label for="cm11">CM11</label>
+   </div>
+ </div>

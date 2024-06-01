@@ -35,3 +35,13 @@
 .text-center {
   text-align: center;
 }
+
+.operation {
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.button-row {
+  padding: 0;
+  margin-left: 15px;
+}

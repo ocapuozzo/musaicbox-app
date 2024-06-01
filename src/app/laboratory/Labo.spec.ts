@@ -219,7 +219,8 @@ describe('Laboratory explorer', () => {
     // 32 - whole tone scale and [] (empty scale ??) ==> 30
     expect(scalesWithOnly_1_2_intervals.length).toEqual(30)
 
-    // scalesWithOnly_1_2_intervals.forEach(orbit => console.log(orbit.getPcsMin().is()))
+    // scalesWithOnly_1_2_intervals.forEach(
+    //   orbit => console.log(orbit.getPcsMin().is() + " Mus n° " + EightyEight.idNumberOf(orbit.getPcsMin())))
 
     // no more two 1 consecutive
     const res = scalesWithOnly_1_2_intervals.filter(orbit => {
@@ -244,4 +245,21 @@ describe('Laboratory explorer', () => {
       console.log(orbit.getPcsMin().is() + " Mus n° " + EightyEight.idNumberOf(orbit.getPcsMin())))
     expect(res.length).toEqual(3)
   })
+
+  it ("intervallic structure feature", ()=> {
+    const majScale = new IPcs({strPcs:"0,2,4,5,7 ,9 ,11"})
+    const featureIS = majScale.getFeatureIS()
+    const featureWaiting = [1, 2]
+    expect(featureIS).toEqual(featureWaiting)
+  })
+
+  it ("get all pcs having same featureIS", ()=> {
+    const majScale = new IPcs({strPcs:"0,2,4,5,7 ,9 ,11"})
+    const pcsSameFeatureIS : IPcs[] = majScale.getPcsSameFeatureIS()
+    pcsSameFeatureIS.forEach(pcs => console.log(pcs.is() + " Mus n° " + EightyEight.idNumberOf(pcs)))
+    expect(pcsSameFeatureIS.length).toEqual(29) // 30 - chromatic scale
+  })
+
+  // TODO see centre de gravité ?
+
 })

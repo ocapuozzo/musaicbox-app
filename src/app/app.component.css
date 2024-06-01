@@ -37,7 +37,7 @@
   color: black;
 }
 
-@media all and (max-width: 500px) {
+@media all and (max-width: 800px) {
 
   .toolBarMainHoriz {
     display: none;
@@ -58,7 +58,7 @@
 }
 
 
-@media all and (max-width: 500px) {
+@media all and (max-width: 800px) {
   .analysis-panel {
      max-width: fit-content;
   }

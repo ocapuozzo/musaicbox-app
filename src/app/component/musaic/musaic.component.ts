@@ -14,18 +14,27 @@ export class MusaicComponent {
 
   private context: CanvasRenderingContext2D;
 
-  private CEL_WIDTH : number = 10
+  private CEL_WIDTH: number = 10
+
+  _pcColorSet = 'black'
 
   @Input() ipcs: IPcs = new IPcs({strPcs: "0,3,6,9"})
-  @Input() opaque : boolean = true
-  @Input() pcColorSet = 'black'
+  @Input() opaque: boolean = true
 
-  // ngOnInit() {
-  //   // @ts-ignore
-  //   this.context = this.canvas.nativeElement.getContext('2d');
-  //   // initial view
-  //   this.drawsMusaic()
-  // }
+  get pcColorSet() {
+    return this._pcColorSet
+  }
+  // https://stackoverflow.com/questions/36653678/angular2-input-to-a-property-with-get-set
+  @Input() set pcColorSet(value: string) {
+    this._pcColorSet = value
+  }
+
+// ngOnInit() {
+//   // @ts-ignore
+//   this.context = this.canvas.nativeElement.getContext('2d');
+//   // initial view
+//   this.drawsMusaic()
+// }
 
   ngAfterViewInit() {
     // @ts-ignore
@@ -40,8 +49,8 @@ export class MusaicComponent {
     let w = this.containerCanvas.nativeElement.clientWidth ?? 40
     let n = this.ipcs.nMapping //getMappedBinPcs().length;
 
-    let CEL_WIDTH =  Math.floor(w / (n + 1));
-    w = CEL_WIDTH * (n+1)
+    let CEL_WIDTH = Math.floor(w / (n + 1));
+    w = CEL_WIDTH * (n + 1)
     // dimension of musaic match with cell size
     // square (n+1) x (n+1)
 
@@ -62,13 +71,13 @@ export class MusaicComponent {
     const pivotMapped = this.ipcs.templateMappingBinPcs[this.ipcs.iPivot ?? 0]
     for (let i = 0; i <= n; i++) {
       for (let j = 0; j <= n; j++) {
-        if (this.ipcs.getMappedBinPcs()[(i + pivotMapped  + j * 5) % n] === 1) {
+        if (this.ipcs.getMappedBinPcs()[(i + pivotMapped + j * 5) % n] === 1) {
           ctx.fillStyle = this.pcColorSet;
           ctx.fillRect(j * CEL_WIDTH, i * CEL_WIDTH, CEL_WIDTH, CEL_WIDTH);
           // when black is minority, add outline
           // TODO in future, check when nbCEL is < n
           if (this.opaque || this.ipcs.cardinal < 6) {
-            ctx.strokeRect(j * CEL_WIDTH, i * CEL_WIDTH, CEL_WIDTH, CEL_WIDTH); // or not stroke ?
+            ctx.strokeRect(j * CEL_WIDTH, i * CEL_WIDTH, CEL_WIDTH, CEL_WIDTH);
           }
         } else {
           if (this.opaque) {
@@ -80,8 +89,8 @@ export class MusaicComponent {
       }
     }
     ctx.strokeRect(0, 0,
-      this.canvas.nativeElement!.parentElement!.clientWidth-1,
-      this.canvas.nativeElement!.parentElement!.clientWidth-1);
+      this.canvas.nativeElement!.parentElement!.clientWidth - 1,
+      this.canvas.nativeElement!.parentElement!.clientWidth - 1);
 
     this.CEL_WIDTH = CEL_WIDTH;
   }

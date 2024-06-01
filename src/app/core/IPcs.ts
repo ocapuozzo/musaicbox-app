@@ -46,6 +46,7 @@ import {Mapping} from "../utils/Mapping";
 import {ChordNaming} from "./ChordNaming";
 import {Scales2048Name} from "./Scales2048Name";
 import {MusaicPcsOperation} from "./MusaicPcsOperation";
+import {ArrayUtil} from "../utils/ArrayUtil";
 
 const NEXT_MODULATION = 1
 const PREV_MODULATION = 2
@@ -1246,7 +1247,7 @@ export class IPcs {
     // exists stab in T0 other that M1-T0 ?
     // example : musaic n° 53, 35 (see unit test)
     const id = this.id
-    for (let t = 0; t < this.n/6; t++) {
+    for (let t = 0; t < this.n / 6; t++) {
       for (let i = 0; i < IPcs.OperationsT0_M11_M5_M7_CM11_CM5_CM7.length; i++) {
         for (let j = 0; j < pcsForTest.abinPcs.length; j++) {
           if (pcsForTest.abinPcs[j] === 1) {
@@ -1263,7 +1264,7 @@ export class IPcs {
               // Note : this.n-t and t are both same distance from zero.
               if (id === IPcs.OperationsT0_M11_M5_M7_CM11_CM5_CM7[i].actionOn(pcsForTest).translation(t).id
                 ||
-                id === IPcs.OperationsT0_M11_M5_M7_CM11_CM5_CM7[i].actionOn(pcsForTest).translation(this.n-t).id) {
+                id === IPcs.OperationsT0_M11_M5_M7_CM11_CM5_CM7[i].actionOn(pcsForTest).translation(this.n - t).id) {
                 // Closest value to zero find
                 return j
               }
@@ -1309,6 +1310,35 @@ export class IPcs {
     }
     return -1
   }
+
+  /**
+   * Get intervals type of intervallic structure
+   * Example : is:[2,2,1,2,2,2,1] => [1,2]
+   */
+  getFeatureIS(): number[] {
+    const is = this.is()
+    let feature: number[] = [...new Set(is)]
+    // for (let i = 0; i < is.length; i++) {
+    //   if (!feature.includes(is[i])) feature.push(is[i])
+    // }
+    return feature.sort()
+  }
+
+  /**
+   * Get array of pcs having same intervals type of this
+   */
+  getPcsSameFeatureIS() {
+    const groupCyclic = GroupAction.predefinedGroupsActions(this.n, Group.CYCLIC)
+    let pcsSameFeatureIS : IPcs[] = []
+    const featureIS = this.getFeatureIS()
+    groupCyclic.orbits.forEach(orbit => {
+       if (ArrayUtil.compareTwoSortedArrays(orbit.getPcsMin().getFeatureIS(), featureIS)) {
+         pcsSameFeatureIS.push(orbit.getPcsMin())
+       }
+    })
+    return pcsSameFeatureIS;
+  }
+
   // TODO arranger les opérations en inner et mapped et peut-être sortir des fonctions utilitaires pour binpcs ?
 
 }
