@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, OnInit} from '@angular/core';
 import {GroupAction} from "../../core/GroupAction";
 import {Group} from "../../core/Group";
 import {MusaicComponent} from "../../component/musaic/musaic.component";
@@ -14,8 +14,9 @@ import {MatCheckbox} from "@angular/material/checkbox";
 import {FormsModule} from "@angular/forms";
 import {MusaicPcsOperation} from "../../core/MusaicPcsOperation";
 import {NgForOf} from "@angular/common";
+import {ManagerLocalStorageService} from "../../service/manager-local-storage.service";
 
-interface IOrbitMusaic {
+export interface IOrbitMusaic {
   pcs : IPcs  // a representant of orbit (prime forme in modalPF)
   motifStabilizerName : string[] // of orbit
   color : string,
@@ -39,7 +40,7 @@ interface IOrbitMusaic {
   styleUrl: './the88.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class The88Component {
+export class The88Component implements OnInit {
   group88 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC)
   musaicOrbits : IOrbitMusaic[] =
     this.group88.orbits.map(orbit => (
@@ -63,7 +64,13 @@ export class The88Component {
   colorOrbits: string[] = ["black", "yellow"]
 
   constructor(private readonly managerHomePcsService: ManagerPagePcsService,
-              private readonly router: Router) {
+              private readonly router: Router,
+              private readonly managerLocalStorageService : ManagerLocalStorageService) {
+  }
+
+  ngOnInit(): void {
+    this.currentSelectedOp = this.managerLocalStorageService.restorePageThe88()
+    this.update88musics()
   }
 
   doPushToHomePage(pcs: IPcs) {
@@ -102,6 +109,7 @@ export class The88Component {
       }
     }
     this.currentSelectedOp = newCurrentSelectedOpOrdered
+    this.managerLocalStorageService.savePageThe88(this.currentSelectedOp)
     this.update88musics()
   }
 
@@ -111,7 +119,7 @@ export class The88Component {
     this.nbMusaicsMatch = 0
     this.musaicOrbits.forEach(musaic => {
       if (this.currentSelectedOp.length === 1) { // M1 only => show global partition stabilizer
-        color = PcsColor.getColor(musaic.motifStabilizerName)
+        color = PcsColor.getColor(musaic.motifStabilizerName.join(' '))
       } else {
         color = "black"
         let allOpMatch = true
@@ -135,4 +143,7 @@ export class The88Component {
     this.musaicOrbits = newMusaicOrbits
   }
 
+  isChecked(op: string) {
+    return this.currentSelectedOp.includes(op)
+  }
 }
