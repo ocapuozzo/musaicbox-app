@@ -139,6 +139,8 @@ export class The88Component implements OnInit {
       // https://medium.com/angular-in-depth/deep-dive-into-the-onpush-change-detection-strategy-in-angular-fab5e4da1d69
       newMusaicOrbits.push({...musaic, color: color})
     })
+
+    console.log(newMusaicOrbits[2])
     // for auto update template
     this.musaicOrbits = newMusaicOrbits
   }
