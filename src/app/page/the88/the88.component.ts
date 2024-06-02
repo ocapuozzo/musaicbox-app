@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {GroupAction} from "../../core/GroupAction";
 import {Group} from "../../core/Group";
 import {MusaicComponent} from "../../component/musaic/musaic.component";
@@ -12,9 +12,9 @@ import {MatButton} from "@angular/material/button";
 import {MatButtonToggle, MatButtonToggleGroup} from "@angular/material/button-toggle";
 import {MatCheckbox} from "@angular/material/checkbox";
 import {FormsModule} from "@angular/forms";
-import {MusaicPcsOperation} from "../../core/MusaicPcsOperation";
 import {NgForOf} from "@angular/common";
 import {ManagerLocalStorageService} from "../../service/manager-local-storage.service";
+import {EightyEight} from "../../utils/EightyEight";
 
 export interface IOrbitMusaic {
   pcs : IPcs  // a representant of orbit (prime forme in modalPF)
@@ -37,8 +37,7 @@ export interface IOrbitMusaic {
     NgForOf
   ],
   templateUrl: './the88.component.html',
-  styleUrl: './the88.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './the88.component.css'
 })
 export class The88Component implements OnInit {
   group88 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC)
@@ -57,7 +56,6 @@ export class The88Component implements OnInit {
 
   currentSelectedOp : string[] = ["M1"]
 
-  readonly orderedOperations = ["M1", "M5", "M7", "M11", "CM1", "CM5", "CM7", "CM11"]
 
   testColor = "red"
 
@@ -102,16 +100,11 @@ export class The88Component implements OnInit {
     } else {
       newCurrentSelectedOp.push(op)
     }
-    let newCurrentSelectedOpOrdered: string[] = []
-    for (let i = 0; i < this.orderedOperations.length; i++) {
-      if (newCurrentSelectedOp.includes(this.orderedOperations[i])) {
-        newCurrentSelectedOpOrdered.push(this.orderedOperations[i])
-      }
-    }
-    this.currentSelectedOp = newCurrentSelectedOpOrdered
+    this.currentSelectedOp = EightyEight.setOrderSelectedOp(newCurrentSelectedOp);
     this.managerLocalStorageService.savePageThe88(this.currentSelectedOp)
     this.update88musics()
   }
+
 
   private update88musics() {
     let newMusaicOrbits : IOrbitMusaic[] = []
@@ -140,7 +133,6 @@ export class The88Component implements OnInit {
       newMusaicOrbits.push({...musaic, color: color})
     })
 
-    console.log(newMusaicOrbits[2])
     // for auto update template
     this.musaicOrbits = newMusaicOrbits
   }
@@ -148,4 +140,6 @@ export class The88Component implements OnInit {
   isChecked(op: string) {
     return this.currentSelectedOp.includes(op)
   }
+
+  protected readonly EightyEight = EightyEight;
 }

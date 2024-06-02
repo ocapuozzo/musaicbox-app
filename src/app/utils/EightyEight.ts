@@ -4,6 +4,8 @@ import {Group} from "../core/Group";
 
 export class EightyEight {
 
+  static orderedOperations = ["M1", "M5", "M7", "M11", "CM1", "CM5", "CM7", "CM11"]
+
   static idNumberOf(pcs : IPcs) : number {
     if (pcs.n !== 12) {
       pcs = new IPcs({strPcs:pcs.getMappedPcsStr()})
@@ -39,4 +41,15 @@ export class EightyEight {
     })
     return pcsReprOfMusaic;
   }
+
+  static setOrderSelectedOp(currentSelectedOp: string[]) {
+    let newCurrentSelectedOpOrdered: string[] = []
+    for (let i = 0; i < EightyEight.orderedOperations.length; i++) {
+      if (currentSelectedOp.includes(EightyEight.orderedOperations[i])) {
+        newCurrentSelectedOpOrdered.push(EightyEight.orderedOperations[i])
+      }
+    }
+    return newCurrentSelectedOpOrdered;
+  }
+
 }
