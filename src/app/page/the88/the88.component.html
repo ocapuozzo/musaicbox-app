@@ -30,7 +30,7 @@
   <h5>Select operations to highlight stabilized musaics</h5>
   <div class="button-row">
     <input type="checkbox" class="operation" id="m1" checked disabled/> <label for="m1">M1&nbsp;&nbsp;</label>
-    @for (op of EightyEight.orderedOperations; track op; let index = $index) {
+    @for (op of EightyEight.ORDERED_OPERATIONS_NAMES; track op; let index = $index) {
       @if (index > 0) {
         <input type="checkbox" class="operation" id="{{op}}" (click)="changeOp(op)" [checked]="isChecked(op)"/>
         <label for="{{op}}">{{ op }}&nbsp;&nbsp;</label>

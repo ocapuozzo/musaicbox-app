@@ -12,12 +12,17 @@ export class ManagerLocalStorageService {
   restorePageThe88() : string[] {
     // get op selected with filter (hack)
     let inStorage : string[] =  JSON.parse(localStorage.getItem('the88.currentSelectedOp') || "['M1']");
-    let res =
-      inStorage.filter(value => ["M1", "M5", "M7", "M11", "CM1", "CM5", "CM7", "CM11"].includes(value))
-    if (!res.includes("M1")) {
-      res.push("M1")
+
+    // don't trust the input data, just data in EightyEight.ORDERED_OPERATIONS_NAMES are accepted
+    let operationsUserSelectedAndLocalStored =
+      inStorage.filter(value => EightyEight.ORDERED_OPERATIONS_NAMES.includes(value))
+
+    // add "M1" if not includes (M1-TO is neutral operation)
+    if (!operationsUserSelectedAndLocalStored.includes("M1")) {
+      operationsUserSelectedAndLocalStored.push("M1")
     }
-    return EightyEight.setOrderSelectedOp(res)
+    // sort
+    return EightyEight.sortToOrderedOperationsName(operationsUserSelectedAndLocalStored)
   }
 
   savePageThe88(selectedOp : string[]) {

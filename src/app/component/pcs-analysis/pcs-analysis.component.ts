@@ -50,8 +50,9 @@ export class PcsAnalysisComponent {
       this.pcsMapped = this.pcs.n == 12
         ? this.pcs
         : new IPcs({binPcs: this.pcs.getMappedBinPcs()})
-
-      this.pcsMapped.setPivot(this.pcs.templateMappingBinPcs[this.pcs.getPivot() ?? 0])
+      if (this.pcs.getPivot() != undefined) {
+        this.pcsMapped.setPivot(this.pcs.templateMappingBinPcs[this.pcs.getPivot() ?? 0])
+      }
     })
   }
 
@@ -59,7 +60,9 @@ export class PcsAnalysisComponent {
     this.pcs = this.managerPagePcsService.pcs
     this.pcsMapped = this.pcs.n == 12 ? this.pcs : new IPcs({binPcs: this.pcs.getMappedBinPcs()})
     // set pivot to pcsMapped
-    this.pcsMapped.setPivot(this.pcs.templateMappingBinPcs[this.pcs.getPivot() ?? 0])
+    if (this.pcs.getPivot() != undefined) {
+      this.pcsMapped.setPivot(this.pcs.templateMappingBinPcs[this.pcs.getPivot() ?? 0])
+    }
   }
 
   fixedPcsList() {

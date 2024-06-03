@@ -100,7 +100,7 @@ export class The88Component implements OnInit {
     } else {
       newCurrentSelectedOp.push(op)
     }
-    this.currentSelectedOp = EightyEight.setOrderSelectedOp(newCurrentSelectedOp);
+    this.currentSelectedOp = EightyEight.sortToOrderedOperationsName(newCurrentSelectedOp);
     this.managerLocalStorageService.savePageThe88(this.currentSelectedOp)
     this.update88musics()
   }
