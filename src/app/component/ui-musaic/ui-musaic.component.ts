@@ -140,13 +140,14 @@ export class UiMusaicComponent {
 
     function drawPitch(j: number, i: number, iPitch: number, color: string) {
       let pitch = iPitch.toString()
-      let textWidth = ctx.measureText(pitch).width;
+      // let textWidth = ctx.measureText(pitch).width;
       ctx.font = Math.round(CEL_WIDTH * .6) + "px arial";
       ctx.fillStyle = color
       ctx.textBaseline = "middle";
       ctx.textAlign = "center";
-      let x1 = Math.round(CEL_WIDTH / 2)
-      let y1 = Math.round(CEL_WIDTH * 0.6)
+
+      let x1 = Math.round( CEL_WIDTH - (CEL_WIDTH / 2))
+      let y1 = Math.round(CEL_WIDTH - (CEL_WIDTH / 2))
 
       let x = (j * CEL_WIDTH) + x1
       let y = (i * CEL_WIDTH) + y1
