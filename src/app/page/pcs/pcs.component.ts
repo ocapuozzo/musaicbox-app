@@ -1,4 +1,4 @@
-import {Component, HostListener} from '@angular/core';
+import {Component, EventEmitter, HostListener, Output, SimpleChanges} from '@angular/core';
 
 import {UiClockComponent} from "../../component/ui-clock/ui-clock.component";
 import {UiMusaicComponent} from "../../component/ui-musaic/ui-musaic.component";
@@ -36,13 +36,14 @@ import {Subject, takeUntil} from "rxjs";
 
 export class PcsComponent {
 
+
   pcs: IPcs = new IPcs({strPcs:"0,1,2,3"})
   labeledListPcs = new Map<string, IElementListPcs>()
   protected readonly EightyEight = EightyEight;
 
   maxWidthParentUiMusaic: string = "270px";
   maxWidthUiMusaic: string = "250px"
-  // widthUiClock: string;
+
 
   destroyed = new Subject<void>();
   currentScreenSize: string;
@@ -122,6 +123,7 @@ export class PcsComponent {
           }
         }
         // console.log("this.currentScreenSize : " + this.currentScreenSize )
+
       });
   }
 
@@ -129,6 +131,7 @@ export class PcsComponent {
     this.destroyed.next();
     this.destroyed.complete();
   }
+
 
   changeByMusaic() {
     this.managerPagePcsService.replaceBy(EightyEight.getMusaic(this.pcs).modalPrimeForm())

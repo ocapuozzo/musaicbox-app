@@ -43,10 +43,11 @@
         Intervallic Structure :
         <span class="analyse-pcs">({{ pcsMapped.is() }})</span>
       </p>
+
       <p>
         Interval Vector :
         <span class="analyse-pcs" style="margin-right: 10px">&lt;{{ pcsMapped.iv() }}&gt;</span>shared by :
-        @for (pcs of pcsWithSameIVas(pcsMapped); track pcs) {
+        @for (pcs of pcsWithSameIVas(pcsMapped); track pcs.id) {
           <button mat-button (click)="doReplaceBy(pcs)">
           <span class="other-pcs-same-iv">
             {{ pcs.getPcsStr() }}@if (pcs.cyclicPrimeForm().id == pcsMapped.cyclicPrimeForm().id) {

@@ -79,9 +79,16 @@ export class UiClockComponent {
      private renderer2: Renderer2,
      private responsive: BreakpointObserver)
   {
+
     this.managerHomePcsService.updatePcsEvent.subscribe((pcs: IPcs) => {
       this.pcs = pcs
     })
+
+    // this.managerHomePcsService.updateSize.subscribe( () => {
+    //   setTimeout(this.updateGraphicContext, 1000)
+    //
+    // })
+
     this.pcs = this.managerHomePcsService.pcs
   }
 
@@ -92,21 +99,20 @@ export class UiClockComponent {
   }
 
   ngOnInit() {
-    const layoutChanges = this.responsive.observe([
-      '(orientation: portrait)',
-      '(orientation: landscape)',
-    ]);
-
-    layoutChanges.subscribe(result => {
-      // console.log("layoutChanges = " + window.innerWidth)
-      if (this.context)  this.doUpdateGraphics();
-    });
+    // const layoutChanges = this.responsive.observe([
+    //   '(orientation: portrait)',
+    //   '(orientation: landscape)',
+    // ]);
+    //
+    // layoutChanges.subscribe(result => {
+    //   // console.log("layoutChanges = " + window.innerWidth)
+    //   if (this.context)  this.doUpdateGraphics();
+    // });
 
   }
 
   @HostListener('window:resize', ['$event.target.innerWidth'])
   onResize(width: number) {
-    // console.log("onResize = " + window.innerWidth)
     this.doUpdateGraphics()
   }
 
@@ -271,6 +277,7 @@ export class UiClockComponent {
     //       segmentsLineDash: [[1, 2, 2, 1], [2, 3]] // median, inter
     //     })
     // }
+    // this.updateGraphicContext()
   }
 
   getIndexSelectedFromUIClock(e: any) {
