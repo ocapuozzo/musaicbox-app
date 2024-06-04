@@ -1,14 +1,16 @@
 import { TestBed} from '@angular/core/testing';
 import { provideAnimations } from '@angular/platform-browser/animations';
-
 import { AppComponent } from './app.component';
-import {RouterTestingModule} from "@angular/router/testing";
+import {RouterModule} from "@angular/router";
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      // adding RouterTestingModule in imports else NullInjectorError: No provider for ActivatedRoute!
-      imports: [AppComponent, RouterTestingModule],
+      imports: [
+        RouterModule. forRoot(
+          [{path: '', component: AppComponent}]
+        )
+        ],
       providers: [provideAnimations()]
     }).compileComponents();
   });
