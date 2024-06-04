@@ -89,7 +89,7 @@ export class ClockDrawing {
     this.ctx.restore();
   }
 
-  drawCirclePitch(ctx: CanvasRenderingContext2D, index: number, radius: number) {
+  drawCircleAndPitch(ctx: CanvasRenderingContext2D, index: number, radius: number) {
     let grad;
     ctx.save()
     ctx.beginPath();
@@ -105,6 +105,7 @@ export class ClockDrawing {
         : this.ipcs.templateMappingBinPcs.includes(index) ? 'white' : 'lightgray' ;
     ctx.fill();
     if (radius >= 6) {
+      // draw text
       grad = ctx.createRadialGradient(0, 0, radius * 0.8, 0, 0, radius * 1.2);
       if (radius > 10) {
         grad.addColorStop(0, '#333');
@@ -115,9 +116,10 @@ export class ClockDrawing {
       ctx.lineWidth = (radius > 10) ? PITCH_LINE_WIDTH : 1;//lineWidth; //radius*0.1;
       ctx.stroke();
       ctx.beginPath();
-
-      ctx.fillStyle = '#333';
-      ctx.fill();
+      if (radius > 10) {
+        ctx.fillStyle = '#333';
+        ctx.fill();
+      }
       ctx.fillStyle = "black"
       ctx.strokeStyle = "black";
       let pitch = index.toString()
@@ -127,7 +129,7 @@ export class ClockDrawing {
       let x = Math.round(textWidth/2/Math.ceil(radius*2))
       ctx.textBaseline = "middle";
       ctx.textAlign = "center";
-      ctx.fillText(pitch, -x, y);
+      ctx.fillText(pitch, x, y);
     }
     ctx.restore()
   }
@@ -143,7 +145,7 @@ export class ClockDrawing {
       ctx.rotate(ang);
       ctx.translate(0, -radius);
       ctx.rotate(-ang);
-      this.drawCirclePitch(ctx, index, radiusPitch /*, PITCH_LINE_WIDTH*/);
+      this.drawCircleAndPitch(ctx, index, radiusPitch /*, PITCH_LINE_WIDTH*/);
       ctx.rotate(ang);
       ctx.translate(0, radius);
       ctx.rotate(-ang);

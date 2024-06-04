@@ -138,21 +138,23 @@ export class UiMusaicComponent {
     ctx.strokeStyle = 'black'
     const pivotMapped = this.pcs.templateMappingBinPcs[this.pcs.iPivot ?? 0]
 
-    function drawPitch(j: number, i: number, pitch: number, color: string) {
-      let x = CEL_WIDTH / 3 + j * CEL_WIDTH
-      let y = CEL_WIDTH / 1.4 + i * CEL_WIDTH
-      if (pitch > 9) {
-        // 2 characters (10 wider than 11)
-        x -= (pitch == 10) ? 3 : 2
-      }
-      // ctx.strokeStyle = 'white'
-      ctx.font = "8px serif";
-      ctx.fillStyle = color //'white'
+    function drawPitch(j: number, i: number, iPitch: number, color: string) {
+      let pitch = iPitch.toString()
+      let textWidth = ctx.measureText(pitch).width;
+      ctx.font = Math.round(CEL_WIDTH * .6) + "px arial";
+      ctx.fillStyle = color
+      ctx.textBaseline = "middle";
+      ctx.textAlign = "center";
+      let x1 = Math.round(CEL_WIDTH / 2)
+      let y1 = Math.round(CEL_WIDTH * 0.6)
+
+      let x = (j * CEL_WIDTH) + x1
+      let y = (i * CEL_WIDTH) + y1
+
       ctx.fillText(pitch.toString(), x, y, CEL_WIDTH)
-      // ctx.strokeStyle = saveStrokeStyle
+
     }
 
-    // TODO fix bug pivot <> zero ....
     for (let i = 0; i <= n; i++) {
       for (let j = 0; j <= n; j++) {
         const pitch = (pivotMapped + (i + j * 5)) % n
@@ -185,14 +187,11 @@ export class UiMusaicComponent {
   }
 
   fromMatrixPointerToIndexVector(e: any): number {
-
     let rect = this.canvas.nativeElement.getBoundingClientRect();
     let x = e.clientX - rect.left;
     let y = e.clientY - rect.top;
 
-    // for compute with undefined
-    let localPivot = (this.pcs.iPivot === undefined) ? 0 : this.pcs.iPivot
-
+    let localPivot = this.pcs.templateMappingBinPcs[this.pcs.iPivot ?? 0]
     // from matrix coord to indice linear (for matrix armature 1 x 5)
     return ((5 * Math.floor(x / this.CEL_WIDTH))
       + (Math.floor(y / this.CEL_WIDTH)) + localPivot) % this.pcs.nMapping
