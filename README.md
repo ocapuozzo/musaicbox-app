@@ -20,7 +20,7 @@ May be use as
 
 Note : produces no sound !
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.10.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.10, migrate in angular 18
 
 ## Online
 
