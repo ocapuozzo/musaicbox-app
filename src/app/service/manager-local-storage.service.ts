@@ -11,7 +11,13 @@ export class ManagerLocalStorageService {
 
   restorePageThe88() : string[] {
     // get op selected with filter (hack)
-    let inStorage : string[] =  JSON.parse(localStorage.getItem('the88.currentSelectedOp') || "['M1']");
+    let inStorage : string[] = []
+      try {
+        // @ts-ignore
+        inStorage = JSON.parse(localStorage.getItem('the88.currentSelectedOp')) || ["M1"]
+      } catch (e: any) {
+        // nothing
+      }
 
     // don't trust the input data, just data in EightyEight.ORDERED_OPERATIONS_NAMES are accepted
     let operationsUserSelectedAndLocalStored =
