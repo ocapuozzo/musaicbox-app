@@ -16,7 +16,7 @@ import {Point} from "../utils/Point"
 const PITCH_LINE_WIDTH = 4;
 
 export class ClockDrawing {
-  ipcs = new IPcs({strPcs: "[0,3,7]"});
+  pcs = new IPcs({strPcs: "[0,3,7]"});
   ctx ?: CanvasRenderingContext2D;  // canvas context
   width = 20;
   height = 20;
@@ -44,7 +44,7 @@ export class ClockDrawing {
     if (!x.ctx)
       throw new Error("canvas context missing !!!")
 
-    this.ipcs = x.ipcs ?? new IPcs({strPcs: "[0,3,7"})
+    this.pcs = x.ipcs ?? new IPcs({strPcs: "[0,3,7"})
     if (x.ctx)
       this.ctx = x.ctx
 
@@ -56,25 +56,24 @@ export class ClockDrawing {
     this.pc_pivot_color = x.pc_pivot_color ?? "red"
     this.pc_color_stroke = x.pc_color_stroke ?? 'black'
     this.drawPivot = x.drawPivot == undefined  ? true : x.drawPivot
-    this.n = this.ipcs.nMapping
+    this.n = this.pcs.nMapping
     this.pointsRegions = []
     this.pointsAxesSym = []
     this.segmentsLineDash = x.segmentsLineDash ?? [[1, 3], [1, 3, 3, 1]]
   }
 
   setIpcs(ipcs: IPcs) {
-    this.ipcs = ipcs
+    this.pcs = ipcs
   }
 
   isSelected(i: number): boolean {
-    return this.ipcs.getMappedBinPcs()[i] === 1;
+    return this.pcs.getMappedBinPcs()[i] === 1;
   }
 
   // pass IPcs instance in parameter ? for store reactive ?
-  draw(ipcs?: IPcs) {
+  draw(pcs?: IPcs) {
     if (!this.ctx) return
-    if (ipcs) this.ipcs = ipcs
-    // console.log("pcsList :" + this.pcsList)
+    if (pcs) this.pcs = pcs
     let ox = this.width / 2;
     let oy = this.height / 2;
     let radius = Math.round(ox * .8);
@@ -99,10 +98,10 @@ export class ClockDrawing {
     // console.log("index : " + index + " selected : " + this.isSelected(index));
     ctx.fillStyle =
       (this.isSelected(index))
-        ? (index === this.ipcs.templateMappingBinPcs[this.ipcs.iPivot ?? 0])
+        ? (index === this.pcs.templateMappingBinPcs[this.pcs.iPivot ?? 0])
           ? this.drawPivot ? this.pc_pivot_color : this.pc_color_fill
           : this.pc_color_fill
-        : this.ipcs.templateMappingBinPcs.includes(index) ? 'white' : 'lightgray' ;
+        : this.pcs.templateMappingBinPcs.includes(index) ? 'white' : 'lightgray' ;
     ctx.fill();
     if (radius >= 6) {
       // draw text
@@ -159,10 +158,10 @@ export class ClockDrawing {
     ctx.fillStyle = this.pc_color_stroke // 'black'
     ctx.beginPath();
     for (let i = 0; i < this.n; i++) {
-      if (this.ipcs.getMappedBinPcs()[i] === 1 && firstPoint) {
+      if (this.pcs.getMappedBinPcs()[i] === 1 && firstPoint) {
         firstPoint = false;
         ctx.moveTo(pointsRegions[i].x, pointsRegions[i].y);
-      } else if (this.ipcs.getMappedBinPcs()[i] === 1) {
+      } else if (this.pcs.getMappedBinPcs()[i] === 1) {
         ctx.lineTo(pointsRegions[i].x, pointsRegions[i].y);
       }
     }
@@ -218,7 +217,7 @@ export class ClockDrawing {
   drawAxesSymmetry(ctx: CanvasRenderingContext2D) {
     let ox = this.width / 2;
     let oy = this.height / 2;
-    let axesSym = this.ipcs.getAxialSymmetries()
+    let axesSym = this.pcs.getAxialSymmetries()
 
     for (let i = 0; i < axesSym.symMedian.length; i++) {
       if (axesSym.symMedian[i] === 1) {

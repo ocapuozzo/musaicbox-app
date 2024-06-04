@@ -84,11 +84,6 @@ export class UiClockComponent {
       this.pcs = pcs
     })
 
-    // this.managerHomePcsService.updateSize.subscribe( () => {
-    //   setTimeout(this.updateGraphicContext, 1000)
-    //
-    // })
-
     this.pcs = this.managerHomePcsService.pcs
   }
 
@@ -99,20 +94,11 @@ export class UiClockComponent {
   }
 
   ngOnInit() {
-    // const layoutChanges = this.responsive.observe([
-    //   '(orientation: portrait)',
-    //   '(orientation: landscape)',
-    // ]);
-    //
-    // layoutChanges.subscribe(result => {
-    //   // console.log("layoutChanges = " + window.innerWidth)
-    //   if (this.context)  this.doUpdateGraphics();
-    // });
-
   }
 
   @HostListener('window:resize', ['$event.target.innerWidth'])
   onResize(width: number) {
+    // console.log("resize")
     this.doUpdateGraphics()
   }
 
@@ -246,38 +232,20 @@ export class UiClockComponent {
     return this.pcs.n
   }
 
-  checkClockDrawing() {
-   // if(this.clockDrawing ) {
-   //   let len = Math.min(this.containerCanvas.nativeElement.clientWidth, this.containerCanvas.nativeElement.clientHeight)
-   //   console.log("len = " + len)
-   //   this.clockDrawing.width = len - 20
-   //   this.clockDrawing.height = len - 20
-   // }
-    // if (!this.clockDrawing)
-    // {
-    //   // let len = Math.min(this.context.canvas.clientWidth, this.context.canvas.clientHeight)
-    //
-    //   // this.canvas.nativeElement.width = len
-    //   // this.canvas.nativeElement.height = len // square
-    //
-    //
-    //   let len = Math.min(this.containerCanvas.nativeElement.clientWidth, this.containerCanvas.nativeElement.clientHeight)
-    //   console.log("len = " + len)
-    //   this.canvas.nativeElement.width = len
-    //   this.canvas.nativeElement.height = len // square
-    //
-    //
-    //   this.clockDrawing = new ClockDrawing(
-    //     {
-    //       ipcs: this.pcs,
-    //       ctx: this.context,
-    //       width: len,
-    //       height: len,
-    //       pc_color_fill: "yellow",
-    //       segmentsLineDash: [[1, 2, 2, 1], [2, 3]] // median, inter
-    //     })
-    // }
-    // this.updateGraphicContext()
+  updateClockDrawing() {
+    let len = Math.min(this.containerCanvas.nativeElement.clientWidth, this.containerCanvas.nativeElement.clientHeight)
+    this.canvas.nativeElement.width = len
+    this.canvas.nativeElement.height = len // square
+
+    this.clockDrawing = new ClockDrawing(
+      {
+        ipcs: this.pcs,
+        ctx: this.context,
+        width: len,
+        height: len,
+        pc_color_fill: "yellow",
+        segmentsLineDash: [[1, 2, 2, 1], [2, 3]] // median, inter
+      })
   }
 
   getIndexSelectedFromUIClock(e: any) {
@@ -298,7 +266,6 @@ export class UiClockComponent {
         y1 = Math.round(e.clientY - rect.top);
       }
     }
-    this.checkClockDrawing();
     return this.clockDrawing.getIndexPitchFromXY(x1, y1);
   }
 
@@ -343,7 +310,7 @@ export class UiClockComponent {
   }
 
   drawClock() {
-    this.checkClockDrawing()
+    this.updateClockDrawing()
     this.clockDrawing.draw(this.pcs)
   }
 
