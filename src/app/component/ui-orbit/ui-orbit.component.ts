@@ -11,6 +11,7 @@ import {EightyEight} from "../../utils/EightyEight";
 import {MatTooltip} from "@angular/material/tooltip";
 import {PcsColor} from "../../color/PcsColor";
 import {Orbit} from "../../core/Orbit";
+import {Clock2Component} from "../clock2/clock2.component";
 
 @Component({
   selector: 'app-orbit',
@@ -21,6 +22,7 @@ import {Orbit} from "../../core/Orbit";
     ClockComponent,
     NgStyle,
     MatTooltip,
+    Clock2Component,
   ],
   templateUrl: './ui-orbit.component.html',
   styleUrl: './ui-orbit.component.css'

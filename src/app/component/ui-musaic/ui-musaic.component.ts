@@ -172,6 +172,7 @@ export class UiMusaicComponent {
           ctx.strokeStyle = 'black'
           ctx.fillRect(j * CEL_WIDTH, i * CEL_WIDTH, CEL_WIDTH, CEL_WIDTH);
           ctx.strokeRect(j * CEL_WIDTH, i * CEL_WIDTH, CEL_WIDTH, CEL_WIDTH);
+          // ctx.strokeRect(j * CEL_WIDTH, i * CEL_WIDTH, CEL_WIDTH, CEL_WIDTH+1);
           if (withDrawPitchIndex) {
             drawPitch(j, i, pitch, 'black');
           }

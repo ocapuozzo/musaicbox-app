@@ -27,13 +27,13 @@
     } @else {
       <div class="boxPcs"
         matTooltip ="{{orbit.getPcsMin().n == 12 ? 'Musaic reference N° ' + EightyEight.idNumberOf(orbit.getPcsMin()): ''}}">
-        <app-clock
+        <app-clock2
+          [w]="60"
           [ipcs]="orbit.getPcsMin()"
           [pcColorSet]="colorOrbit(orbit)"
           [drawPivot]="false"
-          class="clock-pcs ms-1 p-1"
-        >
-        </app-clock>
+          class="_clock-pcs _ms-1 _p-1"
+        ></app-clock2>
         <span class="text-center label-ipcs">#{{ orbit.ipcsset.length }}</span>
         <span [hidden]="orbit.getPcsMin().n != 12">
           <i (click)="doPushToPcsPage(orbit.getPcsMin())" class="bi bi-eye p-1" style="cursor: pointer">

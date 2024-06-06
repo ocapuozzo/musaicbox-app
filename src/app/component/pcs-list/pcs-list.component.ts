@@ -1,17 +1,17 @@
 import {Component, Input} from '@angular/core';
 import {IPcs} from "../../core/IPcs";
-import {ClockComponent} from "../clock/clock.component";
 import {ManagerPagePcsListService} from "../../service/manager-page-pcs-list.service";
 import {ScoreNotationComponent} from "../score-notation/score-notation.component";
 import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
 import {IElementListPcs} from "../../service/IElementListPcs";
+import {Clock2Component} from "../clock2/clock2.component";
 
 @Component({
   selector: 'app-pcs-list',
   standalone: true,
   imports: [
-    ClockComponent,
-    ScoreNotationComponent
+    ScoreNotationComponent,
+    Clock2Component
   ],
   templateUrl: './pcs-list.component.html',
   styleUrl: './pcs-list.component.css'
@@ -44,4 +44,5 @@ export class PcsListComponent {
   doPushPcsFromList(pcs: IPcs) {
     this.managerHomePcsService.replaceBy(pcs)
   }
+
 }
