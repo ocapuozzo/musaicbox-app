@@ -76,7 +76,7 @@ export class ClockDrawing {
     if (pcs) this.pcs = pcs
     let ox = this.width / 2;
     let oy = this.height / 2;
-    let radius = Math.round(ox * .8);
+    let radius = Math.round(ox * .74);
     this.computePitchesRegion(ox, oy, radius);
     this.ctx.save()
     this.ctx.clearRect(0, 0, this.width, this.height);

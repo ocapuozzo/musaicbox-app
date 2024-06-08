@@ -15,6 +15,7 @@ import {EightyEight} from "../../utils/EightyEight";
 import {PcsColor} from "../../color/PcsColor";
 import {MatTooltip} from "@angular/material/tooltip";
 import {MusaicPcsOperation} from "../../core/MusaicPcsOperation";
+import {Musaic3Component} from "../musaic/musaic3.component";
 
 @Component({
   selector: 'app-pcs-analysis',
@@ -23,7 +24,8 @@ import {MusaicPcsOperation} from "../../core/MusaicPcsOperation";
     MatButton,
     MatIcon,
     MusaicComponent,
-    MatTooltip
+    MatTooltip,
+    Musaic3Component
   ],
   templateUrl: './pcs-analysis.component.html',
   styleUrl: './pcs-analysis.component.css'

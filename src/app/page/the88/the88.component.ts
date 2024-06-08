@@ -15,6 +15,7 @@ import {FormsModule} from "@angular/forms";
 import {NgForOf} from "@angular/common";
 import {ManagerLocalStorageService} from "../../service/manager-local-storage.service";
 import {EightyEight} from "../../utils/EightyEight";
+import {Musaic3Component} from "../../component/musaic/musaic3.component";
 
 export interface IOrbitMusaic {
   pcs : IPcs  // a representant of orbit (prime forme in modalPF)
@@ -34,7 +35,8 @@ export interface IOrbitMusaic {
     MatButtonToggleGroup,
     MatCheckbox,
     FormsModule,
-    NgForOf
+    NgForOf,
+    Musaic3Component
   ],
   templateUrl: './the88.component.html',
   styleUrl: './the88.component.css'

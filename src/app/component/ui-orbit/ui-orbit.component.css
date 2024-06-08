@@ -63,5 +63,6 @@ button:focus {
   /*border-color: lightgray;*/
   margin: 3px;
   width: 60px;
-  padding: 3px;
+  text-align: center;
+  /*padding: 3px;*/
 }
