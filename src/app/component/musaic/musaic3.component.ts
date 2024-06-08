@@ -58,34 +58,20 @@ export class Musaic3Component {
     // @ts-ignore
     this.context = this.canvas.nativeElement.getContext('2d');
 
+    let paddingCanvas = 1
+
+    this._widthInput = this._widthInput * paddingCanvas
+
     let n = this.ipcs.nMapping //getMappedBinPcs().length;
-    this.CEL_WIDTH = Math.floor((this.w / (n + 1)));
-    let wAdjust = this.CEL_WIDTH * (n + 1)
+    this.CEL_WIDTH = Math.floor((this._widthInput / (n + 1)));
 
-    // this.canvas.nativeElement.width = this.w
-    // this.canvas.nativeElement.height = this.w // square
+    // adjust size from CEL_WIDTH
+    this._widthInput = this.CEL_WIDTH * (n + 1)
+    this.canvas.nativeElement.width = this._widthInput
+    this.canvas.nativeElement.height = this._widthInput  // square
 
-
-    // this.canvas.nativeElement.width = wAdjust
-    // this.canvas.nativeElement.height = wAdjust // square
-    this._widthInput = wAdjust - 15
-    this.canvas.nativeElement.width = this._widthInput //wAdjust
-    this.canvas.nativeElement.height = this._widthInput //wAdjust// square
-    this._widthInput = wAdjust
-
-    // this.deltaCenterX = 1
-    // this.deltaCenterY = 1
-    // this.deltaCenterX = (this.canvas.nativeElement.clientWidth - (this.CEL_WIDTH * (n+1))) / 2
-    // this.deltaCenterY = (this.canvas.nativeElement.clientHeight - (this.CEL_WIDTH * (n+1))) / 2
-    // console.log("deltaCenterX = " + this.deltaCenterX)
-    // this.CEL_WIDTH = this.w / (n + 1);
-
-    // dimension of musaic match with cell size
-    // square (n+1) x (n+1)
-
-    // parent style do include text-align: center AND w more small that clientWidth parent
-    console.log("w = " + this.w)
-    console.log("cell w = " + this.CEL_WIDTH)
+    // console.log("w = " + this.w)
+    // console.log("cell w = " + this.CEL_WIDTH)
 
   }
 
