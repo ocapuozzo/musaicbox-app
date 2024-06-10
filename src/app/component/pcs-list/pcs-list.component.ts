@@ -4,14 +4,14 @@ import {ManagerPagePcsListService} from "../../service/manager-page-pcs-list.ser
 import {ScoreNotationComponent} from "../score-notation/score-notation.component";
 import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
 import {IElementListPcs} from "../../service/IElementListPcs";
-import {Clock2Component} from "../clock2/clock2.component";
+import {ClockComponent} from "../clock/clock.component";
 
 @Component({
   selector: 'app-pcs-list',
   standalone: true,
   imports: [
     ScoreNotationComponent,
-    Clock2Component
+    ClockComponent
   ],
   templateUrl: './pcs-list.component.html',
   styleUrl: './pcs-list.component.css'

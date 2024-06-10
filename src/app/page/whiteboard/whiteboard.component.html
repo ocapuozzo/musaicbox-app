@@ -2,27 +2,74 @@
 
   <div class="example-box" cdkDragBoundary=".main-page" cdkDrag
        [style.height.px]="sizes[0].h" [style.width.px]="sizes[0].w"
+       [matMenuTriggerFor]="appMenu" [matMenuTriggerData]="{name: 'pcs1'}"
   >
-    <app-clock3 [w]="sizes[0].w" [ipcs]="pcs1" [drawPivot]="true" class="app-clock" (click)="doClick($event, 0)">
-    </app-clock3>
+    <app-clock [w]="sizes[0].w" [ipcs]="pcs1" [drawPivot]="true" class="app-clock" (click)="doClick($event, 0)">
+    </app-clock>
   </div>
 
 
   <div class="example-box" cdkDragBoundary=".main-page" cdkDrag
        [style.height.px]="sizes[1].h" [style.width.px]="sizes[1].w"
+       [matMenuTriggerFor]="appMenu" [matMenuTriggerData]="{name: 'pcs2'}"
   >
     <app-musaic3 [w]="sizes[1].w" [rounded]="true" [ipcs]="pcs2" class="app-clock" (click)="doClick($event, 1)">
     </app-musaic3>
   </div>
 
-
-
   <div class="example-box" cdkDragBoundary=".main-page" cdkDrag
-       [style.height.px]="sizes[1].h" [style.width.px]="sizes[1].w"
+       [style.height.px]="sizes[2].h" [style.width.px]="sizes[2].w"
+       [matMenuTriggerFor]="appMenu" [matMenuTriggerData]="{name: 'pcs3'}"
   >
-    <app-musaic3 [w]="sizes[1].w" [rounded]="false" [ipcs]="pcs2" class="app-clock" (click)="doClick($event, 1)">
+    <app-musaic3 [w]="sizes[2].w" [rounded]="false" [ipcs]="pcs3" class="app-clock" (click)="doClick($event, 2)">
     </app-musaic3>
   </div>
 
+  <mat-menu #appMenu="matMenu">
+    <ng-template matMenuContent let-name="name">
+      <button mat-menu-item aria-label="Settings">Settings</button>
+      <button mat-menu-item>Log off {{ name }}</button>
+      <button mat-menu-item aria-label="dial" (click)="selectedMenu(name)">
+        <mat-icon>dialpad</mat-icon>
+        <span>Call</span>
+      </button>
+      <button mat-menu-item aria-label="voice mail" disabled>
+        <mat-icon>voicemail</mat-icon>
+        <span>Check voice mail</span>
+      </button>
+    </ng-template>
+  </mat-menu>
+
+  <!--  <div (contextmenu)="onRightClick($event)">COUCOU</div>-->
+
+  <!--  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu"-->
+  <!--          (click)="selectedMenu('Redial')">-->
+  <!--    <mat-icon>more_vert</mat-icon>-->
+  <!--  </button>-->
+
+  <!--  <mat-menu #menu="matMenu">-->
+  <!--    <button mat-menu-item (click)="selectedMenu('ok dialpad')">-->
+  <!--      <mat-icon>dialpad</mat-icon>-->
+  <!--      <span>Redial</span>-->
+  <!--    </button>-->
+  <!--    <button mat-menu-item disabled>-->
+  <!--      <mat-icon>voicemail</mat-icon>-->
+  <!--      <span>Check voice mail</span>-->
+  <!--    </button>-->
+  <!--  </mat-menu>-->
+
+  <!--  &lt;!&ndash; an hidden div is created to set the position of appearance of the menu&ndash;&gt;-->
+  <!--  <div style="visibility: hidden; position: fixed;" [style.left]="menuTopLeftPosition.x"-->
+  <!--       [style.top]="menuTopLeftPosition.y" [matMenuTriggerFor]="rightMenu"></div>-->
+
+  <!--  &lt;!&ndash; standard material menu &ndash;&gt;-->
+  <!--  <mat-menu #rightMenu="matMenu">-->
+  <!--    <ng-template matMenuContent let-item="item" *transloco="let t">-->
+  <!--      <button mat-menu-item>Option 1</button>-->
+  <!--      <button mat-menu-item>Option 2</button>-->
+  <!--      <button mat-menu-item>Option 3</button>-->
+  <!--      <button mat-menu-item>Option 4</button>-->
+  <!--    </ng-template>-->
+  <!--  </mat-menu>-->
 
 </div>

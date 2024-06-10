@@ -3,26 +3,31 @@ import {IPcs} from "../../core/IPcs";
 import {ClockDrawing} from "../../ui/ClockDrawing";
 
 @Component({
-  selector: 'app-clock2',
+  selector: 'app-clock4',
   standalone: true,
   imports: [],
   template: '<canvas #canvas></canvas>',
-  styleUrl: './clock2.component.css'
+  styleUrl: './clock.component.css'
 })
-export class Clock2Component {
+export class Clock4Component {
   @ViewChild('canvas', {static: false}) canvas: ElementRef<HTMLCanvasElement>;
 
   @Input() ipcs: IPcs = new IPcs({strPcs: "0,3,6,9"})
   @Input() pivotColor = 'red'
 
-  @Input() get w() {
-    return this.canvas.nativeElement.width
+  private _canvasWidth = 40
+
+  get w() {
+    return this._canvasWidth
+    // return this.canvas.nativeElement.width
   }
-  set w(value: number) {
+
+  @Input() set w(value: number) {
+    this._canvasWidth = value
     if (this.canvas) {
-       this.canvas.nativeElement.width = value
-       this.canvas.nativeElement.height = value //square
-       this.draw();
+      // this.canvas.nativeElement.width = value
+      // this.canvas.nativeElement.height = value //square
+      this.draw();
     }
   }
 
@@ -33,28 +38,20 @@ export class Clock2Component {
   @Input() drawPivot = false
 
   ngAfterViewInit() {
-    // this.updateGraphicContext();
     this.setupEvents();
-    this.canvas.nativeElement.style.width = "100%";
-    // this.canvas.nativeElement.style.height = "100%"; // height may be more than width
-
-    this.canvas.nativeElement.width =  this.canvas.nativeElement.offsetWidth;
-    this.canvas.nativeElement.height = this.canvas.nativeElement.offsetHeight;
     this.draw();
   }
 
   ngOnInit() {
-
   }
 
   private updateGraphicContext() {
     // @ts-ignore
     this.context = this.canvas.nativeElement.getContext('2d');
 
-    let len = Math.min(
-      this.canvas.nativeElement.width,
-      this.canvas.nativeElement.height)
+    let len = this.w
 
+    // console.log("(clock3) len : " + len)
     this.canvas.nativeElement.width = len
     this.canvas.nativeElement.height = len // square
 

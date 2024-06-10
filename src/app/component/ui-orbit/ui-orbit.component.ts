@@ -1,8 +1,6 @@
 import {Component, ElementRef, Input, ViewChild} from '@angular/core';
 import {ISortedOrbits} from "../../core/ISortedOrbits";
 import {NgIf, NgStyle} from "@angular/common";
-import {MusaicComponent} from "../musaic/musaic.component";
-import {ClockComponent} from "../clock/clock.component";
 import {IPcs} from "../../core/IPcs";
 import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
 import {Router} from "@angular/router";
@@ -11,24 +9,20 @@ import {EightyEight} from "../../utils/EightyEight";
 import {MatTooltip} from "@angular/material/tooltip";
 import {PcsColor} from "../../color/PcsColor";
 import {Orbit} from "../../core/Orbit";
-import {Clock2Component} from "../clock2/clock2.component";
 import {Musaic2Component} from "../musaic/musaic2.component";
-import {Clock3Component} from "../clock2/clock3.component";
 import {Musaic3Component} from "../musaic/musaic3.component";
+import {ClockComponent} from "../clock/clock.component";
 
 @Component({
   selector: 'app-orbit',
   standalone: true,
   imports: [
     NgIf,
-    MusaicComponent,
-    ClockComponent,
     NgStyle,
     MatTooltip,
-    Clock2Component,
     Musaic2Component,
-    Clock3Component,
     Musaic3Component,
+    ClockComponent,
   ],
   templateUrl: './ui-orbit.component.html',
   styleUrl: './ui-orbit.component.css'
