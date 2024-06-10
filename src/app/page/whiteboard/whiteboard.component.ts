@@ -49,18 +49,7 @@ export class WhiteboardComponent {
       event.stopPropagation()
     }
   }
-
-  doClick2(event: any, payload: any) {
-    if (! this.dragging) {
-      // business logic code...
-    } else {
-      this.dragging = false
-      // for not display matMenu at end of drag
-      event.stopPropagation()
-    }
-  }
-
-
+  
   private changeSize(index: number) {
     if (this.sizes[index].w === 299) {
       this.sizes[index] = {w: 143, h: 143}
