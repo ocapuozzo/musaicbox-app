@@ -7,6 +7,7 @@ import {MusaicComponent} from "../../component/musaic/musaic.component";
 import {MatMenu, MatMenuContent, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 import {MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
+import {NgStyle} from "@angular/common";
 
 @Component({
   selector: 'app-whiteboard',
@@ -21,7 +22,8 @@ import {MatIcon} from "@angular/material/icon";
     MatMenuItem,
     MatMenuContent,
     MatIconButton,
-    MatIcon
+    MatIcon,
+    NgStyle
   ],
   templateUrl: './whiteboard.component.html',
   styleUrl: './whiteboard.component.css'
@@ -33,17 +35,39 @@ export class WhiteboardComponent {
   pcs2 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[38].getPcsMin().complement().modalPrimeForm()
   pcs3 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[36].getPcsMin().complement().modalPrimeForm()
   sizes = [{ w:180, h:180 }, { w:117, h:117 },  { w:117, h:117 }];
+  dragging = false;
 
   doClick(event: any, index: number) {
-    if (event.ctrlKey) {
-      if (this.sizes[index].w === 299) {
-        this.sizes[index] = {w: 143, h: 143}
-      } else {
-        this.sizes[index] = {w: 299, h: 299}
+    if (! this.dragging) {
+      if (event.ctrlKey) {
+        this.changeSize(index);
       }
+    } else {
+      this.dragging = false
+
+      // for not display matMenu at end of drag
+      event.stopPropagation()
     }
   }
 
+  doClick2(event: any, payload: any) {
+    if (! this.dragging) {
+      // business logic code...
+    } else {
+      this.dragging = false
+      // for not display matMenu at end of drag
+      event.stopPropagation()
+    }
+  }
+
+
+  private changeSize(index: number) {
+    if (this.sizes[index].w === 299) {
+      this.sizes[index] = {w: 143, h: 143}
+    } else {
+      this.sizes[index] = {w: 299, h: 299}
+    }
+  }
 
   menuTopLeftPosition = { x: '0', y: '0' }
 
@@ -58,7 +82,25 @@ export class WhiteboardComponent {
     this.matMenuTrigger.openMenu();
   }
 
-  selectedMenu(redial: string) {
-    console.log("selected " + redial)
+  selectedMenu(index: number) {
+    console.log("selected " + index)
+    // let index = text.index //parseInt(text.substring(3)) - 1
+    this.changeSize(index)
+
+  }
+
+  startDragging() {
+     // console.log("dragging = " + this.dragging)
+     this.dragging = true;
+  }
+
+  menuOpened() {
+    console.log("menuOpened()")
+  }
+
+  protected readonly console = console;
+
+  doNothing() {
+
   }
 }

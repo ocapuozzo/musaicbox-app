@@ -41,3 +41,8 @@
   /*display: inline;*/
   /*flex:1;*/
 }
+
+/*test from https://stackoverflow.com/questions/56560220/click-event-firing-after-dragging*/
+.pointer-events-none {
+  pointer-events: none;
+}

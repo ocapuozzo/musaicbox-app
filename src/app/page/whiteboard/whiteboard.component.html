@@ -1,8 +1,11 @@
-<div class="main-page">
+<div class="main-page" >
 
   <div class="example-box" cdkDragBoundary=".main-page" cdkDrag
-       [style.height.px]="sizes[0].h" [style.width.px]="sizes[0].w"
-       [matMenuTriggerFor]="appMenu" [matMenuTriggerData]="{name: 'pcs1'}"
+       [style.height.px]="sizes[0].h"
+       [style.width.px]="sizes[0].w"
+       [matMenuTriggerFor]="appMenu"
+       [matMenuTriggerData]="{name: 'pcs1', index:0}"
+       (cdkDragStarted)="startDragging()"
   >
     <app-clock [w]="sizes[0].w" [ipcs]="pcs1" [drawPivot]="true" class="app-clock" (click)="doClick($event, 0)">
     </app-clock>
@@ -10,26 +13,36 @@
 
 
   <div class="example-box" cdkDragBoundary=".main-page" cdkDrag
-       [style.height.px]="sizes[1].h" [style.width.px]="sizes[1].w"
-       [matMenuTriggerFor]="appMenu" [matMenuTriggerData]="{name: 'pcs2'}"
+       [style.height.px]="sizes[1].h"
+       [style.width.px]="sizes[1].w"
+       [matMenuTriggerFor]="appMenu"
+       [matMenuTriggerData]="{name: 'pcs2', index:1}"
+       (cdkDragStarted)="startDragging()"
   >
     <app-musaic [w]="sizes[1].w" [rounded]="true" [ipcs]="pcs2" class="app-clock" (click)="doClick($event, 1)">
     </app-musaic>
   </div>
 
   <div class="example-box" cdkDragBoundary=".main-page" cdkDrag
-       [style.height.px]="sizes[2].h" [style.width.px]="sizes[2].w"
-       [matMenuTriggerFor]="appMenu" [matMenuTriggerData]="{name: 'pcs3'}"
+       [style.height.px]="sizes[2].h"
+       [style.width.px]="sizes[2].w"
+       [matMenuTriggerFor]="appMenu"
+       [matMenuTriggerData]="{name: 'pcs3', index:2}"
+       (cdkDragStarted)="startDragging()"
   >
+<!--    (menuOpened)="menuOpened()"-->
+<!--    (click)="$event.stopPropagation();"-->
+<!--    [ngStyle]="{'pointer-events': 'none'}"-->
     <app-musaic [w]="sizes[2].w" [rounded]="false" [ipcs]="pcs3" class="app-clock" (click)="doClick($event, 2)">
     </app-musaic>
   </div>
 
-  <mat-menu #appMenu="matMenu">
-    <ng-template matMenuContent let-name="name">
+<!--  [hasBackdrop]="false"-->
+  <mat-menu #appMenu="matMenu" >
+    <ng-template matMenuContent let-index="index" let-name="name">
       <button mat-menu-item aria-label="Settings">Settings</button>
-      <button mat-menu-item>Log off {{ name }}</button>
-      <button mat-menu-item aria-label="dial" (click)="selectedMenu(name)">
+      <button mat-menu-item>Do with {{name}} on index = {{ index }}</button>
+      <button mat-menu-item aria-label="dial" (click)="selectedMenu(index)">
         <mat-icon>dialpad</mat-icon>
         <span>Call</span>
       </button>
