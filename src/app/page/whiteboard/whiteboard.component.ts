@@ -3,7 +3,7 @@ import {CdkDrag, CdkDragHandle} from "@angular/cdk/drag-drop";
 import {GroupAction} from "../../core/GroupAction";
 import {Group} from "../../core/Group";
 import {ClockComponent} from "../../component/clock/clock.component";
-import {Musaic3Component} from "../../component/musaic/musaic3.component";
+import {MusaicComponent} from "../../component/musaic/musaic.component";
 import {MatMenu, MatMenuContent, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 import {MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
@@ -15,7 +15,7 @@ import {MatIcon} from "@angular/material/icon";
     CdkDrag,
     CdkDragHandle,
     ClockComponent,
-    Musaic3Component,
+    MusaicComponent,
     MatMenuTrigger,
     MatMenu,
     MatMenuItem,

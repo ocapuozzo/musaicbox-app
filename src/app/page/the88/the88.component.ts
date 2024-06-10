@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {GroupAction} from "../../core/GroupAction";
 import {Group} from "../../core/Group";
-import {MusaicComponent} from "../../component/musaic/musaic.component";
 import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
 import {IPcs} from "../../core/IPcs";
 import {Router} from "@angular/router";
@@ -15,7 +14,7 @@ import {FormsModule} from "@angular/forms";
 import {NgForOf} from "@angular/common";
 import {ManagerLocalStorageService} from "../../service/manager-local-storage.service";
 import {EightyEight} from "../../utils/EightyEight";
-import {Musaic3Component} from "../../component/musaic/musaic3.component";
+import {MusaicComponent} from "../../component/musaic/musaic.component";
 
 export interface IOrbitMusaic {
   pcs : IPcs  // a representant of orbit (prime forme in modalPF)
@@ -28,7 +27,6 @@ export interface IOrbitMusaic {
   selector: 'app-page-the88',
   standalone: true,
   imports: [
-    MusaicComponent,
     MatDivider,
     MatButton,
     MatButtonToggle,
@@ -36,7 +34,7 @@ export interface IOrbitMusaic {
     MatCheckbox,
     FormsModule,
     NgForOf,
-    Musaic3Component
+    MusaicComponent
   ],
   templateUrl: './the88.component.html',
   styleUrl: './the88.component.css'

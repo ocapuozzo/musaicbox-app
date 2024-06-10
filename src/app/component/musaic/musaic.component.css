@@ -1,7 +1,7 @@
 .musaic {
-  text-align: center;
+  /*text-align: center;*/
+  display: inline;
 }
-
 
 .roundedImage, .roundedImageShadow, .roundedImageBorder{
   overflow:hidden;
@@ -16,5 +16,5 @@
   box-shadow: 0px 0px 2px #343434;
 }
 .roundedImageBorder{
-  border: 1px solid #000000; /*6699;*/
+  border: 1px solid black; /*#000000;*/ /*6699;*/
 }

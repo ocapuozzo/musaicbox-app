@@ -163,7 +163,7 @@
       @for (pcsRepr of orbitWithSameMotifStabilizersOf(pcsMapped); track pcsRepr.id) {
         <div class="boxPcs" style="max-width: 60px; margin-left: 10px; text-align: center;">
           <span class="text-center label-ipcs">N° {{ EightyEight.idNumberOf(pcsRepr) }}</span>
-          <app-musaic3
+          <app-musaic
             [w]="54"
             [ipcs]="pcsRepr"
             [opaque]="false"
@@ -172,7 +172,7 @@
             class="ms-1"
             style="cursor: pointer"
           >
-          </app-musaic3>
+          </app-musaic>
           <span class="text-center label-ipcs">#{{ pcsRepr.orbit.cardinal }}</span>
         </div>
       }

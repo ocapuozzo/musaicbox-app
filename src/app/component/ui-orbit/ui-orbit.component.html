@@ -12,12 +12,12 @@
     @if (viewMusaic) {
       <div class="boxPcs" style="width: 60px;"
         matTooltip ="Musaic reference N° {{EightyEight.idNumberOf(orbit.getPcsMin())}}" >
-        <app-musaic3
+        <app-musaic
           [w]="52"
           [ipcs]="orbit.getPcsMin()"
           [opaque]="false"
           [pcColorSet]="colorOrbitCriterion(orbitsGroup?.groupingCriterion ?? orbit.motifStabilizer.name)"
-        ></app-musaic3>
+        ></app-musaic>
         <span class="text-center label-ipcs">#{{ orbit.ipcsset.length }}</span>
         <span>
           <i (click)="doPushToPcsPage(orbit.getPcsMin())" class="bi bi-eye p-1" style="cursor: pointer">

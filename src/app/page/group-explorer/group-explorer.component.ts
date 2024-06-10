@@ -5,7 +5,6 @@ import {GroupAction} from "../../core/GroupAction";
 import {Orbit} from "../../core/Orbit";
 import {ISortedOrbits} from "../../core/ISortedOrbits";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {MusaicComponent} from "../../component/musaic/musaic.component";
 import {UiOrbitComponent} from "../../component/ui-orbit/ui-orbit.component";
 import {ManagerExplorerService} from "../../service/manager-explorer.service";
 import {MatLabel} from "@angular/material/form-field";
@@ -18,7 +17,6 @@ import {MatButton} from "@angular/material/button";
   imports: [
     ReactiveFormsModule,
     FormsModule,
-    MusaicComponent,
     UiOrbitComponent,
     MatLabel,
     MatProgressSpinner,

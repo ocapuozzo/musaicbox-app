@@ -6,16 +6,12 @@ import {GroupAction} from "../../core/GroupAction";
 import {Group} from "../../core/Group";
 import {MatButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
-import {IScaleName} from "../../core/IScaleName";
-import {PcsListComponent} from "../pcs-list/pcs-list.component";
 import {PcsSearch} from "../../utils/PcsSearch";
-import {ManagerPcsService} from "../../service/manager-pcs.service";
-import {MusaicComponent} from "../musaic/musaic.component";
 import {EightyEight} from "../../utils/EightyEight";
 import {PcsColor} from "../../color/PcsColor";
 import {MatTooltip} from "@angular/material/tooltip";
 import {MusaicPcsOperation} from "../../core/MusaicPcsOperation";
-import {Musaic3Component} from "../musaic/musaic3.component";
+import {MusaicComponent} from "../musaic/musaic.component";
 
 @Component({
   selector: 'app-pcs-analysis',
@@ -23,9 +19,8 @@ import {Musaic3Component} from "../musaic/musaic3.component";
   imports: [
     MatButton,
     MatIcon,
-    MusaicComponent,
     MatTooltip,
-    Musaic3Component
+    MusaicComponent
   ],
   templateUrl: './pcs-analysis.component.html',
   styleUrl: './pcs-analysis.component.css'

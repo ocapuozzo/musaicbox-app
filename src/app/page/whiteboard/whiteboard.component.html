@@ -13,16 +13,16 @@
        [style.height.px]="sizes[1].h" [style.width.px]="sizes[1].w"
        [matMenuTriggerFor]="appMenu" [matMenuTriggerData]="{name: 'pcs2'}"
   >
-    <app-musaic3 [w]="sizes[1].w" [rounded]="true" [ipcs]="pcs2" class="app-clock" (click)="doClick($event, 1)">
-    </app-musaic3>
+    <app-musaic [w]="sizes[1].w" [rounded]="true" [ipcs]="pcs2" class="app-clock" (click)="doClick($event, 1)">
+    </app-musaic>
   </div>
 
   <div class="example-box" cdkDragBoundary=".main-page" cdkDrag
        [style.height.px]="sizes[2].h" [style.width.px]="sizes[2].w"
        [matMenuTriggerFor]="appMenu" [matMenuTriggerData]="{name: 'pcs3'}"
   >
-    <app-musaic3 [w]="sizes[2].w" [rounded]="false" [ipcs]="pcs3" class="app-clock" (click)="doClick($event, 2)">
-    </app-musaic3>
+    <app-musaic [w]="sizes[2].w" [rounded]="false" [ipcs]="pcs3" class="app-clock" (click)="doClick($event, 2)">
+    </app-musaic>
   </div>
 
   <mat-menu #appMenu="matMenu">
