@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {IOrbitMusaic} from "../page/the88/the88.component";
 import {EightyEight} from "../utils/EightyEight";
+import {UIPcsDto} from "../ui/UIPcsDto";
 
 @Injectable({
   providedIn: 'root'
@@ -34,5 +35,10 @@ export class ManagerLocalStorageService {
   savePageThe88(selectedOp : string[]) {
     localStorage.setItem("the88.currentSelectedOp", JSON.stringify(selectedOp))
   }
+
+  savePageWB(listPcsDto :UIPcsDto[]) {
+    localStorage.setItem("wb.currentContent", JSON.stringify(listPcsDto))
+  }
+
 
 }

@@ -19,13 +19,10 @@ export class ClockComponent {
 
   get w() {
     return this._canvasWidth
-    // return this.canvas.nativeElement.width
   }
   @Input() set w(value: number) {
     this._canvasWidth = value
     if (this.canvas) {
-       // this.canvas.nativeElement.width = value
-       // this.canvas.nativeElement.height = value //square
        this.draw();
     }
   }
