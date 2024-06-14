@@ -42,8 +42,8 @@ export class MusaicDrawing {
     let ctx = this.ctx
     ctx.strokeStyle = this.pcsDto.colorPitchOff
 
-    console.log("this.pcsDto.uiMusaic.width :" + this.pcsDto.uiMusaic.width)
-    console.log("this.pcsDto.uiMusaic.height :" + this.pcsDto.uiMusaic.height)
+    // console.log("this.pcsDto.uiMusaic.width :" + this.pcsDto.uiMusaic.width)
+    // console.log("this.pcsDto.uiMusaic.height :" + this.pcsDto.uiMusaic.height)
 
     let CEL_WIDTH = this.pcsDto.uiMusaic.widthCell ?? 20
     let deltaCenterX = 0// Math.round(this.pcsDto.uiMusaic.width - (CEL_WIDTH * this.pcsDto.uiMusaic.nbCellsPerLine))/2

@@ -12,6 +12,7 @@ import {ManagerLocalStorageService} from "../../service/manager-local-storage.se
 import {ManagerPageWBService} from "../../service/manager-page-wb.service";
 import {MusaicRComponent} from "../../component/musaic/musaicR.component";
 import {UIPcsDto} from "../../ui/UIPcsDto";
+import {PcsComponent} from "../../component/pcs/pcs.component";
 
 @Component({
   selector: 'app-whiteboard',
@@ -28,7 +29,8 @@ import {UIPcsDto} from "../../ui/UIPcsDto";
     MatIconButton,
     MatIcon,
     NgStyle,
-    MusaicRComponent
+    MusaicRComponent,
+    PcsComponent
   ],
   templateUrl: './whiteboard.component.html',
   styleUrl: './whiteboard.component.css'
@@ -37,14 +39,16 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   @ViewChild(MatMenuTrigger, { static: true }) matMenuTrigger: MatMenuTrigger;
 
   pcs42 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[42].getPcsMin()
+  pcs13 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[13].getPcsMin()
 
   pcsDto42 = new UIPcsDto({pcs:this.pcs42})
+  pcsDto13 = new UIPcsDto({pcs:this.pcs13})
 
   pcs1 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[87].getPcsMin()
   pcs2 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[38].getPcsMin().complement().modalPrimeForm()
   pcs3 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[36].getPcsMin().complement().modalPrimeForm()
-
   sizes = [{ w:180, h:180 }, { w:117, h:117 },  { w:117, h:117 }];
+
   dragging = false;
 
   pcsDtoList : UIPcsDto[]
@@ -59,9 +63,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     // })
   }
 
-  ngOnInit() {
-
-  }
+  ngOnInit() { }
 
   ngAfterViewInit(): void {
     // this.pcsDtoList = this.managerPageWBService.uiPcsDtoList
@@ -79,33 +81,10 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
       }
     } else {
       this.dragging = false
-
       // for not display matMenu at end of drag
       event.stopPropagation()
     }
   }
-
-  private changeSize2(index: number) {
-    this.pcsDtoList[index].uiMusaic.width += 10
-    this.pcsDtoList[index] = new UIPcsDto({
-      ...this.pcsDtoList[index]
-    })
-    console.log(this.pcsDtoList[index])
-  }
-
-  private changeSize3(index: number) {
-    this.pcsDto42.uiMusaic.width = this.pcsDto42.uiMusaic.width + 30
-    this.pcsDto42.uiMusaic.height = this.pcsDto42.uiMusaic.height + 30
-    this.pcsDto42 = new UIPcsDto({
-      ...this.pcsDto42
-    })
-
-    // this.pcsDto42.uiMusaic.width = this.pcsDto42.uiMusaic.width + 10
-    // this.pcsDto42 = newPcsDto
-    // console.log("this.pcsDto42 updated")
-    console.log(this.pcsDto42.uiMusaic)
-  }
-
 
   private changeSize(index: number) {
     if (this.sizes[index].w === 299) {
@@ -128,15 +107,6 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     this.matMenuTrigger.openMenu();
   }
 
-  selectedMenu(index: number) {
-    console.log("selected " + index)
-    // let index = text.index //parseInt(text.substring(3)) - 1
-    // this.changeSize(index)
-    this.changeSize3(index)
-
-
-  }
-
   startDragging() {
      // console.log("dragging = " + this.dragging)
      this.dragging = true;
@@ -148,4 +118,39 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
 
   protected readonly console = console;
 
+  doZoom(positif: number, index: number) {
+    let delta = 20
+    if (positif < 0) {
+      delta *= -1
+    }
+    if (index == 13) {
+      this.pcsDto13.uiMusaic.width = this.pcsDto13.uiMusaic.width + delta
+      this.pcsDto13.uiMusaic.height = this.pcsDto13.uiMusaic.height + delta
+      this.pcsDto13 = new UIPcsDto({
+        ...this.pcsDto13
+      })
+      // console.log(this.pcsDto13.uiMusaic)
+    } else {
+      this.pcsDto42.uiMusaic.width = this.pcsDto42.uiMusaic.width + delta
+      this.pcsDto42.uiMusaic.height = this.pcsDto42.uiMusaic.height + delta
+      this.pcsDto42 = new UIPcsDto({
+        ...this.pcsDto42
+      })
+    }
+  }
+
+  toggleRounded(index: number) {
+    if (index == 13) {
+      this.pcsDto13.uiMusaic.rounded = !this.pcsDto13.uiMusaic.rounded
+      this.pcsDto13 = new UIPcsDto({
+        ...this.pcsDto13
+      })
+      // console.log(this.pcsDto13.uiMusaic)
+    } else {
+      this.pcsDto42.uiMusaic.rounded = !this.pcsDto42.uiMusaic.rounded
+      this.pcsDto42 = new UIPcsDto({
+        ...this.pcsDto42
+      })
+    }
+  }
 }

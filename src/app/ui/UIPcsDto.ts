@@ -37,7 +37,7 @@ export class UIPcsDto {
     nbCellsPerLine:13,
     nbCellsPerRow:13,
     widthCell: undefined,
-    rounded:true
+    rounded:false
   }
   uiClock : UIClock = {
     width:100,
@@ -75,7 +75,7 @@ export class UIPcsDto {
       nbCellsPerLine:13,
       nbCellsPerRow:13,
       widthCell: undefined,
-      rounded: true
+      rounded: false
     }
     this.uiClock = uiClock ?? {
       width:100,

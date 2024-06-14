@@ -14,54 +14,70 @@
 <!--  }-->
 
 
-  <div class="example-box" cdkDragBoundary=".main-page" cdkDrag
-       [style.height.px]="sizes[1].h"
-       [style.width.px]="sizes[1].w"
-       [matMenuTriggerFor]="appMenu"
-       [matMenuTriggerData]="{name: 'pcs2', index:1}"
-       (cdkDragStarted)="startDragging()"
-  >
-    <app-musaic [w]="sizes[1].w" [rounded]="true" [ipcs]="pcs2" class="app-clock" (click)="doClick($event, 1)">
-    </app-musaic>
-  </div>
-
-<!--  [style.height.px]="pcsDto42.uiMusaic.width"-->
-<!--  [style.width.px]="pcsDto42.uiMusaic.width"-->
+<!--  <div class="example-box" cdkDragBoundary=".main-page" cdkDrag-->
+<!--       [style.height.px]="sizes[1].h"-->
+<!--       [style.width.px]="sizes[1].w"-->
+<!--       [matMenuTriggerFor]="appMenu"-->
+<!--       [matMenuTriggerData]="{name: 'pcs2', index:1}"-->
+<!--       (cdkDragStarted)="startDragging()"-->
+<!--  >-->
+<!--    <app-musaic [w]="sizes[1].w" [rounded]="true" [ipcs]="pcs2" class="app-clock" (click)="doClick($event, 1)">-->
+<!--    </app-musaic>-->
+<!--  </div>-->
 
   <div class="example-box" cdkDragBoundary=".main-page" cdkDrag
        [style.height.px]="pcsDto42.uiMusaic.width"
        [style.width.px]="pcsDto42.uiMusaic.width"
        [matMenuTriggerFor]="appMenu"
-       [matMenuTriggerData]="{name: 'pcsDto42', index:0}"
+       [matMenuTriggerData]="{name: pcsDto42.pcs.getPcsStr(), index:0}"
        (cdkDragStarted)="startDragging()"
   >
-    <app-musaic-r [pcsDto]="pcsDto42" class="app-clock" (click)="doClick($event, 1)"></app-musaic-r>
+    <app-pcs [pcsDto]="pcsDto42" class="app-clock"  (click)="doClick($event, 0)"></app-pcs>
   </div>
 
   <div class="example-box" cdkDragBoundary=".main-page" cdkDrag
-       [style.height.px]="sizes[0].h"
-       [style.width.px]="sizes[0].w"
+       [style.height.px]="pcsDto13.uiMusaic.width"
+       [style.width.px]="pcsDto13.uiMusaic.width"
        [matMenuTriggerFor]="appMenu"
-       [matMenuTriggerData]="{name: 'pcs1', index:0}"
+       [matMenuTriggerData]="{name: pcsDto13.pcs.getPcsStr(), index:13}"
        (cdkDragStarted)="startDragging()"
   >
-    <app-clock [w]="sizes[0].w" [ipcs]="pcs1" [drawPivot]="true" class="app-clock" (click)="doClick($event, 0)">
-    </app-clock>
+    <app-pcs [pcsDto]="pcsDto13" class="app-clock"  (click)="doClick($event, 0)"></app-pcs>
   </div>
+
+
+<!--  <div class="example-box" cdkDragBoundary=".main-page" cdkDrag-->
+<!--       [style.height.px]="sizes[0].h"-->
+<!--       [style.width.px]="sizes[0].w"-->
+<!--       [matMenuTriggerFor]="appMenu"-->
+<!--       [matMenuTriggerData]="{name: 'pcs1', index:0}"-->
+<!--       (cdkDragStarted)="startDragging()"-->
+<!--  >-->
+<!--    <app-clock [w]="sizes[0].w" [ipcs]="pcs1" [drawPivot]="true" class="app-clock" (click)="doClick($event, 0)">-->
+<!--    </app-clock>-->
+<!--  </div>-->
 
 <!--  [hasBackdrop]="false"-->
   <mat-menu #appMenu="matMenu" >
     <ng-template matMenuContent let-index="index" let-name="name">
-      <button mat-menu-item aria-label="Settings">Settings</button>
+<!--      <button mat-menu-item aria-label="Settings">Settings</button>-->
       <button mat-menu-item>Do with {{name}} on index = {{ index }}</button>
-      <button mat-menu-item aria-label="dial" (click)="selectedMenu(index)">
-        <mat-icon>dialpad</mat-icon>
-        <span>Call</span>
+      <button mat-menu-item aria-label="dial" (click)="doZoom(1, index)">
+        <mat-icon>zoom_in</mat-icon>
+        <span>zoom +</span>
       </button>
-      <button mat-menu-item aria-label="voice mail" disabled>
-        <mat-icon>voicemail</mat-icon>
-        <span>Check voice mail</span>
+      <button mat-menu-item aria-label="dial" (click)="doZoom(-1, index)">
+        <mat-icon>zoom_out</mat-icon>
+        <span>zoom -</span>
       </button>
+      <button mat-menu-item aria-label="dial" (click)="toggleRounded(index)">
+        <mat-icon>data_usage</mat-icon>
+        <span>rounded on/off</span>
+      </button>
+<!--      <button mat-menu-item aria-label="voice mail" disabled>-->
+<!--        <mat-icon>voicemail</mat-icon>-->
+<!--        <span>Check voice mail</span>-->
+<!--      </button>-->
     </ng-template>
   </mat-menu>
 

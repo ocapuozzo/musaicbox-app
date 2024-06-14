@@ -22,7 +22,7 @@ export class MusaicRComponent {
   // private CEL_WIDTH: number
 
   _pcsDto = new UIPcsDto({colorPitchOff: 'white', colorPitchOn:'black'})
-  _preferredWidthInput = 50
+  _preferredWidthInput = 150
 
   @Input() ipcs: IPcs = new IPcs({strPcs: "0,3,6,9"})
   @Input() opaque: boolean = true
@@ -49,6 +49,8 @@ export class MusaicRComponent {
     this.drawsMusaic();
   }
 
+  // design Interface/classe IFormDraw with updateGraphicContext() and drawForm() (which call updateGraphicContext ?) and begin by make MusaicForm and ClockForm
+
   private updateGraphicContext() {
     if (!this.canvas) return
 
@@ -57,14 +59,15 @@ export class MusaicRComponent {
 
     let n = this.ipcs.nMapping //getMappedBinPcs().length;
 
-    // or ceil -1 ?, idea is to avoid that this.CEL_WIDTH * (n + 1) > width,
-    // is not always case !  TODO fix that
     let CEL_WIDTH = Math.floor((this._preferredWidthInput / (n + 1)));
 
+    // avoid that this.CEL_WIDTH * (n + 1) > width,
+    // is not always case ! TODO generalize with nbCellsPer line/row - not n based
     if (CEL_WIDTH * (n + 1) > this._pcsDto.uiMusaic.width) {//this._preferredWidthInput) {
       CEL_WIDTH = CEL_WIDTH - 1
     }
-    // adjust size from CEL_WIDTH
+
+    // adjust canvas size from CEL_WIDTH
     this._preferredWidthInput = CEL_WIDTH * (n + 1)
     this.canvas.nativeElement.width = this._preferredWidthInput
     this.canvas.nativeElement.height = this._preferredWidthInput  // square
