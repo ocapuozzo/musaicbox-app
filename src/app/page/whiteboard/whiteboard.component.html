@@ -26,8 +26,8 @@
 <!--  </div>-->
 
   <div class="example-box" cdkDragBoundary=".main-page" cdkDrag
-       [style.height.px]="pcsDto42.uiMusaic.width"
-       [style.width.px]="pcsDto42.uiMusaic.width"
+       [style.height.px]="pcsDto42.width"
+       [style.width.px]="pcsDto42.width"
        [matMenuTriggerFor]="appMenu"
        [matMenuTriggerData]="{name: pcsDto42.pcs.getPcsStr(), index:0}"
        (cdkDragStarted)="startDragging()"
@@ -36,8 +36,8 @@
   </div>
 
   <div class="example-box" cdkDragBoundary=".main-page" cdkDrag
-       [style.height.px]="pcsDto13.uiMusaic.width"
-       [style.width.px]="pcsDto13.uiMusaic.width"
+       [style.height.px]="pcsDto13.width"
+       [style.width.px]="pcsDto13.width"
        [matMenuTriggerFor]="appMenu"
        [matMenuTriggerData]="{name: pcsDto13.pcs.getPcsStr(), index:13}"
        (cdkDragStarted)="startDragging()"

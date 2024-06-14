@@ -24,11 +24,11 @@ export class MusaicFormDraw extends FormDraw {
     let context: CanvasRenderingContext2D = canvas.nativeElement.getContext('2d');
 
     let n = this._pcsDto.pcs.nMapping //getMappedBinPcs().length;
-    let CEL_WIDTH = Math.floor(this._pcsDto.uiMusaic.width / (n + 1));
+    let CEL_WIDTH = Math.floor(this._pcsDto.width / (n + 1));
 
     // avoid that this.CEL_WIDTH * (n + 1) > width,
     // is not always case ! TODO generalize with nbCellsPer line/row - not n based
-    if (CEL_WIDTH * (n + 1) > this._pcsDto.uiMusaic.width) {//this._preferredWidthInput) {
+    if (CEL_WIDTH * (n + 1) > this._pcsDto.width) {//this._preferredWidthInput) {
       CEL_WIDTH = CEL_WIDTH - 1
     }
 
@@ -57,23 +57,21 @@ export class MusaicFormDraw extends FormDraw {
 
 export class ClockFormDraw extends FormDraw {
   _pcsDto = new UIPcsDto()
-  _preferredWidth = 50
 
   private _clockDrawing: ClockDrawing;
 
-  constructor(pcsDto: UIPcsDto, preferredWidth: number) {
+  constructor(pcsDto: UIPcsDto) {
     super();
     this._pcsDto = pcsDto;
-    this._preferredWidth = preferredWidth;
   }
 
   override updateGraphicContext(canvas : ElementRef<HTMLCanvasElement>) {
     if (!canvas) return
 
     // @ts-ignore
-    let context = this.canvas.nativeElement.getContext('2d');
+    let context: CanvasRenderingContext2D = canvas.nativeElement.getContext('2d');
 
-    let len = this._pcsDto.uiClock.width
+    let len = this._pcsDto.width
 
     canvas.nativeElement.width = len
     canvas.nativeElement.height = len // square
@@ -84,7 +82,7 @@ export class ClockFormDraw extends FormDraw {
       width: len,
       height: len, // square
       pc_pivot_color: 'red', // this._pcsDto.uiMusaic.pivotColor,
-      pc_color_fill: this._pcsDto.colorPitchOn,
+      pc_color_fill: this._pcsDto.uiClock.colorPitchOn,
       drawPivot: this._pcsDto.uiClock.drawPivot,
       segmentsLineDash: [[1, 2, 2, 1], [2, 3]] // median, inter
     })

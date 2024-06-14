@@ -39,7 +39,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   @ViewChild(MatMenuTrigger, { static: true }) matMenuTrigger: MatMenuTrigger;
 
   pcs42 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[42].getPcsMin()
-  pcs13 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[13].getPcsMin()
+  pcs13 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[65].getPcsMin()
 
   pcsDto42 = new UIPcsDto({pcs:this.pcs42})
   pcsDto13 = new UIPcsDto({pcs:this.pcs13})
@@ -124,15 +124,15 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
       delta *= -1
     }
     if (index == 13) {
-      this.pcsDto13.uiMusaic.width = this.pcsDto13.uiMusaic.width + delta
-      this.pcsDto13.uiMusaic.height = this.pcsDto13.uiMusaic.height + delta
+      this.pcsDto13.width = this.pcsDto13.width + delta
+      this.pcsDto13.height = this.pcsDto13.height + delta
       this.pcsDto13 = new UIPcsDto({
         ...this.pcsDto13
       })
       // console.log(this.pcsDto13.uiMusaic)
     } else {
-      this.pcsDto42.uiMusaic.width = this.pcsDto42.uiMusaic.width + delta
-      this.pcsDto42.uiMusaic.height = this.pcsDto42.uiMusaic.height + delta
+      this.pcsDto42.width = this.pcsDto42.width + delta
+      this.pcsDto42.height = this.pcsDto42.height + delta
       this.pcsDto42 = new UIPcsDto({
         ...this.pcsDto42
       })

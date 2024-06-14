@@ -3,7 +3,7 @@ import {NgClass} from "@angular/common";
 import {MusaicDrawing} from "../../ui/MusaicDrawing";
 import {UIPcsDto} from "../../ui/UIPcsDto";
 import {IPcs} from "../../core/IPcs";
-import {FormDraw, MusaicFormDraw} from "../../ui/FormDraw";
+import {ClockFormDraw, FormDraw, MusaicFormDraw} from "../../ui/FormDraw";
 
 /**
  * Wrapper for various representation : musaic, clock, score...
@@ -20,7 +20,7 @@ import {FormDraw, MusaicFormDraw} from "../../ui/FormDraw";
 export class PcsComponent {
   @ViewChild('canvas', {static: false}) canvas: ElementRef<HTMLCanvasElement>;
 
-  private formDrawing : MusaicFormDraw
+  private formDrawing : FormDraw
   _pcsDto = new UIPcsDto({colorPitchOff: 'white', colorPitchOn:'black'})
 
   @Input() ipcs: IPcs = new IPcs({strPcs: "0,3,6,9"})
@@ -40,7 +40,8 @@ export class PcsComponent {
   }
 
   constructor() {
-    this.formDrawing = new MusaicFormDraw(this._pcsDto)
+    // this.formDrawing =  new ClockFormDraw(this._pcsDto)
+    this.formDrawing =  new MusaicFormDraw(this._pcsDto)
   }
 
   ngAfterViewInit() {

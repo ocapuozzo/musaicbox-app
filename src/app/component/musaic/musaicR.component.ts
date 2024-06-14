@@ -37,7 +37,7 @@ export class MusaicRComponent {
   }
   @Input() set pcsDto(value : UIPcsDto) {
     this._pcsDto = value
-    this._preferredWidthInput = this._pcsDto.uiMusaic.width
+    this._preferredWidthInput = this._pcsDto.width
     this.updateGraphicContext()
     this.drawsMusaic();
   }
@@ -63,7 +63,7 @@ export class MusaicRComponent {
 
     // avoid that this.CEL_WIDTH * (n + 1) > width,
     // is not always case ! TODO generalize with nbCellsPer line/row - not n based
-    if (CEL_WIDTH * (n + 1) > this._pcsDto.uiMusaic.width) {//this._preferredWidthInput) {
+    if (CEL_WIDTH * (n + 1) > this._pcsDto.width) {//this._preferredWidthInput) {
       CEL_WIDTH = CEL_WIDTH - 1
     }
 
