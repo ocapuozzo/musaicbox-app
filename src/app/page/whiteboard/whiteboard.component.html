@@ -1,84 +1,73 @@
-<div class="main-page" >
+<div class="main-page">
+  @for (pcsDto of pcsDtoList; track pcsDto; let idx = $index) {
+    <div class="example-box" appDraggable [draggable]="pcsDto"
+         [style.height.px]="pcsDto.width"
+         [style.width.px]="pcsDto.width"
+         [style.top.px]="pcsDto.position.y"
+         [style.left.px]="pcsDto.position.x"
+         [cdkContextMenuTriggerFor]="menu"
+         [cdkContextMenuTriggerData]="{
+            name: pcsDto.pcs.getPcsStr(),
+            index:idx,
+            indexFormDrawer: pcsDto.indexFormDrawer
+            }"
+    >
+      <app-pcs
+        [pcsDto]="pcsDto"
+        class="app-clock">
+      </app-pcs>
+    </div>
+  }
 
-<!--  @for (pcsDto of pcsDtoList; track pcsDto.id; let idx = $index) {-->
-<!--  <div class="example-box" cdkDragBoundary=".main-page" cdkDrag-->
-<!--       [style.width.px]="pcsDto.uiMusaic.width"-->
-<!--       [style.height.px]="pcsDto.uiMusaic.width"-->
-<!--       [matMenuTriggerFor]="appMenu"-->
-<!--       [matMenuTriggerData]="{name: pcsDto.pcs.getPcsStr(false), index:idx}"-->
-<!--       (cdkDragStarted)="startDragging()"-->
-<!--  >-->
-<!--    <app-musaic-r [pcsDto]="pcsDto" class="app-clock" (click)="doClick($event, 2)">-->
-<!--    </app-musaic-r>-->
-<!--  </div>-->
-<!--  }-->
-
-
-<!--  <div class="example-box" cdkDragBoundary=".main-page" cdkDrag-->
-<!--       [style.height.px]="sizes[1].h"-->
-<!--       [style.width.px]="sizes[1].w"-->
-<!--       [matMenuTriggerFor]="appMenu"-->
-<!--       [matMenuTriggerData]="{name: 'pcs2', index:1}"-->
-<!--       (cdkDragStarted)="startDragging()"-->
-<!--  >-->
-<!--    <app-musaic [w]="sizes[1].w" [rounded]="true" [ipcs]="pcs2" class="app-clock" (click)="doClick($event, 1)">-->
-<!--    </app-musaic>-->
-<!--  </div>-->
-
-  <div class="example-box" cdkDragBoundary=".main-page" cdkDrag
-       [style.height.px]="pcsDto42.width"
-       [style.width.px]="pcsDto42.width"
-       [matMenuTriggerFor]="appMenu"
-       [matMenuTriggerData]="{name: pcsDto42.pcs.getPcsStr(), index:0}"
-       (cdkDragStarted)="startDragging()"
-  >
-    <app-pcs [pcsDto]="pcsDto42" class="app-clock"  (click)="doClick($event, 0)"></app-pcs>
-  </div>
-
-  <div class="example-box" cdkDragBoundary=".main-page" cdkDrag
-       [style.height.px]="pcsDto13.width"
-       [style.width.px]="pcsDto13.width"
-       [matMenuTriggerFor]="appMenu"
-       [matMenuTriggerData]="{name: pcsDto13.pcs.getPcsStr(), index:13}"
-       (cdkDragStarted)="startDragging()"
-  >
-    <app-pcs [pcsDto]="pcsDto13" class="app-clock"  (click)="doClick($event, 0)"></app-pcs>
-  </div>
-
-
-<!--  <div class="example-box" cdkDragBoundary=".main-page" cdkDrag-->
-<!--       [style.height.px]="sizes[0].h"-->
-<!--       [style.width.px]="sizes[0].w"-->
-<!--       [matMenuTriggerFor]="appMenu"-->
-<!--       [matMenuTriggerData]="{name: 'pcs1', index:0}"-->
-<!--       (cdkDragStarted)="startDragging()"-->
-<!--  >-->
-<!--    <app-clock [w]="sizes[0].w" [ipcs]="pcs1" [drawPivot]="true" class="app-clock" (click)="doClick($event, 0)">-->
-<!--    </app-clock>-->
-<!--  </div>-->
-
-<!--  [hasBackdrop]="false"-->
-  <mat-menu #appMenu="matMenu" >
-    <ng-template matMenuContent let-index="index" let-name="name">
-<!--      <button mat-menu-item aria-label="Settings">Settings</button>-->
-      <button mat-menu-item>Do with {{name}} on index = {{ index }}</button>
-      <button mat-menu-item aria-label="dial" (click)="doZoom(1, index)">
-        <mat-icon>zoom_in</mat-icon>
-        <span>zoom +</span>
+  <ng-template #menu matMenuContent let-index="index" let-name="name" let-indexFormDrawer="indexFormDrawer">
+    <div class="example-menu" cdkMenu>
+      <span>Do with {{ name }}</span>
+      <hr/>
+      <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doZoom(1, index)">zoom +</button>
+      <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doZoom(-1, index)">zoom -</button>
+      <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="toggleRounded(index)">rounded on/off
       </button>
-      <button mat-menu-item aria-label="dial" (click)="doZoom(-1, index)">
-        <mat-icon>zoom_out</mat-icon>
-        <span>zoom -</span>
+      <button class="example-menu-item" cdkMenuItem [cdkMenuTriggerFor]="create">
+        Create <span>&#10148;</span>
       </button>
-      <button mat-menu-item aria-label="dial" (click)="toggleRounded(index)">
-        <mat-icon>data_usage</mat-icon>
-        <span>rounded on/off</span>
+      <button class="example-menu-item" cdkMenuItem [cdkMenuTriggerFor]="neighbors">
+        Neighbors <span>&#10148;</span>
       </button>
-<!--      <button mat-menu-item aria-label="voice mail" disabled>-->
-<!--        <mat-icon>voicemail</mat-icon>-->
-<!--        <span>Check voice mail</span>-->
-<!--      </button>-->
-    </ng-template>
-  </mat-menu>
+      <hr/>
+      <div cdkMenuGroup>
+        @for (drawer of drawers; track drawer; let idx = $index) {
+          <button
+            cdkMenuItemRadio
+            class="example-menu-item"
+            [cdkMenuItemChecked]="idx === indexFormDrawer"
+            (cdkMenuItemTriggered)="updateDrawer(drawer, index)">
+            {{ drawer }}
+          </button>
+        }
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #create>
+    <div class="example-menu" cdkMenu>
+      <button class="example-menu-item" cdkMenuItem>Duplicate</button>
+      <button class="example-menu-item" cdkMenuItem>ModalPrimeForm</button>
+      <hr/>
+      <button class="example-menu-item" cdkMenuItem>Pcs CyclicPF in orbit</button>
+      <button class="example-menu-item" cdkMenuItem>Simple Pcs in Cyclic orbit</button>
+      <button class="example-menu-item" cdkMenuItem>Other</button>
+    </div>
+  </ng-template>
+
+  <ng-template #neighbors>
+    <div class="example-menu" cdkMenu>
+      <button class="example-menu-item" cdkMenuItem>Up semitone</button>
+      <button class="example-menu-item" cdkMenuItem>Down semitone</button>
+      <hr/>
+      <button class="example-menu-item" cdkMenuItem>Similarity IS</button>
+      <button class="example-menu-item" cdkMenuItem>Similarity IV</button>
+      <button class="example-menu-item" cdkMenuItem>Others</button>
+    </div>
+  </ng-template>
 
 </div>

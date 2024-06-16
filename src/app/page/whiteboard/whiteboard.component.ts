@@ -1,18 +1,24 @@
 import {AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
-import {CdkDrag, CdkDragHandle} from "@angular/cdk/drag-drop";
-import {GroupAction} from "../../core/GroupAction";
-import {Group} from "../../core/Group";
+import {CdkDrag, CdkDragHandle, CdkDragMove} from "@angular/cdk/drag-drop";
 import {ClockComponent} from "../../component/clock/clock.component";
 import {MusaicComponent} from "../../component/musaic/musaic.component";
 import {MatMenu, MatMenuContent, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 import {MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
-import {NgStyle} from "@angular/common";
-import {ManagerLocalStorageService} from "../../service/manager-local-storage.service";
+import {NgForOf, NgStyle} from "@angular/common";
 import {ManagerPageWBService} from "../../service/manager-page-wb.service";
 import {MusaicRComponent} from "../../component/musaic/musaicR.component";
 import {UIPcsDto} from "../../ui/UIPcsDto";
 import {PcsComponent} from "../../component/pcs/pcs.component";
+import {
+  CdkContextMenuTrigger,
+  CdkMenu,
+  CdkMenuGroup, CdkMenuItem,
+  CdkMenuItemCheckbox,
+  CdkMenuItemRadio,
+  CdkMenuTrigger
+} from "@angular/cdk/menu";
+import {DraggableDirective} from "../../draggable.directive";
 
 @Component({
   selector: 'app-whiteboard',
@@ -30,40 +36,42 @@ import {PcsComponent} from "../../component/pcs/pcs.component";
     MatIcon,
     NgStyle,
     MusaicRComponent,
-    PcsComponent
+    PcsComponent,
+    CdkContextMenuTrigger,
+    CdkMenuGroup,
+    CdkMenuItemRadio,
+    CdkMenuTrigger,
+    CdkMenu,
+    CdkMenuItemCheckbox,
+    CdkMenuItem,
+    NgForOf,
+    DraggableDirective
   ],
   templateUrl: './whiteboard.component.html',
   styleUrl: './whiteboard.component.css'
 })
 export class WhiteboardComponent implements OnInit, AfterViewInit {
-  @ViewChild(MatMenuTrigger, { static: true }) matMenuTrigger: MatMenuTrigger;
-
-  pcs42 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[42].getPcsMin()
-  pcs13 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[65].getPcsMin()
-
-  pcsDto42 = new UIPcsDto({pcs:this.pcs42})
-  pcsDto13 = new UIPcsDto({pcs:this.pcs13})
-
-  pcs1 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[87].getPcsMin()
-  pcs2 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[38].getPcsMin().complement().modalPrimeForm()
-  pcs3 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[36].getPcsMin().complement().modalPrimeForm()
-  sizes = [{ w:180, h:180 }, { w:117, h:117 },  { w:117, h:117 }];
+  @ViewChild(MatMenuTrigger, {static: true}) matMenuTrigger: MatMenuTrigger;
 
   dragging = false;
 
-  pcsDtoList : UIPcsDto[]
+  pcsDtoList: UIPcsDto[]
+  drawers: string[]
 
-  constructor(private managerPageWBService : ManagerPageWBService,
+  constructor(private managerPageWBService: ManagerPageWBService,
               private changeDetector: ChangeDetectorRef) {
 
     this.pcsDtoList = this.managerPageWBService.uiPcsDtoList
-    // this.managerPageWBService.eventChangePcsPdoList.subscribe((uiPcsDtoList : UIPcsDto[]) => {
-    //   this.pcsDtoList = uiPcsDtoList
-    //
-    // })
+    this.drawers = this.managerPageWBService.drawers
+
+    this.managerPageWBService.eventChangePcsPdoList.subscribe((uiPcsDtoList: UIPcsDto[]) => {
+      this.pcsDtoList = uiPcsDtoList
+      // console.log("this.pcsDtoList[0] = ", this.pcsDtoList[0])
+    })
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+  }
 
   ngAfterViewInit(): void {
     // this.pcsDtoList = this.managerPageWBService.uiPcsDtoList
@@ -74,83 +82,72 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     // this.changeDetector.detectChanges();
   }
 
-  doClick(event: any, index: number) {
-    if (! this.dragging) {
-      if (event.ctrlKey) {
-        this.changeSize(index);
-      }
-    } else {
-      this.dragging = false
-      // for not display matMenu at end of drag
-      event.stopPropagation()
-    }
-  }
-
-  private changeSize(index: number) {
-    if (this.sizes[index].w === 299) {
-      this.sizes[index] = {w: 143, h: 143}
-    } else {
-      this.sizes[index] = {w: 299, h: 299}
-    }
-  }
-
-  menuTopLeftPosition = { x: '0', y: '0' }
-
-  onRightClick(event: MouseEvent) {
-    // preventDefault avoids to show the visualization of the right-click menu of the browser
-    event.preventDefault();
-
-    // we record the mouse position in our object
-    this.menuTopLeftPosition.x = event.clientX + 'px';
-    this.menuTopLeftPosition.y = event.clientY + 'px';
-    // we open the menu
-    this.matMenuTrigger.openMenu();
-  }
 
   startDragging() {
-     // console.log("dragging = " + this.dragging)
-     this.dragging = true;
+    // console.log("dragging = " + this.dragging)
+    this.dragging = true;
   }
 
-  menuOpened() {
-    console.log("menuOpened()")
-  }
 
   protected readonly console = console;
 
   doZoom(positif: number, index: number) {
-    let delta = 20
-    if (positif < 0) {
-      delta *= -1
-    }
-    if (index == 13) {
-      this.pcsDto13.width = this.pcsDto13.width + delta
-      this.pcsDto13.height = this.pcsDto13.height + delta
-      this.pcsDto13 = new UIPcsDto({
-        ...this.pcsDto13
-      })
-      // console.log(this.pcsDto13.uiMusaic)
-    } else {
-      this.pcsDto42.width = this.pcsDto42.width + delta
-      this.pcsDto42.height = this.pcsDto42.height + delta
-      this.pcsDto42 = new UIPcsDto({
-        ...this.pcsDto42
-      })
-    }
+    this.managerPageWBService.doZoom(positif, index)
   }
 
   toggleRounded(index: number) {
-    if (index == 13) {
-      this.pcsDto13.uiMusaic.rounded = !this.pcsDto13.uiMusaic.rounded
-      this.pcsDto13 = new UIPcsDto({
-        ...this.pcsDto13
-      })
-      // console.log(this.pcsDto13.uiMusaic)
-    } else {
-      this.pcsDto42.uiMusaic.rounded = !this.pcsDto42.uiMusaic.rounded
-      this.pcsDto42 = new UIPcsDto({
-        ...this.pcsDto42
-      })
-    }
+    this.managerPageWBService.toggleRounded(index)
   }
+
+  updateDrawer(drawer: string, index: number) {
+    this.managerPageWBService.doUpdateDrawer(drawer, index)
+  }
+
+//
+//   onDragEnd(event: any, index: number) {
+//    let evt = event as CdkDragMove
+//     let element = evt.source.getRootElement();
+//    let trans =  element.style.transform
+//     console.log("element.transforme = ", trans);
+//     let newPos = element.getBoundingClientRect();
+//     console.log("element.getBoundingClientRect() = ", newPos);
+//
+//     let parentPosition = this.getPosition(element);
+//     console.log('x: ' + (newPos.x - parentPosition.left), 'y: ' + (newPos.y - parentPosition.top));
+//
+//     // let newPos = evt.source.getRootElement().getBoundingClientRect();
+// //    evt.source._dragRef.reset();
+//
+//     let position = {x:newPos.x - parentPosition.left, y:newPos.y - parentPosition.top}
+//
+//     // let position =  {x:newPos.left, y:newPos.y  - evt.source.getRootElement().offsetTop}
+//     // let position =  {x:newPos.left, y:(newPos.y - newPos.height/2)}
+//     // // let position =  {x:newPos.left, y:(newPos.y - newPos.height)}
+//     // let position =  {x:newPos.x, y:newPos.y}
+//     // // console.log("currentPos = ", position);
+//     // //
+//     // this.managerPageWBService.doChangePosition(position, index)
+//
+//     // console.log("currentPos = ", this.position);
+//     //
+//     //
+//     //
+//     // let currentPos =  this.position = evt.source.getFreeDragPosition()
+//     // evt.source._dragRef.reset();
+//     // this.position = currentPos
+//     // console.log("currentPos = ", currentPos);
+//     // console.log("this.position = ", this.position);
+//     // console.log(evt.source.getFreeDragPosition());
+//   }
+
+  // getPosition(el:any) {
+  //   let x = 0;
+  //   let y = 0;
+  //   while(el && !isNaN(el.offsetLeft) && !isNaN(el.offsetTop)) {
+  //     x += el.offsetLeft - el.scrollLeft;
+  //     y += el.offsetTop - el.scrollTop;
+  //     el = el.offsetParent;
+  //   }
+  //   return { top: y, left: x };
+  // }
 }

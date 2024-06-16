@@ -25,10 +25,12 @@ export interface UIScore {
 export class UIPcsDto {
   id : string
   pcs : IPcs = new IPcs({strPcs:"0, 4, 8"})
+  position: { x: number; y: number }
   width: number
   height: number
-  public colorPitchOn : string = 'black'
+  colorPitchOn : string = 'black'
   colorPitchOff : string = 'white'
+  indexFormDrawer: number;
   public uiMusaic : UIMusaic = {
     position:{x:10, y:10},
     drawGrid: false,
@@ -50,13 +52,15 @@ export class UIPcsDto {
   }
 
   constructor(
-    {pcs, width, height, colorPitchOn, colorPitchOff, uiMusaic, uiClock, uiScore} : {
+    {pcs, position, width, height, colorPitchOn, colorPitchOff, indexFormDrawer, uiMusaic, uiClock, uiScore} : {
       // id : string,
       pcs ?: IPcs, //new IPcs({strPcs:"0, 4, 8"}),
+      position ?: {x:number, y:number},
       width ?: number,
       height ?: number,
       colorPitchOn ?: string,
       colorPitchOff ?: string,
+      indexFormDrawer ?: number,
       uiMusaic ?: UIMusaic,
       uiClock ?: UIClock,
       uiScore ?: UIScore
@@ -65,10 +69,12 @@ export class UIPcsDto {
 
     this.pcs = pcs ?? new IPcs({strPcs:"0, 4, 8"});
     this.id = this.pcs.id.toString() + new Date().valueOf().toString(10);
+    this.position = position ?? {x:50, y:50}
     this.width = width ?? 100
     this.height = height ?? 100
     this.colorPitchOn = colorPitchOn ?? 'black' ;
     this.colorPitchOff = colorPitchOff ?? 'white';
+    this.indexFormDrawer = indexFormDrawer ?? 0
     this.uiMusaic = uiMusaic ?? {
       position:{x:10, y:10},
       drawGrid: false,

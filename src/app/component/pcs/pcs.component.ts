@@ -36,7 +36,8 @@ export class PcsComponent {
   }
   @Input() set pcsDto(value : UIPcsDto) {
     this._pcsDto = value
-    this.formDrawing.drawForm(this._pcsDto, this.canvas);
+    this.drawForm()
+    // this.formDrawing.drawForm(this._pcsDto, this.canvas);
   }
 
   constructor() {
@@ -45,12 +46,17 @@ export class PcsComponent {
   }
 
   ngAfterViewInit() {
-    this.formDrawing.drawForm(this._pcsDto, this.canvas);
+    //this.formDrawing.drawForm(this._pcsDto, this.canvas);
+    this.drawForm()
   }
 
   drawForm() {
     if (!this.canvas) return
-
+    if (this._pcsDto.indexFormDrawer === 0) {
+      this.formDrawing =  new MusaicFormDraw(this._pcsDto)
+    } else {
+      this.formDrawing =  new ClockFormDraw(this._pcsDto)
+    }
     this.formDrawing.drawForm(this._pcsDto, this.canvas);
   }
 
