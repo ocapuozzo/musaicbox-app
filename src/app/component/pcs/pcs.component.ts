@@ -1,12 +1,12 @@
 import {Component, ElementRef, Input, ViewChild} from '@angular/core';
 import {NgClass} from "@angular/common";
-import {MusaicDrawing} from "../../ui/MusaicDrawing";
 import {UIPcsDto} from "../../ui/UIPcsDto";
 import {IPcs} from "../../core/IPcs";
 import {ClockFormDraw, FormDraw, MusaicFormDraw} from "../../ui/FormDraw";
 
 /**
- * Wrapper for various representation : musaic, clock, score...
+ * Wrapper for various representation : musaic, clock, score... for whiteboard page
+ * Managed by : pcsDto, DOM element and event listeners, manager-page-wb.service.ts
  */
 @Component({
   selector: 'app-pcs',
@@ -37,16 +37,12 @@ export class PcsComponent {
   @Input() set pcsDto(value : UIPcsDto) {
     this._pcsDto = value
     this.drawForm()
-    // this.formDrawing.drawForm(this._pcsDto, this.canvas);
   }
 
   constructor() {
-    // this.formDrawing =  new ClockFormDraw(this._pcsDto)
-    this.formDrawing =  new MusaicFormDraw(this._pcsDto)
   }
 
   ngAfterViewInit() {
-    //this.formDrawing.drawForm(this._pcsDto, this.canvas);
     this.drawForm()
   }
 

@@ -29,7 +29,10 @@ export class DraggableDirective {
       );
     });
   }
-
+  ngOnDestroy() {
+    // remove listener
+    this.unlisten();
+  }
   onMouseDown(e:MouseEvent) {
     // console.log("this.el.nativeElement.style = ", this.el.nativeElement.style)
     if (!e) return
@@ -53,7 +56,6 @@ export class DraggableDirective {
   onMouseMove(e:MouseEvent) {
     if (!e) return
     e.preventDefault();
-
     if (this.isDown) {
       let mousePosition = {
         x : e.clientX,

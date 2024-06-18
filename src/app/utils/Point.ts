@@ -9,5 +9,10 @@ export class Point {
     this.x = x;
     this.y = y;
   }
+
+  isIncludeIn(rect: DOMRect) {
+     return rect.x <= this.x && this.x <= rect.x + rect.width &&
+        rect.y <= this.y && this.y <= rect.y + rect.height;
+    }
 }
 

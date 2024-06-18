@@ -1,16 +1,24 @@
 .example-box {
   width: 200px;
   height: 200px;
-  /*display: flex;*/
 
   /*No set center directive, because canvas will be not center !*/
+  /*display: flex;*/
   /*justify-content: center;*/
   /*align-items: center;*/
-  /*text-align: center;*/
+  text-align: center;
+  margin: 0 auto;
 
   background-color: transparent;
   position: absolute;
-  /*z-index: 1;*/
+  z-index: 2;
+}
+
+.e-selected {
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+  0 8px 10px 1px rgba(0, 0, 0, 0.14),
+  0 3px 14px 2px rgba(0, 0, 0, 0.12);
+  z-index: 1000;
 }
 
 /*.example-box:active {*/

@@ -31,6 +31,7 @@ export class UIPcsDto {
   colorPitchOn : string = 'black'
   colorPitchOff : string = 'white'
   indexFormDrawer: number;
+  isSelected: boolean;
   public uiMusaic : UIMusaic = {
     position:{x:10, y:10},
     drawGrid: false,
@@ -51,8 +52,9 @@ export class UIPcsDto {
     height : 25
   }
 
+
   constructor(
-    {pcs, position, width, height, colorPitchOn, colorPitchOff, indexFormDrawer, uiMusaic, uiClock, uiScore} : {
+    {pcs, position, width, height, colorPitchOn, colorPitchOff, indexFormDrawer, isSelected, uiMusaic, uiClock, uiScore} : {
       // id : string,
       pcs ?: IPcs, //new IPcs({strPcs:"0, 4, 8"}),
       position ?: {x:number, y:number},
@@ -61,6 +63,7 @@ export class UIPcsDto {
       colorPitchOn ?: string,
       colorPitchOff ?: string,
       indexFormDrawer ?: number,
+      isSelected ?: boolean,
       uiMusaic ?: UIMusaic,
       uiClock ?: UIClock,
       uiScore ?: UIScore
@@ -75,6 +78,7 @@ export class UIPcsDto {
     this.colorPitchOn = colorPitchOn ?? 'black' ;
     this.colorPitchOff = colorPitchOff ?? 'white';
     this.indexFormDrawer = indexFormDrawer ?? 0
+    this.isSelected = isSelected ?? false
     this.uiMusaic = uiMusaic ?? {
       position:{x:10, y:10},
       drawGrid: false,

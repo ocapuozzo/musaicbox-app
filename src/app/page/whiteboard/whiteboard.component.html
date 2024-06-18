@@ -1,22 +1,25 @@
-<div class="main-page">
+<div class="main-page" id="white-board">
+
   @for (pcsDto of pcsDtoList; track pcsDto; let idx = $index) {
-    <div class="example-box" appDraggable [draggable]="pcsDto"
-         [style.height.px]="pcsDto.width"
-         [style.width.px]="pcsDto.width"
-         [style.top.px]="pcsDto.position.y"
-         [style.left.px]="pcsDto.position.x"
-         [cdkContextMenuTriggerFor]="menu"
-         [cdkContextMenuTriggerData]="{
+    <!--component has 3 data context : element DOM, object himself and pcsDto -->
+    <app-pcs
+      [ngClass]="{'example-box': true, 'e-selected': pcsDto.isSelected}"
+        [attr.data-index-pcsdtos]=idx
+        [style.height.px]="pcsDto.width"
+        [style.width.px]="pcsDto.width"
+        [style.top.px]="pcsDto.position.y"
+        [style.left.px]="pcsDto.position.x"
+        [cdkContextMenuTriggerFor]="menu"
+        [cdkContextMenuTriggerData]="{
             name: pcsDto.pcs.getPcsStr(),
             index:idx,
             indexFormDrawer: pcsDto.indexFormDrawer
             }"
-    >
-      <app-pcs
         [pcsDto]="pcsDto"
-        class="app-clock">
+        (mousedown)="toggleSelected($event,idx)"
+  >
       </app-pcs>
-    </div>
+
   }
 
   <ng-template #menu matMenuContent let-index="index" let-name="name" let-indexFormDrawer="indexFormDrawer">
