@@ -14,6 +14,9 @@ export class MusaicFormDraw extends FormDraw {
     if (!canvas) return
     // @ts-ignore
     let context: CanvasRenderingContext2D = canvas.nativeElement.getContext('2d');
+    canvas.nativeElement.width = pcsDto.width
+    canvas.nativeElement.height = pcsDto.height
+
     this._musaicDrawing = new MusaicDrawing({pcsDto: pcsDto, ctx: context})
   }
 
