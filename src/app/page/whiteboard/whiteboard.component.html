@@ -3,7 +3,7 @@
   @for (pcsDto of pcsDtoList; track pcsDto; let idx = $index) {
     <!--component has 3 data context : element DOM, object himself and pcsDto -->
     <app-pcs
-      [ngClass]="{'example-box': true, 'e-selected': pcsDto.isSelected}"
+        [ngClass]="{'example-box': true, 'e-selected': pcsDto.isSelected}"
         [attr.data-index-pcsdtos]=idx
         [style.height.px]="pcsDto.width"
         [style.width.px]="pcsDto.width"

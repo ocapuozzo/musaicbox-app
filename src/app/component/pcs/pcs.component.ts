@@ -2,7 +2,9 @@ import {Component, ElementRef, Input, ViewChild} from '@angular/core';
 import {NgClass} from "@angular/common";
 import {UIPcsDto} from "../../ui/UIPcsDto";
 import {IPcs} from "../../core/IPcs";
-import {ClockFormDraw, FormDraw, MusaicFormDraw} from "../../ui/FormDraw";
+import {FormDraw} from "../../ui/FormDraw";
+import {MusaicFormDraw} from "../../ui/MusaicFormDraw";
+import {ClockFormDraw} from "../../ui/ClockFormDraw";
 
 /**
  * Wrapper for various representation : musaic, clock, score... for whiteboard page
@@ -49,9 +51,9 @@ export class PcsComponent {
   drawForm() {
     if (!this.canvas) return
     if (this._pcsDto.indexFormDrawer === 0) {
-      this.formDrawing =  new MusaicFormDraw(this._pcsDto)
+      this.formDrawing =  new MusaicFormDraw()
     } else {
-      this.formDrawing =  new ClockFormDraw(this._pcsDto)
+      this.formDrawing =  new ClockFormDraw()
     }
     this.formDrawing.drawForm(this._pcsDto, this.canvas);
   }

@@ -60,6 +60,8 @@ export class ManagerPageWBService {
     this.eventChangePcsPdoList.emit(this.uiPcsDtoList)
   }
 
+  private readonly _MIN_WIDTH = 40;
+
   doZoom(positif: number, index: number) {
     let delta = 20
     if (positif < 0) {
@@ -68,7 +70,13 @@ export class ManagerPageWBService {
     if (index < 0 || index >= this.uiPcsDtoList.length) {
       throw new Error("oops bad index : " + index)
     }
+
     let pcsDto = this.uiPcsDtoList[index]
+
+    if (pcsDto.width + delta < this._MIN_WIDTH) {
+      // already too small
+      return
+    }
     pcsDto.width = pcsDto.width + delta
     pcsDto.height = pcsDto.height + delta
     this.uiPcsDtoList[index] = new UIPcsDto({

@@ -13,13 +13,15 @@ def webScrapping():
   # https://fr.wikipedia.org/wiki/Beautiful_Soup
 
   testIds = [303,305,307,637]
+  testISids = [7,9,11,13]
 
-  test = testIds #pids for real work
+  _test = testIds # pids # or testIds for test, else pids for real work
+  _sids = testISids
 
-  lastIndex = len(test) - 1
+  lastIndex = len(_test) - 1
 
   print(codeJS)
-  for i, url in enumerate(test):
+  for i, url in enumerate(_test):
     try:
       requete = requests.get(url_to_open + str(url))
       page = BeautifulSoup(requete.text, 'html.parser')
@@ -30,7 +32,7 @@ def webScrapping():
       # escape quotes
       res = res.replace("'","\\'")
 
-      print("  ['"+ sids[i] + "','" + res + "']" + ("" if (i==lastIndex) else ","))
+      print("  ['"+ _sids[i] + "','" + res + "']" + ("" if (i==lastIndex) else ","))
 
     except:
       pass
