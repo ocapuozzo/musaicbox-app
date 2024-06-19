@@ -6,7 +6,7 @@ export interface UIMusaic {
   drawGrid : boolean
   nbCellsPerLine : number
   nbCellsPerRow : number
-  widthCell : number | undefined
+  widthCell : number
 }
 
 export interface UIClock {
@@ -32,26 +32,9 @@ export class UIPcsDto {
   colorPitchOff : string = 'white'
   indexFormDrawer: number;
   isSelected: boolean;
-  public uiMusaic : UIMusaic = {
-    position:{x:10, y:10},
-    drawGrid: false,
-    nbCellsPerLine:13,
-    nbCellsPerRow:13,
-    widthCell: undefined,
-    rounded:false
-  }
-  uiClock : UIClock = {
-    textWidthAuto: true,
-    textWidth: 10,
-    radiusPitch : 10, // ? or auto
-    drawPivot : true,
-    drawPolygon : false,
-    colorPitchOn : 'yellow'
-  }
-  uiScore : UIScore = {
-    height : 25
-  }
-
+  uiMusaic : UIMusaic;
+  uiClock : UIClock;
+  uiScore : UIScore;
 
   constructor(
     {pcs, position, width, height, colorPitchOn, colorPitchOff, indexFormDrawer, isSelected, uiMusaic, uiClock, uiScore} : {
@@ -84,7 +67,7 @@ export class UIPcsDto {
       drawGrid: false,
       nbCellsPerLine:13,
       nbCellsPerRow:13,
-      widthCell: undefined,
+      widthCell: 8,
       rounded: false
     }
     this.uiClock = uiClock ?? {
@@ -98,5 +81,8 @@ export class UIPcsDto {
     this.uiScore = uiScore ?? {
       height : 25
     }
+
+    this.width = this.uiMusaic.widthCell * this.uiMusaic.nbCellsPerLine
+    this.height = this.uiMusaic.widthCell * this.uiMusaic.nbCellsPerRow
   }
 }

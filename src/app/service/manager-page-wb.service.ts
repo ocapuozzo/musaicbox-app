@@ -23,8 +23,8 @@ export class ManagerPageWBService {
 
   uiPcsDtoList: UIPcsDto[] = [
     new UIPcsDto({pcs: this.pcs1, indexFormDrawer: 1, position: {x: 0, y: 0}}),
-    new UIPcsDto({pcs: this.pcs2, indexFormDrawer: 1, position: {x: 100, y: 0}, isSelected: true}),
-    new UIPcsDto({pcs: this.pcs3, indexFormDrawer: 1, position: {x: 200, y: 0}, isSelected: true})
+    new UIPcsDto({pcs: this.pcs2, indexFormDrawer: 1, position: {x: 110, y: 0}, isSelected: true}),
+    new UIPcsDto({pcs: this.pcs3, indexFormDrawer: 1, position: {x: 220, y: 0}, isSelected: true})
   ]
 
   @Output() eventChangePcsPdoList: EventEmitter<UIPcsDto[]> = new EventEmitter();
@@ -77,8 +77,25 @@ export class ManagerPageWBService {
       // already too small
       return
     }
-    pcsDto.width = pcsDto.width + delta
-    pcsDto.height = pcsDto.height + delta
+
+    let size=  pcsDto.width + delta
+    let n = pcsDto.pcs.nMapping //getMappedBinPcs().length;
+    let CEL_WIDTH = Math.floor(size / (n + 1));
+
+    // avoid that this.CEL_WIDTH * (n + 1) > width,
+    // is not always case ! TODO generalize with nbCellsPer line/row - not n based
+    // so CEL_WIDTH and CEL_HEIGHT
+    if (CEL_WIDTH * (n + 1) > size) {//this._preferredWidthInput) {
+      CEL_WIDTH = CEL_WIDTH - 1
+    }
+
+    // adjust canvas size from CEL_WIDTH
+    let preferredSize = CEL_WIDTH * (n + 1)
+
+    pcsDto.uiMusaic.widthCell=CEL_WIDTH
+    pcsDto.height =  preferredSize
+    pcsDto.width = preferredSize
+
     this.uiPcsDtoList[index] = new UIPcsDto({
       ...pcsDto
     })

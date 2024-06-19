@@ -1,6 +1,6 @@
 .example-box {
-  width: 200px;
-  height: 200px;
+  /*width: 200px;*/
+  /*height: 200px;*/
 
   /*No set center directive, because canvas will be not center !*/
   /*display: flex;*/
