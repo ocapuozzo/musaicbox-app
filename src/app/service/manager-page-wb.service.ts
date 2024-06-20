@@ -15,8 +15,9 @@ export interface FinalElementMove {
   providedIn: 'root'
 })
 export class ManagerPageWBService {
+  private readonly _MIN_WIDTH = 40;
 
-  drawers: string[] = ["Musaic", "Clock"]
+  DRAWERS: string[] = ["Musaic", "Clock"]
 
   pcs1 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[87].getPcsMin()
   pcs2 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[38].getPcsMin().complement().modalPrimeForm()
@@ -61,12 +62,10 @@ export class ManagerPageWBService {
     this.eventChangePcsPdoList.emit(this.uiPcsDtoList)
   }
 
-  private readonly _MIN_WIDTH = 40;
-
   doZoom(positif: number, index: number) {
-    let delta = 20
+    let DELTA_ZOOM = 20
     if (positif < 0) {
-      delta *= -1
+      DELTA_ZOOM *= -1
     }
     if (index < 0 || index >= this.uiPcsDtoList.length) {
       throw new Error("oops bad index : " + index)
@@ -74,12 +73,12 @@ export class ManagerPageWBService {
 
     let pcsDto = this.uiPcsDtoList[index]
 
-    if (pcsDto.width + delta < this._MIN_WIDTH) {
+    if (pcsDto.width + DELTA_ZOOM < this._MIN_WIDTH) {
       // already too small
       return
     }
 
-    let size=  pcsDto.width + delta
+    let size=  pcsDto.width + DELTA_ZOOM
     let n = pcsDto.pcs.nMapping //getMappedBinPcs().length;
     let CEL_WIDTH = Math.floor(size / (n + 1));
 
@@ -131,7 +130,7 @@ export class ManagerPageWBService {
       throw new Error("oops bad index : " + index)
     }
     let pcsDto = this.uiPcsDtoList[index]
-    let indexFormDrawer = this.drawers.findIndex((d) => d == drawer)
+    let indexFormDrawer = this.DRAWERS.findIndex((d) => d == drawer)
     if (indexFormDrawer < 0) indexFormDrawer = 0
 
     let barycenter = this.getXYFromBarycenter(pcsDto)

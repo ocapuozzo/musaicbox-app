@@ -29,6 +29,7 @@ export interface UIScore {
 export class UIPcsDto {
   static MUSAIC = 0
   static CLOCK = 1
+  // TODO SCORE index...
 
   id : string
   pcs : IPcs = new IPcs({strPcs:"0, 4, 8"})
@@ -40,6 +41,9 @@ export class UIPcsDto {
   uiMusaic : UIMusaic;
   uiClock : UIClock;
   uiScore : UIScore;
+  // polymorphism width and height
+  // in differance of extends class, here a component see all data
+  // usefully, by example, to doZoom service
   get width() {
     switch (this.indexFormDrawer) {
       case UIPcsDto.MUSAIC :

@@ -21,7 +21,6 @@ import {MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {NgClass, NgForOf, NgStyle} from "@angular/common";
 import {FinalElementMove, ManagerPageWBService} from "../../service/manager-page-wb.service";
-import {MusaicRComponent} from "../../component/musaic/musaicR.component";
 import {UIPcsDto} from "../../ui/UIPcsDto";
 import {PcsComponent} from "../../component/pcs/pcs.component";
 import {DraggableDirective} from "../../draggable.directive";
@@ -48,7 +47,6 @@ interface ElementMove {
     MatIconButton,
     MatIcon,
     NgStyle,
-    MusaicRComponent,
     PcsComponent,
     CdkContextMenuTrigger,
     CdkMenuGroup,
@@ -103,7 +101,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
               private renderer: Renderer2) {
 
     this.pcsDtoList = this.managerPageWBService.uiPcsDtoList
-    this.drawers = this.managerPageWBService.drawers
+    this.drawers = this.managerPageWBService.DRAWERS
 
     this.managerPageWBService.eventChangePcsPdoList.subscribe((uiPcsDtoList: UIPcsDto[]) => {
       this.pcsDtoList = uiPcsDtoList
