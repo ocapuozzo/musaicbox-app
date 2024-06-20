@@ -30,7 +30,7 @@ export class PcsComponent {
 
   // for template attribut
   get rounded(): boolean {
-    return this._pcsDto.uiMusaic.rounded
+    return this._pcsDto.uiMusaic.rounded && this._pcsDto.indexFormDrawer === UIPcsDto.MUSAIC
   }
 
   get pcsDto() : UIPcsDto {

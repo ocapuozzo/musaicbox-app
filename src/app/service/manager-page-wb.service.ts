@@ -3,6 +3,7 @@ import {UIPcsDto} from "../ui/UIPcsDto";
 import {ManagerLocalStorageService} from "./manager-local-storage.service";
 import {GroupAction} from "../core/GroupAction";
 import {Group} from "../core/Group";
+import {Point} from "../utils/Point";
 
 export interface FinalElementMove {
   index: number,
@@ -85,32 +86,43 @@ export class ManagerPageWBService {
     // avoid that this.CEL_WIDTH * (n + 1) > width,
     // is not always case ! TODO generalize with nbCellsPer line/row - not n based
     // so CEL_WIDTH and CEL_HEIGHT
-    if (CEL_WIDTH * (n + 1) > size) {//this._preferredWidthInput) {
+    if (CEL_WIDTH * (n + 1) > size) {
       CEL_WIDTH = CEL_WIDTH - 1
     }
 
-    // adjust canvas size from CEL_WIDTH
+    // adjust canvas size from CEL_WIDTH, for a better rendering,
+    // even if FormDrawer is not MUSAIC
     let preferredSize = CEL_WIDTH * (n + 1)
 
-    pcsDto.uiMusaic.widthCell=CEL_WIDTH
+    // if pcsDto.indexFormDrawer == CLOCK , then pcsDto.width or height impact pcsDto.uiClock.width or height
+    let barycenter = this.getXYFromBarycenter(pcsDto)
+    if (pcsDto.indexFormDrawer == UIPcsDto.MUSAIC) {
+      pcsDto.uiMusaic.widthCell=CEL_WIDTH
+    }
     pcsDto.height =  preferredSize
     pcsDto.width = preferredSize
+
+    // Let's center the component
+    pcsDto.position.x = barycenter.x - preferredSize/2
+    pcsDto.position.y = barycenter.y - preferredSize/2
 
     this.uiPcsDtoList[index] = new UIPcsDto({
       ...pcsDto
     })
   }
 
+  /**
+   * Effect only is FormDrawer is Musaic (i.e musaic is shown rounded, not square)
+   * @param index
+   */
   toggleRounded(index: number) {
     if (index < 0 || index >= this.uiPcsDtoList.length) {
       throw new Error("oops bad index : " + index)
     }
     let pcsDto = this.uiPcsDtoList[index]
-    pcsDto.uiMusaic.rounded = !pcsDto.uiMusaic.rounded
-    // this.uiPcsDtoList[index] = new UIPcsDto({
-    //   ...pcsDto
-    // })
-    // this.refresh()
+    if (pcsDto.indexFormDrawer === UIPcsDto.MUSAIC) {
+      pcsDto.uiMusaic.rounded = !pcsDto.uiMusaic.rounded
+    }
   }
 
 
@@ -121,7 +133,13 @@ export class ManagerPageWBService {
     let pcsDto = this.uiPcsDtoList[index]
     let indexFormDrawer = this.drawers.findIndex((d) => d == drawer)
     if (indexFormDrawer < 0) indexFormDrawer = 0
+
+    let barycenter = this.getXYFromBarycenter(pcsDto)
+
     pcsDto.indexFormDrawer = indexFormDrawer
+
+    pcsDto.position.x = barycenter.x - pcsDto.width/2
+    pcsDto.position.y = barycenter.y - pcsDto.height/2
 
     this.uiPcsDtoList[index] = new UIPcsDto({
       ...pcsDto
@@ -159,5 +177,27 @@ export class ManagerPageWBService {
       //   ...this.uiPcsDtoList[index]
       // })
     })
+  }
+
+  /**
+   * Clock is always square, his barycenter is p.x + p.width / 2
+   * Musaic, centered on clock barycenter is p.barycenter.x - p.width
+   * @param pcsDto
+   * @private
+   */
+  private getXYFromBarycenter(pcsDto: UIPcsDto): Point {
+    return new Point(
+      pcsDto.position.x  + pcsDto.width/2,
+      pcsDto.position.y  + pcsDto.height/2)
+
+    // if (pcsDto.indexFormDrawer == UIPcsDto.MUSAIC) {
+    //   return new Point(
+    //     pcsDto.position.x  + pcsDto.uiClock.width/2 - pcsDto.uiMusaic.width/2,
+    //     pcsDto.position.y  + pcsDto.uiClock.height/2 - pcsDto.uiMusaic.height/2)
+    // } else {
+    //   return new Point(pcsDto.position.x, pcsDto.position.y)
+    //   // return pcsDto.position
+    //
+    // }
   }
 }

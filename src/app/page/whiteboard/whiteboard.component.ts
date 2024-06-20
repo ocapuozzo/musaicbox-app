@@ -138,6 +138,8 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     // @ts-ignore
     elt.addEventListener('mouseup',
       (event) => this.onMouseUp(event));
+
+    console.log(this.pcsDtoList)
   }
 
   ngAfterContentChecked(): void {
@@ -261,4 +263,14 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     }
   }
 
+  disabledIfNotMusaicFormDrawer(index: number) {
+    return index < 0 || index >= this.pcsDtoList.length || this.pcsDtoList[index].indexFormDrawer !== UIPcsDto.MUSAIC
+  }
+
+  roundedOnOff(index: number): string {
+    return (index > 0
+      && index < this.pcsDtoList.length
+      && this.pcsDtoList[index].uiMusaic.rounded) ?
+      "OFF" : "ON"
+  }
 }

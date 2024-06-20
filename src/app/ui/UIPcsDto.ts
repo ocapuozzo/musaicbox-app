@@ -7,6 +7,8 @@ export interface UIMusaic {
   nbCellsPerLine : number
   nbCellsPerRow : number
   widthCell : number
+  width: number
+  height: number
 }
 
 export interface UIClock {
@@ -16,6 +18,8 @@ export interface UIClock {
   textWidth : number
   drawPivot : boolean
   colorPitchOn : string
+  width: number
+  height: number
 }
 
 export interface UIScore {
@@ -23,11 +27,12 @@ export interface UIScore {
 }
 
 export class UIPcsDto {
+  static MUSAIC = 0
+  static CLOCK = 1
+
   id : string
   pcs : IPcs = new IPcs({strPcs:"0, 4, 8"})
   position: { x: number; y: number }
-  width: number
-  height: number
   colorPitchOn : string = 'black'
   colorPitchOff : string = 'white'
   indexFormDrawer: number;
@@ -35,6 +40,50 @@ export class UIPcsDto {
   uiMusaic : UIMusaic;
   uiClock : UIClock;
   uiScore : UIScore;
+  get width() {
+    switch (this.indexFormDrawer) {
+      case UIPcsDto.MUSAIC :
+        return this.uiMusaic.width
+      case UIPcsDto.CLOCK :
+        return this.uiClock.width
+      default :
+        return this.uiMusaic.width
+    }
+  }
+  set width(w) {
+    switch (this.indexFormDrawer) {
+      case UIPcsDto.MUSAIC :
+        this.uiMusaic.width = w
+        break
+      case UIPcsDto.CLOCK :
+        this.uiClock.width = w
+        break
+      default :
+        this.uiMusaic.width = w
+    }
+  }
+    get height() {
+      switch (this.indexFormDrawer) {
+        case UIPcsDto.MUSAIC :
+          return this.uiMusaic.height
+        case UIPcsDto.CLOCK :
+          return this.uiClock.height
+        default :
+          return this.uiMusaic.height
+      }
+    }
+    set height(h) {
+      switch (this.indexFormDrawer) {
+        case UIPcsDto.MUSAIC :
+          this.uiMusaic.height = h
+          break
+        case UIPcsDto.CLOCK :
+          this.uiClock.height = h
+          break
+        default :
+          this.uiMusaic.height = h
+      }
+  }
 
   constructor(
     {pcs, position, width, height, colorPitchOn, colorPitchOff, indexFormDrawer, isSelected, uiMusaic, uiClock, uiScore} : {
@@ -56,8 +105,6 @@ export class UIPcsDto {
     this.pcs = pcs ?? new IPcs({strPcs:"0, 4, 8"});
     this.id = this.pcs.id.toString() + new Date().valueOf().toString(10);
     this.position = position ?? {x:50, y:50}
-    this.width = width ?? 100
-    this.height = height ?? 100
     this.colorPitchOn = colorPitchOn ?? 'black' ;
     this.colorPitchOff = colorPitchOff ?? 'white';
     this.indexFormDrawer = indexFormDrawer ?? 0
@@ -68,7 +115,9 @@ export class UIPcsDto {
       nbCellsPerLine:13,
       nbCellsPerRow:13,
       widthCell: 8,
-      rounded: false
+      rounded: false,
+      width: 74,
+      height: 74
     }
     this.uiClock = uiClock ?? {
       textWidthAuto: true,
@@ -76,13 +125,16 @@ export class UIPcsDto {
       radiusPitch : 10, // ? or auto
       drawPivot : true,
       drawPolygon : false,
-      colorPitchOn : 'yellow'
+      colorPitchOn : 'yellow',
+      width: 100,
+      height: 100
     }
     this.uiScore = uiScore ?? {
       height : 25
     }
 
-    this.width = this.uiMusaic.widthCell * this.uiMusaic.nbCellsPerLine
-    this.height = this.uiMusaic.widthCell * this.uiMusaic.nbCellsPerRow
-  }
+    // this.indexFormDrawer = UIPcsDto.MUSAIC
+     this.uiMusaic.width = this.uiMusaic.widthCell * this.uiMusaic.nbCellsPerLine
+     this.uiMusaic.height = this.uiMusaic.widthCell * this.uiMusaic.nbCellsPerRow
+  } // constructor
 }

@@ -28,7 +28,9 @@
       <hr/>
       <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doZoom(1, index)">zoom +</button>
       <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doZoom(-1, index)">zoom -</button>
-      <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="toggleRounded(index)">rounded on/off
+      <button class="example-menu-item" cdkMenuItem
+              [disabled]="disabledIfNotMusaicFormDrawer(index)"
+              (cdkMenuItemTriggered)="toggleRounded(index)">Set rounded {{roundedOnOff(index)}}
       </button>
       <button class="example-menu-item" cdkMenuItem [cdkMenuTriggerFor]="create">
         Create <span>&#10148;</span>
