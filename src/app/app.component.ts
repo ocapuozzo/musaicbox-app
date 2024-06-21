@@ -21,6 +21,7 @@ import {MatInput} from "@angular/material/input";
 import {ManagerPagePcsListService} from "./service/manager-page-pcs-list.service";
 import {MatTooltip} from "@angular/material/tooltip";
 import {PcsSearch} from "./utils/PcsSearch";
+import {ManagerPageWBService} from "./service/manager-page-wb.service";
 
 
 @Component({
@@ -50,16 +51,16 @@ export class AppComponent {
     pcsStr: ''
   });
 
-  // TODO unit test problem
-
   constructor(private formBuilder: FormBuilder,
               private readonly managerHomePcsService: ManagerPagePcsService,
               private readonly managerHomePcsListService: ManagerPagePcsListService,
+              private readonly managerPageWBService: ManagerPageWBService,
               private readonly breakpointObserver: BreakpointObserver,
               private readonly router: Router) {
     this.breakpoint$.subscribe(() =>
       this.breakpointChanges()
     );
+
   }
 
   breakpointChanges(): void {
@@ -93,8 +94,13 @@ export class AppComponent {
             let pcs = new IPcs({strPcs: pcsString})
             if (pcs.cardinal > 0) {
               this.checkoutForm.reset();
-              this.managerHomePcsService.replaceBy(pcs)
-              this.router.navigateByUrl('/pcs');
+              // console.log("this route = ",  this.router.url)
+              if (this.router.url == '/w-board') {
+                 this.managerPageWBService.addPcs([pcs])
+              } else {
+                this.managerHomePcsService.replaceBy(pcs)
+                this.router.navigateByUrl('/pcs');
+              }
             }
           } catch (e: any) {
           }
@@ -106,7 +112,7 @@ export class AppComponent {
   /**
    * Search PCS having intervallic vector from cyclic group
    * Ex : 0,0,4,0,0,2 => PCS : { 0, 3, 7 }, { 0, 4, 7 }
-   * If is found, push result on pcs page.
+   * If is found, push result on pcs or white board page.
    * @param searchIV intervallic vector
    * @private
    */
@@ -114,29 +120,37 @@ export class AppComponent {
     const pcsWithSameIV: IPcs[] = PcsSearch.searchPcsWithThisIV(searchIV)
     // console.log("pcsWithSameIV : " + pcsWithSameIV)
     if (pcsWithSameIV.length > 0) {
-      // select the first of list as current pcs
-      this.managerHomePcsService.replaceBy(pcsWithSameIV[0])
-      // push all pcs havine same IV into list pcs of pcs page
-      for (const pcs of pcsWithSameIV) {
-        this.managerHomePcsListService.addPcs('iv:' + searchIV, pcs)
+      if (this.router.url == '/w-board') {
+        this.managerPageWBService.addPcs(pcsWithSameIV)
+      } else {
+        // select the first of list as current pcs
+        this.managerHomePcsService.replaceBy(pcsWithSameIV[0])
+        // push all pcs havine same IV into list pcs of pcs page
+        for (const pcs of pcsWithSameIV) {
+          this.managerHomePcsListService.addPcs('iv:' + searchIV, pcs)
+        }
+        this.router.navigateByUrl('/pcs');
       }
-      this.router.navigateByUrl('/pcs');
     }
   }
 
   /**
    * Search PCS having intervallic structure from cyclic group
    * Ex : 3,3,3,3 => PCS : { 0, 3, 6, 9 }
-   * If is found, push result on pcs page.
+   * If is found, push result on pcs or white board page
    * @param searchIS intervallic structure
    * @private
    */
   private searchPcsWithThisIS(searchIS: string) {
     const pcs = PcsSearch.searchPcsWithThisIS(searchIS)
     if (pcs) {
-      // select the first of list as current pcs
-      this.managerHomePcsService.replaceBy(pcs)
-      this.router.navigateByUrl('/pcs');
+      if (this.router.url == '/w-board') {
+        this.managerPageWBService.addPcs([pcs])
+      } else {
+        // select the first of list as current pcs
+        this.managerHomePcsService.replaceBy(pcs)
+        this.router.navigateByUrl('/pcs');
+      }
     }
   }
 

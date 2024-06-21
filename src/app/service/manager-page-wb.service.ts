@@ -17,6 +17,7 @@ export interface FinalElementMove {
 })
 export class ManagerPageWBService {
   private readonly _MIN_WIDTH = 40;
+  static deltaPositionNewPcs = 50;
 
   DRAWERS: string[] = ["Musaic", "Clock"]
 
@@ -29,7 +30,7 @@ export class ManagerPageWBService {
     new UIPcsDto({pcs: this.pcs1, indexFormDrawer: 1, position: {x: 0, y: 0}}),
     new UIPcsDto({pcs: this.pcs2, indexFormDrawer: 1, position: {x: 110, y: 0}, isSelected: true}),
     new UIPcsDto({pcs: this.pcs3, indexFormDrawer: 1, position: {x: 220, y: 0}, isSelected: true}),
-    new UIPcsDto({pcs: this.pcs4, indexFormDrawer: 1, position: {x: 340, y: 0}, isSelected: true})
+    new UIPcsDto({pcs: this.pcs4, indexFormDrawer: 1, position: {x: 330, y: 0}, isSelected: true})
   ]
 
   @Output() eventChangePcsPdoList: EventEmitter<UIPcsDto[]> = new EventEmitter();
@@ -37,10 +38,27 @@ export class ManagerPageWBService {
   constructor(private managerLocalStorageService: ManagerLocalStorageService) {
   }
 
-  add(pcsDto: UIPcsDto) {
-    this.uiPcsDtoList.push(pcsDto)
+  addPcs(somePcs: IPcs[]) {
+    this.doUnselectAll()
+    somePcs.forEach(pcs => {
+      const pcsDto =
+        new UIPcsDto({
+          pcs: pcs,
+          indexFormDrawer: 1,
+          position: {
+            x: ManagerPageWBService.deltaPositionNewPcs += 10,
+            y: ManagerPageWBService.deltaPositionNewPcs += 10
+          },
+          isSelected: true
+        })
+      this.uiPcsDtoList.push(pcsDto)
+      if (ManagerPageWBService.deltaPositionNewPcs > window.innerWidth - 50) {
+        ManagerPageWBService.deltaPositionNewPcs = 50
+      }
+    })
+
     // this.managerLocalStorageService.savePageWB(this.uiPcsDtoList)
-    this.eventChangePcsPdoList.emit(this.uiPcsDtoList)
+    // this.eventChangePcsPdoList.emit(this.uiPcsDtoList)
   }
 
   delete(uiPcsDtoID: string) {
@@ -65,109 +83,56 @@ export class ManagerPageWBService {
     this.eventChangePcsPdoList.emit(this.uiPcsDtoList)
   }
 
-  doZoom(positif: number, index: number) {
-    let DELTA_ZOOM = 20
-    if (positif < 0) {
-      DELTA_ZOOM *= -1
-    }
-    if (index < 0 || index >= this.uiPcsDtoList.length) {
-      throw new Error("oops bad index : " + index)
-    }
-
-    let pcsDto = this.uiPcsDtoList[index]
-
-    if (pcsDto.width + DELTA_ZOOM < this._MIN_WIDTH) {
-      // already too small
-      return
-    }
-
-    let size = pcsDto.width + DELTA_ZOOM
-    let n = pcsDto.pcs.nMapping //getMappedBinPcs().length;
-    let CEL_WIDTH = Math.floor(size / (n + 1));
-
-    // avoid that this.CEL_WIDTH * (n + 1) > width,
-    // is not always case ! TODO generalize with nbCellsPer line/row - not n based
-    // so CEL_WIDTH and CEL_HEIGHT
-    if (CEL_WIDTH * (n + 1) > size) {
-      CEL_WIDTH = CEL_WIDTH - 1
-    }
-
-    // adjust canvas size from CEL_WIDTH, for a better rendering,
-    // even if FormDrawer is not MUSAIC
-    let preferredSize = CEL_WIDTH * (n + 1)
-
-    // if pcsDto.indexFormDrawer == CLOCK , then pcsDto.width or height
-    // impact pcsDto.uiClock.width or height
-    // put another way : pcsDto.width/height are polymorph
-    let barycenterBeforeChangeSize = this.getXYFromBarycenter(pcsDto)
-
-    if (pcsDto.indexFormDrawer == UIPcsDto.MUSAIC) {
-      pcsDto.uiMusaic.widthCell = CEL_WIDTH
-    }
-    pcsDto.height = preferredSize
-    pcsDto.width = preferredSize
-
-    // Let's center the component
-    pcsDto.position = {
-      x: barycenterBeforeChangeSize.x - preferredSize / 2,
-      y: barycenterBeforeChangeSize.y - preferredSize / 2
-    }
-
-    this.uiPcsDtoList[index] = new UIPcsDto({
-      ...pcsDto
-    })
-  }
-
-  doZoom_(direction: number, indexElementsToZoom: number[]) {
+  doZoom(direction: number, indexElementsToZoom: number[]) {
     let DELTA_ZOOM = 20 * direction
 
     indexElementsToZoom.forEach(index => {
-    if (index < 0 || index >= this.uiPcsDtoList.length) {
-      throw new Error("oops bad index : " + index)
-    }
+      if (index < 0 || index >= this.uiPcsDtoList.length) {
+        throw new Error("oops bad index : " + index)
+      }
 
-    let pcsDto = this.uiPcsDtoList[index]
+      let pcsDto = this.uiPcsDtoList[index]
 
-    if (pcsDto.width + DELTA_ZOOM < this._MIN_WIDTH) {
-      // already too small
-      return
-    }
+      if (pcsDto.width + DELTA_ZOOM < this._MIN_WIDTH) {
+        // already too small
+        return
+      }
 
-    let size = pcsDto.width + DELTA_ZOOM
-    let n = pcsDto.pcs.nMapping //getMappedBinPcs().length;
-    let CEL_WIDTH = Math.floor(size / (n + 1));
+      let size = pcsDto.width + DELTA_ZOOM
+      let n = pcsDto.pcs.nMapping //getMappedBinPcs().length;
+      let CEL_WIDTH = Math.floor(size / (n + 1));
 
-    // avoid that this.CEL_WIDTH * (n + 1) > width,
-    // is not always case ! TODO generalize with nbCellsPer line/row - not n based
-    // so CEL_WIDTH and CEL_HEIGHT
-    if (CEL_WIDTH * (n + 1) > size) {
-      CEL_WIDTH = CEL_WIDTH - 1
-    }
+      // avoid that this.CEL_WIDTH * (n + 1) > width,
+      // is not always case ! TODO generalize with nbCellsPer line/row - not n based
+      // so CEL_WIDTH and CEL_HEIGHT
+      if (CEL_WIDTH * (n + 1) > size) {
+        CEL_WIDTH = CEL_WIDTH - 1
+      }
 
-    // adjust canvas size from CEL_WIDTH, for a better rendering,
-    // even if FormDrawer is not MUSAIC
-    let preferredSize = CEL_WIDTH * (n + 1)
+      // adjust canvas size from CEL_WIDTH, for a better rendering (no float)
+      // even if FormDrawer is not MUSAIC
+      let preferredSize = CEL_WIDTH * (n + 1)
 
-    // if pcsDto.indexFormDrawer == CLOCK , then pcsDto.width or height
-    // impact pcsDto.uiClock.width or height
-    // put another way : pcsDto.width/height are polymorph
-    let barycenterBeforeChangeSize = this.getXYFromBarycenter(pcsDto)
+      // if pcsDto.indexFormDrawer == CLOCK , then pcsDto.width or height
+      // impact pcsDto.uiClock.width or height
+      // put another way : pcsDto.width/height are polymorph
+      let barycenterBeforeChangeSize = this.getXYFromBarycenter(pcsDto)
 
-    if (pcsDto.indexFormDrawer == UIPcsDto.MUSAIC) {
-      pcsDto.uiMusaic.widthCell = CEL_WIDTH
-    }
-    pcsDto.height = preferredSize
-    pcsDto.width = preferredSize
+      if (pcsDto.indexFormDrawer == UIPcsDto.MUSAIC) {
+        pcsDto.uiMusaic.widthCell = CEL_WIDTH
+      }
+      pcsDto.height = preferredSize
+      pcsDto.width = preferredSize
 
-    // Let's center the component
-    pcsDto.position = {
-      x: barycenterBeforeChangeSize.x - preferredSize / 2,
-      y: barycenterBeforeChangeSize.y - preferredSize / 2
-    }
+      // Let's center the component
+      pcsDto.position = {
+        x: barycenterBeforeChangeSize.x - preferredSize / 2,
+        y: barycenterBeforeChangeSize.y - preferredSize / 2
+      }
 
-    this.uiPcsDtoList[index] = new UIPcsDto({
-      ...pcsDto
-    })
+      this.uiPcsDtoList[index] = new UIPcsDto({
+        ...pcsDto
+      })
 
     })
   }

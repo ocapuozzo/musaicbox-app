@@ -25,6 +25,8 @@ import {UIPcsDto} from "../../ui/UIPcsDto";
 import {PcsComponent} from "../../component/pcs/pcs.component";
 import {DraggableDirective} from "../../draggable.directive";
 import {Point} from "../../utils/Point";
+import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
+import {Router} from "@angular/router";
 
 interface ElementMove {
   elt: HTMLElement,
@@ -98,6 +100,8 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   private originPositionOfClickForMoving: Point;
 
   constructor(private managerPageWBService: ManagerPageWBService,
+              private readonly managerHomePcsService: ManagerPagePcsService,
+              private readonly router: Router,
               private renderer: Renderer2) {
 
     this.pcsDtoList = this.managerPageWBService.uiPcsDtoList
@@ -243,8 +247,8 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   }
 
 
-  doZoom(positif: number, index: number) {
-    this.managerPageWBService.doZoom(positif, index)
+  doZoom(direction: number, index: number) {
+    this.managerPageWBService.doZoom(direction, [index])
   }
 
   toggleRounded(index: number) {
@@ -320,11 +324,15 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     this.managerPageWBService.doDelete(indexOfSelectedComponents)
   }
 
-
   doZoomSelection(direction : number) {
     const indexOfSelectedComponents =
       this.pcsDtoList.map((value, index) => index)
         .filter(index => this.pcsDtoList[index].isSelected)
-    this.managerPageWBService.doZoom_(direction, indexOfSelectedComponents)
+    this.managerPageWBService.doZoom(direction, indexOfSelectedComponents)
+  }
+
+  doPushToPcsPage(index: number) {
+    this.managerHomePcsService.replaceBy(this.pcsDtoList[index].pcs)
+    this.router.navigateByUrl('/pcs');
   }
 }

@@ -25,13 +25,14 @@
     <div class="example-menu" cdkMenu>
       <span>Do with {{ name }}</span>
       <hr/>
-      <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doZoom(1, index)">zoom +</button>
-      <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doZoom(-1, index)">zoom -</button>
+      <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doPushToPcsPage(index)">Push to PCS page</button>
+      <button class="example-menu-item" cdkMenuItem (click)="doDelete(index)">Delete</button>
+      <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doZoom(1, index)">zoom+</button>
+      <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doZoom(-1, index)">zoom-</button>
       <button class="example-menu-item" cdkMenuItem
               [disabled]="disabledIfNotMusaicFormDrawer(index)"
               (cdkMenuItemTriggered)="toggleRounded(index)">Set rounded {{ roundedOnOff(index) }}
       </button>
-      <button class="example-menu-item" cdkMenuItem (click)="doDelete(index)">Delete</button>
       <button class="example-menu-item" cdkMenuItem [cdkMenuTriggerFor]="create" [cdkMenuTriggerData]="{index: index}">
         Create <span>&#10148;</span>
       </button>

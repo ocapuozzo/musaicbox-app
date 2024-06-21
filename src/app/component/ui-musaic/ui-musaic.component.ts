@@ -16,9 +16,9 @@ import {EightyEight} from "../../utils/EightyEight";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatCheckbox} from "@angular/material/checkbox";
 import {MatButton} from "@angular/material/button";
-import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
-
-// import {fromEvent} from "rxjs";
+import {BreakpointObserver} from "@angular/cdk/layout";
+import {ManagerPageWBService} from "../../service/manager-page-wb.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-ui-musaic',
@@ -52,7 +52,11 @@ export class UiMusaicComponent {
   private unlisten: Function;
 
   constructor(private managerHomePcsService: ManagerPagePcsService,
-              private ngZone: NgZone, private renderer: Renderer2, private responsive: BreakpointObserver) {
+              private managerPageWBService : ManagerPageWBService,
+              private router : Router,
+              private ngZone: NgZone,
+              private renderer: Renderer2,
+              private responsive: BreakpointObserver) {
     this.pcs = this.managerHomePcsService.pcs
   }
 
@@ -341,5 +345,10 @@ export class UiMusaicComponent {
 
   detachPcs() {
     this.managerHomePcsService.detachPcs()
+  }
+
+  pushToWhiteBoardPage() {
+    this.managerPageWBService.addPcs([this.pcs])
+    this.router.navigateByUrl('/w-board');
   }
 }

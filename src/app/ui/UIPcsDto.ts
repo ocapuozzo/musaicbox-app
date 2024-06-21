@@ -120,8 +120,8 @@ export class UIPcsDto {
       nbCellsPerRow:13,
       widthCell: 8,
       rounded: false,
-      width: 74,
-      height: 74
+      width: 104,
+      height: 104
     }
     this.uiClock = uiClock ? { ...uiClock} : {
       textWidthAuto: true,
@@ -130,8 +130,8 @@ export class UIPcsDto {
       drawPivot : true,
       drawPolygon : false,
       colorPitchOn : 'yellow',
-      width: 100,
-      height: 100
+      width: 104,
+      height: 104
     }
     this.uiScore = uiScore ? {...uiScore} : {
       height : 25
