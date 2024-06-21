@@ -4,6 +4,7 @@ import {ManagerLocalStorageService} from "./manager-local-storage.service";
 import {GroupAction} from "../core/GroupAction";
 import {Group} from "../core/Group";
 import {Point} from "../utils/Point";
+import {IPcs} from "../core/IPcs";
 
 export interface FinalElementMove {
   index: number,
@@ -22,11 +23,13 @@ export class ManagerPageWBService {
   pcs1 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[87].getPcsMin()
   pcs2 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[38].getPcsMin().complement().modalPrimeForm()
   pcs3 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[36].getPcsMin().complement().modalPrimeForm()
+  pcs4 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[36].getPcsMin().complement().modalPrimeForm()
 
   uiPcsDtoList: UIPcsDto[] = [
     new UIPcsDto({pcs: this.pcs1, indexFormDrawer: 1, position: {x: 0, y: 0}}),
     new UIPcsDto({pcs: this.pcs2, indexFormDrawer: 1, position: {x: 110, y: 0}, isSelected: true}),
-    new UIPcsDto({pcs: this.pcs3, indexFormDrawer: 1, position: {x: 220, y: 0}, isSelected: true})
+    new UIPcsDto({pcs: this.pcs3, indexFormDrawer: 1, position: {x: 220, y: 0}, isSelected: true}),
+    new UIPcsDto({pcs: this.pcs4, indexFormDrawer: 1, position: {x: 340, y: 0}, isSelected: true})
   ]
 
   @Output() eventChangePcsPdoList: EventEmitter<UIPcsDto[]> = new EventEmitter();
@@ -36,7 +39,7 @@ export class ManagerPageWBService {
 
   add(pcsDto: UIPcsDto) {
     this.uiPcsDtoList.push(pcsDto)
-    this.managerLocalStorageService.savePageWB(this.uiPcsDtoList)
+    // this.managerLocalStorageService.savePageWB(this.uiPcsDtoList)
     this.eventChangePcsPdoList.emit(this.uiPcsDtoList)
   }
 
@@ -78,7 +81,7 @@ export class ManagerPageWBService {
       return
     }
 
-    let size=  pcsDto.width + DELTA_ZOOM
+    let size = pcsDto.width + DELTA_ZOOM
     let n = pcsDto.pcs.nMapping //getMappedBinPcs().length;
     let CEL_WIDTH = Math.floor(size / (n + 1));
 
@@ -93,22 +96,82 @@ export class ManagerPageWBService {
     // even if FormDrawer is not MUSAIC
     let preferredSize = CEL_WIDTH * (n + 1)
 
-    // if pcsDto.indexFormDrawer == CLOCK , then pcsDto.width or height impact pcsDto.uiClock.width or height
-    let barycenter = this.getXYFromBarycenter(pcsDto)
+    // if pcsDto.indexFormDrawer == CLOCK , then pcsDto.width or height
+    // impact pcsDto.uiClock.width or height
+    // put another way : pcsDto.width/height are polymorph
+    let barycenterBeforeChangeSize = this.getXYFromBarycenter(pcsDto)
+
     if (pcsDto.indexFormDrawer == UIPcsDto.MUSAIC) {
-      pcsDto.uiMusaic.widthCell=CEL_WIDTH
+      pcsDto.uiMusaic.widthCell = CEL_WIDTH
     }
-    pcsDto.height =  preferredSize
+    pcsDto.height = preferredSize
     pcsDto.width = preferredSize
 
     // Let's center the component
-    pcsDto.position.x = barycenter.x - preferredSize/2
-    pcsDto.position.y = barycenter.y - preferredSize/2
+    pcsDto.position = {
+      x: barycenterBeforeChangeSize.x - preferredSize / 2,
+      y: barycenterBeforeChangeSize.y - preferredSize / 2
+    }
 
     this.uiPcsDtoList[index] = new UIPcsDto({
       ...pcsDto
     })
   }
+
+  doZoom_(direction: number, indexElementsToZoom: number[]) {
+    let DELTA_ZOOM = 20 * direction
+
+    indexElementsToZoom.forEach(index => {
+    if (index < 0 || index >= this.uiPcsDtoList.length) {
+      throw new Error("oops bad index : " + index)
+    }
+
+    let pcsDto = this.uiPcsDtoList[index]
+
+    if (pcsDto.width + DELTA_ZOOM < this._MIN_WIDTH) {
+      // already too small
+      return
+    }
+
+    let size = pcsDto.width + DELTA_ZOOM
+    let n = pcsDto.pcs.nMapping //getMappedBinPcs().length;
+    let CEL_WIDTH = Math.floor(size / (n + 1));
+
+    // avoid that this.CEL_WIDTH * (n + 1) > width,
+    // is not always case ! TODO generalize with nbCellsPer line/row - not n based
+    // so CEL_WIDTH and CEL_HEIGHT
+    if (CEL_WIDTH * (n + 1) > size) {
+      CEL_WIDTH = CEL_WIDTH - 1
+    }
+
+    // adjust canvas size from CEL_WIDTH, for a better rendering,
+    // even if FormDrawer is not MUSAIC
+    let preferredSize = CEL_WIDTH * (n + 1)
+
+    // if pcsDto.indexFormDrawer == CLOCK , then pcsDto.width or height
+    // impact pcsDto.uiClock.width or height
+    // put another way : pcsDto.width/height are polymorph
+    let barycenterBeforeChangeSize = this.getXYFromBarycenter(pcsDto)
+
+    if (pcsDto.indexFormDrawer == UIPcsDto.MUSAIC) {
+      pcsDto.uiMusaic.widthCell = CEL_WIDTH
+    }
+    pcsDto.height = preferredSize
+    pcsDto.width = preferredSize
+
+    // Let's center the component
+    pcsDto.position = {
+      x: barycenterBeforeChangeSize.x - preferredSize / 2,
+      y: barycenterBeforeChangeSize.y - preferredSize / 2
+    }
+
+    this.uiPcsDtoList[index] = new UIPcsDto({
+      ...pcsDto
+    })
+
+    })
+  }
+
 
   /**
    * Effect only is FormDrawer is Musaic (i.e musaic is shown rounded, not square)
@@ -133,12 +196,15 @@ export class ManagerPageWBService {
     let indexFormDrawer = this.DRAWERS.findIndex((d) => d == drawer)
     if (indexFormDrawer < 0) indexFormDrawer = 0
 
-    let barycenter = this.getXYFromBarycenter(pcsDto)
+    let barycenterBeforeChangeSize = this.getXYFromBarycenter(pcsDto)
+    // rem : pcsDto.width and height are polymorph
 
     pcsDto.indexFormDrawer = indexFormDrawer
 
-    pcsDto.position.x = barycenter.x - pcsDto.width/2
-    pcsDto.position.y = barycenter.y - pcsDto.height/2
+    pcsDto.position = {
+      x: barycenterBeforeChangeSize.x - pcsDto.width / 2,
+      y: barycenterBeforeChangeSize.y - pcsDto.height / 2
+    }
 
     this.uiPcsDtoList[index] = new UIPcsDto({
       ...pcsDto
@@ -149,8 +215,7 @@ export class ManagerPageWBService {
     finalMoveElements.forEach(e => {
       if (e.index >= 0 && e.index < this.uiPcsDtoList.length) {
         let pcsDto = this.uiPcsDtoList[e.index]
-        pcsDto.position.x = e.x
-        pcsDto.position.y = e.y
+        pcsDto.position = {x: e.x, y: e.y}
       }
     })
   }
@@ -166,16 +231,19 @@ export class ManagerPageWBService {
 
   /**
    * Unselect all components from list of index (of this.uiPcsDtoList)
+   * or all this.uiPcsDtoList if list index is empty
    * @param indexSelectedElements
    */
-  doUnselectAll(indexSelectedElements: number[]) {
-    console.log("indexSelectedElements.length = ", indexSelectedElements.length)
-    indexSelectedElements.forEach(index => {
-      this.uiPcsDtoList[index].isSelected = false
-      // this.uiPcsDtoList[index] = new UIPcsDto({
-      //   ...this.uiPcsDtoList[index]
-      // })
-    })
+  doUnselectAll(indexSelectedElements: number[] = []) {
+    if (indexSelectedElements.length === 0) {
+      this.uiPcsDtoList.forEach(e => {
+        if (e.isSelected) e.isSelected = false
+      })
+    } else {
+      indexSelectedElements.forEach(index => {
+        this.uiPcsDtoList[index].isSelected = false
+      })
+    }
   }
 
   /**
@@ -186,17 +254,47 @@ export class ManagerPageWBService {
    */
   private getXYFromBarycenter(pcsDto: UIPcsDto): Point {
     return new Point(
-      pcsDto.position.x  + pcsDto.width/2,
-      pcsDto.position.y  + pcsDto.height/2)
+      pcsDto.position.x + pcsDto.width / 2,
+      pcsDto.position.y + pcsDto.height / 2)
+  }
 
-    // if (pcsDto.indexFormDrawer == UIPcsDto.MUSAIC) {
-    //   return new Point(
-    //     pcsDto.position.x  + pcsDto.uiClock.width/2 - pcsDto.uiMusaic.width/2,
-    //     pcsDto.position.y  + pcsDto.uiClock.height/2 - pcsDto.uiMusaic.height/2)
-    // } else {
-    //   return new Point(pcsDto.position.x, pcsDto.position.y)
-    //   // return pcsDto.position
-    //
-    // }
+
+  doDuplicate(indexes: number[], deltaPosition = 20) {
+    let newPcsDtos: UIPcsDto[] = []
+    indexes.forEach(index => {
+      if (index < 0 || index >= this.uiPcsDtoList.length) {
+        throw new Error("oops bad index : " + index)
+      }
+      let pcsDto = this.uiPcsDtoList[index]
+
+      let newPcsDto = new UIPcsDto({
+        /*pcs:new IPcs({strPcs:pcsDto.pcs.getPcsStr()}),*/
+        pcs: pcsDto.pcs,
+        position: {x: pcsDto.position.x + deltaPosition, y: pcsDto.position.y + deltaPosition}, // do not share ref !
+        width: pcsDto.width,
+        height: pcsDto.height,
+        colorPitchOff: pcsDto.colorPitchOff,
+        colorPitchOn: pcsDto.colorPitchOn,
+        indexFormDrawer: pcsDto.indexFormDrawer,
+        isSelected: true,
+        uiMusaic: pcsDto.uiMusaic,
+        uiClock: pcsDto.uiClock,
+        uiScore: pcsDto.uiScore
+      })
+      newPcsDtos.push(newPcsDto)
+    })
+
+    this.uiPcsDtoList.push(...newPcsDtos)
+
+  }
+
+  /**
+   * Delete objects where their index is in indexToDeleteList
+   * @param indexToDeleteList
+   */
+  doDelete(indexToDeleteList: number[]) {
+    this.uiPcsDtoList =
+      this.uiPcsDtoList.filter((value, index) => !indexToDeleteList.includes(index))
+    this.refresh()
   }
 }

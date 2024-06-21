@@ -113,7 +113,7 @@ export class UIPcsDto {
     this.colorPitchOff = colorPitchOff ?? 'white';
     this.indexFormDrawer = indexFormDrawer ?? 0
     this.isSelected = isSelected ?? false
-    this.uiMusaic = uiMusaic ?? {
+    this.uiMusaic = uiMusaic ? {...uiMusaic} :  {
       position:{x:10, y:10},
       drawGrid: false,
       nbCellsPerLine:13,
@@ -123,7 +123,7 @@ export class UIPcsDto {
       width: 74,
       height: 74
     }
-    this.uiClock = uiClock ?? {
+    this.uiClock = uiClock ? { ...uiClock} : {
       textWidthAuto: true,
       textWidth: 10,
       radiusPitch : 10, // ? or auto
@@ -133,7 +133,7 @@ export class UIPcsDto {
       width: 100,
       height: 100
     }
-    this.uiScore = uiScore ?? {
+    this.uiScore = uiScore ? {...uiScore} : {
       height : 25
     }
 

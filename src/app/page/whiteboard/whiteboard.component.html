@@ -3,23 +3,22 @@
   @for (pcsDto of pcsDtoList; track pcsDto; let idx = $index) {
     <!--component has 3 data context : element DOM, object himself and pcsDto -->
     <app-pcs
-        [ngClass]="{'example-box': true, 'e-selected': pcsDto.isSelected}"
-        [attr.data-index-pcsdtos]=idx
-        [style.height.px]="pcsDto.width"
-        [style.width.px]="pcsDto.width"
-        [style.top.px]="pcsDto.position.y"
-        [style.left.px]="pcsDto.position.x"
-        [cdkContextMenuTriggerFor]="menu"
-        [cdkContextMenuTriggerData]="{
+      [ngClass]="{'example-box': true, 'e-selected': pcsDto.isSelected}"
+      [attr.data-index-pcsdtos]=idx
+      [style.height.px]="pcsDto.width"
+      [style.width.px]="pcsDto.width"
+      [style.top.px]="pcsDto.position.y"
+      [style.left.px]="pcsDto.position.x"
+      [cdkContextMenuTriggerFor]="menu"
+      [cdkContextMenuTriggerData]="{
             name: pcsDto.pcs.getPcsStr(),
             index:idx,
             indexFormDrawer: pcsDto.indexFormDrawer
             }"
-        [pcsDto]="pcsDto"
-        (mousedown)="toggleSelected($event,idx)"
-  >
-      </app-pcs>
-
+      [pcsDto]="pcsDto"
+      (mousedown)="toggleSelected($event,idx)"
+    >
+    </app-pcs>
   }
 
   <ng-template #menu matMenuContent let-index="index" let-name="name" let-indexFormDrawer="indexFormDrawer">
@@ -30,10 +29,14 @@
       <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doZoom(-1, index)">zoom -</button>
       <button class="example-menu-item" cdkMenuItem
               [disabled]="disabledIfNotMusaicFormDrawer(index)"
-              (cdkMenuItemTriggered)="toggleRounded(index)">Set rounded {{roundedOnOff(index)}}
+              (cdkMenuItemTriggered)="toggleRounded(index)">Set rounded {{ roundedOnOff(index) }}
       </button>
-      <button class="example-menu-item" cdkMenuItem [cdkMenuTriggerFor]="create">
+      <button class="example-menu-item" cdkMenuItem (click)="doDelete(index)">Delete</button>
+      <button class="example-menu-item" cdkMenuItem [cdkMenuTriggerFor]="create" [cdkMenuTriggerData]="{index: index}">
         Create <span>&#10148;</span>
+      </button>
+      <button class="example-menu-item" [disabled]="disabledIfSelectionIsEmpty()" cdkMenuItem [cdkMenuTriggerFor]="selection" [cdkMenuTriggerData]="{index: index}">
+        Selection <span>&#10148;</span>
       </button>
       <button class="example-menu-item" cdkMenuItem [cdkMenuTriggerFor]="neighbors">
         Neighbors <span>&#10148;</span>
@@ -53,25 +56,35 @@
     </div>
   </ng-template>
 
-  <ng-template #create>
+  <ng-template #create let-index="index">
     <div class="example-menu" cdkMenu>
-      <button class="example-menu-item" cdkMenuItem>Duplicate</button>
-      <button class="example-menu-item" cdkMenuItem>ModalPrimeForm</button>
+      <button class="example-menu-item" cdkMenuItem (click)="doDuplicate(index)">Duplicate</button>
+      <button class="example-menu-item" disabled cdkMenuItem>ModalPrimeForm</button>
       <hr/>
-      <button class="example-menu-item" cdkMenuItem>Pcs CyclicPF in orbit</button>
-      <button class="example-menu-item" cdkMenuItem>Simple Pcs in Cyclic orbit</button>
-      <button class="example-menu-item" cdkMenuItem>Other</button>
+      <button class="example-menu-item" disabled cdkMenuItem>Pcs CyclicPF in orbit</button>
+      <button class="example-menu-item" disabled cdkMenuItem>Simple Pcs in Cyclic orbit</button>
+      <button class="example-menu-item" disabled cdkMenuItem>Other</button>
+    </div>
+  </ng-template>
+
+  <ng-template #selection let-index="index">
+    <div class="example-menu"   cdkMenu>
+      <button class="example-menu-item"  [disabled]="disabledIfSelectionIsEmpty()" cdkMenuItem (click)="doDuplicateSelection()">Duplicate</button>
+      <button class="example-menu-item" [disabled]="disabledIfSelectionIsEmpty()" cdkMenuItem (click)="doDeleteSelection()">Delete</button>
+      <button class="example-menu-item" [disabled]="disabledIfSelectionIsEmpty()" cdkMenuItem (click)="doZoomSelection(+1)">Zoom+</button>
+      <button class="example-menu-item" [disabled]="disabledIfSelectionIsEmpty()" cdkMenuItem (click)="doZoomSelection(-1)">Zoom-</button>
+      <hr/>
     </div>
   </ng-template>
 
   <ng-template #neighbors>
     <div class="example-menu" cdkMenu>
-      <button class="example-menu-item" cdkMenuItem>Up semitone</button>
-      <button class="example-menu-item" cdkMenuItem>Down semitone</button>
+      <button class="example-menu-item" disabled cdkMenuItem>Up semitone</button>
+      <button class="example-menu-item" disabled cdkMenuItem>Down semitone</button>
       <hr/>
-      <button class="example-menu-item" cdkMenuItem>Similarity IS</button>
-      <button class="example-menu-item" cdkMenuItem>Similarity IV</button>
-      <button class="example-menu-item" cdkMenuItem>Others</button>
+      <button class="example-menu-item" disabled cdkMenuItem>Similarity IS</button>
+      <button class="example-menu-item" disabled cdkMenuItem>Similarity IV</button>
+      <button class="example-menu-item" disabled cdkMenuItem>Others</button>
     </div>
   </ng-template>
 

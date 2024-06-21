@@ -13,7 +13,7 @@ import {
   Renderer2,
   ViewChild
 } from '@angular/core';
-import {CdkDrag, CdkDragHandle, CdkDragMove} from "@angular/cdk/drag-drop";
+import {CdkDrag, CdkDragHandle} from "@angular/cdk/drag-drop";
 import {ClockComponent} from "../../component/clock/clock.component";
 import {MusaicComponent} from "../../component/musaic/musaic.component";
 import {MatMenu, MatMenuContent, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
@@ -104,7 +104,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     this.drawers = this.managerPageWBService.DRAWERS
 
     this.managerPageWBService.eventChangePcsPdoList.subscribe((uiPcsDtoList: UIPcsDto[]) => {
-      this.pcsDtoList = uiPcsDtoList
+      this.pcsDtoList = uiPcsDtoList // [...uiPcsDtoList]
     })
 
   }
@@ -137,7 +137,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     elt.addEventListener('mouseup',
       (event) => this.onMouseUp(event));
 
-    console.log(this.pcsDtoList)
+    // console.log(this.pcsDtoList)
   }
 
   ngAfterContentChecked(): void {
@@ -164,22 +164,25 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
         this.doUnselectAll()
       }
 
-      // else managed by toggleSelected of a pcs component (other event listener)
+      // if click on app-pcs component, then this event is managed by toggleSelected (other event listener)
       // declared in template  (mousedown)="toggleSelected($event,idx)"
       return
     }
 
     // User can move elements by mouse action ONLY if click on a component with class 'e-selected'
-    let selectedElements = Array.from(document.getElementsByClassName('e-selected'))
-    const clickInSelectedElement = selectedElements.some(e => pointClick.isIncludeIn(e.getBoundingClientRect()))
+    let selectedElements =
+      Array.from(document.getElementsByClassName('e-selected'))
+    const clickInSelectedElement =
+      selectedElements.some(e => pointClick.isIncludeIn(e.getBoundingClientRect()))
 
     if (!clickInSelectedElement) {
+      // no component selected to move
       return
     }
 
     // now we can initialize data for moving component
     this.isDown = true;
-    this.originPositionOfClickForMoving = pointClick //new Point(e.clientX, e.clientY)
+    this.originPositionOfClickForMoving = pointClick
 
     this.initialPointOfSelectedElements = selectedElements.map((e) => (
       {
@@ -191,6 +194,10 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   }
 
   onMouseUp(e: MouseEvent) {
+    if (! this.isDown) {
+      return
+    }
+
     this.isDown = false;
     if (e.button > 1) {
       // context menu handles this
@@ -208,7 +215,14 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     }))
 
     this.managerPageWBService.doFinalPosition(finalMoveElements)
+
+    // As component is automatically selected when solo,
+    // we auto-deselect it here.
+    if (finalMoveElements.length === 1) {
+      this.managerPageWBService.doToggleSelected(finalMoveElements[0].index)
+    }
   }
+
 
   /**
    * DOM action : set elements position synchro with mousemove
@@ -224,6 +238,10 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   }
 
   protected readonly console = console;
+  pcsDtoId(index : number, pcsDto: UIPcsDto) {
+      return pcsDto ? pcsDto.id : undefined
+  }
+
 
   doZoom(positif: number, index: number) {
     this.managerPageWBService.doZoom(positif, index)
@@ -238,8 +256,15 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   }
 
   toggleSelected($event: MouseEvent, index: number) {
-    if ($event.ctrlKey) {
-      console.log("doToggleSelected in wb")
+   if (!this.pcsDtoList.some((pcsDto) =>  pcsDto.isSelected)) {
+     this.managerPageWBService.doToggleSelected(index)
+   }
+  //  else if (this.pcsDtoList.filter(pcsDto => pcsDto.isSelected).length == 1) {
+  //    // if (this.pcsDtoList.some((pcsDto, idx) =>  pcsDto.isSelected && idx === index)) {
+  //      this.managerPageWBService.doToggleSelected(index)
+  //    // }
+  // }
+    else if ($event.ctrlKey) {
       this.managerPageWBService.doToggleSelected(index)
     }
   }
@@ -248,21 +273,17 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
    * deselect (reset) all selected component
    * Called when user do a Ctrl+MouseDown over nothing,
    *
-   * @private
    */
   private doUnselectAll() {
-    // a Ctrl mouse down not over a "pcs element" => deselect all selected components
-    let pcsElements = Array.from(document.getElementsByClassName('e-selected'))
-    if (pcsElements.length > 0) {
-      let indexSelectedElements: number[] = pcsElements.map((e) => (
-        parseInt(e.getAttribute('data-index-pcsdtos') || "-1")))
-      this.managerPageWBService.doUnselectAll(indexSelectedElements)
-      this.initialPointOfSelectedElements = []
-    }
+    this.managerPageWBService.doUnselectAll()
   }
 
   disabledIfNotMusaicFormDrawer(index: number) {
     return index < 0 || index >= this.pcsDtoList.length || this.pcsDtoList[index].indexFormDrawer !== UIPcsDto.MUSAIC
+  }
+
+  disabledIfSelectionIsEmpty() : boolean {
+    return !this.pcsDtoList.some(pcsDto => pcsDto.isSelected)
   }
 
   roundedOnOff(index: number): string {
@@ -270,5 +291,40 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
       && index < this.pcsDtoList.length
       && this.pcsDtoList[index].uiMusaic.rounded) ?
       "OFF" : "ON"
+  }
+
+  doDuplicate(index : number) {
+    this.doUnselectAll()
+    this.managerPageWBService.doDuplicate([index])
+  }
+
+  doDelete(index: any) {
+    this.managerPageWBService.doDelete([index])
+  }
+
+  doDuplicateSelection() {
+   const indexOfSelectedComponents =
+     this.pcsDtoList.map((value, index) => index)
+       .filter(index => this.pcsDtoList[index].isSelected)
+
+    this.doUnselectAll() // because duplicate are new selected components
+    this.managerPageWBService.doDuplicate(indexOfSelectedComponents)
+  }
+
+
+  doDeleteSelection() {
+    const indexOfSelectedComponents =
+      this.pcsDtoList.map((value, index) => index)
+        .filter(index => this.pcsDtoList[index].isSelected)
+
+    this.managerPageWBService.doDelete(indexOfSelectedComponents)
+  }
+
+
+  doZoomSelection(direction : number) {
+    const indexOfSelectedComponents =
+      this.pcsDtoList.map((value, index) => index)
+        .filter(index => this.pcsDtoList[index].isSelected)
+    this.managerPageWBService.doZoom_(direction, indexOfSelectedComponents)
   }
 }
