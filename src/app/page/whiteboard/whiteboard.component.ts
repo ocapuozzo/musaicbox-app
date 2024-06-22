@@ -126,29 +126,45 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     let elt = document.getElementById('white-board')
 
     this.listenerRenderer2Mousemove = this.renderer.listen(elt, 'mousemove', e => {
-      if (this.isDown) {
-        // console.log("nb selected elements : ", this.initialPointOfSelectedElements.length)
-        if (this.initialPointOfSelectedElements.length > 0) {
-          this.moveAt(e.clientX, e.clientY)
-        }
-      }
+       this.onMouseMove(e)
     });
 
-    // @ts-ignore
-    elt.addEventListener('mousedown',
+    this.listenerRenderer2Mousemove = this.renderer.listen(elt, 'touchmove', e => {
+      this.onMouseMove(e)
+    });
+
+    elt!.addEventListener('touchstart',
       (event) => this.onMouseDown(event));
-    // @ts-ignore
-    elt.addEventListener('mouseup',
+
+    elt!.addEventListener('mousedown',
+      (event) => this.onMouseDown(event));
+
+    elt!.addEventListener('mouseup',
       (event) => this.onMouseUp(event));
 
-    // console.log(this.pcsDtoList)
+    elt!.addEventListener('touchend',
+      (event) => this.onMouseUp(event));
+
   }
 
   ngAfterContentChecked(): void {
     // this.changeDetector.detectChanges();
   }
 
-  onMouseDown(e: MouseEvent) {
+  onMouseMove(e: any) {
+    if (this.isDown) {
+      // console.log("nb selected elements : ", this.initialPointOfSelectedElements.length)
+      if (this.initialPointOfSelectedElements.length > 0) {
+        if (e.clientX) {
+          this.moveAt(e.clientX, e.clientY)
+        } else {
+          this.moveAt(e.touches[0].clientX, e.touches[0].clientY)
+        }
+      }
+    }
+  }
+
+  onMouseDown(e: any) {
     // console.log("MouseEvent : ", e)
     if (!e) return
     if (e.button > 1) {
@@ -157,8 +173,12 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
       return
     }
 
-    const pointClick: Point = new Point(e.clientX, e.clientY)
-
+    let pointClick: Point
+    if (e.clientX) {
+      pointClick = new Point(e.clientX, e.clientY)
+    } else {
+      pointClick = new Point(e.touches[0].clientX, e.touches[0].clientY)
+    }
     if (e.ctrlKey) {
       // if not click on object in page, deselect all
       let pcsElements = Array.from(document.getElementsByTagName('app-pcs'))
@@ -197,7 +217,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     ))
   }
 
-  onMouseUp(e: MouseEvent) {
+  onMouseUp(e: any) {
     if (! this.isDown) {
       return
     }
