@@ -13,22 +13,23 @@ import {StringHash} from "../../utils/StringHash";
 export class ScoreNotationComponent {
   @ViewChild('containercanvas', {static: false}) containerCanvas: ElementRef<HTMLCanvasElement>;
   static lettersNotation: string[] = ['C', '^C', 'D', '^D', 'E', 'F', '^F', 'G', '^G', 'A', '^A', 'B'];
-  private _pcs : IPcs
+  private _pcs: IPcs
 
-  randomId : string=""
+  randomId: string = ""
 
-  @Input() set pcs(value : IPcs) {
+  @Input() set pcs(value: IPcs) {
     this._pcs = value
     this.refresh()
   }
-  get pcs() : IPcs {
+
+  get pcs(): IPcs {
     return this._pcs
   }
 
 
-constructor() {
+  constructor() {
     this.randomId = StringHash.guidGenerator()
-}
+  }
 
   ngAfterViewInit() {
     this.refresh();
@@ -38,7 +39,7 @@ constructor() {
     // console.log("this.tune :" + this.tune)
     // https://configurator.abcjs.net/visual/
 
-    if (! this.containerCanvas) return
+    if (!this.containerCanvas) return
 
     let len = this.containerCanvas.nativeElement.clientWidth
 
@@ -67,7 +68,7 @@ constructor() {
 
     const someNotesForChange = [1, 3, 6, 8, 10]
 
-    let  pcsMapped = this.pcs
+    let pcsMapped = this.pcs
     if (this.pcs.n != 12) {
       pcsMapped = new IPcs({binPcs: this.pcs.getMappedBinPcs()})
       pcsMapped.setPivot(this.pcs.templateMappingBinPcs[this.pcs.getPivot() ?? 0])
@@ -85,26 +86,26 @@ constructor() {
           }
         }
         // case third if #D and not E, then bE
-        if ( note == '^D') {
+        if (note == '^D') {
           if (pcsMapped.abinPcs[4] === 0) {
             note = '_E'
           }
-        } else if ( note == '^A' && prevNote.includes("A")) {
+        } else if (note == '^A' && prevNote.includes("A")) {
           if (pcsMapped.abinPcs[9] === 0) {
             note = '_B'
           }
-        } else if ( note == '^G' && prevNote.includes("G")) {
+        } else if (note == '^G' && prevNote.includes("G")) {
           if (pcsMapped.abinPcs[8] === 1) {
             note = '_A'
           }
-        } else if ( note == 'B' && prevNote.includes("B")) {
+        } else if (note == 'B' && prevNote.includes("B")) {
           if (pcsMapped.abinPcs[10] === 1 && pcsMapped.abinPcs[0] === 0) {
             note = "_C'"
           }
         }
         // // console.log('note = ' + note +  'bin = ' + this.pcs.getMappedBinPcs())
 
-         // TODO make pitches always up iPivot pitch
+        // TODO make pitches always up iPivot pitch
         // http://abcnotation.com/blog/2010/01/31/how-to-understand-abc-the-basics/
         if ((i % n) < (pcsMapped.iPivot ?? 0)) {
           note += "'"
@@ -119,7 +120,7 @@ constructor() {
       notes = "^F^G^AB^C'^D'^E'"
     }
     chord = '' //(this.pcsList.cardinal < 5) ? chord + ' ]  \n' : '' // experimental
-    notes = chord ? notes+'|' : notes
+    notes = chord ? notes + '|' : notes
 
     return suffix + notes + chord; //'C4 ^E4 G4 [C4E4G4]\n';
   }

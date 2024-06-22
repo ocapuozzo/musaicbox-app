@@ -19,7 +19,7 @@ export class ManagerPageWBService {
   private readonly _MIN_WIDTH = 40;
   static deltaPositionNewPcs = 50;
 
-  DRAWERS: string[] = ["Musaic", "Clock"]
+  DRAWERS: string[] = ["Musaic", "Clock", "Score"]
 
   pcs1 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[87].getPcsMin()
   pcs2 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[38].getPcsMin().complement().modalPrimeForm()
@@ -93,6 +93,8 @@ export class ManagerPageWBService {
 
       let pcsDto = this.uiPcsDtoList[index]
 
+      let oldWidthCell = pcsDto.uiMusaic.widthCell
+
       if (pcsDto.width + DELTA_ZOOM < this._MIN_WIDTH) {
         // already too small
         return
@@ -105,9 +107,9 @@ export class ManagerPageWBService {
       // avoid that this.CEL_WIDTH * (n + 1) > width,
       // is not always case ! TODO generalize with nbCellsPer line/row - not n based
       // so CEL_WIDTH and CEL_HEIGHT
-      if (CEL_WIDTH * (n + 1) > size) {
-        CEL_WIDTH = CEL_WIDTH - 1
-      }
+      // if (CEL_WIDTH * (n + 1) > size) {
+      //   CEL_WIDTH = CEL_WIDTH - 1
+      // }
 
       // adjust canvas size from CEL_WIDTH, for a better rendering (no float)
       // even if FormDrawer is not MUSAIC
@@ -121,13 +123,22 @@ export class ManagerPageWBService {
       if (pcsDto.indexFormDrawer == UIPcsDto.MUSAIC) {
         pcsDto.uiMusaic.widthCell = CEL_WIDTH
       }
-      pcsDto.height = preferredSize
+
+      if (pcsDto.indexFormDrawer == UIPcsDto.SCORE) {
+        if (pcsDto.pcs.cardinal > 4) {
+          pcsDto.height = (preferredSize / 2 >= 88) ? (preferredSize / 2) : preferredSize / 1.5
+        } else {
+          pcsDto.height = preferredSize
+        }
+      } else {
+        pcsDto.height = preferredSize
+      }
       pcsDto.width = preferredSize
 
       // Let's center the component
       pcsDto.position = {
-        x: barycenterBeforeChangeSize.x - preferredSize / 2,
-        y: barycenterBeforeChangeSize.y - preferredSize / 2
+        x: barycenterBeforeChangeSize.x - pcsDto.width / 2,
+        y: barycenterBeforeChangeSize.y - pcsDto.height / 2
       }
 
       this.uiPcsDtoList[index] = new UIPcsDto({

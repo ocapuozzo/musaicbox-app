@@ -1,1 +1,8 @@
-<p>pcs works!</p>
+@if (scoreView) {
+  <div #canvas id="paper-{{randomId}}" [ngClass]="{'musaic': true}"></div>
+<!--  <div class="text-center ms-1" #containercanvas id="containercanvas">-->
+<!--    <div id="paper-{{randomId}}"></div>-->
+<!--  </div>-->
+} @else {
+  <canvas #canvas id="paper-{{randomId}}" [ngClass]="{'roundedImageBorder roundedImageShadow': rounded, 'musaic': true}"></canvas>
+}

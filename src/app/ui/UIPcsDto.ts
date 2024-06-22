@@ -23,13 +23,15 @@ export interface UIClock {
 }
 
 export interface UIScore {
+  width: number
   height : number
 }
 
 export class UIPcsDto {
   static MUSAIC = 0
   static CLOCK = 1
-  // TODO SCORE index...
+  static SCORE = 2
+  // TODO others index...
 
   id : string
   pcs : IPcs = new IPcs({strPcs:"0, 4, 8"})
@@ -50,6 +52,8 @@ export class UIPcsDto {
         return this.uiMusaic.width
       case UIPcsDto.CLOCK :
         return this.uiClock.width
+      case UIPcsDto.SCORE :
+        return this.uiScore.width
       default :
         return this.uiMusaic.width
     }
@@ -62,6 +66,9 @@ export class UIPcsDto {
       case UIPcsDto.CLOCK :
         this.uiClock.width = w
         break
+      case UIPcsDto.SCORE :
+        this.uiScore.width = w
+        break
       default :
         this.uiMusaic.width = w
     }
@@ -72,6 +79,8 @@ export class UIPcsDto {
           return this.uiMusaic.height
         case UIPcsDto.CLOCK :
           return this.uiClock.height
+        case UIPcsDto.SCORE :
+          return this.uiScore.height
         default :
           return this.uiMusaic.height
       }
@@ -83,6 +92,9 @@ export class UIPcsDto {
           break
         case UIPcsDto.CLOCK :
           this.uiClock.height = h
+          break
+        case UIPcsDto.SCORE :
+          this.uiScore.height = h
           break
         default :
           this.uiMusaic.height = h
@@ -134,7 +146,8 @@ export class UIPcsDto {
       height: 104
     }
     this.uiScore = uiScore ? {...uiScore} : {
-      height : 25
+      height : 88,
+      width: 104
     }
 
     // this.indexFormDrawer = UIPcsDto.MUSAIC
