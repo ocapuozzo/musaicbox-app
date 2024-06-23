@@ -356,4 +356,16 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     this.managerHomePcsService.replaceBy(this.pcsDtoList[index].pcs)
     this.router.navigateByUrl('/pcs');
   }
+
+  isSelected(index: any) {
+    return index >=0 && index < this.pcsDtoList.length && this.pcsDtoList[index].isSelected;
+  }
+
+  /**
+   * Set selected/unselected pcs component (for touch event)
+   * @param index
+   */
+  doToggleSelected(index: number) {
+    this.managerPageWBService.doToggleSelected(index)
+  }
 }
