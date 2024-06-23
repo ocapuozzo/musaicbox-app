@@ -153,6 +153,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
 
   onMouseMove(e: any) {
     if (this.isDown) {
+      e.preventDefault()
       // console.log("nb selected elements : ", this.initialPointOfSelectedElements.length)
       if (this.initialPointOfSelectedElements.length > 0) {
         if (e.clientX) {
