@@ -1,6 +1,6 @@
 import {IPcs} from "../core/IPcs";
 
-export interface UIMusaic {
+export class UIMusaic {
   rounded: boolean
   position : {x: number, y: number}
   drawGrid : boolean
@@ -9,9 +9,30 @@ export interface UIMusaic {
   widthCell : number
   width: number
   height: number
+
+  constructor(
+    {rounded, /*position,*/ drawGrid, nbCellsPerLine, nbCellsPerRow, widthCell, width, height}:
+      { rounded ?: boolean,
+        // position ?: {x: number; y: number},
+        drawGrid ?: boolean,
+        nbCellsPerLine ?: number,
+        nbCellsPerRow ?: number,
+        widthCell ?: number,
+        width ?: number,
+        height ?: number}={})
+  {
+    this.rounded = rounded ?? false;
+    // this.position = position ?? {x:10, y:10};
+    this.drawGrid = drawGrid ?? false;
+    this.nbCellsPerLine = nbCellsPerLine ?? 13;
+    this.nbCellsPerRow = nbCellsPerRow ?? 13;
+    this.widthCell = widthCell ?? 7;
+    this.width = width ?? 88;
+    this.height = height ?? 88;
+  }
 }
 
-export interface UIClock {
+export class UIClock {
   drawPolygon : boolean
   radiusPitch : number
   textWidthAuto : boolean
@@ -20,11 +41,36 @@ export interface UIClock {
   colorPitchOn : string
   width: number
   height: number
+
+  constructor(
+    {drawPolygon, radiusPitch, textWidthAuto, textWidth, drawPivot, colorPitchOn, width, height}:
+    { drawPolygon?:  boolean,
+      colorPitchOn?: string,
+      width?: number,
+      height?: number,
+      radiusPitch ?: number,
+      textWidthAuto ?: boolean,
+      textWidth ?: number,
+      drawPivot ?: boolean
+    }={}) {
+    this.drawPolygon = drawPolygon ?? false;
+    this.radiusPitch = radiusPitch ?? 10;
+    this.textWidthAuto = textWidthAuto ?? true;
+    this.textWidth = textWidth ?? 10;
+    this.drawPivot = drawPivot ?? true;
+    this.colorPitchOn = colorPitchOn ?? 'yellow';
+    this.width = width ?? 91;
+    this.height = height ?? 91;
+  }
 }
 
-export interface UIScore {
+export class UIScore {
   width: number
   height : number
+  constructor({width, height}:{width ?: number, height ?: number}={})  {
+    this.width = width ?? 80;
+    this.height = height ?? 30;
+  }
 }
 
 export class UIPcsDto {
@@ -58,7 +104,7 @@ export class UIPcsDto {
         return this.uiMusaic.width
     }
   }
-  set width(w) {
+  set width(w: number) {
     switch (this.indexFormDrawer) {
       case UIPcsDto.MUSAIC :
         this.uiMusaic.width = w
@@ -125,28 +171,10 @@ export class UIPcsDto {
     this.colorPitchOff = colorPitchOff ?? 'white';
     this.indexFormDrawer = indexFormDrawer ?? 0
     this.isSelected = isSelected ?? false
-    this.uiMusaic = uiMusaic ? {...uiMusaic} :  {
-      position:{x:10, y:10},
-      drawGrid: false,
-      nbCellsPerLine:13,
-      nbCellsPerRow:13,
-      widthCell: 8,
-      rounded: false,
-      width: 104,
-      height: 104
-    }
-    this.uiClock = uiClock ? { ...uiClock} : {
-      textWidthAuto: true,
-      textWidth: 10,
-      radiusPitch : 10, // ? or auto
-      drawPivot : true,
-      drawPolygon : false,
-      colorPitchOn : 'yellow',
-      width: 104,
-      height: 104
-    }
+    this.uiMusaic = uiMusaic ? {... uiMusaic} : new UIMusaic()
+    this.uiClock = uiClock ? {...uiClock} : new UIClock()
     this.uiScore = uiScore ? {...uiScore} : {
-      height : 88,
+      height : 60,
       width: 104
     }
 

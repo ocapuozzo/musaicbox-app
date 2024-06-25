@@ -1,5 +1,5 @@
 import {EventEmitter, Injectable, Output} from '@angular/core';
-import {UIPcsDto} from "../ui/UIPcsDto";
+import {UIMusaic, UIPcsDto} from "../ui/UIPcsDto";
 import {ManagerLocalStorageService} from "./manager-local-storage.service";
 import {GroupAction} from "../core/GroupAction";
 import {Group} from "../core/Group";
@@ -23,23 +23,28 @@ export class ManagerPageWBService {
 
   DRAWERS: string[] = ["Musaic", "Clock", "Score"]
 
-  pcs1 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[87].getPcsMin()
-  pcs2 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[38].getPcsMin().complement().modalPrimeForm()
-  pcs3 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[36].getPcsMin().complement().modalPrimeForm()
-  pcs4 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[36].getPcsMin().complement().modalPrimeForm()
-
-  uiPcsDtoList: UIPcsDto[] = [
-    new UIPcsDto({pcs: this.pcs1, indexFormDrawer: 1, position: {x: 0, y: 0}}),
-    new UIPcsDto({pcs: this.pcs2, indexFormDrawer: 1, position: {x: 110, y: 0}, isSelected: true}),
-    new UIPcsDto({pcs: this.pcs3, indexFormDrawer: 1, position: {x: 220, y: 0}, isSelected: true}),
-    new UIPcsDto({pcs: this.pcs4, indexFormDrawer: 1, position: {x: 330, y: 0}, isSelected: true})
-  ]
+  uiPcsDtoList: UIPcsDto[] = []
 
   @Output() eventChangePcsPdoList: EventEmitter<UIPcsDto[]> = new EventEmitter();
 
   constructor(private managerLocalStorageService: ManagerLocalStorageService) {
     this.history = new HistoryT<UIPcsDto[]>()
+
+    let pcs1 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[58].getPcsMin()
+    let pcs2 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[61].getPcsMin().complement().modalPrimeForm()
+    let pcs3 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[40].getPcsMin().complement().modalPrimeForm()
+    let pcs4 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[26].getPcsMin().complement().modalPrimeForm()
+    let uiMus = new UIMusaic({rounded: true})
+
+    this.uiPcsDtoList = [
+      new UIPcsDto({pcs: pcs1, indexFormDrawer: 0, position: {x: 0, y: 0}}),
+      new UIPcsDto({pcs: pcs2, indexFormDrawer: 1, position: {x: 110, y: 0}, isSelected: true}),
+      new UIPcsDto({pcs: pcs3, indexFormDrawer: 2, position: {x: 220, y: 0}, isSelected: true}),
+      new UIPcsDto({pcs: pcs4, width:38, height:38, indexFormDrawer: 0, position: {x: 330, y: 0}, uiMusaic:uiMus})
+    ]
+
     this.history.pushInPresent(this.uiPcsDtoList)
+    //console.log(this.uiPcsDtoList[3])
   }
 
   emit() {

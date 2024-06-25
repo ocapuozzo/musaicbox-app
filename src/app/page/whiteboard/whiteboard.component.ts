@@ -127,7 +127,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     let elt = document.getElementById('white-board')
 
     this.listenerRenderer2Mousemove = this.renderer.listen(elt, 'mousemove', e => {
-       this.onMouseMove(e)
+      this.onMouseMove(e)
     });
 
     this.listenerRenderer2Mousemove = this.renderer.listen(elt, 'touchmove', e => {
@@ -220,7 +220,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   }
 
   onMouseUp(e: any) {
-    if (! this.isDown) {
+    if (!this.isDown) {
       return
     }
 
@@ -252,11 +252,11 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
 
   @HostListener('window:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {
-    if((event.ctrlKey || event.metaKey) && event.key == "z") {
+    if ((event.ctrlKey || event.metaKey) && event.key == "z") {
       // console.log('CTRL + Z');
       this.doUnDo()
     }
-    if((event.ctrlKey || event.metaKey) && event.key == "y") {
+    if ((event.ctrlKey || event.metaKey) && event.key == "y") {
       // console.log('CTRL + Y');
       this.doReDo()
     }
@@ -276,8 +276,9 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   }
 
   protected readonly console = console;
-  pcsDtoId(index : number, pcsDto: UIPcsDto) {
-      return pcsDto ? pcsDto.id : undefined
+
+  pcsDtoId(index: number, pcsDto: UIPcsDto) {
+    return pcsDto ? pcsDto.id : undefined
   }
 
   doZoom(direction: number, index: number) {
@@ -286,7 +287,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
         .filter(index => this.pcsDtoList[index].isSelected)
     if (indexOfSelectedComponents.includes(index)) {
       this.managerPageWBService.doZoom(direction, indexOfSelectedComponents)
-    }else {
+    } else {
       this.managerPageWBService.doZoom(direction, [index])
     }
   }
@@ -297,7 +298,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
         .filter(index => this.pcsDtoList[index].isSelected)
     if (indexOfSelectedComponents.includes(index)) {
       this.managerPageWBService.doToggleRounded(indexOfSelectedComponents)
-    }else {
+    } else {
       this.managerPageWBService.doToggleRounded([index])
     }
 
@@ -309,21 +310,15 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
         .filter(index => this.pcsDtoList[index].isSelected)
     if (indexOfSelectedComponents.includes(index)) {
       this.managerPageWBService.doUpdateDrawer(drawer, indexOfSelectedComponents)
-    }else {
+    } else {
       this.managerPageWBService.doUpdateDrawer(drawer, [index])
     }
   }
 
   toggleSelected($event: MouseEvent, index: number) {
-   if (!this.pcsDtoList.some((pcsDto) =>  pcsDto.isSelected)) {
-     this.managerPageWBService.doToggleSelected(index)
-   }
-  //  else if (this.pcsDtoList.filter(pcsDto => pcsDto.isSelected).length == 1) {
-  //    // if (this.pcsDtoList.some((pcsDto, idx) =>  pcsDto.isSelected && idx === index)) {
-  //      this.managerPageWBService.doToggleSelected(index)
-  //    // }
-  // }
-    else if ($event.ctrlKey) {
+    if (!this.pcsDtoList.some((pcsDto) => pcsDto.isSelected)) {
+      this.managerPageWBService.doToggleSelected(index)
+    } else if ($event.ctrlKey) {
       this.managerPageWBService.doToggleSelected(index)
     }
   }
@@ -341,7 +336,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     return index < 0 || index >= this.pcsDtoList.length || this.pcsDtoList[index].indexFormDrawer !== UIPcsDto.MUSAIC
   }
 
-  selectionIsEmpty() : boolean {
+  selectionIsEmpty(): boolean {
     return !this.pcsDtoList.some(pcsDto => pcsDto.isSelected)
   }
 
@@ -352,13 +347,13 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
       "OFF" : "ON"
   }
 
-  doDuplicate(index : number) {
+  doDuplicate(index: number) {
     const indexOfSelectedComponents =
       this.pcsDtoList.map((value, index) => index)
         .filter(index => this.pcsDtoList[index].isSelected)
 
     this.doUnselectAll()
-    if (! indexOfSelectedComponents.includes(index)) {
+    if (!indexOfSelectedComponents.includes(index)) {
       this.managerPageWBService.doDuplicate([index])
     } else {
       this.managerPageWBService.doDuplicate(indexOfSelectedComponents)
@@ -372,7 +367,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
         .filter(index => this.pcsDtoList[index].isSelected)
 
     this.doUnselectAll()
-    if (! indexOfSelectedComponents.includes(index)) {
+    if (!indexOfSelectedComponents.includes(index)) {
       this.managerPageWBService.doDelete([index])
     } else {
       this.managerPageWBService.doDelete(indexOfSelectedComponents)
@@ -386,7 +381,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   }
 
   isSelected(index: number) {
-    return index >=0 && index < this.pcsDtoList.length && this.pcsDtoList[index].isSelected;
+    return index >= 0 && index < this.pcsDtoList.length && this.pcsDtoList[index].isSelected;
   }
 
   isSolo(index: number) {
@@ -409,7 +404,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   }
 
   doUnDo() {
-  console.log(this.pcsDtoList.length)
+    // console.log(this.pcsDtoList.length)
     this.managerPageWBService.unDoPcs()
   }
 
@@ -417,11 +412,11 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     this.managerPageWBService.reDoPcs()
   }
 
-  get canUndo() : boolean {
+  get canUndo(): boolean {
     return this.managerPageWBService.canUndo()
   }
 
-  get canRedo() : boolean {
+  get canRedo(): boolean {
     return this.managerPageWBService.canRedo()
   }
 
