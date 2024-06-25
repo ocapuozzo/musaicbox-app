@@ -108,9 +108,9 @@ export class ScoreDrawing {
   drawScore() {
     let len = this.pcsDto.width
     // https://configurator.abcjs.net/visual/
-    console.log("width = ", len, "score = ", this.tune)
+    // console.log("width = ", len, "score = ", this.tune)
     let elt = document.getElementById('paper-'+this.randomId) as HTMLElement
-    console.log('elt : ', 'paper-'+this.randomId,  elt)
+    // console.log('elt : ', 'paper-'+this.randomId,  elt)
     abcjs.renderAbc(
       "paper-" + this.randomId,
       this.tune,
@@ -119,9 +119,8 @@ export class ScoreDrawing {
         staffwidth: len,
         // paddingleft: 0,
         // paddingright: 10,
-        paddingtop:20,
-        responsive: "resize"
+        // paddingtop:20,
+         responsive: "resize"
       });
-
   }
 }

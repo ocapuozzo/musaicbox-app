@@ -8,7 +8,7 @@ import {
 } from "@angular/cdk/menu";
 import {
   AfterViewInit,
-  Component,
+  Component, HostListener,
   OnInit,
   Renderer2,
   ViewChild
@@ -19,7 +19,7 @@ import {MusaicComponent} from "../../component/musaic/musaic.component";
 import {MatMenu, MatMenuContent, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 import {MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
-import {NgClass, NgForOf, NgStyle} from "@angular/common";
+import {NgClass, NgForOf, NgIf, NgStyle} from "@angular/common";
 import {FinalElementMove, ManagerPageWBService} from "../../service/manager-page-wb.service";
 import {UIPcsDto} from "../../ui/UIPcsDto";
 import {PcsComponent} from "../../component/pcs/pcs.component";
@@ -59,7 +59,8 @@ interface ElementMove {
     CdkMenuItem,
     NgForOf,
     DraggableDirective,
-    NgClass
+    NgClass,
+    NgIf
   ],
   templateUrl: './whiteboard.component.html',
   styleUrl: './whiteboard.component.css'
@@ -249,6 +250,18 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   }
 
 
+  @HostListener('window:keyup', ['$event'])
+  keyEvent(event: KeyboardEvent) {
+    if((event.ctrlKey || event.metaKey) && event.key == "z") {
+      // console.log('CTRL + Z');
+      this.doUnDo()
+    }
+    if((event.ctrlKey || event.metaKey) && event.key == "y") {
+      // console.log('CTRL + Y');
+      this.doReDo()
+    }
+  }
+
   /**
    * DOM action : set elements position synchro with mousemove
    * @param x
@@ -267,17 +280,38 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
       return pcsDto ? pcsDto.id : undefined
   }
 
-
   doZoom(direction: number, index: number) {
-    this.managerPageWBService.doZoom(direction, [index])
+    const indexOfSelectedComponents =
+      this.pcsDtoList.map((value, index) => index)
+        .filter(index => this.pcsDtoList[index].isSelected)
+    if (indexOfSelectedComponents.includes(index)) {
+      this.managerPageWBService.doZoom(direction, indexOfSelectedComponents)
+    }else {
+      this.managerPageWBService.doZoom(direction, [index])
+    }
   }
 
   toggleRounded(index: number) {
-    this.managerPageWBService.toggleRounded(index)
+    const indexOfSelectedComponents =
+      this.pcsDtoList.map((value, index) => index)
+        .filter(index => this.pcsDtoList[index].isSelected)
+    if (indexOfSelectedComponents.includes(index)) {
+      this.managerPageWBService.doToggleRounded(indexOfSelectedComponents)
+    }else {
+      this.managerPageWBService.doToggleRounded([index])
+    }
+
   }
 
   updateDrawer(drawer: string, index: number) {
-    this.managerPageWBService.doUpdateDrawer(drawer, index)
+    const indexOfSelectedComponents =
+      this.pcsDtoList.map((value, index) => index)
+        .filter(index => this.pcsDtoList[index].isSelected)
+    if (indexOfSelectedComponents.includes(index)) {
+      this.managerPageWBService.doUpdateDrawer(drawer, indexOfSelectedComponents)
+    }else {
+      this.managerPageWBService.doUpdateDrawer(drawer, [index])
+    }
   }
 
   toggleSelected($event: MouseEvent, index: number) {
@@ -307,7 +341,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     return index < 0 || index >= this.pcsDtoList.length || this.pcsDtoList[index].indexFormDrawer !== UIPcsDto.MUSAIC
   }
 
-  disabledIfSelectionIsEmpty() : boolean {
+  selectionIsEmpty() : boolean {
     return !this.pcsDtoList.some(pcsDto => pcsDto.isSelected)
   }
 
@@ -319,37 +353,31 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   }
 
   doDuplicate(index : number) {
+    const indexOfSelectedComponents =
+      this.pcsDtoList.map((value, index) => index)
+        .filter(index => this.pcsDtoList[index].isSelected)
+
     this.doUnselectAll()
-    this.managerPageWBService.doDuplicate([index])
+    if (! indexOfSelectedComponents.includes(index)) {
+      this.managerPageWBService.doDuplicate([index])
+    } else {
+      this.managerPageWBService.doDuplicate(indexOfSelectedComponents)
+    }
+
   }
 
   doDelete(index: any) {
-    this.managerPageWBService.doDelete([index])
-  }
-
-  doDuplicateSelection() {
-   const indexOfSelectedComponents =
-     this.pcsDtoList.map((value, index) => index)
-       .filter(index => this.pcsDtoList[index].isSelected)
-
-    this.doUnselectAll() // because duplicate are new selected components
-    this.managerPageWBService.doDuplicate(indexOfSelectedComponents)
-  }
-
-
-  doDeleteSelection() {
     const indexOfSelectedComponents =
       this.pcsDtoList.map((value, index) => index)
         .filter(index => this.pcsDtoList[index].isSelected)
 
-    this.managerPageWBService.doDelete(indexOfSelectedComponents)
-  }
+    this.doUnselectAll()
+    if (! indexOfSelectedComponents.includes(index)) {
+      this.managerPageWBService.doDelete([index])
+    } else {
+      this.managerPageWBService.doDelete(indexOfSelectedComponents)
+    }
 
-  doZoomSelection(direction : number) {
-    const indexOfSelectedComponents =
-      this.pcsDtoList.map((value, index) => index)
-        .filter(index => this.pcsDtoList[index].isSelected)
-    this.managerPageWBService.doZoom(direction, indexOfSelectedComponents)
   }
 
   doPushToPcsPage(index: number) {
@@ -357,9 +385,20 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     this.router.navigateByUrl('/pcs');
   }
 
-  isSelected(index: any) {
+  isSelected(index: number) {
     return index >=0 && index < this.pcsDtoList.length && this.pcsDtoList[index].isSelected;
   }
+
+  isSolo(index: number) {
+    const indexOfSelectedComponents =
+      this.pcsDtoList.map((value, index) => index)
+        .filter(index => this.pcsDtoList[index].isSelected)
+
+    return !this.isSelected(index) || (indexOfSelectedComponents.length == 1
+      && indexOfSelectedComponents.includes(index))
+
+  }
+
 
   /**
    * Set selected/unselected pcs component (for touch event)
@@ -368,4 +407,23 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   doToggleSelected(index: number) {
     this.managerPageWBService.doToggleSelected(index)
   }
+
+  doUnDo() {
+  console.log(this.pcsDtoList.length)
+    this.managerPageWBService.unDoPcs()
+  }
+
+  doReDo() {
+    this.managerPageWBService.reDoPcs()
+  }
+
+  get canUndo() : boolean {
+    return this.managerPageWBService.canUndo()
+  }
+
+  get canRedo() : boolean {
+    return this.managerPageWBService.canRedo()
+  }
+
+
 }

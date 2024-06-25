@@ -36,14 +36,12 @@ import {Subject, takeUntil} from "rxjs";
 
 export class PcsComponent {
 
-
   pcs: IPcs = new IPcs({strPcs:"0,1,2,3"})
   labeledListPcs = new Map<string, IElementListPcs>()
   protected readonly EightyEight = EightyEight;
 
   maxWidthParentUiMusaic: string = "270px";
   maxWidthUiMusaic: string = "250px"
-
 
   destroyed = new Subject<void>();
   currentScreenSize: string;
@@ -131,7 +129,6 @@ export class PcsComponent {
     this.destroyed.next();
     this.destroyed.complete();
   }
-
 
   changeByMusaic() {
     this.managerPagePcsService.replaceBy(EightyEight.getMusaic(this.pcs).modalPrimeForm())

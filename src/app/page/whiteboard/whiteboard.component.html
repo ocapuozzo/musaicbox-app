@@ -27,7 +27,8 @@
       <hr/>
       <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doPushToPcsPage(index)">Push to PCS page</button>
       <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doToggleSelected(index)">Select {{isSelected(index) ? 'OFF' : 'ON'}}</button>
-      <button class="example-menu-item" cdkMenuItem (click)="doDelete(index)">Delete</button>
+      <button class="example-menu-item" cdkMenuItem (click)="doDelete(index)">Delete <span *ngIf="!isSolo(index)">&nbsp;(All)</span></button>
+      <button class="example-menu-item" cdkMenuItem (click)="doDuplicate(index)">Duplicate <span *ngIf="!isSolo(index)">&nbsp;(All)</span></button>
       <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doZoom(1, index)">zoom+</button>
       <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doZoom(-1, index)">zoom-</button>
       <button class="example-menu-item" cdkMenuItem
@@ -37,7 +38,7 @@
       <button class="example-menu-item" cdkMenuItem [cdkMenuTriggerFor]="create" [cdkMenuTriggerData]="{index: index}">
         Create <span>&#10148;</span>
       </button>
-      <button class="example-menu-item" [disabled]="disabledIfSelectionIsEmpty()" cdkMenuItem [cdkMenuTriggerFor]="selection" [cdkMenuTriggerData]="{index: index}">
+      <button class="example-menu-item" [disabled]="selectionIsEmpty()" cdkMenuItem [cdkMenuTriggerFor]="selection" [cdkMenuTriggerData]="{index: index}">
         Selection <span>&#10148;</span>
       </button>
       <button class="example-menu-item" cdkMenuItem [cdkMenuTriggerFor]="neighbors">
@@ -60,7 +61,6 @@
 
   <ng-template #create let-index="index">
     <div class="example-menu" cdkMenu>
-      <button class="example-menu-item" cdkMenuItem (click)="doDuplicate(index)">Duplicate</button>
       <button class="example-menu-item" disabled cdkMenuItem>ModalPrimeForm</button>
       <hr/>
       <button class="example-menu-item" disabled cdkMenuItem>Pcs CyclicPF in orbit</button>
@@ -71,11 +71,7 @@
 
   <ng-template #selection let-index="index">
     <div class="example-menu"   cdkMenu>
-      <button class="example-menu-item"  [disabled]="disabledIfSelectionIsEmpty()" cdkMenuItem (click)="doDuplicateSelection()">Duplicate</button>
-      <button class="example-menu-item" [disabled]="disabledIfSelectionIsEmpty()" cdkMenuItem (click)="doDeleteSelection()">Delete</button>
-      <button class="example-menu-item" [disabled]="disabledIfSelectionIsEmpty()" cdkMenuItem (click)="doZoomSelection(+1)">Zoom+</button>
-      <button class="example-menu-item" [disabled]="disabledIfSelectionIsEmpty()" cdkMenuItem (click)="doZoomSelection(-1)">Zoom-</button>
-      <hr/>
+      <button class="example-menu-item" disabled cdkMenuItem >nop</button>
     </div>
   </ng-template>
 

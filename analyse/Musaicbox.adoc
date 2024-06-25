@@ -19,7 +19,24 @@ endif::[]
 
 This document presents the main concepts illustrated on the 88musaics.org site, plus others (concept of modes and scales). The implementation chosen for this application are detailed, and certain concepts from Musial Set Theory are discussed.
 
+== Introduction
+
+Timbre, expression, duration, function... Everything that makes music touch us is not part of this study.
+
+Nous cherchons simplement ici à identifier des liens potentiels entre structures musicales élémentaires (PCS)
+
+=== For which audience ?
+
 == PCS
+
+=== Abstraction
+
+Abstraction is a description of a reality.
+
+The person who abstracts, reduces reality, or what he perceives as reality, into something smaller.
+
+=== Orbit
+Orbit is, finally, another term to describe an abstraction.
 
 
 == Representation
@@ -37,11 +54,16 @@ This document presents the main concepts illustrated on the 88musaics.org site, 
 
 == Equivalence relations
 
+This is a link that brings together different elements under one same roof, same orbit, same abstraction.
+
+
 === Octave equivalence
 
 Reduce to 12 pitch classes and its 4096 PCS (2^12)
 
 === Intervallic structure equivalence
+
+Reduce to 352 orbits
 
 
 === Dihedral equivalence
@@ -62,7 +84,11 @@ This is another paragraph.footnote:[I am footnote text and will be displayed at 
 === What Prime Form is
 === What Prime Form is not
 
-modal prime form
+==
+=== Modal prime form
+
+
+
 .Unordered list title
 * list item 1
 ** nested list item

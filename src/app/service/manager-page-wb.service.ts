@@ -5,6 +5,7 @@ import {GroupAction} from "../core/GroupAction";
 import {Group} from "../core/Group";
 import {Point} from "../utils/Point";
 import {IPcs} from "../core/IPcs";
+import {HistoryT} from "../utils/HistoryT";
 
 export interface FinalElementMove {
   index: number,
@@ -18,6 +19,7 @@ export interface FinalElementMove {
 export class ManagerPageWBService {
   private readonly _MIN_WIDTH = 40;
   static deltaPositionNewPcs = 50;
+  history: HistoryT<UIPcsDto[]>
 
   DRAWERS: string[] = ["Musaic", "Clock", "Score"]
 
@@ -36,10 +38,17 @@ export class ManagerPageWBService {
   @Output() eventChangePcsPdoList: EventEmitter<UIPcsDto[]> = new EventEmitter();
 
   constructor(private managerLocalStorageService: ManagerLocalStorageService) {
+    this.history = new HistoryT<UIPcsDto[]>()
+    this.history.pushInPresent(this.uiPcsDtoList)
+  }
+
+  emit() {
+    this.eventChangePcsPdoList.emit(this.uiPcsDtoList)
   }
 
   addPcs(somePcs: IPcs[]) {
     this.doUnselectAll()
+    this.uiPcsDtoList = [...this.uiPcsDtoList]
     somePcs.forEach(pcs => {
       const pcsDto =
         new UIPcsDto({
@@ -57,43 +66,22 @@ export class ManagerPageWBService {
       }
     })
 
-    // this.managerLocalStorageService.savePageWB(this.uiPcsDtoList)
-    // this.eventChangePcsPdoList.emit(this.uiPcsDtoList)
-  }
-
-  delete(uiPcsDtoID: string) {
-    this.uiPcsDtoList = this.uiPcsDtoList.filter(({id}) => id !== uiPcsDtoID);
-    this.managerLocalStorageService.savePageWB(this.uiPcsDtoList)
-    this.eventChangePcsPdoList.emit(this.uiPcsDtoList)
-  }
-
-  update(uiPcsDtoID: string, pcsDtoUpdate: UIPcsDto) {
-    this.uiPcsDtoList = this.uiPcsDtoList.map(pcsDto =>
-      pcsDto.id === uiPcsDtoID
-        ? new UIPcsDto({
-          ...pcsDto,
-          ...pcsDtoUpdate
-        })
-        : pcsDto
-    );
-    this.eventChangePcsPdoList.emit(this.uiPcsDtoList)
-  }
-
-  refresh() {
-    this.eventChangePcsPdoList.emit(this.uiPcsDtoList)
+    this.history.pushInPresent(this.uiPcsDtoList)
+    this.emit()
   }
 
   doZoom(direction: number, indexElementsToZoom: number[]) {
     let DELTA_ZOOM = 20 * direction
+
+    this.uiPcsDtoList = [...this.uiPcsDtoList]
 
     indexElementsToZoom.forEach(index => {
       if (index < 0 || index >= this.uiPcsDtoList.length) {
         throw new Error("oops bad index : " + index)
       }
 
-      let pcsDto = this.uiPcsDtoList[index]
-
-      let oldWidthCell = pcsDto.uiMusaic.widthCell
+      let pcsDto =
+        new UIPcsDto({...this.uiPcsDtoList[index]})
 
       if (pcsDto.width + DELTA_ZOOM < this._MIN_WIDTH) {
         // already too small
@@ -104,12 +92,7 @@ export class ManagerPageWBService {
       let n = pcsDto.pcs.nMapping //getMappedBinPcs().length;
       let CEL_WIDTH = Math.floor(size / (n + 1));
 
-      // avoid that this.CEL_WIDTH * (n + 1) > width,
-      // is not always case ! TODO generalize with nbCellsPer line/row - not n based
-      // so CEL_WIDTH and CEL_HEIGHT
-      // if (CEL_WIDTH * (n + 1) > size) {
-      //   CEL_WIDTH = CEL_WIDTH - 1
-      // }
+      // TODO generalize with nbCellsPer line/row - not n based
 
       // adjust canvas size from CEL_WIDTH, for a better rendering (no float)
       // even if FormDrawer is not MUSAIC
@@ -121,10 +104,12 @@ export class ManagerPageWBService {
       let barycenterBeforeChangeSize = this.getXYFromBarycenter(pcsDto)
 
       if (pcsDto.indexFormDrawer == UIPcsDto.MUSAIC) {
+        // real change widthCell
         pcsDto.uiMusaic.widthCell = CEL_WIDTH
       }
 
       if (pcsDto.indexFormDrawer == UIPcsDto.SCORE) {
+        // TODO do better, in reaction of abcjs render
         if (pcsDto.pcs.cardinal > 4) {
           pcsDto.height = (preferredSize / 2 >= 88) ? (preferredSize / 2) : preferredSize / 1.5
         } else {
@@ -141,68 +126,91 @@ export class ManagerPageWBService {
         y: barycenterBeforeChangeSize.y - pcsDto.height / 2
       }
 
-      this.uiPcsDtoList[index] = new UIPcsDto({
-        ...pcsDto
-      })
+      this.uiPcsDtoList[index] = pcsDto
 
     })
+    this.history.pushInPresent(this.uiPcsDtoList)
+    this.emit()
   }
 
 
   /**
    * Effect only is FormDrawer is Musaic (i.e musaic is shown rounded, not square)
-   * @param index
+   * @param indexes list of this.uiPcsDtoList index
    */
-  toggleRounded(index: number) {
-    if (index < 0 || index >= this.uiPcsDtoList.length) {
-      throw new Error("oops bad index : " + index)
-    }
-    let pcsDto = this.uiPcsDtoList[index]
-    if (pcsDto.indexFormDrawer === UIPcsDto.MUSAIC) {
-      pcsDto.uiMusaic.rounded = !pcsDto.uiMusaic.rounded
-    }
+  doToggleRounded(indexes: number[]) {
+    this.uiPcsDtoList = [...this.uiPcsDtoList]
+    indexes.forEach(index => {
+      if (index < 0 || index >= this.uiPcsDtoList.length) {
+        throw new Error("oops bad index : " + index)
+      }
+      let pcsDto
+        = new UIPcsDto({...this.uiPcsDtoList[index]})
+      if (pcsDto.indexFormDrawer === UIPcsDto.MUSAIC) {
+        pcsDto.uiMusaic.rounded = !pcsDto.uiMusaic.rounded
+      }
+      this.uiPcsDtoList[index] = pcsDto
+    })
+    this.history.pushInPresent(this.uiPcsDtoList)
+    this.emit()
   }
 
+  // TODO refactor avec liste indexes
+  doUpdateDrawer(drawer: string, indexes: number[]) {
+    this.uiPcsDtoList = [...this.uiPcsDtoList]
+    indexes.forEach(index => {
+      if (index < 0 || index >= this.uiPcsDtoList.length) {
+        throw new Error("oops bad index : " + index)
+      }
 
-  doUpdateDrawer(drawer: string, index: number) {
-    if (index < 0 || index >= this.uiPcsDtoList.length) {
-      throw new Error("oops bad index : " + index)
-    }
-    let pcsDto = this.uiPcsDtoList[index]
-    let indexFormDrawer = this.DRAWERS.findIndex((d) => d == drawer)
-    if (indexFormDrawer < 0) indexFormDrawer = 0
+      let pcsDto //= this.uiPcsDtoList[index]
+        = new UIPcsDto({...this.uiPcsDtoList[index]})
+      let indexFormDrawer = this.DRAWERS.findIndex((d) => d == drawer)
+      if (indexFormDrawer < 0) indexFormDrawer = 0
 
-    let barycenterBeforeChangeSize = this.getXYFromBarycenter(pcsDto)
-    // rem : pcsDto.width and height are polymorph
+      let barycenterBeforeChangeSize = this.getXYFromBarycenter(pcsDto)
+      // rem : pcsDto.width and height are polymorph
 
-    pcsDto.indexFormDrawer = indexFormDrawer
+      pcsDto.indexFormDrawer = indexFormDrawer
 
-    pcsDto.position = {
-      x: barycenterBeforeChangeSize.x - pcsDto.width / 2,
-      y: barycenterBeforeChangeSize.y - pcsDto.height / 2
-    }
-
-    this.uiPcsDtoList[index] = new UIPcsDto({
-      ...pcsDto
+      pcsDto.position = {
+        x: barycenterBeforeChangeSize.x - pcsDto.width / 2,
+        y: barycenterBeforeChangeSize.y - pcsDto.height / 2
+      }
+      this.uiPcsDtoList[index] = pcsDto
     })
+
+    this.history.pushInPresent(this.uiPcsDtoList)
+    this.emit()
   }
 
   doFinalPosition(finalMoveElements: FinalElementMove[]) {
+    this.uiPcsDtoList = [...this.uiPcsDtoList]
     finalMoveElements.forEach(e => {
       if (e.index >= 0 && e.index < this.uiPcsDtoList.length) {
-        let pcsDto = this.uiPcsDtoList[e.index]
+        let pcsDto
+          = new UIPcsDto({...this.uiPcsDtoList[e.index]})
         pcsDto.position = {x: e.x, y: e.y}
+        this.uiPcsDtoList[e.index] = pcsDto
       }
     })
+    this.history.pushInPresent(this.uiPcsDtoList)
+    this.emit()
   }
 
   doToggleSelected(index: number) {
     if (index < 0 || index >= this.uiPcsDtoList.length) {
       throw new Error("oops bad index : " + index)
     }
+    this.uiPcsDtoList = [...this.uiPcsDtoList]
 
-    let pcsDto = this.uiPcsDtoList[index]
+    let pcsDto
+      = new UIPcsDto({...this.uiPcsDtoList[index]})
+
     pcsDto.isSelected = !pcsDto.isSelected
+    this.uiPcsDtoList[index] = pcsDto
+    // no historisation
+    this.emit()
   }
 
   /**
@@ -211,15 +219,28 @@ export class ManagerPageWBService {
    * @param indexSelectedElements
    */
   doUnselectAll(indexSelectedElements: number[] = []) {
+    // this.uiPcsDtoList = [...this.uiPcsDtoList]
     if (indexSelectedElements.length === 0) {
-      this.uiPcsDtoList.forEach(e => {
-        if (e.isSelected) e.isSelected = false
+
+      this.uiPcsDtoList.forEach((e, index) => {
+        if (e.isSelected) {
+          let pcsDto
+            = new UIPcsDto({...e})
+          pcsDto.isSelected = false
+          this.uiPcsDtoList[index] = pcsDto
+        }
       })
     } else {
       indexSelectedElements.forEach(index => {
-        this.uiPcsDtoList[index].isSelected = false
+        let pcsDto
+          = new UIPcsDto({...this.uiPcsDtoList[index]})
+        pcsDto.isSelected = false
+        this.uiPcsDtoList[index] = pcsDto
       })
     }
+    // no historisation
+    // this.history.pushInPresent(this.uiPcsDtoList)
+    this.emit()
   }
 
   /**
@@ -236,6 +257,7 @@ export class ManagerPageWBService {
 
 
   doDuplicate(indexes: number[], deltaPosition = 20) {
+    this.uiPcsDtoList = [...this.uiPcsDtoList]
     let newPcsDtos: UIPcsDto[] = []
     indexes.forEach(index => {
       if (index < 0 || index >= this.uiPcsDtoList.length) {
@@ -244,24 +266,15 @@ export class ManagerPageWBService {
       let pcsDto = this.uiPcsDtoList[index]
 
       let newPcsDto = new UIPcsDto({
-        /*pcs:new IPcs({strPcs:pcsDto.pcs.getPcsStr()}),*/
-        pcs: pcsDto.pcs,
-        position: {x: pcsDto.position.x + deltaPosition, y: pcsDto.position.y + deltaPosition}, // do not share ref !
-        width: pcsDto.width,
-        height: pcsDto.height,
-        colorPitchOff: pcsDto.colorPitchOff,
-        colorPitchOn: pcsDto.colorPitchOn,
-        indexFormDrawer: pcsDto.indexFormDrawer,
-        isSelected: true,
-        uiMusaic: pcsDto.uiMusaic,
-        uiClock: pcsDto.uiClock,
-        uiScore: pcsDto.uiScore
+        ...pcsDto, position: {x: pcsDto.position.x + deltaPosition, y: pcsDto.position.y + deltaPosition}, // do not share ref !
+        isSelected: true
       })
       newPcsDtos.push(newPcsDto)
     })
 
     this.uiPcsDtoList.push(...newPcsDtos)
-
+    this.history.pushInPresent(this.uiPcsDtoList)
+    this.emit()
   }
 
   /**
@@ -269,8 +282,40 @@ export class ManagerPageWBService {
    * @param indexToDeleteList
    */
   doDelete(indexToDeleteList: number[]) {
+    console.log("doDelete in wb service")
     this.uiPcsDtoList =
       this.uiPcsDtoList.filter((value, index) => !indexToDeleteList.includes(index))
-    this.refresh()
+    this.history.pushInPresent(this.uiPcsDtoList)
+    this.emit()
   }
+
+  unDoPcs() {
+    // save also actual pcsList (parameter to unDoToPresent)
+    let pcsDtoList = this.history.unDoToPresent()
+    if (pcsDtoList != undefined) {
+      this.uiPcsDtoList = pcsDtoList
+      this.emit()
+    }
+  }
+
+  reDoPcs() {
+    let pcsDtoList = this.history.reDoToPresent()
+    if (pcsDtoList != undefined) {
+      this.uiPcsDtoList = pcsDtoList
+      this.emit()
+    }
+  }
+
+  canUndo(): boolean {
+    return this.history.canUndo()
+  }
+
+  canRedo(): boolean {
+    return this.history.canRedo()
+  }
+
+  getCurrentPcs(): UIPcsDto[] | undefined {
+    return this.history.getCurrentPcs()
+  }
+
 }
