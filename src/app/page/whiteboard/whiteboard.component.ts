@@ -377,6 +377,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
 
   doPushToPcsPage(index: number) {
     this.managerHomePcsService.replaceBy(this.pcsDtoList[index].pcs)
+    this.managerPageWBService.setPcsDtoForTemplate(this.pcsDtoList[index])
     this.router.navigateByUrl('/pcs');
   }
 
@@ -384,6 +385,11 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     return index >= 0 && index < this.pcsDtoList.length && this.pcsDtoList[index].isSelected;
   }
 
+  /**
+   * Return true if this.pcsDtoList[index] is only selected element or if nobody element is selected
+   * return false else
+   * @param index
+   */
   isSolo(index: number) {
     const indexOfSelectedComponents =
       this.pcsDtoList.map((value, index) => index)
@@ -391,9 +397,12 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
 
     return !this.isSelected(index) || (indexOfSelectedComponents.length == 1
       && indexOfSelectedComponents.includes(index))
-
   }
 
+  get numberSelectedComponents(): number {
+    return this.pcsDtoList.reduce(
+      (nbSelected:number, pcsdDto: UIPcsDto)  => pcsdDto.isSelected ? nbSelected+1 : nbSelected, 0 )
+  }
 
   /**
    * Set selected/unselected pcs component (for touch event)

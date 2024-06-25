@@ -7,7 +7,7 @@ export class HistoryT<T> {
   constructor() {
   }
 
-  pushInPresent(obj: T) {
+  pushIntoPresent(obj: T) {
     // delete all elements present into future (in case of previous undos)
     if (this.currentIndexPast <= this.timeLine.length - 1) {
       this.timeLine.splice(this.currentIndexPast+1)

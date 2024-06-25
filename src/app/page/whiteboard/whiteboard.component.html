@@ -27,8 +27,8 @@
       <hr/>
       <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doPushToPcsPage(index)">Push to PCS page</button>
       <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doToggleSelected(index)">Select {{isSelected(index) ? 'OFF' : 'ON'}}</button>
-      <button class="example-menu-item" cdkMenuItem (click)="doDelete(index)">Delete <span *ngIf="!isSolo(index)">&nbsp;(All)</span></button>
-      <button class="example-menu-item" cdkMenuItem (click)="doDuplicate(index)">Duplicate <span *ngIf="!isSolo(index)">&nbsp;(All)</span></button>
+      <button class="example-menu-item" cdkMenuItem (click)="doDelete(index)">Delete <span *ngIf="!isSolo(index)">&nbsp;({{numberSelectedComponents}})</span></button>
+      <button class="example-menu-item" cdkMenuItem (click)="doDuplicate(index)">Duplicate <span *ngIf="!isSolo(index)">&nbsp;({{numberSelectedComponents}})</span></button>
       <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doZoom(1, index)">zoom+</button>
       <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doZoom(-1, index)">zoom-</button>
       <button class="example-menu-item" cdkMenuItem

@@ -25,6 +25,12 @@ export class ManagerPageWBService {
 
   uiPcsDtoList: UIPcsDto[] = []
 
+  /**
+   * For format others as him
+   * @private
+   */
+  pcsDtoForTemplate ?: UIPcsDto;
+
   @Output() eventChangePcsPdoList: EventEmitter<UIPcsDto[]> = new EventEmitter();
 
   constructor(private managerLocalStorageService: ManagerLocalStorageService) {
@@ -32,7 +38,7 @@ export class ManagerPageWBService {
 
     let pcs1 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[58].getPcsMin()
     let pcs2 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[61].getPcsMin().complement().modalPrimeForm()
-    let pcs3 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[40].getPcsMin().complement().modalPrimeForm()
+    let pcs3 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[55].getPcsMin().modalPrimeForm()
     let pcs4 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[26].getPcsMin().complement().modalPrimeForm()
     let uiMus = new UIMusaic({rounded: true})
 
@@ -40,10 +46,10 @@ export class ManagerPageWBService {
       new UIPcsDto({pcs: pcs1, indexFormDrawer: 0, position: {x: 0, y: 0}}),
       new UIPcsDto({pcs: pcs2, indexFormDrawer: 1, position: {x: 110, y: 0}, isSelected: true}),
       new UIPcsDto({pcs: pcs3, indexFormDrawer: 2, position: {x: 220, y: 0}, isSelected: true}),
-      new UIPcsDto({pcs: pcs4, width:38, height:38, indexFormDrawer: 0, position: {x: 330, y: 0}, uiMusaic:uiMus})
+      new UIPcsDto({pcs: pcs4, width: 38, height: 38, indexFormDrawer: 0, position: {x: 340, y: 0}, uiMusaic: uiMus})
     ]
 
-    this.history.pushInPresent(this.uiPcsDtoList)
+    this.history.pushIntoPresent(this.uiPcsDtoList)
     //console.log(this.uiPcsDtoList[3])
   }
 
@@ -55,23 +61,26 @@ export class ManagerPageWBService {
     this.doUnselectAll()
     this.uiPcsDtoList = [...this.uiPcsDtoList]
     somePcs.forEach(pcs => {
-      const pcsDto =
-        new UIPcsDto({
-          pcs: pcs,
-          indexFormDrawer: 1,
-          position: {
-            x: ManagerPageWBService.deltaPositionNewPcs += 10,
-            y: ManagerPageWBService.deltaPositionNewPcs += 10
-          },
-          isSelected: true
-        })
+      let pcsDto =
+        this.pcsDtoForTemplate
+          ? new UIPcsDto({...this.pcsDtoForTemplate})
+          : new UIPcsDto()
+      pcsDto.pcs = pcs
+      ManagerPageWBService.deltaPositionNewPcs += 10
+      pcsDto.position = {
+        x: this.pcsDtoForTemplate ? this.pcsDtoForTemplate.position.x + ManagerPageWBService.deltaPositionNewPcs :
+          ManagerPageWBService.deltaPositionNewPcs += 10,
+        y: this.pcsDtoForTemplate ? this.pcsDtoForTemplate.position.y + ManagerPageWBService.deltaPositionNewPcs :
+          ManagerPageWBService.deltaPositionNewPcs += 10,
+      }
+      pcsDto.isSelected = true
       this.uiPcsDtoList.push(pcsDto)
       if (ManagerPageWBService.deltaPositionNewPcs > window.innerWidth - 50) {
         ManagerPageWBService.deltaPositionNewPcs = 50
       }
     })
 
-    this.history.pushInPresent(this.uiPcsDtoList)
+    this.history.pushIntoPresent(this.uiPcsDtoList)
     this.emit()
   }
 
@@ -134,7 +143,7 @@ export class ManagerPageWBService {
       this.uiPcsDtoList[index] = pcsDto
 
     })
-    this.history.pushInPresent(this.uiPcsDtoList)
+    this.history.pushIntoPresent(this.uiPcsDtoList)
     this.emit()
   }
 
@@ -156,7 +165,7 @@ export class ManagerPageWBService {
       }
       this.uiPcsDtoList[index] = pcsDto
     })
-    this.history.pushInPresent(this.uiPcsDtoList)
+    this.history.pushIntoPresent(this.uiPcsDtoList)
     this.emit()
   }
 
@@ -185,7 +194,7 @@ export class ManagerPageWBService {
       this.uiPcsDtoList[index] = pcsDto
     })
 
-    this.history.pushInPresent(this.uiPcsDtoList)
+    this.history.pushIntoPresent(this.uiPcsDtoList)
     this.emit()
   }
 
@@ -199,7 +208,7 @@ export class ManagerPageWBService {
         this.uiPcsDtoList[e.index] = pcsDto
       }
     })
-    this.history.pushInPresent(this.uiPcsDtoList)
+    this.history.pushIntoPresent(this.uiPcsDtoList)
     this.emit()
   }
 
@@ -244,7 +253,7 @@ export class ManagerPageWBService {
       })
     }
     // no historisation
-    // this.history.pushInPresent(this.uiPcsDtoList)
+    // this.history.pushIntoPresent(this.uiPcsDtoList)
     this.emit()
   }
 
@@ -278,7 +287,7 @@ export class ManagerPageWBService {
     })
 
     this.uiPcsDtoList.push(...newPcsDtos)
-    this.history.pushInPresent(this.uiPcsDtoList)
+    this.history.pushIntoPresent(this.uiPcsDtoList)
     this.emit()
   }
 
@@ -290,7 +299,7 @@ export class ManagerPageWBService {
     console.log("doDelete in wb service")
     this.uiPcsDtoList =
       this.uiPcsDtoList.filter((value, index) => !indexToDeleteList.includes(index))
-    this.history.pushInPresent(this.uiPcsDtoList)
+    this.history.pushIntoPresent(this.uiPcsDtoList)
     this.emit()
   }
 
@@ -323,4 +332,7 @@ export class ManagerPageWBService {
     return this.history.getCurrentPcs()
   }
 
+  setPcsDtoForTemplate(pcsDto: UIPcsDto) {
+     this.pcsDtoForTemplate = pcsDto
+  }
 }

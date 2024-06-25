@@ -18,42 +18,42 @@ export class ManagerPagePcsService {
 
   constructor(private readonly managerPcsService: ManagerPcsService) {
     this.historyPcs = new HistoryT<IPcs>()
-    this.historyPcs.pushInPresent(this.pcs)
+    this.historyPcs.pushIntoPresent(this.pcs)
   }
 
   transformeByMxT0(x: number) {
     this.pcs = this.managerPcsService.transformeByMxT0(this.pcs, x)
-    this.historyPcs.pushInPresent(this.pcs)
+    this.historyPcs.pushIntoPresent(this.pcs)
     this.updatePcsEvent.emit(this.pcs)
   }
 
   translateByM1Tx(x: number) {
     this.pcs = this.managerPcsService.translateByM1Tx(this.pcs, x)
-    this.historyPcs.pushInPresent(this.pcs)
+    this.historyPcs.pushIntoPresent(this.pcs)
     this.updatePcsEvent.emit(this.pcs)
   }
 
   complement() {
     this.pcs = this.managerPcsService.complement(this.pcs)
-    this.historyPcs.pushInPresent(this.pcs)
+    this.historyPcs.pushIntoPresent(this.pcs)
     this.updatePcsEvent.emit(this.pcs)
   }
 
   modulation(direction: number) {
     this.pcs = this.managerPcsService.modulation(this.pcs, direction)
-    this.historyPcs.pushInPresent(this.pcs)
+    this.historyPcs.pushIntoPresent(this.pcs)
     this.updatePcsEvent.emit(this.pcs)
   }
 
   toggleIndexOrSetIPivot(index: number) {
     this.pcs = this.managerPcsService.toggleInnerIndexOrSetIPivot(this.pcs, index)
-    this.historyPcs.pushInPresent(this.pcs)
+    this.historyPcs.pushIntoPresent(this.pcs)
     this.updatePcsEvent.emit(this.pcs)
   }
 
   toggleIndex(index: number) {
     this.pcs = this.managerPcsService.toggleIndexFromMapped(this.pcs, index)
-    this.historyPcs.pushInPresent(this.pcs)
+    this.historyPcs.pushIntoPresent(this.pcs)
     this.updatePcsEvent.emit(this.pcs)
   }
 
@@ -63,26 +63,25 @@ export class ManagerPagePcsService {
 
   autoMap() {
     this.pcs = this.pcs.autoMap()
-    this.historyPcs.pushInPresent(this.pcs)
+    this.historyPcs.pushIntoPresent(this.pcs)
     this.updatePcsEvent.emit(this.pcs)
   }
 
   unMap() {
     this.pcs = this.pcs.unMap()
-    this.historyPcs.pushInPresent(this.pcs)
+    this.historyPcs.pushIntoPresent(this.pcs)
     this.updatePcsEvent.emit(this.pcs)
   }
 
-  // TODO define modalPF and SymmetryMPF ...
   replaceBy(newPcs: IPcs): void {
     this.pcs = newPcs
-    this.historyPcs.pushInPresent(this.pcs)
+    this.historyPcs.pushIntoPresent(this.pcs)
     this.updatePcsEvent.emit(this.pcs)
   }
 
   detachPcs() {
     this.pcs = this.managerPcsService.doDetach(this.pcs)
-    this.historyPcs.pushInPresent(this.pcs)
+    this.historyPcs.pushIntoPresent(this.pcs)
     this.updatePcsEvent.emit(this.pcs)
   }
 
@@ -118,6 +117,5 @@ export class ManagerPagePcsService {
   getPrevCurrentPcs() {
     return this.historyPcs.getPrevCurrentPcs()
   }
-
 
 }

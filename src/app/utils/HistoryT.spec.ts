@@ -7,10 +7,10 @@ describe('HistoryT test', () => {
   it("3 do, 3 undo", () => {
      const h = new HistoryT<IPcs>()
      const maj = new IPcs({strPcs:"1,5,8"})
-     h.pushInPresent(maj)
-     h.pushInPresent(maj.translation(1))
+     h.pushIntoPresent(maj)
+     h.pushIntoPresent(maj.translation(1))
      const pcsPF = maj.cyclicPrimeForm()
-     h.pushInPresent(pcsPF)
+     h.pushIntoPresent(pcsPF)
      const pcsOther = maj.affineOp(7,1)
 
      expect(h.unDoToPresent()?.id).toEqual(maj.translation(1).id)

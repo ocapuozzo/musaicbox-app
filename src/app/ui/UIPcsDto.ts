@@ -174,7 +174,7 @@ export class UIPcsDto {
     this.uiMusaic = uiMusaic ? {... uiMusaic} : new UIMusaic()
     this.uiClock = uiClock ? {...uiClock} : new UIClock()
     this.uiScore = uiScore ? {...uiScore} : {
-      height : 60,
+      height : 70,
       width: 104
     }
 
