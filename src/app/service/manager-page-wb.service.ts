@@ -43,10 +43,10 @@ export class ManagerPageWBService {
     let uiMus = new UIMusaic({rounded: true})
 
     this.uiPcsDtoList = [
-      new UIPcsDto({pcs: pcs1, indexFormDrawer: 0, position: {x: 0, y: 0}}),
-      new UIPcsDto({pcs: pcs2, indexFormDrawer: 1, position: {x: 110, y: 0}, isSelected: true}),
-      new UIPcsDto({pcs: pcs3, indexFormDrawer: 2, position: {x: 220, y: 0}, isSelected: true}),
-      new UIPcsDto({pcs: pcs4, width: 38, height: 38, indexFormDrawer: 0, position: {x: 340, y: 0}, uiMusaic: uiMus})
+      new UIPcsDto({pcs: pcs1, indexFormDrawer: 0, position: {x: 0, y: 10}}),
+      new UIPcsDto({pcs: pcs2, indexFormDrawer: 1, position: {x: 110, y: 10}, isSelected: true}),
+      new UIPcsDto({pcs: pcs3, indexFormDrawer: 2, position: {x: 220, y: 10}, isSelected: true}),
+      new UIPcsDto({pcs: pcs4, width: 38, height: 38, indexFormDrawer: 0, position: {x: 340, y: 10}, uiMusaic: uiMus})
     ]
 
     this.history.pushIntoPresent(this.uiPcsDtoList)
@@ -84,8 +84,17 @@ export class ManagerPageWBService {
     this.emit()
   }
 
+  private readonly OFFSET_ZOOM = 20;
+
+
+  /**
+   *
+   * @param direction if < 0 then zoom- else if positif then zoom+
+   * @param indexElementsToZoom
+   */
   doZoom(direction: number, indexElementsToZoom: number[]) {
-    let DELTA_ZOOM = 20 * direction
+
+    let DELTA_ZOOM = this.OFFSET_ZOOM * direction
 
     this.uiPcsDtoList = [...this.uiPcsDtoList]
 
@@ -111,6 +120,11 @@ export class ManagerPageWBService {
       // adjust canvas size from CEL_WIDTH, for a better rendering (no float)
       // even if FormDrawer is not MUSAIC
       let preferredSize = CEL_WIDTH * (n + 1)
+
+      //
+      // if (direction < 0 && preferredSize > pcsDto.width + DELTA_ZOOM) {
+      //   preferredSize = --CEL_WIDTH * (n + 1)
+      // }
 
       // if pcsDto.indexFormDrawer == CLOCK , then pcsDto.width or height
       // impact pcsDto.uiClock.width or height

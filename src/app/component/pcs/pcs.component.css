@@ -7,7 +7,7 @@
   overflow:hidden;
   -webkit-border-radius:50%;
   -moz-border-radius: 50%;
-  /* border-radius:50px; */
+   border-radius:50px;
 }
 .roundedImageShadow{
   -moz-box-shadow: 0px 0px 2px #343434;
@@ -15,6 +15,11 @@
   -o-box-shadow: 0px 0px 2px #343434;
   box-shadow: 0px 0px 2px #343434;
 }
+
 .roundedImageBorder{
-  border: 1px solid black; /*#000000;*/ /*6699;*/
+  outline: 1px solid black; /*#000000;*/ /*6699;*/
+}
+
+.roundedImageBorderSelected{
+  outline: 1px solid blue; /*#000000;*/ /*6699;*/
 }

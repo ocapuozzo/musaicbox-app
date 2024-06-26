@@ -3,7 +3,12 @@
   @for (pcsDto of pcsDtoList; track pcsDto; let idx = $index) {
     <!--component has 3 data context : element DOM, object himself and pcsDto -->
     <app-pcs
-      [ngClass]="{'example-box': true, 'e-selected': pcsDto.isSelected}"
+      [ngClass]="{
+      'example-box': true,
+      'e-selected-marker': pcsDto.isSelected,
+      'e-selected': pcsDto.isSelected && (pcsDto.indexFormDrawer > 0 || !pcsDto.uiMusaic.rounded),
+      'e-selected-rounded': pcsDto.isSelected && pcsDto.indexFormDrawer == 0 && pcsDto.uiMusaic.rounded
+      }"
       [attr.data-index-pcsdtos]=idx
       [style.height.px]="pcsDto.height"
       [style.width.px]="pcsDto.width"

@@ -195,9 +195,9 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
       return
     }
 
-    // User can move elements by mouse action ONLY if click on a component with class 'e-selected'
+    // User can move elements by mouse action ONLY if click on a component with class 'e-selected-marker'
     let selectedElements =
-      Array.from(document.getElementsByClassName('e-selected'))
+      Array.from(document.getElementsByClassName('e-selected-marker'))
     const clickInSelectedElement =
       selectedElements.some(e => pointClick.isIncludeIn(e.getBoundingClientRect()))
 
