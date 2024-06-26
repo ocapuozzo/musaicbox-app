@@ -21,17 +21,19 @@
             indexFormDrawer: pcsDto.indexFormDrawer
             }"
       [pcsDto]="pcsDto"
-      (mousedown)="toggleSelected($event,idx)"
+      (cdkContextMenuOpened)="doContextMenuOpen()"
+      (cdkContextMenuClosed)="doContextMenuClose()"
+      (mousedown)="doToggleSelected($event,idx)"
     >
     </app-pcs>
   }
-
-  <ng-template #menu matMenuContent let-index="index" let-name="name" let-indexFormDrawer="indexFormDrawer">
+<!--  (menuOpened)="contextMenuOpened()"-->
+  <ng-template  #menu matMenuContent let-index="index" let-name="name" let-indexFormDrawer="indexFormDrawer">
     <div class="example-menu" cdkMenu>
       <span>Do with {{ name }}</span>
       <hr/>
       <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doPushToPcsPage(index)">Push to PCS page</button>
-      <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doToggleSelected(index)">Select {{isSelected(index) ? 'OFF' : 'ON'}}</button>
+      <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doSingleToggleSelected(index)">Select {{isSelected(index) ? 'OFF' : 'ON'}}</button>
       <button class="example-menu-item" cdkMenuItem (click)="doDelete(index)">Delete <span *ngIf="!isSolo(index)">&nbsp;({{numberSelectedComponents}})</span></button>
       <button class="example-menu-item" cdkMenuItem (click)="doDuplicate(index)">Duplicate <span *ngIf="!isSolo(index)">&nbsp;({{numberSelectedComponents}})</span></button>
       <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doZoom(1, index)">zoom+</button>

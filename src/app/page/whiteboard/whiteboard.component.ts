@@ -99,6 +99,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
    * @private
    */
   private originPositionOfClickForMoving: Point;
+  private isContextMenuOpened: boolean = false
 
   constructor(private managerPageWBService: ManagerPageWBService,
               private readonly managerHomePcsService: ManagerPagePcsService,
@@ -154,6 +155,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   }
 
   onMouseMove(e: any) {
+    if (this.isContextMenuOpened) return
     if (this.isDown) {
       e.preventDefault()
       // console.log("nb selected elements : ", this.initialPointOfSelectedElements.length)
@@ -170,15 +172,16 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   onMouseDown(e: any) {
     // console.log("MouseEvent : ", e)
     if (!e) return
+    if (this.isContextMenuOpened) return
     if (e.button > 1) {
       // console.log("Right button") or more...
       // cdkContextMenu is only concerned
       return
     }
 
-    if (e instanceof TouchEvent) {
-      e.stopPropagation()
-    }
+    // if (e instanceof TouchEvent) {
+    //   e.stopPropagation()
+    // }
 
     let pointClick: Point
     if (e.clientX) {
@@ -320,7 +323,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     }
   }
 
-  toggleSelected($event: MouseEvent, index: number) {
+  doToggleSelected($event: MouseEvent, index: number) {
     if (!this.pcsDtoList.some((pcsDto) => pcsDto.isSelected)) {
       this.managerPageWBService.doToggleSelected(index)
     } else if ($event.ctrlKey) {
@@ -413,8 +416,10 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
    * Set selected/unselected pcs component (for touch event)
    * @param index
    */
-  doToggleSelected(index: number) {
-    this.managerPageWBService.doToggleSelected(index)
+  doSingleToggleSelected(index: number) {
+    if (index >= 0 && index < this.pcsDtoList.length) {
+      this.managerPageWBService.doToggleSelected(index)
+    }
   }
 
   doUnDo() {
@@ -435,4 +440,11 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   }
 
 
+  doContextMenuOpen() {
+    this.isContextMenuOpened = true
+  }
+
+  doContextMenuClose() {
+    this.isContextMenuOpened = false
+  }
 }
