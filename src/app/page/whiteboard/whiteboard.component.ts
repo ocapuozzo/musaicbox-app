@@ -134,11 +134,12 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
       this.onMouseMove(e)
     });
 
+    elt!.addEventListener('mousedown',
+      (event) => this.onMouseDown(event));
+
     elt!.addEventListener('touchstart',
       (event) => this.onMouseDown(event));
 
-    elt!.addEventListener('mousedown',
-      (event) => this.onMouseDown(event));
 
     elt!.addEventListener('mouseup',
       (event) => this.onMouseUp(event));
@@ -173,6 +174,10 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
       // console.log("Right button") or more...
       // cdkContextMenu is only concerned
       return
+    }
+
+    if (e instanceof TouchEvent) {
+      e.stopPropagation()
     }
 
     let pointClick: Point
