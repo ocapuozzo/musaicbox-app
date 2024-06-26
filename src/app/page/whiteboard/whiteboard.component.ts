@@ -99,6 +99,11 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
    * @private
    */
   private originPositionOfClickForMoving: Point;
+
+  /**
+   * set to true when context menu is open, false else
+   * @private
+   */
   private isContextMenuOpened: boolean = false
 
   constructor(private managerPageWBService: ManagerPageWBService,
@@ -155,7 +160,10 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   }
 
   onMouseMove(e: any) {
-    if (this.isContextMenuOpened) return
+    if (this.isContextMenuOpened) {
+      // do context menu modal
+      return
+    }
     if (this.isDown) {
       e.preventDefault()
       // console.log("nb selected elements : ", this.initialPointOfSelectedElements.length)
@@ -172,18 +180,18 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   onMouseDown(e: any) {
     // console.log("MouseEvent : ", e)
     if (!e) return
-    if (this.isContextMenuOpened) return
+    if (this.isContextMenuOpened) {
+       // do context menu modal
+      return
+    }
     if (e.button > 1) {
       // console.log("Right button") or more...
       // cdkContextMenu is only concerned
       return
     }
 
-    // if (e instanceof TouchEvent) {
-    //   e.stopPropagation()
-    // }
-
     let pointClick: Point
+
     if (e.clientX) {
       pointClick = new Point(e.clientX, e.clientY)
     } else {
@@ -199,7 +207,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
       }
 
       // if click on app-pcs component, then this event is managed by toggleSelected (other event listener)
-      // declared in template  (mousedown)="toggleSelected($event,idx)"
+      // declared in template  (mousedown)="doToggleSelected($event,idx)"
       return
     }
 
@@ -438,7 +446,6 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   get canRedo(): boolean {
     return this.managerPageWBService.canRedo()
   }
-
 
   doContextMenuOpen() {
     this.isContextMenuOpened = true
