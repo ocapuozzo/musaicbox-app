@@ -346,7 +346,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
    * Called when user do a Ctrl+MouseDown over nothing,
    *
    */
-  private doUnselectAll() {
+  protected doUnselectAll() {
     this.managerPageWBService.doUnselectAll()
   }
 
@@ -463,5 +463,9 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
 
   sizeCellWidth(index: number) {
     return (index >= 0 && index < this.pcsDtoList.length && this.pcsDtoList[index].uiMusaic.widthCell)
+  }
+
+  doSelectAll() {
+    this.managerPageWBService.doSelectAll()
   }
 }

@@ -48,6 +48,7 @@
   flex-direction: column;
   min-width: 180px;
   max-width: 280px;
+  box-shadow: 0 0 12pt rgba(0, 0, 0, 0.25);
   background-color: rgb(255, 255, 255);
   padding: 6px 0;
 }
@@ -63,7 +64,6 @@ hr {
 
 .example-menu-item,
 .example-standalone-item {
-  border: none;
   background-color: transparent;
   cursor: pointer;
 
@@ -76,6 +76,7 @@ hr {
   align-items: center;
   flex-direction: row;
   flex: 1;
+  border: none;
 }
 
 .example-menu-item:hover {

@@ -271,6 +271,17 @@ export class ManagerPageWBService {
     this.emit()
   }
 
+  doSelectAll() {
+    this.uiPcsDtoList.forEach((e, index) => {
+      if (!e.isSelected) {
+        let pcsDto
+          = new UIPcsDto({...e})
+        pcsDto.isSelected = true
+        this.uiPcsDtoList[index] = pcsDto
+      }
+    })
+  }
+
   /**
    * Clock is always square, his barycenter is p.x + p.width / 2
    * Musaic, centered on clock barycenter is p.barycenter.x - p.width
@@ -349,4 +360,5 @@ export class ManagerPageWBService {
   setPcsDtoForTemplate(pcsDto: UIPcsDto) {
      this.pcsDtoForTemplate = pcsDto
   }
+
 }

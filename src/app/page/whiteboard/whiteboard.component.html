@@ -1,4 +1,7 @@
-<div class="main-page" id="white-board">
+<div class="main-page"
+     id="white-board"
+     [cdkContextMenuTriggerFor]="whiteboard"
+>
 
   @for (pcsDto of pcsDtoList; track pcsDto; let idx = $index) {
     <!--component has 3 data context : element DOM, object himself and pcsDto -->
@@ -31,11 +34,19 @@
       <span>Do with {{ name }}</span>
       <hr/>
       <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doPushToPcsPage(index)">Push to PCS page</button>
-      <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doSingleToggleSelected(index)">Select {{isSelected(index) ? 'OFF' : 'ON'}}</button>
+      <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doSingleToggleSelected(index)">
+        <mat-slide-toggle [checked]="isSelected(index)">Selected</mat-slide-toggle>
+      </button>
       <button class="example-menu-item" cdkMenuItem (click)="doDelete(index)">Delete <span *ngIf="!isSolo(index)">&nbsp;({{numberSelectedComponents}})</span></button>
       <button class="example-menu-item" cdkMenuItem (click)="doDuplicate(index)">Duplicate <span *ngIf="!isSolo(index)">&nbsp;({{numberSelectedComponents}})</span></button>
-      <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doZoom(1, index)">zoom+ ({{sizeCellWidth(index)}})</button>
-      <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doZoom(-1, index)">zoom-</button>
+      <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doZoom(1, index)">
+        zoom+
+        <span [hidden]="pcsDtoList[index].indexFormDrawer > 0">&nbsp; (cw={{sizeCellWidth(index)}})</span>
+      </button>
+      <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doZoom(-1, index)">
+        zoom-
+        <span [hidden]="pcsDtoList[index].indexFormDrawer > 0">&nbsp; (cw={{sizeCellWidth(index)}})</span>
+      </button>
       <button class="example-menu-item" cdkMenuItem
               (cdkMenuItemTriggered)="toggleRounded(index)">
         <mat-slide-toggle [disabled]="disabledIfNotMusaicFormDrawer(index)" [checked]="isRounded(index)">Rounded</mat-slide-toggle>
@@ -94,6 +105,14 @@
       <button class="example-menu-item" disabled cdkMenuItem>Similarity IS</button>
       <button class="example-menu-item" disabled cdkMenuItem>Similarity IV</button>
       <button class="example-menu-item" disabled cdkMenuItem>Others</button>
+    </div>
+  </ng-template>
+
+
+  <ng-template #whiteboard >
+    <div class="example-menu"   cdkMenu>
+      <button class="example-menu-item" (cdkMenuItemTriggered)="doUnselectAll()"  cdkMenuItem >Unselect All</button>
+      <button class="example-menu-item" (cdkMenuItemTriggered)="doSelectAll()" cdkMenuItem >Select All</button>
     </div>
   </ng-template>
 
