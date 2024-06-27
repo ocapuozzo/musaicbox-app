@@ -51,12 +51,12 @@
               (cdkMenuItemTriggered)="toggleRounded(index)">
         <mat-slide-toggle [disabled]="disabledIfNotMusaicFormDrawer(index)" [checked]="isRounded(index)">Rounded</mat-slide-toggle>
       </button>
-      <button class="example-menu-item" cdkMenuItem [cdkMenuTriggerFor]="create" [cdkMenuTriggerData]="{index: index}">
-        Create <span>&#10148;</span>
+      <button class="example-menu-item" cdkMenuItem [cdkMenuTriggerFor]="align" [cdkMenuTriggerData]="{index: index}">
+        Align <span>&#10148;</span>
       </button>
-      <button class="example-menu-item" [disabled]="selectionIsEmpty()" cdkMenuItem [cdkMenuTriggerFor]="selection" [cdkMenuTriggerData]="{index: index}">
-        Selection <span>&#10148;</span>
-      </button>
+<!--      <button class="example-menu-item" [disabled]="selectionIsEmpty()" cdkMenuItem [cdkMenuTriggerFor]="selection" [cdkMenuTriggerData]="{index: index}">-->
+<!--        Selection <span>&#10148;</span>-->
+<!--      </button>-->
       <button class="example-menu-item" cdkMenuItem [cdkMenuTriggerFor]="neighbors">
         Neighbors <span>&#10148;</span>
       </button>
@@ -93,7 +93,9 @@
 
   <ng-template #align let-index="index">
     <div class="example-menu"   cdkMenu>
-      <button class="example-menu-item" disabled cdkMenuItem >nop</button>
+      <button class="example-menu-item" (cdkMenuItemTriggered)="doHorizontalAlign()" disabled cdkMenuItem ><mat-icon> align_vertical_center</mat-icon>nop</button>
+      <button class="example-menu-item" (cdkMenuItemTriggered)="doVerticalAlign()" disabled cdkMenuItem ><mat-icon> align_horizontal_center</mat-icon>nop</button>
+      <button class="example-menu-item" disabled cdkMenuItem ><mat-icon>workspaces</mat-icon>nop</button>
     </div>
   </ng-template>
 

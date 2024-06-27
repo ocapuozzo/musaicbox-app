@@ -468,4 +468,11 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   doSelectAll() {
     this.managerPageWBService.doSelectAll()
   }
+
+  doVerticalAlign() {
+
+  }
+  doHorizontalAlign() {
+
+  }
 }

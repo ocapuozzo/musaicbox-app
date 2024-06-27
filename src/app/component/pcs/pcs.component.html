@@ -3,24 +3,6 @@
 'e-selected': pcsDto.isSelected,
   }"></div>
 } @else {
-  <canvas
-    #canvas
-    [ngClass]="{
- 'rounded-musaic': rounded,
- 'e-selected': pcsDto.isSelected && pcsDto.indexFormDrawer > 0,
- 'e-selected-rounded-musaic': pcsDto.isSelected && rounded
-  }"
-    ></canvas>
+  <canvas #canvas [ngClass]="{'rounded-musaic': rounded,  'e-selected': pcsDto.isSelected}"></canvas>
 }
 
-<!--'e-selected-rounded-musaic': pcsDto.isSelected && rounded,-->
-<!--pcsDto.indexFormDrawer == 0 && pcsDto.uiMusaic.rounded,-->
-<!--'e-selected-rounded-musaic': pcsDto.isSelected && pcsDto.indexFormDrawer == 0 && pcsDto.uiMusaic.rounded-->
-<!--'roundedImageBorder': rounded,-->
-
-<!--&lt;!&ndash;parent do manage roles css  &ndash;&gt;-->
-<!--[ngClass]="{-->
-<!--'roundedImageBorder': rounded,-->
-<!--'e-selected': pcsDto.isSelected && pcsDto.indexFormDrawer > 0,-->
-<!--'e-selected-rounded': pcsDto.isSelected && rounded,-->
-<!--  }"-->
