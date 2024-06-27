@@ -27,6 +27,7 @@ import {DraggableDirective} from "../../draggable.directive";
 import {Point} from "../../utils/Point";
 import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
 import {Router} from "@angular/router";
+import {MatSlideToggle} from "@angular/material/slide-toggle";
 
 interface ElementMove {
   elt: HTMLElement,
@@ -60,7 +61,8 @@ interface ElementMove {
     NgForOf,
     DraggableDirective,
     NgClass,
-    NgIf
+    NgIf,
+    MatSlideToggle
   ],
   templateUrl: './whiteboard.component.html',
   styleUrl: './whiteboard.component.css'
@@ -453,5 +455,13 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
 
   doContextMenuClose() {
     this.isContextMenuOpened = false
+  }
+
+  isRounded(index: number) {
+    return (index >= 0 && index < this.pcsDtoList.length && this.pcsDtoList[index].uiMusaic.rounded)
+  }
+
+  sizeCellWidth(index: number) {
+    return (index >= 0 && index < this.pcsDtoList.length && this.pcsDtoList[index].uiMusaic.widthCell)
   }
 }

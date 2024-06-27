@@ -4,10 +4,8 @@
     <!--component has 3 data context : element DOM, object himself and pcsDto -->
     <app-pcs
       [ngClass]="{
-      'example-box': true,
-      'e-selected-marker': pcsDto.isSelected,
-      'e-selected': pcsDto.isSelected && (pcsDto.indexFormDrawer > 0 || !pcsDto.uiMusaic.rounded),
-      'e-selected-rounded': pcsDto.isSelected && pcsDto.indexFormDrawer == 0 && pcsDto.uiMusaic.rounded
+      'pcs-box': true,
+      'e-selected-marker': pcsDto.isSelected
       }"
       [attr.data-index-pcsdtos]=idx
       [style.height.px]="pcsDto.height"
@@ -36,11 +34,11 @@
       <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doSingleToggleSelected(index)">Select {{isSelected(index) ? 'OFF' : 'ON'}}</button>
       <button class="example-menu-item" cdkMenuItem (click)="doDelete(index)">Delete <span *ngIf="!isSolo(index)">&nbsp;({{numberSelectedComponents}})</span></button>
       <button class="example-menu-item" cdkMenuItem (click)="doDuplicate(index)">Duplicate <span *ngIf="!isSolo(index)">&nbsp;({{numberSelectedComponents}})</span></button>
-      <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doZoom(1, index)">zoom+</button>
+      <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doZoom(1, index)">zoom+ ({{sizeCellWidth(index)}})</button>
       <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doZoom(-1, index)">zoom-</button>
       <button class="example-menu-item" cdkMenuItem
-              [disabled]="disabledIfNotMusaicFormDrawer(index)"
-              (cdkMenuItemTriggered)="toggleRounded(index)">Set rounded {{ roundedOnOff(index) }}
+              (cdkMenuItemTriggered)="toggleRounded(index)">
+        <mat-slide-toggle [disabled]="disabledIfNotMusaicFormDrawer(index)" [checked]="isRounded(index)">Rounded</mat-slide-toggle>
       </button>
       <button class="example-menu-item" cdkMenuItem [cdkMenuTriggerFor]="create" [cdkMenuTriggerData]="{index: index}">
         Create <span>&#10148;</span>
@@ -77,6 +75,12 @@
   </ng-template>
 
   <ng-template #selection let-index="index">
+    <div class="example-menu"   cdkMenu>
+      <button class="example-menu-item" disabled cdkMenuItem >nop</button>
+    </div>
+  </ng-template>
+
+  <ng-template #align let-index="index">
     <div class="example-menu"   cdkMenu>
       <button class="example-menu-item" disabled cdkMenuItem >nop</button>
     </div>

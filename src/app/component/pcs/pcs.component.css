@@ -1,13 +1,32 @@
-.musaic {
-  /*text-align: center;*/
-  display: inline;
-}
+/*.musaic {*/
+/*  !*text-align: center;*!*/
+/*  display: inline;*/
+/*}*/
 
-.roundedImage, .roundedImageShadow, .roundedImageBorder{
+
+.rounded-musaic {
   overflow:hidden;
+  /*clip-path: circle();*/
   -webkit-border-radius:50%;
   -moz-border-radius: 50%;
-   border-radius:50px;
+  /*border-radius:50px;*/
+  outline: 1px solid black;
+}
+
+.e-selected {
+  outline: 1px solid blue;
+}
+
+.e-selected-rounded-musaic{
+  outline: 1px solid blue;
+}
+
+.roundedImageBorder{
+  overflow:hidden;
+  /*clip-path: circle();*/
+  -webkit-border-radius:50%;
+  -moz-border-radius: 50%;
+   /*border-radius:50px;*/
 }
 .roundedImageShadow{
   -moz-box-shadow: 0px 0px 2px #343434;
@@ -18,8 +37,4 @@
 
 .roundedImageBorder{
   outline: 1px solid black; /*#000000;*/ /*6699;*/
-}
-
-.roundedImageBorderSelected{
-  outline: 1px solid blue; /*#000000;*/ /*6699;*/
 }
