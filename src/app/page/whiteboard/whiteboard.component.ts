@@ -470,9 +470,10 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   }
 
   doVerticalAlign() {
-
+    this.managerPageWBService.doVerticalAlign()
   }
-  doHorizontalAlign() {
 
+  doHorizontalAlign() {
+    this.managerPageWBService.doHorizontalAlign()
   }
 }

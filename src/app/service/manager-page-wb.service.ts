@@ -18,7 +18,9 @@ export interface FinalElementMove {
 })
 export class ManagerPageWBService {
   private readonly _MIN_WIDTH = 40;
+  private readonly _GAP_BETWEEN = 20;
   static deltaPositionNewPcs = 50;
+
   history: HistoryT<UIPcsDto[]>
 
   DRAWERS: string[] = ["Musaic", "Clock", "Score"]
@@ -57,6 +59,8 @@ export class ManagerPageWBService {
     this.eventChangePcsPdoList.emit(this.uiPcsDtoList)
   }
 
+
+
   addPcs(somePcs: IPcs[]) {
     this.doUnselectAll()
     this.uiPcsDtoList = [...this.uiPcsDtoList]
@@ -66,7 +70,7 @@ export class ManagerPageWBService {
           ? new UIPcsDto({...this.pcsDtoForTemplate})
           : new UIPcsDto()
       pcsDto.pcs = pcs
-      ManagerPageWBService.deltaPositionNewPcs += 10
+      ManagerPageWBService.deltaPositionNewPcs += this._GAP_BETWEEN
       pcsDto.position = {
         x: this.pcsDtoForTemplate ? this.pcsDtoForTemplate.position.x + ManagerPageWBService.deltaPositionNewPcs :
           ManagerPageWBService.deltaPositionNewPcs += 10,
@@ -283,8 +287,7 @@ export class ManagerPageWBService {
   }
 
   /**
-   * Clock is always square, his barycenter is p.x + p.width / 2
-   * Musaic, centered on clock barycenter is p.barycenter.x - p.width
+   *
    * @param pcsDto
    * @private
    */
@@ -358,7 +361,80 @@ export class ManagerPageWBService {
   }
 
   setPcsDtoForTemplate(pcsDto: UIPcsDto) {
-     this.pcsDtoForTemplate = pcsDto
+    this.pcsDtoForTemplate = pcsDto
   }
 
+  /**
+   * Align selected elements on same "column" (vertically)
+   */
+  doVerticalAlign() {
+    const selectedPcsIndexes = this.getSelectedPcsDtoIndexes()
+
+    if (selectedPcsIndexes.length < 2) return // already align :))
+
+    let avgX = 0
+    selectedPcsIndexes.forEach(index => {
+      avgX += this.uiPcsDtoList[index].position.x + this.uiPcsDtoList[index].width/2
+    })
+    avgX = avgX / selectedPcsIndexes.length
+
+    let finalMoveElements: FinalElementMove[] = []
+
+    // get min Y for first position
+    let startY = selectedPcsIndexes
+      .reduce(
+        (y,index) => y > this.uiPcsDtoList[index].position.y? this.uiPcsDtoList[index].position.y : y,
+        this.uiPcsDtoList[selectedPcsIndexes[0]].position.y)
+
+    selectedPcsIndexes.forEach(index => {
+      finalMoveElements.push(
+        {
+          index: index,
+          x: avgX - this.uiPcsDtoList[index].width / 2, // center align
+          y: startY
+        }
+      )
+      // compute next y
+      startY += this.uiPcsDtoList[index].height + this._GAP_BETWEEN
+    })
+
+    this.doFinalPosition(finalMoveElements)
+  }
+
+  doHorizontalAlign() {
+    const selectedPcsIndexes = this.getSelectedPcsDtoIndexes()
+
+    if (selectedPcsIndexes.length < 2) return // already align :))
+
+    let avgY = 0
+    selectedPcsIndexes.forEach(index => {
+      avgY += this.uiPcsDtoList[index].position.y  + this.uiPcsDtoList[index].height/2
+    })
+    avgY = avgY / selectedPcsIndexes.length
+
+    let finalMoveElements: FinalElementMove[] = []
+    let x = this.uiPcsDtoList[selectedPcsIndexes[0]].position.x
+    selectedPcsIndexes.forEach(index => {
+      finalMoveElements.push(
+        {
+          index: index,
+          x: x,
+          y: avgY - this.uiPcsDtoList[index].height / 2, // center align
+        }
+      )
+      x += this.uiPcsDtoList[index].width + this._GAP_BETWEEN
+    })
+    this.doFinalPosition(finalMoveElements)
+  }
+
+
+  private getSelectedPcsDto() {
+    return this.uiPcsDtoList.filter(pcsDto => pcsDto.isSelected)
+  }
+
+  private getSelectedPcsDtoIndexes(): number[] {
+    return this.uiPcsDtoList.map((pcsDto, index) => pcsDto.isSelected ? index : -1)
+      .filter(index => index >= 0)
+
+  }
 }
