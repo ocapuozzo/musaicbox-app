@@ -6,6 +6,7 @@ import {Group} from "../core/Group";
 import {Point} from "../utils/Point";
 import {IPcs} from "../core/IPcs";
 import {HistoryT} from "../utils/HistoryT";
+import {Rect} from "../utils/Rect";
 
 export interface FinalElementMove {
   index: number,
@@ -168,9 +169,13 @@ export class ManagerPageWBService {
 
   /**
    * Effect only is FormDrawer is Musaic (i.e musaic is shown rounded, not square)
+   *
    * @param indexes list of this.uiPcsDtoList index
+   * @param valueRounded
    */
-  doToggleRounded(indexes: number[]) {
+
+  doSetRounded(indexes: number[], valueRounded: boolean) {
+    // doToggleRounded(indexes: number[]) {
     this.uiPcsDtoList = [...this.uiPcsDtoList]
     indexes.forEach(index => {
       if (index < 0 || index >= this.uiPcsDtoList.length) {
@@ -179,7 +184,7 @@ export class ManagerPageWBService {
       let pcsDto
         = new UIPcsDto({...this.uiPcsDtoList[index]})
       if (pcsDto.indexFormDrawer === UIPcsDto.MUSAIC) {
-        pcsDto.uiMusaic.rounded = !pcsDto.uiMusaic.rounded
+        pcsDto.uiMusaic.rounded = valueRounded //!pcsDto.uiMusaic.rounded
       }
       this.uiPcsDtoList[index] = pcsDto
     })
@@ -437,4 +442,48 @@ export class ManagerPageWBService {
       .filter(index => index >= 0)
 
   }
+
+  doCircularAlign() {
+    const selectedPcsIndexes = this.getSelectedPcsDtoIndexes()
+    if (selectedPcsIndexes.length < 2) return // already align :))
+
+    let finalMoveElements: FinalElementMove[] = []
+
+    let origin = new Point(0,0)
+    let radius = 0
+    selectedPcsIndexes.forEach(index => {
+      origin.x += this.uiPcsDtoList[index].position.x + this.uiPcsDtoList[index].width/2
+      origin.y += this.uiPcsDtoList[index].position.y + this.uiPcsDtoList[index].height/2
+      radius += this.uiPcsDtoList[index].width
+    })
+
+    // barycenter point
+    origin.x  = origin.x  / selectedPcsIndexes.length
+    origin.y  = origin.y  / selectedPcsIndexes.length
+    radius = (radius / selectedPcsIndexes.length) / 4
+
+    // radius increase with number of selected elements
+    // rem : if selectedPcsIndexes.length == 4, radius is avg width
+    radius = radius * selectedPcsIndexes.length
+
+    // dont hide elements
+    if (origin.x - radius < 0) origin.x += radius
+    if (origin.y - radius < 0) origin.y += radius
+
+    let ang = 3 * Math.PI / 2;
+    selectedPcsIndexes.forEach(index => {
+      let x = origin.x + Math.round(Math.cos(ang) * radius);
+      let y = origin.y + Math.round(Math.sin(ang) * radius);
+      finalMoveElements.push(
+        {
+          index: index,
+          x: x - this.uiPcsDtoList[index].width /2 , // center align
+          y: y - this.uiPcsDtoList[index].height /2
+        }
+      )
+      ang = ang + 2 * Math.PI / selectedPcsIndexes.length;
+    })
+    this.doFinalPosition(finalMoveElements)
+  }
+
 }

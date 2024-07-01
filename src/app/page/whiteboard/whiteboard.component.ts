@@ -310,14 +310,15 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     }
   }
 
-  toggleRounded(index: number) {
+  doSetRounded(index: number) {
+    const roundedOn = this.pcsDtoList[index].uiMusaic.rounded
     const indexOfSelectedComponents =
       this.pcsDtoList.map((value, index) => index)
         .filter(index => this.pcsDtoList[index].isSelected)
     if (indexOfSelectedComponents.includes(index)) {
-      this.managerPageWBService.doToggleRounded(indexOfSelectedComponents)
+      this.managerPageWBService.doSetRounded(indexOfSelectedComponents, !roundedOn)
     } else {
-      this.managerPageWBService.doToggleRounded([index])
+      this.managerPageWBService.doSetRounded([index], !roundedOn)
     }
 
   }
@@ -475,5 +476,9 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
 
   doHorizontalAlign() {
     this.managerPageWBService.doHorizontalAlign()
+  }
+
+  doCircularAlign() {
+    this.managerPageWBService.doCircularAlign()
   }
 }

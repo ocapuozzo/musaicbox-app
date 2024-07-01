@@ -48,7 +48,7 @@
         <span [hidden]="pcsDtoList[index].indexFormDrawer > 0">&nbsp; (cw={{sizeCellWidth(index)}})</span>
       </button>
       <button class="example-menu-item" cdkMenuItem
-              (cdkMenuItemTriggered)="toggleRounded(index)">
+              (cdkMenuItemTriggered)="doSetRounded(index)">
         <mat-slide-toggle [disabled]="disabledIfNotMusaicFormDrawer(index)" [checked]="isRounded(index)">Rounded</mat-slide-toggle>
       </button>
       <button class="example-menu-item" cdkMenuItem [cdkMenuTriggerFor]="align" [cdkMenuTriggerData]="{index: index}">
@@ -92,10 +92,10 @@
   </ng-template>
 
   <ng-template #align let-index="index">
-    <div class="example-menu"   cdkMenu>
-      <button class="example-menu-item" (cdkMenuItemTriggered)="doHorizontalAlign()" cdkMenuItem ><mat-icon> align_vertical_center</mat-icon>nop</button>
-      <button class="example-menu-item" (cdkMenuItemTriggered)="doVerticalAlign()" cdkMenuItem ><mat-icon> align_horizontal_center</mat-icon>nop</button>
-      <button class="example-menu-item" disabled cdkMenuItem ><mat-icon>workspaces</mat-icon>nop</button>
+    <div class="example-menu"  cdkMenu>
+      <button class="example-menu-item" (cdkMenuItemTriggered)="doHorizontalAlign()" cdkMenuItem ><mat-icon> align_vertical_center</mat-icon></button>
+      <button class="example-menu-item" (cdkMenuItemTriggered)="doVerticalAlign()" cdkMenuItem ><mat-icon> align_horizontal_center</mat-icon></button>
+      <button class="example-menu-item" (cdkMenuItemTriggered)="doCircularAlign()" cdkMenuItem ><mat-icon>workspaces</mat-icon></button>
     </div>
   </ng-template>
 
