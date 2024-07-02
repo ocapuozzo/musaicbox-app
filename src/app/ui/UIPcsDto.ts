@@ -3,7 +3,7 @@ import {IPcs} from "../core/IPcs";
 export class UIMusaic {
   rounded: boolean
   position : {x: number, y: number}
-  drawGrid : boolean
+  opaque : boolean
   nbCellsPerLine : number
   nbCellsPerRow : number
   widthCell : number
@@ -11,10 +11,10 @@ export class UIMusaic {
   height: number
 
   constructor(
-    {rounded, /*position,*/ drawGrid, nbCellsPerLine, nbCellsPerRow, widthCell, width, height}:
+    {rounded, /*position,*/ opaque, nbCellsPerLine, nbCellsPerRow, widthCell, width, height}:
       { rounded ?: boolean,
         // position ?: {x: number; y: number},
-        drawGrid ?: boolean,
+        opaque ?: boolean,
         nbCellsPerLine ?: number,
         nbCellsPerRow ?: number,
         widthCell ?: number,
@@ -23,7 +23,7 @@ export class UIMusaic {
   {
     this.rounded = rounded ?? false;
     // this.position = position ?? {x:10, y:10};
-    this.drawGrid = drawGrid ?? false;
+    this.opaque = opaque ?? true;
     this.nbCellsPerLine = nbCellsPerLine ?? 13;
     this.nbCellsPerRow = nbCellsPerRow ?? 13;
     this.widthCell = widthCell ?? 7;

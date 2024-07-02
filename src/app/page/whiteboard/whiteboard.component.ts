@@ -8,7 +8,7 @@ import {
 } from "@angular/cdk/menu";
 import {
   AfterViewInit,
-  Component, HostListener,
+  Component, ElementRef, HostListener,
   OnInit,
   Renderer2,
   ViewChild
@@ -28,6 +28,7 @@ import {Point} from "../../utils/Point";
 import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
 import {Router} from "@angular/router";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
+import {RectSelectorComponent, Shape} from "../../component/rect-selector/rect-selector.component";
 
 interface ElementMove {
   elt: HTMLElement,
@@ -62,13 +63,15 @@ interface ElementMove {
     DraggableDirective,
     NgClass,
     NgIf,
-    MatSlideToggle
+    MatSlideToggle,
+    RectSelectorComponent
   ],
   templateUrl: './whiteboard.component.html',
   styleUrl: './whiteboard.component.css'
 })
 export class WhiteboardComponent implements OnInit, AfterViewInit {
   @ViewChild(MatMenuTrigger, {static: true}) matMenuTrigger: MatMenuTrigger;
+  @ViewChild('rectangleselector', {static: true}) rectangleSelector: ElementRef<HTMLElement>;
 
   /**
    * For mouseMoveListener
@@ -107,6 +110,10 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
    * @private
    */
   private isContextMenuOpened: boolean = false
+
+  protected isRectangleSelecting: boolean;
+
+  initPositionRectSelector = new Point(400, 300)
 
   constructor(private managerPageWBService: ManagerPageWBService,
               private readonly managerHomePcsService: ManagerPagePcsService,
@@ -148,42 +155,29 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     elt!.addEventListener('touchstart',
       (event) => this.onMouseDown(event));
 
-
     elt!.addEventListener('mouseup',
       (event) => this.onMouseUp(event));
 
     elt!.addEventListener('touchend',
       (event) => this.onMouseUp(event));
 
+    // set elt rselector fill his parent  (maybe is there other way...)
+    let eltRSelector = document.getElementById("rselector")
+    let eltParent = document.getElementById("white-board")
+    eltRSelector!.style.width = eltParent!.clientWidth + "px"
+    eltRSelector!.style.height = eltParent!.clientHeight + "px"
+    eltRSelector!.style.zIndex = "1"
   }
 
   ngAfterContentChecked(): void {
     // this.changeDetector.detectChanges();
   }
 
-  onMouseMove(e: any) {
-    if (this.isContextMenuOpened) {
-      // do context menu modal
-      return
-    }
-    if (this.isDown) {
-      e.preventDefault()
-      // console.log("nb selected elements : ", this.initialPointOfSelectedElements.length)
-      if (this.initialPointOfSelectedElements.length > 0) {
-        if (e.clientX) {
-          this.moveAt(e.clientX, e.clientY)
-        } else {
-          this.moveAt(e.touches[0].clientX, e.touches[0].clientY)
-        }
-      }
-    }
-  }
-
   onMouseDown(e: any) {
     // console.log("MouseEvent : ", e)
     if (!e) return
     if (this.isContextMenuOpened) {
-       // do context menu modal
+      // do context menu modal
       return
     }
     if (e.button > 1) {
@@ -205,7 +199,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
 
       const clickInPcsElement = pcsElements.some(e => pointClick.isIncludeIn(e.getBoundingClientRect()))
       if (!clickInPcsElement) {
-        this.doUnselectAll()
+        this.doDeselectAll()
       }
 
       // if click on app-pcs component, then this event is managed by toggleSelected (other event listener)
@@ -221,6 +215,14 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
 
     if (!clickInSelectedElement) {
       // no component selected to move
+      // this.rectangleForSelect = new
+      this.isRectangleSelecting = true
+      this.initPositionRectSelector = pointClick
+      // this.rectangleSelect.nativeElement.style.left = pointClick.x + "px"
+      // this.rectangleSelect.nativeElement.style.top = pointClick.y + "px"
+      // this.rectangleSelect.nativeElement.style.width = 10 + "px"
+      // this.rectangleSelect.nativeElement.style.outlineStyle = "solid";
+      // console.log("this.rectangleSelect.style = ", this.rectangleSelect.nativeElement.style)
       return
     }
 
@@ -237,11 +239,41 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     ))
   }
 
-  onMouseUp(e: any) {
-    if (!this.isDown) {
+  onMouseMove(e: any) {
+    if (this.isContextMenuOpened) {
+      // do context menu modal
       return
     }
 
+    if (this.isRectangleSelecting) {
+      // console.log("this.isRectangleSelecting = ", this.isRectangleSelecting)
+      // this.rectangleSelect.nativeElement.style.width = (parseInt(this.rectangleSelect.nativeElement.style.x) - e.clientX) + "px"
+      // this.rectangleSelect.nativeElement.style.height = (parseInt(this.rectangleSelect.nativeElement.style.y) - e.clientY) + "px"
+      // console.log(" width = ", this.rectangleSelect.nativeElement.style.width)
+      return
+    }
+    if (this.isDown) {
+      e.preventDefault()
+      // console.log("nb selected elements : ", this.initialPointOfSelectedElements.length)
+      if (this.initialPointOfSelectedElements.length > 0) {
+        if (e.clientX) {
+          this.moveAt(e.clientX, e.clientY)
+        } else {
+          this.moveAt(e.touches[0].clientX, e.touches[0].clientY)
+        }
+      }
+    }
+  }
+
+
+  onMouseUp(e: any) {
+    if (this.isRectangleSelecting) {
+      this.isRectangleSelecting = false
+      return
+    }
+    if (!this.isDown) {
+      return
+    }
     this.isDown = false;
     if (e.button > 1) {
       // context menu handles this
@@ -271,12 +303,18 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   @HostListener('window:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {
     if ((event.ctrlKey || event.metaKey) && event.key == "z") {
-      // console.log('CTRL + Z');
+      // console.log('CTRL Z');
       this.doUnDo()
     }
     if ((event.ctrlKey || event.metaKey) && event.key == "y") {
-      // console.log('CTRL + Y');
+      // console.log('CTRL Y');
       this.doReDo()
+    }
+    if (event.key == "+") {
+      this.doZoom(1)
+    }
+    if (event.key == "-") {
+      this.doZoom(-1)
     }
   }
 
@@ -299,11 +337,12 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     return pcsDto ? pcsDto.id : undefined
   }
 
-  doZoom(direction: number, index: number) {
+  doZoom(direction: number, index: number = -1) {
     const indexOfSelectedComponents =
       this.pcsDtoList.map((value, index) => index)
         .filter(index => this.pcsDtoList[index].isSelected)
-    if (indexOfSelectedComponents.includes(index)) {
+
+    if (index < 0 || indexOfSelectedComponents.includes(index)) {
       this.managerPageWBService.doZoom(direction, indexOfSelectedComponents)
     } else {
       this.managerPageWBService.doZoom(direction, [index])
@@ -347,7 +386,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
    * Called when user do a Ctrl+MouseDown over nothing,
    *
    */
-  protected doUnselectAll() {
+  protected doDeselectAll() {
     this.managerPageWBService.doUnselectAll()
   }
 
@@ -371,7 +410,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
       this.pcsDtoList.map((value, index) => index)
         .filter(index => this.pcsDtoList[index].isSelected)
 
-    this.doUnselectAll()
+    this.doDeselectAll()
     if (!indexOfSelectedComponents.includes(index)) {
       this.managerPageWBService.doDuplicate([index])
     } else {
@@ -385,7 +424,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
       this.pcsDtoList.map((value, index) => index)
         .filter(index => this.pcsDtoList[index].isSelected)
 
-    this.doUnselectAll()
+    this.doDeselectAll()
     if (!indexOfSelectedComponents.includes(index)) {
       this.managerPageWBService.doDelete([index])
     } else {
@@ -420,7 +459,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
 
   get numberSelectedComponents(): number {
     return this.pcsDtoList.reduce(
-      (nbSelected:number, pcsdDto: UIPcsDto)  => pcsdDto.isSelected ? nbSelected+1 : nbSelected, 0 )
+      (nbSelected: number, pcsdDto: UIPcsDto) => pcsdDto.isSelected ? nbSelected + 1 : nbSelected, 0)
   }
 
   /**
@@ -480,5 +519,51 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
 
   doCircularAlign() {
     this.managerPageWBService.doCircularAlign()
+  }
+
+  doUpdateRectangleSelector(shape: Shape) {
+    let point = new Point(0, 0)
+
+    let indexOfSelectedComponents: number[] = []
+    this.pcsDtoList.forEach((pcsDto, index) => {
+      point.x = pcsDto.position.x
+      point.y = pcsDto.position.y
+      if (this.isInclude(pcsDto.position.x, pcsDto.position.y, pcsDto.width, pcsDto.height, shape)) {
+        if (!pcsDto.isSelected) {
+          pcsDto.isSelected = true
+        }
+        // indexOfSelectedComponents.push(index)
+      }
+    })
+    // this.managerPageWBService.doSelectAll(indexOfSelectedComponents)
+  }
+
+  isInclude(px:number, py:number, w:number, h:number, rect: Shape): boolean {
+    return this.rectanglesIntersect(px, py, px+w, py+h,
+      rect.x, rect.y, rect.x + rect.w, rect.y + rect.h)
+  }
+
+  isIntersect(shape1 : Shape, shape2 : Shape): boolean {
+    return this.rectanglesIntersect(shape1.x, shape1.y, shape1.x+shape1.w, shape1.y+shape1.h,
+      shape2.x, shape2.y, shape2.x + shape2.w, shape2.y + shape2.h)
+  }
+
+
+  doStopRectangleSelector() {
+    let eltRSelector = document.getElementById("rselector")
+    eltRSelector!.style.zIndex = "1"
+    // this.rectangleSelector.nativeElement.style.zIndex = "1"
+  }
+
+  doStartRectangleSelector() {
+    let eltRSelector = document.getElementById("rselector")
+    eltRSelector!.style.zIndex = "2000"
+    // this.rectangleSelector.nativeElement.style.zIndex = "2000"
+  }
+
+
+  rectanglesIntersect(minAx: number, minAy: number, maxAx: number, maxAy: number,
+                      minBx: number, minBy: number, maxBx: number, maxBy: number): boolean {
+    return maxAx >= minBx && minAx <= maxBx && minAy <= maxBy && maxAy >= minBy
   }
 }

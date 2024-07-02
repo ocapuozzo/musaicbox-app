@@ -460,13 +460,13 @@ export class ManagerPageWBService {
     // barycenter point
     origin.x  = origin.x  / selectedPcsIndexes.length
     origin.y  = origin.y  / selectedPcsIndexes.length
-    radius = (radius / selectedPcsIndexes.length) / 4
 
-    // radius increase with number of selected elements
+    // radius increase with number of selected elements.
+    // Dividing it by four seems like a good choice, a good number (?)
     // rem : if selectedPcsIndexes.length == 4, radius is avg width
-    radius = radius * selectedPcsIndexes.length
+    radius /= 4
 
-    // dont hide elements
+    // dont hide elements (left and top) TODO right and bottom ?
     if (origin.x - radius < 0) origin.x += radius
     if (origin.y - radius < 0) origin.y += radius
 
@@ -485,5 +485,6 @@ export class ManagerPageWBService {
     })
     this.doFinalPosition(finalMoveElements)
   }
+
 
 }

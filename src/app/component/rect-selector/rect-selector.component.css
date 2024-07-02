@@ -1,0 +1,22 @@
+.shapeCanvas{
+  z-index: 1;
+  /*width: 1000px;*/
+  /*height:800px;*/
+  /*width: max-content;*/
+  /*inline-size: max-content;*/
+  /*height: max-content;*/
+  /*block-size: max-content;*/
+
+  position: absolute;
+  display: flex;
+  /*border:solid;*/
+  /*border-color:lightgrey;*/
+}
+
+.shape{
+  color: lightblue;
+  background-color: lightblue;
+  fill-opacity:0.5;
+  stroke:lightblue;
+  stroke-width:1;
+}

@@ -1,7 +1,13 @@
+
 <div class="main-page"
      id="white-board"
      [cdkContextMenuTriggerFor]="whiteboard"
 >
+  <app-rect-selector
+    (moving)="doUpdateRectangleSelector($event)"
+    (mousedown)="doStartRectangleSelector()"
+    (mouseup)="doStopRectangleSelector()"
+  ></app-rect-selector>
 
   @for (pcsDto of pcsDtoList; track pcsDto; let idx = $index) {
     <!--component has 3 data context : element DOM, object himself and pcsDto -->
@@ -54,9 +60,7 @@
       <button class="example-menu-item" cdkMenuItem [cdkMenuTriggerFor]="align" [cdkMenuTriggerData]="{index: index}">
         Align <span>&#10148;</span>
       </button>
-<!--      <button class="example-menu-item" [disabled]="selectionIsEmpty()" cdkMenuItem [cdkMenuTriggerFor]="selection" [cdkMenuTriggerData]="{index: index}">-->
-<!--        Selection <span>&#10148;</span>-->
-<!--      </button>-->
+
       <button class="example-menu-item" cdkMenuItem [cdkMenuTriggerFor]="neighbors">
         Neighbors <span>&#10148;</span>
       </button>
@@ -95,7 +99,7 @@
     <div class="example-menu"  cdkMenu>
       <button class="example-menu-item" (cdkMenuItemTriggered)="doHorizontalAlign()" cdkMenuItem ><mat-icon> align_vertical_center</mat-icon></button>
       <button class="example-menu-item" (cdkMenuItemTriggered)="doVerticalAlign()" cdkMenuItem ><mat-icon> align_horizontal_center</mat-icon></button>
-      <button class="example-menu-item" (cdkMenuItemTriggered)="doCircularAlign()" cdkMenuItem ><mat-icon>workspaces</mat-icon></button>
+      <button class="example-menu-item" (cdkMenuItemTriggered)="doCircularAlign()" cdkMenuItem ><mat-icon aria-label="circular">workspaces</mat-icon></button>
     </div>
   </ng-template>
 
@@ -110,10 +114,9 @@
     </div>
   </ng-template>
 
-
   <ng-template #whiteboard >
     <div class="example-menu"   cdkMenu>
-      <button class="example-menu-item" (cdkMenuItemTriggered)="doUnselectAll()"  cdkMenuItem >Unselect All</button>
+      <button class="example-menu-item" (cdkMenuItemTriggered)="doDeselectAll()" cdkMenuItem >Deselect All</button>
       <button class="example-menu-item" (cdkMenuItemTriggered)="doSelectAll()" cdkMenuItem >Select All</button>
     </div>
   </ng-template>

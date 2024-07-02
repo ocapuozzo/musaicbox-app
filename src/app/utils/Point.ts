@@ -14,5 +14,10 @@ export class Point {
      return rect.x <= this.x && this.x <= rect.x + rect.width &&
         rect.y <= this.y && this.y <= rect.y + rect.height;
     }
+
+  isIncludeInRect(rect: {x:number, y:number; w: number, h: number}) {
+    return rect.x <= this.x && this.x <= rect.x + rect.w &&
+      rect.y <= this.y && this.y <= rect.y + rect.h;
+  }
 }
 
