@@ -61,7 +61,6 @@ export class ManagerPageWBService {
   }
 
 
-
   addPcs(somePcs: IPcs[]) {
     this.doUnselectAll()
     this.uiPcsDtoList = [...this.uiPcsDtoList]
@@ -378,18 +377,26 @@ export class ManagerPageWBService {
     if (selectedPcsIndexes.length < 2) return // already align :))
 
     let avgX = 0
+    let sumHeight = 0
+    let avgY = 0
+
     selectedPcsIndexes.forEach(index => {
-      avgX += this.uiPcsDtoList[index].position.x + this.uiPcsDtoList[index].width/2
+      avgX += this.uiPcsDtoList[index].position.x + this.uiPcsDtoList[index].width / 2
+      avgY += this.uiPcsDtoList[index].position.y + this._GAP_BETWEEN
+      sumHeight += this.uiPcsDtoList[index].height + this._GAP_BETWEEN
     })
+
+    sumHeight -= this._GAP_BETWEEN
+    avgY -= this._GAP_BETWEEN
     avgX = avgX / selectedPcsIndexes.length
+    avgY = avgY / selectedPcsIndexes.length
+
+    let originY = avgY - (sumHeight / 2) + this._GAP_BETWEEN
 
     let finalMoveElements: FinalElementMove[] = []
 
-    // get min Y for first position
-    let startY = selectedPcsIndexes
-      .reduce(
-        (y,index) => y > this.uiPcsDtoList[index].position.y? this.uiPcsDtoList[index].position.y : y,
-        this.uiPcsDtoList[selectedPcsIndexes[0]].position.y)
+    // get origin Y for first position
+    let startY = originY
 
     selectedPcsIndexes.forEach(index => {
       finalMoveElements.push(
@@ -412,13 +419,24 @@ export class ManagerPageWBService {
     if (selectedPcsIndexes.length < 2) return // already align :))
 
     let avgY = 0
+    let avgX = 0
+    let sumWidth = 0
+
     selectedPcsIndexes.forEach(index => {
-      avgY += this.uiPcsDtoList[index].position.y  + this.uiPcsDtoList[index].height/2
+      avgY += this.uiPcsDtoList[index].position.y + this.uiPcsDtoList[index].height / 2
+      avgX += this.uiPcsDtoList[index].position.x + this._GAP_BETWEEN
+      sumWidth += this.uiPcsDtoList[index].width + this._GAP_BETWEEN
     })
+    avgX -= this._GAP_BETWEEN
+    sumWidth -= this._GAP_BETWEEN
+
     avgY = avgY / selectedPcsIndexes.length
+    avgX = avgX / selectedPcsIndexes.length
+
+    let originX = avgX - (sumWidth / 2) + this._GAP_BETWEEN
 
     let finalMoveElements: FinalElementMove[] = []
-    let x = this.uiPcsDtoList[selectedPcsIndexes[0]].position.x
+    let x = originX
     selectedPcsIndexes.forEach(index => {
       finalMoveElements.push(
         {
@@ -449,17 +467,17 @@ export class ManagerPageWBService {
 
     let finalMoveElements: FinalElementMove[] = []
 
-    let origin = new Point(0,0)
+    let origin = new Point(0, 0)
     let radius = 0
     selectedPcsIndexes.forEach(index => {
-      origin.x += this.uiPcsDtoList[index].position.x + this.uiPcsDtoList[index].width/2
-      origin.y += this.uiPcsDtoList[index].position.y + this.uiPcsDtoList[index].height/2
+      origin.x += this.uiPcsDtoList[index].position.x + this.uiPcsDtoList[index].width / 2
+      origin.y += this.uiPcsDtoList[index].position.y + this.uiPcsDtoList[index].height / 2
       radius += this.uiPcsDtoList[index].width
     })
 
     // barycenter point
-    origin.x  = origin.x  / selectedPcsIndexes.length
-    origin.y  = origin.y  / selectedPcsIndexes.length
+    origin.x = origin.x / selectedPcsIndexes.length
+    origin.y = origin.y / selectedPcsIndexes.length
 
     // radius increase with number of selected elements.
     // Dividing it by four seems like a good choice, a good number (?)
@@ -477,8 +495,8 @@ export class ManagerPageWBService {
       finalMoveElements.push(
         {
           index: index,
-          x: x - this.uiPcsDtoList[index].width /2 , // center align
-          y: y - this.uiPcsDtoList[index].height /2
+          x: x - this.uiPcsDtoList[index].width / 2, // center align
+          y: y - this.uiPcsDtoList[index].height / 2
         }
       )
       ang = ang + 2 * Math.PI / selectedPcsIndexes.length;
