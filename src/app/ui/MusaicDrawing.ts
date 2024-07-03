@@ -42,7 +42,7 @@ export class MusaicDrawing {
     ctx.fillStyle = this.pcsDto.colorPitchOff
 
     if (opaque) {
-      // pre fill paint off pitches
+      // pre fill paint background with off pitches color
       ctx.strokeStyle = this.pcsDto.colorPitchOff
       ctx.fillRect(0, 0, this.pcsDto.uiMusaic.width, this.pcsDto.uiMusaic.height)
     }

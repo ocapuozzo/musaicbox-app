@@ -45,21 +45,21 @@ export class ManagerPageWBService {
     let pcs4 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[26].getPcsMin().complement().modalPrimeForm()
     let uiMus = new UIMusaic({rounded: true})
 
-    this.uiPcsDtoList = [
+    let pcsDtoList  = [
       new UIPcsDto({pcs: pcs1, indexFormDrawer: 0, position: {x: 0, y: 10}}),
       new UIPcsDto({pcs: pcs2, indexFormDrawer: 1, position: {x: 110, y: 10}, isSelected: true}),
       new UIPcsDto({pcs: pcs3, indexFormDrawer: 2, position: {x: 220, y: 10}, isSelected: true}),
       new UIPcsDto({pcs: pcs4, width: 38, height: 38, indexFormDrawer: 0, position: {x: 340, y: 10}, uiMusaic: uiMus})
     ]
+    let restorePcsDtoList = this.managerLocalStorageService.restorePageWB()
 
+    this.uiPcsDtoList =  restorePcsDtoList.length == 0 ? pcsDtoList : restorePcsDtoList
     this.history.pushIntoPresent(this.uiPcsDtoList)
-    //console.log(this.uiPcsDtoList[3])
   }
 
   emit() {
     this.eventChangePcsPdoList.emit(this.uiPcsDtoList)
   }
-
 
   addPcs(somePcs: IPcs[]) {
     this.doUnselectAll()
@@ -83,8 +83,7 @@ export class ManagerPageWBService {
         ManagerPageWBService.deltaPositionNewPcs = 50
       }
     })
-
-    this.history.pushIntoPresent(this.uiPcsDtoList)
+    this.pushToHistoryAndSaveToLocalStorage(this.uiPcsDtoList)
     this.emit()
   }
 
@@ -161,7 +160,7 @@ export class ManagerPageWBService {
       this.uiPcsDtoList[index] = pcsDto
 
     })
-    this.history.pushIntoPresent(this.uiPcsDtoList)
+    this.pushToHistoryAndSaveToLocalStorage(this.uiPcsDtoList)
     this.emit()
   }
 
@@ -187,7 +186,7 @@ export class ManagerPageWBService {
       }
       this.uiPcsDtoList[index] = pcsDto
     })
-    this.history.pushIntoPresent(this.uiPcsDtoList)
+    this.pushToHistoryAndSaveToLocalStorage(this.uiPcsDtoList)
     this.emit()
   }
 
@@ -216,7 +215,7 @@ export class ManagerPageWBService {
       this.uiPcsDtoList[index] = pcsDto
     })
 
-    this.history.pushIntoPresent(this.uiPcsDtoList)
+    this.pushToHistoryAndSaveToLocalStorage(this.uiPcsDtoList)
     this.emit()
   }
 
@@ -230,7 +229,7 @@ export class ManagerPageWBService {
         this.uiPcsDtoList[e.index] = pcsDto
       }
     })
-    this.history.pushIntoPresent(this.uiPcsDtoList)
+    this.pushToHistoryAndSaveToLocalStorage(this.uiPcsDtoList)
     this.emit()
   }
 
@@ -275,7 +274,6 @@ export class ManagerPageWBService {
       })
     }
     // no historisation
-    // this.history.pushIntoPresent(this.uiPcsDtoList)
     this.emit()
   }
 
@@ -319,7 +317,7 @@ export class ManagerPageWBService {
     })
 
     this.uiPcsDtoList.push(...newPcsDtos)
-    this.history.pushIntoPresent(this.uiPcsDtoList)
+    this.pushToHistoryAndSaveToLocalStorage(this.uiPcsDtoList)
     this.emit()
   }
 
@@ -331,7 +329,7 @@ export class ManagerPageWBService {
     console.log("doDelete in wb service")
     this.uiPcsDtoList =
       this.uiPcsDtoList.filter((value, index) => !indexToDeleteList.includes(index))
-    this.history.pushIntoPresent(this.uiPcsDtoList)
+    this.pushToHistoryAndSaveToLocalStorage(this.uiPcsDtoList)
     this.emit()
   }
 
@@ -340,6 +338,7 @@ export class ManagerPageWBService {
     let pcsDtoList = this.history.unDoToPresent()
     if (pcsDtoList != undefined) {
       this.uiPcsDtoList = pcsDtoList
+      this.pushToHistoryAndSaveToLocalStorage(this.uiPcsDtoList)
       this.emit()
     }
   }
@@ -348,6 +347,7 @@ export class ManagerPageWBService {
     let pcsDtoList = this.history.reDoToPresent()
     if (pcsDtoList != undefined) {
       this.uiPcsDtoList = pcsDtoList
+      this.pushToHistoryAndSaveToLocalStorage(this.uiPcsDtoList)
       this.emit()
     }
   }
@@ -458,7 +458,6 @@ export class ManagerPageWBService {
   private getSelectedPcsDtoIndexes(): number[] {
     return this.uiPcsDtoList.map((pcsDto, index) => pcsDto.isSelected ? index : -1)
       .filter(index => index >= 0)
-
   }
 
   doCircularAlign() {
@@ -504,5 +503,9 @@ export class ManagerPageWBService {
     this.doFinalPosition(finalMoveElements)
   }
 
+  private pushToHistoryAndSaveToLocalStorage(uiPcsDtoList: UIPcsDto[]) {
+    this.history.pushIntoPresent(this.uiPcsDtoList)
+    this.managerLocalStorageService.savePageWB(this.uiPcsDtoList)
+  }
 
 }

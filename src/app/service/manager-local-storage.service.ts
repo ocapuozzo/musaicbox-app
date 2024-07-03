@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {IOrbitMusaic} from "../page/the88/the88.component";
 import {EightyEight} from "../utils/EightyEight";
 import {UIPcsDto} from "../ui/UIPcsDto";
+import {IPcs} from "../core/IPcs";
 
 @Injectable({
   providedIn: 'root'
@@ -37,8 +38,37 @@ export class ManagerLocalStorageService {
   }
 
   savePageWB(listPcsDto :UIPcsDto[]) {
-    localStorage.setItem("wb.currentContent", JSON.stringify(listPcsDto))
+    let savListPcsDto : any[] = []
+    listPcsDto.forEach(pcsDto => {
+      let obj = {
+        ...pcsDto,
+        pcs : pcsDto.pcs.getPcsStr()  // simple serial pcs
+      }
+      savListPcsDto.push(obj)
+    })
+
+    localStorage.setItem("wb.currentContent", JSON.stringify(savListPcsDto))
   }
 
+  restorePageWB() : UIPcsDto[] {
+    let restoreListPcsDto : any[]  = []
+    try {
+      // @ts-ignore
+      restoreListPcsDto  = JSON.parse(localStorage.getItem("wb.currentContent")|| "[]")
+    } catch (e: any) {
+      // nothing
+    }
+
+    let listPcsDto : UIPcsDto[] = []
+    restoreListPcsDto.forEach(pcsDto => {
+      let obj = new UIPcsDto({
+        ...pcsDto,
+        pcs : new IPcs({strPcs:pcsDto.pcs})
+      })
+      listPcsDto.push(obj)
+    })
+
+    return  listPcsDto
+  }
 
 }
