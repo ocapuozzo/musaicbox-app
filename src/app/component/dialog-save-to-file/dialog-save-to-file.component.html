@@ -1,0 +1,15 @@
+<h2 mat-dialog-title>Save to file </h2>
+<mat-dialog-content>
+  <mat-form-field>
+    <mat-label>Enter a file name</mat-label>
+    <input matInput [(ngModel)]="fileName" />
+  </mat-form-field>
+  <p>
+    <mat-label>Add date into file name ?</mat-label>
+    <mat-checkbox  [(ngModel)]="withDateInFileName" />
+  </p>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="dataDialog" cdkFocusInitial>Ok</button>
+</mat-dialog-actions>

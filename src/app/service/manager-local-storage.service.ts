@@ -42,7 +42,7 @@ export class ManagerLocalStorageService {
     listPcsDto.forEach(pcsDto => {
       let obj = {
         ...pcsDto,
-        pcs : pcsDto.pcs.getPcsStr()  // simple serial pcs
+        pcs : pcsDto.pcs.getPcsStr()  // simple serial pcs (string)
       }
       savListPcsDto.push(obj)
     })
@@ -50,25 +50,30 @@ export class ManagerLocalStorageService {
     localStorage.setItem("wb.currentContent", JSON.stringify(savListPcsDto))
   }
 
-  restorePageWB() : UIPcsDto[] {
-    let restoreListPcsDto : any[]  = []
+  getPcsDtoListFromLocalStorage() : UIPcsDto[] {
+    return this.getPcsDtoListFromJsonContent(localStorage.getItem("wb.currentContent")|| "[]")
+  }
+
+  getPcsDtoListFromJsonContent(contentJson: string): UIPcsDto[]{
+    let listPcsDto : UIPcsDto[] = []
     try {
       // @ts-ignore
-      restoreListPcsDto  = JSON.parse(localStorage.getItem("wb.currentContent")|| "[]")
+      let restoreListPcsDto : any[]  = JSON.parse( contentJson || "[]")
+
+      restoreListPcsDto.forEach(pcsDto => {
+        let obj = new UIPcsDto({
+          ...pcsDto,
+          pcs : new IPcs({strPcs:pcsDto.pcs})
+        })
+        listPcsDto.push(obj)
+      })
+
     } catch (e: any) {
       // nothing
     }
 
-    let listPcsDto : UIPcsDto[] = []
-    restoreListPcsDto.forEach(pcsDto => {
-      let obj = new UIPcsDto({
-        ...pcsDto,
-        pcs : new IPcs({strPcs:pcsDto.pcs})
-      })
-      listPcsDto.push(obj)
-    })
-
-    return  listPcsDto
+    return listPcsDto
   }
+
 
 }

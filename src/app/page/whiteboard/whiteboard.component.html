@@ -1,4 +1,3 @@
-
 <div class="main-page"
      id="white-board"
      [cdkContextMenuTriggerFor]="whiteboard"
@@ -118,7 +117,17 @@
     <div class="example-menu"   cdkMenu>
       <button class="example-menu-item" (cdkMenuItemTriggered)="doDeselectAll()" cdkMenuItem >Deselect All</button>
       <button class="example-menu-item" (cdkMenuItemTriggered)="doSelectAll()" cdkMenuItem >Select All</button>
+      <hr/>
+      <button class="example-menu-item" (cdkMenuItemTriggered)="openDialogSaveToFile()" cdkMenuItem >Save as...</button>
+      <button class="example-menu-item" (cdkMenuItemTriggered)="doOpenLocalFile()" cdkMenuItem >Open file...</button>
     </div>
   </ng-template>
-
 </div>
+
+<div style="display:flex; flex-direction: row;">
+  <button (click)="fileInput.click()">Open file</button>
+  <button type="button"  (click)="doOpenLocalFile()"></button>
+  <input #fileInput type="file" (change)="onLoadLocalFile($event)" accept=".musaicbox" style="display:none"/>
+</div>
+
+

@@ -8,9 +8,9 @@ import {
 } from "@angular/cdk/menu";
 import {
   AfterViewInit,
-  Component, ElementRef, HostListener,
+  Component, ElementRef, HostListener, inject, model,
   OnInit,
-  Renderer2,
+  Renderer2, SecurityContext, signal,
   ViewChild
 } from '@angular/core';
 import {CdkDrag, CdkDragHandle} from "@angular/cdk/drag-drop";
@@ -29,6 +29,10 @@ import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
 import {Router} from "@angular/router";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
 import {RectSelectorComponent, Shape} from "../../component/rect-selector/rect-selector.component";
+import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
+import {FormsModule} from "@angular/forms";
+import {MatDialog} from "@angular/material/dialog";
+import {DialogSaveToFileComponent} from "../../component/dialog-save-to-file/dialog-save-to-file.component";
 
 interface ElementMove {
   elt: HTMLElement,
@@ -64,7 +68,8 @@ interface ElementMove {
     NgClass,
     NgIf,
     MatSlideToggle,
-    RectSelectorComponent
+    RectSelectorComponent,
+    FormsModule
   ],
   templateUrl: './whiteboard.component.html',
   styleUrl: './whiteboard.component.css'
@@ -118,7 +123,8 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   constructor(private managerPageWBService: ManagerPageWBService,
               private readonly managerHomePcsService: ManagerPagePcsService,
               private readonly router: Router,
-              private renderer: Renderer2) {
+              private renderer: Renderer2,
+              private sanitizer: DomSanitizer) {
 
     this.pcsDtoList = this.managerPageWBService.uiPcsDtoList
     this.drawers = this.managerPageWBService.DRAWERS
@@ -167,10 +173,6 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     eltRSelector!.style.width = eltParent!.clientWidth + "px"
     eltRSelector!.style.height = eltParent!.clientHeight + "px"
     eltRSelector!.style.zIndex = "1"
-  }
-
-  ngAfterContentChecked(): void {
-    // this.changeDetector.detectChanges();
   }
 
   onMouseDown(e: any) {
@@ -538,16 +540,10 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     // this.managerPageWBService.doSelectAll(indexOfSelectedComponents)
   }
 
-  isInclude(px:number, py:number, w:number, h:number, rect: Shape): boolean {
-    return this.rectanglesIntersect(px, py, px+w, py+h,
+  isInclude(px: number, py: number, w: number, h: number, rect: Shape): boolean {
+    return this.rectanglesIntersect(px, py, px + w, py + h,
       rect.x, rect.y, rect.x + rect.w, rect.y + rect.h)
   }
-
-  isIntersect(shape1 : Shape, shape2 : Shape): boolean {
-    return this.rectanglesIntersect(shape1.x, shape1.y, shape1.x+shape1.w, shape1.y+shape1.h,
-      shape2.x, shape2.y, shape2.x + shape2.w, shape2.y + shape2.h)
-  }
-
 
   doStopRectangleSelector() {
     let eltRSelector = document.getElementById("rselector")
@@ -566,4 +562,96 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
                       minBx: number, minBy: number, maxBx: number, maxBy: number): boolean {
     return maxAx >= minBx && minAx <= maxBx && minAy <= maxBy && maxAy >= minBy
   }
+
+  onLoadLocalFile(event: any) {
+    const fileName = event.target.files[0].name;
+    console.log(event.target.files)
+    this.uploadDocument(event.target.files[0])
+  }
+
+  doOpenLocalFile() {
+    let element: HTMLElement = document.querySelector('input[type="file"]') as HTMLElement;
+    element.click();
+  }
+
+  //https://stackoverflow.com/questions/47581687/read-a-file-and-parse-its-content
+  uploadDocument(file: File) {
+    let fileReader = new FileReader();
+    fileReader.onload = (e) => {
+      // do with content
+      // console.log(fileReader.result);
+      // let content = fileReader.result +  ""
+      this.managerPageWBService.doReplaceContentBy( fileReader.result +  "")
+    }
+    fileReader.readAsText(file);
+  }
+
+  doSaveFile(fileName: string = "my-project.musaicbox") {
+    const data: any[] = JSON.parse(localStorage.getItem("wb.currentContent") || "[]")
+    const blob = new Blob([JSON.stringify(data)], {type: 'application/json'});
+    const url = window.URL.createObjectURL(blob);
+    let anchor = document.createElement("a");
+    anchor.download = fileName;
+    // https://stackoverflow.com/questions/55849415/type-saferesourceurl-is-not-assignable-to-type-string
+    anchor.href = "" + this.sanitizer.sanitize(SecurityContext.RESOURCE_URL, this.sanitizer.bypassSecurityTrustResourceUrl(url));
+    anchor.click();
+  }
+
+  openDialogSaveToFile() {
+    this.openDialogForSaveIntoFile()
+  }
+
+  readonly withDateInFileName = signal(false);
+  readonly fileNameDialog = model('my-project');
+  readonly dialog = inject(MatDialog);
+
+  openDialogForSaveIntoFile(): void {
+    const dialogRef = this.dialog.open(DialogSaveToFileComponent, {
+      data : {fileName: this.fileNameDialog(), withDateInFileName: this.withDateInFileName()},
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      // console.log('The dialog was closed');
+      if (result !== undefined) {
+        this.fileNameDialog.set(result.fileName().trim())
+        this.withDateInFileName.set(result.withDateInFileName())
+        if (this.fileNameDialog()) {
+          const dateNow = this.formatDateNow()
+          const suffix = this.withDateInFileName() ? "_" + dateNow : ""
+          const ext: string = '.musaicbox'
+          this.doSaveFile(this.fileNameDialog() + suffix + ext)
+          // TODO state bar for success event ?
+        }
+        // console.log("this.fileNameDialog() = ", this.fileNameDialog())
+        // console.log("this.withDateInFileName() = ", this.withDateInFileName())
+      }
+    });
+  }
+
+  formatDateNow() {
+    const d = new Date()
+    let month = (d.getMonth() + 1)
+    const day = d.getDate()
+    const year = d.getFullYear()
+    const hour = d.getHours()
+    const minute = d.getMinutes()
+
+    let month2 = month.toString()
+    let day2 = day.toString()
+    let hour2 = hour.toString()
+    let minute2 = minute.toString()
+
+    if (month < 10)
+      month2 = '0' + month;
+    if (day < 10)
+      day2 = '0' + day;
+    if (hour < 10)
+      hour2 = '0' + day;
+    if (minute < 10)
+      minute2 = '0' + day;
+
+    return [year, month2, day2, hour2, minute2].join('-');
+  }
+
+
 }
