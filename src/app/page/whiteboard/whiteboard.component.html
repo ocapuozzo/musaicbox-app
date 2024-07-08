@@ -29,7 +29,7 @@
       [pcsDto]="pcsDto"
       (cdkContextMenuOpened)="doContextMenuOpen()"
       (cdkContextMenuClosed)="doContextMenuClose()"
-      (mousedown)="doToggleSelected($event,idx)"
+      (mouseup)="doToggleSelected($event,idx)"
     >
     </app-pcs>
   }

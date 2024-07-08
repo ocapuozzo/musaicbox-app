@@ -375,7 +375,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     }
   }
 
-  // on mouse down
+  // on mouse up event
   doToggleSelected($event: MouseEvent, index: number) {
     if (!this.pcsDtoList.some((pcsDto) => pcsDto.isSelected)) {
       // select this one and only one
