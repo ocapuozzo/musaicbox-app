@@ -121,7 +121,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   initPositionRectSelector = new Point(400, 300)
 
   constructor(private managerPageWBService: ManagerPageWBService,
-              private readonly managerHomePcsService: ManagerPagePcsService,
+              private readonly managerPagePcsService: ManagerPagePcsService,
               private readonly router: Router,
               private renderer: Renderer2,
               private sanitizer: DomSanitizer) {
@@ -436,7 +436,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   }
 
   doPushToPcsPage(index: number) {
-    this.managerHomePcsService.replaceBy(this.pcsDtoList[index].pcs)
+    this.managerPagePcsService.replaceBy(this.pcsDtoList[index].pcs)
     this.managerPageWBService.setPcsDtoForTemplate(this.pcsDtoList[index])
     this.router.navigateByUrl('/pcs');
   }
@@ -563,9 +563,10 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     return maxAx >= minBx && minAx <= maxBx && minAy <= maxBy && maxAy >= minBy
   }
 
+  /////////// persistence logic zone
+
   onLoadLocalFile(event: any) {
-    const fileName = event.target.files[0].name;
-    console.log(event.target.files)
+    // const fileName = event.target.files[0].name;
     this.uploadDocument(event.target.files[0])
   }
 
@@ -578,17 +579,13 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   uploadDocument(file: File) {
     let fileReader = new FileReader();
     fileReader.onload = (e) => {
-      // do with content
-      // console.log(fileReader.result);
-      // let content = fileReader.result +  ""
       this.managerPageWBService.doReplaceContentBy( fileReader.result +  "")
     }
     fileReader.readAsText(file);
   }
 
   doSaveFile(fileName: string = "my-project.musaicbox") {
-    const data: any[] = JSON.parse(localStorage.getItem("wb.currentContent") || "[]")
-    const blob = new Blob([JSON.stringify(data)], {type: 'application/json'});
+    const blob = new Blob([this.managerPageWBService.getSerialDataContent()], {type: 'application/json'});
     const url = window.URL.createObjectURL(blob);
     let anchor = document.createElement("a");
     anchor.download = fileName;
@@ -653,5 +650,6 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     return [year, month2, day2, hour2, minute2].join('-');
   }
 
+///// End persistence logic zone
 
 }

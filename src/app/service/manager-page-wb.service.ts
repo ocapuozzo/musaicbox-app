@@ -326,7 +326,6 @@ export class ManagerPageWBService {
    * @param indexToDeleteList
    */
   doDelete(indexToDeleteList: number[]) {
-    console.log("doDelete in wb service")
     this.uiPcsDtoList =
       this.uiPcsDtoList.filter((value, index) => !indexToDeleteList.includes(index))
     this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
@@ -508,9 +507,13 @@ export class ManagerPageWBService {
     this.managerLocalStorageService.savePageWB(this.uiPcsDtoList)
   }
 
-  doReplaceContentBy(content: string) {
-    this.uiPcsDtoList =  this.managerLocalStorageService.getPcsDtoListFromJsonContent(content)
+  doReplaceContentBy(contentJson: string) {
+    this.uiPcsDtoList =  this.managerLocalStorageService.getPcsDtoListFromJsonContent(contentJson)
     this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
     this.emit()
+  }
+
+  getSerialDataContent() {
+    return this.managerLocalStorageService.getSerialDataPcsDtoListFromLocalStorage();
   }
 }

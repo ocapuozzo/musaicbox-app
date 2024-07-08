@@ -16,7 +16,7 @@ export class ManagerLocalStorageService {
     let inStorage : string[] = []
       try {
         // @ts-ignore
-        inStorage = JSON.parse(localStorage.getItem('the88.currentSelectedOp')) || ["M1"]
+        inStorage = JSON.parse(localStorage.getItem('page88.currentSelectedOp')) || ["M1"]
       } catch (e: any) {
         // nothing
       }
@@ -34,7 +34,7 @@ export class ManagerLocalStorageService {
   }
 
   savePageThe88(selectedOp : string[]) {
-    localStorage.setItem("the88.currentSelectedOp", JSON.stringify(selectedOp))
+    localStorage.setItem("page88.currentSelectedOp", JSON.stringify(selectedOp))
   }
 
   savePageWB(listPcsDto :UIPcsDto[]) {
@@ -47,11 +47,15 @@ export class ManagerLocalStorageService {
       savListPcsDto.push(obj)
     })
 
-    localStorage.setItem("wb.currentContent", JSON.stringify(savListPcsDto))
+    localStorage.setItem("pageWB.currentContent", JSON.stringify(savListPcsDto))
+  }
+
+  getSerialDataPcsDtoListFromLocalStorage() : string {
+    return localStorage.getItem("pageWB.currentContent") || "[]"
   }
 
   getPcsDtoListFromLocalStorage() : UIPcsDto[] {
-    return this.getPcsDtoListFromJsonContent(localStorage.getItem("wb.currentContent")|| "[]")
+    return this.getPcsDtoListFromJsonContent(localStorage.getItem("pageWB.currentContent")|| "[]")
   }
 
   getPcsDtoListFromJsonContent(contentJson: string): UIPcsDto[]{
@@ -60,6 +64,7 @@ export class ManagerLocalStorageService {
       // @ts-ignore
       let restoreListPcsDto : any[]  = JSON.parse( contentJson || "[]")
 
+      // update value (and type) of attribut 'pcs' from 'pcs string' to 'instance of IPcs'
       restoreListPcsDto.forEach(pcsDto => {
         let obj = new UIPcsDto({
           ...pcsDto,
