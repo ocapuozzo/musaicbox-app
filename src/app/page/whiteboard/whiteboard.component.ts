@@ -375,10 +375,13 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     }
   }
 
+  // on mouse down
   doToggleSelected($event: MouseEvent, index: number) {
     if (!this.pcsDtoList.some((pcsDto) => pcsDto.isSelected)) {
+      // select this one and only one
       this.managerPageWBService.doToggleSelected(index)
     } else if ($event.ctrlKey) {
+      // toggle selected
       this.managerPageWBService.doToggleSelected(index)
     }
   }
@@ -532,7 +535,8 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
       point.y = pcsDto.position.y
       if (this.isInclude(pcsDto.position.x, pcsDto.position.y, pcsDto.width, pcsDto.height, shape)) {
         if (!pcsDto.isSelected) {
-          pcsDto.isSelected = true
+          this.managerPageWBService.doToggleSelected(index)
+          // pcsDto.isSelected = true
         }
         // indexOfSelectedComponents.push(index)
       }

@@ -26,7 +26,16 @@ export class ManagerPageWBService {
 
   DRAWERS: string[] = ["Musaic", "Clock", "Score"]
 
+  /**
+   * Array of pcsDto managed by whiteboard page
+   */
   uiPcsDtoList: UIPcsDto[] = []
+
+  /**
+   * List of index element into this.uiPcsDtoList that user are selected
+   * Use by align functions
+   */
+  orderedIndexesSelectedPcsDto: number[] = []
 
   /**
    * For format others as him
@@ -52,7 +61,6 @@ export class ManagerPageWBService {
       new UIPcsDto({pcs: pcs4, width: 38, height: 38, indexFormDrawer: 0, position: {x: 340, y: 10}, uiMusaic: uiMus})
     ]
     let restorePcsDtoList = this.managerLocalStorageService.getPcsDtoListFromLocalStorage()
-
     this.uiPcsDtoList =  restorePcsDtoList.length == 0 ? pcsDtoList : restorePcsDtoList
     this.history.pushIntoPresent(this.uiPcsDtoList)
   }
@@ -82,6 +90,9 @@ export class ManagerPageWBService {
       if (ManagerPageWBService.deltaPositionNewPcs > window.innerWidth - 50) {
         ManagerPageWBService.deltaPositionNewPcs = 50
       }
+
+      // add index of last element
+      this.orderedIndexesSelectedPcsDto.push(this.uiPcsDtoList.length-1)
     })
     this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
     this.emit()
@@ -244,6 +255,16 @@ export class ManagerPageWBService {
 
     pcsDto.isSelected = !pcsDto.isSelected
     this.uiPcsDtoList[index] = pcsDto
+
+    // update orderedIndexesSelectedPcsDto
+    if (pcsDto.isSelected) {
+      this.orderedIndexesSelectedPcsDto.push(index)
+    } else {
+      const iDelete = this.orderedIndexesSelectedPcsDto.indexOf(index)
+      if (iDelete >= 0) {
+        this.orderedIndexesSelectedPcsDto.splice(iDelete, 1)
+      }
+    }
     // no historisation
     this.emit()
   }
@@ -254,7 +275,6 @@ export class ManagerPageWBService {
    * @param indexSelectedElements
    */
   doUnselectAll(indexSelectedElements: number[] = []) {
-    // this.uiPcsDtoList = [...this.uiPcsDtoList]
     if (indexSelectedElements.length === 0) {
 
       this.uiPcsDtoList.forEach((e, index) => {
@@ -265,12 +285,21 @@ export class ManagerPageWBService {
           this.uiPcsDtoList[index] = pcsDto
         }
       })
+      // no more selected index
+      this.orderedIndexesSelectedPcsDto = []
     } else {
       indexSelectedElements.forEach(index => {
         let pcsDto
           = new UIPcsDto({...this.uiPcsDtoList[index]})
         pcsDto.isSelected = false
         this.uiPcsDtoList[index] = pcsDto
+
+        // update list of index pcs selected
+        const iDelete = this.orderedIndexesSelectedPcsDto.indexOf(index)
+        if (iDelete >= 0) {
+          this.orderedIndexesSelectedPcsDto.splice(iDelete, 1)
+        }
+
       })
     }
     // no historisation
@@ -278,12 +307,21 @@ export class ManagerPageWBService {
   }
 
   doSelectAll() {
+
     this.uiPcsDtoList.forEach((e, index) => {
       if (!e.isSelected) {
         let pcsDto
           = new UIPcsDto({...e})
         pcsDto.isSelected = true
         this.uiPcsDtoList[index] = pcsDto
+
+        // update this.orderedIndexesSelectedPcsDto
+        // normally index is not in orderedIndexesSelectedPcsDto
+        if (!this.orderedIndexesSelectedPcsDto.includes(index)) {
+          this.orderedIndexesSelectedPcsDto.push(index)
+        } else {
+          new Error(`${index} will not be into ${this.orderedIndexesSelectedPcsDto}`)
+        }
       }
     })
   }
@@ -449,14 +487,18 @@ export class ManagerPageWBService {
     this.doFinalPosition(finalMoveElements)
   }
 
-
+  /**
+   * Prefer use getSelectedPcsDtoIndexes because they are ordered by user
+   * @private
+   */
   private getSelectedPcsDto() {
     return this.uiPcsDtoList.filter(pcsDto => pcsDto.isSelected)
   }
 
   private getSelectedPcsDtoIndexes(): number[] {
-    return this.uiPcsDtoList.map((pcsDto, index) => pcsDto.isSelected ? index : -1)
-      .filter(index => index >= 0)
+    return this.orderedIndexesSelectedPcsDto
+    // return this.uiPcsDtoList.map((pcsDto, index) => pcsDto.isSelected ? index : -1)
+    //   .filter(index => index >= 0)
   }
 
   doCircularAlign() {
