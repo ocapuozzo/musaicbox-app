@@ -4,10 +4,10 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 export class Shape {
   // type: string;
-  x:number;
-  y:number;
-  w:number;
-  h:number;
+  x: number;
+  y: number;
+  w: number;
+  h: number;
 }
 
 @Component({
@@ -17,12 +17,13 @@ export class Shape {
   templateUrl: './rect-selector.component.html',
   styleUrl: './rect-selector.component.css'
 })
-export class RectSelectorComponent implements OnInit{
+export class RectSelectorComponent implements OnInit {
 
   drawing = false;
-  shape : Shape
+  shape: Shape
+  oldX: number = 0
 
-  @Output() moving : EventEmitter<Shape> = new EventEmitter();
+  @Output() moving: EventEmitter<Shape> = new EventEmitter();
 
   constructor() {
     this.close()
@@ -63,27 +64,24 @@ export class RectSelectorComponent implements OnInit{
     if (this.drawing) {
       // The SVG specification says that if width or height are negative then the rectangle is not drawn.
       // negative value causes errors
-      let mustBeUpdated = false
-      if ( (evt.offsetX - this.shape.x) >= 0 ) {
+      if ((evt.offsetX - this.shape.x) >= 0) {
         this.shape.w = evt.offsetX - this.shape.x;
-        mustBeUpdated = true
+        this.oldX = 0
+      } else {
+        if (this.oldX === 0) {
+          this.oldX = this.shape.x
+        }
+        this.shape.x = evt.offsetX
       }
-      if ( (evt.offsetY - this.shape.y) >= 0) {
+      if ((evt.offsetY - this.shape.y) >= 0) {
         this.shape.h = evt.offsetY - this.shape.y;
-        mustBeUpdated = true
+      } else {
+        this.shape.y = evt.offsetY
       }
-      if (mustBeUpdated) {
-        evt.preventDefault()
-        evt.stopPropagation()
-        this.moving.emit(this.shape)
-      }
+      evt.preventDefault()
+      evt.stopPropagation()
+      this.moving.emit(this.shape)
     }
-  }
-
-  private resizeConMeet(evt: MouseEvent) {
-    return (
-      evt.offsetX < this.shape.x && evt.offsetX < this.shape.y
-    );
   }
 
   stopDrawing(evt: MouseEvent) {
