@@ -2,8 +2,9 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 
 // from https://stackblitz.com/edit/basic-draw-app-gwube9
 
+const MIN_WIDTH = 2
+
 export class Shape {
-  // type: string;
   x: number;
   y: number;
   w: number;
@@ -21,7 +22,6 @@ export class RectSelectorComponent implements OnInit {
 
   drawing = false;
   shape: Shape
-  oldX: number = 0
 
   @Output() moving: EventEmitter<Shape> = new EventEmitter();
 
@@ -34,49 +34,30 @@ export class RectSelectorComponent implements OnInit {
   }
 
   startDrawing(evt: MouseEvent) {
-    if (
-      this.shape &&
-      evt.offsetX >= this.shape.x &&
-      evt.offsetX <= this.shape.x + this.shape.w &&
-      evt.offsetY >= this.shape.y &&
-      evt.offsetY <= this.shape.y + this.shape.h
-    ) {
-      this.shape = {
-        x: this.shape.x,
-        y: this.shape.y,
-        w: 0,
-        h: 0,
-      };
-    } else {
-      this.shape = {
-        x: evt.offsetX,
-        y: evt.offsetY,
-        w: 0,
-        h: 0,
-      };
-    }
+    // always show rectangle
+    this.shape = {
+      x: evt.offsetX - MIN_WIDTH,
+      y: evt.offsetY - MIN_WIDTH,
+      w: MIN_WIDTH,
+      h: MIN_WIDTH,
+    };
 
     this.drawing = true;
-
   }
 
   keepDrawing(evt: MouseEvent) {
     if (this.drawing) {
       // The SVG specification says that if width or height are negative then the rectangle is not drawn.
       // negative value causes errors
-      if ((evt.offsetX - this.shape.x) >= 0) {
+      if ((evt.offsetX - this.shape.x) > MIN_WIDTH) {
         this.shape.w = evt.offsetX - this.shape.x;
-        this.oldX = 0
       } else {
-        if (this.oldX === 0) {
-          this.oldX = this.shape.x
-        }
-        this.shape.x = evt.offsetX
+        this.shape.x = evt.offsetX - MIN_WIDTH
       }
-      if ((evt.offsetY - this.shape.y) >= 0) {
+      if ((evt.offsetY - this.shape.y) > MIN_WIDTH) {
         this.shape.h = evt.offsetY - this.shape.y;
       } else {
-        this.shape.y = evt.offsetY
+        this.shape.y = evt.offsetY - MIN_WIDTH
       }
       evt.preventDefault()
       evt.stopPropagation()

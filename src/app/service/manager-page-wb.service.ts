@@ -6,7 +6,6 @@ import {Group} from "../core/Group";
 import {Point} from "../utils/Point";
 import {IPcs} from "../core/IPcs";
 import {HistoryT} from "../utils/HistoryT";
-import {Rect} from "../utils/Rect";
 
 export interface FinalElementMove {
   index: number,
@@ -54,15 +53,20 @@ export class ManagerPageWBService {
     let pcs4 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[26].getPcsMin().complement().modalPrimeForm()
     let uiMus = new UIMusaic({rounded: true})
 
-    let pcsDtoList  = [
+    let pcsDtoList = [
       new UIPcsDto({pcs: pcs1, indexFormDrawer: 0, position: {x: 0, y: 10}}),
       new UIPcsDto({pcs: pcs2, indexFormDrawer: 1, position: {x: 110, y: 10}, isSelected: true}),
       new UIPcsDto({pcs: pcs3, indexFormDrawer: 2, position: {x: 220, y: 10}, isSelected: true}),
       new UIPcsDto({pcs: pcs4, width: 38, height: 38, indexFormDrawer: 0, position: {x: 340, y: 10}, uiMusaic: uiMus})
     ]
     let restorePcsDtoList = this.managerLocalStorageService.getPcsDtoListFromLocalStorage()
-    this.uiPcsDtoList =  restorePcsDtoList.length == 0 ? pcsDtoList : restorePcsDtoList
+    this.uiPcsDtoList = restorePcsDtoList.length == 0 ? pcsDtoList : restorePcsDtoList
+    // start with no selected element
+    this.uiPcsDtoList.forEach( (pcsDto : UIPcsDto) => pcsDto.isSelected = false)
+    this.orderedIndexesSelectedPcsDto = []
+
     this.history.pushIntoPresent(this.uiPcsDtoList)
+    console.log("this.orderedIndexesSelectedPcsDto = ", this.orderedIndexesSelectedPcsDto)
   }
 
   emit() {
@@ -92,7 +96,7 @@ export class ManagerPageWBService {
       }
 
       // add index of last element
-      this.orderedIndexesSelectedPcsDto.push(this.uiPcsDtoList.length-1)
+      this.orderedIndexesSelectedPcsDto.push(this.uiPcsDtoList.length - 1)
     })
     this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
     this.emit()
@@ -201,7 +205,6 @@ export class ManagerPageWBService {
     this.emit()
   }
 
-  // TODO refactor avec liste indexes
   doUpdateDrawer(drawer: string, indexes: number[]) {
     this.uiPcsDtoList = [...this.uiPcsDtoList]
     indexes.forEach(index => {
@@ -307,7 +310,6 @@ export class ManagerPageWBService {
   }
 
   doSelectAll() {
-
     this.uiPcsDtoList.forEach((e, index) => {
       if (!e.isSelected) {
         let pcsDto
@@ -370,22 +372,26 @@ export class ManagerPageWBService {
     this.emit()
   }
 
-  unDoPcs() {
-    // save also actual pcsList (parameter to unDoToPresent)
-    let pcsDtoList = this.history.unDoToPresent()
-    if (pcsDtoList != undefined) {
-      this.uiPcsDtoList = pcsDtoList
-      this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
-      this.emit()
+  unDoPcsDtoList() {
+    if (this.canUndo()) {
+      // save also actual pcsList (parameter to unDoToPresent)
+      let pcsDtoList = this.history.unDoToPresent()
+      if (pcsDtoList != undefined) {
+        this.uiPcsDtoList = pcsDtoList
+        this.managerLocalStorageService.savePageWB(this.uiPcsDtoList)
+        this.emit()
+      }
     }
   }
 
-  reDoPcs() {
-    let pcsDtoList = this.history.reDoToPresent()
-    if (pcsDtoList != undefined) {
-      this.uiPcsDtoList = pcsDtoList
-      this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
-      this.emit()
+  reDoPcsDtoList() {
+    if (this.canRedo()) {
+      let pcsDtoList = this.history.reDoToPresent()
+      if (pcsDtoList != undefined) {
+        this.uiPcsDtoList = pcsDtoList
+        this.managerLocalStorageService.savePageWB(this.uiPcsDtoList)
+        this.emit()
+      }
     }
   }
 
@@ -550,7 +556,14 @@ export class ManagerPageWBService {
   }
 
   doReplaceContentBy(contentJson: string) {
-    this.uiPcsDtoList =  this.managerLocalStorageService.getPcsDtoListFromJsonContent(contentJson)
+    this.uiPcsDtoList = this.managerLocalStorageService.getPcsDtoListFromJsonContent(contentJson)
+    // start with no selected element
+    this.uiPcsDtoList.forEach( (pcsDto : UIPcsDto) => pcsDto.isSelected = false)
+    this.orderedIndexesSelectedPcsDto = []
+    // this.orderedIndexesSelectedPcsDto =
+    //   this.uiPcsDtoList
+    //     .map((pcsDto, index) => pcsDto.isSelected ? index : -1)
+    //     .filter(index => index >= 0)
     this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
     this.emit()
   }

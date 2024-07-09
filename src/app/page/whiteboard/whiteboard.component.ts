@@ -478,12 +478,11 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   }
 
   doUnDo() {
-    // console.log(this.pcsDtoList.length)
-    this.managerPageWBService.unDoPcs()
+    this.managerPageWBService.unDoPcsDtoList()
   }
 
   doReDo() {
-    this.managerPageWBService.reDoPcs()
+    this.managerPageWBService.reDoPcsDtoList()
   }
 
   get canUndo(): boolean {
@@ -539,6 +538,10 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
           // pcsDto.isSelected = true
         }
         // indexOfSelectedComponents.push(index)
+      } else {
+        if (pcsDto.isSelected) {
+          this.managerPageWBService.doToggleSelected(index)
+        }
       }
     })
     // this.managerPageWBService.doSelectAll(indexOfSelectedComponents)

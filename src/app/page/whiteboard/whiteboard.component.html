@@ -115,6 +115,9 @@
 
   <ng-template #whiteboard >
     <div class="example-menu"   cdkMenu>
+      <button class="example-menu-item" (cdkMenuItemTriggered)="doUnDo()" [disabled]="!canUndo" cdkMenuItem >Undo</button>
+      <button class="example-menu-item" (cdkMenuItemTriggered)="doReDo()" [disabled]="!canRedo" cdkMenuItem >Redo</button>
+      <hr/>
       <button class="example-menu-item" (cdkMenuItemTriggered)="doDeselectAll()" cdkMenuItem >Deselect All</button>
       <button class="example-menu-item" (cdkMenuItemTriggered)="doSelectAll()" cdkMenuItem >Select All</button>
       <hr/>
@@ -124,7 +127,7 @@
   </ng-template>
 </div>
 
-<div style="display:flex; flex-direction: row;">
+<div style="display:none; flex-direction: row;">
   <button (click)="fileInput.click()">Open file</button>
   <button type="button"  (click)="doOpenLocalFile()"></button>
   <input #fileInput type="file" (change)="onLoadLocalFile($event)" accept=".musaicbox" style="display:none"/>
