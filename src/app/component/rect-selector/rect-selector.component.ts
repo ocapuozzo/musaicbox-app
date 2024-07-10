@@ -3,6 +3,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 // from https://stackblitz.com/edit/basic-draw-app-gwube9
 
 const MIN_WIDTH = 2
+const MIN_HEIGHT = 6
 
 export class Shape {
   x: number;
@@ -37,31 +38,41 @@ export class RectSelectorComponent implements OnInit {
     // always show rectangle
     this.shape = {
       x: evt.offsetX - MIN_WIDTH,
-      y: evt.offsetY - MIN_WIDTH,
+      y: evt.offsetY - MIN_HEIGHT,
       w: MIN_WIDTH,
-      h: MIN_WIDTH,
+      h: MIN_HEIGHT,
     };
 
     this.drawing = true;
   }
 
   keepDrawing(evt: MouseEvent) {
+    let draw = true
     if (this.drawing) {
+      evt.preventDefault()
+      evt.stopPropagation()
       // The SVG specification says that if width or height are negative then the rectangle is not drawn.
       // negative value causes errors
       if ((evt.offsetX - this.shape.x) > MIN_WIDTH) {
         this.shape.w = evt.offsetX - this.shape.x;
-      } else {
+      } else if (evt.offsetX - MIN_WIDTH >= 0) {
         this.shape.x = evt.offsetX - MIN_WIDTH
-      }
-      if ((evt.offsetY - this.shape.y) > MIN_WIDTH) {
-        this.shape.h = evt.offsetY - this.shape.y;
       } else {
-        this.shape.y = evt.offsetY - MIN_WIDTH
+        draw = false
       }
-      evt.preventDefault()
-      evt.stopPropagation()
-      this.moving.emit(this.shape)
+      if ((evt.offsetY - this.shape.y) > MIN_HEIGHT) {
+        this.shape.h = evt.offsetY - this.shape.y;
+      } else if (evt.offsetY - MIN_WIDTH >= 0) {
+        this.shape.y = evt.offsetY - MIN_HEIGHT
+      } else {
+        draw = false
+      }
+
+      if (draw) {
+        // evt.preventDefault()
+        // evt.stopPropagation()
+        this.moving.emit(this.shape)
+      }
     }
   }
 

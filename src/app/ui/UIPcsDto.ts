@@ -179,7 +179,7 @@ export class UIPcsDto {
     }
 
     // this.indexFormDrawer = UIPcsDto.MUSAIC
-     this.uiMusaic.width = this.uiMusaic.widthCell * this.uiMusaic.nbCellsPerLine
-     this.uiMusaic.height = this.uiMusaic.widthCell * this.uiMusaic.nbCellsPerRow
+    //  this.uiMusaic.width = this.uiMusaic.widthCell * this.uiMusaic.nbCellsPerLine
+    //  this.uiMusaic.height = this.uiMusaic.widthCell * this.uiMusaic.nbCellsPerRow
   } // constructor
 }

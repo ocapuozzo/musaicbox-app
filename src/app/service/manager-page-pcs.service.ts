@@ -1,8 +1,6 @@
 import {EventEmitter, Injectable, Output} from '@angular/core';
 import {IPcs} from "../core/IPcs";
 import {ManagerPcsService} from "./manager-pcs.service";
-import {HistoryPcs} from "../utils/HistoryPcs";
-import {consolidateMessages} from "@angular/localize/tools/src/extract/translation_files/utils";
 import {HistoryT} from "../utils/HistoryT";
 
 @Injectable({
@@ -23,38 +21,32 @@ export class ManagerPagePcsService {
 
   transformeByMxT0(x: number) {
     this.pcs = this.managerPcsService.transformeByMxT0(this.pcs, x)
-    this.historyPcs.pushIntoPresent(this.pcs)
-    this.updatePcsEvent.emit(this.pcs)
+    this.setPcsAsPresentToHistoryAndEmit();
   }
 
   translateByM1Tx(x: number) {
     this.pcs = this.managerPcsService.translateByM1Tx(this.pcs, x)
-    this.historyPcs.pushIntoPresent(this.pcs)
-    this.updatePcsEvent.emit(this.pcs)
+    this.setPcsAsPresentToHistoryAndEmit();
   }
 
   complement() {
     this.pcs = this.managerPcsService.complement(this.pcs)
-    this.historyPcs.pushIntoPresent(this.pcs)
-    this.updatePcsEvent.emit(this.pcs)
+    this.setPcsAsPresentToHistoryAndEmit();
   }
 
   modulation(direction: number) {
     this.pcs = this.managerPcsService.modulation(this.pcs, direction)
-    this.historyPcs.pushIntoPresent(this.pcs)
-    this.updatePcsEvent.emit(this.pcs)
+    this.setPcsAsPresentToHistoryAndEmit();
   }
 
   toggleIndexOrSetIPivot(index: number) {
     this.pcs = this.managerPcsService.toggleInnerIndexOrSetIPivot(this.pcs, index)
-    this.historyPcs.pushIntoPresent(this.pcs)
-    this.updatePcsEvent.emit(this.pcs)
+    this.setPcsAsPresentToHistoryAndEmit();
   }
 
   toggleIndex(index: number) {
     this.pcs = this.managerPcsService.toggleIndexFromMapped(this.pcs, index)
-    this.historyPcs.pushIntoPresent(this.pcs)
-    this.updatePcsEvent.emit(this.pcs)
+    this.setPcsAsPresentToHistoryAndEmit();
   }
 
   refresh() {
@@ -63,26 +55,22 @@ export class ManagerPagePcsService {
 
   autoMap() {
     this.pcs = this.pcs.autoMap()
-    this.historyPcs.pushIntoPresent(this.pcs)
-    this.updatePcsEvent.emit(this.pcs)
+    this.setPcsAsPresentToHistoryAndEmit();
   }
 
   unMap() {
     this.pcs = this.pcs.unMap()
-    this.historyPcs.pushIntoPresent(this.pcs)
-    this.updatePcsEvent.emit(this.pcs)
+    this.setPcsAsPresentToHistoryAndEmit();
   }
 
   replaceBy(newPcs: IPcs): void {
     this.pcs = newPcs
-    this.historyPcs.pushIntoPresent(this.pcs)
-    this.updatePcsEvent.emit(this.pcs)
+    this.setPcsAsPresentToHistoryAndEmit();
   }
 
   detachPcs() {
     this.pcs = this.managerPcsService.doDetach(this.pcs)
-    this.historyPcs.pushIntoPresent(this.pcs)
-    this.updatePcsEvent.emit(this.pcs)
+    this.setPcsAsPresentToHistoryAndEmit();
   }
 
   unDoPcs() {
@@ -111,11 +99,16 @@ export class ManagerPagePcsService {
   }
 
   getCurrentPcs(): IPcs | undefined {
-    return this.historyPcs.getCurrentPcs()
+    return this.historyPcs.getCurrent()
   }
 
   getPrevCurrentPcs() {
     return this.historyPcs.getPrevCurrentPcs()
+  }
+
+  private setPcsAsPresentToHistoryAndEmit() {
+    this.historyPcs.pushIntoPresent(this.pcs)
+    this.updatePcsEvent.emit(this.pcs)
   }
 
 }

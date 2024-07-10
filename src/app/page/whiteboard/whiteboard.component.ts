@@ -33,6 +33,7 @@ import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
 import {FormsModule} from "@angular/forms";
 import {MatDialog} from "@angular/material/dialog";
 import {DialogSaveToFileComponent} from "../../component/dialog-save-to-file/dialog-save-to-file.component";
+import {IDialogDataSaveToFile} from "../../component/dialog-save-to-file/IDialogDataSaveToFile";
 
 interface ElementMove {
   elt: HTMLElement,
@@ -340,12 +341,8 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   }
 
   doZoom(direction: number, index: number = -1) {
-    const indexOfSelectedComponents =
-      this.pcsDtoList.map((value, index) => index)
-        .filter(index => this.pcsDtoList[index].isSelected)
-
-    if (index < 0 || indexOfSelectedComponents.includes(index)) {
-      this.managerPageWBService.doZoom(direction, indexOfSelectedComponents)
+    if (index < 0 || this.managerPageWBService.isIndexInElementSelected(index)) {
+      this.managerPageWBService.doZoom(direction)
     } else {
       this.managerPageWBService.doZoom(direction, [index])
     }
@@ -365,11 +362,8 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   }
 
   updateDrawer(drawer: string, index: number) {
-    const indexOfSelectedComponents =
-      this.pcsDtoList.map((value, index) => index)
-        .filter(index => this.pcsDtoList[index].isSelected)
-    if (indexOfSelectedComponents.includes(index)) {
-      this.managerPageWBService.doUpdateDrawer(drawer, indexOfSelectedComponents)
+    if (this.managerPageWBService.isIndexInElementSelected(index)) {
+      this.managerPageWBService.doUpdateDrawer(drawer)
     } else {
       this.managerPageWBService.doUpdateDrawer(drawer, [index])
     }
@@ -572,6 +566,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
 
   /////////// persistence logic zone
 
+
   onLoadLocalFile(event: any) {
     // const fileName = event.target.files[0].name;
     this.uploadDocument(event.target.files[0])
@@ -586,12 +581,12 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   uploadDocument(file: File) {
     let fileReader = new FileReader();
     fileReader.onload = (e) => {
-      this.managerPageWBService.doReplaceContentBy( fileReader.result +  "")
+      this.managerPageWBService.doReplaceContentBy(fileReader.result + "")
     }
     fileReader.readAsText(file);
   }
 
-  doSaveFile(fileName: string = "my-project.musaicbox") {
+  doSaveToFile(fileName: string = "my-project.musaicbox") {
     const blob = new Blob([this.managerPageWBService.getSerialDataContent()], {type: 'application/json'});
     const url = window.URL.createObjectURL(blob);
     let anchor = document.createElement("a");
@@ -605,29 +600,38 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     this.openDialogForSaveIntoFile()
   }
 
-  readonly withDateInFileName = signal(false);
-  readonly fileNameDialog = model('my-project');
-  readonly dialog = inject(MatDialog);
+  /**
+   * special attribut for save content to file
+   */
+  dataSaveToFile : IDialogDataSaveToFile = {
+    fileName: 'my-project',
+    withDateInFileName: true
+  }
+
+  readonly dialogSaveToFile = inject(MatDialog);
 
   openDialogForSaveIntoFile(): void {
-    const dialogRef = this.dialog.open(DialogSaveToFileComponent, {
-      data : {fileName: this.fileNameDialog(), withDateInFileName: this.withDateInFileName()},
-    });
+    const dialogRef = this.dialogSaveToFile.open(DialogSaveToFileComponent,
+      {
+        data:
+          {
+            fileName: this.dataSaveToFile.fileName,
+            withDateInFileName: this.dataSaveToFile.withDateInFileName
+          }
+      });
 
     dialogRef.afterClosed().subscribe(result => {
       // console.log('The dialog was closed');
       if (result !== undefined) {
-        this.fileNameDialog.set(result.fileName().trim())
-        this.withDateInFileName.set(result.withDateInFileName())
-        if (this.fileNameDialog()) {
+        this.dataSaveToFile.fileName = result.fileName.trim()
+        this.dataSaveToFile.withDateInFileName = result.withDateInFileName
+        if (this.dataSaveToFile.fileName) {
           const dateNow = this.formatDateNow()
-          const suffix = this.withDateInFileName() ? "_" + dateNow : ""
+          const suffix = this.dataSaveToFile.withDateInFileName ? "_" + dateNow : ""
           const ext: string = '.musaicbox'
-          this.doSaveFile(this.fileNameDialog() + suffix + ext)
+          this.doSaveToFile(this.dataSaveToFile.fileName + suffix + ext)
           // TODO state bar for success event ?
         }
-        // console.log("this.fileNameDialog() = ", this.fileNameDialog())
-        // console.log("this.withDateInFileName() = ", this.withDateInFileName())
       }
     });
   }

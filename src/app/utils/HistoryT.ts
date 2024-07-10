@@ -50,7 +50,7 @@ export class HistoryT<T> {
     return this.currentIndexPast < this.timeLine.length - 1
   }
 
-  getCurrentPcs() : T | undefined {
+  getCurrent() : T | undefined {
     if (this.currentIndexPast >= 0) {
       return this.timeLine[this.currentIndexPast]
     }

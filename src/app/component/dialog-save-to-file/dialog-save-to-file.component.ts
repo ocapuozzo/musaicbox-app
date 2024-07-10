@@ -1,9 +1,10 @@
-import {ChangeDetectionStrategy, Component, inject, model, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, model} from '@angular/core';
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {FormsModule} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
 import {
+  MAT_DIALOG_DATA,
   MatDialogActions,
   MatDialogClose,
   MatDialogContent,
@@ -11,11 +12,8 @@ import {
   MatDialogTitle
 } from "@angular/material/dialog";
 import {MatCheckbox} from "@angular/material/checkbox";
+import {IDialogDataSaveToFile} from "./IDialogDataSaveToFile";
 
-// export interface DialogData {
-//   fileName: string;
-//   withDateInFileName : boolean;
-// }
 
 // https://material.angular.io/components/dialog/overview
 
@@ -28,13 +26,12 @@ import {MatCheckbox} from "@angular/material/checkbox";
   styleUrl: './dialog-save-to-file.component.css'
 })
 export class DialogSaveToFileComponent {
-  readonly fileName = signal('my-project');
-  readonly withDateInFileName = signal(true);
-  readonly dialog = inject(MatDialogRef<DialogSaveToFileComponent>);
-  dataDialog = {fileName: this.fileName, withDateInFileName: this.withDateInFileName};
+  readonly dialogRef = inject(MatDialogRef<DialogSaveToFileComponent>)
+
+  data = inject<IDialogDataSaveToFile>(MAT_DIALOG_DATA);
 
   onNoClick(): void {
-    this.dialog.close();
+    this.dialogRef.close();
   }
 
 }

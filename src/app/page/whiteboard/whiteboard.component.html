@@ -29,7 +29,7 @@
       [pcsDto]="pcsDto"
       (cdkContextMenuOpened)="doContextMenuOpen()"
       (cdkContextMenuClosed)="doContextMenuClose()"
-      (mouseup)="doToggleSelected($event,idx)"
+      (mousedown)="doToggleSelected($event,idx)"
     >
     </app-pcs>
   }
@@ -45,11 +45,11 @@
       <button class="example-menu-item" cdkMenuItem (click)="doDelete(index)">Delete <span *ngIf="!isSolo(index)">&nbsp;({{numberSelectedComponents}})</span></button>
       <button class="example-menu-item" cdkMenuItem (click)="doDuplicate(index)">Duplicate <span *ngIf="!isSolo(index)">&nbsp;({{numberSelectedComponents}})</span></button>
       <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doZoom(1, index)">
-        zoom+
+        zoom+ (+)
         <span [hidden]="pcsDtoList[index].indexFormDrawer > 0">&nbsp; (cw={{sizeCellWidth(index)}})</span>
       </button>
       <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doZoom(-1, index)">
-        zoom-
+        zoom- (-)
         <span [hidden]="pcsDtoList[index].indexFormDrawer > 0">&nbsp; (cw={{sizeCellWidth(index)}})</span>
       </button>
       <button class="example-menu-item" cdkMenuItem
@@ -115,8 +115,8 @@
 
   <ng-template #whiteboard >
     <div class="example-menu"   cdkMenu>
-      <button class="example-menu-item" (cdkMenuItemTriggered)="doUnDo()" [disabled]="!canUndo" cdkMenuItem >Undo</button>
-      <button class="example-menu-item" (cdkMenuItemTriggered)="doReDo()" [disabled]="!canRedo" cdkMenuItem >Redo</button>
+      <button class="example-menu-item" (cdkMenuItemTriggered)="doUnDo()" [disabled]="!canUndo" cdkMenuItem >Undo (ctrl+z)</button>
+      <button class="example-menu-item" (cdkMenuItemTriggered)="doReDo()" [disabled]="!canRedo" cdkMenuItem >Redo (ctrl+y)</button>
       <hr/>
       <button class="example-menu-item" (cdkMenuItemTriggered)="doDeselectAll()" cdkMenuItem >Deselect All</button>
       <button class="example-menu-item" (cdkMenuItemTriggered)="doSelectAll()" cdkMenuItem >Select All</button>

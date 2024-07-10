@@ -17,7 +17,7 @@ export interface FinalElementMove {
   providedIn: 'root'
 })
 export class ManagerPageWBService {
-  private readonly _MIN_WIDTH = 40;
+  private readonly _MIN_WIDTH = 25;
   private readonly _GAP_BETWEEN = 20;
   static deltaPositionNewPcs = 50;
 
@@ -66,7 +66,7 @@ export class ManagerPageWBService {
     this.orderedIndexesSelectedPcsDto = []
 
     this.history.pushIntoPresent(this.uiPcsDtoList)
-    console.log("this.orderedIndexesSelectedPcsDto = ", this.orderedIndexesSelectedPcsDto)
+
   }
 
   emit() {
@@ -102,7 +102,7 @@ export class ManagerPageWBService {
     this.emit()
   }
 
-  private readonly OFFSET_ZOOM = 20;
+  private readonly OFFSET_ZOOM = 13;
 
 
   /**
@@ -110,12 +110,17 @@ export class ManagerPageWBService {
    * @param direction if < 0 then zoom- else if positif then zoom+
    * @param indexElementsToZoom
    */
-  doZoom(direction: number, indexElementsToZoom: number[]) {
+  doZoom(direction: number, indexElementsToZoom: number[] = []) {
 
-    let DELTA_ZOOM = this.OFFSET_ZOOM * direction
+    let DELTA_ZOOM = this.OFFSET_ZOOM * direction // positive or negative
 
     this.uiPcsDtoList = [...this.uiPcsDtoList]
 
+    if (indexElementsToZoom.length === 0) {
+      indexElementsToZoom = this.orderedIndexesSelectedPcsDto
+    }
+
+    let listChanged = false
     indexElementsToZoom.forEach(index => {
       if (index < 0 || index >= this.uiPcsDtoList.length) {
         throw new Error("oops bad index : " + index)
@@ -124,10 +129,10 @@ export class ManagerPageWBService {
       let pcsDto =
         new UIPcsDto({...this.uiPcsDtoList[index]})
 
-      if (pcsDto.width + DELTA_ZOOM < this._MIN_WIDTH) {
-        // already too small
-        return
-      }
+      // if (pcsDto.width + DELTA_ZOOM < this._MIN_WIDTH) {
+      //   // already too small
+      //   return
+      // }
 
       let size = pcsDto.width + DELTA_ZOOM
       let n = pcsDto.pcs.nMapping //getMappedBinPcs().length;
@@ -139,44 +144,44 @@ export class ManagerPageWBService {
       // even if FormDrawer is not MUSAIC
       let preferredSize = CEL_WIDTH * (n + 1)
 
-      //
-      // if (direction < 0 && preferredSize > pcsDto.width + DELTA_ZOOM) {
-      //   preferredSize = --CEL_WIDTH * (n + 1)
-      // }
+      // too small ?
+      if (preferredSize >= this._MIN_WIDTH) {
 
-      // if pcsDto.indexFormDrawer == CLOCK , then pcsDto.width or height
-      // impact pcsDto.uiClock.width or height
-      // put another way : pcsDto.width/height are polymorph
-      let barycenterBeforeChangeSize = this.getXYFromBarycenter(pcsDto)
+        // if pcsDto.indexFormDrawer == CLOCK , then pcsDto.width or height
+        // impact pcsDto.uiClock.width or height
+        // put another way : pcsDto.width/height are polymorph
+        let barycenterBeforeChangeSize = this.getXYFromBarycenter(pcsDto)
 
-      if (pcsDto.indexFormDrawer == UIPcsDto.MUSAIC) {
-        // real change widthCell
-        pcsDto.uiMusaic.widthCell = CEL_WIDTH
-      }
+        if (pcsDto.indexFormDrawer == UIPcsDto.MUSAIC) {
+          // real change widthCell
+          pcsDto.uiMusaic.widthCell = CEL_WIDTH
+        }
 
-      if (pcsDto.indexFormDrawer == UIPcsDto.SCORE) {
-        // TODO do better, in reaction of abcjs render
-        if (pcsDto.pcs.cardinal > 4) {
-          pcsDto.height = (preferredSize / 2 >= 88) ? (preferredSize / 2) : preferredSize / 1.5
+        if (pcsDto.indexFormDrawer == UIPcsDto.SCORE) {
+          // TODO do better, in reaction of abcjs render
+          if (pcsDto.pcs.cardinal > 4) {
+            pcsDto.height = (preferredSize / 2 >= 88) ? (preferredSize / 2) : preferredSize / 1.5
+          } else {
+            pcsDto.height = preferredSize
+          }
         } else {
           pcsDto.height = preferredSize
         }
-      } else {
-        pcsDto.height = preferredSize
+        pcsDto.width = preferredSize
+
+        // Let's center the component
+        pcsDto.position = {
+          x: barycenterBeforeChangeSize.x - pcsDto.width / 2,
+          y: barycenterBeforeChangeSize.y - pcsDto.height / 2
+        }
+        listChanged = true
+        this.uiPcsDtoList[index] = pcsDto
       }
-      pcsDto.width = preferredSize
-
-      // Let's center the component
-      pcsDto.position = {
-        x: barycenterBeforeChangeSize.x - pcsDto.width / 2,
-        y: barycenterBeforeChangeSize.y - pcsDto.height / 2
-      }
-
-      this.uiPcsDtoList[index] = pcsDto
-
     })
-    this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
-    this.emit()
+    if (listChanged) {
+      this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
+      this.emit()
+    }
   }
 
 
@@ -205,8 +210,13 @@ export class ManagerPageWBService {
     this.emit()
   }
 
-  doUpdateDrawer(drawer: string, indexes: number[]) {
+  doUpdateDrawer(drawer: string, indexes: number[] = []) {
     this.uiPcsDtoList = [...this.uiPcsDtoList]
+
+    if (indexes.length === 0) {
+      indexes = this.orderedIndexesSelectedPcsDto
+    }
+
     indexes.forEach(index => {
       if (index < 0 || index >= this.uiPcsDtoList.length) {
         throw new Error("oops bad index : " + index)
@@ -378,6 +388,7 @@ export class ManagerPageWBService {
       let pcsDtoList = this.history.unDoToPresent()
       if (pcsDtoList != undefined) {
         this.uiPcsDtoList = pcsDtoList
+        this.doUnselectAll()
         this.managerLocalStorageService.savePageWB(this.uiPcsDtoList)
         this.emit()
       }
@@ -403,8 +414,8 @@ export class ManagerPageWBService {
     return this.history.canRedo()
   }
 
-  getCurrentPcs(): UIPcsDto[] | undefined {
-    return this.history.getCurrentPcs()
+  getCurrent(): UIPcsDto[] | undefined {
+    return this.history.getCurrent()
   }
 
   setPcsDtoForTemplate(pcsDto: UIPcsDto) {
@@ -570,5 +581,9 @@ export class ManagerPageWBService {
 
   getSerialDataContent() {
     return this.managerLocalStorageService.getSerialDataPcsDtoListFromLocalStorage();
+  }
+
+  isIndexInElementSelected(index: number) {
+    return this.orderedIndexesSelectedPcsDto.includes(index);
   }
 }
