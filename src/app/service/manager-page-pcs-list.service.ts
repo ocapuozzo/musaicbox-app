@@ -29,10 +29,10 @@ export class ManagerPagePcsListService {
 
   removePcs(pcs: IPcs) {
     for (const [title, eltList] of this.labeledListPcs) {
-      const index = eltList.pcsList.findIndex((p) => p.id == pcs.id )
+      const index = eltList.pcsList.findIndex((p) => p.id === pcs.id )
       if (index >= 0) {
         eltList.pcsList.splice(index,1)
-        if (eltList.pcsList.length == 0) {
+        if (eltList.pcsList.length === 0) {
           this.labeledListPcs.delete(title)
         }
         this.updatePcsListEvent.emit(this.labeledListPcs)

@@ -304,18 +304,18 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
 
   @HostListener('window:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {
-    if ((event.ctrlKey || event.metaKey) && event.key == "z") {
+    if ((event.ctrlKey || event.metaKey) && event.key === "z") {
       // console.log('CTRL Z');
       this.doUnDo()
     }
-    if ((event.ctrlKey || event.metaKey) && event.key == "y") {
+    if ((event.ctrlKey || event.metaKey) && event.key === "y") {
       // console.log('CTRL Y');
       this.doReDo()
     }
-    if (event.key == "+") {
+    if (event.key === "+") {
       this.doZoom(1)
     }
-    if (event.key == "-") {
+    if (event.key === "-") {
       this.doZoom(-1)
     }
   }
@@ -451,7 +451,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
       this.pcsDtoList.map((value, index) => index)
         .filter(index => this.pcsDtoList[index].isSelected)
 
-    return !this.isSelected(index) || (indexOfSelectedComponents.length == 1
+    return !this.isSelected(index) || (indexOfSelectedComponents.length === 1
       && indexOfSelectedComponents.includes(index))
   }
 
@@ -565,7 +565,6 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
 
   /////////// persistence logic zone
 
-
   onLoadLocalFile(event: any) {
     // const fileName = event.target.files[0].name;
     this.uploadDocument(event.target.files[0])
@@ -590,6 +589,6 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     this.managerPageWBService.doOpenDialogAndSaveContentToFile()
   }
 
-///// End persistence logic zone
+  ///// End persistence logic zone
 
 }

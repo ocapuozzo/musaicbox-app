@@ -5,7 +5,6 @@ import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
 import {IPcs} from "../../core/IPcs";
 import {Router} from "@angular/router";
 import {PcsColor} from "../../color/PcsColor";
-import {Orbit} from "../../core/Orbit";
 import {MatDivider} from "@angular/material/divider";
 import {MatButton} from "@angular/material/button";
 import {MatButtonToggle, MatButtonToggleGroup} from "@angular/material/button-toggle";
@@ -15,13 +14,23 @@ import {NgForOf} from "@angular/common";
 import {ManagerLocalStorageService} from "../../service/manager-local-storage.service";
 import {EightyEight} from "../../utils/EightyEight";
 import {MusaicComponent} from "../../component/musaic/musaic.component";
+import {PcsComponent} from "../../component/pcs/pcs.component";
+import {UIMusaic, UIPcsDto} from "../../ui/UIPcsDto";
 
 export interface IOrbitMusaic {
-  pcs : IPcs  // a representant of orbit (prime forme in modalPF)
-  motifStabilizerName : string[] // of orbit
-  color : string,
+  pcs: IPcs  // a representant of orbit (prime forme in modalPF)
+  motifStabilizerName: string[] // of orbit
+  color: string,
   cardinal: number
 }
+
+export interface IOrbitMusaic2 {
+  pcsDto: UIPcsDto  // a representant of orbit (prime forme in modalPF)
+  motifStabilizerName: string[] // of orbit
+  color: string
+  cardinal: number
+}
+
 
 @Component({
   selector: 'app-page-the88',
@@ -34,36 +43,47 @@ export interface IOrbitMusaic {
     MatCheckbox,
     FormsModule,
     NgForOf,
-    MusaicComponent
+    MusaicComponent,
+    PcsComponent
   ],
   templateUrl: './the88.component.html',
   styleUrl: './the88.component.css'
 })
 export class The88Component implements OnInit {
   group88 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC)
-  musaicOrbits : IOrbitMusaic[] =
-    this.group88.orbits.map(orbit => (
-      {
-        pcs:orbit.getPcsMin().modalPrimeForm(),
-        motifStabilizerName:orbit.motifStabilizer.name.split(' '),
-        color: PcsColor.getColor(orbit.motifStabilizer.name),
-        cardinal:orbit.cardinal
-      }))
-  musaicDrawGrid: boolean = false
-  protected readonly PcsColor = PcsColor;
 
+  musaicDrawGrid: boolean = false
+  listPcsDto: IOrbitMusaic2[] = []
   nbMusaicsMatch = 0
 
-  currentSelectedOp : string[] = ["M1"]
-
-
-  testColor = "red"
-
-  colorOrbits: string[] = ["black", "yellow"]
+  currentSelectedOp: string[] = ["M1"]
 
   constructor(private readonly managerHomePcsService: ManagerPagePcsService,
               private readonly router: Router,
-              private readonly managerLocalStorageService : ManagerLocalStorageService) {
+              private readonly managerLocalStorageService: ManagerLocalStorageService) {
+
+    function makePcsDto(pcs: IPcs): UIPcsDto {
+      let uiMus = new UIMusaic({
+        rounded: true,
+        width: 52,
+        height: 52,
+        widthCell: 5
+      })
+      return new UIPcsDto({
+        pcs: pcs,
+        height: 52,
+        width: 52,
+        uiMusaic: uiMus
+      })
+    }
+
+    this.listPcsDto = this.group88.orbits.map(orbit => (
+      {
+        pcsDto: makePcsDto(orbit.getPcsMin().modalPrimeForm()),
+        motifStabilizerName: orbit.motifStabilizer.name.split(' '),
+        color: PcsColor.getColor(orbit.motifStabilizer.name),
+        cardinal: orbit.cardinal
+      }))
   }
 
   ngOnInit(): void {
@@ -74,21 +94,6 @@ export class The88Component implements OnInit {
   doPushToHomePage(pcs: IPcs) {
     this.managerHomePcsService.replaceBy(pcs)
     this.router.navigateByUrl('/pcs');
-  }
-
-  colorOrbit(orbit: Orbit): string  {
-    if (this.currentSelectedOp.length === 0) {
-      return PcsColor.getColor(orbit.motifStabilizer.name);
-    } else {
-      for (let i = 0; i < this.currentSelectedOp.length; i++) {
-        const operation = this.currentSelectedOp[i]
-        if (orbit.motifStabilizer.name.includes(operation)) {
-          // TODO OR but must be AND
-          return PcsColor.getColor(operation)
-        }
-      }
-      return "black"
-    }
   }
 
   changeOp(op: string) {
@@ -105,16 +110,17 @@ export class The88Component implements OnInit {
     this.update88musics()
   }
 
-
   private update88musics() {
-    let newMusaicOrbits : IOrbitMusaic[] = []
-    let color : string = "black"
+    let newMusaicOrbits: IOrbitMusaic2[] = []
+    let color: string = "black"
     this.nbMusaicsMatch = 0
-    this.musaicOrbits.forEach(musaic => {
+    this.listPcsDto.forEach(musaic => {
       if (this.currentSelectedOp.length === 1) { // M1 only => show global partition stabilizer
         color = PcsColor.getColor(musaic.motifStabilizerName.join(' '))
+        musaic.pcsDto.colorPitchOn = color
       } else {
         color = "black"
+        musaic.pcsDto.colorPitchOn = color
         let allOpMatch = true
         // start to 1 (0 == M1)
         for (let i = 1; i < this.currentSelectedOp.length; i++) {
@@ -127,6 +133,8 @@ export class The88Component implements OnInit {
           // console.log(this.currentSelectedOp.join(' ') => example : M1 M7 CM1
           this.nbMusaicsMatch++
           color = PcsColor.getColor(this.currentSelectedOp.join(' '));
+          musaic.pcsDto.colorPitchOn = color
+
         }
       }
       // https://medium.com/angular-in-depth/deep-dive-into-the-onpush-change-detection-strategy-in-angular-fab5e4da1d69
@@ -134,7 +142,7 @@ export class The88Component implements OnInit {
     })
 
     // for auto update template
-    this.musaicOrbits = newMusaicOrbits
+    this.listPcsDto = newMusaicOrbits
   }
 
   isChecked(op: string) {

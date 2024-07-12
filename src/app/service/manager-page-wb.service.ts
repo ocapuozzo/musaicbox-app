@@ -77,7 +77,7 @@ export class ManagerPageWBService {
       new UIPcsDto({pcs: pcs4, width: 38, height: 38, indexFormDrawer: 0, position: {x: 340, y: 10}, uiMusaic: uiMus})
     ]
     let restorePcsDtoList = this.managerLocalStorageService.getPcsDtoListFromLocalStorage()
-    this.uiPcsDtoList = restorePcsDtoList.length == 0 ? pcsDtoList : restorePcsDtoList
+    this.uiPcsDtoList = restorePcsDtoList.length === 0 ? pcsDtoList : restorePcsDtoList
     // start with no selected element
     this.uiPcsDtoList.forEach( (pcsDto : UIPcsDto) => pcsDto.isSelected = false)
     this.orderedIndexesSelectedPcsDto = []
@@ -164,17 +164,17 @@ export class ManagerPageWBService {
       // too small ?
       if (preferredSize >= this._MIN_WIDTH) {
 
-        // if pcsDto.indexFormDrawer == CLOCK , then pcsDto.width or height
+        // if pcsDto.indexFormDrawer === CLOCK , then pcsDto.width or height
         // impact pcsDto.uiClock.width or height
         // put another way : pcsDto.width/height are polymorph
         let barycenterBeforeChangeSize = this.getXYFromBarycenter(pcsDto)
 
-        if (pcsDto.indexFormDrawer == UIPcsDto.MUSAIC) {
+        if (pcsDto.indexFormDrawer === UIPcsDto.MUSAIC) {
           // real change widthCell
           pcsDto.uiMusaic.widthCell = CEL_WIDTH
         }
 
-        if (pcsDto.indexFormDrawer == UIPcsDto.SCORE) {
+        if (pcsDto.indexFormDrawer === UIPcsDto.SCORE) {
           // TODO do better, in reaction of abcjs render
           if (pcsDto.pcs.cardinal > 4) {
             pcsDto.height = (preferredSize / 2 >= 88) ? (preferredSize / 2) : preferredSize / 1.5
@@ -241,7 +241,7 @@ export class ManagerPageWBService {
 
       let pcsDto //= this.uiPcsDtoList[index]
         = new UIPcsDto({...this.uiPcsDtoList[index]})
-      let indexFormDrawer = this.DRAWERS.findIndex((d) => d == drawer)
+      let indexFormDrawer = this.DRAWERS.findIndex((d) => d === drawer)
       if (indexFormDrawer < 0) indexFormDrawer = 0
 
       let barycenterBeforeChangeSize = this.getXYFromBarycenter(pcsDto)

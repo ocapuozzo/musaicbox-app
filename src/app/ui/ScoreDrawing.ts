@@ -73,7 +73,7 @@ export class ScoreDrawing {
           }
         }
 
-        prevNote = note.length == 1 ? note : note[1] // _A, ^A => A
+        prevNote = note.length === 1 ? note : note[1] // _A, ^A => A
 
         // Make pitches always up iPivot pitch
         // http://abcnotation.com/blog/2010/01/31/how-to-understand-abc-the-basics/

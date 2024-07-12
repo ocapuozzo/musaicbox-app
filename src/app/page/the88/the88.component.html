@@ -1,26 +1,25 @@
 <h2 class="text-center">88 Musaics</h2>
+
 <div class="row" style="margin: auto; width: 80%">
-  <!--  @for (orbit of musaicOrbits; track orbit.pcs.id; let index = $index) {-->
-  <div *ngFor="let orbit of musaicOrbits; index as index" class="box88" style="width: 60px;">
-    <div class="box88-id text-muted p-0">
-      {{ index + 1 }}
-    </div>
-    <div class="box88-body">
-      <app-musaic
-        [w]="60"
-        [ipcs]="orbit.pcs"
-        [opaque]="musaicDrawGrid"
-        [pcColorSet]="orbit.color"
-        (click)="doPushToHomePage(orbit.pcs)"
-        style="cursor: pointer"
-      >
-      </app-musaic>
-    </div>
-    <div class="box88-footer">
-      #{{ orbit.cardinal }}
-    </div>
+
+<div *ngFor="let mus of listPcsDto; index as index" class="box88" style="width: 60px;">
+  <div class="box88-id text-muted p-0">
+    {{ index + 1 }}
   </div>
-  <!--  }-->
+  <div class="box88-body">
+    <app-pcs
+      [opaque]="musaicDrawGrid"
+      [pcsDto]="mus.pcsDto"
+      [pcColorSet]="mus.pcsDto.colorPitchOn"
+      (click)="doPushToHomePage(mus.pcsDto.pcs)"
+      style="cursor: pointer"
+    >
+    </app-pcs>
+  </div>
+  <div class="box88-footer">
+    #{{ mus.pcsDto.pcs.cardinal }}
+  </div>
+</div>
 </div>
 
 <div class="text-center" style="margin-top: 20px">
