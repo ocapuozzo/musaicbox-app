@@ -12,7 +12,7 @@ import {StringHash} from "../../utils/StringHash";
 })
 export class ScoreNotationComponent {
   @ViewChild('containercanvas', {static: false}) containerCanvas: ElementRef<HTMLCanvasElement>;
-  static lettersNotation: string[] = ['C', '^C', 'D', '^D', 'E', 'F', '^F', 'G', '^G', 'A', '^A', 'B'];
+  static lettersSharpedNotation: string[] = ['C', '^C', 'D', '^D', 'E', 'F', '^F', 'G', '^G', 'A', '^A', 'B'];
   private _pcs: IPcs
 
   randomId: string = ""
@@ -26,7 +26,6 @@ export class ScoreNotationComponent {
     return this._pcs
   }
 
-
   constructor() {
     this.randomId = StringHash.guidGenerator()
   }
@@ -36,7 +35,7 @@ export class ScoreNotationComponent {
   }
 
   refresh() {
-    // console.log("this.tune :" + this.tune)
+    // console.log("this.fromPcsToScoreNotation :" + this.fromPcsToScoreNotation)
     // https://configurator.abcjs.net/visual/
 
     if (!this.containerCanvas) return
@@ -45,7 +44,7 @@ export class ScoreNotationComponent {
 
     abcjs.renderAbc(
       "paper-" + this.randomId,
-      this.tune,
+      this.fromPcsToScoreNotation,
       {
         //scale: .9,
         staffwidth: len,
@@ -56,8 +55,13 @@ export class ScoreNotationComponent {
 
   }
 
-  // TODO make pivot low pitch
-  get tune(): string {
+  /**
+   * from PCS to score notation treble key
+   * Apply rule1 : Result has only alteration notes sharp and flat (no natural)
+   * Apply rule2 : no alteration double sharp or double flat
+   * Apply rule3 : no natural enharmonic. Example : F flat => E
+   */
+  get fromPcsToScoreNotation(): string {
     if (!this.pcs) return "";
 
     let suffix = 'X:1\nL: 1/4\nK:C\n';
@@ -66,56 +70,47 @@ export class ScoreNotationComponent {
 
     let n = this.pcs.getMappedBinPcs().length;
 
-    const someNotesForChange = [1, 3, 6, 8, 10]
+    const alterationNotesForChange = [1, 3, 6, 8, 10]
 
     let pcsMapped = this.pcs
+
     if (this.pcs.n != 12) {
       pcsMapped = new IPcs({binPcs: this.pcs.getMappedBinPcs()})
       pcsMapped.setPivot(this.pcs.templateMappingBinPcs[this.pcs.getPivot() ?? 0])
     }
 
-    let prevNote = ''
-    for (let i = pcsMapped.iPivot ?? 0; i < n + (pcsMapped.iPivot ?? 0); i++) {
-      if (pcsMapped.abinPcs[i % n] === 1) {
-        let note = ScoreNotationComponent.lettersNotation[i % n];
-        if (someNotesForChange.indexOf(i % n) !== -1) {
-          // change # by b
-          if (pcsMapped.abinPcs[(i - 1) % n] === 1 &&
-            pcsMapped.abinPcs[(i + 1) % n] !== 1) {
-            note = "_" + ScoreNotationComponent.lettersNotation[(i + 1) % n]
+    let pivot = pcsMapped.iPivot ?? 0
+    let prevNote = ScoreNotationComponent.lettersSharpedNotation[(n+pivot-1) % n]
+    if (prevNote.length > 1) {
+        prevNote = prevNote[1] // _A, ^A => A
+    }
+    // console.log("pivot = ", pivot)
+    for (let i = pivot; i < n + pivot; i++) {
+      let index = i % n
+      if (pcsMapped.abinPcs[index] === 1) {
+        let note = ScoreNotationComponent.lettersSharpedNotation[index]
+        if (alterationNotesForChange.indexOf(index) !== -1) {
+          // index is in [1, 3, 6, 8, 10]
+          // change # by b ?
+          // console.log('note = ', note, '  prevNote = ', prevNote )
+          if ( pcsMapped.abinPcs[index + 1] === 0 && note.includes(prevNote) ) {
+            note = "_" + ScoreNotationComponent.lettersSharpedNotation[index + 1]
           }
         }
-        // case third if #D and not E, then bE
-        if (note == '^D') {
-          if (pcsMapped.abinPcs[4] === 0) {
-            note = '_E'
-          }
-        } else if (note == '^A' && prevNote.includes("A")) {
-          if (pcsMapped.abinPcs[9] === 0) {
-            note = '_B'
-          }
-        } else if (note == '^G' && prevNote.includes("G")) {
-          if (pcsMapped.abinPcs[8] === 1) {
-            note = '_A'
-          }
-        } else if (note == 'B' && prevNote.includes("B")) {
-          if (pcsMapped.abinPcs[10] === 1 && pcsMapped.abinPcs[0] === 0) {
-            note = "_C'"
-          }
-        }
-        // // console.log('note = ' + note +  'bin = ' + this.pcs.getMappedBinPcs())
 
-        // TODO make pitches always up iPivot pitch
+        prevNote = note.length == 1 ? note : note[1] // _A, ^A => A
+
+        // Make pitches always up iPivot pitch
         // http://abcnotation.com/blog/2010/01/31/how-to-understand-abc-the-basics/
-        if ((i % n) < (pcsMapped.iPivot ?? 0)) {
+        if ((i % n) < pivot) {
           note += "'"
         }
-        prevNote = note
+
         notes = notes + note;
         chord = chord + note;
       }
     }
-    // TODO bad algo, I do hack for G# Major scales... it is hard to place 7 in 12...
+    // TODO hack for G# Major scales... it is hard to place 7 in 12... Must do better
     if (this.pcs.id === 32106) {
       notes = "^F^G^AB^C'^D'^E'"
     }
