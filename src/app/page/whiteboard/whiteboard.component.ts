@@ -124,8 +124,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   constructor(private managerPageWBService: ManagerPageWBService,
               private readonly managerPagePcsService: ManagerPagePcsService,
               private readonly router: Router,
-              private renderer: Renderer2,
-              private sanitizer: DomSanitizer) {
+              private renderer: Renderer2) {
 
     this.pcsDtoList = this.managerPageWBService.uiPcsDtoList
     this.drawers = this.managerPageWBService.DRAWERS
@@ -586,79 +585,9 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     fileReader.readAsText(file);
   }
 
-  doSaveToFile(fileName: string = "my-project.musaicbox") {
-    const blob = new Blob([this.managerPageWBService.getSerialDataContent()], {type: 'application/json'});
-    const url = window.URL.createObjectURL(blob);
-    let anchor = document.createElement("a");
-    anchor.download = fileName;
-    // https://stackoverflow.com/questions/55849415/type-saferesourceurl-is-not-assignable-to-type-string
-    anchor.href = "" + this.sanitizer.sanitize(SecurityContext.RESOURCE_URL, this.sanitizer.bypassSecurityTrustResourceUrl(url));
-    anchor.click();
-  }
-
   openDialogSaveToFile() {
-    this.openDialogForSaveIntoFile()
-  }
-
-  /**
-   * special attribut for save content to file
-   */
-  dataSaveToFile : IDialogDataSaveToFile = {
-    fileName: 'my-project',
-    withDateInFileName: true
-  }
-
-  readonly dialogSaveToFile = inject(MatDialog);
-
-  openDialogForSaveIntoFile(): void {
-    const dialogRef = this.dialogSaveToFile.open(DialogSaveToFileComponent,
-      {
-        data:
-          {
-            fileName: this.dataSaveToFile.fileName,
-            withDateInFileName: this.dataSaveToFile.withDateInFileName
-          }
-      });
-
-    dialogRef.afterClosed().subscribe(result => {
-      // console.log('The dialog was closed');
-      if (result !== undefined) {
-        this.dataSaveToFile.fileName = result.fileName.trim()
-        this.dataSaveToFile.withDateInFileName = result.withDateInFileName
-        if (this.dataSaveToFile.fileName) {
-          const dateNow = this.formatDateNow()
-          const suffix = this.dataSaveToFile.withDateInFileName ? "_" + dateNow : ""
-          const ext: string = '.musaicbox'
-          this.doSaveToFile(this.dataSaveToFile.fileName + suffix + ext)
-          // TODO state bar for success event ?
-        }
-      }
-    });
-  }
-
-  formatDateNow() {
-    const d = new Date()
-    let month = (d.getMonth() + 1)
-    const day = d.getDate()
-    const year = d.getFullYear()
-    const hour = d.getHours()
-    const minute = d.getMinutes()
-
-    let month2 = month.toString()
-    let day2 = day.toString()
-    let hour2 = hour.toString()
-    let minute2 = minute.toString()
-
-    if (month < 10)
-      month2 = '0' + month;
-    if (day < 10)
-      day2 = '0' + day;
-    if (hour < 10)
-      hour2 = '0' + day;
-    if (minute < 10)
-      minute2 = '0' + day;
-
-    return [year, month2, day2, hour2, minute2].join('-');
+    // this.openDialogForSaveIntoFile()
+    this.managerPageWBService.doOpenDialogAndSaveContentToFile()
   }
 
 ///// End persistence logic zone

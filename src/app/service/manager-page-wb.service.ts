@@ -1,4 +1,4 @@
-import {EventEmitter, Injectable, Output} from '@angular/core';
+import {EventEmitter, Injectable, Output, SecurityContext} from '@angular/core';
 import {UIMusaic, UIPcsDto} from "../ui/UIPcsDto";
 import {ManagerLocalStorageService} from "./manager-local-storage.service";
 import {GroupAction} from "../core/GroupAction";
@@ -6,6 +6,9 @@ import {Group} from "../core/Group";
 import {Point} from "../utils/Point";
 import {IPcs} from "../core/IPcs";
 import {HistoryT} from "../utils/HistoryT";
+import {DialogSaveAsFileNameService} from "./dialog-save-as-file-name.service";
+import {IDialogDataSaveToFile} from "../component/dialog-save-to-file/IDialogDataSaveToFile";
+import {DomSanitizer} from "@angular/platform-browser";
 
 export interface FinalElementMove {
   index: number,
@@ -42,9 +45,23 @@ export class ManagerPageWBService {
    */
   pcsDtoForTemplate ?: UIPcsDto;
 
+  /**
+   * special attribut for save whiteboard content page to file
+   */
+  dataSaveToFile : IDialogDataSaveToFile = {
+    fileName: 'my-project',
+    withDateInFileName: true
+  }
+
   @Output() eventChangePcsPdoList: EventEmitter<UIPcsDto[]> = new EventEmitter();
 
-  constructor(private managerLocalStorageService: ManagerLocalStorageService) {
+  constructor(private managerLocalStorageService: ManagerLocalStorageService,
+              private dialogSaveAsFileNameService: DialogSaveAsFileNameService,
+              private sanitizer: DomSanitizer) {
+
+    this.dialogSaveAsFileNameService.eventFileNameSetByUser.subscribe((fileName) => {
+      this.doSaveContentToFile(fileName)
+    })
     this.history = new HistoryT<UIPcsDto[]>()
 
     let pcs1 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[58].getPcsMin()
@@ -585,5 +602,20 @@ export class ManagerPageWBService {
 
   isIndexInElementSelected(index: number) {
     return this.orderedIndexesSelectedPcsDto.includes(index);
+  }
+
+  doSaveContentToFile(fileName : string = "my-project.musaicbox") {
+     // console.log(`Save content to ${fileName}`)
+      const blob = new Blob([this.getSerialDataContent()], {type: 'application/json'});
+      const url = window.URL.createObjectURL(blob);
+      let anchor = document.createElement("a");
+      anchor.download = fileName;
+      // https://stackoverflow.com/questions/55849415/type-saferesourceurl-is-not-assignable-to-type-string
+      anchor.href = "" + this.sanitizer.sanitize(SecurityContext.RESOURCE_URL, this.sanitizer.bypassSecurityTrustResourceUrl(url));
+      anchor.click();
+    }
+
+  doOpenDialogAndSaveContentToFile() {
+    this.dialogSaveAsFileNameService.openDialogForSaveIntoFile(this.dataSaveToFile)
   }
 }
