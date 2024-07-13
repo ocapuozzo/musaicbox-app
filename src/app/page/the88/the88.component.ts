@@ -16,6 +16,10 @@ import {EightyEight} from "../../utils/EightyEight";
 import {MusaicComponent} from "../../component/musaic/musaic.component";
 import {PcsComponent} from "../../component/pcs/pcs.component";
 import {UIMusaic, UIPcsDto} from "../../ui/UIPcsDto";
+import {CdkContextMenuTrigger, CdkMenu, CdkMenuItem} from "@angular/cdk/menu";
+import {MatMenuContent} from "@angular/material/menu";
+import {MatSlideToggle} from "@angular/material/slide-toggle";
+import {ManagerPageWBService} from "../../service/manager-page-wb.service";
 
 export interface IOrbitMusaic {
   pcs: IPcs  // a representant of orbit (prime forme in modalPF)
@@ -44,7 +48,12 @@ export interface IOrbitMusaic2 {
     FormsModule,
     NgForOf,
     MusaicComponent,
-    PcsComponent
+    PcsComponent,
+    CdkMenu,
+    CdkMenuItem,
+    MatMenuContent,
+    MatSlideToggle,
+    CdkContextMenuTrigger
   ],
   templateUrl: './the88.component.html',
   styleUrl: './the88.component.css'
@@ -53,14 +62,15 @@ export class The88Component implements OnInit {
   group88 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC)
 
   musaicDrawGrid: boolean = false
-  listPcsDto: IOrbitMusaic2[] = []
+  listOrbits: IOrbitMusaic2[] = []
   nbMusaicsMatch = 0
 
   currentSelectedOp: string[] = ["M1"]
 
   constructor(private readonly managerHomePcsService: ManagerPagePcsService,
               private readonly router: Router,
-              private readonly managerLocalStorageService: ManagerLocalStorageService) {
+              private readonly managerLocalStorageService: ManagerLocalStorageService,
+              private readonly managerPageWBService : ManagerPageWBService) {
 
     function makePcsDto(pcs: IPcs): UIPcsDto {
       let uiMus = new UIMusaic({
@@ -77,7 +87,7 @@ export class The88Component implements OnInit {
       })
     }
 
-    this.listPcsDto = this.group88.orbits.map(orbit => (
+    this.listOrbits = this.group88.orbits.map(orbit => (
       {
         pcsDto: makePcsDto(orbit.getPcsMin().modalPrimeForm()),
         motifStabilizerName: orbit.motifStabilizer.name.split(' '),
@@ -91,7 +101,7 @@ export class The88Component implements OnInit {
     this.update88musics()
   }
 
-  doPushToHomePage(pcs: IPcs) {
+  doPushToPcsPage(pcs: IPcs) {
     this.managerHomePcsService.replaceBy(pcs)
     this.router.navigateByUrl('/pcs');
   }
@@ -114,7 +124,7 @@ export class The88Component implements OnInit {
     let newMusaicOrbits: IOrbitMusaic2[] = []
     let color: string = "black"
     this.nbMusaicsMatch = 0
-    this.listPcsDto.forEach(musaic => {
+    this.listOrbits.forEach(musaic => {
       if (this.currentSelectedOp.length === 1) { // M1 only => show global partition stabilizer
         color = PcsColor.getColor(musaic.motifStabilizerName.join(' '))
         musaic.pcsDto.colorPitchOn = color
@@ -130,11 +140,11 @@ export class The88Component implements OnInit {
           }
         }
         if (allOpMatch) {
+          // this musaic is invariant by all selected operations, so a color is given
           // console.log(this.currentSelectedOp.join(' ') => example : M1 M7 CM1
           this.nbMusaicsMatch++
           color = PcsColor.getColor(this.currentSelectedOp.join(' '));
           musaic.pcsDto.colorPitchOn = color
-
         }
       }
       // https://medium.com/angular-in-depth/deep-dive-into-the-onpush-change-detection-strategy-in-angular-fab5e4da1d69
@@ -142,7 +152,7 @@ export class The88Component implements OnInit {
     })
 
     // for auto update template
-    this.listPcsDto = newMusaicOrbits
+    this.listOrbits = newMusaicOrbits
   }
 
   isChecked(op: string) {
@@ -150,4 +160,20 @@ export class The88Component implements OnInit {
   }
 
   protected readonly EightyEight = EightyEight;
+
+  doPushToWhiteboardPage(index: number) {
+    this.managerPageWBService.setPcsDtoForTemplate(this.listOrbits[index].pcsDto)
+    this.managerPageWBService.addPcs([this.listOrbits[index].pcsDto.pcs])
+    this.router.navigateByUrl('/w-board');
+  }
+
+  doPushSelectionToWhiteboardPage() {
+     let selectedOrbits = this.listOrbits.filter(orbit => orbit.pcsDto.colorPitchOn !== 'black')
+     if (selectedOrbits.length > 0) {
+       this.managerPageWBService.setPcsDtoForTemplate(selectedOrbits[0].pcsDto)
+       this.managerPageWBService.addPcs(selectedOrbits.map(orbit => orbit.pcsDto.pcs))
+       this.router.navigateByUrl('/w-board');
+     }
+
+  }
 }

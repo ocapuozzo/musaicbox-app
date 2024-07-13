@@ -31,9 +31,10 @@ export class ScoreDrawing {
 
   /**
    * from PCS to score notation treble key
-   * Apply rule1 : Result has only alteration notes sharp and flat (no natural)
-   * Apply rule2 : no alteration double sharp or double flat
-   * Apply rule3 : no natural enharmonic. Example : F flat => E
+   * rule1 : Result has only alteration notes sharp and flat (no natural)
+   * rule2 : Preference sharp over flat. Ex : A A# G, no A Gb G
+   * rule3 : no alteration double sharp or double flat
+   * rule4 : no natural enharmonic. Example : F flat => E
    */
   get fromPcsToScoreNotation(): string {
     if (!this.pcsDto.pcs) return "";

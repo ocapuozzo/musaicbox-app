@@ -2,22 +2,28 @@
 
 <div class="row" style="margin: auto; width: 80%">
 
-<div *ngFor="let mus of listPcsDto; index as index" class="box88" style="width: 60px;">
+<div *ngFor="let orbitMusaic of listOrbits; index as index" class="box88" style="width: 60px;">
   <div class="box88-id text-muted p-0">
     {{ index + 1 }}
   </div>
   <div class="box88-body">
     <app-pcs
       [opaque]="musaicDrawGrid"
-      [pcsDto]="mus.pcsDto"
-      [pcColorSet]="mus.pcsDto.colorPitchOn"
-      (click)="doPushToHomePage(mus.pcsDto.pcs)"
+      [pcsDto]="orbitMusaic.pcsDto"
+      [pcColorSet]="orbitMusaic.pcsDto.colorPitchOn"
+      (click)="doPushToPcsPage(orbitMusaic.pcsDto.pcs)"
+      [cdkContextMenuTriggerFor]="menu"
+      [cdkContextMenuTriggerData]="{
+            name: 'Musaic N°' + (index+1),
+            index:index,
+            pcs:orbitMusaic.pcsDto.pcs
+            }"
       style="cursor: pointer"
     >
     </app-pcs>
   </div>
   <div class="box88-footer">
-    #{{ mus.pcsDto.pcs.cardinal }}
+    #{{ orbitMusaic.cardinal }}
   </div>
 </div>
 </div>
@@ -38,3 +44,13 @@
     }
   </div>
 </div>
+
+<ng-template  #menu matMenuContent let-index="index" let-name="name" let-pcs="pcs" >
+  <div class="example-menu" cdkMenu>
+    <span>Do with {{ name }}</span>
+    <hr/>
+    <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doPushToPcsPage(pcs)">Push to PCS page</button>
+    <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doPushToWhiteboardPage(index)">Push to Whiteboard page</button>
+    <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doPushSelectionToWhiteboardPage()">Push *selection* to Whiteboard page</button>
+  </div>
+</ng-template>
