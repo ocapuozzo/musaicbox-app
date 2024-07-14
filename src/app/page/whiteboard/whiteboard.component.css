@@ -43,7 +43,7 @@
 
 
 /*https://material.angular.io/cdk/menu/examples*/
-.example-menu {
+.contextual-menu {
   display: inline-flex;
   flex-direction: column;
   min-width: 180px;
@@ -53,7 +53,7 @@
   padding: 6px 0;
 }
 
-.example-menu .example-menu-item {
+.contextual-menu .contextual-menu-item {
   width: 100%;
 }
 
@@ -62,8 +62,8 @@ hr {
   color: rgba(0, 0, 0, 0.12);
 }
 
-.example-menu-item,
-.example-standalone-item {
+.contextual-menu-item,
+.contextual-standalone-item {
   background-color: transparent;
   cursor: pointer;
 
@@ -79,30 +79,30 @@ hr {
   border: none;
 }
 
-.example-menu-item:hover {
+.contextual-menu-item:hover {
   background-color: rgb(208, 208, 208);
 }
 
-.example-menu-item:active {
+.contextual-menu-item:active {
   background-color: rgb(170, 170, 170);
 }
 
-.example-standalone-item {
+.contextual-standalone-item {
   background-color: rgb(239, 239, 239);
 }
 
-.example-standalone-item:hover {
+.contextual-standalone-item:hover {
   background-color: rgb(208, 208, 208);
 }
 
-.example-standalone-item[aria-expanded='true'] {
+.contextual-standalone-item[aria-expanded='true'] {
   background-color: rgb(208, 208, 208);
 }
 
-.example-menu-item[role='menuitemradio'][aria-checked='true'] {
+.contextual-menu-item[role='menuitemradio'][aria-checked='true'] {
   background-color: rgb(225, 225, 225);
 }
 
-.example-menu-item[role='menuitemcheckbox'][aria-checked='true'] {
+.contextual-menu-item[role='menuitemcheckbox'][aria-checked='true'] {
   background-color: rgb(225, 225, 225);
 }

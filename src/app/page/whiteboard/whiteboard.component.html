@@ -35,32 +35,32 @@
   }
 <!--  (menuOpened)="contextMenuOpened()"-->
   <ng-template  #menu matMenuContent let-index="index" let-name="name" let-indexFormDrawer="indexFormDrawer">
-    <div class="example-menu" cdkMenu>
+    <div class="contextual-menu" cdkMenu>
       <span>Do with {{ name }}</span>
       <hr/>
-      <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doPushToPcsPage(index)">Push to PCS page</button>
-      <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doSingleToggleSelected(index)">
+      <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doPushToPcsPage(index)">Push to PCS page</button>
+      <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doSingleToggleSelected(index)">
         <mat-slide-toggle [checked]="isSelected(index)">Selected</mat-slide-toggle>
       </button>
-      <button class="example-menu-item" cdkMenuItem (click)="doDelete(index)">Delete <span *ngIf="!isSolo(index)">&nbsp;({{numberSelectedComponents}})</span></button>
-      <button class="example-menu-item" cdkMenuItem (click)="doDuplicate(index)">Duplicate <span *ngIf="!isSolo(index)">&nbsp;({{numberSelectedComponents}})</span></button>
-      <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doZoom(1, index)">
+      <button class="contextual-menu-item" cdkMenuItem (click)="doDelete(index)">Delete <span *ngIf="!isSolo(index)">&nbsp;({{numberSelectedComponents}})</span></button>
+      <button class="contextual-menu-item" cdkMenuItem (click)="doDuplicate(index)">Duplicate <span *ngIf="!isSolo(index)">&nbsp;({{numberSelectedComponents}})</span></button>
+      <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doZoom(1, index)">
         zoom+ (+)
         <span [hidden]="pcsDtoList[index].indexFormDrawer > 0">&nbsp; (cw={{sizeCellWidth(index)}})</span>
       </button>
-      <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doZoom(-1, index)">
+      <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doZoom(-1, index)">
         zoom- (-)
         <span [hidden]="pcsDtoList[index].indexFormDrawer > 0">&nbsp; (cw={{sizeCellWidth(index)}})</span>
       </button>
-      <button class="example-menu-item" cdkMenuItem
+      <button class="contextual-menu-item" cdkMenuItem
               (cdkMenuItemTriggered)="doSetRounded(index)">
         <mat-slide-toggle [disabled]="disabledIfNotMusaicFormDrawer(index)" [checked]="isRounded(index)">Rounded</mat-slide-toggle>
       </button>
-      <button class="example-menu-item" cdkMenuItem [cdkMenuTriggerFor]="align" [cdkMenuTriggerData]="{index: index}">
+      <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="align" [cdkMenuTriggerData]="{index: index}">
         Align <span>&#10148;</span>
       </button>
 
-      <button class="example-menu-item" cdkMenuItem [cdkMenuTriggerFor]="neighbors">
+      <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="neighbors">
         Neighbors <span>&#10148;</span>
       </button>
       <hr/>
@@ -68,7 +68,7 @@
         @for (drawer of drawers; track drawer; let idx = $index) {
           <button
             cdkMenuItemRadio
-            class="example-menu-item"
+            class="contextual-menu-item"
             [cdkMenuItemChecked]="idx === indexFormDrawer"
             (cdkMenuItemTriggered)="updateDrawer(drawer, index)">
             {{ drawer }}
@@ -79,50 +79,50 @@
   </ng-template>
 
   <ng-template #create let-index="index">
-    <div class="example-menu" cdkMenu>
-      <button class="example-menu-item" disabled cdkMenuItem>ModalPrimeForm</button>
+    <div class="contextual-menu" cdkMenu>
+      <button class="contextual-menu-item" disabled cdkMenuItem>ModalPrimeForm</button>
       <hr/>
-      <button class="example-menu-item" disabled cdkMenuItem>Pcs CyclicPF in orbit</button>
-      <button class="example-menu-item" disabled cdkMenuItem>Simple Pcs in Cyclic orbit</button>
-      <button class="example-menu-item" disabled cdkMenuItem>Other</button>
+      <button class="contextual-menu-item" disabled cdkMenuItem>Pcs CyclicPF in orbit</button>
+      <button class="contextual-menu-item" disabled cdkMenuItem>Simple Pcs in Cyclic orbit</button>
+      <button class="contextual-menu-item" disabled cdkMenuItem>Other</button>
     </div>
   </ng-template>
 
   <ng-template #selection let-index="index">
-    <div class="example-menu"   cdkMenu>
-      <button class="example-menu-item" disabled cdkMenuItem >nop</button>
+    <div class="contextual-menu"   cdkMenu>
+      <button class="contextual-menu-item" disabled cdkMenuItem >nop</button>
     </div>
   </ng-template>
 
   <ng-template #align let-index="index">
-    <div class="example-menu"  cdkMenu>
-      <button class="example-menu-item" (cdkMenuItemTriggered)="doHorizontalAlign()" cdkMenuItem ><mat-icon> align_vertical_center</mat-icon></button>
-      <button class="example-menu-item" (cdkMenuItemTriggered)="doVerticalAlign()" cdkMenuItem ><mat-icon> align_horizontal_center</mat-icon></button>
-      <button class="example-menu-item" (cdkMenuItemTriggered)="doCircularAlign()" cdkMenuItem ><mat-icon aria-label="circular">workspaces</mat-icon></button>
+    <div class="contextual-menu"  cdkMenu>
+      <button class="contextual-menu-item" (cdkMenuItemTriggered)="doHorizontalAlign()" cdkMenuItem ><mat-icon> align_vertical_center</mat-icon></button>
+      <button class="contextual-menu-item" (cdkMenuItemTriggered)="doVerticalAlign()" cdkMenuItem ><mat-icon> align_horizontal_center</mat-icon></button>
+      <button class="contextual-menu-item" (cdkMenuItemTriggered)="doCircularAlign()" cdkMenuItem ><mat-icon aria-label="circular">workspaces</mat-icon></button>
     </div>
   </ng-template>
 
   <ng-template #neighbors>
-    <div class="example-menu" cdkMenu>
-      <button class="example-menu-item" disabled cdkMenuItem>Up semitone</button>
-      <button class="example-menu-item" disabled cdkMenuItem>Down semitone</button>
+    <div class="contextual-menu" cdkMenu>
+      <button class="contextual-menu-item" disabled cdkMenuItem>Up semitone</button>
+      <button class="contextual-menu-item" disabled cdkMenuItem>Down semitone</button>
       <hr/>
-      <button class="example-menu-item" disabled cdkMenuItem>Similarity IS</button>
-      <button class="example-menu-item" disabled cdkMenuItem>Similarity IV</button>
-      <button class="example-menu-item" disabled cdkMenuItem>Others</button>
+      <button class="contextual-menu-item" disabled cdkMenuItem>Similarity IS</button>
+      <button class="contextual-menu-item" disabled cdkMenuItem>Similarity IV</button>
+      <button class="contextual-menu-item" disabled cdkMenuItem>Others</button>
     </div>
   </ng-template>
 
   <ng-template #whiteboard >
-    <div class="example-menu"   cdkMenu>
-      <button class="example-menu-item" (cdkMenuItemTriggered)="doUnDo()" [disabled]="!canUndo" cdkMenuItem >Undo (ctrl+z)</button>
-      <button class="example-menu-item" (cdkMenuItemTriggered)="doReDo()" [disabled]="!canRedo" cdkMenuItem >Redo (ctrl+y)</button>
+    <div class="contextual-menu"   cdkMenu>
+      <button class="contextual-menu-item" (cdkMenuItemTriggered)="doUnDo()" [disabled]="!canUndo" cdkMenuItem >Undo (ctrl+z)</button>
+      <button class="contextual-menu-item" (cdkMenuItemTriggered)="doReDo()" [disabled]="!canRedo" cdkMenuItem >Redo (ctrl+y)</button>
       <hr/>
-      <button class="example-menu-item" (cdkMenuItemTriggered)="doDeselectAll()" cdkMenuItem >Deselect All</button>
-      <button class="example-menu-item" (cdkMenuItemTriggered)="doSelectAll()" cdkMenuItem >Select All</button>
+      <button class="contextual-menu-item" (cdkMenuItemTriggered)="doDeselectAll()" cdkMenuItem >Deselect All</button>
+      <button class="contextual-menu-item" (cdkMenuItemTriggered)="doSelectAll()" cdkMenuItem >Select All</button>
       <hr/>
-      <button class="example-menu-item" (cdkMenuItemTriggered)="openDialogSaveToFile()" cdkMenuItem >Save as...</button>
-      <button class="example-menu-item" (cdkMenuItemTriggered)="doOpenLocalFile()" cdkMenuItem >Open file...</button>
+      <button class="contextual-menu-item" (cdkMenuItemTriggered)="openDialogSaveToFile()" cdkMenuItem >Save as...</button>
+      <button class="contextual-menu-item" (cdkMenuItemTriggered)="doOpenLocalFile()" cdkMenuItem >Open file...</button>
     </div>
   </ng-template>
 </div>

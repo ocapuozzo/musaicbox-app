@@ -167,13 +167,25 @@ export class The88Component implements OnInit {
     this.router.navigateByUrl('/w-board');
   }
 
-  doPushSelectionToWhiteboardPage() {
-     let selectedOrbits = this.listOrbits.filter(orbit => orbit.pcsDto.colorPitchOn !== 'black')
+  doPushSelectionToWhiteboardPage(color : string) {
+    let selectedOrbits = this.listOrbits.filter(orbit => orbit.pcsDto.colorPitchOn === color)
+      // this.currentSelectedOp.length > 1
+      //   ? this.listOrbits.filter(orbit => orbit.pcsDto.colorPitchOn !== 'black')
+      //   : this.listOrbits.filter(orbit => orbit.pcsDto.colorPitchOn === 'black')
+
      if (selectedOrbits.length > 0) {
-       this.managerPageWBService.setPcsDtoForTemplate(selectedOrbits[0].pcsDto)
+       let template = new UIPcsDto({...selectedOrbits[0].pcsDto})
+       if (selectedOrbits.length > 20) {
+         template.uiMusaic = new UIMusaic({...template.uiMusaic, widthCell:3, width:26, height:26})
+       }
+       this.managerPageWBService.setPcsDtoForTemplate(template)
        this.managerPageWBService.addPcs(selectedOrbits.map(orbit => orbit.pcsDto.pcs))
+       this.managerPageWBService.doCircularAlign()
        this.router.navigateByUrl('/w-board');
      }
+  }
 
+  cardinalWithThisColor(color: string) {
+    return this.listOrbits.reduce((countSameColor, orbit) => orbit.pcsDto.colorPitchOn === color ? countSameColor +1 : countSameColor, 0);
   }
 }

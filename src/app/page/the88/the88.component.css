@@ -50,7 +50,7 @@
 
 
 /*https://material.angular.io/cdk/menu/examples*/
-.example-menu {
+.contextual-menu {
   display: inline-flex;
   flex-direction: column;
   min-width: 180px;
@@ -60,7 +60,7 @@
   padding: 6px 0;
 }
 
-.example-menu .example-menu-item {
+.contextual-menu .contextual-menu-item {
   width: 100%;
 }
 
@@ -70,7 +70,7 @@ hr {
 }
 
 
-.example-menu-item,
+.contextual-menu-item,
 .example-standalone-item {
   background-color: transparent;
   cursor: pointer;
@@ -87,11 +87,11 @@ hr {
   border: none;
 }
 
-.example-menu-item:hover {
+.contextual-menu-item:hover {
   background-color: rgb(208, 208, 208);
 }
 
-.example-menu-item:active {
+.contextual-menu-item:active {
   background-color: rgb(170, 170, 170);
 }
 
@@ -107,10 +107,10 @@ hr {
   background-color: rgb(208, 208, 208);
 }
 
-.example-menu-item[role='menuitemradio'][aria-checked='true'] {
+.contextual-menu-item[role='menuitemradio'][aria-checked='true'] {
   background-color: rgb(225, 225, 225);
 }
 
-.example-menu-item[role='menuitemcheckbox'][aria-checked='true'] {
+.contextual-menu-item[role='menuitemcheckbox'][aria-checked='true'] {
   background-color: rgb(225, 225, 225);
 }

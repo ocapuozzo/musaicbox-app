@@ -16,7 +16,7 @@
       [cdkContextMenuTriggerData]="{
             name: 'Musaic N°' + (index+1),
             index:index,
-            pcs:orbitMusaic.pcsDto.pcs
+            pcsDto:orbitMusaic.pcsDto
             }"
       style="cursor: pointer"
     >
@@ -45,12 +45,18 @@
   </div>
 </div>
 
-<ng-template  #menu matMenuContent let-index="index" let-name="name" let-pcs="pcs" >
-  <div class="example-menu" cdkMenu>
+<ng-template  #menu matMenuContent let-index="index" let-name="name" let-pcsDto="pcsDto" >
+  <div class="contextual-menu" cdkMenu>
     <span>Do with {{ name }}</span>
     <hr/>
-    <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doPushToPcsPage(pcs)">Push to PCS page</button>
-    <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doPushToWhiteboardPage(index)">Push to Whiteboard page</button>
-    <button class="example-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doPushSelectionToWhiteboardPage()">Push *selection* to Whiteboard page</button>
+    <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doPushToPcsPage(pcsDto.pcs)">
+      Push this to PCS page
+    </button>
+    <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doPushToWhiteboardPage(index)">
+      Push this to Whiteboard page
+    </button>
+    <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doPushSelectionToWhiteboardPage(pcsDto.colorPitchOn)">
+      Push selection ({{cardinalWithThisColor(pcsDto.colorPitchOn)}}) to Whiteboard page
+    </button>
   </div>
 </ng-template>

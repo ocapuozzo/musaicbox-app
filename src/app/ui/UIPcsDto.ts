@@ -26,9 +26,9 @@ export class UIMusaic {
     this.opaque = opaque ?? true;
     this.nbCellsPerLine = nbCellsPerLine ?? 13;
     this.nbCellsPerRow = nbCellsPerRow ?? 13;
-    this.widthCell = widthCell ?? 7;
-    this.width = width ?? 88;
-    this.height = height ?? 88;
+    this.widthCell = widthCell ?? 7;   // 13, 7 and 91 match together
+    this.width = width ?? 91;
+    this.height = height ?? 91;
   }
 }
 

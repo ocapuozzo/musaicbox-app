@@ -22,7 +22,7 @@ export interface FinalElementMove {
 export class ManagerPageWBService {
   private readonly _MIN_WIDTH = 25;
   private readonly _GAP_BETWEEN = 20;
-  static deltaPositionNewPcs = 50;
+  static deltaPositionNewPcs = 20;
 
   history: HistoryT<UIPcsDto[]>
 
@@ -74,7 +74,7 @@ export class ManagerPageWBService {
       new UIPcsDto({pcs: pcs1, indexFormDrawer: 0, position: {x: 0, y: 10}}),
       new UIPcsDto({pcs: pcs2, indexFormDrawer: 1, position: {x: 110, y: 10}, isSelected: true}),
       new UIPcsDto({pcs: pcs3, indexFormDrawer: 2, position: {x: 220, y: 10}, isSelected: true}),
-      new UIPcsDto({pcs: pcs4, width: 38, height: 38, indexFormDrawer: 0, position: {x: 340, y: 10}, uiMusaic: uiMus})
+      new UIPcsDto({pcs: pcs4, width: 35, height: 35, indexFormDrawer: 0, position: {x: 340, y: 10}, uiMusaic: uiMus})
     ]
     let restorePcsDtoList = this.managerLocalStorageService.getPcsDtoListFromLocalStorage()
     this.uiPcsDtoList = restorePcsDtoList.length === 0 ? pcsDtoList : restorePcsDtoList
@@ -93,6 +93,10 @@ export class ManagerPageWBService {
   addPcs(somePcs: IPcs[]) {
     this.doUnselectAll()
     this.uiPcsDtoList = [...this.uiPcsDtoList]
+
+    // avoid put outside screen
+    if (somePcs.length > 10) ManagerPageWBService.deltaPositionNewPcs = 0
+
     somePcs.forEach(pcs => {
       let pcsDto =
         this.pcsDtoForTemplate
@@ -108,8 +112,8 @@ export class ManagerPageWBService {
       }
       pcsDto.isSelected = true
       this.uiPcsDtoList.push(pcsDto)
-      if (ManagerPageWBService.deltaPositionNewPcs > window.innerWidth - 50) {
-        ManagerPageWBService.deltaPositionNewPcs = 50
+      if (ManagerPageWBService.deltaPositionNewPcs > window.innerWidth /2) {
+        ManagerPageWBService.deltaPositionNewPcs = 20
       }
 
       // add index of last element
@@ -133,6 +137,7 @@ export class ManagerPageWBService {
 
     this.uiPcsDtoList = [...this.uiPcsDtoList]
 
+    // by default zoom on all selected elements
     if (indexElementsToZoom.length === 0) {
       indexElementsToZoom = this.orderedIndexesSelectedPcsDto
     }
@@ -146,20 +151,15 @@ export class ManagerPageWBService {
       let pcsDto =
         new UIPcsDto({...this.uiPcsDtoList[index]})
 
-      // if (pcsDto.width + DELTA_ZOOM < this._MIN_WIDTH) {
-      //   // already too small
-      //   return
-      // }
-
       let size = pcsDto.width + DELTA_ZOOM
       let n = pcsDto.pcs.nMapping //getMappedBinPcs().length;
-      let CEL_WIDTH = Math.floor(size / (n + 1));
-
-      // TODO generalize with nbCellsPer line/row - not n based
 
       // adjust canvas size from CEL_WIDTH, for a better rendering (no float)
       // even if FormDrawer is not MUSAIC
-      let preferredSize = CEL_WIDTH * (n + 1)
+      let cellWith = Math.floor(size / (n + 1));
+      // TODO generalize with nbCellsPer line/row - not n based
+
+      let preferredSize = cellWith * (n + 1)
 
       // too small ?
       if (preferredSize >= this._MIN_WIDTH) {
@@ -171,7 +171,7 @@ export class ManagerPageWBService {
 
         if (pcsDto.indexFormDrawer === UIPcsDto.MUSAIC) {
           // real change widthCell
-          pcsDto.uiMusaic.widthCell = CEL_WIDTH
+          pcsDto.uiMusaic.widthCell = cellWith
         }
 
         if (pcsDto.indexFormDrawer === UIPcsDto.SCORE) {

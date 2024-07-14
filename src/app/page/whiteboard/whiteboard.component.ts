@@ -167,11 +167,10 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     elt!.addEventListener('touchend',
       (event) => this.onMouseUp(event));
 
-    // set elt rselector fill his parent  (maybe is there other way...)
+    // set elt rselector fill screen (maybe is there other way...)
     let eltRSelector = document.getElementById("rselector")
-    let eltParent = document.getElementById("white-board")
-    eltRSelector!.style.width = eltParent!.clientWidth + "px"
-    eltRSelector!.style.height = eltParent!.clientHeight + "px"
+    eltRSelector!.style.width = window.innerWidth  + "px"
+    eltRSelector!.style.height = window.innerHeight + "px"
     eltRSelector!.style.zIndex = "1"
   }
 
@@ -216,15 +215,8 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
       selectedElements.some(e => pointClick.isIncludeIn(e.getBoundingClientRect()))
 
     if (!clickInSelectedElement) {
-      // no component selected to move
-      // this.rectangleForSelect = new
       this.isRectangleSelecting = true
       this.initPositionRectSelector = pointClick
-      // this.rectangleSelect.nativeElement.style.left = pointClick.x + "px"
-      // this.rectangleSelect.nativeElement.style.top = pointClick.y + "px"
-      // this.rectangleSelect.nativeElement.style.width = 10 + "px"
-      // this.rectangleSelect.nativeElement.style.outlineStyle = "solid";
-      // console.log("this.rectangleSelect.style = ", this.rectangleSelect.nativeElement.style)
       return
     }
 
