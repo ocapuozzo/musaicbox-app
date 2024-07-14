@@ -15,13 +15,13 @@ import abcjs from "abcjs";
 
 export class ScoreDrawing {
   static lettersSharpedNotation: string[] = ['C', '^C', 'D', '^D', 'E', 'F', '^F', 'G', '^G', 'A', '^A', 'B'];
-  pcsDto : UIPcsDto
+  pcsDto: UIPcsDto
   // ctx: CanvasRenderingContext2D
   randomId: string = ""
 
   constructor(
     x: {
-      idElement ?: string
+      idElement?: string
       pcsDto?: UIPcsDto
     } = {}) {
     if (!x.idElement) throw Error('Element Id waiting')
@@ -56,7 +56,7 @@ export class ScoreDrawing {
     }
 
     let pivot = pcsMapped.iPivot ?? 0
-    let prevNote = ScoreDrawing.lettersSharpedNotation[(n+pivot-1) % n]
+    let prevNote = ScoreDrawing.lettersSharpedNotation[(n + pivot - 1) % n]
     if (prevNote.length > 1) {
       prevNote = prevNote[1] // _A, ^A => A
     }
@@ -69,7 +69,7 @@ export class ScoreDrawing {
           // index is in [1, 3, 6, 8, 10]
           // change # by b ?
           // console.log('note = ', note, '  prevNote = ', prevNote )
-          if ( pcsMapped.abinPcs[index + 1] === 0 && note.includes(prevNote) ) {
+          if (pcsMapped.abinPcs[index + 1] === 0 && note.includes(prevNote)) {
             note = "_" + ScoreDrawing.lettersSharpedNotation[index + 1]
           }
         }
@@ -78,7 +78,7 @@ export class ScoreDrawing {
 
         // Make pitches always up iPivot pitch
         // http://abcnotation.com/blog/2010/01/31/how-to-understand-abc-the-basics/
-        if ((i % n) < pivot) {
+        if (index < pivot) {
           note += "'"
         }
 
@@ -86,7 +86,7 @@ export class ScoreDrawing {
         chord = chord + note;
       }
     }
-    // TODO hack for G# Major scales... it is hard to place 7 in 12... Must do better
+    // TODO hack for G# Major scales... prefer sharp (it is hard to place 12 to 7... must do better)
     if (this.pcsDto.pcs.id === 32106) {
       notes = "^F^G^AB^C'^D'^E'"
     }
@@ -111,7 +111,7 @@ export class ScoreDrawing {
         // paddingleft: 0,
         // paddingright: 10,
         // paddingtop:20,
-         responsive: "resize"
+        responsive: "resize"
       });
   }
 }

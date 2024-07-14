@@ -49,7 +49,7 @@ export class ManagerPageWBService {
    * special attribut for save whiteboard content page to file
    */
   dataSaveToFile : IDialogDataSaveToFile = {
-    fileName: 'my-project',
+    fileName: 'my-muse-',
     withDateInFileName: true
   }
 
@@ -541,31 +541,32 @@ export class ManagerPageWBService {
 
     let finalMoveElements: FinalElementMove[] = []
 
-    let origin = new Point(0, 0)
+    // compute barycenter
+    let barycenter = new Point(0, 0)
+    let point = new Point(0, 0)
     let radius = 0
     selectedPcsIndexes.forEach(index => {
-      origin.x += this.uiPcsDtoList[index].position.x + this.uiPcsDtoList[index].width / 2
-      origin.y += this.uiPcsDtoList[index].position.y + this.uiPcsDtoList[index].height / 2
+      point.x += this.uiPcsDtoList[index].position.x + this.uiPcsDtoList[index].width / 2
+      point.y += this.uiPcsDtoList[index].position.y + this.uiPcsDtoList[index].height / 2
       radius += this.uiPcsDtoList[index].width
     })
-
     // barycenter point
-    origin.x = origin.x / selectedPcsIndexes.length
-    origin.y = origin.y / selectedPcsIndexes.length
+    barycenter.x = point.x / selectedPcsIndexes.length
+    barycenter.y = point.y / selectedPcsIndexes.length
 
     // radius increase with number of selected elements.
     // Dividing it by four seems like a good choice, a good number (?)
     // rem : if selectedPcsIndexes.length == 4, radius is avg width
-    radius /= 4
+    radius /= 5 //4
 
     // dont hide elements (left and top) TODO right and bottom ?
-    if (origin.x - radius < 0) origin.x += radius
-    if (origin.y - radius < 0) origin.y += radius
+    if (barycenter.x - radius < 0) barycenter.x += radius
+    if (barycenter.y - radius < 0) barycenter.y += radius
 
     let ang = 3 * Math.PI / 2;
     selectedPcsIndexes.forEach(index => {
-      let x = origin.x + Math.round(Math.cos(ang) * radius);
-      let y = origin.y + Math.round(Math.sin(ang) * radius);
+      let x = barycenter.x + Math.round(Math.cos(ang) * radius);
+      let y = barycenter.y + Math.round(Math.sin(ang) * radius);
       finalMoveElements.push(
         {
           index: index,
