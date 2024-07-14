@@ -2,8 +2,8 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 
 // from https://stackblitz.com/edit/basic-draw-app-gwube9
 
-const MIN_WIDTH = 2
-const MIN_HEIGHT = 6
+const MIN_WIDTH = 0
+const MIN_HEIGHT = 0
 
 export class Shape {
   x: number;
@@ -21,8 +21,10 @@ export class Shape {
 })
 export class RectSelectorComponent implements OnInit {
 
-  drawing = false;
+  canDraw = false;
   shape: Shape
+  startX: number
+  startY: number
 
   @Output() moving: EventEmitter<Shape> = new EventEmitter();
 
@@ -31,63 +33,61 @@ export class RectSelectorComponent implements OnInit {
   }
 
   ngOnInit() {
-
   }
 
   startDrawing(evt: MouseEvent) {
     // always show rectangle
+    this.startX = evt.offsetX
+    this.startY = evt.offsetY
+
     this.shape = {
-      x: evt.offsetX - MIN_WIDTH,
-      y: evt.offsetY - MIN_HEIGHT,
+      x:  this.startX - MIN_WIDTH,
+      y:  this.startY - MIN_HEIGHT,
       w: MIN_WIDTH,
       h: MIN_HEIGHT,
     };
 
-    this.drawing = true;
+    this.canDraw = true;
   }
 
-  keepDrawing(evt: MouseEvent) {
-    let draw = true
-    if (this.drawing) {
+  drawing(evt: MouseEvent) {
+    if (this.canDraw) {
       evt.preventDefault()
       evt.stopPropagation()
       // The SVG specification says that if width or height are negative then the rectangle is not drawn.
       // negative value causes errors
-      if ((evt.offsetX - this.shape.x) > MIN_WIDTH) {
-        this.shape.w = evt.offsetX - this.shape.x;
-      } else if (evt.offsetX - MIN_WIDTH >= 0) {
-        this.shape.x = evt.offsetX - MIN_WIDTH
+      if (evt.offsetX >= this.startX) {
+        this.shape.x = this.startX
+        this.shape.w = evt.offsetX - this.startX;
       } else {
-        draw = false
+        this.shape.x = evt.offsetX
+        this.shape.w = this.startX - evt.offsetX;
       }
-      if ((evt.offsetY - this.shape.y) > MIN_HEIGHT) {
-        this.shape.h = evt.offsetY - this.shape.y;
-      } else if (evt.offsetY - MIN_WIDTH >= 0) {
-        this.shape.y = evt.offsetY - MIN_HEIGHT
+      if (evt.offsetY >= this.startY) {
+        this.shape.y = this.startY
+        this.shape.h = evt.offsetY - this.startY;
       } else {
-        draw = false
+        this.shape.y = evt.offsetY
+        this.shape.h = this.startY - evt.offsetY;
       }
-
-      if (draw) {
-        // evt.preventDefault()
-        // evt.stopPropagation()
-        this.moving.emit(this.shape)
-      }
+      this.moving.emit(this.shape)
     }
   }
 
   stopDrawing(evt: MouseEvent) {
-    this.drawing = false;
+    this.canDraw = false;
     this.close()
   }
 
   close() {
+    this.startX = 0
+    this.startY = 0
     this.shape = {
       x: 0,
       y: 0,
       w: 0,
       h: 0
     };
-
   }
+
 }

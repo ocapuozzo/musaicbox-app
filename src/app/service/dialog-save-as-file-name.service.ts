@@ -8,11 +8,11 @@ import {IDialogDataSaveToFile} from "../component/dialog-save-to-file/IDialogDat
 })
 export class DialogSaveAsFileNameService {
 
-  constructor() { }
-
   @Output() eventFileNameSetByUser = new EventEmitter<string>()
 
   readonly dialogSaveToFile = inject(MatDialog);
+
+  constructor() { }
 
   openDialogForSaveIntoFile(dataSaveToFile : IDialogDataSaveToFile): void {
     const dialogRef = this.dialogSaveToFile.open(DialogSaveToFileComponent,
@@ -33,8 +33,8 @@ export class DialogSaveAsFileNameService {
           const dateNow = this.formatDateNow()
           const suffix = dataSaveToFile.withDateInFileName ? "_" + dateNow : ""
           const ext: string = '.musaicbox'
+          // fileName is done, emit to subscriber
           this.eventFileNameSetByUser.emit(dataSaveToFile.fileName + suffix + ext)
-          // this.doSaveToFile(this.dataSaveToFile.fileName + suffix + ext)
         }
       }
     });

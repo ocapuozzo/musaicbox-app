@@ -62,6 +62,7 @@ export class ManagerPageWBService {
     this.dialogSaveAsFileNameService.eventFileNameSetByUser.subscribe((fileName) => {
       this.doSaveContentToFile(fileName)
     })
+
     this.history = new HistoryT<UIPcsDto[]>()
 
     let pcs1 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[58].getPcsMin()
@@ -118,7 +119,7 @@ export class ManagerPageWBService {
 
       // add index of last element
       this.orderedIndexesSelectedPcsDto.push(this.uiPcsDtoList.length - 1)
-    })
+    }) // end for each
     this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
     this.emit()
   }
