@@ -31,6 +31,11 @@ export class PcsComponent {
 
   @Input() opaque: boolean = true
 
+  // /**
+  //  *  and if pcs cardinal is 3 or 4, and if chord name exists !
+  //  */
+  // @Input() showChordName: boolean = false
+
   // for template attribut
   get rounded(): boolean {
     return this._pcsDto.uiMusaic.rounded && this._pcsDto.indexFormDrawer === UIPcsDto.MUSAIC
@@ -63,6 +68,7 @@ export class PcsComponent {
   static MUSAIC_INDEX = 0
   static CLOCK_INDEX = 1
   static SCORE_INDEX = 2
+
   get scoreView(): boolean {
     return  this._pcsDto.indexFormDrawer === 2
   }
@@ -82,7 +88,6 @@ export class PcsComponent {
       default :
         this.formDrawing =  new ClockFormDraw()
     }
-
     this.formDrawing.drawForm(this._pcsDto, this.canvas);
   }
 

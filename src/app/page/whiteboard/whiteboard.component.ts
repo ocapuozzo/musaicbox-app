@@ -85,6 +85,12 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   listenerRenderer2Mousemove: Function;
 
   /**
+   * For mouseMoveListener
+   */
+  listenerRenderer2Touchmove: Function;
+
+
+  /**
    * Lise of UIPcsDto (from service)
    */
   pcsDtoList: UIPcsDto[]
@@ -151,7 +157,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
       this.onMouseMove(e)
     });
 
-    this.listenerRenderer2Mousemove = this.renderer.listen(elt, 'touchmove', e => {
+    this.listenerRenderer2Touchmove = this.renderer.listen(elt, 'touchmove', e => {
       this.onMouseMove(e)
     });
 
@@ -169,7 +175,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
 
     // set elt rselector fill screen (maybe is there other way...)
     let eltRSelector = document.getElementById("rselector")
-    eltRSelector!.style.width = window.innerWidth  + "px"
+    eltRSelector!.style.width  = window.innerWidth  + "px"
     eltRSelector!.style.height = window.innerHeight + "px"
     eltRSelector!.style.zIndex = "1"
   }
@@ -380,8 +386,8 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     this.managerPageWBService.doUnselectAll()
   }
 
-  disabledIfNotMusaicFormDrawer(index: number) {
-    return index < 0 || index >= this.pcsDtoList.length || this.pcsDtoList[index].indexFormDrawer !== UIPcsDto.MUSAIC
+  isMusaicFormDrawer(index: number) {
+    return index < 0 || index >= this.pcsDtoList.length || this.pcsDtoList[index].indexFormDrawer === UIPcsDto.MUSAIC
   }
 
   selectionIsEmpty(): boolean {
@@ -583,4 +589,19 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
 
   ///// End persistence logic zone
 
+  canShowChordName(index: number) {
+    return this.pcsDtoList[index].indexFormDrawer === 1
+      && [3,4].includes(this.pcsDtoList[index].pcs.cardinal)
+      &&  this.pcsDtoList[index].pcs.getChordName()
+
+
+  }
+
+  doToggleShowChordName(index: number) {
+    this.managerPageWBService.doToggleShowChordName(index)
+  }
+
+  isShowChordName(index: number) {
+    return this.pcsDtoList[index].showChordName
+  }
 }

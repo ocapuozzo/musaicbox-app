@@ -84,11 +84,12 @@ export class UIPcsDto {
   position: { x: number; y: number }
   colorPitchOn : string = 'black'
   colorPitchOff : string = 'white'
-  indexFormDrawer: number;
-  isSelected: boolean;
-  uiMusaic : UIMusaic;
-  uiClock : UIClock;
-  uiScore : UIScore;
+  indexFormDrawer: number
+  isSelected: boolean
+  showChordName: boolean
+  uiMusaic : UIMusaic
+  uiClock : UIClock
+  uiScore : UIScore
   // polymorphism width and height
   // in differance of extends class, here a component see all data
   // usefully, by example, to doZoom service
@@ -148,7 +149,7 @@ export class UIPcsDto {
   }
 
   constructor(
-    {pcs, position, width, height, colorPitchOn, colorPitchOff, indexFormDrawer, isSelected, uiMusaic, uiClock, uiScore} : {
+    {pcs, position, width, height, colorPitchOn, colorPitchOff, indexFormDrawer, isSelected, showChordName, uiMusaic, uiClock, uiScore} : {
       // id : string,
       pcs ?: IPcs, //new IPcs({strPcs:"0, 4, 8"}),
       position ?: {x:number, y:number},
@@ -158,12 +159,12 @@ export class UIPcsDto {
       colorPitchOff ?: string,
       indexFormDrawer ?: number,
       isSelected ?: boolean,
+      showChordName ?: boolean,
       uiMusaic ?: UIMusaic,
       uiClock ?: UIClock,
       uiScore ?: UIScore
     }= {}
     ) {
-
     this.pcs = pcs ?? new IPcs({strPcs:"0, 4, 8"});
     this.id = this.pcs.id.toString() + new Date().valueOf().toString(10);
     this.position = position ?? {x:50, y:50}
@@ -171,15 +172,12 @@ export class UIPcsDto {
     this.colorPitchOff = colorPitchOff ?? 'white';
     this.indexFormDrawer = indexFormDrawer ?? 0
     this.isSelected = isSelected ?? false
+    this.showChordName = showChordName ?? true
     this.uiMusaic = uiMusaic ? {... uiMusaic} : new UIMusaic()
     this.uiClock = uiClock ? {...uiClock} : new UIClock()
     this.uiScore = uiScore ? {...uiScore} : {
       height : 70,
       width: 104
     }
-
-    // this.indexFormDrawer = UIPcsDto.MUSAIC
-    //  this.uiMusaic.width = this.uiMusaic.widthCell * this.uiMusaic.nbCellsPerLine
-    //  this.uiMusaic.height = this.uiMusaic.widthCell * this.uiMusaic.nbCellsPerRow
   } // constructor
 }

@@ -21,7 +21,7 @@ export interface FinalElementMove {
 })
 export class ManagerPageWBService {
   private readonly _MIN_WIDTH = 25;
-  private readonly _GAP_BETWEEN = 20;
+  private readonly _GAP_BETWEEN = 13;
   static deltaPositionNewPcs = 20;
 
   history: HistoryT<UIPcsDto[]>
@@ -177,7 +177,7 @@ export class ManagerPageWBService {
 
         if (pcsDto.indexFormDrawer === UIPcsDto.SCORE) {
           // TODO do better, in reaction of abcjs render
-          if (pcsDto.pcs.cardinal > 4) {
+          if (pcsDto.pcs.cardinal >= 4) {
             pcsDto.height = (preferredSize / 2 >= 88) ? (preferredSize / 2) : preferredSize / 1.5
           } else {
             pcsDto.height = preferredSize
@@ -202,14 +202,12 @@ export class ManagerPageWBService {
     }
   }
 
-
   /**
    * Effect only is FormDrawer is Musaic (i.e musaic is shown rounded, not square)
    *
    * @param indexes list of this.uiPcsDtoList index
    * @param valueRounded
    */
-
   doSetRounded(indexes: number[], valueRounded: boolean) {
     // doToggleRounded(indexes: number[]) {
     this.uiPcsDtoList = [...this.uiPcsDtoList]
@@ -381,10 +379,41 @@ export class ManagerPageWBService {
         ...pcsDto, position: {x: pcsDto.position.x + deltaPosition, y: pcsDto.position.y + deltaPosition}, // do not share ref !
         isSelected: true
       })
+      // console.log(newPcsDto)
       newPcsDtos.push(newPcsDto)
     })
 
     this.uiPcsDtoList.push(...newPcsDtos)
+    this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
+    this.emit()
+  }
+
+  doToggleShowChordName(index: number) {
+    this.uiPcsDtoList = [...this.uiPcsDtoList]
+    let indexes : number[]
+
+    if (this.isIndexInElementSelected(index)) {
+      // do on all selected elements
+      indexes = this.orderedIndexesSelectedPcsDto
+    } else {
+      if (index < 0 || index >= this.uiPcsDtoList.length) {
+        throw new Error("oops bad index : " + index)
+      }
+      // do only for this one
+      indexes = [index]
+    }
+
+    // work with value of element target event
+    const valueShowChordName = ! this.uiPcsDtoList[index].showChordName
+
+    indexes.forEach(index => {
+      let pcsDto = this.uiPcsDtoList[index]
+      this.uiPcsDtoList[index] = new UIPcsDto({
+        ...pcsDto,
+        showChordName: valueShowChordName
+      })
+    })
+
     this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
     this.emit()
   }
@@ -558,7 +587,7 @@ export class ManagerPageWBService {
     // radius increase with number of selected elements.
     // Dividing it by four seems like a good choice, a good number (?)
     // rem : if selectedPcsIndexes.length == 4, radius is avg width
-    radius /= 5 //4
+    radius /= selectedPcsIndexes.length > 10 ? 5 : 4
 
     // dont hide elements (left and top) TODO right and bottom ?
     if (barycenter.x - radius < 0) barycenter.x += radius
@@ -602,6 +631,10 @@ export class ManagerPageWBService {
     return this.managerLocalStorageService.getSerialDataPcsDtoListFromLocalStorage();
   }
 
+  /**
+   * Return true if index param is into the list of indexes selected
+   * @param index
+   */
   isIndexInElementSelected(index: number) {
     return this.orderedIndexesSelectedPcsDto.includes(index);
   }
@@ -620,4 +653,5 @@ export class ManagerPageWBService {
   doOpenDialogAndSaveContentToFile() {
     this.dialogSaveAsFileNameService.openDialogForSaveIntoFile(this.dataSaveToFile)
   }
+
 }

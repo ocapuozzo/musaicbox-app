@@ -116,6 +116,9 @@ export class ScoreNotationComponent {
     if (this.pcs.id === 32106) {
       notes = "^F^G^AB^C'^D'^E'"
     }
+
+    // note : 0 3 6 9 => C D# F# A   (but waiting : C Eb Gb A)
+
     chord = '' //(this.pcsList.cardinal < 5) ? chord + ' ]  \n' : '' // experimental
     notes = chord ? notes + '|' : notes
 

@@ -4,5 +4,10 @@
   }"></div>
 } @else {
   <canvas #canvas [ngClass]="{'rounded-musaic': rounded,  'e-selected': pcsDto.isSelected}"></canvas>
+  @if (pcsDto.showChordName && pcsDto.indexFormDrawer === 1 && [3, 4].includes(pcsDto.pcs.cardinal)) {
+    <p class="text-center">
+      <span>{{ pcsDto.pcs.getChordName() }}</span>
+    </p>
+  }
 }
 

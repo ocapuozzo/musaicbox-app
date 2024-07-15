@@ -52,9 +52,13 @@
         zoom- (-)
         <span [hidden]="pcsDtoList[index].indexFormDrawer > 0">&nbsp; (cw={{sizeCellWidth(index)}})</span>
       </button>
-      <button class="contextual-menu-item" cdkMenuItem
+      <button *ngIf="isMusaicFormDrawer(index)" class="contextual-menu-item" cdkMenuItem
               (cdkMenuItemTriggered)="doSetRounded(index)">
-        <mat-slide-toggle [disabled]="disabledIfNotMusaicFormDrawer(index)" [checked]="isRounded(index)">Rounded</mat-slide-toggle>
+        <mat-slide-toggle [checked]="isRounded(index)">Rounded</mat-slide-toggle>
+      </button>
+      <button *ngIf="canShowChordName(index)" class="contextual-menu-item" cdkMenuItem
+              (cdkMenuItemTriggered)="doToggleShowChordName(index)">
+        <mat-slide-toggle [checked]="isShowChordName(index)">ChordName</mat-slide-toggle>
       </button>
       <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="align" [cdkMenuTriggerData]="{index: index}">
         Align <span>&#10148;</span>
@@ -96,9 +100,12 @@
 
   <ng-template #align let-index="index">
     <div class="contextual-menu"  cdkMenu>
-      <button class="contextual-menu-item" (cdkMenuItemTriggered)="doHorizontalAlign()" cdkMenuItem ><mat-icon> align_vertical_center</mat-icon></button>
-      <button class="contextual-menu-item" (cdkMenuItemTriggered)="doVerticalAlign()" cdkMenuItem ><mat-icon> align_horizontal_center</mat-icon></button>
-      <button class="contextual-menu-item" (cdkMenuItemTriggered)="doCircularAlign()" cdkMenuItem ><mat-icon aria-label="circular">workspaces</mat-icon></button>
+      <button class="contextual-menu-item" (cdkMenuItemTriggered)="doHorizontalAlign()"
+              cdkMenuItem [disabled]="numberSelectedComponents < 2"><mat-icon> align_vertical_center</mat-icon></button>
+      <button class="contextual-menu-item" (cdkMenuItemTriggered)="doVerticalAlign()"
+              cdkMenuItem [disabled]="numberSelectedComponents < 2" ><mat-icon> align_horizontal_center</mat-icon></button>
+      <button class="contextual-menu-item" (cdkMenuItemTriggered)="doCircularAlign()"
+              cdkMenuItem [disabled]="numberSelectedComponents < 2"><mat-icon aria-label="circular">workspaces</mat-icon></button>
     </div>
   </ng-template>
 

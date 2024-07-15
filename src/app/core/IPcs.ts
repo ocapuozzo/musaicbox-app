@@ -1170,7 +1170,7 @@ export class IPcs {
   }
 
   getChordName(): string {
-    return ([3, 4].includes(this.cardinal)) ? ChordNaming.getFirstChordName(this) : (this.getFirstScaleNameOrDerived().name ?? '') // or empty ??
+    return ([3, 4].includes(this.cardinal)) ? ChordNaming.getFirstChordName(this)  : '' // (this.getFirstScaleNameOrDerived().name ?? '') // or empty ??
   }
 
   getFirstScaleNameOrDerived() {
