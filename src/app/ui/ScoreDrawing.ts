@@ -37,7 +37,7 @@ export class ScoreDrawing {
    * rule3 : Preference for add a new spelling note, no existing based. Ex: C Db E, no C C# E
    * rule4 : no alteration double sharp or double flat
    * rule5 : no natural enharmonic. Example : F flat => E
-   * rule6 : when pcs is chord (has chord name) so preference minor third over second augmented and
+   * rule6 : when pcs is chord (has chord name) so preference minor third over augmented second and
    *         diminished fifth over augmented fourth
    */
   get fromPcsToScoreNotation(): string {
@@ -111,7 +111,7 @@ export class ScoreDrawing {
           ? value.indexOf("'") > 0 && value.length > 2 ? value[1] : value.indexOf("'") > 0 ? value[0] : value[1]
           : value)
 
-      // try to "step third", so one on two
+      // TRY to "step third", so one on two by a loop (third (1), fifth (2) and seventh (3) )
       // Ex : C D F  => C E G (succession of thirds)
       for (let i = 1; i < 4; i++) {
         let charThird = characterNoteArray[i]  // D
@@ -127,7 +127,7 @@ export class ScoreDrawing {
           // now replace noteArray[1] by third
           // E -> _F, B -> _C, ^D -> _E, etc.
           if (/*noteArray[i].startsWith("E") || noteArray[i].startsWith("B") ||*/ noteArray[i].startsWith("^")) {
-            if (noteArray[i].indexOf("'") > 0 || third === 'C') {
+            if (noteArray[i].indexOf("'") > 0 || third === 'C') { // abc logic
               noteArray[i] = "_" + third + "'"
             } else {
               noteArray[i] = "_" + third
@@ -138,7 +138,7 @@ export class ScoreDrawing {
       } // end for
       notes = noteArray.join(' ')
       // console.log("notes =", notes)
-    } // en 3 or 4chord
+    } // end 3 or 4chord
 
     chord = '' //(this.pcsList.cardinal < 5) ? chord + ' ]  \n' : '' // experimental
     notes = chord ? notes + '|' : notes
