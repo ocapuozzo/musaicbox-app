@@ -403,16 +403,22 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   }
 
   doDuplicate(index: number) {
-    const indexOfSelectedComponents =
-      this.pcsDtoList.map((value, index) => index)
-        .filter(index => this.pcsDtoList[index].isSelected)
-
-    this.doDeselectAll()
-    if (!indexOfSelectedComponents.includes(index)) {
-      this.managerPageWBService.doDuplicate([index])
-    } else {
-      this.managerPageWBService.doDuplicate(indexOfSelectedComponents)
-    }
+    // if (this.managerPageWBService.isIndexInElementSelected(index)){
+    //   this.managerPageWBService.doDuplicate()
+    // } else {
+      this.managerPageWBService.doDuplicate(index)
+    // }
+    //
+    // const indexOfSelectedComponents =
+    //   this.pcsDtoList.map((value, index) => index)
+    //     .filter(index => this.pcsDtoList[index].isSelected)
+    //
+    // this.doDeselectAll()
+    // if (!indexOfSelectedComponents.includes(index)) {
+    //   this.managerPageWBService.doDuplicate([index])
+    // } else {
+    //   this.managerPageWBService.doDuplicate(indexOfSelectedComponents)
+    // }
 
   }
 
@@ -446,12 +452,10 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
    * @param index
    */
   isSolo(index: number) {
-    const indexOfSelectedComponents =
-      this.pcsDtoList.map((value, index) => index)
-        .filter(index => this.pcsDtoList[index].isSelected)
+    return this.managerPageWBService.isIndexInElementSelected(index)
+    && this.managerPageWBService.orderedIndexesSelectedPcsDto.length === 1
+    || !this.managerPageWBService.orderedIndexesSelectedPcsDto.includes(index)
 
-    return !this.isSelected(index) || (indexOfSelectedComponents.length === 1
-      && indexOfSelectedComponents.includes(index))
   }
 
   get numberSelectedComponents(): number {
@@ -604,5 +608,9 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
 
   isShowChordName(index: number) {
     return this.pcsDtoList[index].showChordName
+  }
+
+  doDuplicateInOthersView(index: number) {
+    this.managerPageWBService.doDuplicateInOthersView(index)
   }
 }

@@ -43,7 +43,10 @@
         <mat-slide-toggle [checked]="isSelected(index)">Selected</mat-slide-toggle>
       </button>
       <button class="contextual-menu-item" cdkMenuItem (click)="doDelete(index)">Delete <span *ngIf="!isSolo(index)">&nbsp;({{numberSelectedComponents}})</span></button>
-      <button class="contextual-menu-item" cdkMenuItem (click)="doDuplicate(index)">Duplicate <span *ngIf="!isSolo(index)">&nbsp;({{numberSelectedComponents}})</span></button>
+<!--      <button class="contextual-menu-item" cdkMenuItem (click)="doDuplicate(index)">Duplicate <span *ngIf="!isSolo(index)">&nbsp;({{numberSelectedComponents}})</span></button>-->
+      <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="duplicate"  [cdkMenuTriggerData]="{index: index}">
+        Duplicate <span *ngIf="!isSolo(index)">&nbsp;({{numberSelectedComponents}})</span> <span> &#10148;</span>
+      </button>
       <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doZoom(1, index)">
         zoom+ (+)
         <span [hidden]="pcsDtoList[index].indexFormDrawer > 0">&nbsp; (cw={{sizeCellWidth(index)}})</span>
@@ -106,6 +109,15 @@
               cdkMenuItem [disabled]="numberSelectedComponents < 2" ><mat-icon> align_horizontal_center</mat-icon></button>
       <button class="contextual-menu-item" (cdkMenuItemTriggered)="doCircularAlign()"
               cdkMenuItem [disabled]="numberSelectedComponents < 2"><mat-icon aria-label="circular">workspaces</mat-icon></button>
+    </div>
+  </ng-template>
+
+
+  <ng-template #duplicate let-index="index">
+    <div class="contextual-menu" cdkMenu>
+      <button class="contextual-menu-item" (cdkMenuItemTriggered)="doDuplicate(index)" cdkMenuItem>Same  <span *ngIf="!isSolo(index)">&nbsp;({{numberSelectedComponents}})</span></button>
+      <button class="contextual-menu-item" (cdkMenuItemTriggered)="doDuplicateInOthersView(index)"  cdkMenuItem>Same in other views</button>
+
     </div>
   </ng-template>
 

@@ -1,5 +1,5 @@
 import {Component, ElementRef, Input, ViewChild} from '@angular/core';
-import {NgClass} from "@angular/common";
+import {NgClass, NgIf} from "@angular/common";
 import {UIPcsDto} from "../../ui/UIPcsDto";
 import {FormDraw} from "../../ui/FormDraw";
 import {MusaicFormDraw} from "../../ui/MusaicFormDraw";
@@ -17,7 +17,8 @@ import {ScoreFormDraw} from "../../ui/ScoreFormDraw";
   standalone: true,
   imports: [
     NgClass,
-    ScoreNotationComponent
+    ScoreNotationComponent,
+    NgIf
   ],
   templateUrl: './pcs.component.html',
   styleUrl: './pcs.component.css'

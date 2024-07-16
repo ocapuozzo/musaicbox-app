@@ -370,13 +370,24 @@ export class ManagerPageWBService {
   }
 
 
-  doDuplicate(indexes: number[], deltaPosition = 20) {
+  doDuplicate(index: number, deltaPosition = 20) {
     this.uiPcsDtoList = [...this.uiPcsDtoList]
     let newPcsDtos: UIPcsDto[] = []
-    indexes.forEach(index => {
+    let indexes : number[] = []
+
+    if (this.isIndexInElementSelected(index)) {
+      // do on all selected elements
+      indexes = this.orderedIndexesSelectedPcsDto
+    } else {
       if (index < 0 || index >= this.uiPcsDtoList.length) {
         throw new Error("oops bad index : " + index)
       }
+      // do only for this one
+      indexes = [index]
+    }
+
+    indexes.forEach(index => {
+
       let pcsDto = this.uiPcsDtoList[index]
 
       let newPcsDto = new UIPcsDto({
@@ -386,7 +397,7 @@ export class ManagerPageWBService {
       // console.log(newPcsDto)
       newPcsDtos.push(newPcsDto)
     })
-
+    this.doUnselectAll()
     this.uiPcsDtoList.push(...newPcsDtos)
     this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
     this.emit()
@@ -658,4 +669,34 @@ export class ManagerPageWBService {
     this.dialogSaveAsFileNameService.openDialogForSaveIntoFile(this.dataSaveToFile)
   }
 
+  doDuplicateInOthersView(index: number) {
+    const pcsDto = this.uiPcsDtoList[index]
+    let newPcsDto : UIPcsDto[] = []
+    this.DRAWERS.forEach((drawer, index) => {
+       if (index != pcsDto.indexFormDrawer) {
+         newPcsDto.push(new UIPcsDto({
+           ...pcsDto,
+           indexFormDrawer: index,
+           isSelected:true,
+           uiMusaic: new UIMusaic({...pcsDto.uiMusaic, rounded:true })
+         }))
+       }
+    })
+    this.uiPcsDtoList = [...this.uiPcsDtoList, ...newPcsDto]
+
+    this.orderedIndexesSelectedPcsDto.forEach(index => {
+      this.uiPcsDtoList[index].isSelected = false
+    })
+
+    this.uiPcsDtoList[index].isSelected = true
+    this.orderedIndexesSelectedPcsDto = []
+
+    this.orderedIndexesSelectedPcsDto.push(index)
+    //start to one (because already pcsDto is in place)
+    for (let i = 1; i < this.DRAWERS.length; i++) {
+      // add last indexes
+      this.orderedIndexesSelectedPcsDto.push(this.uiPcsDtoList.length-i)
+    }
+    this.doCircularAlign()
+  }
 }

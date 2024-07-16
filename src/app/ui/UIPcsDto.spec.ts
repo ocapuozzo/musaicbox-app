@@ -3,14 +3,14 @@ import {UIPcsDto} from "./UIPcsDto";
 describe('UIPcsDto', () => {
   it ('default values', () => {
     const pcsDto = new UIPcsDto()
-    expect(pcsDto.width).toEqual(88)
+    expect(pcsDto.width).toEqual(91)
   })
 
 
   it ('update musaic width V2', () => {
     let pcsDto = new UIPcsDto()
 
-    expect(pcsDto.width).toEqual(88)
+    expect(pcsDto.width).toEqual(91)
 
     pcsDto.width = 40
 

@@ -125,10 +125,10 @@ export class UIPcsDto {
         case UIPcsDto.MUSAIC :
           return this.uiMusaic.height
         case UIPcsDto.CLOCK :
-          if (this.showChordName) return this.uiClock.height + 16
+          // if (this.showChordName) return this.uiClock.height + 16
           return this.uiClock.height
         case UIPcsDto.SCORE :
-          return this.uiScore.height
+          return this.uiScore.height - 10 // difficult to set good height
         default :
           return this.uiMusaic.height
       }
