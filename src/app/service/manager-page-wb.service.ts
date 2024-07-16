@@ -91,7 +91,7 @@ export class ManagerPageWBService {
     this.eventChangePcsPdoList.emit(this.uiPcsDtoList)
   }
 
-  addPcs(somePcs: IPcs[]) {
+  addPcs(somePcs: IPcs[], circularAlign : boolean = false ) {
     this.doUnselectAll()
     this.uiPcsDtoList = [...this.uiPcsDtoList]
 
@@ -120,8 +120,12 @@ export class ManagerPageWBService {
       // add index of last element
       this.orderedIndexesSelectedPcsDto.push(this.uiPcsDtoList.length - 1)
     }) // end for each
-    this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
-    this.emit()
+    if (circularAlign) {
+      this.doCircularAlign()
+    } else {
+      this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
+      this.emit()
+    }
   }
 
   private readonly OFFSET_ZOOM = 13;

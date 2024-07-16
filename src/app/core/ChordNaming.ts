@@ -4,7 +4,7 @@ export class ChordNaming {
 
   static NOTE_NAMES_SHARP = ['C', 'C♯', 'D', 'D♯', 'E', 'F', 'F♯', 'G', 'G♯', 'A', 'A♯', 'B']
   static NOTE_NAMES_FLAT = ['C', 'D♭', 'D', 'E♭', 'E', 'F', 'G♭', 'G', 'A♭', 'A', 'B♭', 'B']
-  static INDEX_SHARP_FLAT = [1, 3, 6, 8, 10]
+  static INDEX_ALTERED_NOTES = [1, 3, 6, 8, 10]
 
   /**
    * List of chordNames : key = 'modalPrimeForm as string', value = chord name
@@ -12,7 +12,7 @@ export class ChordNaming {
   static chordsModalPF = new Map<string, string>()
 
   /**
-   * A list of "current" chords.
+   * A list of "current" chords.Des
    * Chords are identify from this list.
    * Add or remove elements of this list is the only operation to have chord recognized, or not.
    */
@@ -153,22 +153,28 @@ export class ChordNaming {
    * Get chord name 4 pitches first then 3 pitches if exists else empty string
    * Root chord is given by iPivot
    * @param pcs
+   * @param nbPitches value of k (kChord)
    */
-  static getFirstChordName(pcs: IPcs): string {
-    const chords3pitches = ChordNaming.getKeysChord(pcs, 3)
-    const chords4pitches = ChordNaming.getKeysChord(pcs, 4)
+  static getFirstChordName(pcs: IPcs, nbPitches : number = 3): string {
+    let chordsNPitches : string[] = []
+    if (nbPitches >= 3 && nbPitches <= 4 ) {
+      chordsNPitches = ChordNaming.getKeysChord(pcs, nbPitches)
+    }
+    // const chords3pitches = ChordNaming.getKeysChord(pcs, 3)
+    // const chords4pitches = ChordNaming.getKeysChord(pcs, 4)
 
-    const _chordName: string = ChordNaming.chordsModalPF.get(chords4pitches[0])
-      ?? ChordNaming.chordsModalPF.get(chords3pitches[0])
-      ?? ''
+    // const _chordName: string = ChordNaming.chordsModalPF.get(chords4pitches[0])
+    //   ?? ChordNaming.chordsModalPF.get(chords3pitches[0])
+    //   ?? ''
+    const _chordName = chordsNPitches.length > 0 ? ChordNaming.chordsModalPF.get(chordsNPitches[0]) : undefined
 
-    if (!_chordName) return ''
+    if (_chordName === undefined) return ''
 
     let nameRoot = ''
     const indexNameRoot = pcs.iPivot != undefined ? pcs.templateMappingBinPcs[pcs!.iPivot] : -1
-    if (indexNameRoot in ChordNaming.INDEX_SHARP_FLAT) {
+    if (indexNameRoot in ChordNaming.INDEX_ALTERED_NOTES) {
       // select # or b.
-      // If pitch p exists in mapping, do not select p#, but flatted (p+1)
+      // If pitch p exists in mapping, do not select p#, but flatted (p+1) -- hum, why ?
       if (pcs.templateMappingBinPcs.includes(indexNameRoot)) {
         nameRoot = ChordNaming.NOTE_NAMES_FLAT[indexNameRoot]
       } else {
@@ -176,7 +182,7 @@ export class ChordNaming {
       }
     } else if (indexNameRoot >= 0) {
       // no altered
-      nameRoot = ChordNaming.NOTE_NAMES_FLAT[indexNameRoot] // or NOTE_NAMES_SHARP what does it matter
+      nameRoot = ChordNaming.NOTE_NAMES_SHARP[indexNameRoot] // or NOTE_NAMES_FLAT what does it matter
     }
     // console.log('nameRoot = ' + nameRoot)
     // console.log('chordName = ' + _chordName)

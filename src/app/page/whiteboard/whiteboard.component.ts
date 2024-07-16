@@ -143,7 +143,8 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
 
   ngOnDestroy() {
     // remove listener
-    this.listenerRenderer2Mousemove();
+    this.listenerRenderer2Mousemove()
+    this.listenerRenderer2Touchmove()
   }
 
   ngOnInit() {

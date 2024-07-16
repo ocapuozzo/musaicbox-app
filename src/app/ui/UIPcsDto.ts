@@ -125,6 +125,7 @@ export class UIPcsDto {
         case UIPcsDto.MUSAIC :
           return this.uiMusaic.height
         case UIPcsDto.CLOCK :
+          if (this.showChordName) return this.uiClock.height + 16
           return this.uiClock.height
         case UIPcsDto.SCORE :
           return this.uiScore.height

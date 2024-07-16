@@ -70,7 +70,7 @@ export class The88Component implements OnInit {
   constructor(private readonly managerHomePcsService: ManagerPagePcsService,
               private readonly router: Router,
               private readonly managerLocalStorageService: ManagerLocalStorageService,
-              private readonly managerPageWBService : ManagerPageWBService) {
+              private readonly managerPageWBService: ManagerPageWBService) {
 
     function makePcsDto(pcs: IPcs): UIPcsDto {
       let uiMus = new UIMusaic({
@@ -167,25 +167,21 @@ export class The88Component implements OnInit {
     this.router.navigateByUrl('/w-board');
   }
 
-  doPushSelectionToWhiteboardPage(color : string) {
+  doPushSelectionToWhiteboardPage(color: string) {
     let selectedOrbits = this.listOrbits.filter(orbit => orbit.pcsDto.colorPitchOn === color)
-      // this.currentSelectedOp.length > 1
-      //   ? this.listOrbits.filter(orbit => orbit.pcsDto.colorPitchOn !== 'black')
-      //   : this.listOrbits.filter(orbit => orbit.pcsDto.colorPitchOn === 'black')
 
-     if (selectedOrbits.length > 0) {
-       let template = new UIPcsDto({...selectedOrbits[0].pcsDto})
-       if (selectedOrbits.length > 20) {
-         template.uiMusaic = new UIMusaic({...template.uiMusaic, widthCell:3, width:26, height:26})
-       }
-       this.managerPageWBService.setPcsDtoForTemplate(template)
-       this.managerPageWBService.addPcs(selectedOrbits.map(orbit => orbit.pcsDto.pcs))
-       this.managerPageWBService.doCircularAlign()
-       this.router.navigateByUrl('/w-board');
-     }
+    if (selectedOrbits.length > 0) {
+      let template = new UIPcsDto({...selectedOrbits[0].pcsDto})
+      if (selectedOrbits.length > 20) {
+        template.uiMusaic = new UIMusaic({...template.uiMusaic, widthCell: 3, width: 26, height: 26})
+      }
+      this.managerPageWBService.setPcsDtoForTemplate(template)
+      this.managerPageWBService.addPcs(selectedOrbits.map(orbit => orbit.pcsDto.pcs), true)
+      this.router.navigateByUrl('/w-board');
+    }
   }
 
   cardinalWithThisColor(color: string) {
-    return this.listOrbits.reduce((countSameColor, orbit) => orbit.pcsDto.colorPitchOn === color ? countSameColor +1 : countSameColor, 0);
+    return this.listOrbits.reduce((countSameColor, orbit) => orbit.pcsDto.colorPitchOn === color ? countSameColor + 1 : countSameColor, 0);
   }
 }
