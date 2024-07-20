@@ -1145,6 +1145,12 @@ export class IPcs {
       : this.abinPcs;
   }
 
+
+  getMappedPivot() {
+    return this.templateMappingBinPcs[this.iPivot ?? 0]
+  }
+
+
   isDetached(): boolean {
     return this.orbit.isDetached()
   }

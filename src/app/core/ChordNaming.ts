@@ -1,4 +1,5 @@
 import {IPcs} from "./IPcs";
+import {ScoreDrawingAbcNotation} from "../ui/ScoreDrawingAbcNotation";
 
 export class ChordNaming {
 
@@ -12,7 +13,7 @@ export class ChordNaming {
   static chordsModalPF = new Map<string, string>()
 
   /**
-   * A list of "current" chords.Des
+   * A list of "current" chords.
    * Chords are identify from this list.
    * Add or remove elements of this list is the only operation to have chord recognized, or not.
    */
@@ -63,16 +64,16 @@ export class ChordNaming {
    * From pcs, get list of possible currents chords
    * @param pcs
    * @param nPitches 3 or 4 (3 or 4 pitches chords) to obtain
-   * @return string[] list of pcs in string representation (cardinal 3 or 4)
+   * @return string[] list of pcs in string representation (cardinal nPitches)
    */
   static getKeysChord(pcs: IPcs, nPitches: number): string[] {
     let chordPcsList: string[] = []
 
     if (pcs.cardinal < 3) return chordPcsList
 
-    let pivot = pcs.templateMappingBinPcs[pcs.iPivot ?? 0]
+    let pivot = pcs.getMappedPivot()
     let binPcs = pcs.getMappedBinPcs()
-    let n = pcs.nMapping
+    let n = pcs.nMapping // 12 waiting
 
     let key = ''
     for (let minorMajor of [3, 4]) {
@@ -171,14 +172,37 @@ export class ChordNaming {
     if (_chordName === undefined) return ''
 
     let nameRoot = ''
-    const indexNameRoot = pcs.iPivot != undefined ? pcs.templateMappingBinPcs[pcs!.iPivot] : -1
-    if (indexNameRoot in ChordNaming.INDEX_ALTERED_NOTES) {
+    const indexNameRoot = pcs.iPivot != undefined ? pcs.getMappedPivot() : -1
+    // console.log("indexNameRoot = ", indexNameRoot)
+    if (ChordNaming.INDEX_ALTERED_NOTES.includes(indexNameRoot)) {
       // select # or b.
-      // If pitch p exists in mapping, do not select p#, but flatted (p+1) -- hum, why ?
-      if (pcs.templateMappingBinPcs.includes(indexNameRoot)) {
+      // // If pitch p exists in mapping, do not select p#, but flatted (p+1) -- hum, why ?
+      // if (pcs.templateMappingBinPcs.includes(indexNameRoot)) {
+      //   nameRoot = ChordNaming.NOTE_NAMES_FLAT[indexNameRoot]
+      // } else {
+      //   nameRoot = ChordNaming.NOTE_NAMES_SHARP[indexNameRoot]
+      // }
+
+      // ref cycle of fifths
+      // https://fr.wikipedia.org/wiki/Cycle_des_quintes#/media/Fichier:Circle_of_fifths_deluxe_4_french.svg
+      if (indexNameRoot > 6 ) {
         nameRoot = ChordNaming.NOTE_NAMES_FLAT[indexNameRoot]
+        // exception when chord
+        if ([3,4].includes(pcs.cardinal)) {
+          // based on score notation for set name root
+          if (!ScoreDrawingAbcNotation.fromPcsToABCNotation(pcs).substring(0,2).includes(nameRoot[0])) {
+            nameRoot = ChordNaming.NOTE_NAMES_SHARP[indexNameRoot]
+          }
+        }
       } else {
         nameRoot = ChordNaming.NOTE_NAMES_SHARP[indexNameRoot]
+        // exception when chord
+        if ([3,4].includes(pcs.cardinal)) {
+          // based on score notation for set name root
+          if (!ScoreDrawingAbcNotation.fromPcsToABCNotation(pcs).substring(0,2).includes(nameRoot[0])) {
+            nameRoot = ChordNaming.NOTE_NAMES_FLAT[indexNameRoot]
+          }
+        }
       }
     } else if (indexNameRoot >= 0) {
       // no altered

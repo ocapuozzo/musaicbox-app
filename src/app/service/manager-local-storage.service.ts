@@ -44,7 +44,7 @@ export class ManagerLocalStorageService {
       let obj = {
         ...pcsDto,
         isSelected: false,
-        pcs: pcsDto.pcs.getPcsStr()  // simple serial pcs (string)
+        pcs: {pcsStr:pcsDto.pcs.getPcsStr(), iPivot:pcsDto.pcs.iPivot}   // simple serial pcs (string)
       }
       savListPcsDto.push(obj)
     })
@@ -67,10 +67,10 @@ export class ManagerLocalStorageService {
       let restoreListPcsDto: any[] = JSON.parse(contentJson || "[]")
 
       // update value (and type) of attribut 'pcs' from 'pcs string' to 'instance of IPcs'
-      restoreListPcsDto.forEach(pcsDto => {
+      restoreListPcsDto.forEach(pcsSerialDto => {
         let obj = new UIPcsDto({
-          ...pcsDto,
-          pcs: new IPcs({strPcs: pcsDto.pcs})
+          ...pcsSerialDto,
+          pcs: new IPcs({strPcs: pcsSerialDto.pcs.pcsStr, iPivot:pcsSerialDto.pcs.iPivot})
         })
         listPcsDto.push(obj)
       })

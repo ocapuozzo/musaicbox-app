@@ -68,8 +68,8 @@ export class UIScore {
   width: number
   height : number
   constructor({width, height}:{width ?: number, height ?: number}={})  {
-    this.width = width ?? 80;
-    this.height = height ?? 30;
+    this.width = width ?? 130;
+    this.height = height ?? 76;
   }
 }
 
@@ -177,8 +177,8 @@ export class UIPcsDto {
     this.uiMusaic = uiMusaic ? {... uiMusaic} : new UIMusaic()
     this.uiClock = uiClock ? {...uiClock} : new UIClock()
     this.uiScore = uiScore ? {...uiScore} : {
-      height : 70,
-      width: 104
+      height : 76,
+      width: 130
     }
   } // constructor
 }
