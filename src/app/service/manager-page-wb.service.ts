@@ -75,7 +75,7 @@ export class ManagerPageWBService {
       new UIPcsDto({pcs: pcs1, indexFormDrawer: 0, position: {x: 0, y: 10}}),
       new UIPcsDto({pcs: pcs2, indexFormDrawer: 1, position: {x: 110, y: 10}, isSelected: true}),
       new UIPcsDto({pcs: pcs3, indexFormDrawer: 2, position: {x: 220, y: 10}, isSelected: true}),
-      new UIPcsDto({pcs: pcs4, width: 35, height: 35, indexFormDrawer: 0, position: {x: 340, y: 10}, uiMusaic: uiMus})
+      new UIPcsDto({pcs: pcs4, indexFormDrawer: 0, position: {x: 400, y: 30}, uiMusaic: {...uiMus, width:35, height:35, widthCell:3} })
     ]
     let restorePcsDtoList = this.managerLocalStorageService.getPcsDtoListFromLocalStorage()
     this.uiPcsDtoList = restorePcsDtoList.length === 0 ? pcsDtoList : restorePcsDtoList

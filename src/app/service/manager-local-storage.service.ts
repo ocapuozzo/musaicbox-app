@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {IOrbitMusaic} from "../page/the88/the88.component";
 import {EightyEight} from "../utils/EightyEight";
 import {UIPcsDto} from "../ui/UIPcsDto";
 import {IPcs} from "../core/IPcs";
@@ -43,8 +42,9 @@ export class ManagerLocalStorageService {
     listPcsDto.forEach(pcsDto => {
       let obj = {
         ...pcsDto,
+        pcs:null, // pcs is no serialized (object complex in relationship)
         isSelected: false,
-        pcs: {pcsStr:pcsDto.pcs.getPcsStr(), iPivot:pcsDto.pcs.iPivot}   // simple serial pcs (string)
+        serializedPcs: {pcsStr:pcsDto.pcs.getPcsStr(), iPivot:pcsDto.pcs.iPivot}   // simple serial pcs (string)
       }
       savListPcsDto.push(obj)
     })
@@ -68,9 +68,17 @@ export class ManagerLocalStorageService {
 
       // update value (and type) of attribut 'pcs' from 'pcs string' to 'instance of IPcs'
       restoreListPcsDto.forEach(pcsSerialDto => {
+        let pcs : IPcs
+        if (typeof(pcsSerialDto.pcs) === 'string') {
+          // for compatibility with first version (pivot is lost)
+          pcs = new IPcs({strPcs: pcsSerialDto.pcs})
+        } else {
+          // get info via serializedPcs attribut
+          pcs = new IPcs({strPcs: pcsSerialDto.serializedPcs.pcsStr, iPivot:pcsSerialDto.serializedPcs.iPivot})
+        }
         let obj = new UIPcsDto({
           ...pcsSerialDto,
-          pcs: new IPcs({strPcs: pcsSerialDto.pcs.pcsStr, iPivot:pcsSerialDto.pcs.iPivot})
+          pcs:pcs
         })
         listPcsDto.push(obj)
       })

@@ -1,5 +1,11 @@
 import {IPcs} from "../core/IPcs";
 
+export interface ISerializedPcs  {
+  pcsStr : string
+  iPivot : number
+}
+
+
 export class UIMusaic {
   rounded: boolean
   position : {x: number, y: number}
@@ -80,7 +86,12 @@ export class UIPcsDto {
   // TODO others index...
 
   id : string
+
+  // pcs will not be serialized (transient)
   pcs : IPcs = new IPcs({strPcs:"0, 4, 8"})
+
+  serializedPcs : ISerializedPcs
+
   position: { x: number; y: number }
   colorPitchOn : string = 'black'
   colorPitchOff : string = 'white'
@@ -150,12 +161,11 @@ export class UIPcsDto {
   }
 
   constructor(
-    {pcs, position, width, height, colorPitchOn, colorPitchOff, indexFormDrawer, isSelected, showChordName, uiMusaic, uiClock, uiScore} : {
+    {pcs, serializedPcs, position, colorPitchOn, colorPitchOff, indexFormDrawer, isSelected, showChordName, uiMusaic, uiClock, uiScore} : {
       // id : string,
       pcs ?: IPcs, //new IPcs({strPcs:"0, 4, 8"}),
+      serializedPcs ?: ISerializedPcs,
       position ?: {x:number, y:number},
-      width ?: number,
-      height ?: number,
       colorPitchOn ?: string,
       colorPitchOff ?: string,
       indexFormDrawer ?: number,
@@ -166,15 +176,21 @@ export class UIPcsDto {
       uiScore ?: UIScore
     }= {}
     ) {
-    this.pcs = pcs ?? new IPcs({strPcs:"0, 4, 8"});
+
+    this.serializedPcs = serializedPcs ?? {pcsStr:'', iPivot:0}
+    this.pcs = pcs ? pcs
+      : this.serializedPcs.pcsStr ? new IPcs({strPcs:this.serializedPcs.pcsStr, iPivot:this.serializedPcs.iPivot})
+      : new IPcs({strPcs:"0, 4, 8"});
+
     this.id = this.pcs.id.toString() + new Date().valueOf().toString(10);
+
     this.position = position ?? {x:50, y:50}
-    this.colorPitchOn = colorPitchOn ?? 'black' ;
-    this.colorPitchOff = colorPitchOff ?? 'white';
+    this.colorPitchOn = colorPitchOn ?? 'black'
+    this.colorPitchOff = colorPitchOff ?? 'white'
     this.indexFormDrawer = indexFormDrawer ?? 0
     this.isSelected = isSelected ?? false
     this.showChordName = showChordName ?? true
-    this.uiMusaic = uiMusaic ? {... uiMusaic} : new UIMusaic()
+    this.uiMusaic = uiMusaic ?? new UIMusaic()
     this.uiClock = uiClock ? {...uiClock} : new UIClock()
     this.uiScore = uiScore ? {...uiScore} : {
       height : 76,

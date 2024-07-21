@@ -81,8 +81,6 @@ export class The88Component implements OnInit {
       })
       return new UIPcsDto({
         pcs: pcs,
-        height: 52,
-        width: 52,
         uiMusaic: uiMus
       })
     }
