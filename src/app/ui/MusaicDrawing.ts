@@ -69,7 +69,8 @@ export class MusaicDrawing {
         }
       }
     }
-    ctx.strokeStyle = this.pcsDto.colorPitchOn
-    ctx.strokeRect(0,0, CEL_WIDTH * (n+1) -1, CEL_WIDTH * (n+1) -1)
+    // border draw by musaic.css : outline: 1px solid back;
+    // ctx.strokeStyle = this.pcsDto.colorPitchOn
+   // ctx.strokeRect(0,0, CEL_WIDTH * (n+1) -1, CEL_WIDTH * (n+1) -1)
   }
 }

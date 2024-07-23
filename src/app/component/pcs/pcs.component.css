@@ -4,13 +4,16 @@
 /*}*/
 
 
-.rounded-musaic {
+.musaic {
   overflow:hidden;
-  /*clip-path: circle();*/
+  outline: 1px solid black;
+}
+
+.rounded-musaic {
   -webkit-border-radius:50%;
   -moz-border-radius: 50%;
   /*border-radius:50px;*/
-  outline: 1px solid black;
+  /*outline: 1px solid back;*/
 }
 
 .e-selected {
