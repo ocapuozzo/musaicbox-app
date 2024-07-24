@@ -190,7 +190,8 @@ export class UIPcsDto {
     this.indexFormDrawer = indexFormDrawer ?? 0
     this.isSelected = isSelected ?? false
     this.showChordName = showChordName ?? true
-    this.uiMusaic = uiMusaic ?? new UIMusaic()
+    // construct 3 new objects (else they are shared)
+    this.uiMusaic = uiMusaic ? {...uiMusaic} : new UIMusaic()
     this.uiClock = uiClock ? {...uiClock} : new UIClock()
     this.uiScore = uiScore ? {...uiScore} : {
       height : 76,

@@ -101,7 +101,7 @@ export class ManagerPageWBService {
     somePcs.forEach(pcs => {
       let pcsDto =
         this.pcsDtoForTemplate
-          ? new UIPcsDto({...this.pcsDtoForTemplate})
+          ? new UIPcsDto({...this.pcsDtoForTemplate, uiMusaic:{...this.pcsDtoForTemplate.uiMusaic}})
           : new UIPcsDto()
       pcsDto.pcs = pcs
       ManagerPageWBService.deltaPositionNewPcs += this._GAP_BETWEEN
