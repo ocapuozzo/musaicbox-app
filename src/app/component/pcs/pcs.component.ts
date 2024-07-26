@@ -92,4 +92,5 @@ export class PcsComponent {
     this.formDrawing.drawForm(this._pcsDto, this.canvas);
   }
 
+  protected readonly UIPcsDto = UIPcsDto;
 }
