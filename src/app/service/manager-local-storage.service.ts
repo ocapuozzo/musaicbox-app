@@ -63,26 +63,24 @@ export class ManagerLocalStorageService {
   getPcsDtoListFromJsonContent(contentJson: string): UIPcsDto[] {
     let listPcsDto: UIPcsDto[] = []
     try {
-      // @ts-ignore
-      let restoreListPcsDto: any[] = JSON.parse(contentJson || "[]")
+      let restoreListPcsDto: any[] = JSON.parse(contentJson || "[]") ?? []
 
-      // update value (and type) of attribut 'pcs' from 'pcs string' to 'instance of IPcs'
       restoreListPcsDto.forEach(pcsSerialDto => {
+        // update value (and type) of property 'pcs' from 'string' to 'instance of IPcs'
         let pcs : IPcs
         if (typeof(pcsSerialDto.pcs) === 'string') {
-          // for compatibility with first version (pivot is lost)
+          // for compatibility with first version (but pivot is lost)
           pcs = new IPcs({strPcs: pcsSerialDto.pcs})
-        } else {
-          // get info via serializedPcs attribut
+        } else { // an object
+          // get info via serializedPcs property
           pcs = new IPcs({strPcs: pcsSerialDto.serializedPcs.pcsStr, iPivot:pcsSerialDto.serializedPcs.iPivot})
         }
         let obj = new UIPcsDto({
           ...pcsSerialDto,
-          pcs:pcs
+          pcs:pcs // set pcs object
         })
         listPcsDto.push(obj)
       })
-
     } catch (e: any) {
       // nothing
     }

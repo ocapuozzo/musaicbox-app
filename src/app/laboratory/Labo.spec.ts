@@ -132,7 +132,7 @@ describe('Laboratory explorer', () => {
       arrayCard[entryPcs[1].length]++
     }
 
-    for (let i = (0 + 1); i < arrayCard.length; i++) {
+    for (let i = (1); i < arrayCard.length; i++) {
       console.log(`[${i}] = ${arrayCard[i]}`)
     }
 
@@ -260,6 +260,6 @@ describe('Laboratory explorer', () => {
     expect(pcsSameFeatureIS.length).toEqual(29) // 30 - chromatic scale
   })
 
-  // TODO see centre de gravité ?
+  // TODO see gravity center  ?
 
 })

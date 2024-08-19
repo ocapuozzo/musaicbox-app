@@ -102,6 +102,21 @@ describe('MusaicPcsOperation', () => {
   })
 
 
+  // Essential properties of Composition in Category (id, associative)
+  // https://bartoszmilewski.com/2014/11/04/category-the-essence-of-composition/
+
+  it("identity operation", () => {
+    let opId = new MusaicPcsOperation(12, 1, 0, false);
+    expect(opId.compose(opId).equals(opId)).toBeTrue()
+    let opM5_T3 = new MusaicPcsOperation(12, 5, 3, false);
+    expect(opId.compose(opM5_T3).equals(opM5_T3)).toBeTrue()
+    expect(opM5_T3.compose(opId).equals(opM5_T3)).toBeTrue() // associative
+
+    let opCM5_T3 = new MusaicPcsOperation(12, 5, 3, true);
+    expect(opId.compose(opCM5_T3).equals(opCM5_T3)).toBeTrue()
+    expect(opCM5_T3.compose(opId).equals(opCM5_T3)).toBeTrue() // associative
+
+  })
 
   it("no Commutative but Associative operation ", () => {
     let opM1_T2 = new MusaicPcsOperation(12, 1, 2, false);
@@ -110,9 +125,9 @@ describe('MusaicPcsOperation', () => {
 
     // no multiplication => commutative
     // action T3 first and T11 second
-    expect(opM1_T2.equals(opM1_T11.compose(opM1_T3))).toBeTruthy();
+    expect(opM1_T2.equals(opM1_T11.compose(opM1_T3))).toBeTrue();
     // action T11 first and T3 second
-    expect(opM1_T2.equals(opM1_T3.compose(opM1_T11))).toBeTruthy();
+    expect(opM1_T2.equals(opM1_T3.compose(opM1_T11))).toBeTrue();
 
     let opM8_T2 = new MusaicPcsOperation(12, 8, 2, false);
     let opM4_T3 = new MusaicPcsOperation(12, 4, 3, false);
@@ -120,26 +135,35 @@ describe('MusaicPcsOperation', () => {
     let opM8_T11 = new MusaicPcsOperation(12, 8, 11, false);
 
     // associative ?  f . (g . h) = (f . g) . h
-    let left = opM8_T2.compose(opM5_T11.compose(opM4_T3))
-    let right = opM8_T2.compose(opM5_T11).compose(opM4_T3)
-    expect(right.getHashCode()).toEqual(left.getHashCode())
+    let left : MusaicPcsOperation  = opM8_T2.compose(opM5_T11.compose(opM4_T3))
+    let right : MusaicPcsOperation = opM8_T2.compose(opM5_T11).compose(opM4_T3)
+    expect(right.equals(left)).toBeTrue()
 
     // commutative if t=0 (no translation)
     let opM7_T0 = new MusaicPcsOperation(12, 7, 0, false);
     let opM5_T0 = new MusaicPcsOperation(12, 5, 0, false);
     const op1 = opM7_T0.compose(opM5_T0)
     const op2 = opM5_T0.compose(opM7_T0)
-    expect(op1.getHashCode()).toEqual(op2.getHashCode())
+    expect(op1.equals(op2)).toBeTrue()
 
     // No commutative
-    // action  M5-T11 ° M4-T3   => opM8-T2
-    expect(opM8_T2.getHashCode()).toEqual(opM5_T11.compose(opM4_T3).getHashCode())
-    // action  M4-T3  ° M5-T11  <> M5-T11 ° M4-T3
-    expect(opM8_T2.getHashCode()).not.toEqual(opM4_T3.compose(opM5_T11).getHashCode())
+    // action  M5-T11 ° M4-T3 => opM8-T2
+    expect(opM8_T2.equals(opM5_T11.compose(opM4_T3))).toBeTrue()
+    // action  M5-T11 ° M4-T3 <> M4-T3 ° M5-T11
+    expect(opM8_T2.equals(opM4_T3.compose(opM5_T11))).not.toBeTrue()
     // action  M4-T3  ° M5-T11 => opM8-T11 (not opM8-T2)
-    expect(opM8_T11.getHashCode()).toEqual(opM4_T3.compose(opM5_T11).getHashCode())
+    expect(opM4_T3.compose(opM5_T11).equals(opM8_T11)).toBeTrue()
+    expect(opM4_T3.compose(opM5_T11).equals(opM8_T2)).not.toBeTrue()
 
-    // ok TODO others test
+    let opCM8_T2 = new MusaicPcsOperation(12, 8, 2, true);
+    let opCM5_T11 = new MusaicPcsOperation(12, 5, 11, true);
+
+    expect(opCM8_T2.equals(opCM5_T11.compose(opM4_T3))).toBeTrue()
+    // action  CM5-T11 ° M4-T3 <> M4-T3 ° CM5-T11
+    expect(opCM8_T2.equals(opM4_T3.compose(opCM5_T11))).not.toBeTrue()
+
+    // TODO more test ?
+
   })
 
   it('getFixedPcs', () => {

@@ -3,7 +3,7 @@
 'e-selected': pcsDto.isSelected,
   }"></div>
 } @else {
-  <canvas #canvas [ngClass]="{'musaic': true, 'rounded-musaic': rounded,  'e-selected': pcsDto.isSelected}"></canvas>
+  <canvas #canvas [ngClass]="{'musaic': pcsDto.indexFormDrawer==0, 'rounded-musaic': rounded,  'e-selected': pcsDto.isSelected}"></canvas>
 <!--  @if (pcsDto.showChordName && pcsDto.indexFormDrawer === 1 && [3, 4].includes(pcsDto.pcs.cardinal)) {-->
     <p *ngIf="pcsDto.showChordName && pcsDto.indexFormDrawer === 1 && [3, 4].includes(pcsDto.pcs.cardinal)"
        class="text-center" [style.line-height]="pcsDto.width <= 39 ? '50%': '80%'" style="margin: 0; padding: 0;">

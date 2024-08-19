@@ -92,10 +92,9 @@ export class MusaicPcsOperation {
       return false;
     if (this.complement !== other.complement)
       return false;
-    if (this.t !== other.t)
-      return false;
 
-    return true;
+    return this.t === other.t;
+
   }
 
   /**
