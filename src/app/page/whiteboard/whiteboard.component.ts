@@ -8,9 +8,9 @@ import {
 } from "@angular/cdk/menu";
 import {
   AfterViewInit,
-  Component, ElementRef, HostListener, inject, model,
+  Component, ElementRef, HostListener,
   OnInit,
-  Renderer2, SecurityContext, signal,
+  Renderer2,
   ViewChild
 } from '@angular/core';
 import {CdkDrag, CdkDragHandle} from "@angular/cdk/drag-drop";
@@ -29,11 +29,7 @@ import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
 import {Router} from "@angular/router";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
 import {RectSelectorComponent, Shape} from "../../component/rect-selector/rect-selector.component";
-import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
 import {FormsModule} from "@angular/forms";
-import {MatDialog} from "@angular/material/dialog";
-import {DialogSaveToFileComponent} from "../../component/dialog-save-to-file/dialog-save-to-file.component";
-import {IDialogDataSaveToFile} from "../../component/dialog-save-to-file/IDialogDataSaveToFile";
 
 interface ElementMove {
   elt: HTMLElement,
@@ -82,12 +78,12 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   /**
    * For mouseMoveListener
    */
-  listenerRenderer2Mousemove: Function;
+  unlistenerRenderer2Mousemove: Function;
 
   /**
    * For mouseMoveListener
    */
-  listenerRenderer2Touchmove: Function;
+  unlistenerRenderer2Touchmove: Function;
 
 
   /**
@@ -125,12 +121,12 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
 
   protected isRectangleSelecting: boolean;
 
-  initPositionRectSelector = new Point(400, 300)
+  initPositionRectSelector = new Point(0, 0)
 
   constructor(private managerPageWBService: ManagerPageWBService,
               private readonly managerPagePcsService: ManagerPagePcsService,
               private readonly router: Router,
-              private renderer: Renderer2) {
+              private renderer2: Renderer2) {
 
     this.pcsDtoList = this.managerPageWBService.uiPcsDtoList
     this.drawers = this.managerPageWBService.DRAWERS
@@ -141,10 +137,10 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
 
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy(): void {
     // remove listener
-    this.listenerRenderer2Mousemove()
-    this.listenerRenderer2Touchmove()
+    this.unlistenerRenderer2Mousemove()
+    this.unlistenerRenderer2Touchmove()
   }
 
   ngOnInit() {
@@ -154,13 +150,13 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     // initialize event listener
     let elt = document.getElementById('white-board')
 
-    this.listenerRenderer2Mousemove = this.renderer.listen(elt, 'mousemove', e => {
+    this.unlistenerRenderer2Mousemove = this.renderer2.listen(elt, 'mousemove', e => {
       this.onMouseMove(e)
     });
 
-    this.listenerRenderer2Touchmove = this.renderer.listen(elt, 'touchmove', e => {
-      this.onMouseMove(e)
-    });
+    this.unlistenerRenderer2Touchmove = this.renderer2.listen(elt, 'touchmove', e => {
+      this.onMouseMove(e)}
+    );
 
     elt!.addEventListener('mousedown',
       (event) => this.onMouseDown(event));
@@ -227,7 +223,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
       return
     }
 
-    // now we can initialize data for moving component
+    // now we can initialize data for changeAreaRect component
     this.isDown = true;
     this.originPositionOfClickForMoving = pointClick
 
@@ -247,15 +243,13 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     }
 
     if (this.isRectangleSelecting) {
-      // console.log("this.isRectangleSelecting = ", this.isRectangleSelecting)
-      // this.rectangleSelect.nativeElement.style.width = (parseInt(this.rectangleSelect.nativeElement.style.x) - e.clientX) + "px"
-      // this.rectangleSelect.nativeElement.style.height = (parseInt(this.rectangleSelect.nativeElement.style.y) - e.clientY) + "px"
-      // console.log(" width = ", this.rectangleSelect.nativeElement.style.width)
       return
     }
+
     if (this.isDown) {
       e.preventDefault()
       // console.log("nb selected elements : ", this.initialPointOfSelectedElements.length)
+      // final set position will set by onMouseUp event
       if (this.initialPointOfSelectedElements.length > 0) {
         if (e.clientX) {
           this.moveAt(e.clientX, e.clientY)
@@ -265,7 +259,6 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
       }
     }
   }
-
 
   onMouseUp(e: any) {
     if (this.isRectangleSelecting) {
@@ -332,14 +325,8 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     })
   }
 
-  protected readonly console = console;
-
-  pcsDtoId(index: number, pcsDto: UIPcsDto) {
-    return pcsDto ? pcsDto.id : undefined
-  }
-
   doZoom(direction: number, index: number = -1) {
-    if (index < 0 || this.managerPageWBService.isIndexInElementSelected(index)) {
+    if (index < 0 || this.managerPageWBService.isIndexInElementsSelected(index)) {
       this.managerPageWBService.doZoom(direction)
     } else {
       this.managerPageWBService.doZoom(direction, [index])
@@ -348,19 +335,16 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
 
   doSetRounded(index: number) {
     const roundedOn = this.pcsDtoList[index].uiMusaic.rounded
-    const indexOfSelectedComponents =
-      this.pcsDtoList.map((value, index) => index)
-        .filter(index => this.pcsDtoList[index].isSelected)
-    if (indexOfSelectedComponents.includes(index)) {
-      this.managerPageWBService.doSetRounded(indexOfSelectedComponents, !roundedOn)
-    } else {
-      this.managerPageWBService.doSetRounded([index], !roundedOn)
-    }
 
+    if (this.managerPageWBService.isIndexInElementsSelected(index)) {
+      this.managerPageWBService.doSetRounded(!roundedOn)
+    } else {
+      this.managerPageWBService.doSetRounded(!roundedOn, [index])
+    }
   }
 
   updateDrawer(drawer: string, index: number) {
-    if (this.managerPageWBService.isIndexInElementSelected(index)) {
+    if (this.managerPageWBService.isIndexInElementsSelected(index)) {
       this.managerPageWBService.doUpdateDrawer(drawer)
     } else {
       this.managerPageWBService.doUpdateDrawer(drawer, [index])
@@ -391,35 +375,8 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     return index < 0 || index >= this.pcsDtoList.length || this.pcsDtoList[index].indexFormDrawer === UIPcsDto.MUSAIC
   }
 
-  selectionIsEmpty(): boolean {
-    return !this.pcsDtoList.some(pcsDto => pcsDto.isSelected)
-  }
-
-  roundedOnOff(index: number): string {
-    return (index > 0
-      && index < this.pcsDtoList.length
-      && this.pcsDtoList[index].uiMusaic.rounded) ?
-      "OFF" : "ON"
-  }
-
   doDuplicate(index: number) {
-    // if (this.managerPageWBService.isIndexInElementSelected(index)){
-    //   this.managerPageWBService.doDuplicate()
-    // } else {
       this.managerPageWBService.doDuplicate(index)
-    // }
-    //
-    // const indexOfSelectedComponents =
-    //   this.pcsDtoList.map((value, index) => index)
-    //     .filter(index => this.pcsDtoList[index].isSelected)
-    //
-    // this.doDeselectAll()
-    // if (!indexOfSelectedComponents.includes(index)) {
-    //   this.managerPageWBService.doDuplicate([index])
-    // } else {
-    //   this.managerPageWBService.doDuplicate(indexOfSelectedComponents)
-    // }
-
   }
 
   doDelete(index: any) {
@@ -452,15 +409,16 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
    * @param index
    */
   isSolo(index: number) {
-    return this.managerPageWBService.isIndexInElementSelected(index)
+    return this.managerPageWBService.isIndexInElementsSelected(index)
     && this.managerPageWBService.orderedIndexesSelectedPcsDto.length === 1
     || !this.managerPageWBService.orderedIndexesSelectedPcsDto.includes(index)
 
   }
 
   get numberSelectedComponents(): number {
-    return this.pcsDtoList.reduce(
-      (nbSelected: number, pcsdDto: UIPcsDto) => pcsdDto.isSelected ? nbSelected + 1 : nbSelected, 0)
+    return this.managerPageWBService.orderedIndexesSelectedPcsDto.length
+    // return this.pcsDtoList.reduce(
+    //   (nbSelected: number, pcsdDto: UIPcsDto) => pcsdDto.isSelected ? nbSelected + 1 : nbSelected, 0)
   }
 
   /**
@@ -521,26 +479,22 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     this.managerPageWBService.doCircularAlign()
   }
 
-  doUpdateRectangleSelector(shape: Shape) {
+  doCheckPcsComponentsInRectangleSelector(shape: Shape) {
     let point = new Point(0, 0)
 
-    let indexOfSelectedComponents: number[] = []
     this.pcsDtoList.forEach((pcsDto, index) => {
       point.x = pcsDto.position.x
       point.y = pcsDto.position.y
       if (this.isInclude(pcsDto.position.x, pcsDto.position.y, pcsDto.width, pcsDto.height, shape)) {
         if (!pcsDto.isSelected) {
           this.managerPageWBService.doToggleSelected(index)
-          // pcsDto.isSelected = true
         }
-        // indexOfSelectedComponents.push(index)
       } else {
         if (pcsDto.isSelected) {
           this.managerPageWBService.doToggleSelected(index)
         }
       }
     })
-    // this.managerPageWBService.doSelectAll(indexOfSelectedComponents)
   }
 
   isInclude(px: number, py: number, w: number, h: number, rect: Shape): boolean {
@@ -548,18 +502,17 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
       rect.x, rect.y, rect.x + rect.w, rect.y + rect.h)
   }
 
-  doStopRectangleSelector() {
+  doDownZIndexRectangleSelector() {
     let eltRSelector = document.getElementById("rselector")
     eltRSelector!.style.zIndex = "1"
     // this.rectangleSelector.nativeElement.style.zIndex = "1"
   }
 
-  doStartRectangleSelector() {
+  doUpZIndexRectangleSelector() {
     let eltRSelector = document.getElementById("rselector")
     eltRSelector!.style.zIndex = "2000"
     // this.rectangleSelector.nativeElement.style.zIndex = "2000"
   }
-
 
   rectanglesIntersect(minAx: number, minAy: number, maxAx: number, maxAy: number,
                       minBx: number, minBy: number, maxBx: number, maxBy: number): boolean {
@@ -598,8 +551,6 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     return this.pcsDtoList[index].indexFormDrawer === 1
       && [3,4].includes(this.pcsDtoList[index].pcs.cardinal)
       &&  this.pcsDtoList[index].pcs.getChordName()
-
-
   }
 
   doToggleShowChordName(index: number) {
@@ -613,4 +564,6 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   doDuplicateInOthersView(index: number) {
     this.managerPageWBService.doDuplicateInOthersView(index)
   }
+
+  protected readonly console = console;
 }

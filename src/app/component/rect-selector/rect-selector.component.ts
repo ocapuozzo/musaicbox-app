@@ -26,9 +26,10 @@ export class RectSelectorComponent implements OnInit {
   startX: number
   startY: number
 
-  @Output() moving: EventEmitter<Shape> = new EventEmitter();
+  @Output() changeAreaRect: EventEmitter<Shape> = new EventEmitter();
 
   constructor() {
+    // css width and height set into ngAfterViewInit of whiteboard component
     this.close()
   }
 
@@ -48,6 +49,7 @@ export class RectSelectorComponent implements OnInit {
     };
 
     this.canDraw = true;
+    // console.log("start drawing")
   }
 
   drawing(evt: MouseEvent) {
@@ -74,12 +76,13 @@ export class RectSelectorComponent implements OnInit {
         this.shape.y = evt.offsetY
         this.shape.h = this.startY - evt.offsetY;
       }
-      this.moving.emit(this.shape)
+      this.changeAreaRect.emit(this.shape)
     }
   }
 
   stopDrawing(evt: MouseEvent) {
     this.canDraw = false;
+    // console.log("stop drawing")
     this.close()
   }
 

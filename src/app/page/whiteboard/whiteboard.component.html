@@ -3,9 +3,9 @@
      [cdkContextMenuTriggerFor]="whiteboard"
 >
   <app-rect-selector
-    (moving)="doUpdateRectangleSelector($event)"
-    (mousedown)="doStartRectangleSelector()"
-    (mouseup)="doStopRectangleSelector()"
+    (changeAreaRect)="doCheckPcsComponentsInRectangleSelector($event)"
+    (mousedown)="doUpZIndexRectangleSelector()"
+    (mouseup)="doDownZIndexRectangleSelector()"
   ></app-rect-selector>
 
   @for (pcsDto of pcsDtoList; track pcsDto; let idx = $index) {

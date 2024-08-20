@@ -37,7 +37,7 @@ export class PcsComponent {
   //  */
   // @Input() showChordName: boolean = false
 
-  // for template attribut
+  // for template attribute
   get rounded(): boolean {
     return this._pcsDto.uiMusaic.rounded && this._pcsDto.indexFormDrawer === UIPcsDto.MUSAIC
   }

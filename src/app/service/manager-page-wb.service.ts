@@ -9,6 +9,8 @@ import {HistoryT} from "../utils/HistoryT";
 import {DialogSaveAsFileNameService} from "./dialog-save-as-file-name.service";
 import {IDialogDataSaveToFile} from "../component/dialog-save-to-file/IDialogDataSaveToFile";
 import {DomSanitizer} from "@angular/platform-browser";
+import {PcsAnalysisComponent} from "../component/pcs-analysis/pcs-analysis.component";
+import {PcsComponent} from "../component/pcs/pcs.component";
 
 export interface FinalElementMove {
   index: number,
@@ -169,17 +171,17 @@ export class ManagerPageWBService {
       // too small ?
       if (preferredSize >= this._MIN_WIDTH) {
 
-        // if pcsDto.indexFormDrawer === CLOCK , then pcsDto.width or height
+        // if pcsDto.indexFormDrawer === PcsComponent.CLOCK_INDEX, then pcsDto.width or height
         // impact pcsDto.uiClock.width or height
         // put another way : pcsDto.width/height are polymorph
         let barycenterBeforeChangeSize = this.getXYFromBarycenter(pcsDto)
 
-        if (pcsDto.indexFormDrawer === UIPcsDto.MUSAIC) {
+        if (pcsDto.indexFormDrawer === PcsComponent.MUSAIC_INDEX) {
           // real change widthCell
           pcsDto.uiMusaic.widthCell = cellWith
         }
 
-        if (pcsDto.indexFormDrawer === UIPcsDto.SCORE) {
+        if (pcsDto.indexFormDrawer === PcsComponent.SCORE_INDEX) {
           // TODO do better, in reaction of abcjs render
           if (pcsDto.pcs.cardinal >= 4) {
             pcsDto.height = (preferredSize / 2 >= 88) ? (preferredSize / 2) : preferredSize / 1.5
@@ -209,22 +211,28 @@ export class ManagerPageWBService {
   /**
    * Effect only is FormDrawer is Musaic (i.e musaic is shown rounded, not square)
    *
+   * @param valueRounded new boolean value
    * @param indexes list of this.uiPcsDtoList index
-   * @param valueRounded
    */
-  doSetRounded(indexes: number[], valueRounded: boolean) {
-    // doToggleRounded(indexes: number[]) {
+  doSetRounded(valueRounded: boolean, indexes: number[] = []) {
     this.uiPcsDtoList = [...this.uiPcsDtoList]
+
+    if (indexes.length === 0) {
+      indexes = this.orderedIndexesSelectedPcsDto
+    }
+
     indexes.forEach(index => {
       if (index < 0 || index >= this.uiPcsDtoList.length) {
         throw new Error("oops bad index : " + index)
       }
-      let pcsDto
-        = new UIPcsDto({...this.uiPcsDtoList[index]})
-      if (pcsDto.indexFormDrawer === UIPcsDto.MUSAIC) {
-        pcsDto.uiMusaic.rounded = valueRounded //!pcsDto.uiMusaic.rounded
+      if (this.uiPcsDtoList[index].indexFormDrawer === PcsComponent.MUSAIC_INDEX &&
+          this.uiPcsDtoList[index].uiMusaic.rounded !== valueRounded)
+      {
+        let pcsDto
+          = new UIPcsDto({...this.uiPcsDtoList[index]})
+        pcsDto.uiMusaic.rounded = valueRounded
+        this.uiPcsDtoList[index] = pcsDto
       }
-      this.uiPcsDtoList[index] = pcsDto
     })
     this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
     this.emit()
@@ -237,6 +245,9 @@ export class ManagerPageWBService {
       indexes = this.orderedIndexesSelectedPcsDto
     }
 
+    let newIndexFormDrawer = this.DRAWERS.findIndex((d) => d === drawer)
+    if (newIndexFormDrawer < 0) newIndexFormDrawer = 0
+
     indexes.forEach(index => {
       if (index < 0 || index >= this.uiPcsDtoList.length) {
         throw new Error("oops bad index : " + index)
@@ -244,13 +255,11 @@ export class ManagerPageWBService {
 
       let pcsDto //= this.uiPcsDtoList[index]
         = new UIPcsDto({...this.uiPcsDtoList[index]})
-      let indexFormDrawer = this.DRAWERS.findIndex((d) => d === drawer)
-      if (indexFormDrawer < 0) indexFormDrawer = 0
 
       let barycenterBeforeChangeSize = this.getXYFromBarycenter(pcsDto)
       // rem : pcsDto.width and height are polymorph
 
-      pcsDto.indexFormDrawer = indexFormDrawer
+      pcsDto.indexFormDrawer = newIndexFormDrawer
 
       pcsDto.position = {
         x: barycenterBeforeChangeSize.x - pcsDto.width / 2,
@@ -375,7 +384,7 @@ export class ManagerPageWBService {
     let newPcsDtos: UIPcsDto[] = []
     let indexes : number[] = []
 
-    if (this.isIndexInElementSelected(index)) {
+    if (this.isIndexInElementsSelected(index)) {
       // do on all selected elements
       indexes = this.orderedIndexesSelectedPcsDto
     } else {
@@ -407,7 +416,7 @@ export class ManagerPageWBService {
     this.uiPcsDtoList = [...this.uiPcsDtoList]
     let indexes : number[]
 
-    if (this.isIndexInElementSelected(index)) {
+    if (this.isIndexInElementsSelected(index)) {
       // do on all selected elements
       indexes = this.orderedIndexesSelectedPcsDto
     } else {
@@ -650,7 +659,7 @@ export class ManagerPageWBService {
    * Return true if index param is into the list of indexes selected
    * @param index
    */
-  isIndexInElementSelected(index: number) {
+  isIndexInElementsSelected(index: number) {
     return this.orderedIndexesSelectedPcsDto.includes(index);
   }
 
