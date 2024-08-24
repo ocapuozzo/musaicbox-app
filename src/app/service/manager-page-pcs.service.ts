@@ -14,6 +14,12 @@ export class ManagerPagePcsService {
 
   historyPcs: HistoryT<IPcs>
 
+  /**
+   * (experimental) for Whiteboard page
+   * @private
+   */
+  public indexPcsForEdit: number;
+
   constructor(private readonly managerPcsService: ManagerPcsService) {
     this.historyPcs = new HistoryT<IPcs>()
     this.historyPcs.pushIntoPresent(this.pcs)
@@ -63,8 +69,9 @@ export class ManagerPagePcsService {
     this.setPcsAsPresentToHistoryAndEmit();
   }
 
-  replaceBy(newPcs: IPcs): void {
+  replaceBy(newPcs: IPcs, indexPcsForEdit : number = -1): void {
     this.pcs = newPcs
+    this.indexPcsForEdit = indexPcsForEdit
     this.setPcsAsPresentToHistoryAndEmit();
   }
 

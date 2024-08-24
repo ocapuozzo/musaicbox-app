@@ -36,9 +36,9 @@
 <!--  (menuOpened)="contextMenuOpened()"-->
   <ng-template  #menu matMenuContent let-index="index" let-name="name" let-indexFormDrawer="indexFormDrawer">
     <div class="contextual-menu" cdkMenu>
-      <span>Do with {{ name }}</span>
+      <span class="text-center">Do with {{ name }}</span>
       <hr/>
-      <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doPushToPcsPage(index)">Push to PCS page</button>
+      <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doPushToPcsPage(index)">Push / Edit to PCS page</button>
       <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doSingleToggleSelected(index)">
         <mat-slide-toggle [checked]="isSelected(index)">Selected</mat-slide-toggle>
       </button>

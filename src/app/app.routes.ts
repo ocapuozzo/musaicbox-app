@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { PcsComponent} from "./page/pcs/pcs.component";
+import { PcsPageComponent} from "./page/pcs/pcs-page.component";
 import {GroupExplorerComponent} from "./page/group-explorer/group-explorer.component";
 import {PageNotFoundComponent} from "./page/page-not-found/page-not-found.component";
 import {The88Component} from "./page/the88/the88.component";
@@ -11,8 +11,8 @@ export const routes: Routes = [
   //   redirectTo: 'about',
   //   pathMatch: 'full'
   // }
-  {path: '', component: PcsComponent},
-  {path: 'pcs', component: PcsComponent},
+  {path: '', component: PcsPageComponent},
+  {path: 'pcs', component: PcsPageComponent},
   {path: 'group-explorer', component: GroupExplorerComponent},
   {path: 'the88', component: The88Component},
   {path: 'w-board', component: WhiteboardComponent},

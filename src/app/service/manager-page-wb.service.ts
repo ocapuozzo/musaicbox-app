@@ -170,7 +170,7 @@ export class ManagerPageWBService {
       // too small ?
       if (preferredSize >= this._MIN_WIDTH) {
 
-        // if pcsDto.indexFormDrawer === PcsComponent.CLOCK_INDEX, then pcsDto.width or height
+        // if pcsDto.indexFormDrawer === PcsPageComponent.CLOCK_INDEX, then pcsDto.width or height
         // impact pcsDto.uiClock.width or height
         // put another way : pcsDto.width/height are polymorph
         let barycenterBeforeChangeSize = this.getXYFromBarycenter(pcsDto)
@@ -696,5 +696,15 @@ export class ManagerPageWBService {
       this.orderedIndexesSelectedPcsDto.push(this.uiPcsDtoList.length-i)
     }
     this.doCircularAlign()
+  }
+
+  updatePcsDto(indexPcsForEdit: number, pcs: IPcs) {
+    this.uiPcsDtoList = [...this.uiPcsDtoList]
+    let pcsDto
+      = new UIPcsDto({...this.uiPcsDtoList[indexPcsForEdit]})
+    pcsDto.pcs = pcs
+    this.uiPcsDtoList[indexPcsForEdit] = pcsDto
+    this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
+    this.emit()
   }
 }

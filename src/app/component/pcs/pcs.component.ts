@@ -5,8 +5,8 @@ import {FormDraw} from "../../ui/FormDraw";
 import {MusaicFormDraw} from "../../ui/MusaicFormDraw";
 import {ClockFormDraw} from "../../ui/ClockFormDraw";
 import {ScoreFormDraw} from "../../ui/ScoreFormDraw";
- import {StringHash} from "../../utils/StringHash";
- import {ScoreNotationComponent} from "../score-notation/score-notation.component";
+import {StringHash} from "../../utils/StringHash";
+import {ScoreNotationComponent} from "../score-notation/score-notation.component";
 
 /**
  * Wrapper for various representation : musaic, clock, score... for whiteboard page
@@ -26,9 +26,9 @@ import {ScoreFormDraw} from "../../ui/ScoreFormDraw";
 export class PcsComponent {
   @ViewChild('canvas', {static: false}) canvas: ElementRef<HTMLCanvasElement>;
 
-  randomId : string = ''
-  private formDrawing : FormDraw
-  _pcsDto = new UIPcsDto({colorPitchOff: 'white', colorPitchOn:'black'})
+  randomId: string = ''
+  private formDrawing: FormDraw
+  _pcsDto = new UIPcsDto({colorPitchOff: 'white', colorPitchOn: 'black'})
 
   @Input() opaque: boolean = true
 
@@ -42,10 +42,11 @@ export class PcsComponent {
     return this._pcsDto.uiMusaic.rounded && this._pcsDto.indexFormDrawer === UIPcsDto.MUSAIC
   }
 
-  get pcsDto() : UIPcsDto {
+  get pcsDto(): UIPcsDto {
     return this._pcsDto
   }
-  @Input() set pcsDto(value : UIPcsDto) {
+
+  @Input() set pcsDto(value: UIPcsDto) {
     this._pcsDto = value
     this.drawForm()
   }
@@ -53,6 +54,7 @@ export class PcsComponent {
   get pcColorSet() {
     return this._pcsDto.colorPitchOn
   }
+
   // https://stackoverflow.com/questions/36653678/angular2-input-to-a-property-with-get-set
   @Input() set pcColorSet(value: string) {
     this._pcsDto.colorPitchOn = value
@@ -71,23 +73,23 @@ export class PcsComponent {
   static SCORE_INDEX = 2
 
   get scoreView(): boolean {
-    return  this._pcsDto.indexFormDrawer === 2
+    return this._pcsDto.indexFormDrawer === 2
   }
 
   drawForm() {
     // if (!this.canvas) return
     switch (this._pcsDto.indexFormDrawer) {
       case PcsComponent.MUSAIC_INDEX :
-        this.formDrawing =  new MusaicFormDraw()
+        this.formDrawing = new MusaicFormDraw()
         break
       case PcsComponent.CLOCK_INDEX :
-        this.formDrawing =  new ClockFormDraw()
+        this.formDrawing = new ClockFormDraw()
         break
       case PcsComponent.SCORE_INDEX :
-        this.formDrawing =  new ScoreFormDraw(this.randomId)
+        this.formDrawing = new ScoreFormDraw(this.randomId)
         break
       default :
-        this.formDrawing =  new ClockFormDraw()
+        this.formDrawing = new ClockFormDraw()
     }
     this.formDrawing.drawForm(this._pcsDto, this.canvas);
   }

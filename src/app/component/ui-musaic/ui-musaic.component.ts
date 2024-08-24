@@ -52,8 +52,6 @@ export class UiMusaicComponent {
   private unlisten: Function;
 
   constructor(private managerHomePcsService: ManagerPagePcsService,
-              private managerPageWBService : ManagerPageWBService,
-              private router : Router,
               private ngZone: NgZone,
               private renderer: Renderer2,
               private responsive: BreakpointObserver) {
@@ -347,8 +345,4 @@ export class UiMusaicComponent {
     this.managerHomePcsService.detachPcs()
   }
 
-  pushToWhiteBoardPage() {
-    this.managerPageWBService.addPcs([this.pcs])
-    this.router.navigateByUrl('/w-board');
-  }
 }

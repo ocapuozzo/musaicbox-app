@@ -15,6 +15,7 @@ import {PcsListComponent} from "../../component/pcs-list/pcs-list.component";
 import {NgClass, NgStyle} from "@angular/common";
 import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 import {Subject, takeUntil} from "rxjs";
+import {ManagerPageWBService} from "../../service/manager-page-wb.service";
 
 
 @Component({
@@ -30,11 +31,11 @@ import {Subject, takeUntil} from "rxjs";
     NgClass,
     NgStyle
   ],
-  templateUrl: './pcs.component.html',
-  styleUrl: './pcs.component.css'
+  templateUrl: './pcs-page.component.html',
+  styleUrl: './pcs-page.component.css'
 })
 
-export class PcsComponent {
+export class PcsPageComponent {
 
   pcs: IPcs = new IPcs({strPcs:"0,1,2,3"})
   labeledListPcs = new Map<string, IElementListPcs>()
@@ -70,6 +71,8 @@ export class PcsComponent {
   constructor(
     private readonly managerPagePcsService : ManagerPagePcsService,
     private readonly managerPagePcsListService : ManagerPagePcsListService,
+    private managerPageWBService : ManagerPageWBService,
+    private router : Router,
     private responsive: BreakpointObserver) {
 
     this.pcs = this.managerPagePcsService.pcs
@@ -148,5 +151,23 @@ export class PcsComponent {
 
   get canRedo() : boolean {
     return this.managerPagePcsService.canRedo()
+  }
+
+  isForUpdatePcsDto() : boolean {
+    return this.managerPagePcsService.indexPcsForEdit >= 0
+  }
+
+  updateToWhiteBoardPage() {
+    if (this.managerPagePcsService.indexPcsForEdit >= 0) {
+      this.managerPageWBService.updatePcsDto(this.managerPagePcsService.indexPcsForEdit, this.pcs)
+      this.managerPagePcsService.indexPcsForEdit = -1
+      this.router.navigateByUrl('/w-board');
+    }
+  }
+
+  pushToWhiteBoardPage() {
+    this.managerPagePcsService.indexPcsForEdit = -1
+    this.managerPageWBService.addPcs([this.pcs])
+    this.router.navigateByUrl('/w-board');
   }
 }

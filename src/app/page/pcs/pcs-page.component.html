@@ -10,6 +10,22 @@
       <div [ngClass]="{'inner-box-musaic-orbit':!pcs.isDetached(), 'inner-box-musaic':pcs.isDetached()}">
         <p class="text-small">{{ pcs.orbit.groupAction?.group?.name?.substring(4) }}</p>
         <app-ui-musaic [style.max-width]="maxWidthUiMusaic" ></app-ui-musaic>
+
+        @if (isForUpdatePcsDto()) {
+        <div style="margin-top: 10px">
+          <button mat-raised-button
+                  (click)="updateToWhiteBoardPage()">
+              <span>Update (goto WB page)</span>
+          </button>
+        </div>
+        }
+        <div style="margin-top: 10px">
+          <button mat-raised-button
+                  (click)="pushToWhiteBoardPage()">
+              <span>Add to WB page</span>
+          </button>
+        </div>
+
       </div>
     </div>
     <div class="box"

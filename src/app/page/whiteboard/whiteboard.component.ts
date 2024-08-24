@@ -132,7 +132,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     this.drawers = this.managerPageWBService.DRAWERS
 
     this.managerPageWBService.eventChangePcsPdoList.subscribe((uiPcsDtoList: UIPcsDto[]) => {
-      this.pcsDtoList = uiPcsDtoList // [...uiPcsDtoList]
+      this.pcsDtoList = uiPcsDtoList
     })
 
   }
@@ -155,8 +155,8 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     });
 
     this.unlistenerRenderer2Touchmove = this.renderer2.listen(elt, 'touchmove', e => {
-      this.onMouseMove(e)}
-    );
+      this.onMouseMove(e)
+    });
 
     elt!.addEventListener('mousedown',
       (event) => this.onMouseDown(event));
@@ -237,6 +237,8 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   }
 
   onMouseMove(e: any) {
+    e.preventDefault()
+    e.stopPropagation()
     if (this.isContextMenuOpened) {
       // do context menu modal
       return
@@ -394,7 +396,8 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   }
 
   doPushToPcsPage(index: number) {
-    this.managerPagePcsService.replaceBy(this.pcsDtoList[index].pcs)
+    // this.indexDtoPcsForUpdate = index
+    this.managerPagePcsService.replaceBy(this.pcsDtoList[index].pcs, index)
     this.managerPageWBService.setPcsDtoForTemplate(this.pcsDtoList[index])
     this.router.navigateByUrl('/pcs');
   }
