@@ -47,6 +47,44 @@ describe('IPcs unit tests', () => {
     expect(ipcsCMajor.getMappedBinPcs()).toEqual([1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0])
   });
 
+  it("IPcs constructor with nMapping ", () => {
+    const pcs: IPcs = new IPcs({strPcs: "[0, 4, 7]"})
+    expect(pcs.templateMappingBinPcs.length).toEqual(12)
+    expect(pcs.getMappedBinPcs().length).toEqual(12)
+    expect(pcs.templateMappingBinPcs.length).toEqual(12)
+
+    let nMapping = 12
+    let templateMapping = undefined
+
+    const ipcsCMajor: IPcs = new IPcs({
+      iPivot: 0,
+      strPcs: "[0, 4, 7]",
+      //n:12,
+      nMapping: nMapping,
+      templateMappingBinPcs: templateMapping ?? [] //undefined
+    })
+
+    expect(ipcsCMajor).toBeTruthy()
+    expect(ipcsCMajor.n).toEqual(12)
+    expect(ipcsCMajor.getPcsStr()).toEqual("[0,4,7]")
+    expect(ipcsCMajor.getMappedBinPcs().length).toEqual(12)
+    expect(ipcsCMajor.templateMappingBinPcs.length).toEqual(12)
+
+  });
+
+  it("IPcs constructor with bad nMapping ", () => {
+    try {
+      let pcs: IPcs = new IPcs({strPcs: "[0, 4, 7]", nMapping: 3})
+      expect(pcs).not.toBeDefined()
+    } catch (e: any) {
+      expect(e.message).toContain('Invalid data mapping')
+    }
+
+    let pcs = new IPcs({strPcs: "[0, 4, 7]", templateMappingBinPcs: [0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3]})
+    // auto fix
+    expect(pcs.templateMappingBinPcs.length).toEqual(12)
+  })
+
   it("IPcs bad detached constructor", () => {
     try {
       const ipcs: IPcs = new IPcs(
@@ -384,7 +422,7 @@ describe('IPcs unit tests', () => {
   })
 
 
-  it("getPivotFromSymmetry", ()=>{
+  it("getPivotFromSymmetry", () => {
     let pcs = new IPcs({strPcs: '[0,1,2]'})
     expect(pcs.getPivot()).toEqual(0)
 
@@ -404,12 +442,12 @@ describe('IPcs unit tests', () => {
     pivot = pcs.getPivotFromSymmetry()
     expect(pivot).toEqual(3) // invariant by M7-T0
 
-   // musaic n° 32
+    // musaic n° 32
     pcs = new IPcs({strPcs: '[0,3,4,7]'})
     pivot = pcs.getPivotFromSymmetry()
     expect(pivot).toEqual(3) // no invariant by Mx-T0 but M11-T1
 
-   // musaic n° 35
+    // musaic n° 35
     pcs = new IPcs({strPcs: '[0,2,4,8]'})
     pivot = pcs.getPivotFromSymmetry()
     expect(pivot).toEqual(2) // invariant by M11-T0, M7-T0
@@ -430,7 +468,6 @@ describe('IPcs unit tests', () => {
 
     expect(pcsMPF.id).toEqual(pcsModalPFWaiting.id)
   })
-
 
 
   it("IPcs symmetry n=12", () => {
@@ -853,7 +890,7 @@ describe('IPcs unit tests', () => {
     try {
       maj.setPivot(5)
       fail("Do not accept a invalid pivot")
-    }catch (e:any) {
+    } catch (e: any) {
       expect(e.message).toContain('Invalid Pivot')
     }
   })

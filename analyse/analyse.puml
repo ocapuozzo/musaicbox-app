@@ -1,32 +1,43 @@
 @startuml musaicbox
 
 class ActionGroup {
-  n
-}
 
-class Operation {
-  a
-  t
-  complement
 }
 
 class Orbit {
   name
 }
 
+class Group {
+  name
+  n
+}
+
+class Operation {
+  name
+  a
+  t
+  n
+  cplt
+}
+
 class IPcs {
-  pcs :  []
+  pcs :  int[]
+  pivot
+  mapping
   cardinal()
 }
 
-ActionGroup "1"  - " 1..*   " Operation : "                 "
-Orbit "1..*"  -* " 1   " ActionGroup : "                 "
-ActionGroup "1 "  o-- "\n       powerset \n1..*" IPcs :"                                           "
+Group "1" --> "1..*" Operation
+ActionGroup "*" -> "1" Group
 
-Orbit "1..* "  -- "1..*" Stabilizer :"{derived partition}             "
-Orbit "  0..1"  o-- "ippcsset\n1..*" IPcs :" {partition}                     "
-IPcs "1..* \nfixed" -- "1" Stabilizer
-Stabilizer "1..*" - "1..*" Operation
+Orbit "1..*"  -* " 1   " ActionGroup : "                 "
+ActionGroup "0..1 "  o-- "\t\t\npowerset\n1..*" IPcs :"\t\t\t"
+
+Orbit "1..* "  -- "1..*         " Stabilizer :"{derived partition}\t\t\t\t"
+Orbit "  0..1"  o-- "pcsset\n1..*" IPcs :" {partition}\t\t\t\t"
+IPcs "1..* \nfixed" -down-- "0..1" Stabilizer
+Stabilizer "1..*" - "1..*" Operation : "\t\t"
 
 hide circle
 @enduml

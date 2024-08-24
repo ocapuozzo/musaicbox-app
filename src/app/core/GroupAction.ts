@@ -47,7 +47,7 @@ export class GroupAction {
   private static _predefinedGroupsActions: Map<number, GroupAction[]>
 
   constructor(
-    {n, someMusaicOperations, group}:
+      { n, someMusaicOperations, group}:
       { n?: number, someMusaicOperations?: MusaicPcsOperation[], group?: Group } = {}) {
     if (group) {
       this.group = group

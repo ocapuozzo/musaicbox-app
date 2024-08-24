@@ -9,7 +9,8 @@ export class AnalyseChord {
     const chordsByDegree = new Map<string, IPcs[]>()
     const cardinal = pcs.cardinal
 
-    let pcsWorking = pcs
+    // unMap() if necessary, chords research work on n == 12
+    let pcsWorking = pcs.n < 12 ? pcs.unMap() : pcs
     for (let nbDegree = 0; nbDegree < cardinal; nbDegree++) {
       let keysChords: string[]
       if (nOfPitches == 3) {

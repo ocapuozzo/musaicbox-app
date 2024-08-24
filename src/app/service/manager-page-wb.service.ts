@@ -652,7 +652,7 @@ export class ManagerPageWBService {
   }
 
   getSerialDataContent() {
-    return this.managerLocalStorageService.getSerialDataPcsDtoListFromLocalStorage();
+    return this.managerLocalStorageService.getSerialStringDataPcsDtoListFromLocalStorage();
   }
 
   /**

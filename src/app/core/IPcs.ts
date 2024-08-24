@@ -98,13 +98,17 @@ export class IPcs {
 
   /**
    * dimension of binary vector for external representation
-   * this.nMapping == this.n+m, m=0 by default
+   * this.nMapping == this.n+m, m=+0 by default (positive number)
    */
-  readonly nMapping: number = 0
+  readonly nMapping: number
 
   /**
    * mapping of this, for external/interface representation
    * this.templateMappingBinPcs.length == this.n
+   * Example : this.n = 7
+   *      strPcs: "[0, 2, 4]", // first 3-chord (C E G)
+   *      nMapping: 12,
+   *      templateMappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // pcs [0, 2, 4] mapped into [0,4,7]
    */
   readonly templateMappingBinPcs: number[]
 
@@ -200,9 +204,21 @@ export class IPcs {
     this.id = IPcs.id(this.abinPcs)
 
     // default mapping on himself
-    this.templateMappingBinPcs = templateMappingBinPcs ?? Mapping.getAutoMapping(this.abinPcs)
+    if (!templateMappingBinPcs || templateMappingBinPcs.length != this.n) {
+      this.templateMappingBinPcs = Mapping.getAutoMapping(this.abinPcs)
+    } else {
+      this.templateMappingBinPcs = templateMappingBinPcs
+    }
 
-    this.nMapping = nMapping ?? this.n
+    this.nMapping = nMapping ? nMapping : this.n
+    // Not this.nMapping = nMapping ?? this.n !!! in case or zero is value of nMapping param
+
+    if (this.nMapping < this.n ) throw new Error("Invalid data mapping")
+
+    // check mapping data
+    if (this.templateMappingBinPcs.some(value => value >= this.nMapping)) {
+      throw new Error("Invalid data mapping")
+    }
 
     // @see method getMappedBinPcs()
     // construct mappedBinPcs

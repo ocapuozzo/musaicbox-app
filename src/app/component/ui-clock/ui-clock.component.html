@@ -43,13 +43,13 @@
   <hr>
 
   <div class="panel-action">
-    @if (pcs.n == 12) {
+    @if (pcs.n === 12) {
       <span (click)="autoMap()" style="cursor: pointer">
         <span>
           <i class="bi bi-circle-square"></i> Map
         </span>
       </span>
-    } @else {@if (pcs.nMapping == 12) {
+    } @else {@if (pcs.nMapping === 12) {
         <span (click)="unMap()" style="cursor: pointer">
            <span>
               <i class="bi bi-circle"></i> UnMap

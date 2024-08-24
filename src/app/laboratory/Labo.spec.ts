@@ -4,7 +4,6 @@ import {Group} from "../core/Group";
 import {MusaicPcsOperation} from "../core/MusaicPcsOperation";
 import {EightyEight} from "../utils/EightyEight";
 
-
 describe('Laboratory explorer', () => {
 
   /////////// Math POC
@@ -84,31 +83,31 @@ describe('Laboratory explorer', () => {
 
     // show pcs that are alone in this grouping
     let soloIV = 0
-    let nbPcsWithIVequal4 = 0
-    let nbPcsWithIVequal2 = 0
-    let nbPcsWithIVequal3 = 0
+    let nbPcsWithIV_4 = 0
+    let nbPcsWithIV_2 = 0
+    let nbPcsWithIV_3 = 0
     for (const pcsGroupingByIV of pcsGroupedBySameIV) {
       if (pcsGroupingByIV[1].length == 4) {
-        console.log("iv (" + pcsGroupingByIV[0] + ") partagé par : " + pcsGroupingByIV[1].length + " pcs")
-        nbPcsWithIVequal4++
+        console.log("iv (" + pcsGroupingByIV[0] + ") shared by : " + pcsGroupingByIV[1].length + " pcs")
+        nbPcsWithIV_4++
       } else if (pcsGroupingByIV[1].length == 3) {
-        console.log("iv (" + pcsGroupingByIV[0] + ") partagé par : " + pcsGroupingByIV[1].length + " pcs")
-        nbPcsWithIVequal3++
+        console.log("iv (" + pcsGroupingByIV[0] + ") shared by : " + pcsGroupingByIV[1].length + " pcs")
+        nbPcsWithIV_3++
       } else if (pcsGroupingByIV[1].length == 2) {
-        nbPcsWithIVequal2++
+        nbPcsWithIV_2++
       } else if (pcsGroupingByIV[1].length == 1) {
         soloIV++
       }
     }
     console.log("nb pcs with unique iv() : " + soloIV)
-    console.log("nb pcs (into 352) shearing iv with more than exactly 2 others : " + nbPcsWithIVequal2)
-    console.log("nb pcs (into 352) shearing iv with more than exactly 3 others : " + nbPcsWithIVequal3)
-    console.log("nb pcs (into 352) shearing iv with more than 3 others : " + nbPcsWithIVequal4)
+    console.log("nb pcs (into 352) shearing iv with more than exactly 2 others : " + nbPcsWithIV_2)
+    console.log("nb pcs (into 352) shearing iv with more than exactly 3 others : " + nbPcsWithIV_3)
+    console.log("nb pcs (into 352) shearing iv with more than 3 others : " + nbPcsWithIV_4)
 
-    expect(nbPcsWithIVequal2).toEqual(112)
+    expect(nbPcsWithIV_2).toEqual(112)
 
     // do get 352 pcs, so groupCyclic.orbits.length
-    expect(nbPcsWithIVequal4 * 4 + nbPcsWithIVequal3 * 3 + nbPcsWithIVequal2 * 2 + soloIV).toEqual(352)
+    expect(nbPcsWithIV_4 * 4 + nbPcsWithIV_3 * 3 + nbPcsWithIV_2 * 2 + soloIV).toEqual(352)
 
   });
 
@@ -172,7 +171,7 @@ describe('Laboratory explorer', () => {
         }
       }
       let group = new Group(someOperations)
-      // console.log(someOperations + " => groupe.name =" + group.name)
+      // console.log(someOperations + " => group.name =" + group.name)
       if (!groupComputed.has(group.name)) {
         generatorGroup.set(group.name, [someOperations])
         // console.log("=> " + group.name)
@@ -254,12 +253,36 @@ describe('Laboratory explorer', () => {
   })
 
   it ("get all pcs having same featureIS", ()=> {
-    const majScale = new IPcs({strPcs:"0,2,4,5,7 ,9 ,11"})
+    const majScale = new IPcs({strPcs:"0,2,4,5,7,9,11"})
     const pcsSameFeatureIS : IPcs[] = majScale.getPcsSameFeatureIS()
     pcsSameFeatureIS.forEach(pcs => console.log(pcs.is() + " Mus n° " + EightyEight.idNumberOf(pcs)))
     expect(pcsSameFeatureIS.length).toEqual(29) // 30 - chromatic scale
   })
 
-  // TODO see gravity center  ?
+  /*
+  type TNoMutable<T> = {
+    readonly [k in keyof T]: T[k];
+  };
+
+  it ("test as const", ()=> {
+    let a = [0,2,4]
+    console.log(a.length, a[0])
+    a[0] = 42
+    const b = a
+    // let b = [...a] as const
+    // b[0] = 12
+    console.log(b.length, b[0])
+
+    let pcs : IPcs = new IPcs({strPcs:"0,2,4,5,7,9,11"})
+    pcs.iPivot = 0
+    const majScale : TNoMutable<IPcs> = pcs
+    // majScale.iPivot = 1 // ok, no possible
+    console.log(majScale.getPcsStr())
+    // let pcs2 = pcs as TNoMutable<IPcs>
+    // let pcs2 = readonly pcs // no possible
+    // pcs2.iPivot = 2
+  })
+
+*/
 
 })

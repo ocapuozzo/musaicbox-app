@@ -51,6 +51,7 @@ export class Orbit {
     this.ipcsset = ipcsSet ?? []
     this._hashcode = undefined
     this.motifStabilizer = MotifStabilizer.manyMotifsStabilizer
+
     // this.buildStabilizersSignatureName() no, do not !
 
     // orbit is not an immutable class. During the GroupAction constructor,
@@ -98,7 +99,6 @@ export class Orbit {
     }
     return cmp;
   }
-
 
   /**
    *
@@ -254,7 +254,6 @@ export class Orbit {
     } // loop for nameOpsWithoutT
 
     // 5: add M1-T0 if not present (neutral operation)
-    // return res.startsWith('M1-T0') ? res : 'M1-T0 ' + res
     return this._name = res.startsWith('M1-T0') ? res : 'M1-T0 ' + res
   }
 
@@ -289,7 +288,7 @@ export class Orbit {
   }
 
   isDetached(): boolean {
-    return this.groupAction == undefined // this.ipcsset.length == 0
+    return this.groupAction == undefined // or this.ipcsset.length == 0
   }
 
   has(pcs: IPcs):boolean {
@@ -299,21 +298,5 @@ export class Orbit {
   getPcsWithThisIS(intervallicStructure: string):IPcs | undefined {
     return this.ipcsset.find( p => p.is().toString() == intervallicStructure)
   }
-
-  /**
-   * Find, if exists, first stabilizer operation other than M1-T0 in this orbit
-   */
-  getFirstOperationWithTZeroOtherThanM1() : MusaicPcsOperation | undefined {
-    let operation : MusaicPcsOperation | undefined = undefined
-    for (let i = 0; i < this.stabilizers.length && operation === undefined; i++) {
-       const stab = this.stabilizers[i]
-       // first M11-T0 (vertical axe)
-       operation = stab.operations.find((op) => op.t === 0 && op.a == 11)
-       if (operation === undefined) {
-         operation = stab.operations.find((op) => op.t === 0 && op.a !== 1)
-       }
-     }
-     return operation
-}
 
 }

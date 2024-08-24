@@ -44,7 +44,12 @@ export class ManagerLocalStorageService {
         ...pcsDto,
         pcs:null, // pcs is no serialized (object complex in relationship)
         isSelected: false,
-        serializedPcs: {pcsStr:pcsDto.pcs.getPcsStr(), iPivot:pcsDto.pcs.iPivot}   // simple serial pcs (string)
+        serializedPcs: {
+          pcsStr:pcsDto.pcs.getPcsStr(),
+          iPivot:pcsDto.pcs.iPivot,
+          nMapping:pcsDto.pcs.nMapping,
+          templateMappingBinPcs:pcsDto.pcs.templateMappingBinPcs
+        }
       }
       savListPcsDto.push(obj)
     })
@@ -52,7 +57,7 @@ export class ManagerLocalStorageService {
     localStorage.setItem("pageWB.currentContent", JSON.stringify(savListPcsDto))
   }
 
-  getSerialDataPcsDtoListFromLocalStorage(): string {
+  getSerialStringDataPcsDtoListFromLocalStorage(): string {
     return localStorage.getItem("pageWB.currentContent") || "[]"
   }
 
@@ -69,11 +74,17 @@ export class ManagerLocalStorageService {
         // update value (and type) of property 'pcs' from 'string' to 'instance of IPcs'
         let pcs : IPcs
         if (typeof(pcsSerialDto.pcs) === 'string') {
-          // for compatibility with first version (but pivot is lost)
+          // for compatibility with first version (but pivot is lost, nMapping also...)
           pcs = new IPcs({strPcs: pcsSerialDto.pcs})
         } else { // an object
           // get info via serializedPcs property
-          pcs = new IPcs({strPcs: pcsSerialDto.serializedPcs.pcsStr, iPivot:pcsSerialDto.serializedPcs.iPivot})
+          pcs = new IPcs({
+            strPcs: pcsSerialDto.serializedPcs.pcsStr,
+            iPivot:pcsSerialDto.serializedPcs.iPivot,
+            nMapping:pcsSerialDto.serializedPcs.nMapping ?? 12,
+            templateMappingBinPcs:pcsSerialDto.serializedPcs.templateMappingBinPcs ?? []
+          })
+          console.log("pcs = ", pcs)
         }
         let obj = new UIPcsDto({
           ...pcsSerialDto,
