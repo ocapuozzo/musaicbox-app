@@ -227,24 +227,24 @@ export class IPcs {
       this._mappedBinPcs[this.templateMappingBinPcs[i]] = this.abinPcs[i];
     }
   }
-
-  chekStrpcs(strpcs: string) {
-    if (strpcs.length > 0) {
-      if ((strpcs[0] === '[' && strpcs[strpcs.length - 1] === ']') ||
-        (strpcs[0] === '{' && strpcs[strpcs.length - 1] === '}')) {
-        strpcs = strpcs.substring(1, strpcs.length - 1);
-      }
-      if (strpcs) {
-        let pitches = strpcs.split(',');
-        for (let i = 0; i < pitches.length; i++) {
-          const x = Number(pitches[i])
-          if (Number.isNaN(x) || x < 0 || x > 12) {
-            throw new Error("Invalid PCS ! (" + strpcs + ')')
-          }
-        }
-      }
-    }
-  }
+  //
+  // checkStrpcs(strpcs: string) {
+  //   if (strpcs.length > 0) {
+  //     if ((strpcs[0] === '[' && strpcs[strpcs.length - 1] === ']') ||
+  //       (strpcs[0] === '{' && strpcs[strpcs.length - 1] === '}')) {
+  //       strpcs = strpcs.substring(1, strpcs.length - 1);
+  //     }
+  //     if (strpcs) {
+  //       let pitches = strpcs.split(',');
+  //       for (let i = 0; i < pitches.length; i++) {
+  //         const x = Number(pitches[i])
+  //         if (Number.isNaN(x) || x < 0 || x > 12) {
+  //           throw new Error("Invalid PCS ! (" + strpcs + ')')
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
 
 
   /**
@@ -725,27 +725,6 @@ export class IPcs {
     return res;
   }
 
-  __is(): number[] {
-    let n = this.n;
-    let res: number[] = []
-    for (let i = 0; i < n; i++) {
-      // @ts-ignore
-      if (this.abinPcs[(i + this.iPivot) % n] === 1) {
-        let j;
-        for (let k = 0; k < n; k++) {
-          j = (k + i + 1) % n
-          // @ts-ignore
-          if (this.abinPcs[(j + this.iPivot) % n] === 1) {
-            // offset iPivot is not necessary
-            res.push((n + j - i) % n)
-            break
-          }
-        }
-      }
-    }
-    return res;
-  }
-
   /**
    * interval vector (generalized on n)
    *
@@ -881,13 +860,6 @@ export class IPcs {
         }
       }
     }
-    let newIpcsComplement = new IPcs({
-      binPcs: binCplt,
-      iPivot: new_iPivot,
-      orbit: new Orbit(), // as new pcs, here we don't know its orbit (see note below)
-      templateMappingBinPcs: this.templateMappingBinPcs,
-      nMapping: this.nMapping
-    })
 
     // Note :  if this come from a group action (not detached) then newIpcsComplement already exists in
     // an orbit of this.orbit.groupAction, and its orbit is not empty.
@@ -895,7 +867,14 @@ export class IPcs {
     // Discussion : is a good idea to make the job of ManagerPcsService here ?
     // hum... no, risk of side effect when construct group action ?
     // if not then we do same job with other transformation operations.
-    return newIpcsComplement
+    return  new IPcs({
+      binPcs: binCplt,
+      iPivot: new_iPivot,
+      orbit: new Orbit(), // as new pcs, here we don't know its orbit (see note below)
+      templateMappingBinPcs: this.templateMappingBinPcs,
+      nMapping: this.nMapping
+    })
+
   }
 
   toString() {
@@ -994,7 +973,7 @@ export class IPcs {
    *       symInter: number[]
    *     }
    */
-  getAxialSymmetries() {
+  getAxialSymmetries(): { symMedian: number[], symInter: number[] } {
     let symMedian: number[] = Array(this.nMapping)
     let symInter: number[] = Array(this.nMapping)
     symMedian.fill(0)
@@ -1250,7 +1229,7 @@ export class IPcs {
   /**
    * Try to define iPivot from symmetries of pcs, if possible
    * Begin first with M11, M5 then M7, and their complement, in this order,
-   * The first closest to zero win (exclus M1-Tx) !
+   * The first closest to zero win (excludes M1-Tx) !
    * Example of winners : M5-T0, CM5-T11 or CM5-T1 (same distance to zero)
    * @return pivot value or -1 if not found (Not sure this case could exist)
    */
@@ -1299,39 +1278,40 @@ export class IPcs {
   }
 
 
-  /**
-   * Try to define iPivot from symmetries of pcs, if possible
-   * test first M11, M5 then M7, in this order, the first found is winner
-   * @return pivot value or -1 if not found
-   */
-  public sav_getPivotFromSymmetry(): number {
-    // create new instance for test
-    let pcsForTest = new IPcs({
-      binPcs: this.abinPcs,
-      iPivot: this.iPivot,
-      orbit: this.orbit,
-      templateMappingBinPcs: this.templateMappingBinPcs,
-      nMapping: this.nMapping
-    })
-
-    if (this.n !== 12) throw Error("pcs.n = " + this.n + " invalid (must be 12 digits)")
-
-    // no symmetry but exists stab in T0 other that M1-T0 ?
-    // example : musaic n° 53, 35 (see unit test)
-    const id = this.id
-    for (let i = 0; i < IPcs.OperationsT0_M11_M5_M7_CM11_CM5_CM7.length; i++) {
-      for (let j = 0; j < pcsForTest.abinPcs.length; j++) {
-        if (pcsForTest.abinPcs[j] === 1) {
-          pcsForTest.setPivot(j)
-          if (id === IPcs.OperationsT0_M11_M5_M7_CM11_CM5_CM7[i].actionOn(pcsForTest).id) {
-            // good pivot
-            return j
-          }
-        }
-      }
-    }
-    return -1
-  }
+  // /**
+  //  * Try to define iPivot from symmetries of pcs, if possible
+  //  * test first M11, M5 then M7, in this order, the first found is winner
+  //  * @return pivot value or -1 if not found
+  //  */
+  //
+  // public sav_getPivotFromSymmetry(): number {
+  //   // create new instance for test
+  //   let pcsForTest = new IPcs({
+  //     binPcs: this.abinPcs,
+  //     iPivot: this.iPivot,
+  //     orbit: this.orbit,
+  //     templateMappingBinPcs: this.templateMappingBinPcs,
+  //     nMapping: this.nMapping
+  //   })
+  //
+  //   if (this.n !== 12) throw Error("pcs.n = " + this.n + " invalid (must be 12 digits)")
+  //
+  //   // no symmetry but exists stab in T0 other that M1-T0 ?
+  //   // example : musaic n° 53, 35 (see unit test)
+  //   const id = this.id
+  //   for (let i = 0; i < IPcs.OperationsT0_M11_M5_M7_CM11_CM5_CM7.length; i++) {
+  //     for (let j = 0; j < pcsForTest.abinPcs.length; j++) {
+  //       if (pcsForTest.abinPcs[j] === 1) {
+  //         pcsForTest.setPivot(j)
+  //         if (id === IPcs.OperationsT0_M11_M5_M7_CM11_CM5_CM7[i].actionOn(pcsForTest).id) {
+  //           // good pivot
+  //           return j
+  //         }
+  //       }
+  //     }
+  //   }
+  //   return -1
+  // }
 
   /**
    * Get intervals type of intervallic structure

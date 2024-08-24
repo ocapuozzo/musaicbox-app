@@ -12,7 +12,6 @@ import {IPcs} from "./IPcs";
 import {MotifStabilizer} from "./MotifStabilizer";
 import {Stabilizer} from "./Stabilizer";
 import {GroupAction} from "./GroupAction";
-import {MusaicPcsOperation} from "./MusaicPcsOperation";
 
 export class Orbit {
   /**

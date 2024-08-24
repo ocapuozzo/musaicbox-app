@@ -9,7 +9,6 @@ import {HistoryT} from "../utils/HistoryT";
 import {DialogSaveAsFileNameService} from "./dialog-save-as-file-name.service";
 import {IDialogDataSaveToFile} from "../component/dialog-save-to-file/IDialogDataSaveToFile";
 import {DomSanitizer} from "@angular/platform-browser";
-import {PcsAnalysisComponent} from "../component/pcs-analysis/pcs-analysis.component";
 import {PcsComponent} from "../component/pcs/pcs.component";
 
 export interface FinalElementMove {
@@ -575,18 +574,8 @@ export class ManagerPageWBService {
     this.doFinalPosition(finalMoveElements)
   }
 
-  /**
-   * Prefer use getSelectedPcsDtoIndexes because they are ordered by user
-   * @private
-   */
-  private getSelectedPcsDto() {
-    return this.uiPcsDtoList.filter(pcsDto => pcsDto.isSelected)
-  }
-
   private getSelectedPcsDtoIndexes(): number[] {
     return this.orderedIndexesSelectedPcsDto
-    // return this.uiPcsDtoList.map((pcsDto, index) => pcsDto.isSelected ? index : -1)
-    //   .filter(index => index >= 0)
   }
 
   doCircularAlign() {
