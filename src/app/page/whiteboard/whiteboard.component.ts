@@ -237,8 +237,6 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   }
 
   onMouseMove(e: any) {
-    e.preventDefault()
-    e.stopPropagation()
     if (this.isContextMenuOpened) {
       // do context menu modal
       return
@@ -250,6 +248,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
 
     if (this.isDown) {
       e.preventDefault()
+      e.stopPropagation()
       // console.log("nb selected elements : ", this.initialPointOfSelectedElements.length)
       // final set position will set by onMouseUp event
       if (this.initialPointOfSelectedElements.length > 0) {

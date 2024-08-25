@@ -1,9 +1,17 @@
 <div class="_is-clock" >
   <div #containercanvas  style="width: 100%; text-align:center;"  id="containercanvas">
     <canvas #canvas style="display: inline"></canvas>
+
     <p style="margin-top: 10px">
     IS : <span class="analyse-pcs"> ({{ pcs.is() }})</span>
     </p>
+
+    <div>
+      <app-module-translation-control
+        (changePcsEvent)="changePcsFromModuleTranslationControl($event)">
+      </app-module-translation-control>
+    </div>
+    <hr>
 
     @if ([3, 4].includes(pcs.cardinal)) {
       <p class="chord-name-def" style="margin-top: 10px; padding: 0">{{ pcs.getChordName() }}</p>
@@ -35,11 +43,7 @@
     <app-score-notation [pcs]="pcs" style="height: 150px;">
     </app-score-notation>
   </div>
-  <div>
-    <app-module-translation-control
-      (changePcsEvent)="changePcsFromModuleTranslationControl($event)">
-    </app-module-translation-control>
-  </div>
+
   <hr>
 
   <div class="panel-action">

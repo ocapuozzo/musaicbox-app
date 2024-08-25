@@ -103,7 +103,7 @@ export class ManagerPageWBService {
       let pcsDto =
         this.pcsDtoForTemplate
           ? new UIPcsDto({...this.pcsDtoForTemplate, uiMusaic:{...this.pcsDtoForTemplate.uiMusaic}})
-          : new UIPcsDto()
+          : new UIPcsDto({ uiMusaic: new UIMusaic({rounded: !pcs.isDetached()})})
       pcsDto.pcs = pcs
       ManagerPageWBService.deltaPositionNewPcs += this._GAP_BETWEEN
       pcsDto.position = {
