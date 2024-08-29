@@ -38,7 +38,7 @@
     <div class="contextual-menu" cdkMenu>
       <span class="text-center">Do with {{ name }}</span>
       <hr/>
-      <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doPushToPcsPage(index)">Push / Edit to PCS page</button>
+      <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doPushToPcsPage(index)">Push / Edit on PCS page</button>
       <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doSingleToggleSelected(index)">
         <mat-slide-toggle [checked]="isSelected(index)">Selected</mat-slide-toggle>
       </button>
@@ -47,6 +47,13 @@
       <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="duplicate"  [cdkMenuTriggerData]="{index: index}">
         Duplicate <span *ngIf="!isSolo(index)">&nbsp;({{numberSelectedComponents}})</span> <span> &#10148;</span>
       </button>
+      <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="primes">
+        Prime Form <span>&#10148;</span>
+      </button>
+      <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="neighbors">
+        Neighbors <span>&#10148;</span>
+      </button>
+      <hr/>
       <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doZoom(1, index)">
         zoom+ (+)
         <span [hidden]="pcsDtoList[index].indexFormDrawer > 0">&nbsp; (cw={{sizeCellWidth(index)}})</span>
@@ -67,9 +74,6 @@
         Align <span>&#10148;</span>
       </button>
 
-      <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="neighbors">
-        Neighbors <span>&#10148;</span>
-      </button>
       <hr/>
       <div cdkMenuGroup>
         @for (drawer of drawers; track drawer; let idx = $index) {
@@ -129,6 +133,16 @@
       <button class="contextual-menu-item" disabled cdkMenuItem>Similarity IS</button>
       <button class="contextual-menu-item" disabled cdkMenuItem>Similarity IV</button>
       <button class="contextual-menu-item" disabled cdkMenuItem>Others</button>
+    </div>
+  </ng-template>
+
+  <ng-template #primes let-index="index">
+    <div class="contextual-menu" cdkMenu>
+      <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doGetPrimForm('Modal',index)" >Modal Prime Form</button>
+      <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doGetPrimForm('Cyclic',index)">Cyclic Prime Form</button>
+      <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doGetPrimForm('Dihedral',index)">Dihedral Prime Form</button>
+      <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doGetPrimForm('Affine',index)">Affine Prime Form</button>
+      <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doGetPrimForm('Musaic',index)">Musaic Prime Form</button>
     </div>
   </ng-template>
 

@@ -44,22 +44,13 @@ export class PcsAnalysisComponent {
     // this.pcsList = this.managerHomePcsService.pcsList
     this.managerPagePcsService.updatePcsEvent.subscribe((pcs: IPcs) => {
       this.pcs = pcs
-      this.pcsMapped = this.pcs.n == 12
-        ? this.pcs
-        : new IPcs({binPcs: this.pcs.getMappedBinPcs()})
-      if (this.pcs.getPivot() != undefined) {
-        this.pcsMapped.setPivot(this.pcs.templateMappingBinPcs[this.pcs.getPivot() ?? 0])
-      }
+      this.pcsMapped = this.pcs.unMap()
     })
   }
 
   ngOnInit() {
     this.pcs = this.managerPagePcsService.pcs
-    this.pcsMapped = this.pcs.n == 12 ? this.pcs : new IPcs({binPcs: this.pcs.getMappedBinPcs()})
-    // set pivot to pcsMapped
-    if (this.pcs.getPivot() != undefined) {
-      this.pcsMapped.setPivot(this.pcs.templateMappingBinPcs[this.pcs.getPivot() ?? 0])
-    }
+    this.pcsMapped = this.pcs.unMap()
   }
 
   fixedPcsList() {
@@ -180,4 +171,5 @@ export class PcsAnalysisComponent {
     operationStab.sort(MusaicPcsOperation.compareStab)
     return operationStab.map( (operationStab) => operationStab.toString()).join(" ");
   }
+
 }

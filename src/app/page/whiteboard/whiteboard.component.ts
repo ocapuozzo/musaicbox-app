@@ -568,4 +568,8 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   }
 
   protected readonly console = console;
+
+  doGetPrimForm(whichPrime: string, index: number) {
+    this.managerPageWBService.doGetPrimForm(whichPrime, index)
+  }
 }

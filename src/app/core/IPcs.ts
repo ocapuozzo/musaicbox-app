@@ -1111,18 +1111,18 @@ export class IPcs {
 
   /**
    * If this is mapped (this.nMapping > this.n) then
-   * create new instance with n == this.nMapping
+   * create new instance with n === this.nMapping
    */
   unMap(): IPcs {
-    if (this.nMapping == this.n) {
-      return this // or clone ?
+    if (this.n === 12) {
+      return this
     }
 
-    return new IPcs(
-      {
-        binPcs: this.getMappedBinPcs(),
-        n: this.nMapping
-      })
+    const pivot = this.getPivot() === undefined
+      ? undefined
+      : this.getMappedPivot()
+
+    return new IPcs({binPcs: this.getMappedBinPcs(), iPivot:pivot})
   }
 
   /**

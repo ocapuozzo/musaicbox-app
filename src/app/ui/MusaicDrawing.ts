@@ -58,11 +58,14 @@ export class MusaicDrawing {
     // are same IS, are same Musaic representation
     // let iPivot = this.pcsList.iPivot ?? 0
 
+
+    ctx.reset() //translate(0.5,0.5);
     const pivotMapped = this.pcsDto.pcs.templateMappingBinPcs[this.pcsDto.pcs.iPivot ?? 0]
     for (let i = 0; i <= n; i++) {
       for (let j = 0; j <= n; j++) {
         if (this.pcsDto.pcs.getMappedBinPcs()[(i + pivotMapped + j * 5) % n] === 1) {
           ctx.fillStyle = this.pcsDto.colorPitchOn;
+          ctx.strokeStyle = this.pcsDto.colorPitchOn;
           ctx.fillRect(j * CEL_WIDTH, i * CEL_WIDTH, CEL_WIDTH, CEL_WIDTH);
         } else {
           // already fill

@@ -49,7 +49,7 @@ export class ManagerPageWBService {
   /**
    * special attribut for save whiteboard content page to file
    */
-  dataSaveToFile : IDialogDataSaveToFile = {
+  dataSaveToFile: IDialogDataSaveToFile = {
     fileName: 'my-muse-',
     withDateInFileName: true
   }
@@ -76,12 +76,17 @@ export class ManagerPageWBService {
       new UIPcsDto({pcs: pcs1, indexFormDrawer: 0, position: {x: 0, y: 10}}),
       new UIPcsDto({pcs: pcs2, indexFormDrawer: 1, position: {x: 110, y: 10}, isSelected: true}),
       new UIPcsDto({pcs: pcs3, indexFormDrawer: 2, position: {x: 220, y: 10}, isSelected: true}),
-      new UIPcsDto({pcs: pcs4, indexFormDrawer: 0, position: {x: 400, y: 30}, uiMusaic: {...uiMus, width:35, height:35, widthCell:3} })
+      new UIPcsDto({
+        pcs: pcs4,
+        indexFormDrawer: 0,
+        position: {x: 400, y: 30},
+        uiMusaic: {...uiMus, width: 35, height: 35, widthCell: 3}
+      })
     ]
     let restorePcsDtoList = this.managerLocalStorageService.getPcsDtoListFromLocalStorage()
     this.uiPcsDtoList = restorePcsDtoList.length === 0 ? pcsDtoList : restorePcsDtoList
     // start with no selected element
-    this.uiPcsDtoList.forEach( (pcsDto : UIPcsDto) => pcsDto.isSelected = false)
+    this.uiPcsDtoList.forEach((pcsDto: UIPcsDto) => pcsDto.isSelected = false)
     this.orderedIndexesSelectedPcsDto = []
 
     this.history.pushIntoPresent(this.uiPcsDtoList)
@@ -92,7 +97,7 @@ export class ManagerPageWBService {
     this.eventChangePcsPdoList.emit(this.uiPcsDtoList)
   }
 
-  addPcs(somePcs: IPcs[], circularAlign : boolean = false ) {
+  addPcs(somePcs: IPcs[], circularAlign: boolean = false) {
     this.doUnselectAll()
     this.uiPcsDtoList = [...this.uiPcsDtoList]
 
@@ -102,8 +107,8 @@ export class ManagerPageWBService {
     somePcs.forEach(pcs => {
       let pcsDto =
         this.pcsDtoForTemplate
-          ? new UIPcsDto({...this.pcsDtoForTemplate, uiMusaic:{...this.pcsDtoForTemplate.uiMusaic}})
-          : new UIPcsDto({ uiMusaic: new UIMusaic({rounded: !pcs.isDetached()})})
+          ? new UIPcsDto({...this.pcsDtoForTemplate, uiMusaic: {...this.pcsDtoForTemplate.uiMusaic}})
+          : new UIPcsDto({uiMusaic: new UIMusaic({rounded: !pcs.isDetached()})})
       pcsDto.pcs = pcs
       ManagerPageWBService.deltaPositionNewPcs += this._GAP_BETWEEN
       pcsDto.position = {
@@ -114,7 +119,7 @@ export class ManagerPageWBService {
       }
       pcsDto.isSelected = true
       this.uiPcsDtoList.push(pcsDto)
-      if (ManagerPageWBService.deltaPositionNewPcs > window.innerWidth /2) {
+      if (ManagerPageWBService.deltaPositionNewPcs > window.innerWidth / 2) {
         ManagerPageWBService.deltaPositionNewPcs = 20
       }
 
@@ -225,8 +230,7 @@ export class ManagerPageWBService {
         throw new Error("oops bad index : " + index)
       }
       if (this.uiPcsDtoList[index].indexFormDrawer === PcsComponent.MUSAIC_INDEX &&
-          this.uiPcsDtoList[index].uiMusaic.rounded !== valueRounded)
-      {
+        this.uiPcsDtoList[index].uiMusaic.rounded !== valueRounded) {
         let pcsDto
           = new UIPcsDto({...this.uiPcsDtoList[index]})
         pcsDto.uiMusaic.rounded = valueRounded
@@ -381,7 +385,7 @@ export class ManagerPageWBService {
   doDuplicate(index: number, deltaPosition = 20) {
     this.uiPcsDtoList = [...this.uiPcsDtoList]
     let newPcsDtos: UIPcsDto[] = []
-    let indexes : number[] = []
+    let indexes: number[] = []
 
     if (this.isIndexInElementsSelected(index)) {
       // do on all selected elements
@@ -413,7 +417,7 @@ export class ManagerPageWBService {
 
   doToggleShowChordName(index: number) {
     this.uiPcsDtoList = [...this.uiPcsDtoList]
-    let indexes : number[]
+    let indexes: number[]
 
     if (this.isIndexInElementsSelected(index)) {
       // do on all selected elements
@@ -427,7 +431,7 @@ export class ManagerPageWBService {
     }
 
     // work with value of element target event
-    const valueShowChordName = ! this.uiPcsDtoList[index].showChordName
+    const valueShowChordName = !this.uiPcsDtoList[index].showChordName
 
     indexes.forEach(index => {
       let pcsDto = this.uiPcsDtoList[index]
@@ -630,7 +634,7 @@ export class ManagerPageWBService {
   doReplaceContentBy(contentJson: string) {
     this.uiPcsDtoList = this.managerLocalStorageService.getPcsDtoListFromJsonContent(contentJson)
     // start with no selected element
-    this.uiPcsDtoList.forEach( (pcsDto : UIPcsDto) => pcsDto.isSelected = false)
+    this.uiPcsDtoList.forEach((pcsDto: UIPcsDto) => pcsDto.isSelected = false)
     this.orderedIndexesSelectedPcsDto = []
     // this.orderedIndexesSelectedPcsDto =
     //   this.uiPcsDtoList
@@ -652,16 +656,16 @@ export class ManagerPageWBService {
     return this.orderedIndexesSelectedPcsDto.includes(index);
   }
 
-  doSaveContentToFile(fileName : string = "my-project.musaicbox") {
-     // console.log(`Save content to ${fileName}`)
-      const blob = new Blob([this.getSerialDataContent()], {type: 'application/json'});
-      const url = window.URL.createObjectURL(blob);
-      let anchor = document.createElement("a");
-      anchor.download = fileName;
-      // https://stackoverflow.com/questions/55849415/type-saferesourceurl-is-not-assignable-to-type-string
-      anchor.href = "" + this.sanitizer.sanitize(SecurityContext.RESOURCE_URL, this.sanitizer.bypassSecurityTrustResourceUrl(url));
-      anchor.click();
-    }
+  doSaveContentToFile(fileName: string = "my-project.musaicbox") {
+    // console.log(`Save content to ${fileName}`)
+    const blob = new Blob([this.getSerialDataContent()], {type: 'application/json'});
+    const url = window.URL.createObjectURL(blob);
+    let anchor = document.createElement("a");
+    anchor.download = fileName;
+    // https://stackoverflow.com/questions/55849415/type-saferesourceurl-is-not-assignable-to-type-string
+    anchor.href = "" + this.sanitizer.sanitize(SecurityContext.RESOURCE_URL, this.sanitizer.bypassSecurityTrustResourceUrl(url));
+    anchor.click();
+  }
 
   doOpenDialogAndSaveContentToFile() {
     this.dialogSaveAsFileNameService.openDialogForSaveIntoFile(this.dataSaveToFile)
@@ -669,16 +673,16 @@ export class ManagerPageWBService {
 
   doDuplicateInOthersView(index: number) {
     const pcsDto = this.uiPcsDtoList[index]
-    let newPcsDto : UIPcsDto[] = []
+    let newPcsDto: UIPcsDto[] = []
     this.DRAWERS.forEach((drawer, index) => {
-       if (index != pcsDto.indexFormDrawer) {
-         newPcsDto.push(new UIPcsDto({
-           ...pcsDto,
-           indexFormDrawer: index,
-           isSelected:true,
-           uiMusaic: new UIMusaic({...pcsDto.uiMusaic, rounded:true })
-         }))
-       }
+      if (index != pcsDto.indexFormDrawer) {
+        newPcsDto.push(new UIPcsDto({
+          ...pcsDto,
+          indexFormDrawer: index,
+          isSelected: true,
+          uiMusaic: new UIMusaic({...pcsDto.uiMusaic, rounded: true})
+        }))
+      }
     })
     this.uiPcsDtoList = [...this.uiPcsDtoList, ...newPcsDto]
 
@@ -693,7 +697,7 @@ export class ManagerPageWBService {
     //start to one (because already pcsDto is in place)
     for (let i = 1; i < this.DRAWERS.length; i++) {
       // add last indexes
-      this.orderedIndexesSelectedPcsDto.push(this.uiPcsDtoList.length-i)
+      this.orderedIndexesSelectedPcsDto.push(this.uiPcsDtoList.length - i)
     }
     this.doCircularAlign()
   }
@@ -706,5 +710,26 @@ export class ManagerPageWBService {
     this.uiPcsDtoList[indexPcsForEdit] = pcsDto
     this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
     this.emit()
+  }
+
+  doGetPrimForm(whichPrime: string, index: number): IPcs {
+    if (index < 0 || index >= this.uiPcsDtoList.length) {
+      throw new Error(`bad index : ${index}`)
+    }
+    const pcs = this.uiPcsDtoList[index].pcs
+    switch (whichPrime) {
+      case 'Modal' :
+        return pcs.modalPrimeForm()
+      case 'Cyclic' :
+        return pcs.cyclicPrimeForm()
+      case 'Dihedral' :
+        return pcs.dihedralPrimeForm()
+      case 'Affine' :
+        return pcs.affinePrimeForm()
+      case 'Musaic' :
+        return pcs.musaicPrimeForm()
+      default :
+        return pcs
+    }
   }
 }
