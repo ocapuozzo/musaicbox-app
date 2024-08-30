@@ -11,7 +11,6 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {faCoffee, IconDefinition} from '@fortawesome/free-solid-svg-icons';
 import {faCat} from '@fortawesome/free-solid-svg-icons';
 import {faGuitar} from '@fortawesome/free-solid-svg-icons';
-import {FaIconComponent} from '@fortawesome/angular-fontawesome';
 import {faGithub} from '@fortawesome/free-brands-svg-icons';
 import {FormBuilder, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {IPcs} from "./core/IPcs";
@@ -52,8 +51,8 @@ export class AppComponent {
   });
 
   constructor(private formBuilder: FormBuilder,
-              private readonly managerHomePcsService: ManagerPagePcsService,
-              private readonly managerHomePcsListService: ManagerPagePcsListService,
+              private readonly managerPagePcsService: ManagerPagePcsService,
+              private readonly managerPagePcsListService: ManagerPagePcsListService,
               private readonly managerPageWBService: ManagerPageWBService,
               private readonly breakpointObserver: BreakpointObserver,
               private readonly router: Router) {
@@ -89,16 +88,19 @@ export class AppComponent {
           this.searchPcsWithThisIV(pcsString.substring(3))
         }else if (pcsString.startsWith('is:')) {
           this.searchPcsWithThisIS(pcsString.substring(3))
-        } else {
+
+      }else if (pcsString.startsWith('pid:')) {
+        this.searchPcsWithThisPid(pcsString.substring(4))
+      } else {
           try {
             let pcs = new IPcs({strPcs: pcsString})
             if (pcs.cardinal > 0) {
               this.checkoutForm.reset();
               // console.log("this route = ",  this.router.url)
-              if (this.router.url == '/w-board') {
+              if (this.router.url === '/w-board') {
                  this.managerPageWBService.addPcs([pcs])
               } else {
-                this.managerHomePcsService.replaceBy(pcs)
+                this.managerPagePcsService.replaceBy(pcs)
                 this.router.navigateByUrl('/pcs');
               }
             }
@@ -124,10 +126,10 @@ export class AppComponent {
         this.managerPageWBService.addPcs(pcsWithSameIV)
       } else {
         // select the first of list as current pcs
-        this.managerHomePcsService.replaceBy(pcsWithSameIV[0])
+        this.managerPagePcsService.replaceBy(pcsWithSameIV[0])
         // push all pcs havine same IV into list pcs of pcs page
         for (const pcs of pcsWithSameIV) {
-          this.managerHomePcsListService.addPcs('iv:' + searchIV, pcs)
+          this.managerPagePcsListService.addPcs('iv:' + searchIV, pcs)
         }
         this.router.navigateByUrl('/pcs');
       }
@@ -148,10 +150,25 @@ export class AppComponent {
         this.managerPageWBService.addPcs([pcs])
       } else {
         // select the first of list as current pcs
-        this.managerHomePcsService.replaceBy(pcs)
+        this.managerPagePcsService.replaceBy(pcs)
         this.router.navigateByUrl('/pcs');
       }
     }
   }
 
+  private searchPcsWithThisPid(pid: string) {
+    const integerPid = parseInt(pid)
+    if (!isNaN(integerPid)) {
+      const pcs = PcsSearch.searchPcsWithThisPid(integerPid)
+      if (pcs) {
+        if (this.router.url == '/w-board') {
+          this.managerPageWBService.addPcs([pcs])
+        } else {
+          // select the first of list as current pcs
+          this.managerPagePcsService.replaceBy(pcs)
+          this.router.navigateByUrl('/pcs');
+        }
+      }
+    }
+  }
 }

@@ -34,7 +34,7 @@ describe('ManagerPcsService', () => {
   it('doTransformeAffine', () => {
     const pcs = new IPcs({strPcs: "0, 1, 11", iPivot: 0})
     const pcs2 = new IPcs({strPcs: "0, 1, 2", iPivot: 1})
-    expect(managerPcsService.doTransformeAffine(pcs, 1, 1).id).toEqual(pcs2.id)
+    expect(managerPcsService.doTransformAffine(pcs, 1, 1).id).toEqual(pcs2.id)
   })
 
   it('transformeByMxT0', () => {

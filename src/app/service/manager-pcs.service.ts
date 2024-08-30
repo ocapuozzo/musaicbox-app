@@ -10,7 +10,7 @@ export class ManagerPcsService {
   constructor() { }
 
   transformeByMxT0(pcs: IPcs, a:number): IPcs {
-    return this.doTransformeAffine(pcs, a, 0)
+    return this.doTransformAffine(pcs, a, 0)
   }
 
   sav_transformeByMxT0(pcs: IPcs, a:number): IPcs {
@@ -29,7 +29,7 @@ export class ManagerPcsService {
   }
 
   translateByM1Tx(pcs: IPcs, t:number): IPcs {
-    return this.doTransformeAffine(pcs, 1, t)
+    return this.doTransformAffine(pcs, 1, t)
   }
 
   complement(pcs: IPcs): IPcs {
@@ -107,7 +107,7 @@ export class ManagerPcsService {
     return pcs.translation(0);
   }
 
-  doTransformeAffine(pcs : IPcs, a : number, t : number) : IPcs {
+  doTransformAffine(pcs : IPcs, a : number, t : number) : IPcs {
     let newPcs = pcs.affineOp(a, t)
     const savPivot = newPcs.getPivot()
     if (pcs.orbit?.groupAction) {

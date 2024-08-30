@@ -84,7 +84,7 @@ export class ManagerLocalStorageService {
             nMapping:pcsSerialDto.serializedPcs.nMapping ?? 12,
             templateMappingBinPcs:pcsSerialDto.serializedPcs.templateMappingBinPcs ?? []
           })
-          console.log("pcs = ", pcs)
+          //console.log("pcs = ", pcs)
         }
         let obj = new UIPcsDto({
           ...pcsSerialDto,

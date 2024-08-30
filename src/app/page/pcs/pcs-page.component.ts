@@ -7,7 +7,7 @@ import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
 import {PcsAnalysisComponent} from "../../component/pcs-analysis/pcs-analysis.component";
 import {ManagerPagePcsListService} from "../../service/manager-page-pcs-list.service";
 import {EightyEight} from "../../utils/EightyEight";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {MatButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {IElementListPcs} from "../../service/IElementListPcs";
@@ -16,6 +16,7 @@ import {NgClass, NgStyle} from "@angular/common";
 import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 import {Subject, takeUntil} from "rxjs";
 import {ManagerPageWBService} from "../../service/manager-page-wb.service";
+import {PcsSearch} from "../../utils/PcsSearch";
 
 
 @Component({
@@ -73,6 +74,7 @@ export class PcsPageComponent {
     private readonly managerPagePcsListService : ManagerPagePcsListService,
     private managerPageWBService : ManagerPageWBService,
     private router : Router,
+    private activateRoute: ActivatedRoute,
     private responsive: BreakpointObserver) {
 
     this.pcs = this.managerPagePcsService.pcs
@@ -124,8 +126,20 @@ export class PcsPageComponent {
           }
         }
         // console.log("this.currentScreenSize : " + this.currentScreenSize )
-
       });
+
+    // route pcs/pid/42 => pcs {1,3,5}, musaic n° 11
+    this.activateRoute.params.subscribe(params => {
+      const pid =  parseInt(this.activateRoute.snapshot.paramMap.get('pid') || '');
+      // console.log(`pid : ${pid}`)
+      if (! isNaN(pid)) {
+        const pcs = PcsSearch.searchPcsWithThisPid(pid)
+        if (pcs) {
+          // console.log(`pcs : ${pcs}`)
+          this.managerPagePcsService.replaceBy(pcs)
+        }
+      }
+    });
   }
 
   ngOnDestroy() {

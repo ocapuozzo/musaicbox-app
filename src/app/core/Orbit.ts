@@ -298,4 +298,7 @@ export class Orbit {
     return this.ipcsset.find( p => p.is().toString() == intervallicStructure)
   }
 
+  getPcsWithThisPid(pid: number) {
+    return this.ipcsset.find( p => p.pid() == pid)
+  }
 }

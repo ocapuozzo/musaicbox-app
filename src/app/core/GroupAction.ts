@@ -427,6 +427,23 @@ export class GroupAction {
     return undefined
   }
 
+
+  getPcsWithThisPid(pid: number) : IPcs | undefined {
+    for (const orbit of this.orbits) {
+      const pcs = orbit.getPcsWithThisPid(pid)
+      if (pcs) return pcs
+    }
+    // this.powerset.values() below create new iterator while loop above use existing structures
+    // so, it's preferred
+
+    // for (const pcs of this.powerset.values()) {
+    //   if (pcs.pid() === pid) return pcs
+    // }
+    return undefined
+  }
+
+
+
   /**
    * form operations list build simple name
    * Ex: M1-T0, M1-T5, M5-T1, M5-T8 => M1, M5

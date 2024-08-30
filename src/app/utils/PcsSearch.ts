@@ -34,4 +34,14 @@ export class PcsSearch {
     return groupCyclic.getPcsWithThisIS(searchIS)
   }
 
+  /**
+   * Search PCS having pid from cyclic group
+   * Ex : 585 => PCS : { 0, 3, 6, 9 }
+   * @param pid polynomial integer value
+   * @return IPcs or undefined
+   */
+  static searchPcsWithThisPid(pid: number) {
+    const groupCyclic = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
+    return groupCyclic.getPcsWithThisPid(pid)
+  }
 }
