@@ -536,7 +536,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   //https://stackoverflow.com/questions/47581687/read-a-file-and-parse-its-content
   uploadDocument(file: File) {
     let fileReader = new FileReader();
-    fileReader.onload = (e) => {
+    fileReader.onload = () => {
       this.managerPageWBService.doReplaceContentBy(fileReader.result + "")
     }
     fileReader.readAsText(file);

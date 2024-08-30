@@ -1,4 +1,3 @@
-import {UIPcsDto} from "./UIPcsDto";
 import {IPcs} from "../core/IPcs";
 import {ScoreDrawingAbcNotation} from "./ScoreDrawingAbcNotation";
 
