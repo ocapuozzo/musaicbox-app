@@ -40,17 +40,17 @@ describe('ScoreDrawingAbcNotation', () => {
     abcNotation = ScoreDrawingAbcNotation.fromPcsToABCNotation(pcs7)
     expect(abcNotation).toEqual("F A C' _E'")
 
-   // F#7
+    // F#7
     pcs7 = pcs7.translation(1)
     abcNotation = ScoreDrawingAbcNotation.fromPcsToABCNotation(pcs7)
     expect(abcNotation).toEqual("^F ^A ^C' E'")
 
-   // G7
+    // G7
     pcs7 = pcs7.translation(1)
     abcNotation = ScoreDrawingAbcNotation.fromPcsToABCNotation(pcs7)
     expect(abcNotation).toEqual("G B D' F'")
 
-   // Ab7
+    // Ab7
     pcs7 = pcs7.translation(1)
     abcNotation = ScoreDrawingAbcNotation.fromPcsToABCNotation(pcs7)
     expect(abcNotation).toEqual("_A C' _E' _G'")
@@ -134,6 +134,26 @@ describe('ScoreDrawingAbcNotation', () => {
     pcsMinor7 = pcsMinor7.translation(1)
     abcNotation = ScoreDrawingAbcNotation.fromPcsToABCNotation(pcsMinor7)
     expect(abcNotation).toEqual("B D' ^F' A'")
+
+  })
+
+  it('dim chords', () => {
+    // Cdim
+    let pcsDim = new IPcs({strPcs: "0, 3, 6"})
+    let abcNotation = ScoreDrawingAbcNotation.fromPcsToABCNotation(pcsDim)
+    expect(abcNotation).toEqual('C _E _G')
+
+    pcsDim = new IPcs({strPcs: "2, 5, 8"})
+    abcNotation = ScoreDrawingAbcNotation.fromPcsToABCNotation(pcsDim)
+    expect(abcNotation).toEqual('D F _A')
+
+    pcsDim = new IPcs({strPcs: "2, 5, 8, 0"})
+    abcNotation = ScoreDrawingAbcNotation.fromPcsToABCNotation(pcsDim)
+    expect(abcNotation).toEqual("D F _A C'")
+
+    pcsDim = new IPcs({strPcs: "2, 5, 8, 11"})
+    abcNotation = ScoreDrawingAbcNotation.fromPcsToABCNotation(pcsDim)
+    expect(abcNotation).toEqual("D F _A B")
 
   })
 

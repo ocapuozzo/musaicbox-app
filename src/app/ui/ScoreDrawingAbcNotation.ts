@@ -53,12 +53,7 @@ export class ScoreDrawingAbcNotation {
 
     const alterationNotesForChange = [1, 3, 6, 8, 10]
 
-    let pcsMapped = pcs
-
-    if (pcs.n != 12) {
-      pcsMapped = new IPcs({binPcs: pcs.getMappedBinPcs()})
-      pcsMapped.setPivot(pcs.templateMappingBinPcs[pcs.getPivot() ?? 0])
-    }
+    let pcsMapped = pcs.n !== 12 ? pcs.unMap() : pcs
 
     let pivot = pcsMapped.iPivot ?? 0
     let prevNote = pcsMapped.abinPcs[(n + pivot - 1) % n] === 1 ? ScoreDrawingAbcNotation.lettersSharpedNotation[(n + pivot - 1) % n] : 'X'
@@ -161,8 +156,8 @@ export class ScoreDrawingAbcNotation {
         }
       }
       // spelling fifth
-      if (intervallicStructure[0] + intervallicStructure[1] === 7) {
-        // 7 semitones == fifth
+      if ([6, 7, 8].includes(intervallicStructure[0] + intervallicStructure[1])) {
+        // 7 semitones == fifth (6 => dim and 8 => aug)
         const root = noAlteredNotes[0]
         const fifth = noAlteredNotes[2]
         const iRoot = orderedChar.indexOf(root)

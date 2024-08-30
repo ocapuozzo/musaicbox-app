@@ -23,7 +23,7 @@ import {NgClass, NgForOf, NgIf, NgStyle} from "@angular/common";
 import {FinalElementMove, ManagerPageWBService} from "../../service/manager-page-wb.service";
 import {UIPcsDto} from "../../ui/UIPcsDto";
 import {PcsComponent} from "../../component/pcs/pcs.component";
-import {DraggableDirective} from "../../draggable.directive";
+// import {DraggableDirective} from "../../draggable.directive";
 import {Point} from "../../utils/Point";
 import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
 import {Router} from "@angular/router";
@@ -61,7 +61,7 @@ interface ElementMove {
     CdkMenuItemCheckbox,
     CdkMenuItem,
     NgForOf,
-    DraggableDirective,
+    // DraggableDirective,
     NgClass,
     NgIf,
     MatSlideToggle,
@@ -513,7 +513,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   doUpZIndexRectangleSelector() {
     let eltRSelector = document.getElementById("rselector")
     eltRSelector!.style.zIndex = "2000"
-    // this.rectangleSelector.nativeElement.style.zIndex = "2000"
+    // this.rectangleSelector.nativeElement.style.zIndex = "2000" // don't work
   }
 
   rectanglesIntersect(minAx: number, minAy: number, maxAx: number, maxAy: number,
