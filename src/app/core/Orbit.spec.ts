@@ -11,7 +11,7 @@
 
 import {Orbit} from "./Orbit";
 import {Stabilizer} from "./Stabilizer";
-import {MusaicPcsOperation} from "./MusaicPcsOperation";
+import {MusaicOperation} from "./MusaicOperation";
 import {GroupAction} from "./GroupAction";
 import {Group} from "./Group";
 import {IPcs} from "./IPcs";
@@ -27,9 +27,9 @@ describe('Orbit', () => {
     let orbit = new Orbit();
     let stab = new Stabilizer()
     orbit.stabilizers.push(stab)
-    stab.addOperation(new MusaicPcsOperation(12, 1, 0))
+    stab.addOperation(new MusaicOperation(12, 1, 0))
     expect(orbit.isMotifEquivalence).not.toBeTruthy()
-    stab.addOperation(new MusaicPcsOperation(12, 1, 1))
+    stab.addOperation(new MusaicOperation(12, 1, 1))
     expect(orbit.isMotifEquivalence).toBeTruthy()
   });
 
@@ -45,14 +45,14 @@ describe('Orbit', () => {
     let orbit = new Orbit();
     let stab = new Stabilizer()
     orbit.stabilizers.push(stab)
-    stab.addOperation(new MusaicPcsOperation(12, 1, 0))
-    stab.addOperation(new MusaicPcsOperation(12, 1, 1))
+    stab.addOperation(new MusaicOperation(12, 1, 0))
+    stab.addOperation(new MusaicOperation(12, 1, 1))
 
     let orbit2 = new Orbit();
     let stab2 = new Stabilizer()
     orbit2.stabilizers.push(stab2)
-    stab2.addOperation(new MusaicPcsOperation(12, 1, 0))
-    stab2.addOperation(new MusaicPcsOperation(12, 1, 1))
+    stab2.addOperation(new MusaicOperation(12, 1, 0))
+    stab2.addOperation(new MusaicOperation(12, 1, 1))
 
     expect(Orbit.compare(orbit, orbit2)).toEqual(0)
   })
@@ -62,14 +62,14 @@ describe('Orbit', () => {
     let orbit = new Orbit();
     let stab = new Stabilizer()
     orbit.stabilizers.push(stab)
-    stab.addOperation(new MusaicPcsOperation(12, 1, 0))
-    stab.addOperation(new MusaicPcsOperation(12, 1, 1))
+    stab.addOperation(new MusaicOperation(12, 1, 0))
+    stab.addOperation(new MusaicOperation(12, 1, 1))
 
     let orbit2 = new Orbit();
     let stab2 = new Stabilizer()
     orbit2.stabilizers.push(stab2)
-    stab2.addOperation(new MusaicPcsOperation(12, 1, 0))
-    stab2.addOperation(new MusaicPcsOperation(12, 1, 2)) // t1 < t2
+    stab2.addOperation(new MusaicOperation(12, 1, 0))
+    stab2.addOperation(new MusaicOperation(12, 1, 2)) // t1 < t2
 
     expect(Orbit.compare(orbit, orbit2)).toBeLessThan(0)
   })
@@ -108,8 +108,8 @@ describe('Orbit', () => {
     let orbit = new Orbit();
     let stab = new Stabilizer()
     orbit.stabilizers.push(stab)
-    stab.addOperation(new MusaicPcsOperation(12, 1, 0))
-    stab.addOperation(new MusaicPcsOperation(12, 1, 1))
+    stab.addOperation(new MusaicOperation(12, 1, 0))
+    stab.addOperation(new MusaicOperation(12, 1, 1))
 
     expect(orbit.hashCode()).toEqual(orbit.stabilizers[0].hashCode())
   })

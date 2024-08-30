@@ -8,7 +8,7 @@
  *
  */
 
-import {MusaicPcsOperation} from "./MusaicPcsOperation";
+import {MusaicOperation} from "./MusaicOperation";
 import {IPcs} from "./IPcs";
 
 export class Group {
@@ -23,15 +23,15 @@ export class Group {
 
   static _predefinedGroups12: Group[]
 
-  operations: MusaicPcsOperation[]
+  operations: MusaicOperation[]
 
   name: string
 
   /**
    * initialize instance by generate all operations from operations passed in parameter
-   * @param {MusaicPcsOperation[]} someGeneratorMusaicPcsOperations
+   * @param {MusaicOperation[]} someGeneratorMusaicPcsOperations
    */
-  constructor(someGeneratorMusaicPcsOperations: MusaicPcsOperation[]) {
+  constructor(someGeneratorMusaicPcsOperations: MusaicOperation[]) {
     this.operations = Group.buildOperationsGroupByCaylayTable(someGeneratorMusaicPcsOperations)
     this.name = this.buildNameGroup()
   }
@@ -40,19 +40,19 @@ export class Group {
     if (!this._predefinedGroups12) {
       this._predefinedGroups12 = []
       // index == 0 == Group.CYCLIC
-      let opM1_T1 = new MusaicPcsOperation(12, 1, 1, false);
+      let opM1_T1 = new MusaicOperation(12, 1, 1, false);
       this._predefinedGroups12.push(new Group([opM1_T1]))
 
       // index == 1 == Group.DIHEDRAL
-      let opM11_T1 = new MusaicPcsOperation(12, 11, 1, false);
+      let opM11_T1 = new MusaicOperation(12, 11, 1, false);
       this._predefinedGroups12.push(new Group([opM1_T1, opM11_T1]))
 
       // index == 2 == Group.AFFINE
-      let opM5_T1 = new MusaicPcsOperation(12, 5, 1, false);
+      let opM5_T1 = new MusaicOperation(12, 5, 1, false);
       this._predefinedGroups12.push(new Group([opM1_T1, opM11_T1, opM5_T1]))
 
       // index == 3 == Group.MUSAIC
-      let opCM1_T0 = new MusaicPcsOperation(12, 1, 0, true);
+      let opCM1_T0 = new MusaicOperation(12, 1, 0, true);
       this._predefinedGroups12.push(new Group([opM1_T1, opM11_T1, opM5_T1, opCM1_T0]))
     }
     return this._predefinedGroups12
@@ -82,8 +82,8 @@ export class Group {
    * @return {Array} ordered list of operations including someOperations and 0..n more generated
    * operations by table cayley composition.
    */
-  static buildOperationsGroupByCaylayTable(someGeneratorMusaicPcsOperation: MusaicPcsOperation[]): MusaicPcsOperation[] {
-    let allOps: MusaicPcsOperation[] = [...someGeneratorMusaicPcsOperation]
+  static buildOperationsGroupByCaylayTable(someGeneratorMusaicPcsOperation: MusaicOperation[]): MusaicOperation[] {
+    let allOps: MusaicOperation[] = [...someGeneratorMusaicPcsOperation]
     let loop = true
     while (loop) {
       let cardinalOp = allOps.length
@@ -109,7 +109,7 @@ export class Group {
         }// for j
       }// for i
     } // while loop
-    allOps.sort(MusaicPcsOperation.compare)
+    allOps.sort(MusaicOperation.compare)
     return allOps
   }
 

@@ -23,7 +23,7 @@ import {IPcs} from "./IPcs";
 import {Orbit} from "./Orbit";
 import {Group} from "./Group";
 import {Stabilizer} from "./Stabilizer";
-import {MusaicPcsOperation} from "./MusaicPcsOperation";
+import {MusaicOperation} from "./MusaicOperation";
 import {MotifStabilizer} from "./MotifStabilizer";
 import {StringHash} from "../utils/StringHash";
 import {ISortedOrbits} from "./ISortedOrbits";
@@ -31,7 +31,7 @@ import {ISortedOrbits} from "./ISortedOrbits";
 export class GroupAction {
   n: number = -1;
   group: Group;
-  operations: MusaicPcsOperation[];
+  operations: MusaicOperation[];
   // min operation = neutral operation = operations.get(0)
 
   powerset: Map<number, IPcs>
@@ -48,13 +48,13 @@ export class GroupAction {
 
   constructor(
       { n, someMusaicOperations, group}:
-      { n?: number, someMusaicOperations?: MusaicPcsOperation[], group?: Group } = {}) {
+      { n?: number, someMusaicOperations?: MusaicOperation[], group?: Group } = {}) {
     if (group) {
       this.group = group
       this.n = group.operations[0].n
     } else {
       this.n = n ?? (someMusaicOperations ? someMusaicOperations[0].n : 12);
-      this.group = new Group(someMusaicOperations ?? [new MusaicPcsOperation(this.n, 1, 0)]);
+      this.group = new Group(someMusaicOperations ?? [new MusaicOperation(this.n, 1, 0)]);
     }
     // this.group = new Group(someMusaicOperations ?? []);
     this.operations = this.group.operations;
@@ -163,7 +163,7 @@ export class GroupAction {
       // order operations and fixedPcs for each stabilizer in current orbit.
       // rem : if CYCLIC group, stabilizers.length==1
       orbit.stabilizers.forEach(stab => {
-        stab.operations.sort(MusaicPcsOperation.compare)
+        stab.operations.sort(MusaicOperation.compare)
         stab.fixedPcs.sort(IPcs.compare)
       })
       // order collection stabilizers in current orbit
@@ -363,7 +363,7 @@ export class GroupAction {
     }
     // if not exist, create only Cyclic group action
     if ( ! GroupAction._predefinedGroupsActions.has(n)) {
-      const opM1T1 = new MusaicPcsOperation(n, 1,1, false)
+      const opM1T1 = new MusaicOperation(n, 1,1, false)
       const groupAction = new GroupAction({someMusaicOperations: [opM1T1]})
       // add Cyclic group action (Group.CYCLIC is 0, match index first element of array)
       GroupAction._predefinedGroupsActions.set(n, [groupAction])
@@ -401,19 +401,19 @@ export class GroupAction {
 
     groupsActions = new Array<GroupAction>()
     //Cyclic
-    let opM1_T1 = new MusaicPcsOperation(7, 1, 1, false);
+    let opM1_T1 = new MusaicOperation(7, 1, 1, false);
     let group7Cyclic = new GroupAction({n:7, someMusaicOperations:[opM1_T1]})
     groupsActions.push(group7Cyclic)
 
     //Dihedral
-    let opM6_T1 = new MusaicPcsOperation(7, 6, 1, false);
+    let opM6_T1 = new MusaicOperation(7, 6, 1, false);
     groupsActions.push(new GroupAction({n:7, someMusaicOperations:[opM1_T1, opM6_T1]}))
 
     // bad Affine (Dihedral again, temporary for test)
     groupsActions.push(new GroupAction({n:7, someMusaicOperations:[opM1_T1, opM6_T1]}))
 
     // bad musaic
-    let opM6_T1C = new MusaicPcsOperation(7, 6, 1, true);
+    let opM6_T1C = new MusaicOperation(7, 6, 1, true);
     groupsActions.push(new GroupAction({n:7, someMusaicOperations:[opM1_T1, opM6_T1, opM6_T1C]}))
 
     GroupAction._predefinedGroupsActions.set(7, groupsActions)

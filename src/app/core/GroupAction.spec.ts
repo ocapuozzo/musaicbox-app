@@ -4,7 +4,7 @@
 
 import {GroupAction} from "./GroupAction"
 import {IPcs} from "./IPcs";
-import {MusaicPcsOperation} from "./MusaicPcsOperation";
+import {MusaicOperation} from "./MusaicOperation";
 import {Group} from "./Group";
 
 describe('GroupAction', () => {
@@ -33,7 +33,7 @@ describe('GroupAction', () => {
   });
 
   it("Action group trivial n = 12 ", () => {
-    let opNeutral = new MusaicPcsOperation(12, 1, 0);
+    let opNeutral = new MusaicOperation(12, 1, 0);
     let musaicGroup12 = new GroupAction({n: 12, someMusaicOperations: [opNeutral]});
     expect(musaicGroup12.powerset.size).toEqual(Math.pow(2, 12))
     expect(musaicGroup12.orbits.length).toEqual(Math.pow(2, 12))
@@ -42,8 +42,8 @@ describe('GroupAction', () => {
   });
 
   it("Action group cyclic n = 12 ", () => {
-    let opNeutral = new MusaicPcsOperation(12, 1, 0);
-    let opM1T1 = new MusaicPcsOperation(12, 1, 1);
+    let opNeutral = new MusaicOperation(12, 1, 0);
+    let opM1T1 = new MusaicOperation(12, 1, 1);
     let cyclicGroup12 = new GroupAction({n: 12, someMusaicOperations: [opNeutral, opM1T1]});
 
     expect(cyclicGroup12.operations.length).toEqual(12)
@@ -91,10 +91,10 @@ describe('GroupAction', () => {
   });
 
   it("Action group dihedral n = 12 ", () => {
-    let opNeutral = new MusaicPcsOperation(12, 1, 0);
+    let opNeutral = new MusaicOperation(12, 1, 0);
 
-    let opM1T1 = new MusaicPcsOperation(12, 1, 1);
-    let opM11 = new MusaicPcsOperation(12, 11, 0);
+    let opM1T1 = new MusaicOperation(12, 1, 1);
+    let opM11 = new MusaicOperation(12, 11, 0);
     let musaicGroup12 = new GroupAction({n: 12, someMusaicOperations: [opNeutral, opM1T1, opM11]});
     expect(musaicGroup12.operations.length).toEqual(24)
     expect(musaicGroup12.powerset.size).toEqual(Math.pow(2, 12))
@@ -102,10 +102,10 @@ describe('GroupAction', () => {
   });
 
   it("Action group affine n = 12 ", () => {
-    let opNeutral = new MusaicPcsOperation(12, 1, 0);
-    let opT1 = new MusaicPcsOperation(12, 1, 1);
-    let opM5 = new MusaicPcsOperation(12, 5, 0);
-    let opM7 = new MusaicPcsOperation(12, 7, 0);
+    let opNeutral = new MusaicOperation(12, 1, 0);
+    let opT1 = new MusaicOperation(12, 1, 1);
+    let opM5 = new MusaicOperation(12, 5, 0);
+    let opM7 = new MusaicOperation(12, 7, 0);
     let musaicGroup12 = new GroupAction({n: 12, someMusaicOperations: [opNeutral, opT1, opM5, opM7]});
     expect(musaicGroup12.operations.length).toEqual(48)
     expect(musaicGroup12.powerset.size).toEqual(Math.pow(2, 12))
@@ -113,8 +113,8 @@ describe('GroupAction', () => {
   });
 
   it("Action group musaic n = 5 ", () => {
-    let opNeutral = new MusaicPcsOperation(5, 1, 0);
-    let opCM1 = new MusaicPcsOperation(5, 1, 1, true);
+    let opNeutral = new MusaicOperation(5, 1, 0);
+    let opCM1 = new MusaicOperation(5, 1, 1, true);
 
     let musaicGroup5 = new GroupAction({n: 5, someMusaicOperations: [opNeutral, opCM1]});
 
@@ -131,10 +131,10 @@ describe('GroupAction', () => {
    */
   it("group with complemented op and no T (n = 12)", () => {
     let complemented = true
-    let opNeutral = new MusaicPcsOperation(12, 1, 0);
-    let opCM1 = new MusaicPcsOperation(12, 1, 0, complemented);
-    let opM5 = new MusaicPcsOperation(12, 5, 0, complemented);
-    let opM7 = new MusaicPcsOperation(12, 7, 0, !complemented);
+    let opNeutral = new MusaicOperation(12, 1, 0);
+    let opCM1 = new MusaicOperation(12, 1, 0, complemented);
+    let opM5 = new MusaicOperation(12, 5, 0, complemented);
+    let opM7 = new MusaicOperation(12, 7, 0, !complemented);
     try {
       let group = new GroupAction({
         n: 12,
@@ -151,9 +151,9 @@ describe('GroupAction', () => {
    */
   it("Test M5 M7 T0 group (n = 12) ", () => {
     let complemented = true
-    let opNeutral = new MusaicPcsOperation(12, 1, 0);
-    let opM5 = new MusaicPcsOperation(12, 5, 0, !complemented);
-    let opM7 = new MusaicPcsOperation(12, 7, 0, !complemented);
+    let opNeutral = new MusaicOperation(12, 1, 0);
+    let opM5 = new MusaicOperation(12, 5, 0, !complemented);
+    let opM7 = new MusaicOperation(12, 7, 0, !complemented);
 
     let group = new GroupAction({n: 12, someMusaicOperations: [opNeutral, opM5, opM7]});
 
@@ -309,7 +309,7 @@ describe('GroupAction', () => {
   })
 
   it("Orbits sorted trivial group", () => {
-    const opNeutral = new MusaicPcsOperation(12, 1, 0);
+    const opNeutral = new MusaicOperation(12, 1, 0);
     const trivialGroup = new GroupAction({n: 12, someMusaicOperations: [opNeutral]});
     expect(trivialGroup.powerset.size).toEqual(Math.pow(2, 12))
     expect(trivialGroup.orbits.length).toEqual(Math.pow(2, 12))
@@ -350,10 +350,10 @@ describe('GroupAction', () => {
 
 
   it("Group with T0 only ", () => {
-    let opNeutral = new MusaicPcsOperation(12, 1, 0);
-    let m5_t0 = new MusaicPcsOperation(12, 5, 0);
-    let m11_t0 = new MusaicPcsOperation(12, 11, 0);
-    let cm1_t0 = new MusaicPcsOperation(12, 1, 0, true);
+    let opNeutral = new MusaicOperation(12, 1, 0);
+    let m5_t0 = new MusaicOperation(12, 5, 0);
+    let m11_t0 = new MusaicOperation(12, 11, 0);
+    let cm1_t0 = new MusaicOperation(12, 1, 0, true);
 
     let group =
       new GroupAction({n: 12, someMusaicOperations: [opNeutral, m5_t0,m11_t0, cm1_t0]});

@@ -2,7 +2,7 @@
  * Copyright (c) 2019. Olivier Capuozzo
  */
 
-import {MusaicPcsOperation} from "./MusaicPcsOperation";
+import {MusaicOperation} from "./MusaicOperation";
 import {IPcs} from "./IPcs";
 import {Group} from "./Group";
 
@@ -12,7 +12,7 @@ const getRandomInt = (max: number)  => {
 
 describe('Group', () => {
   it("Trivial group Generator group from M1T0", () => {
-    let opM1_T0 = new MusaicPcsOperation(12, 1, 0, false);
+    let opM1_T0 = new MusaicOperation(12, 1, 0, false);
     let someOps = [opM1_T0]
     let opsWaiting = someOps
     let allOps = Group.buildOperationsGroupByCaylayTable(someOps)
@@ -22,15 +22,15 @@ describe('Group', () => {
   })
 
   it("Generator group from M1-T1 (cyclic)", () => {
-    let opM1_T1 = new MusaicPcsOperation(12, 1, 1, false);
+    let opM1_T1 = new MusaicOperation(12, 1, 1, false);
     let someOps = [opM1_T1]
-    let opsWaiting: MusaicPcsOperation[] = []
+    let opsWaiting: MusaicOperation[] = []
 
     let allOperations = Group.buildOperationsGroupByCaylayTable(someOps)
 
     expect(allOperations.length).toEqual(12)
     for (let i = 0; i < 12; i++) {
-      opsWaiting.push(new MusaicPcsOperation(12, 1, i, false))
+      opsWaiting.push(new MusaicOperation(12, 1, i, false))
     }
     expect(allOperations.length).toEqual(12)
     expect(allOperations).toEqual(opsWaiting)
@@ -38,17 +38,17 @@ describe('Group', () => {
 
 
   it("Generator group from M1-T1 and M5-T1", () => {
-    let opM1_T1 = new MusaicPcsOperation(12, 1, 1, false);
+    let opM1_T1 = new MusaicOperation(12, 1, 1, false);
     let someOps = [opM1_T1]
-    let opsWaiting: MusaicPcsOperation[] = []
+    let opsWaiting: MusaicOperation[] = []
     for (let i = 0; i < 12; i++) {
-      opsWaiting.push(new MusaicPcsOperation(12, 1, i, false))
+      opsWaiting.push(new MusaicOperation(12, 1, i, false))
     }
     let allOperations = Group.buildOperationsGroupByCaylayTable(someOps)
     expect(allOperations.length).toEqual(12)
     expect(allOperations).toEqual(opsWaiting)
 
-    let opM5_T1 = new MusaicPcsOperation(12, 5, 1, false);
+    let opM5_T1 = new MusaicOperation(12, 5, 1, false);
     someOps.push(opM5_T1)
     expect(Group.buildOperationsGroupByCaylayTable(someOps).length).toEqual(24)
   })
@@ -59,18 +59,18 @@ describe('Group', () => {
   })
 
   it("testCayleyGenerateOperationsAffine", () => {
-    let someOperations: MusaicPcsOperation[] = []
+    let someOperations: MusaicOperation[] = []
     let order = 12;
     let a = 1;
     let t = 1;
     let complement = false;
-    someOperations.push(new MusaicPcsOperation(order, a, t, complement));
+    someOperations.push(new MusaicOperation(order, a, t, complement));
     a = 5;
-    someOperations.push(new MusaicPcsOperation(order, a, t, complement));
+    someOperations.push(new MusaicOperation(order, a, t, complement));
     a = 7;
-    someOperations.push(new MusaicPcsOperation(order, a, t, complement));
+    someOperations.push(new MusaicOperation(order, a, t, complement));
     a = 11;
-    someOperations.push(new MusaicPcsOperation(order, a, t, complement));
+    someOperations.push(new MusaicOperation(order, a, t, complement));
 
     const allOperations = Group.buildOperationsGroupByCaylayTable(someOperations)
     // generate 48 operations : 12 * each a
@@ -82,21 +82,21 @@ describe('Group', () => {
   })
 
   it("testCayleyGenerateOperationsMusaic", () => {
-    let someOperations: MusaicPcsOperation[] = []
+    let someOperations: MusaicOperation[] = []
     let order = 12;
     let a = 1;
     let t = 1;
     let complement = false;
-    someOperations.push(new MusaicPcsOperation(order, a, t, complement));
+    someOperations.push(new MusaicOperation(order, a, t, complement));
     a = 5;
-    someOperations.push(new MusaicPcsOperation(order, a, t, complement));
+    someOperations.push(new MusaicOperation(order, a, t, complement));
     a = 7;
-    someOperations.push(new MusaicPcsOperation(order, a, t, complement));
+    someOperations.push(new MusaicOperation(order, a, t, complement));
     complement = true;
-    someOperations.push(new MusaicPcsOperation(order, a, t, complement));
+    someOperations.push(new MusaicOperation(order, a, t, complement));
 
     t = getRandomInt(12)
-    let aleaOp = new MusaicPcsOperation(order, 11, t, complement)
+    let aleaOp = new MusaicOperation(order, 11, t, complement)
 
     let allOps = Group.buildOperationsGroupByCaylayTable(someOperations)
 
@@ -109,18 +109,18 @@ describe('Group', () => {
 
 
   it("Group buildOrbit", () => {
-    let someOperations: MusaicPcsOperation[] = []
+    let someOperations: MusaicOperation[] = []
     let order = 12;
     let a = 1;
     let t = 1;
     let complement = false;
-    someOperations.push(new MusaicPcsOperation(order, a, t, complement));
+    someOperations.push(new MusaicOperation(order, a, t, complement));
     a = 5;
-    someOperations.push(new MusaicPcsOperation(order, a, t, complement));
+    someOperations.push(new MusaicOperation(order, a, t, complement));
     a = 7;
-    someOperations.push(new MusaicPcsOperation(order, a, t, complement));
+    someOperations.push(new MusaicOperation(order, a, t, complement));
     complement = true;
-    someOperations.push(new MusaicPcsOperation(order, a, t, complement));
+    someOperations.push(new MusaicOperation(order, a, t, complement));
 
     let group = new Group(someOperations)
 
@@ -158,23 +158,23 @@ describe('Group', () => {
 
 
   it("Test Group M5 M7 Complement without Translation", () => {
-    let someOperations: MusaicPcsOperation[] = []
+    let someOperations: MusaicOperation[] = []
     let order = 12;
     let a = 1;
     let t = 0;
     let complement = false;
     // neutral op
-    someOperations.push(new MusaicPcsOperation(order, a, t, complement));
+    someOperations.push(new MusaicOperation(order, a, t, complement));
 
     a = 5;
-    someOperations.push(new MusaicPcsOperation(order, a, t, complement));
+    someOperations.push(new MusaicOperation(order, a, t, complement));
 
     a = 7;
-    someOperations.push(new MusaicPcsOperation(order, a, t, complement));
+    someOperations.push(new MusaicOperation(order, a, t, complement));
 
     a = 1
     complement = true;
-    someOperations.push(new MusaicPcsOperation(order, a, t, complement));
+    someOperations.push(new MusaicOperation(order, a, t, complement));
 
     let group = new Group(someOperations)
 

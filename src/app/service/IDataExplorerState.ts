@@ -1,4 +1,4 @@
-import {MusaicPcsOperation} from "../core/MusaicPcsOperation";
+import {MusaicOperation} from "../core/MusaicOperation";
 import {GroupAction} from "../core/GroupAction";
 import {ISortedOrbits} from "../core/ISortedOrbits";
 import {Orbit} from "../core/Orbit";
@@ -11,7 +11,7 @@ export interface IDataExplorerState {
   opMultChoices: string[]
   opTransChoices: number[]
   opComplement: boolean
-  groupOperations : MusaicPcsOperation[]
+  groupOperations : MusaicOperation[]
   groupAction: GroupAction | null
   orbitsPartitions: ISortedOrbits[]
   preReactOrbits: Orbit[]

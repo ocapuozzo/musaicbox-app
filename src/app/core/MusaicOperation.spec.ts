@@ -1,42 +1,42 @@
-import {MusaicPcsOperation} from "./MusaicPcsOperation";
+import {MusaicOperation} from "./MusaicOperation";
 import {IPcs} from "./IPcs";
 import {GroupAction} from "./GroupAction";
 import {Group} from "./Group";
 describe('MusaicPcsOperation', () => {
 
   it("MusaicPcsOp testEqualsObject ", () => {
-    let op1 = new MusaicPcsOperation(12, 7, 5, true);
-    let op2 = new MusaicPcsOperation(12, 7, 5, true);
+    let op1 = new MusaicOperation(12, 7, 5, true);
+    let op2 = new MusaicOperation(12, 7, 5, true);
     expect(op1.equals(op2)).toEqual(true);
-    op2 = new MusaicPcsOperation(12, 7, 5, false);
+    op2 = new MusaicOperation(12, 7, 5, false);
     expect(op1.equals(op2)).not.toBeTruthy();
-    op1 = new MusaicPcsOperation(12, 7, 5, false)
+    op1 = new MusaicOperation(12, 7, 5, false)
     expect(op1.equals(op2)).toBeTruthy();
     expect(op1.equals(op1)).toBe(true)
     expect(op1.equals(null)).toBe(false)
     expect(op1.equals(42)).toBe(false)
 
-    let op3 = new MusaicPcsOperation(12, 5, 5, true);
+    let op3 = new MusaicOperation(12, 5, 5, true);
     expect(op1.equals(op3)).not.toBeTruthy();
-    op3 = new MusaicPcsOperation(10, 5, 5, true);
+    op3 = new MusaicOperation(10, 5, 5, true);
     expect(op1.equals(op3)).not.toBeTruthy();
 
-    op2 = new MusaicPcsOperation(12, 7, 5, true);
-    op1 = new MusaicPcsOperation(12, 7, 0, true);
+    op2 = new MusaicOperation(12, 7, 5, true);
+    op1 = new MusaicOperation(12, 7, 0, true);
     expect(op1.equals(op2)).not.toBeTruthy(); // bad t
 
   });
 
   it("MusaicPcsOp compose", () => {
-    let opCM7_T5 = new MusaicPcsOperation(12, 7, 5, true);
-    let opCM7 = new MusaicPcsOperation(12, 7, 0, true);
-    let opT5 = new MusaicPcsOperation(12, 1, 5, false);
+    let opCM7_T5 = new MusaicOperation(12, 7, 5, true);
+    let opCM7 = new MusaicOperation(12, 7, 0, true);
+    let opT5 = new MusaicOperation(12, 1, 5, false);
 
     // action CM7 first and T5 second
     expect(opCM7_T5.equals(opT5.compose(opCM7))).toBeTruthy();
 
     // n = 7
-    const badT5 = new MusaicPcsOperation(7, 1, 5, true);
+    const badT5 = new MusaicOperation(7, 1, 5, true);
     try {
       expect(opCM7_T5.equals(badT5.compose(opCM7))).toBeTruthy();
       fail('Waiting exception because invalid n in operations')
@@ -47,27 +47,27 @@ describe('MusaicPcsOperation', () => {
 
   it("MusaicPcsOp testActionOn", () => {
     let pcs = new IPcs({strPcs: "0,3,4,7,8,11"});
-    let opCM7_T5 = new MusaicPcsOperation(12, 7, 5, true);
+    let opCM7_T5 = new MusaicOperation(12, 7, 5, true);
     // n = 12, CM7_T5 is stabilizer for Pcs("0,3,4,7,8,11")
 
     let newPcs = opCM7_T5.actionOn(pcs)
 
     expect(pcs.equalsPcs(newPcs)).toBeTruthy();
 
-    let opCM7 = new MusaicPcsOperation(12, 7, 0, true);
-    let opT5 = new MusaicPcsOperation(12, 1, 5, false);
+    let opCM7 = new MusaicOperation(12, 7, 0, true);
+    let opT5 = new MusaicOperation(12, 1, 5, false);
     expect(pcs.equalsPcs(opT5.actionOn(opCM7.actionOn(pcs)))).toBeTruthy();
   });
 
   it("MusaicPcsOp test op stab sort", () => {
     // So:    M1-T3, M1-T0, CM1-T5, M5-T0, CM7-T8, CM7-T3
     // give : M1-T0, M5-T0, M1-T3, CM7-T3, CM1-T5, CM7-T8
-    let opCM7_T3 = new MusaicPcsOperation(12, 7, 3, true);
-    let opCM7_T8 = new MusaicPcsOperation(12, 7, 8, true);
-    let opM1_T0 = new MusaicPcsOperation(12, 1, 0, false);
-    let opM1_T3 = new MusaicPcsOperation(12, 1, 3, false);
-    let opM5_T0 = new MusaicPcsOperation(12, 5, 0, false);
-    let opCM1_T5 = new MusaicPcsOperation(12, 1, 5, true);
+    let opCM7_T3 = new MusaicOperation(12, 7, 3, true);
+    let opCM7_T8 = new MusaicOperation(12, 7, 8, true);
+    let opM1_T0 = new MusaicOperation(12, 1, 0, false);
+    let opM1_T3 = new MusaicOperation(12, 1, 3, false);
+    let opM5_T0 = new MusaicOperation(12, 5, 0, false);
+    let opCM1_T5 = new MusaicOperation(12, 1, 5, true);
 
     let ops = [opM1_T3, opM1_T0,  opCM1_T5 , opM5_T0, opCM7_T8, opCM7_T3]
 
@@ -75,7 +75,7 @@ describe('MusaicPcsOperation', () => {
 
     expect(ops).not.toEqual(opsSortedWaiting)
 
-    ops.sort(MusaicPcsOperation.compareStab)
+    ops.sort(MusaicOperation.compareStab)
 
     // ops.forEach( (op) => console.log(op._strRepr) )
 
@@ -84,11 +84,11 @@ describe('MusaicPcsOperation', () => {
 
 
   it("MusaicPcsOp test sort", () => {
-    let opCM7_T5 = new MusaicPcsOperation(12, 7, 5, true);
-    let opM1_T0 = new MusaicPcsOperation(12, 1, 0, false);
-    let opM1_T3 = new MusaicPcsOperation(12, 1, 3, false);
-    let opM1_T11 = new MusaicPcsOperation(12, 1, 11, false);
-    let opM7_T5 = new MusaicPcsOperation(12, 7, 5, false);
+    let opCM7_T5 = new MusaicOperation(12, 7, 5, true);
+    let opM1_T0 = new MusaicOperation(12, 1, 0, false);
+    let opM1_T3 = new MusaicOperation(12, 1, 3, false);
+    let opM1_T11 = new MusaicOperation(12, 1, 11, false);
+    let opM7_T5 = new MusaicOperation(12, 7, 5, false);
 
     let ops = [opCM7_T5, opM1_T3, opM1_T0, opM7_T5, opM1_T11]
 
@@ -96,7 +96,7 @@ describe('MusaicPcsOperation', () => {
 
     expect(ops).not.toEqual(opsSortedWaiting)
 
-    ops.sort(MusaicPcsOperation.compare)
+    ops.sort(MusaicOperation.compare)
 
     expect(ops).toEqual(opsSortedWaiting)
   })
@@ -106,22 +106,22 @@ describe('MusaicPcsOperation', () => {
   // https://bartoszmilewski.com/2014/11/04/category-the-essence-of-composition/
 
   it("identity operation", () => {
-    let opId = new MusaicPcsOperation(12, 1, 0, false);
+    let opId = new MusaicOperation(12, 1, 0, false);
     expect(opId.compose(opId).equals(opId)).toBeTrue()
-    let opM5_T3 = new MusaicPcsOperation(12, 5, 3, false);
+    let opM5_T3 = new MusaicOperation(12, 5, 3, false);
     expect(opId.compose(opM5_T3).equals(opM5_T3)).toBeTrue()
     expect(opM5_T3.compose(opId).equals(opM5_T3)).toBeTrue() // associative
 
-    let opCM5_T3 = new MusaicPcsOperation(12, 5, 3, true);
+    let opCM5_T3 = new MusaicOperation(12, 5, 3, true);
     expect(opId.compose(opCM5_T3).equals(opCM5_T3)).toBeTrue()
     expect(opCM5_T3.compose(opId).equals(opCM5_T3)).toBeTrue() // associative
 
   })
 
   it("no Commutative but Associative operation ", () => {
-    let opM1_T2 = new MusaicPcsOperation(12, 1, 2, false);
-    let opM1_T3 = new MusaicPcsOperation(12, 1, 3, false);
-    let opM1_T11 = new MusaicPcsOperation(12, 1, 11, false);
+    let opM1_T2 = new MusaicOperation(12, 1, 2, false);
+    let opM1_T3 = new MusaicOperation(12, 1, 3, false);
+    let opM1_T11 = new MusaicOperation(12, 1, 11, false);
 
     // no multiplication => commutative
     // action T3 first and T11 second
@@ -129,19 +129,19 @@ describe('MusaicPcsOperation', () => {
     // action T11 first and T3 second
     expect(opM1_T2.equals(opM1_T3.compose(opM1_T11))).toBeTrue();
 
-    let opM8_T2 = new MusaicPcsOperation(12, 8, 2, false);
-    let opM4_T3 = new MusaicPcsOperation(12, 4, 3, false);
-    let opM5_T11 = new MusaicPcsOperation(12, 5, 11, false);
-    let opM8_T11 = new MusaicPcsOperation(12, 8, 11, false);
+    let opM8_T2 = new MusaicOperation(12, 8, 2, false);
+    let opM4_T3 = new MusaicOperation(12, 4, 3, false);
+    let opM5_T11 = new MusaicOperation(12, 5, 11, false);
+    let opM8_T11 = new MusaicOperation(12, 8, 11, false);
 
     // associative ?  f . (g . h) = (f . g) . h
-    let left : MusaicPcsOperation  = opM8_T2.compose(opM5_T11.compose(opM4_T3))
-    let right : MusaicPcsOperation = opM8_T2.compose(opM5_T11).compose(opM4_T3)
+    let left : MusaicOperation  = opM8_T2.compose(opM5_T11.compose(opM4_T3))
+    let right : MusaicOperation = opM8_T2.compose(opM5_T11).compose(opM4_T3)
     expect(right.equals(left)).toBeTrue()
 
     // commutative if t=0 (no translation)
-    let opM7_T0 = new MusaicPcsOperation(12, 7, 0, false);
-    let opM5_T0 = new MusaicPcsOperation(12, 5, 0, false);
+    let opM7_T0 = new MusaicOperation(12, 7, 0, false);
+    let opM5_T0 = new MusaicOperation(12, 5, 0, false);
     const op1 = opM7_T0.compose(opM5_T0)
     const op2 = opM5_T0.compose(opM7_T0)
     expect(op1.equals(op2)).toBeTrue()
@@ -155,8 +155,8 @@ describe('MusaicPcsOperation', () => {
     expect(opM4_T3.compose(opM5_T11).equals(opM8_T11)).toBeTrue()
     expect(opM4_T3.compose(opM5_T11).equals(opM8_T2)).not.toBeTrue()
 
-    let opCM8_T2 = new MusaicPcsOperation(12, 8, 2, true);
-    let opCM5_T11 = new MusaicPcsOperation(12, 5, 11, true);
+    let opCM8_T2 = new MusaicOperation(12, 8, 2, true);
+    let opCM5_T11 = new MusaicOperation(12, 5, 11, true);
 
     expect(opCM8_T2.equals(opCM5_T11.compose(opM4_T3))).toBeTrue()
     // action  CM5-T11 ° M4-T3 <> M4-T3 ° CM5-T11

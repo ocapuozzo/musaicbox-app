@@ -45,7 +45,7 @@ import {Stabilizer} from "./Stabilizer";
 import {Mapping} from "../utils/Mapping";
 import {ChordNaming} from "./ChordNaming";
 import {Scales2048Name} from "./Scales2048Name";
-import {MusaicPcsOperation} from "./MusaicPcsOperation";
+import {MusaicOperation} from "./MusaicOperation";
 import {ArrayUtil} from "../utils/ArrayUtil";
 
 const NEXT_MODULATION = 1
@@ -1207,12 +1207,12 @@ export class IPcs {
   }
 
   static OperationsT0_M11_M5_M7_CM11_CM5_CM7 = [
-    new MusaicPcsOperation(12, 11, 0, false),
-    new MusaicPcsOperation(12, 5, 0, false),
-    new MusaicPcsOperation(12, 7, 0, false),
-    new MusaicPcsOperation(12, 11, 0, true),
-    new MusaicPcsOperation(12, 5, 0, true),
-    new MusaicPcsOperation(12, 7, 0, true)
+    new MusaicOperation(12, 11, 0, false),
+    new MusaicOperation(12, 5, 0, false),
+    new MusaicOperation(12, 7, 0, false),
+    new MusaicOperation(12, 11, 0, true),
+    new MusaicOperation(12, 5, 0, true),
+    new MusaicOperation(12, 7, 0, true)
   ]
 
   /**

@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {MusaicPcsOperation} from "../../core/MusaicPcsOperation";
+import {MusaicOperation} from "../../core/MusaicOperation";
 import {Group} from "../../core/Group";
 import {GroupAction} from "../../core/GroupAction";
 import {Orbit} from "../../core/Orbit";
@@ -34,7 +34,7 @@ export class GroupExplorerComponent {
   opTransChoices = [1]
   opComplement = false
   // array with neutral operation
-  groupOperations : MusaicPcsOperation[] = []  //new MusaicPcsOperation(this.n, 1, 1)]
+  groupOperations : MusaicOperation[] = []  //new MusaicOperation(this.n, 1, 1)]
   groupAction: GroupAction | null
   orbitsPartitions: ISortedOrbits[] = []
   preReactOrbits: Orbit[] = []
@@ -80,7 +80,7 @@ export class GroupExplorerComponent {
     this.opMultChoices = currentState.opMultChoices ?? ["M1"]
     this.opTransChoices = currentState.opTransChoices ?? [1]
     this.opComplement = currentState.opComplement ?? false
-    this.groupOperations = currentState.groupOperations ?? []//new MusaicPcsOperation(this.n, 1, 0)]
+    this.groupOperations = currentState.groupOperations ?? []//new MusaicOperation(this.n, 1, 0)]
     this.groupAction = currentState.groupAction ?? null
     this.orbitsPartitions = currentState.orbitsPartitions ?? []
     this.preReactOrbits = currentState.preReactOrbits ?? []
@@ -182,9 +182,9 @@ export class GroupExplorerComponent {
 
   /**
    * Get generated set operations of group, as selected by user
-   * @return {MusaicPcsOperation[]} array of MusaicPcsOperation
+   * @return {MusaicOperation[]} array of MusaicOperation
    */
-  getGeneratedSetOperationsFromUI(): MusaicPcsOperation[] {
+  getGeneratedSetOperationsFromUI(): MusaicOperation[] {
     let someOperations = [];
     for (let i = 0; i < this.opMultChoices.length; i++)
       for (let j = 0; j < this.opTransChoices.length; j++) {
@@ -192,7 +192,7 @@ export class GroupExplorerComponent {
           parseInt(this.opMultChoices[i].substring(2)) :
           parseInt(this.opMultChoices[i].substring(1))
         const complement = this.opMultChoices[i].startsWith("C")
-        someOperations.push(new MusaicPcsOperation(this.n, a, this.opTransChoices[j], complement))
+        someOperations.push(new MusaicOperation(this.n, a, this.opTransChoices[j], complement))
       }
     return someOperations
   }

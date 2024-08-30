@@ -10,7 +10,7 @@ import {PcsSearch} from "../../utils/PcsSearch";
 import {EightyEight} from "../../utils/EightyEight";
 import {PcsColor} from "../../color/PcsColor";
 import {MatTooltip} from "@angular/material/tooltip";
-import {MusaicPcsOperation} from "../../core/MusaicPcsOperation";
+import {MusaicOperation} from "../../core/MusaicOperation";
 import {MusaicComponent} from "../musaic/musaic.component";
 
 @Component({
@@ -161,14 +161,14 @@ export class PcsAnalysisComponent {
    */
   operationsStabilizerOf(pcs: IPcs) {
     if (pcs.n !== 12) throw Error("Waiting n = 12")
-    let operationStab: MusaicPcsOperation[] = []
-    const operations: MusaicPcsOperation[] = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).operations
+    let operationStab: MusaicOperation[] = []
+    const operations: MusaicOperation[] = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).operations
     operations.forEach(operation => {
       if (operation.actionOn(pcs).id === pcs.id) {
         operationStab.push(operation)
       }
     })
-    operationStab.sort(MusaicPcsOperation.compareStab)
+    operationStab.sort(MusaicOperation.compareStab)
     return operationStab.map( (operationStab) => operationStab.toString()).join(" ");
   }
 

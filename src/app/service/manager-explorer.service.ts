@@ -1,6 +1,6 @@
 import {EventEmitter, Injectable, Output} from '@angular/core';
 import {IDataExplorerState} from "./IDataExplorerState";
-import {MusaicPcsOperation} from "../core/MusaicPcsOperation";
+import {MusaicOperation} from "../core/MusaicOperation";
 import {GroupAction} from "../core/GroupAction";
 import {ISortedOrbits} from "../core/ISortedOrbits";
 import {Orbit} from "../core/Orbit";
@@ -17,7 +17,7 @@ export class ManagerExplorerService implements IDataExplorerState{
   opMultChoices = ["M1"]
   opTransChoices = [1]
   opComplement = false
-  groupOperations : MusaicPcsOperation[]
+  groupOperations : MusaicOperation[]
   groupAction: GroupAction | null
   orbitsPartitions: ISortedOrbits[]
   preReactOrbits: Orbit[]
@@ -34,7 +34,7 @@ export class ManagerExplorerService implements IDataExplorerState{
     opMultChoices: string[],
     opTransChoices: number[],
     opComplement: boolean,
-    groupOperations : MusaicPcsOperation[]
+    groupOperations : MusaicOperation[]
     groupAction: GroupAction | null
     orbitsPartitions: ISortedOrbits[]
     preReactOrbits: Orbit[]

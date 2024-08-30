@@ -8,18 +8,18 @@
  *
  */
 
-import {MusaicPcsOperation} from "./MusaicPcsOperation";
+import {MusaicOperation} from "./MusaicOperation";
 import {Stabilizer} from "./Stabilizer";
 import {GroupAction} from "./GroupAction";
 import {Group} from "./Group";
 
 describe('Stabilizer', () => {
   it("Stabilizer addOperation and compare", () => {
-    let opM5T0 = new MusaicPcsOperation(12, 5, 0, false);
-    let opM5T4 = new MusaicPcsOperation(12, 5, 4, false);
-    let opM7T0 = new MusaicPcsOperation(12, 7, 0, false);
-    let opM11T2 = new MusaicPcsOperation(12, 11, 2, false);
-    let opCM5T0 = new MusaicPcsOperation(12, 5, 0, true);
+    let opM5T0 = new MusaicOperation(12, 5, 0, false);
+    let opM5T4 = new MusaicOperation(12, 5, 4, false);
+    let opM7T0 = new MusaicOperation(12, 7, 0, false);
+    let opM11T2 = new MusaicOperation(12, 11, 2, false);
+    let opCM5T0 = new MusaicOperation(12, 5, 0, true);
     let stab1 = new Stabilizer()
     stab1.addOperation(opM5T0)
     stab1.addOperation(opM7T0)
@@ -49,11 +49,11 @@ describe('Stabilizer', () => {
   })
 
   it("Stabilizer compare", () => {
-    let opM5T0 = new MusaicPcsOperation(12, 5, 0, false);
-    let opM5T4 = new MusaicPcsOperation(12, 5, 4, false);
-    let opM7T0 = new MusaicPcsOperation(12, 7, 0, false);
-    let opM11T2 = new MusaicPcsOperation(12, 11, 2, false);
-    let opCM5T0 = new MusaicPcsOperation(12, 5, 0, true);
+    let opM5T0 = new MusaicOperation(12, 5, 0, false);
+    let opM5T4 = new MusaicOperation(12, 5, 4, false);
+    let opM7T0 = new MusaicOperation(12, 7, 0, false);
+    let opM11T2 = new MusaicOperation(12, 11, 2, false);
+    let opCM5T0 = new MusaicOperation(12, 5, 0, true);
     let stab1 = new Stabilizer()
     let stab2 = new Stabilizer()
     let stab3 = new Stabilizer()
@@ -86,11 +86,11 @@ describe('Stabilizer', () => {
   })
 
   it("Stabilizer reduceNameByIgnoreTransp", () => {
-    let opM5T0 = new MusaicPcsOperation(12, 5, 0, false);
-    let opM5T4 = new MusaicPcsOperation(12, 5, 4, false);
-    let opM7T0 = new MusaicPcsOperation(12, 7, 0, false);
-    let opM11T2 = new MusaicPcsOperation(12, 11, 2, false);
-    let opCM5T0 = new MusaicPcsOperation(12, 5, 0, true);
+    let opM5T0 = new MusaicOperation(12, 5, 0, false);
+    let opM5T4 = new MusaicOperation(12, 5, 4, false);
+    let opM7T0 = new MusaicOperation(12, 7, 0, false);
+    let opM11T2 = new MusaicOperation(12, 11, 2, false);
+    let opCM5T0 = new MusaicOperation(12, 5, 0, true);
     let stab = new Stabilizer()
     stab.addOperation(opM5T0)
     stab.addOperation(opM7T0)
@@ -102,8 +102,8 @@ describe('Stabilizer', () => {
   })
 
   it("Cyclic Group Explore", () => {
-    let opId = new MusaicPcsOperation(12, 1, 0);
-    let opM1T1 = new MusaicPcsOperation(12, 1, 1);
+    let opId = new MusaicOperation(12, 1, 0);
+    let opM1T1 = new MusaicOperation(12, 1, 1);
 
     let cyclicGroup = new GroupAction({n: 12, someMusaicOperations: [opId, opM1T1]});
 
@@ -129,11 +129,11 @@ describe('Stabilizer', () => {
   })
 
   it("Musaic Group Explore n=12", () => {
-    let opM1 = new MusaicPcsOperation(12, 1, 0, false);
-    let opCM1 = new MusaicPcsOperation(12, 1, 0, true);
-    let opM1T1 = new MusaicPcsOperation(12, 1, 1, false);
-    let opM5T1 = new MusaicPcsOperation(12, 5, 1, false);
-    let opM7T1 = new MusaicPcsOperation(12, 7, 1, false);
+    let opM1 = new MusaicOperation(12, 1, 0, false);
+    let opCM1 = new MusaicOperation(12, 1, 0, true);
+    let opM1T1 = new MusaicOperation(12, 1, 1, false);
+    let opM5T1 = new MusaicOperation(12, 5, 1, false);
+    let opM7T1 = new MusaicOperation(12, 7, 1, false);
 
     let musaicGroup = new GroupAction({
       n: 12,
@@ -162,13 +162,13 @@ describe('Stabilizer', () => {
   })
 
   it("Stabilizer isMotifEquivalence", () => {
-    let opM1T0 = new MusaicPcsOperation(12, 1, 0, false);
+    let opM1T0 = new MusaicOperation(12, 1, 0, false);
     let stab = new Stabilizer({operations: [opM1T0]})
 
     expect(stab.isMotifEquivalence).not.toBeTruthy()
 
     // equivalence relationship to near transposition
-    let opM1T1 = new MusaicPcsOperation(12, 1, 1, true);
+    let opM1T1 = new MusaicOperation(12, 1, 1, true);
     stab.addOperation(opM1T1)
 
     expect(stab.isMotifEquivalence).toBeTruthy()
@@ -176,14 +176,14 @@ describe('Stabilizer', () => {
 
 
   it("equals", () => {
-    let opM1T0 = new MusaicPcsOperation(12, 1, 0, false);
+    let opM1T0 = new MusaicOperation(12, 1, 0, false);
     let stab1 = new Stabilizer({operations: [opM1T0]})
     let stab2 = new Stabilizer({operations: [opM1T0]})
 
     expect(stab1.equals(stab2)).toBe(true)
 
     // equivalence relationship to near transposition
-    let opM1T1 = new MusaicPcsOperation(12, 1, 1, true);
+    let opM1T1 = new MusaicOperation(12, 1, 1, true);
     stab1.addOperation(opM1T1)
 
     expect(stab1.equals(stab2)).toBe(false)
@@ -196,8 +196,8 @@ describe('Stabilizer', () => {
   })
 
   it("Group Explore n=7", () => {
-    let opId = new MusaicPcsOperation(7, 1, 0)
-    let opM3 = new MusaicPcsOperation(7, 3, 0);
+    let opId = new MusaicOperation(7, 1, 0)
+    let opM3 = new MusaicOperation(7, 3, 0);
 
     let group = new GroupAction({n: 7, someMusaicOperations: [opId]});
     expect(group.powerset.size).toEqual(128)
@@ -227,8 +227,8 @@ describe('Stabilizer', () => {
   })
 
   it("Group Explore n=7 cyclic shortname", () => {
-    let opId = new MusaicPcsOperation(7, 1, 0)
-    let opM1T1 = new MusaicPcsOperation(7, 1, 1);
+    let opId = new MusaicOperation(7, 1, 0)
+    let opM1T1 = new MusaicOperation(7, 1, 1);
 
     let group = new GroupAction({n: 7, someMusaicOperations: [opId, opM1T1]});
     expect(group.powerset.size).toEqual(128)
@@ -270,10 +270,10 @@ describe('Stabilizer', () => {
   //
   //   expect(stabStr).toEqual('Stab: M1-T0,CM11-T11 #FixedPcs: 12')
   //
-  //   let opId = new MusaicPcsOperation(12, 1, 0)
-  //   let opCM11T11 = new MusaicPcsOperation(12, 11, 11, true);
+  //   let opId = new MusaicOperation(12, 1, 0)
+  //   let opCM11T11 = new MusaicOperation(12, 11, 11, true);
   //
-  //   let opM11T11 = new MusaicPcsOperation(12, 11, 11, false);
+  //   let opM11T11 = new MusaicOperation(12, 11, 11, false);
   //
   //   expect(stab.isInclude([opCM11T11])).toBe(true)
   //   expect(stab.isInclude([opId])).toBe(true)

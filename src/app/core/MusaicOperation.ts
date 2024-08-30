@@ -40,7 +40,7 @@ import {StringHash} from "../utils/StringHash";
 import {IPcs} from "./IPcs";
 import {Stabilizer} from "./Stabilizer";
 
-export class MusaicPcsOperation {
+export class MusaicOperation {
   a: number
   t: number
   n: number
@@ -81,10 +81,10 @@ export class MusaicPcsOperation {
       return true;
     if (obj === null)
       return false;
-    if (!(obj instanceof MusaicPcsOperation))
+    if (!(obj instanceof MusaicOperation))
       return false;
 
-    let other: MusaicPcsOperation = obj;
+    let other: MusaicOperation = obj;
 
     if (this.n !== other.n)
       return false;
@@ -114,14 +114,14 @@ export class MusaicPcsOperation {
    *    M1-T0.compose(M1-T0) == M1-T0   (false !== false) => false
    *    CM1-T0.compose(M1-T0) == CM1-T0 (true !== false) => true
    *
-   * @param  other MusaicPcsOperation (a',t',c')
-   * @return MusaicPcsOperation (this.a,this.t,this.c) (a',t',c') = (aa', at' + t, c xor c'), a new instance
+   * @param  other MusaicOperation (a',t',c')
+   * @return MusaicOperation (this.a,this.t,this.c) (a',t',c') = (aa', at' + t, c xor c'), a new instance
    */
-  compose(other: MusaicPcsOperation) {
+  compose(other: MusaicOperation) {
     if (this.n !== other.n)
-      throw new Error("MusaicPcsOperation MusaicGroup Exception bad N in compose op");
+      throw new Error("MusaicOperation MusaicGroup Exception bad N in compose op");
 
-    return new MusaicPcsOperation(
+    return new MusaicOperation(
       this.n,
       (this.a * other.a) % this.n,
       (this.a * other.t + this.t) % this.n,
@@ -160,7 +160,7 @@ export class MusaicPcsOperation {
    * So:    M1-T3, M1-T0, CM1-T5, M5-T1, CM7-T8, CM7-T3
    * give : M1-T0, M1-T3, M5-T1, CM1-T5, CM7-T3, CM7-T8
    */
-  static compare(op1: MusaicPcsOperation, op2: MusaicPcsOperation) {
+  static compare(op1: MusaicOperation, op2: MusaicOperation) {
     let w1 = 0;
     let w2 = 0;
     if (op1.complement)
@@ -183,7 +183,7 @@ export class MusaicPcsOperation {
    * So:    M1-T3, M1-T0, CM1-T5, M5-T0, CM7-T8, CM7-T3
    * give : M1-T0, M5-T0, M1-T3, CM7-T3, CM1-T5, CM7-T8
    */
-  static compareStab(op1: MusaicPcsOperation, op2: MusaicPcsOperation) {
+  static compareStab(op1: MusaicOperation, op2: MusaicOperation) {
     let w1 = op1.t;
     let w2 = op2.t;
 
@@ -203,8 +203,8 @@ export class MusaicPcsOperation {
 
 
 
-  compareTo(other: MusaicPcsOperation) {
-    return MusaicPcsOperation.compare(this, other)
+  compareTo(other: MusaicOperation) {
+    return MusaicOperation.compare(this, other)
   }
 
   addFixedPcs(ipcs: IPcs) {

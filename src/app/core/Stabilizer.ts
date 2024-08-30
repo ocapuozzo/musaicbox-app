@@ -11,11 +11,11 @@
 import {StringHash} from "../utils/StringHash";
 import {MotifStabilizer} from "./MotifStabilizer";
 import {IPcs} from "./IPcs";
-import {MusaicPcsOperation} from "./MusaicPcsOperation";
+import {MusaicOperation} from "./MusaicOperation";
 
 export class Stabilizer {
   fixedPcs: IPcs[];
-  operations: MusaicPcsOperation[];
+  operations: MusaicOperation[];
   metaStabilizer: string;
   _shortName: string
   _isMotifStabilizer ?: MotifStabilizer
@@ -25,7 +25,7 @@ export class Stabilizer {
 
   constructor(
     {fixedPcs, operations}:
-      { fixedPcs?: IPcs[], operations?: MusaicPcsOperation[] } = {}) {
+      { fixedPcs?: IPcs[], operations?: MusaicOperation[] } = {}) {
     this.fixedPcs = fixedPcs ?? []
     this.operations = operations ?? [];
     this.metaStabilizer = "";
@@ -57,11 +57,11 @@ export class Stabilizer {
     return sum;
   }
 
-  addOperation(op: MusaicPcsOperation) {
+  addOperation(op: MusaicOperation) {
     if (!this.operations.find(o => o.getHashCode() === op.getHashCode())) {
       this.operations.push(op);
       this.sumT = this.computeSumTNear0();
-      this.operations.sort(MusaicPcsOperation.compare);
+      this.operations.sort(MusaicOperation.compare);
       this.metaStabilizer = "";
       this._shortName = "";
       this._hashCode = undefined
@@ -166,7 +166,7 @@ export class Stabilizer {
       return fixedPcs;
     }
 
-    public void setOperations(List<MusaicPcsOperation> operations) {
+    public void setOperations(List<MusaicOperation> operations) {
       this.operations = operations;
       metaStabilizer = null;
       _shortName = null;
@@ -353,10 +353,10 @@ export class Stabilizer {
 
   /**
    * get if set operations is subset of this
-   * @param {MusaicPcsOperation[]} ops array of MusaicPcsOperation
+   * @param {MusaicOperation[]} ops array of MusaicOperation
    * @return {boolean} true if ops in this.operations
    */
-  isInclude(ops: MusaicPcsOperation[]): boolean {
+  isInclude(ops: MusaicOperation[]): boolean {
     let isInclude = true;
     ops.forEach(op => {
       if (!this.operations.find(o => o.equals(op))) {
