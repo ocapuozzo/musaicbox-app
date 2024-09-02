@@ -17,6 +17,10 @@ export interface FinalElementMove {
   y: number
 }
 
+// type TPrimeForm = 'Modal' | 'Cyclic' | 'Dihedral' | 'Affine' | 'Musaic'
+export const LiteralPrimeForms = ['Modal', 'Cyclic', 'Dihedral', 'Affine', 'Musaic'] as const;
+export type TPrimeForm = typeof LiteralPrimeForms[number];
+
 @Injectable({
   providedIn: 'root'
 })
@@ -54,7 +58,10 @@ export class ManagerPageWBService {
     withDateInFileName: true
   }
 
+  private userAskClearContentAfterSave = false
+
   @Output() eventChangePcsPdoList: EventEmitter<UIPcsDto[]> = new EventEmitter();
+
 
   constructor(private managerLocalStorageService: ManagerLocalStorageService,
               private dialogSaveAsFileNameService: DialogSaveAsFileNameService,
@@ -62,6 +69,11 @@ export class ManagerPageWBService {
 
     this.dialogSaveAsFileNameService.eventFileNameSetByUser.subscribe((fileName) => {
       this.doSaveContentToFile(fileName)
+      if (this.userAskClearContentAfterSave) {
+        this.userAskClearContentAfterSave = false
+        this.doClearContent()
+        // console.log("Clear content after save")
+      }
     })
 
     this.history = new HistoryT<UIPcsDto[]>()
@@ -108,7 +120,8 @@ export class ManagerPageWBService {
       let pcsDto =
         this.pcsDtoForTemplate
           ? new UIPcsDto({...this.pcsDtoForTemplate, uiMusaic: {...this.pcsDtoForTemplate.uiMusaic}})
-          : new UIPcsDto({uiMusaic: new UIMusaic({rounded: !pcs.isDetached()})})
+          : new UIPcsDto() // {uiMusaic: new UIMusaic({rounded: !pcs.isDetached()})})
+      pcsDto.uiMusaic.rounded = !pcs.isDetached()
       pcsDto.pcs = pcs
       ManagerPageWBService.deltaPositionNewPcs += this._GAP_BETWEEN
       pcsDto.position = {
@@ -449,7 +462,11 @@ export class ManagerPageWBService {
    * Delete objects where their index is in indexToDeleteList
    * @param indexToDeleteList
    */
-  doDelete(indexToDeleteList: number[]) {
+  doDelete(indexToDeleteList: number[] = []) {
+    if (indexToDeleteList.length === 0) {
+      indexToDeleteList = this.orderedIndexesSelectedPcsDto
+    }
+    this.doUnselectAll()
     this.uiPcsDtoList =
       this.uiPcsDtoList.filter((value, index) => !indexToDeleteList.includes(index))
     this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
@@ -667,7 +684,15 @@ export class ManagerPageWBService {
     anchor.click();
   }
 
-  doOpenDialogAndSaveContentToFile() {
+  /**
+   * Open dialog for get a name file and save content into. After this operation,
+   * if user requests it (via parameter clearContentAfterSave)
+   * content is reset to blank (user can undo)
+   *
+   * @param clearContentAfterSave if user requests it (see eventFileNameSetByUser.subscribe...)
+   */
+  doOpenDialogAndSaveContentToFile(clearContentAfterSave : boolean = false ) {
+    this.userAskClearContentAfterSave = clearContentAfterSave
     this.dialogSaveAsFileNameService.openDialogForSaveIntoFile(this.dataSaveToFile)
   }
 
@@ -712,7 +737,7 @@ export class ManagerPageWBService {
     this.emit()
   }
 
-  doGetPrimForm(whichPrime: string, index: number): IPcs {
+  doGetPrimForm(whichPrime: TPrimeForm, index: number): IPcs {
     if (index < 0 || index >= this.uiPcsDtoList.length) {
       throw new Error(`bad index : ${index}`)
     }
@@ -731,5 +756,12 @@ export class ManagerPageWBService {
       default :
         return pcs
     }
+  }
+
+  doClearContent() {
+    this.doUnselectAll()
+    this.uiPcsDtoList = []
+    this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
+    this.emit()
   }
 }

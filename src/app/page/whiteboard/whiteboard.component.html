@@ -34,7 +34,7 @@
     </app-pcs>
   }
 <!--  (menuOpened)="contextMenuOpened()"-->
-  <ng-template  #menu matMenuContent let-index="index" let-name="name" let-indexFormDrawer="indexFormDrawer">
+    <ng-template  #menu matMenuContent let-index="index" let-name="name" let-indexFormDrawer="indexFormDrawer">
     <div class="contextual-menu" cdkMenu>
       <span class="text-center">Do with {{ name }}</span>
       <hr/>
@@ -47,7 +47,7 @@
       <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="duplicate"  [cdkMenuTriggerData]="{index: index}">
         Duplicate <span *ngIf="!isSolo(index)">&nbsp;({{numberSelectedComponents}})</span> <span> &#10148;</span>
       </button>
-      <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="primes">
+      <button class="contextual-menu-item" [cdkMenuTriggerData]="{index: index}" cdkMenuItem [cdkMenuTriggerFor]="primes">
         Prime Form <span>&#10148;</span>
       </button>
       <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="neighbors">
@@ -70,7 +70,7 @@
               (cdkMenuItemTriggered)="doToggleShowChordName(index)">
         <mat-slide-toggle [checked]="isShowChordName(index)">ChordName</mat-slide-toggle>
       </button>
-      <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="align" [cdkMenuTriggerData]="{index: index}">
+      <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="align">
         Align <span>&#10148;</span>
       </button>
 
@@ -89,23 +89,23 @@
     </div>
   </ng-template>
 
-  <ng-template #create let-index="index">
-    <div class="contextual-menu" cdkMenu>
-      <button class="contextual-menu-item" disabled cdkMenuItem>ModalPrimeForm</button>
-      <hr/>
-      <button class="contextual-menu-item" disabled cdkMenuItem>Pcs CyclicPF in orbit</button>
-      <button class="contextual-menu-item" disabled cdkMenuItem>Simple Pcs in Cyclic orbit</button>
-      <button class="contextual-menu-item" disabled cdkMenuItem>Other</button>
-    </div>
-  </ng-template>
+<!--  <ng-template #create let-index="index">-->
+<!--    <div class="contextual-menu" cdkMenu>-->
+<!--      <button class="contextual-menu-item" disabled cdkMenuItem>ModalPrimeForm</button>-->
+<!--      <hr/>-->
+<!--      <button class="contextual-menu-item" disabled cdkMenuItem>Pcs CyclicPF in orbit</button>-->
+<!--      <button class="contextual-menu-item" disabled cdkMenuItem>Simple Pcs in Cyclic orbit</button>-->
+<!--      <button class="contextual-menu-item" disabled cdkMenuItem>Other</button>-->
+<!--    </div>-->
+<!--  </ng-template>-->
 
-  <ng-template #selection let-index="index">
-    <div class="contextual-menu"   cdkMenu>
-      <button class="contextual-menu-item" disabled cdkMenuItem >nop</button>
-    </div>
-  </ng-template>
+<!--  <ng-template #selection let-index="index">-->
+<!--    <div class="contextual-menu"   cdkMenu>-->
+<!--      <button class="contextual-menu-item" disabled cdkMenuItem >nop</button>-->
+<!--    </div>-->
+<!--  </ng-template>-->
 
-  <ng-template #align let-index="index">
+  <ng-template #align>
     <div class="contextual-menu"  cdkMenu>
       <button class="contextual-menu-item" (cdkMenuItemTriggered)="doHorizontalAlign()"
               cdkMenuItem [disabled]="numberSelectedComponents < 2"><mat-icon> align_vertical_center</mat-icon></button>
@@ -138,11 +138,24 @@
 
   <ng-template #primes let-index="index">
     <div class="contextual-menu" cdkMenu>
-      <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doGetPrimForm('Modal',index)" >Modal Prime Form</button>
-      <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doGetPrimForm('Cyclic',index)">Cyclic Prime Form</button>
-      <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doGetPrimForm('Dihedral',index)">Dihedral Prime Form</button>
-      <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doGetPrimForm('Affine',index)">Affine Prime Form</button>
-      <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doGetPrimForm('Musaic',index)">Musaic Prime Form</button>
+      <button class="contextual-menu-item" cdkMenuItem
+              [disabled]="samePcsAs('Modal',index)"
+              (cdkMenuItemTriggered)="doGetPrimForm('Modal',index)" >Modal Prime Form</button>
+      <button class="contextual-menu-item" cdkMenuItem
+              [disabled]="samePcsAs('Cyclic',index)"
+              (cdkMenuItemTriggered)="doGetPrimForm('Cyclic',index)">Cyclic Prime Form</button>
+      <button class="contextual-menu-item" cdkMenuItem
+              [disabled]="samePcsAs('Dihedral',index)"
+              (cdkMenuItemTriggered)="doGetPrimForm('Dihedral',index)">Dihedral Prime Form</button>
+      <button class="contextual-menu-item" cdkMenuItem
+              [disabled]="samePcsAs('Affine',index)"
+              (cdkMenuItemTriggered)="doGetPrimForm('Affine',index)">Affine Prime Form</button>
+      <button class="contextual-menu-item" cdkMenuItem
+              [disabled]="samePcsAs('Musaic',index)"
+              (cdkMenuItemTriggered)="doGetPrimForm('Musaic',index)">Musaic Prime Form</button>
+     <hr />
+      <button class="contextual-menu-item" cdkMenuItem
+              (cdkMenuItemTriggered)="doGetAllPrimForm(index)">All distinct Prime Form</button>
     </div>
   </ng-template>
 
@@ -154,7 +167,8 @@
       <button class="contextual-menu-item" (cdkMenuItemTriggered)="doDeselectAll()" cdkMenuItem >Deselect All</button>
       <button class="contextual-menu-item" (cdkMenuItemTriggered)="doSelectAll()" cdkMenuItem >Select All</button>
       <hr/>
-      <button class="contextual-menu-item" (cdkMenuItemTriggered)="openDialogSaveToFile()" cdkMenuItem >Save as...</button>
+      <button class="contextual-menu-item" (cdkMenuItemTriggered)="doClearContent()" cdkMenuItem >Clear content...</button>
+      <button class="contextual-menu-item" (cdkMenuItemTriggered)="doOpenDialogSaveToFile()" cdkMenuItem >Save as...</button>
       <button class="contextual-menu-item" (cdkMenuItemTriggered)="doOpenLocalFile()" cdkMenuItem >Open file...</button>
     </div>
   </ng-template>

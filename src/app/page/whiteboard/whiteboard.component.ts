@@ -20,7 +20,7 @@ import {MatMenu, MatMenuContent, MatMenuItem, MatMenuTrigger} from "@angular/mat
 import {MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {NgClass, NgForOf, NgIf, NgStyle} from "@angular/common";
-import {FinalElementMove, ManagerPageWBService} from "../../service/manager-page-wb.service";
+import {FinalElementMove, ManagerPageWBService, LiteralPrimeForms, TPrimeForm} from "../../service/manager-page-wb.service";
 import {UIPcsDto} from "../../ui/UIPcsDto";
 import {PcsComponent} from "../../component/pcs/pcs.component";
 // import {DraggableDirective} from "../../draggable.directive";
@@ -30,6 +30,9 @@ import {Router} from "@angular/router";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
 import {RectSelectorComponent, Shape} from "../../component/rect-selector/rect-selector.component";
 import {FormsModule} from "@angular/forms";
+import {IPcs} from "../../core/IPcs";
+import {MatDialog} from "@angular/material/dialog";
+import {DialogConfirmationComponent} from "../../component/dialog-confirmation/dialog-confirmation.component";
 
 interface ElementMove {
   elt: HTMLElement,
@@ -102,7 +105,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   drawers: string[]
 
   /**
-   * Specify when bouton mouse is actually down
+   * Specify when button mouse is actually down
    * @private
    */
   private isDown: boolean = false
@@ -126,7 +129,8 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   constructor(private managerPageWBService: ManagerPageWBService,
               private readonly managerPagePcsService: ManagerPagePcsService,
               private readonly router: Router,
-              private renderer2: Renderer2) {
+              private renderer2: Renderer2,
+              public dialogConfirmation: MatDialog) {
 
     this.pcsDtoList = this.managerPageWBService.uiPcsDtoList
     this.drawers = this.managerPageWBService.DRAWERS
@@ -172,7 +176,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
 
     // set elt rselector fill screen (maybe is there other way...)
     let eltRSelector = document.getElementById("rselector")
-    eltRSelector!.style.width  = window.innerWidth  + "px"
+    eltRSelector!.style.width = window.innerWidth + "px"
     eltRSelector!.style.height = window.innerHeight + "px"
     eltRSelector!.style.zIndex = "1"
   }
@@ -249,7 +253,6 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     if (this.isDown) {
       e.preventDefault()
       e.stopPropagation()
-      // console.log("nb selected elements : ", this.initialPointOfSelectedElements.length)
       // final set position will set by onMouseUp event
       if (this.initialPointOfSelectedElements.length > 0) {
         if (e.clientX) {
@@ -377,21 +380,15 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   }
 
   doDuplicate(index: number) {
-      this.managerPageWBService.doDuplicate(index)
+    this.managerPageWBService.doDuplicate(index)
   }
 
   doDelete(index: any) {
-    const indexOfSelectedComponents =
-      this.pcsDtoList.map((value, index) => index)
-        .filter(index => this.pcsDtoList[index].isSelected)
-
-    this.doDeselectAll()
-    if (!indexOfSelectedComponents.includes(index)) {
+    if (!this.managerPageWBService.isIndexInElementsSelected(index)) {
       this.managerPageWBService.doDelete([index])
     } else {
-      this.managerPageWBService.doDelete(indexOfSelectedComponents)
+      this.managerPageWBService.doDelete()
     }
-
   }
 
   doPushToPcsPage(index: number) {
@@ -412,8 +409,8 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
    */
   isSolo(index: number) {
     return this.managerPageWBService.isIndexInElementsSelected(index)
-    && this.managerPageWBService.orderedIndexesSelectedPcsDto.length === 1
-    || !this.managerPageWBService.orderedIndexesSelectedPcsDto.includes(index)
+      && this.managerPageWBService.orderedIndexesSelectedPcsDto.length === 1
+      || !this.managerPageWBService.orderedIndexesSelectedPcsDto.includes(index)
 
   }
 
@@ -542,8 +539,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     fileReader.readAsText(file);
   }
 
-  openDialogSaveToFile() {
-    // this.openDialogForSaveIntoFile()
+  doOpenDialogSaveToFile() {
     this.managerPageWBService.doOpenDialogAndSaveContentToFile()
   }
 
@@ -551,8 +547,8 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
 
   canShowChordName(index: number) {
     return this.pcsDtoList[index].indexFormDrawer === 1
-      && [3,4].includes(this.pcsDtoList[index].pcs.cardinal)
-      &&  this.pcsDtoList[index].pcs.getChordName()
+      && [3, 4].includes(this.pcsDtoList[index].pcs.cardinal)
+      && this.pcsDtoList[index].pcs.getChordName()
   }
 
   doToggleShowChordName(index: number) {
@@ -569,7 +565,80 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
 
   protected readonly console = console;
 
-  doGetPrimForm(whichPrime: string, index: number) {
-    this.managerPageWBService.doGetPrimForm(whichPrime, index)
+  doGetPrimForm(whichPrime: TPrimeForm, index: number) {
+    const primeForm = this.managerPageWBService.doGetPrimForm(whichPrime, index)
+    if (primeForm) {
+      this.managerPageWBService.setPcsDtoForTemplate(this.pcsDtoList[index])
+      this.managerPageWBService.addPcs([primeForm])
+    }
+  }
+
+  samePcsAs(whichPrimeForm: TPrimeForm, index: number): boolean {
+    switch (whichPrimeForm) {
+      case 'Modal':
+        const pcsSelected = this.managerPageWBService.uiPcsDtoList[index].pcs
+        const thisModalPrimeForm = this.managerPageWBService.doGetPrimForm(whichPrimeForm, index)
+        return pcsSelected.pid() === thisModalPrimeForm.pid()
+
+      case 'Cyclic':
+        const modalPrimeForm = this.managerPageWBService.uiPcsDtoList[index].pcs
+        const thisCyclicPrimeForm = this.managerPageWBService.doGetPrimForm(whichPrimeForm, index)
+        return modalPrimeForm.pid() === thisCyclicPrimeForm.pid()
+
+      case 'Dihedral':
+        const cyclicPrimeForm = this.managerPageWBService.doGetPrimForm('Cyclic', index)
+        const thisDihedralPrimeForm = this.managerPageWBService.doGetPrimForm(whichPrimeForm, index)
+        return cyclicPrimeForm.pid() === thisDihedralPrimeForm.pid()
+
+      case 'Affine' :
+        const dihedralPrimeForm = this.managerPageWBService.doGetPrimForm('Dihedral', index)
+        const thisAffinePrimeForm = this.managerPageWBService.doGetPrimForm(whichPrimeForm, index)
+        return dihedralPrimeForm.pid() === thisAffinePrimeForm.pid()
+
+      case 'Musaic' :
+        const affinePrimeForm = this.managerPageWBService.doGetPrimForm('Affine', index)
+        const primeForm = this.managerPageWBService.doGetPrimForm(whichPrimeForm, index)
+        return affinePrimeForm.pid() === primeForm.pid()
+      default :
+        return true
+    }
+  }
+
+  doGetAllPrimForm(index: any) {
+    let primeForms: Map<number, IPcs> = new Map<number, IPcs>()
+    // const pcsSelected = this.managerPageWBService.uiPcsDtoList[index].pcs
+
+    // iterate over literal type :
+    //  https://stackoverflow.com/questions/40863488/how-can-i-iterate-over-a-custom-literal-type-in-typescript
+    // get all PF, and put them into a map (or a set, but order is not guaranteed), so avoid duplicate
+    LiteralPrimeForms.forEach((primeForm: TPrimeForm) => {
+      let pf: IPcs = this.managerPageWBService.doGetPrimForm(primeForm, index)
+      primeForms.set(pf.pid(), pf)
+    })
+    if (primeForms.size > 0) {
+      this.managerPageWBService.setPcsDtoForTemplate(this.pcsDtoList[index])
+      this.managerPageWBService.addPcs([...primeForms.values()], true)
+    }
+  }
+
+  doClearContent() {
+    this.dialogConfirmation
+      .open(DialogConfirmationComponent, {
+        data: `Clear content ?`
+      })
+      .afterClosed()
+      .subscribe((confirmation: Boolean | number) => {
+        if (confirmation === true) {
+          this.managerPageWBService.doClearContent()
+        }
+        else if ( typeof confirmation === 'number' ) {
+          // console.log("Call save before clear content")
+          const clearContentAfterSavingToFile = true
+          this.dialogConfirmation.closeAll()
+          this.managerPageWBService.doOpenDialogAndSaveContentToFile(clearContentAfterSavingToFile)
+        } else {
+          // console.log("DO NOT clear content")
+        }
+      });
   }
 }

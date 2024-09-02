@@ -433,8 +433,9 @@ export class GroupAction {
       const pcs = orbit.getPcsWithThisPid(pid)
       if (pcs) return pcs
     }
-    // this.powerset.values() below create new iterator while loop above use existing structures
-    // so, it's preferred
+    // this.powerset.values() below create new iterator (cost to be verified)
+    // while loop above use existing structures
+    // so, it's preferred even if more loop structures are used
 
     // for (const pcs of this.powerset.values()) {
     //   if (pcs.pid() === pid) return pcs
