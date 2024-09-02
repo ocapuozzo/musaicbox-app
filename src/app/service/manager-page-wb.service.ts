@@ -121,7 +121,7 @@ export class ManagerPageWBService {
         this.pcsDtoForTemplate
           ? new UIPcsDto({...this.pcsDtoForTemplate, uiMusaic: {...this.pcsDtoForTemplate.uiMusaic}})
           : new UIPcsDto() // {uiMusaic: new UIMusaic({rounded: !pcs.isDetached()})})
-      pcsDto.uiMusaic.rounded = !pcs.isDetached()
+      pcsDto.uiMusaic.rounded = pcsDto.uiMusaic.rounded || !pcs.isDetached()
       pcsDto.pcs = pcs
       ManagerPageWBService.deltaPositionNewPcs += this._GAP_BETWEEN
       pcsDto.position = {
@@ -135,11 +135,10 @@ export class ManagerPageWBService {
       if (ManagerPageWBService.deltaPositionNewPcs > window.innerWidth / 2) {
         ManagerPageWBService.deltaPositionNewPcs = 20
       }
-
       // add index of last element
       this.orderedIndexesSelectedPcsDto.push(this.uiPcsDtoList.length - 1)
     }) // end for each
-    if (circularAlign) {
+    if (/*somePcs.length > 1 &&*/ circularAlign) {
       this.doCircularAlign()
     } else {
       this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
@@ -601,7 +600,7 @@ export class ManagerPageWBService {
 
   doCircularAlign() {
     const selectedPcsIndexes = this.getSelectedPcsDtoIndexes()
-    if (selectedPcsIndexes.length < 2) return // already align :))
+    // if (selectedPcsIndexes.length < 2) return // already align :))
 
     let finalMoveElements: FinalElementMove[] = []
 
@@ -691,7 +690,7 @@ export class ManagerPageWBService {
    *
    * @param clearContentAfterSave if user requests it (see eventFileNameSetByUser.subscribe...)
    */
-  doOpenDialogAndSaveContentToFile(clearContentAfterSave : boolean = false ) {
+  doOpenDialogAndSaveContentToFile(clearContentAfterSave: boolean = false) {
     this.userAskClearContentAfterSave = clearContentAfterSave
     this.dialogSaveAsFileNameService.openDialogForSaveIntoFile(this.dataSaveToFile)
   }
