@@ -55,7 +55,7 @@ export class RectSelectorComponent implements OnInit {
   drawing(evt: MouseEvent) {
     if (this.canDraw) {
       evt.preventDefault()
-      evt.stopPropagation()
+      // evt.stopPropagation()
       // The SVG specification says that if width or height are negative then the rectangle is not drawn.
       // negative value causes errors. Solution is to add start X & Y variables and commute with shape.x & y
       if (evt.offsetX >= this.startX) {

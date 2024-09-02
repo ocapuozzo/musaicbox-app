@@ -763,4 +763,43 @@ export class ManagerPageWBService {
     this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
     this.emit()
   }
+
+  doGetPcsFacets(facet: string, index: number) {
+    if (index < 0 || index >= this.uiPcsDtoList.length) {
+      throw new Error(`bad index : ${index}`)
+    }
+    if (['Affine', 'Musaic'].includes(facet)) {
+
+      const pcsSelected = this.uiPcsDtoList[index].pcs.unMap()
+      // dafault Affine
+      const pcsList: IPcs[] = [
+        pcsSelected,
+        pcsSelected.affineOp(7, 0),
+        pcsSelected.affineOp(11, 0),
+        pcsSelected.affineOp(5, 0),
+      ]
+
+      const pcsSelectedCplt = pcsSelected.complement()
+
+      if (facet === 'Musaic') {
+        pcsList.push(pcsSelectedCplt)
+        pcsList.push(pcsSelectedCplt.affineOp(7, 0))
+        pcsList.push(pcsSelectedCplt.affineOp(11, 0))
+        pcsList.push(pcsSelectedCplt.affineOp(5, 0))
+      }
+
+      this.addPcs(pcsList, true)
+    }
+  }
+
+  windowMaxWidth() : number{
+    return this.uiPcsDtoList.reduce( (max:number, current:UIPcsDto) =>
+      (current.position.x + current.width > max) ? (current.position.x + current.width) : max , 0)
+  }
+
+  windowMaxHeight() : number{
+    return this.uiPcsDtoList.reduce( (max:number, current:UIPcsDto) =>
+      (current.position.y + current.height > max) ? (current.position.y + current.height) : max , 0)
+  }
+
 }

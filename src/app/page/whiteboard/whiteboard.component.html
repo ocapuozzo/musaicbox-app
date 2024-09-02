@@ -7,6 +7,9 @@
     (mousedown)="doUpZIndexRectangleSelector()"
     (mouseup)="doDownZIndexRectangleSelector()"
   ></app-rect-selector>
+  <!--    [style.height.px]="maxHeight()"-->
+  <!--    [style.width.px]="maxWidth()"-->
+
 
   @for (pcsDto of pcsDtoList; track pcsDto; let idx = $index) {
     <!--component has 3 data context : element DOM, object himself and pcsDto -->
@@ -49,6 +52,9 @@
       </button>
       <button class="contextual-menu-item" [cdkMenuTriggerData]="{index: index}" cdkMenuItem [cdkMenuTriggerFor]="primes">
         Prime Form <span>&#10148;</span>
+      </button>
+      <button class="contextual-menu-item" [cdkMenuTriggerData]="{index: index}" cdkMenuItem [cdkMenuTriggerFor]="facets">
+        Musaic Facets <span>&#10148;</span>
       </button>
       <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="neighbors">
         Neighbors <span>&#10148;</span>
@@ -133,6 +139,14 @@
       <button class="contextual-menu-item" disabled cdkMenuItem>Similarity IS</button>
       <button class="contextual-menu-item" disabled cdkMenuItem>Similarity IV</button>
       <button class="contextual-menu-item" disabled cdkMenuItem>Others</button>
+    </div>
+  </ng-template>
+  <ng-template #facets let-index="index">
+    <div class="contextual-menu" cdkMenu>
+      <button class="contextual-menu-item" cdkMenuItem
+              (cdkMenuItemTriggered)="doGetPcsFacets('Affine',index)" >Affine Facets (<= 4)</button>
+      <button class="contextual-menu-item" cdkMenuItem
+              (cdkMenuItemTriggered)="doGetPcsFacets('Musaic',index)">Musaic Facets <= 8)</button>
     </div>
   </ng-template>
 

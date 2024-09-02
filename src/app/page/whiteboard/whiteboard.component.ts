@@ -137,6 +137,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
 
     this.managerPageWBService.eventChangePcsPdoList.subscribe((uiPcsDtoList: UIPcsDto[]) => {
       this.pcsDtoList = uiPcsDtoList
+      this.updateSelectorDimension();
     })
 
   }
@@ -175,10 +176,17 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
       (event) => this.onMouseUp(event));
 
     // set elt rselector fill screen (maybe is there other way...)
+
     let eltRSelector = document.getElementById("rselector")
-    eltRSelector!.style.width = window.innerWidth + "px"
-    eltRSelector!.style.height = window.innerHeight + "px"
     eltRSelector!.style.zIndex = "1"
+    this.updateSelectorDimension();
+  }
+
+  private updateSelectorDimension() {
+    let eltRSelector = document.getElementById("rselector")
+    eltRSelector!.style.width = 50 + this.managerPageWBService.windowMaxWidth() + "px"  // window.innerWidth  + "px"
+    eltRSelector!.style.height = 50 +  this.managerPageWBService.windowMaxHeight() + "px" // window.innerHeight + "px"
+    return eltRSelector;
   }
 
   onMouseDown(e: any) {
@@ -640,5 +648,19 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
           // console.log("DO NOT clear content")
         }
       });
+  }
+
+  doGetPcsFacets(typeFacet: string, index: number) {
+    this.managerPageWBService.doGetPcsFacets(typeFacet, index)
+  }
+
+  maxHeight() {
+    console.log( 'Max height = ', this.managerPageWBService.windowMaxHeight())
+    return this.managerPageWBService.windowMaxHeight()
+  }
+
+  maxWidth() {
+    console.log( 'Max width = ', this.managerPageWBService.windowMaxWidth())
+    this.managerPageWBService.windowMaxWidth()
   }
 }
