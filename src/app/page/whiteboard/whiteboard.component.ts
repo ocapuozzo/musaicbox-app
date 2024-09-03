@@ -137,7 +137,9 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
 
     this.managerPageWBService.eventChangePcsPdoList.subscribe((uiPcsDtoList: UIPcsDto[]) => {
       this.pcsDtoList = uiPcsDtoList
-      this.updateSelectorDimension();
+      if (! this.isRectangleSelecting) {
+        this.updateRectangleSelectorDimension();
+      }
     })
 
   }
@@ -179,10 +181,10 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
 
     let eltRSelector = document.getElementById("rselector")
     eltRSelector!.style.zIndex = "1"
-    this.updateSelectorDimension();
+    this.updateRectangleSelectorDimension();
   }
 
-  private updateSelectorDimension() {
+  private updateRectangleSelectorDimension() {
     let eltRSelector = document.getElementById("rselector")
     eltRSelector!.style.width = 50 + this.managerPageWBService.windowMaxWidth() + "px"  // window.innerWidth  + "px"
     eltRSelector!.style.height = 50 +  this.managerPageWBService.windowMaxHeight() + "px" // window.innerHeight + "px"
