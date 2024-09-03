@@ -98,7 +98,7 @@ export class AppComponent {
               this.checkoutForm.reset();
               // console.log("this route = ",  this.router.url)
               if (this.router.url === '/w-board') {
-                 this.managerPageWBService.addPcs([pcs])
+                 this.managerPageWBService.addPcs({somePcs:[pcs]})
               } else {
                 this.managerPagePcsService.replaceBy(pcs)
                 this.router.navigateByUrl('/pcs');
@@ -123,11 +123,11 @@ export class AppComponent {
     // console.log("pcsWithSameIV : " + pcsWithSameIV)
     if (pcsWithSameIV.length > 0) {
       if (this.router.url == '/w-board') {
-        this.managerPageWBService.addPcs(pcsWithSameIV)
+        this.managerPageWBService.addPcs({somePcs:pcsWithSameIV})
       } else {
         // select the first of list as current pcs
         this.managerPagePcsService.replaceBy(pcsWithSameIV[0])
-        // push all pcs havine same IV into list pcs of pcs page
+        // push all pcs having same IV into list pcs of pcs page
         for (const pcs of pcsWithSameIV) {
           this.managerPagePcsListService.addPcs('iv:' + searchIV, pcs)
         }
@@ -147,7 +147,7 @@ export class AppComponent {
     const pcs = PcsSearch.searchPcsWithThisIS(searchIS)
     if (pcs) {
       if (this.router.url == '/w-board') {
-        this.managerPageWBService.addPcs([pcs])
+        this.managerPageWBService.addPcs({somePcs:[pcs]})
       } else {
         // select the first of list as current pcs
         this.managerPagePcsService.replaceBy(pcs)
@@ -162,7 +162,7 @@ export class AppComponent {
       const pcs = PcsSearch.searchPcsWithThisPid(integerPid)
       if (pcs) {
         if (this.router.url == '/w-board') {
-          this.managerPageWBService.addPcs([pcs])
+          this.managerPageWBService.addPcs({somePcs:[pcs]})
         } else {
           // select the first of list as current pcs
           this.managerPagePcsService.replaceBy(pcs)

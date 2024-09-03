@@ -109,8 +109,17 @@ export class ManagerPageWBService {
     this.eventChangePcsPdoList.emit(this.uiPcsDtoList)
   }
 
-  addPcs(somePcs: IPcs[], circularAlign: boolean = false) {
+  addPcs({somePcs, circularAlign, indexCenterElement}: {
+    somePcs: IPcs[],
+    circularAlign?: boolean,
+    indexCenterElement?: number
+  }) {
+    circularAlign = circularAlign ?? false
+    indexCenterElement = indexCenterElement ?? undefined
+    // console.log(`circular : ${circularAlign},  indexcenter : ${indexCenterElement}`)
     this.doUnselectAll()
+    const selectedIndexPcs: number[] = []
+
     this.uiPcsDtoList = [...this.uiPcsDtoList]
 
     // avoid put outside screen
@@ -125,23 +134,40 @@ export class ManagerPageWBService {
       pcsDto.pcs = pcs
       if (!circularAlign) {
         ManagerPageWBService.deltaPositionNewPcs += this._GAP_BETWEEN
-        pcsDto.position = {
-          x: this.pcsDtoForTemplate ? this.pcsDtoForTemplate.position.x + ManagerPageWBService.deltaPositionNewPcs :
-            ManagerPageWBService.deltaPositionNewPcs += 10,
-          y: this.pcsDtoForTemplate ? this.pcsDtoForTemplate.position.y + ManagerPageWBService.deltaPositionNewPcs :
-            ManagerPageWBService.deltaPositionNewPcs += 10,
+      }
+      pcsDto.position = {
+        x: this.pcsDtoForTemplate
+          ? this.pcsDtoForTemplate.position.x + (circularAlign ? 0 : ManagerPageWBService.deltaPositionNewPcs)
+          : ManagerPageWBService.deltaPositionNewPcs += 10,
+        y: this.pcsDtoForTemplate
+          ? this.pcsDtoForTemplate.position.y + (circularAlign ? 0 : ManagerPageWBService.deltaPositionNewPcs)
+          : ManagerPageWBService.deltaPositionNewPcs += 10,
+      }
+
+      // for ui
+      pcsDto.isSelected = true
+
+      this.uiPcsDtoList.push(pcsDto)
+      if (!circularAlign) {
+        if (ManagerPageWBService.deltaPositionNewPcs > window.innerWidth / 2) {
+          ManagerPageWBService.deltaPositionNewPcs = 20
         }
       }
-      pcsDto.isSelected = true
-      this.uiPcsDtoList.push(pcsDto)
-      if (ManagerPageWBService.deltaPositionNewPcs > window.innerWidth / 2) {
-        ManagerPageWBService.deltaPositionNewPcs = 20
-      }
-      // add index of last element
-      this.orderedIndexesSelectedPcsDto.push(this.uiPcsDtoList.length - 1)
+      const indexLastElement = this.uiPcsDtoList.length - 1
+      // add new index to selected index list (they will be selected in fine)
+      this.orderedIndexesSelectedPcsDto.push(indexLastElement)
+      // add new index to local selected index list for circular placement in UI
+      selectedIndexPcs.push(indexLastElement)
     }) // end for each
-    if (/*somePcs.length > 1 &&*/ circularAlign) {
-      this.doCircularAlign()
+
+    // pcs with index = indexCenterElement will be selected also (with others new pcs)
+    if (circularAlign && indexCenterElement) {
+      this.orderedIndexesSelectedPcsDto.push(indexCenterElement)
+      this.uiPcsDtoList[indexCenterElement].isSelected = true
+    }
+
+    if (circularAlign) {
+      this.doCircularAlign(selectedIndexPcs, indexCenterElement)
     } else {
       this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
       this.emit()
@@ -582,16 +608,17 @@ export class ManagerPageWBService {
     return this.orderedIndexesSelectedPcsDto
   }
 
-  doCircularAlign() {
-    const selectedPcsIndexes = this.getSelectedPcsDtoIndexes()
-    // if (selectedPcsIndexes.length < 2) return // already align :))
+  doCircularAlign(selectedPcsIndexes: number[] = [], indexCenterElement ?: number) {
+    if (selectedPcsIndexes.length === 0) selectedPcsIndexes = this.getSelectedPcsDtoIndexes()
 
     let finalMoveElements: FinalElementMove[] = []
 
     // compute barycenter
     let barycenter = new Point(0, 0)
+    let radius = indexCenterElement ? this.uiPcsDtoList[indexCenterElement].width * 3 : 0
+
     let point = new Point(0, 0)
-    let radius = 0
+
     selectedPcsIndexes.forEach(index => {
       point.x += this.uiPcsDtoList[index].position.x + this.uiPcsDtoList[index].width / 2
       point.y += this.uiPcsDtoList[index].position.y + this.uiPcsDtoList[index].height / 2
@@ -752,40 +779,59 @@ export class ManagerPageWBService {
     this.emit()
   }
 
-  doGetPcsFacets(facet: string, index: number) {
+  doGetPcsFacets(facet: string, index: number, distinct: boolean = false): IPcs[] {
     if (index < 0 || index >= this.uiPcsDtoList.length) {
       throw new Error(`bad index : ${index}`)
     }
+    const pcsList: IPcs[] = []
     if (['Affine', 'Musaic'].includes(facet)) {
-
+      // default Affine
       const pcsSelected = this.uiPcsDtoList[index].pcs.unMap()
-      // dafault Affine
-      const pcsList: IPcs[] = [
-        pcsSelected,
-        pcsSelected.affineOp(7, 0),
-        pcsSelected.affineOp(11, 0),
-        pcsSelected.affineOp(5, 0),
-      ]
+
+      pcsList.push(pcsSelected)
+
+      if (pcsSelected.pid() !== pcsSelected.affineOp(7, 0).pid() || !distinct) {
+        pcsList.push(pcsSelected.affineOp(7, 0))
+      }
+      if (pcsSelected.pid() !== pcsSelected.affineOp(11, 0).pid() || !distinct) {
+        pcsList.push(pcsSelected.affineOp(11, 0))
+      }
+      if (pcsSelected.pid() !== pcsSelected.affineOp(5, 0).pid() || !distinct) {
+        pcsList.push(pcsSelected.affineOp(5, 0))
+      }
 
       const pcsSelectedCplt = pcsSelected.complement()
 
       if (facet === 'Musaic') {
-        pcsList.push(pcsSelectedCplt)
-        pcsList.push(pcsSelectedCplt.affineOp(7, 0))
-        pcsList.push(pcsSelectedCplt.affineOp(11, 0))
-        pcsList.push(pcsSelectedCplt.affineOp(5, 0))
+        if (pcsSelected.pid() !== pcsSelectedCplt.pid() || !distinct) {
+          pcsList.push(pcsSelectedCplt)
+        }
+        if (pcsSelectedCplt.pid() !== pcsSelectedCplt.affineOp(7, 0).pid() || !distinct) {
+          pcsList.push(pcsSelectedCplt.affineOp(7, 0))
+        }
+        if (pcsSelectedCplt.pid() !== pcsSelectedCplt.affineOp(11, 0).pid() || !distinct) {
+          pcsList.push(pcsSelectedCplt.affineOp(11, 0))
+        }
+        if (pcsSelectedCplt.pid() !== pcsSelectedCplt.affineOp(5, 0).pid() || !distinct) {
+          pcsList.push(pcsSelectedCplt.affineOp(5, 0))
+        }
       }
-      this.pcsDtoForTemplate = this.uiPcsDtoList[index]
-      this.addPcs(pcsList, true)
     }
+    return pcsList
   }
 
-  windowMaxWidth(): number {
+  doPcsMusaicFacets(facet: string, index: number, distinct: boolean = false) {
+    const pcsFacets = this.doGetPcsFacets(facet, index, distinct)
+    this.pcsDtoForTemplate = this.uiPcsDtoList[index]
+    this.addPcs({somePcs: pcsFacets, circularAlign: true, indexCenterElement: index})
+  }
+
+  windowMaxWidth() : number {
     return this.uiPcsDtoList.reduce((max: number, current: UIPcsDto) =>
       (current.position.x + current.width > max) ? (current.position.x + current.width) : max, 0)
   }
 
-  windowMaxHeight(): number {
+  windowMaxHeight() : number {
     return this.uiPcsDtoList.reduce((max: number, current: UIPcsDto) =>
       (current.position.y + current.height > max) ? (current.position.y + current.height) : max, 0)
   }

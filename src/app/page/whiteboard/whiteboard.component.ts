@@ -180,15 +180,18 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     // set elt rselector fill screen (maybe is there other way...)
 
     let eltRSelector = document.getElementById("rselector")
-    eltRSelector!.style.zIndex = "1"
-    this.updateRectangleSelectorDimension();
+    if (eltRSelector) {
+      eltRSelector!.style.zIndex = "1"
+      this.updateRectangleSelectorDimension();
+    }
   }
 
   private updateRectangleSelectorDimension() {
     let eltRSelector = document.getElementById("rselector")
-    eltRSelector!.style.width = 50 + this.managerPageWBService.windowMaxWidth() + "px"  // window.innerWidth  + "px"
-    eltRSelector!.style.height = 50 +  this.managerPageWBService.windowMaxHeight() + "px" // window.innerHeight + "px"
-    return eltRSelector;
+    if (eltRSelector) {
+      eltRSelector!.style.width = 50 + this.managerPageWBService.windowMaxWidth() + "px"  // window.innerWidth  + "px"
+      eltRSelector!.style.height = 50 + this.managerPageWBService.windowMaxHeight() + "px" // window.innerHeight + "px"
+    }
   }
 
   onMouseDown(e: any) {
@@ -579,7 +582,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     const primeForm = this.managerPageWBService.doGetPrimForm(whichPrime, index)
     if (primeForm) {
       this.managerPageWBService.setPcsDtoForTemplate(this.pcsDtoList[index])
-      this.managerPageWBService.addPcs([primeForm])
+      this.managerPageWBService.addPcs({somePcs:[primeForm]})
     }
   }
 
@@ -627,7 +630,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     })
     if (primeForms.size > 0) {
       this.managerPageWBService.setPcsDtoForTemplate(this.pcsDtoList[index])
-      this.managerPageWBService.addPcs([...primeForms.values()], true)
+      this.managerPageWBService.addPcs({somePcs:[...primeForms.values()], circularAlign:true, indexCenterElement:index})
     }
   }
 
@@ -652,17 +655,15 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
       });
   }
 
-  doGetPcsFacets(typeFacet: string, index: number) {
-    this.managerPageWBService.doGetPcsFacets(typeFacet, index)
+  doGetPcsFacets(typeFacet: string, index: number, distinct : boolean = false) {
+    this.managerPageWBService.doPcsMusaicFacets(typeFacet, index, distinct)
   }
 
-  maxHeight() {
-    console.log( 'Max height = ', this.managerPageWBService.windowMaxHeight())
-    return this.managerPageWBService.windowMaxHeight()
+  nbDistinctAffineFacets(index:number) {
+    return this.managerPageWBService.doGetPcsFacets('Affine',index, true ).length;
   }
 
-  maxWidth() {
-    console.log( 'Max width = ', this.managerPageWBService.windowMaxWidth())
-    this.managerPageWBService.windowMaxWidth()
+  nbDistinctMusaicFacets(index:number) {
+    return this.managerPageWBService.doGetPcsFacets('Musaic',index, true ).length;
   }
 }

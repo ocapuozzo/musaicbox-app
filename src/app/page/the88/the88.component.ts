@@ -161,7 +161,7 @@ export class The88Component implements OnInit {
 
   doPushToWhiteboardPage(index: number) {
     this.managerPageWBService.setPcsDtoForTemplate(this.listOrbits[index].pcsDto)
-    this.managerPageWBService.addPcs([this.listOrbits[index].pcsDto.pcs])
+    this.managerPageWBService.addPcs({somePcs:[this.listOrbits[index].pcsDto.pcs]})
     this.router.navigateByUrl('/w-board');
   }
 
@@ -174,7 +174,7 @@ export class The88Component implements OnInit {
         template.uiMusaic = new UIMusaic({...template.uiMusaic, widthCell: 3, width: 26, height: 26})
       }
       this.managerPageWBService.setPcsDtoForTemplate(template)
-      this.managerPageWBService.addPcs(selectedOrbits.map(orbit => orbit.pcsDto.pcs), true)
+      this.managerPageWBService.addPcs({somePcs:selectedOrbits.map(orbit => orbit.pcsDto.pcs),circularAlign:true})
       this.router.navigateByUrl('/w-board');
     }
   }

@@ -181,7 +181,7 @@ export class PcsPageComponent {
 
   pushToWhiteBoardPage() {
     this.managerPagePcsService.indexPcsForEdit = -1
-    this.managerPageWBService.addPcs([this.pcs])
+    this.managerPageWBService.addPcs({somePcs:[this.pcs]})
     this.router.navigateByUrl('/w-board');
   }
 }
