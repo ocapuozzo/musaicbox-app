@@ -114,7 +114,7 @@ export class ManagerPageWBService {
     this.uiPcsDtoList = [...this.uiPcsDtoList]
 
     // avoid put outside screen
-    if (somePcs.length > 10) ManagerPageWBService.deltaPositionNewPcs = 0
+    if (somePcs.length > 10 && !circularAlign) ManagerPageWBService.deltaPositionNewPcs = 0
 
     somePcs.forEach(pcs => {
       let pcsDto =
@@ -123,12 +123,14 @@ export class ManagerPageWBService {
           : new UIPcsDto() // {uiMusaic: new UIMusaic({rounded: !pcs.isDetached()})})
       pcsDto.uiMusaic.rounded = pcsDto.uiMusaic.rounded || !pcs.isDetached()
       pcsDto.pcs = pcs
-      ManagerPageWBService.deltaPositionNewPcs += this._GAP_BETWEEN
-      pcsDto.position = {
-        x: this.pcsDtoForTemplate ? this.pcsDtoForTemplate.position.x + ManagerPageWBService.deltaPositionNewPcs :
-          ManagerPageWBService.deltaPositionNewPcs += 10,
-        y: this.pcsDtoForTemplate ? this.pcsDtoForTemplate.position.y + ManagerPageWBService.deltaPositionNewPcs :
-          ManagerPageWBService.deltaPositionNewPcs += 10,
+      if (!circularAlign) {
+        ManagerPageWBService.deltaPositionNewPcs += this._GAP_BETWEEN
+        pcsDto.position = {
+          x: this.pcsDtoForTemplate ? this.pcsDtoForTemplate.position.x + ManagerPageWBService.deltaPositionNewPcs :
+            ManagerPageWBService.deltaPositionNewPcs += 10,
+          y: this.pcsDtoForTemplate ? this.pcsDtoForTemplate.position.y + ManagerPageWBService.deltaPositionNewPcs :
+            ManagerPageWBService.deltaPositionNewPcs += 10,
+        }
       }
       pcsDto.isSelected = true
       this.uiPcsDtoList.push(pcsDto)
@@ -327,38 +329,20 @@ export class ManagerPageWBService {
   }
 
   /**
-   * Unselect all components from list of index (of this.uiPcsDtoList)
-   * or all this.uiPcsDtoList if list index is empty
-   * @param indexSelectedElements
+   * Unselect all components
    */
-  doUnselectAll(indexSelectedElements: number[] = []) {
-    if (indexSelectedElements.length === 0) {
-
-      this.uiPcsDtoList.forEach((e, index) => {
-        if (e.isSelected) {
-          let pcsDto
-            = new UIPcsDto({...e})
-          pcsDto.isSelected = false
-          this.uiPcsDtoList[index] = pcsDto
-        }
-      })
-      // no more selected index
-      this.orderedIndexesSelectedPcsDto = []
-    } else {
-      indexSelectedElements.forEach(index => {
+  doUnselectAll() {
+    this.uiPcsDtoList.forEach((e, index) => {
+      if (e.isSelected) {
         let pcsDto
-          = new UIPcsDto({...this.uiPcsDtoList[index]})
+          = new UIPcsDto({...e})
         pcsDto.isSelected = false
         this.uiPcsDtoList[index] = pcsDto
+      }
+    })
+    // no more selected index
+    this.orderedIndexesSelectedPcsDto = []
 
-        // update list of index pcs selected
-        const iDelete = this.orderedIndexesSelectedPcsDto.indexOf(index)
-        if (iDelete >= 0) {
-          this.orderedIndexesSelectedPcsDto.splice(iDelete, 1)
-        }
-
-      })
-    }
     // no historisation
     this.emit()
   }
@@ -697,32 +681,36 @@ export class ManagerPageWBService {
 
   doDuplicateInOthersView(index: number) {
     const pcsDto = this.uiPcsDtoList[index]
-    let newPcsDto: UIPcsDto[] = []
+    let newPcsDtoInOthersView: UIPcsDto[] = []
+
     this.DRAWERS.forEach((drawer, index) => {
       if (index != pcsDto.indexFormDrawer) {
-        newPcsDto.push(new UIPcsDto({
-          ...pcsDto,
+        newPcsDtoInOthersView.push(new UIPcsDto({
+          ...pcsDto,  // on same position (because circular align in fine)
           indexFormDrawer: index,
-          isSelected: true,
+          isSelected: true,  // will be placed in orderedIndexesSelectedPcsDto below
           uiMusaic: new UIMusaic({...pcsDto.uiMusaic, rounded: true})
         }))
       }
     })
-    this.uiPcsDtoList = [...this.uiPcsDtoList, ...newPcsDto]
+    this.uiPcsDtoList = [...this.uiPcsDtoList, ...newPcsDtoInOthersView]
 
+    // unselect all
     this.orderedIndexesSelectedPcsDto.forEach(index => {
       this.uiPcsDtoList[index].isSelected = false
     })
-
-    this.uiPcsDtoList[index].isSelected = true
     this.orderedIndexesSelectedPcsDto = []
 
+    // now, select concerned components
+    this.uiPcsDtoList[index].isSelected = true
     this.orderedIndexesSelectedPcsDto.push(index)
     //start to one (because already pcsDto is in place)
     for (let i = 1; i < this.DRAWERS.length; i++) {
-      // add last indexes
+      // add last indexes (or elements having isSelect true)
       this.orderedIndexesSelectedPcsDto.push(this.uiPcsDtoList.length - i)
     }
+
+    // in place, because components have same position
     this.doCircularAlign()
   }
 
@@ -787,19 +775,19 @@ export class ManagerPageWBService {
         pcsList.push(pcsSelectedCplt.affineOp(11, 0))
         pcsList.push(pcsSelectedCplt.affineOp(5, 0))
       }
-
+      this.pcsDtoForTemplate = this.uiPcsDtoList[index]
       this.addPcs(pcsList, true)
     }
   }
 
-  windowMaxWidth() : number{
-    return this.uiPcsDtoList.reduce( (max:number, current:UIPcsDto) =>
-      (current.position.x + current.width > max) ? (current.position.x + current.width) : max , 0)
+  windowMaxWidth(): number {
+    return this.uiPcsDtoList.reduce((max: number, current: UIPcsDto) =>
+      (current.position.x + current.width > max) ? (current.position.x + current.width) : max, 0)
   }
 
-  windowMaxHeight() : number{
-    return this.uiPcsDtoList.reduce( (max:number, current:UIPcsDto) =>
-      (current.position.y + current.height > max) ? (current.position.y + current.height) : max , 0)
+  windowMaxHeight(): number {
+    return this.uiPcsDtoList.reduce((max: number, current: UIPcsDto) =>
+      (current.position.y + current.height > max) ? (current.position.y + current.height) : max, 0)
   }
 
 }

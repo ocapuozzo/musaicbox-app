@@ -7,9 +7,6 @@
     (mousedown)="doUpZIndexRectangleSelector()"
     (mouseup)="doDownZIndexRectangleSelector()"
   ></app-rect-selector>
-  <!--    [style.height.px]="maxHeight()"-->
-  <!--    [style.width.px]="maxWidth()"-->
-
 
   @for (pcsDto of pcsDtoList; track pcsDto; let idx = $index) {
     <!--component has 3 data context : element DOM, object himself and pcsDto -->

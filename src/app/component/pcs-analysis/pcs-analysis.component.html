@@ -50,7 +50,7 @@
         @for (pcs of pcsWithSameIVas(pcsMapped); track pcs.id) {
           <button mat-button (click)="doReplaceBy(pcs)">
           <span class="other-pcs-same-iv">
-            {{ pcs.getPcsStr() }}@if (pcs.cyclicPrimeForm().id == pcsMapped.cyclicPrimeForm().id) {
+            {{ pcs.getPcsStr() }} @if (pcs.cyclicPrimeForm().id == pcsMapped.cyclicPrimeForm().id) {
             *
           }
           </span>
@@ -126,27 +126,32 @@
     <p style="margin: 1px">
       <button mat-button (click)="doPushModalPF(pcsMapped)">Modal :
         <span class="analyse-pcs"> {{ pcsMapped.modalPrimeForm().getPcsStr() }}
-          <sub> {{ pcsMapped.modalPrimeForm().iPivot }} </sub></span>
+          <sub> {{ pcsMapped.modalPrimeForm().iPivot }} </sub>
+          @if (pcsMapped.modalPrimeForm().pid() === pcsMapped.pid()) { * }</span>
       </button>
     </p>
     <p style="margin: 1px">
       <button mat-button (click)="doPushCyclicPF(pcsMapped)">Cyclic :
-        <span class="analyse-pcs">{{ pcsMapped.cyclicPrimeForm().getPcsStr() }}</span>
+        <span class="analyse-pcs">{{ pcsMapped.cyclicPrimeForm().getPcsStr() }}
+          @if (pcsMapped.cyclicPrimeForm().pid() === pcsMapped.pid()) { * }</span>
       </button>
     </p>
     <p style="margin: 1px">
       <button mat-button (click)="doPushDihedralPF(pcsMapped)">Dihedral :
-        <span class="analyse-pcs">{{ pcsMapped.dihedralPrimeForm().getPcsStr() }}</span>
+        <span class="analyse-pcs">{{ pcsMapped.dihedralPrimeForm().getPcsStr() }}
+          @if (pcsMapped.dihedralPrimeForm().pid() === pcsMapped.pid()) { * }</span>
       </button>
     </p>
     <p style="margin: 1px">
       <button mat-button (click)="doPushAffinePF(pcsMapped)">Affine :
-        <span class="analyse-pcs">{{ pcsMapped.affinePrimeForm().getPcsStr() }}</span>
+        <span class="analyse-pcs">{{ pcsMapped.affinePrimeForm().getPcsStr() }}
+          @if (pcsMapped.affinePrimeForm().pid() === pcsMapped.pid()) { * }</span>
       </button>
     </p>
     <p style="margin: 1px">
       <button mat-button (click)="doPushMusaicPF(pcsMapped)">Musaic :
-        <span class="analyse-pcs">{{ pcsMapped.musaicPrimeForm().getPcsStr() }}</span>
+        <span class="analyse-pcs">{{ pcsMapped.musaicPrimeForm().getPcsStr() }}
+          @if (pcsMapped.musaicPrimeForm().pid() === pcsMapped.pid()) { * }</span>
       </button>
     </p>
   </fieldset>
