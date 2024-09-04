@@ -69,6 +69,10 @@ export class MusaicDrawing {
           ctx.fillRect(j * CEL_WIDTH, i * CEL_WIDTH, CEL_WIDTH, CEL_WIDTH);
         } else {
           // already fill
+          if (this.pcsDto.pcs.cardinal === 0) {
+            ctx.strokeStyle = this.pcsDto.colorPitchOn;
+            ctx.strokeRect(j * CEL_WIDTH, i * CEL_WIDTH, CEL_WIDTH, CEL_WIDTH);
+          }
         }
       }
     }

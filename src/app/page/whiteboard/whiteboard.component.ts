@@ -657,13 +657,14 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
 
   doGetPcsFacets(typeFacet: string, index: number, distinct : boolean = false) {
     this.managerPageWBService.doPcsMusaicFacets(typeFacet, index, distinct)
+    this.managerPageWBService.doZoom(-1, [index])
   }
 
-  nbDistinctAffineFacets(index:number) {
-    return this.managerPageWBService.doGetPcsFacets('Affine',index, true ).length;
+  howManyDistinctAffineFacets(index:number) : number {
+   return this.managerPageWBService.doGetPcsFacets('Affine',index, true ).length;
   }
 
-  nbDistinctMusaicFacets(index:number) {
+  howManyDistinctMusaicFacets(index:number) : number {
     return this.managerPageWBService.doGetPcsFacets('Musaic',index, true ).length;
   }
 }

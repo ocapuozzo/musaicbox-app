@@ -43,6 +43,8 @@ export class ScoreDrawingAbcNotation {
   static fromPcsToABCNotation(pcs : IPcs): string {
     if (!pcs) return "";
 
+    if (pcs.cardinal === 0) return "z"
+
     // suffix add by caller (better for unit test)
     // let suffix = 'X:1\nL: 1/4\nK:C\n';
 
@@ -103,7 +105,7 @@ export class ScoreDrawingAbcNotation {
     // 1,3,7,10 pivot = 3
     // 0,3,6,8  pivot:0 Aie !!! third is D# will be Eb ?? but chord no name - only with pivot=8
     //                 it is Ab7/3 bass third
-    // TODO refactor with IS logic ?
+
     if ([3, 4].includes(pcsMapped.cardinal) /*&& pcsMapped.getChordName()*/) {
       // chord has name, try minor third spelling Eb and diminished fifth (5b) and seventh...
 

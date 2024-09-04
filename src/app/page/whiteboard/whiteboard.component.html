@@ -146,9 +146,15 @@
               (cdkMenuItemTriggered)="doGetPcsFacets('Musaic',index)">Musaic Facets (8)</button>
       <hr/>
       <button class="contextual-menu-item" cdkMenuItem
-              (cdkMenuItemTriggered)="doGetPcsFacets('Affine',index, true)">Distinct Affine Facets ({{nbDistinctAffineFacets(index)}})</button>
+              [disabled]="howManyDistinctAffineFacets(index) < 2"
+              (cdkMenuItemTriggered)="doGetPcsFacets('Affine',index, true)">
+        Distinct Affine Facets ({{howManyDistinctAffineFacets(index)}})
+      </button>
       <button class="contextual-menu-item" cdkMenuItem
-              (cdkMenuItemTriggered)="doGetPcsFacets('Musaic',index, true)">Distinct Musaic Facets ({{nbDistinctMusaicFacets(index)}})</button>
+              [disabled]="howManyDistinctMusaicFacets(index) < 2"
+              (cdkMenuItemTriggered)="doGetPcsFacets('Musaic',index, true)">
+        Distinct Musaic Facets ({{howManyDistinctMusaicFacets(index)}})
+      </button>
     </div>
   </ng-template>
 
