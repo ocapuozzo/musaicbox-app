@@ -9,12 +9,8 @@
  * file on git server.
  */
 
-import {IPcs} from "../core/IPcs";
-import {Rect} from "../utils/Rect"
-import {Point} from "../utils/Point"
-import {UIPcsDto} from "./UIPcsDto";
 
-const PITCH_LINE_WIDTH = 4;
+import {UIPcsDto} from "./UIPcsDto";
 
 export class MusaicDrawing {
   pcsDto : UIPcsDto
