@@ -142,18 +142,18 @@
   <ng-template #facets let-index="index">
     <div class="contextual-menu" cdkMenu>
       <button class="contextual-menu-item" cdkMenuItem
-              (cdkMenuItemTriggered)="doGetPcsFacets('Affine',index)" >Affine Facets (4)</button>
+              (cdkMenuItemTriggered)="doGetPcsMusaicFacets('Affine',index)" >Affine Facets (4)</button>
       <button class="contextual-menu-item" cdkMenuItem
-              (cdkMenuItemTriggered)="doGetPcsFacets('Musaic',index)">Musaic Facets (8)</button>
+              (cdkMenuItemTriggered)="doGetPcsMusaicFacets('Musaic',index)">Musaic Facets (8)</button>
       <hr/>
       <button class="contextual-menu-item" cdkMenuItem
-              [disabled]="howManyDistinctAffineFacets(index) < 2"
-              (cdkMenuItemTriggered)="doGetPcsFacets('Affine',index, true)">
+              [disabled]="[1, 4].includes(howManyDistinctAffineFacets(index))"
+              (cdkMenuItemTriggered)="doGetPcsMusaicFacets('Affine',index, true)">
         Distinct Affine Facets ({{howManyDistinctAffineFacets(index)}})
       </button>
       <button class="contextual-menu-item" cdkMenuItem
-              [disabled]="howManyDistinctMusaicFacets(index) < 2"
-              (cdkMenuItemTriggered)="doGetPcsFacets('Musaic',index, true)">
+              [disabled]="howManyDistinctMusaicFacets(index) === 8"
+              (cdkMenuItemTriggered)="doGetPcsMusaicFacets('Musaic',index, true)">
         Distinct Musaic Facets ({{howManyDistinctMusaicFacets(index)}})
       </button>
     </div>

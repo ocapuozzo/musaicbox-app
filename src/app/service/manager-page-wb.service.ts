@@ -125,6 +125,11 @@ export class ManagerPageWBService {
     // avoid put outside screen
     if (somePcs.length > 10 && !circularAlign) ManagerPageWBService.deltaPositionNewPcs = 0
 
+    if (indexCenterElement) {
+      // use it for template ui
+      this.pcsDtoForTemplate = this.uiPcsDtoList[indexCenterElement]
+      console.log("clock width = ", this.pcsDtoForTemplate.uiClock.width )
+    }
     somePcs.forEach(pcs => {
       let pcsDto =
         this.pcsDtoForTemplate
@@ -608,6 +613,11 @@ export class ManagerPageWBService {
     return this.orderedIndexesSelectedPcsDto
   }
 
+  /**
+   * Arrange list of pcs in circle
+   * @param selectedPcsIndexes pcs to repositioning
+   * @param indexCenterElement pcs around which the others will be positioned (or barycenter)
+   */
   doCircularAlign(selectedPcsIndexes: number[] = [], indexCenterElement ?: number) {
     if (selectedPcsIndexes.length === 0) selectedPcsIndexes = this.getSelectedPcsDtoIndexes()
 
@@ -615,7 +625,9 @@ export class ManagerPageWBService {
 
     // compute barycenter
     let barycenter = new Point(0, 0)
-    let radius = indexCenterElement ? this.uiPcsDtoList[indexCenterElement].width * 3 : 0
+    let radius = indexCenterElement && selectedPcsIndexes.length == 2
+      ? this.uiPcsDtoList[indexCenterElement].width * 3 // more space when 2 elts and center elt
+      : 0
 
     let point = new Point(0, 0)
 
@@ -825,7 +837,7 @@ export class ManagerPageWBService {
 
   doPcsMusaicFacets(facet: string, index: number, distinct: boolean = false) {
     const pcsFacets = this.doGetPcsFacets(facet, index, distinct)
-    this.pcsDtoForTemplate = this.uiPcsDtoList[index]
+    //this.pcsDtoForTemplate = this.uiPcsDtoList[index]
     this.addPcs({somePcs: pcsFacets, circularAlign: true, indexCenterElement: index})
   }
 
