@@ -43,7 +43,7 @@ export class ScoreDrawingAbcNotation {
   static fromPcsToABCNotation(pcs : IPcs): string {
     if (!pcs) return "";
 
-    if (pcs.cardinal === 0) return "z"
+    if (pcs.cardinal === 0) return "z4" // silence (else no representation !)
 
     // suffix add by caller (better for unit test)
     // let suffix = 'X:1\nL: 1/4\nK:C\n';
