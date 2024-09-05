@@ -20,7 +20,12 @@ import {MatMenu, MatMenuContent, MatMenuItem, MatMenuTrigger} from "@angular/mat
 import {MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {NgClass, NgForOf, NgIf, NgStyle} from "@angular/common";
-import {FinalElementMove, ManagerPageWBService, LiteralPrimeForms, TPrimeForm} from "../../service/manager-page-wb.service";
+import {
+  FinalElementMove,
+  ManagerPageWBService,
+  LiteralPrimeForms,
+  TPrimeForm
+} from "../../service/manager-page-wb.service";
 import {UIPcsDto} from "../../ui/UIPcsDto";
 import {PcsComponent} from "../../component/pcs/pcs.component";
 // import {DraggableDirective} from "../../draggable.directive";
@@ -76,7 +81,7 @@ interface ElementMove {
 })
 export class WhiteboardComponent implements OnInit, AfterViewInit {
   @ViewChild(MatMenuTrigger, {static: true}) matMenuTrigger: MatMenuTrigger;
-  @ViewChild('rectangleselector', {static: true}) rectangleSelector: ElementRef<HTMLElement>;
+  @ViewChild('rectangleselector', {static: true}) rectangleSelector: ElementRef<SVGElement>;
 
   /**
    * For mouseMoveListener
@@ -137,7 +142,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
 
     this.managerPageWBService.eventChangePcsPdoList.subscribe((uiPcsDtoList: UIPcsDto[]) => {
       this.pcsDtoList = uiPcsDtoList
-      if (! this.isRectangleSelecting) {
+      if (!this.isRectangleSelecting) {
         this.updateRectangleSelectorDimension();
       }
     })
@@ -187,10 +192,16 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   }
 
   private updateRectangleSelectorDimension() {
+    const maxWidth = Math.max(this.managerPageWBService.windowMaxWidth(), window.innerWidth)
+    const maxHeight = Math.max(this.managerPageWBService.windowMaxHeight(), window.innerHeight)
+
     let eltRSelector = document.getElementById("rselector")
     if (eltRSelector) {
-      eltRSelector!.style.width = 50 + this.managerPageWBService.windowMaxWidth() + "px"  // window.innerWidth  + "px"
-      eltRSelector!.style.height = 50 + this.managerPageWBService.windowMaxHeight() + "px" // window.innerHeight + "px"
+      const width = parseInt(eltRSelector!.style.width)
+      if (width != maxWidth) {
+        eltRSelector!.style.width = maxWidth + "px"
+        eltRSelector!.style.height = maxHeight + "px"
+      }
     }
   }
 
@@ -310,17 +321,33 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     }
   }
 
-
   @HostListener('window:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {
-    if ((event.ctrlKey || event.metaKey) && event.key === "z") {
-      // console.log('CTRL Z');
-      this.doUnDo()
+    if (event.ctrlKey || event.metaKey) {
+      switch (event.key) {
+        case "z" :
+          this.doUnDo()
+          break
+        case "y" :
+          this.doReDo()
+          break
+        case "c" :
+          this.doCopy()
+          break
+        case "v" :
+          this.doPaste()
+          break
+      }
     }
-    if ((event.ctrlKey || event.metaKey) && event.key === "y") {
-      // console.log('CTRL Y');
-      this.doReDo()
-    }
+    // if ((event.ctrlKey || event.metaKey) && event.key === "z") {
+    //   // console.log('CTRL Z');
+    //   this.doUnDo()
+    // }
+    // if ((event.ctrlKey || event.metaKey) && event.key === "y") {
+    //   // console.log('CTRL Y');
+    //   this.doReDo()
+    // }
+
     if (event.key === "+") {
       this.doZoom(1)
     }
@@ -582,7 +609,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     const primeForm = this.managerPageWBService.doGetPrimForm(whichPrime, index)
     if (primeForm) {
       this.managerPageWBService.setPcsDtoForTemplate(this.pcsDtoList[index])
-      this.managerPageWBService.addPcs({somePcs:[primeForm]})
+      this.managerPageWBService.addPcs({somePcs: [primeForm]})
     }
   }
 
@@ -630,7 +657,11 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     })
     if (primeForms.size > 0) {
       this.managerPageWBService.setPcsDtoForTemplate(this.pcsDtoList[index])
-      this.managerPageWBService.addPcs({somePcs:[...primeForms.values()], circularAlign:true, indexCenterElement:index})
+      this.managerPageWBService.addPcs({
+        somePcs: [...primeForms.values()],
+        circularAlign: true,
+        indexCenterElement: index
+      })
     }
   }
 
@@ -643,8 +674,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
       .subscribe((confirmation: Boolean | number) => {
         if (confirmation === true) {
           this.managerPageWBService.doClearContent()
-        }
-        else if ( typeof confirmation === 'number' ) {
+        } else if (typeof confirmation === 'number') {
           // console.log("Call save before clear content")
           const clearContentAfterSavingToFile = true
           this.dialogConfirmation.closeAll()
@@ -655,16 +685,33 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
       });
   }
 
-  doGetPcsFacets(typeFacet: string, index: number, distinct : boolean = false) {
+  doGetPcsFacets(typeFacet: string, index: number, distinct: boolean = false) {
     this.managerPageWBService.doPcsMusaicFacets(typeFacet, index, distinct)
     this.managerPageWBService.doZoom(-1, [index])
   }
 
-  howManyDistinctAffineFacets(index:number) : number {
-   return this.managerPageWBService.doGetPcsFacets('Affine',index, true ).length;
+  howManyDistinctAffineFacets(index: number): number {
+    return this.managerPageWBService.doGetPcsFacets('Affine', index, true).length;
   }
 
-  howManyDistinctMusaicFacets(index:number) : number {
-    return this.managerPageWBService.doGetPcsFacets('Musaic',index, true ).length;
+  howManyDistinctMusaicFacets(index: number): number {
+    return this.managerPageWBService.doGetPcsFacets('Musaic', index, true).length;
+  }
+
+  doCopy(index ?: number) {
+    // rem : this.pcsDtoList is this.managerPageWBService.uiPcsDtoList
+    if (index !== undefined && index >= 0 && index < this.pcsDtoList.length) {
+      this.managerPageWBService.doCopy(index)
+    } else {
+      this.managerPageWBService.doCopy()
+    }
+  }
+
+  doPaste() {
+    this.managerPageWBService.doPaste()
+  }
+
+  isEmptyClipboard() : boolean {
+    return this.managerPageWBService.isEmptyClipboard()
   }
 }

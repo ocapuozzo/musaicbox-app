@@ -660,9 +660,12 @@ export class ManagerPageWBService {
 
   doReplaceContentBy(contentJson: string) {
     this.uiPcsDtoList = this.managerLocalStorageService.getPcsDtoListFromJsonContent(contentJson)
-    // start with no selected element
-    this.uiPcsDtoList.forEach((pcsDto: UIPcsDto) => pcsDto.isSelected = false)
+    // update selected elements
     this.orderedIndexesSelectedPcsDto = []
+    this.uiPcsDtoList.forEach((pcsDto: UIPcsDto, index) => {
+      if (pcsDto.isSelected) this.orderedIndexesSelectedPcsDto.push(index)
+    })
+
     // this.orderedIndexesSelectedPcsDto =
     //   this.uiPcsDtoList
     //     .map((pcsDto, index) => pcsDto.isSelected ? index : -1)
@@ -836,4 +839,40 @@ export class ManagerPageWBService {
       (current.position.y + current.height > max) ? (current.position.y + current.height) : max, 0)
   }
 
+  doCopy(index ?: number) {
+    if (index && this.isIndexInElementsSelected(index) || index === undefined) {
+      // copy selected elements
+      this.managerLocalStorageService.copy(this.orderedIndexesSelectedPcsDto.map(index => this.uiPcsDtoList[index]))
+    } else {
+      // copy only element at index
+      this.managerLocalStorageService.copy([this.uiPcsDtoList[index]])
+    }
+  }
+
+  doPaste() {
+    const data = this.managerLocalStorageService.paste()
+    const deltaPosition = 10
+
+    if (data) {
+      const updateData = data.map(pcsDto => new UIPcsDto(
+        {
+          ...pcsDto,
+          position: {x: pcsDto.position.x + deltaPosition, y: pcsDto.position.y + deltaPosition},
+          isSelected : true
+        })
+      )
+      this.doUnselectAll()
+
+      // initialize indexes of selected elements
+      this.orderedIndexesSelectedPcsDto = [...updateData.map((value, index) => this.uiPcsDtoList.length+index)]
+
+      this.uiPcsDtoList = [ ...this.uiPcsDtoList, ...updateData]
+      this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
+      this.emit()
+    }
+  }
+
+  isEmptyClipboard() : boolean {
+    return this.managerLocalStorageService.isEmptyClipboard()
+  }
 }

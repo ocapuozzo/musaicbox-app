@@ -1,12 +1,14 @@
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {EightyEight} from "../utils/EightyEight";
 import {UIPcsDto} from "../ui/UIPcsDto";
 import {IPcs} from "../core/IPcs";
+import {ClipboardService} from "./clipboard.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ManagerLocalStorageService {
+  private clipboard : ClipboardService<UIPcsDto[]> = inject(ClipboardService<UIPcsDto[]>)
 
   constructor() {
   }
@@ -37,24 +39,26 @@ export class ManagerLocalStorageService {
     localStorage.setItem("page88.currentSelectedOp", JSON.stringify(selectedOp))
   }
 
-  savePageWB(listPcsDto: UIPcsDto[]) {
+  makeSerialVersion(listPcsDto: UIPcsDto[]) : UIPcsDto[] {
     let savListPcsDto: any[] = []
     listPcsDto.forEach(pcsDto => {
       let obj = {
         ...pcsDto,
-        pcs:null, // pcs is no serialized (object complex in relationship)
-        isSelected: false,
+        pcs: null, // pcs is no serialized (object complex in relationship)
         serializedPcs: {
-          pcsStr:pcsDto.pcs.getPcsStr(),
-          iPivot:pcsDto.pcs.iPivot,
-          nMapping:pcsDto.pcs.nMapping,
-          templateMappingBinPcs:pcsDto.pcs.templateMappingBinPcs
+          pcsStr: pcsDto.pcs.getPcsStr(),
+          iPivot: pcsDto.pcs.iPivot,
+          nMapping: pcsDto.pcs.nMapping,
+          templateMappingBinPcs: pcsDto.pcs.templateMappingBinPcs
         }
       }
       savListPcsDto.push(obj)
     })
+    return savListPcsDto
+  }
 
-    localStorage.setItem("pageWB.currentContent", JSON.stringify(savListPcsDto))
+  savePageWB(listPcsDto: UIPcsDto[]) {
+    localStorage.setItem("pageWB.currentContent", JSON.stringify(this.makeSerialVersion(listPcsDto)))
   }
 
   getSerialStringDataPcsDtoListFromLocalStorage(): string {
@@ -86,11 +90,11 @@ export class ManagerLocalStorageService {
           })
           //console.log("pcs = ", pcs)
         }
-        let obj = new UIPcsDto({
+        let pcsDto = new UIPcsDto({
           ...pcsSerialDto,
           pcs:pcs // set pcs object
         })
-        listPcsDto.push(obj)
+        listPcsDto.push(pcsDto)
       })
     } catch (e: any) {
       // nothing
@@ -99,5 +103,15 @@ export class ManagerLocalStorageService {
     return listPcsDto
   }
 
+  copy(pcsDto : UIPcsDto[]) {
+    this.clipboard.copy(pcsDto)
+  }
 
+  paste() : UIPcsDto[] {
+    return this.clipboard.paste()
+  }
+
+  isEmptyClipboard() {
+    return this.clipboard.isEmpty()
+  }
 }

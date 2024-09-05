@@ -39,6 +39,7 @@
       <span class="text-center">Do with {{ name }}</span>
       <hr/>
       <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doPushToPcsPage(index)">Push / Edit on PCS page</button>
+      <button class="contextual-menu-item" cdkMenuItem (click)="doCopy(index)">Copy</button>
       <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doSingleToggleSelected(index)">
         <mat-slide-toggle [checked]="isSelected(index)">Selected</mat-slide-toggle>
       </button>
@@ -185,6 +186,13 @@
     <div class="contextual-menu"   cdkMenu>
       <button class="contextual-menu-item" (cdkMenuItemTriggered)="doUnDo()" [disabled]="!canUndo" cdkMenuItem >Undo (ctrl+z)</button>
       <button class="contextual-menu-item" (cdkMenuItemTriggered)="doReDo()" [disabled]="!canRedo" cdkMenuItem >Redo (ctrl+y)</button>
+      <hr/>
+      <button class="contextual-menu-item" cdkMenuItem
+              [disabled]="numberSelectedComponents === 0"
+              (cdkMenuItemTriggered)="doCopy()">Copy (ctrl+c)</button>
+      <button class="contextual-menu-item" cdkMenuItem
+              [disabled]="isEmptyClipboard()"
+              (cdkMenuItemTriggered)="doPaste()">Paste (ctrl+p)</button>
       <hr/>
       <button class="contextual-menu-item" (cdkMenuItemTriggered)="doDeselectAll()" cdkMenuItem >Deselect All</button>
       <button class="contextual-menu-item" (cdkMenuItemTriggered)="doSelectAll()" cdkMenuItem >Select All</button>
