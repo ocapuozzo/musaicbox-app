@@ -21,6 +21,9 @@ export interface FinalElementMove {
 export const LiteralPrimeForms = ['Modal', 'Cyclic', 'Dihedral', 'Affine', 'Musaic'] as const;
 export type TPrimeForm = typeof LiteralPrimeForms[number];
 
+export type TZoomDirection = -1 | 1
+export type TColorProperty = "PitchColorON" | "PitchColorOFF" | "PolygonColor"
+
 @Injectable({
   providedIn: 'root'
 })
@@ -128,7 +131,7 @@ export class ManagerPageWBService {
     if (indexCenterElement) {
       // use it for template ui
       this.pcsDtoForTemplate = this.uiPcsDtoList[indexCenterElement]
-      console.log("clock width = ", this.pcsDtoForTemplate.uiClock.width )
+      console.log("clock width = ", this.pcsDtoForTemplate.uiClock.width)
     }
     somePcs.forEach(pcs => {
       let pcsDto =
@@ -187,7 +190,7 @@ export class ManagerPageWBService {
    * @param direction if < 0 then zoom- else if positif then zoom+
    * @param indexElementsToZoom
    */
-  doZoom(direction: number, indexElementsToZoom: number[] = []) {
+  doZoom(direction: TZoomDirection, indexElementsToZoom: number[] = []) {
 
     let DELTA_ZOOM = this.OFFSET_ZOOM * direction // positive or negative
 
@@ -841,12 +844,12 @@ export class ManagerPageWBService {
     this.addPcs({somePcs: pcsFacets, circularAlign: true, indexCenterElement: index})
   }
 
-  windowMaxWidth() : number {
+  windowMaxWidth(): number {
     return this.uiPcsDtoList.reduce((max: number, current: UIPcsDto) =>
       (current.position.x + current.width > max) ? (current.position.x + current.width) : max, 0)
   }
 
-  windowMaxHeight() : number {
+  windowMaxHeight(): number {
     return this.uiPcsDtoList.reduce((max: number, current: UIPcsDto) =>
       (current.position.y + current.height > max) ? (current.position.y + current.height) : max, 0)
   }
@@ -870,21 +873,45 @@ export class ManagerPageWBService {
         {
           ...pcsDto,
           position: {x: pcsDto.position.x + deltaPosition, y: pcsDto.position.y + deltaPosition},
-          isSelected : true
+          isSelected: true
         })
       )
       this.doUnselectAll()
 
       // initialize indexes of selected elements
-      this.orderedIndexesSelectedPcsDto = [...updateData.map((value, index) => this.uiPcsDtoList.length+index)]
+      this.orderedIndexesSelectedPcsDto = [...updateData.map((value, index) => this.uiPcsDtoList.length + index)]
 
-      this.uiPcsDtoList = [ ...this.uiPcsDtoList, ...updateData]
+      this.uiPcsDtoList = [...this.uiPcsDtoList, ...updateData]
+
+      // the new orderedIndexesSelectedPcsDto is now copied element (for multiple paste command to avoid overlay)
+      this.doCopy()
+
       this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
       this.emit()
     }
   }
 
-  isEmptyClipboard() : boolean {
+  isEmptyClipboard(): boolean {
     return this.managerLocalStorageService.isEmptyClipboard()
+  }
+
+
+  changeColor(indexPcsForEdit: number, property: TColorProperty, value: string) {
+    this.uiPcsDtoList = [...this.uiPcsDtoList]
+    let pcsDto = new UIPcsDto({...this.uiPcsDtoList[indexPcsForEdit]})
+    switch (property) {
+      case "PitchColorOFF":
+        pcsDto.colorPitchOff = value
+        break
+      case "PitchColorON":
+        pcsDto.colorPitchOn = value
+        break
+      case "PolygonColor":
+        // TODO polygon color
+        break
+    }
+    this.uiPcsDtoList[indexPcsForEdit] = pcsDto
+    this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
+    this.emit()
   }
 }

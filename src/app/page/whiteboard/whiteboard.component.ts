@@ -24,7 +24,7 @@ import {
   FinalElementMove,
   ManagerPageWBService,
   LiteralPrimeForms,
-  TPrimeForm
+  TPrimeForm, TZoomDirection
 } from "../../service/manager-page-wb.service";
 import {UIPcsDto} from "../../ui/UIPcsDto";
 import {PcsComponent} from "../../component/pcs/pcs.component";
@@ -38,6 +38,7 @@ import {FormsModule} from "@angular/forms";
 import {IPcs} from "../../core/IPcs";
 import {MatDialog} from "@angular/material/dialog";
 import {DialogConfirmationComponent} from "../../component/dialog-confirmation/dialog-confirmation.component";
+import {MatInput} from "@angular/material/input";
 
 interface ElementMove {
   elt: HTMLElement,
@@ -74,7 +75,8 @@ interface ElementMove {
     NgIf,
     MatSlideToggle,
     RectSelectorComponent,
-    FormsModule
+    FormsModule,
+    MatInput
   ],
   templateUrl: './whiteboard.component.html',
   styleUrl: './whiteboard.component.css'
@@ -206,6 +208,8 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   }
 
   onMouseDown(e: any) {
+    // console.log("this.isDown =", this.isDown," this.isContextMenuOpened = ", this.isContextMenuOpened,
+    //   " e.button = ", e.button, " e.ctrlKey = ", e.ctrlKey, )
     // console.log("MouseEvent : ", e)
     if (!e) return
     if (this.isContextMenuOpened) {
@@ -288,6 +292,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     }
   }
 
+  // @HostListener('window:mouseup', ['$event'])
   onMouseUp(e: any) {
     if (this.isRectangleSelecting) {
       this.isRectangleSelecting = false
@@ -369,7 +374,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     })
   }
 
-  doZoom(direction: number, index: number = -1) {
+  doZoom(direction: TZoomDirection, index: number = -1) {
     if (index < 0 || this.managerPageWBService.isIndexInElementsSelected(index)) {
       this.managerPageWBService.doZoom(direction)
     } else {
@@ -715,4 +720,34 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   isEmptyClipboard() : boolean {
     return this.managerPageWBService.isEmptyClipboard()
   }
+
+  doPasteTemplate(index: number) {
+
+  }
+
+  doCopyTemplate(index: number) {
+
+  }
+
+  colorPitchON(e:any, index: number) {
+    this.managerPageWBService.changeColor(index, "PitchColorON", e.target.value)
+    // doContextMenuClose is not called (?)
+    this.isContextMenuOpened = false
+  }
+  colorPitchOFF(e:any, index: number) {
+    this.managerPageWBService.changeColor(index, "PitchColorOFF", e.target.value)
+    // doContextMenuClose is not called (?)
+    this.isContextMenuOpened = false
+  }
+
+  doGoColorPitchOn() {
+    let el = document.getElementById("colorPitchOn") as HTMLInputElement
+    el.style.display = "inline"
+  }
+
+  doGoColorPitchOff() {
+    let el = document.getElementById("colorPitchOff") as HTMLInputElement
+    el.style.display = "inline"
+  }
+
 }

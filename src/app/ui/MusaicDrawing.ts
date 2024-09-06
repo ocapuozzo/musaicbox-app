@@ -36,10 +36,10 @@ export class MusaicDrawing {
 
     let ctx = this.ctx
     ctx.fillStyle = this.pcsDto.colorPitchOff
-
     if (opaque) {
       // pre fill paint background with off pitches color
       ctx.strokeStyle = this.pcsDto.colorPitchOff
+      ctx.fillStyle = this.pcsDto.colorPitchOff
       ctx.fillRect(0, 0, this.pcsDto.uiMusaic.width, this.pcsDto.uiMusaic.height)
     }
 
@@ -55,7 +55,6 @@ export class MusaicDrawing {
     // let iPivot = this.pcsList.iPivot ?? 0
 
 
-    ctx.reset() //translate(0.5,0.5);
     const pivotMapped = this.pcsDto.pcs.templateMappingBinPcs[this.pcsDto.pcs.iPivot ?? 0]
     for (let i = 0; i <= n; i++) {
       for (let j = 0; j <= n; j++) {

@@ -39,7 +39,11 @@
       <span class="text-center">Do with {{ name }}</span>
       <hr/>
       <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doPushToPcsPage(index)">Push / Edit on PCS page</button>
-      <button class="contextual-menu-item" cdkMenuItem (click)="doCopy(index)">Copy</button>
+      <button class="contextual-menu-item" cdkMenuItem (click)="doCopy(index)">Copy (Ctrl+C)</button>
+      <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="format" [cdkMenuTriggerData]="{index: index}">
+        Format <span>&#10148;</span>
+      </button>
+
       <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doSingleToggleSelected(index)">
         <mat-slide-toggle [checked]="isSelected(index)">Selected</mat-slide-toggle>
       </button>
@@ -182,6 +186,37 @@
     </div>
   </ng-template>
 
+
+  <ng-template #format let-index="index">
+    <div class="contextual-menu" cdkMenu>
+      <button class="contextual-menu-item" cdkMenuItem disabled (click)="doCopyTemplate(index)">Copy Template</button>
+      <button class="contextual-menu-item" cdkMenuItem disabled (click)="doPasteTemplate(index)">Paste Template</button>
+      <hr />
+      <button class="contextual-menu-item" cdkMenuItem disabled (cdkMenuItemTriggered)="colorPitchON($event, index)" >Color Pitch ON</button>
+      <button class="contextual-menu-item" cdkMenuItem disabled>Color Pitch OFF</button>
+      <button class="contextual-menu-item" cdkMenuItem disabled>Color Polygon</button>
+
+      <label for="colorPitchOn" (click)="doGoColorPitchOn()" [style.background-color]="pcsDtoList[index].colorPitchOn"
+             id="idLabelColorPitchOn" class="form-label contextual-menu-item" style="width: 80%">Color Pitch ON&nbsp;
+
+      <input  type="color" class="form-control form-control-color" style="display:none; width: 30px" id="colorPitchOn"
+             [value]="pcsDtoList[index].colorPitchOn" title="Choose your color"
+             (change)="colorPitchON($event, index)"
+      >
+      </label>
+
+      <label for="colorPitchOff" (click)="doGoColorPitchOff()" [style.background-color]="pcsDtoList[index].colorPitchOff"
+             id="idLabelColorPitchOff" class="form-label contextual-menu-item" style="width: 80%; margin-top: 4px">Color Pitch OFF&nbsp;
+
+        <input  type="color" class="form-control form-control-color" style="display:none; width: 30px" id="colorPitchOff"
+                [value]="pcsDtoList[index].colorPitchOff" title="Choose your color"
+                (change)="colorPitchOFF($event, index)"
+
+        >
+      </label>
+    </div>
+  </ng-template>
+
   <ng-template #whiteboard >
     <div class="contextual-menu"   cdkMenu>
       <button class="contextual-menu-item" (cdkMenuItemTriggered)="doUnDo()" [disabled]="!canUndo" cdkMenuItem >Undo (ctrl+z)</button>
@@ -204,9 +239,10 @@
   </ng-template>
 </div>
 
+
+{{ ''// see doOpenLocalFile() }}
 <div style="display:none; flex-direction: row;">
   <button (click)="fileInput.click()">Open file</button>
-  <button type="button"  (click)="doOpenLocalFile()"></button>
   <input #fileInput type="file" (change)="onLoadLocalFile($event)" accept=".musaicbox" style="display:none"/>
 </div>
 

@@ -30,7 +30,9 @@ export class PcsColor {
       return colorMotifs.get(key)!
     }
     if (!Number.isInteger(key)) {
-      key = StringHash.stringHashCode(key.toString())
+      // key = StringHash.stringHashCode(key.toString())
+      // https://stackoverflow.com/questions/869773/how-to-convert-instance-of-any-type-to-string
+      key = StringHash.stringHashCode(String(key))
     }
     let index = (key*31) % PcsColor.indexMaterialColors.length
     return materialColors[PcsColor.indexMaterialColors[index]][600]
