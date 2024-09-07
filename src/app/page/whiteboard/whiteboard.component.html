@@ -33,29 +33,36 @@
     >
     </app-pcs>
   }
-<!--  (menuOpened)="contextMenuOpened()"-->
-    <ng-template  #menu matMenuContent let-index="index" let-name="name" let-indexFormDrawer="indexFormDrawer">
+  <!--  (menuOpened)="contextMenuOpened()"-->
+  <ng-template #menu matMenuContent let-index="index" let-name="name" let-indexFormDrawer="indexFormDrawer">
     <div class="contextual-menu" cdkMenu>
       <span class="text-center">Do with {{ name }}</span>
       <hr/>
-      <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doPushToPcsPage(index)">Push / Edit on PCS page</button>
+      <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doPushToPcsPage(index)">Push / Edit on
+        PCS page
+      </button>
       <button class="contextual-menu-item" cdkMenuItem (click)="doCopy(index)">Copy (Ctrl+C)</button>
-      <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="format" [cdkMenuTriggerData]="{index: index}">
+      <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="format"
+              [cdkMenuTriggerData]="{index: index}">
         Format <span>&#10148;</span>
       </button>
 
       <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doSingleToggleSelected(index)">
         <mat-slide-toggle [checked]="isSelected(index)">Selected</mat-slide-toggle>
       </button>
-      <button class="contextual-menu-item" cdkMenuItem (click)="doDelete(index)">Delete <span *ngIf="!isSolo(index)">&nbsp;({{numberSelectedComponents}})</span></button>
-<!--      <button class="contextual-menu-item" cdkMenuItem (click)="doDuplicate(index)">Duplicate <span *ngIf="!isSolo(index)">&nbsp;({{numberSelectedComponents}})</span></button>-->
-      <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="duplicate"  [cdkMenuTriggerData]="{index: index}">
-        Duplicate <span *ngIf="!isSolo(index)">&nbsp;({{numberSelectedComponents}})</span> <span> &#10148;</span>
+      <button class="contextual-menu-item" cdkMenuItem (click)="doDelete(index)">Delete <span *ngIf="!isSolo(index)">&nbsp;({{ numberSelectedComponents }}
+        )</span></button>
+      <!--      <button class="contextual-menu-item" cdkMenuItem (click)="doDuplicate(index)">Duplicate <span *ngIf="!isSolo(index)">&nbsp;({{numberSelectedComponents}})</span></button>-->
+      <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="duplicate"
+              [cdkMenuTriggerData]="{index: index}">
+        Duplicate <span *ngIf="!isSolo(index)">&nbsp;({{ numberSelectedComponents }})</span> <span> &#10148;</span>
       </button>
-      <button class="contextual-menu-item" [cdkMenuTriggerData]="{index: index}" cdkMenuItem [cdkMenuTriggerFor]="primes">
+      <button class="contextual-menu-item" [cdkMenuTriggerData]="{index: index}" cdkMenuItem
+              [cdkMenuTriggerFor]="primes">
         Prime Form <span>&#10148;</span>
       </button>
-      <button class="contextual-menu-item" [cdkMenuTriggerData]="{index: index}" cdkMenuItem [cdkMenuTriggerFor]="facets">
+      <button class="contextual-menu-item" [cdkMenuTriggerData]="{index: index}" cdkMenuItem
+              [cdkMenuTriggerFor]="facets">
         Musaic Facets <span>&#10148;</span>
       </button>
       <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="neighbors">
@@ -64,11 +71,11 @@
       <hr/>
       <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doZoom(1, index)">
         zoom+ (+)
-        <span [hidden]="pcsDtoList[index].indexFormDrawer > 0">&nbsp; (cw={{sizeCellWidth(index)}})</span>
+        <span [hidden]="pcsDtoList[index].indexFormDrawer > 0">&nbsp; (cw={{ sizeCellWidth(index) }})</span>
       </button>
       <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doZoom(-1, index)">
         zoom- (-)
-        <span [hidden]="pcsDtoList[index].indexFormDrawer > 0">&nbsp; (cw={{sizeCellWidth(index)}})</span>
+        <span [hidden]="pcsDtoList[index].indexFormDrawer > 0">&nbsp; (cw={{ sizeCellWidth(index) }})</span>
       </button>
       <button *ngIf="isMusaicFormDrawer(index)" class="contextual-menu-item" cdkMenuItem
               (cdkMenuItemTriggered)="doSetRounded(index)">
@@ -97,38 +104,47 @@
     </div>
   </ng-template>
 
-<!--  <ng-template #create let-index="index">-->
-<!--    <div class="contextual-menu" cdkMenu>-->
-<!--      <button class="contextual-menu-item" disabled cdkMenuItem>ModalPrimeForm</button>-->
-<!--      <hr/>-->
-<!--      <button class="contextual-menu-item" disabled cdkMenuItem>Pcs CyclicPF in orbit</button>-->
-<!--      <button class="contextual-menu-item" disabled cdkMenuItem>Simple Pcs in Cyclic orbit</button>-->
-<!--      <button class="contextual-menu-item" disabled cdkMenuItem>Other</button>-->
-<!--    </div>-->
-<!--  </ng-template>-->
+  <!--  <ng-template #create let-index="index">-->
+  <!--    <div class="contextual-menu" cdkMenu>-->
+  <!--      <button class="contextual-menu-item" disabled cdkMenuItem>ModalPrimeForm</button>-->
+  <!--      <hr/>-->
+  <!--      <button class="contextual-menu-item" disabled cdkMenuItem>Pcs CyclicPF in orbit</button>-->
+  <!--      <button class="contextual-menu-item" disabled cdkMenuItem>Simple Pcs in Cyclic orbit</button>-->
+  <!--      <button class="contextual-menu-item" disabled cdkMenuItem>Other</button>-->
+  <!--    </div>-->
+  <!--  </ng-template>-->
 
-<!--  <ng-template #selection let-index="index">-->
-<!--    <div class="contextual-menu"   cdkMenu>-->
-<!--      <button class="contextual-menu-item" disabled cdkMenuItem >nop</button>-->
-<!--    </div>-->
-<!--  </ng-template>-->
+  <!--  <ng-template #selection let-index="index">-->
+  <!--    <div class="contextual-menu"   cdkMenu>-->
+  <!--      <button class="contextual-menu-item" disabled cdkMenuItem >nop</button>-->
+  <!--    </div>-->
+  <!--  </ng-template>-->
 
   <ng-template #align>
-    <div class="contextual-menu"  cdkMenu>
+    <div class="contextual-menu" cdkMenu>
       <button class="contextual-menu-item" (cdkMenuItemTriggered)="doHorizontalAlign()"
-              cdkMenuItem [disabled]="numberSelectedComponents < 2"><mat-icon> align_vertical_center</mat-icon></button>
+              cdkMenuItem [disabled]="numberSelectedComponents < 2">
+        <mat-icon> align_vertical_center</mat-icon>
+      </button>
       <button class="contextual-menu-item" (cdkMenuItemTriggered)="doVerticalAlign()"
-              cdkMenuItem [disabled]="numberSelectedComponents < 2" ><mat-icon> align_horizontal_center</mat-icon></button>
+              cdkMenuItem [disabled]="numberSelectedComponents < 2">
+        <mat-icon> align_horizontal_center</mat-icon>
+      </button>
       <button class="contextual-menu-item" (cdkMenuItemTriggered)="doCircularAlign()"
-              cdkMenuItem [disabled]="numberSelectedComponents < 2"><mat-icon aria-label="circular">workspaces</mat-icon></button>
+              cdkMenuItem [disabled]="numberSelectedComponents < 2">
+        <mat-icon aria-label="circular">workspaces</mat-icon>
+      </button>
     </div>
   </ng-template>
 
 
   <ng-template #duplicate let-index="index">
     <div class="contextual-menu" cdkMenu>
-      <button class="contextual-menu-item" (cdkMenuItemTriggered)="doDuplicate(index)" cdkMenuItem>Same  <span *ngIf="!isSolo(index)">&nbsp;({{numberSelectedComponents}})</span></button>
-      <button class="contextual-menu-item" (cdkMenuItemTriggered)="doDuplicateInOthersView(index)"  cdkMenuItem>Same in other views</button>
+      <button class="contextual-menu-item" (cdkMenuItemTriggered)="doDuplicate(index)" cdkMenuItem>Same <span
+        *ngIf="!isSolo(index)">&nbsp;({{ numberSelectedComponents }})</span></button>
+      <button class="contextual-menu-item" (cdkMenuItemTriggered)="doDuplicateInOthersView(index)" cdkMenuItem>Same in
+        other views
+      </button>
 
     </div>
   </ng-template>
@@ -146,19 +162,21 @@
   <ng-template #facets let-index="index">
     <div class="contextual-menu" cdkMenu>
       <button class="contextual-menu-item" cdkMenuItem
-              (cdkMenuItemTriggered)="doGetPcsMusaicFacets('Affine',index)" >Affine Facets (4)</button>
+              (cdkMenuItemTriggered)="doGetPcsMusaicFacets('Affine',index)">Affine Facets (4)
+      </button>
       <button class="contextual-menu-item" cdkMenuItem
-              (cdkMenuItemTriggered)="doGetPcsMusaicFacets('Musaic',index)">Musaic Facets (8)</button>
+              (cdkMenuItemTriggered)="doGetPcsMusaicFacets('Musaic',index)">Musaic Facets (8)
+      </button>
       <hr/>
       <button class="contextual-menu-item" cdkMenuItem
               [disabled]="[1, 4].includes(howManyDistinctAffineFacets(index))"
               (cdkMenuItemTriggered)="doGetPcsMusaicFacets('Affine',index, true)">
-        Distinct Affine Facets ({{howManyDistinctAffineFacets(index)}})
+        Distinct Affine Facets ({{ howManyDistinctAffineFacets(index) }})
       </button>
       <button class="contextual-menu-item" cdkMenuItem
               [disabled]="howManyDistinctMusaicFacets(index) === 8"
               (cdkMenuItemTriggered)="doGetPcsMusaicFacets('Musaic',index, true)">
-        Distinct Musaic Facets ({{howManyDistinctMusaicFacets(index)}})
+        Distinct Musaic Facets ({{ howManyDistinctMusaicFacets(index) }})
       </button>
     </div>
   </ng-template>
@@ -167,22 +185,28 @@
     <div class="contextual-menu" cdkMenu>
       <button class="contextual-menu-item" cdkMenuItem
               [disabled]="samePcsAs('Modal',index)"
-              (cdkMenuItemTriggered)="doGetPrimForm('Modal',index)" >Modal Prime Form</button>
+              (cdkMenuItemTriggered)="doGetPrimForm('Modal',index)">Modal Prime Form
+      </button>
       <button class="contextual-menu-item" cdkMenuItem
               [disabled]="samePcsAs('Cyclic',index)"
-              (cdkMenuItemTriggered)="doGetPrimForm('Cyclic',index)">Cyclic Prime Form</button>
+              (cdkMenuItemTriggered)="doGetPrimForm('Cyclic',index)">Cyclic Prime Form
+      </button>
       <button class="contextual-menu-item" cdkMenuItem
               [disabled]="samePcsAs('Dihedral',index)"
-              (cdkMenuItemTriggered)="doGetPrimForm('Dihedral',index)">Dihedral Prime Form</button>
+              (cdkMenuItemTriggered)="doGetPrimForm('Dihedral',index)">Dihedral Prime Form
+      </button>
       <button class="contextual-menu-item" cdkMenuItem
               [disabled]="samePcsAs('Affine',index)"
-              (cdkMenuItemTriggered)="doGetPrimForm('Affine',index)">Affine Prime Form</button>
+              (cdkMenuItemTriggered)="doGetPrimForm('Affine',index)">Affine Prime Form
+      </button>
       <button class="contextual-menu-item" cdkMenuItem
               [disabled]="samePcsAs('Musaic',index)"
-              (cdkMenuItemTriggered)="doGetPrimForm('Musaic',index)">Musaic Prime Form</button>
-     <hr />
+              (cdkMenuItemTriggered)="doGetPrimForm('Musaic',index)">Musaic Prime Form
+      </button>
+      <hr/>
       <button class="contextual-menu-item" cdkMenuItem
-              (cdkMenuItemTriggered)="doGetAllPrimForm(index)">All distinct Prime Form</button>
+              (cdkMenuItemTriggered)="doGetAllPrimForm(index)">All distinct Prime Form
+      </button>
     </div>
   </ng-template>
 
@@ -191,56 +215,75 @@
     <div class="contextual-menu" cdkMenu>
       <button class="contextual-menu-item" cdkMenuItem disabled (click)="doCopyTemplate(index)">Copy Template</button>
       <button class="contextual-menu-item" cdkMenuItem disabled (click)="doPasteTemplate(index)">Paste Template</button>
-      <hr />
-      <button class="contextual-menu-item" cdkMenuItem disabled (cdkMenuItemTriggered)="colorPitchON($event, index)" >Color Pitch ON</button>
-      <button class="contextual-menu-item" cdkMenuItem disabled>Color Pitch OFF</button>
-      <button class="contextual-menu-item" cdkMenuItem disabled>Color Polygon</button>
+      <hr/>
+      <div class="text-center"  >Color</div>
+      <hr/>
 
-      <label for="colorPitchOn" (click)="doGoColorPitchOn()" [style.background-color]="pcsDtoList[index].colorPitchOn"
-             id="idLabelColorPitchOn" class="form-label contextual-menu-item" style="width: 80%">Color Pitch ON&nbsp;
+      <label for="colorPitchOn" (click)="doGoColorPitchOn()"
+             id="idLabelColorPitchOn" class="form-label contextual-menu-item"
+             style="width: 90%">
+        Pitch ON&nbsp;&nbsp;
+        <span [style.background-color]="pcsDtoList[index].colorPitchOn"
+              [style.height.px]="12" >&nbsp;&nbsp;&nbsp;
+        </span>&nbsp;&nbsp;
 
-      <input  type="color" class="form-control form-control-color" style="display:none; width: 30px" id="colorPitchOn"
-             [value]="pcsDtoList[index].colorPitchOn" title="Choose your color"
-             (change)="colorPitchON($event, index)"
-      >
-      </label>
-
-      <label for="colorPitchOff" (click)="doGoColorPitchOff()" [style.background-color]="pcsDtoList[index].colorPitchOff"
-             id="idLabelColorPitchOff" class="form-label contextual-menu-item" style="width: 80%; margin-top: 4px">Color Pitch OFF&nbsp;
-
-        <input  type="color" class="form-control form-control-color" style="display:none; width: 30px" id="colorPitchOff"
-                [value]="pcsDtoList[index].colorPitchOff" title="Choose your color"
-                (change)="colorPitchOFF($event, index)"
-
+        <input type="color" class="form-control form-control-color" style="display:none; width: 30px" id="colorPitchOn"
+               [value]="pcsDtoList[index].colorPitchOn" title="Choose your color"
+               (change)="colorPitchON($event, index)"
         >
       </label>
+
+      <label for="colorPitchOff" (click)="doGoColorPitchOff()"
+             id="idLabelColorPitchOff" class="form-label contextual-menu-item"
+             style="width: 80%; margin-top: 4px">
+        Pitch OFF&nbsp;
+        <span [style.background-color]="pcsDtoList[index].colorPitchOff"
+              [style.height.px]="12" >&nbsp;&nbsp;&nbsp;
+        </span>&nbsp;&nbsp;
+
+        <input type="color" class="form-control form-control-color" style="display:none; width: 30px" id="colorPitchOff"
+               [value]="pcsDtoList[index].colorPitchOff" title="Choose your color"
+               (change)="colorPitchOFF($event, index)"
+        >
+      </label>
+      <button class="contextual-menu-item" cdkMenuItem disabled>
+       Polygon
+      </button>
     </div>
   </ng-template>
 
-  <ng-template #whiteboard >
-    <div class="contextual-menu"   cdkMenu>
-      <button class="contextual-menu-item" (cdkMenuItemTriggered)="doUnDo()" [disabled]="!canUndo" cdkMenuItem >Undo (ctrl+z)</button>
-      <button class="contextual-menu-item" (cdkMenuItemTriggered)="doReDo()" [disabled]="!canRedo" cdkMenuItem >Redo (ctrl+y)</button>
+  <ng-template #whiteboard>
+    <div class="contextual-menu" cdkMenu>
+      <button class="contextual-menu-item" (cdkMenuItemTriggered)="doUnDo()" [disabled]="!canUndo" cdkMenuItem>Undo
+        (ctrl+z)
+      </button>
+      <button class="contextual-menu-item" (cdkMenuItemTriggered)="doReDo()" [disabled]="!canRedo" cdkMenuItem>Redo
+        (ctrl+y)
+      </button>
       <hr/>
       <button class="contextual-menu-item" cdkMenuItem
               [disabled]="numberSelectedComponents === 0"
-              (cdkMenuItemTriggered)="doCopy()">Copy (ctrl+c)</button>
+              (cdkMenuItemTriggered)="doCopy()">Copy (ctrl+c)
+      </button>
       <button class="contextual-menu-item" cdkMenuItem
               [disabled]="isEmptyClipboard()"
-              (cdkMenuItemTriggered)="doPaste()">Paste (ctrl+p)</button>
+              (cdkMenuItemTriggered)="doPaste()">Paste (ctrl+p)
+      </button>
       <hr/>
-      <button class="contextual-menu-item" (cdkMenuItemTriggered)="doDeselectAll()" cdkMenuItem >Deselect All</button>
-      <button class="contextual-menu-item" (cdkMenuItemTriggered)="doSelectAll()" cdkMenuItem >Select All</button>
+      <button class="contextual-menu-item" (cdkMenuItemTriggered)="doDeselectAll()" cdkMenuItem>Deselect All</button>
+      <button class="contextual-menu-item" (cdkMenuItemTriggered)="doSelectAll()" cdkMenuItem>Select All</button>
       <hr/>
-      <button class="contextual-menu-item" (cdkMenuItemTriggered)="doClearContent()" cdkMenuItem >Clear content...</button>
-      <button class="contextual-menu-item" (cdkMenuItemTriggered)="doOpenDialogSaveToFile()" cdkMenuItem >Save as...</button>
-      <button class="contextual-menu-item" (cdkMenuItemTriggered)="doOpenLocalFile()" cdkMenuItem >Open file...</button>
+      <button class="contextual-menu-item" (cdkMenuItemTriggered)="doClearContent()" cdkMenuItem>Clear content...
+      </button>
+      <button class="contextual-menu-item" (cdkMenuItemTriggered)="doOpenDialogSaveToFile()" cdkMenuItem>Save as...
+      </button>
+      <button class="contextual-menu-item" (cdkMenuItemTriggered)="doOpenLocalFile()" cdkMenuItem>Open file...</button>
     </div>
   </ng-template>
 </div>
 
 
-{{ ''// see doOpenLocalFile() }}
+{{ ''// see doOpenLocalFile()  }}
 <div style="display:none; flex-direction: row;">
   <button (click)="fileInput.click()">Open file</button>
   <input #fileInput type="file" (change)="onLoadLocalFile($event)" accept=".musaicbox" style="display:none"/>

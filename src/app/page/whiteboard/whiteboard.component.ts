@@ -39,6 +39,7 @@ import {IPcs} from "../../core/IPcs";
 import {MatDialog} from "@angular/material/dialog";
 import {DialogConfirmationComponent} from "../../component/dialog-confirmation/dialog-confirmation.component";
 import {MatInput} from "@angular/material/input";
+import {MatLine} from "@angular/material/core";
 
 interface ElementMove {
   elt: HTMLElement,
@@ -76,7 +77,8 @@ interface ElementMove {
     MatSlideToggle,
     RectSelectorComponent,
     FormsModule,
-    MatInput
+    MatInput,
+    MatLine
   ],
   templateUrl: './whiteboard.component.html',
   styleUrl: './whiteboard.component.css'
