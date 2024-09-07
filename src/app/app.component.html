@@ -35,16 +35,18 @@
       routerLink="w-board">Whiteboard
     </button>
   </div>
-<!--  <div class="toolBarMainHoriz">-->
-<!--    <button-->
-<!--      mat-button color="primary"-->
-<!--      class="example-icon favorite-icon"-->
-<!--      aria-label="Guitar P4 Tuning"-->
-<!--      routerLinkActive="mat-accent"-->
-<!--      routerLink="home">GuitarP4<fa-icon [icon]="faGuitar"></fa-icon>-->
-<!--    </button>-->
-<!--  </div>-->
-
+  @if (p4GuitarPageActivate) {
+    <div class="toolBarMainHoriz">
+      <button
+        mat-button color="primary"
+        class="example-icon favorite-icon"
+        aria-label="Guitar P4 Tuning"
+        routerLinkActive="mat-accent"
+        routerLink="home">GuitarP4
+        <fa-icon [icon]="faGuitar"></fa-icon>
+      </button>
+    </div>
+  }
   <div class="toolBarMainHoriz">
     <button
       mat-button color="primary"
@@ -54,7 +56,7 @@
   </div>
   <span class="example-spacer"></span>
 
-  <form [formGroup]="checkoutForm"  class="" (ngSubmit)="onSubmit()">
+  <form [formGroup]="checkoutForm" class="" (ngSubmit)="onSubmitSearchForm()">
     <i class="bi bi-search">
     </i>
 
@@ -113,17 +115,18 @@
           routerLink="w-board">Whiteboard
         </button>
       </div>
-<!--      -->
-<!--      <div class="drawerButton">-->
-<!--        <button-->
-<!--          (click)="drawer.toggle()"-->
-<!--          mat-button color="primary"-->
-<!--          class="example-icon favorite-icon"-->
-<!--          aria-label="Guitar P4 Tuning"-->
-<!--          routerLinkActive="mat-accent"-->
-<!--          routerLink="pcs">GuitarP4<fa-icon [icon]="faGuitar"></fa-icon>-->
-<!--        </button>-->
-<!--      </div>-->
+      @if (p4GuitarPageActivate) {
+            <div class="drawerButton">
+              <button
+                (click)="drawer.toggle()"
+                mat-button color="primary"
+                class="example-icon favorite-icon"
+                aria-label="Guitar P4 Tuning"
+                routerLinkActive="mat-accent"
+                routerLink="pcs">GuitarP4<fa-icon [icon]="faGuitar"></fa-icon>
+              </button>
+            </div>
+      }
       <div class="drawerButton">
         <button
           (click)="drawer.toggle()"
@@ -132,7 +135,7 @@
           routerLink="pcs">About
         </button>
       </div>
-      <div class="drawerButton"  (click)="drawer.toggle()">
+      <div class="drawerButton" (click)="drawer.toggle()">
         <a
           mat-icon-button
           class="link d-none d-sm-inline"

@@ -103,8 +103,9 @@ export class ManagerLocalStorageService {
     return listPcsDto
   }
 
-  copy(pcsDto : UIPcsDto[]) {
-    this.clipboard.copy(pcsDto)
+  copy(somePcsDto : UIPcsDto[]) {
+    this.clipboard.copy(somePcsDto)
+
   }
 
   paste() : UIPcsDto[] {

@@ -338,6 +338,9 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
         case "y" :
           this.doReDo()
           break
+        case "x" :
+          this.doCut()
+          break
         case "c" :
           this.doCopy()
           break
@@ -346,14 +349,6 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
           break
       }
     }
-    // if ((event.ctrlKey || event.metaKey) && event.key === "z") {
-    //   // console.log('CTRL Z');
-    //   this.doUnDo()
-    // }
-    // if ((event.ctrlKey || event.metaKey) && event.key === "y") {
-    //   // console.log('CTRL Y');
-    //   this.doReDo()
-    // }
 
     if (event.key === "+") {
       this.doZoom(1)
@@ -706,13 +701,19 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     return this.managerPageWBService.doGetPcsFacets('Musaic', index, true).length;
   }
 
+  doCut(index ?: number) {
+    if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
+      throw new Error(`Invalid index : $ {index}`)
+    }
+    this.managerPageWBService.doCut(index)
+  }
+
   doCopy(index ?: number) {
     // rem : this.pcsDtoList is this.managerPageWBService.uiPcsDtoList
-    if (index !== undefined && index >= 0 && index < this.pcsDtoList.length) {
-      this.managerPageWBService.doCopy(index)
-    } else {
-      this.managerPageWBService.doCopy()
+    if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
+      throw new Error(`Invalid index : $ {index}`)
     }
+    this.managerPageWBService.doCopy(index)
   }
 
   doPaste() {
@@ -751,5 +752,6 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     let el = document.getElementById("colorPitchOff") as HTMLInputElement
     el.style.display = "inline"
   }
+
 
 }

@@ -854,8 +854,13 @@ export class ManagerPageWBService {
       (current.position.y + current.height > max) ? (current.position.y + current.height) : max, 0)
   }
 
+  doCut(index ?: number) {
+     this.doCopy(index)
+     this.doDelete(index ? [index] : [])
+  }
+
   doCopy(index ?: number) {
-    if (index && this.isIndexInElementsSelected(index) || index === undefined) {
+    if (index === undefined || this.isIndexInElementsSelected(index)) {
       // copy selected elements
       this.managerLocalStorageService.copy(this.orderedIndexesSelectedPcsDto.map(index => this.uiPcsDtoList[index]))
     } else {
@@ -914,4 +919,5 @@ export class ManagerPageWBService {
     this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
     this.emit()
   }
+
 }

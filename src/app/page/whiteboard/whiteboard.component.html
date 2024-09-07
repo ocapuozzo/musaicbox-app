@@ -41,7 +41,12 @@
       <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doPushToPcsPage(index)">Push / Edit on
         PCS page
       </button>
-      <button class="contextual-menu-item" cdkMenuItem (click)="doCopy(index)">Copy (Ctrl+C)</button>
+
+      <button class="contextual-menu-item" cdkMenuItem (click)="doCut(index)">Cut (Ctrl+X)
+        <span *ngIf="!isSolo(index)">&nbsp;({{ numberSelectedComponents }})</span>
+      </button>
+      <button class="contextual-menu-item" cdkMenuItem (click)="doCopy(index)">Copy (Ctrl+C)
+        <span *ngIf="!isSolo(index)">&nbsp;({{ numberSelectedComponents }})</span></button>
       <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="format"
               [cdkMenuTriggerData]="{index: index}">
         Format <span>&#10148;</span>
@@ -50,8 +55,8 @@
       <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doSingleToggleSelected(index)">
         <mat-slide-toggle [checked]="isSelected(index)">Selected</mat-slide-toggle>
       </button>
-      <button class="contextual-menu-item" cdkMenuItem (click)="doDelete(index)">Delete <span *ngIf="!isSolo(index)">&nbsp;({{ numberSelectedComponents }}
-        )</span></button>
+      <button class="contextual-menu-item" cdkMenuItem (click)="doDelete(index)">Delete
+        <span *ngIf="!isSolo(index)">&nbsp;({{ numberSelectedComponents }})</span></button>
       <!--      <button class="contextual-menu-item" cdkMenuItem (click)="doDuplicate(index)">Duplicate <span *ngIf="!isSolo(index)">&nbsp;({{numberSelectedComponents}})</span></button>-->
       <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="duplicate"
               [cdkMenuTriggerData]="{index: index}">
@@ -261,13 +266,20 @@
         (ctrl+y)
       </button>
       <hr/>
+
       <button class="contextual-menu-item" cdkMenuItem
               [disabled]="numberSelectedComponents === 0"
-              (cdkMenuItemTriggered)="doCopy()">Copy (ctrl+c)
+              (cdkMenuItemTriggered)="doCut()">Cut (Ctrl+X)
+        <span>&nbsp;({{ numberSelectedComponents }})</span>
+      </button>
+      <button class="contextual-menu-item" cdkMenuItem
+              [disabled]="numberSelectedComponents === 0"
+              (cdkMenuItemTriggered)="doCopy()">Copy (Ctrl+C)
+        <span>&nbsp;({{ numberSelectedComponents }})</span>
       </button>
       <button class="contextual-menu-item" cdkMenuItem
               [disabled]="isEmptyClipboard()"
-              (cdkMenuItemTriggered)="doPaste()">Paste (ctrl+p)
+              (cdkMenuItemTriggered)="doPaste()">Paste (Ctrl+V)
       </button>
       <hr/>
       <button class="contextual-menu-item" (cdkMenuItemTriggered)="doDeselectAll()" cdkMenuItem>Deselect All</button>

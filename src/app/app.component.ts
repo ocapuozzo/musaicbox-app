@@ -1,4 +1,4 @@
-import {Component, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+import {Component, CUSTOM_ELEMENTS_SCHEMA, HostListener} from '@angular/core';
 import {Router, RouterOutlet} from '@angular/router';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
@@ -43,12 +43,15 @@ export class AppComponent {
   faGuitar = faGuitar
   faGithub = faGithub
 
+  p4GuitarPageActivate: boolean = false
+
   readonly breakpoint$ = this.breakpointObserver
     .observe(['(max-width: 500px)']);
 
   checkoutForm = this.formBuilder.group({
     pcsStr: ''
   });
+
 
   constructor(private formBuilder: FormBuilder,
               private readonly managerPagePcsService: ManagerPagePcsService,
@@ -72,7 +75,25 @@ export class AppComponent {
     }
   }
 
-  onSubmit(): void {
+  /**
+   * Active, or not, P4Guitar page
+   * @param event
+   */
+  @HostListener('window:keyup', ['$event'])
+  keyEvent(event: KeyboardEvent) {
+    if (event.altKey && (event.shiftKey  || event.metaKey)) {
+      switch ( event.key) {
+        case "g" :
+          this.p4GuitarPageActivate = ! this.p4GuitarPageActivate
+          break
+      }
+    }
+  }
+
+  /**
+   *
+   */
+  onSubmitSearchForm(): void {
     // console.log('pscStr = ', this.checkoutForm.value.pcsStr?.trim());
     if (this.checkoutForm.value.pcsStr) {
 
