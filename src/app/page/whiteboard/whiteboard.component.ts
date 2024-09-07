@@ -170,14 +170,17 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
       this.onMouseMove(e)
     });
 
-    this.unlistenerRenderer2Touchmove = this.renderer2.listen(elt, 'touchmove', e => {
-      this.onMouseMove(e)
-    });
+    // warning on google browser
+
+    // this.unlistenerRenderer2Touchmove = this.renderer2.listen(elt, 'touchmove', e => {
+    //   this.onMouseMove(e)
+    // });
+    //
+    // elt!.addEventListener('touchstart',
+    //   (event) => this.onMouseDown(event));
+
 
     elt!.addEventListener('mousedown',
-      (event) => this.onMouseDown(event));
-
-    elt!.addEventListener('touchstart',
       (event) => this.onMouseDown(event));
 
     elt!.addEventListener('mouseup',
@@ -194,6 +197,21 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
       this.updateRectangleSelectorDimension();
     }
   }
+
+  // TODO test this (without render2)
+
+  @HostListener('window:touchmove', ['$event'])
+  touchMove(e: Event) {
+    this.onMouseMove(e)
+  }
+
+  @HostListener('window:touchstart', ['$event'])
+  touchStart(e: Event) {
+    this.onMouseDown(e)
+  }
+
+  // End test
+
 
   private updateRectangleSelectorDimension() {
     const maxWidth = Math.max(this.managerPageWBService.windowMaxWidth(), window.innerWidth)
@@ -330,6 +348,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
 
   @HostListener('window:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {
+    // console.log("event = ", event)
     if (event.ctrlKey || event.metaKey) {
       switch (event.key) {
         case "z" :
@@ -345,7 +364,12 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
           this.doCopy()
           break
         case "v" :
-          this.doPaste()
+        case "V" :
+          if (event.shiftKey) {
+            this.doPasteFormat()
+          } else {
+            this.doPaste()
+          }
           break
       }
     }
@@ -371,11 +395,16 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     })
   }
 
-  doZoom(direction: TZoomDirection, index: number = -1) {
-    if (index < 0 || this.managerPageWBService.isIndexInElementsSelected(index)) {
-      this.managerPageWBService.doZoom(direction)
-    } else {
-      this.managerPageWBService.doZoom(direction, [index])
+  doZoom(direction: TZoomDirection, index ?: number) {
+    try {
+      if (index === undefined || this.managerPageWBService.isIndexInElementsSelected(index)) {
+        this.managerPageWBService.doZoom(direction)
+      } else if (index >= 0 && index < this.pcsDtoList.length) {
+        this.managerPageWBService.doZoom(direction, [index])
+      }
+    } catch (e) {
+      // Should not happen... (bad index)
+      console.error(e)
     }
   }
 
@@ -705,6 +734,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
       throw new Error(`Invalid index : $ {index}`)
     }
+    console.log("doCut : index ", index )
     this.managerPageWBService.doCut(index)
   }
 
@@ -724,13 +754,23 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     return this.managerPageWBService.isEmptyClipboard()
   }
 
-  doPasteTemplate(index: number) {
-
+  doPasteFormat(index ?: number) {
+    if (index === undefined) {
+      this.managerPageWBService.doPasteFormatToSelection()
+    } else if (index >= 0 && index < this.pcsDtoList.length) {
+      if (this.managerPageWBService.isIndexInElementsSelected(index)) {
+        this.managerPageWBService.doPasteFormatToSelection()
+      } else {
+        this.managerPageWBService.doPasteFormatToSelection([index])
+      }
+    }
   }
 
-  doCopyTemplate(index: number) {
-
-  }
+  // doCopyTemplate(index: number) {
+  //   if (index >= 0 && index < this.pcsDtoList.length) {
+  //     this.managerPageWBService.setPcsDtoForTemplate(this.pcsDtoList[index])
+  //   }
+  // }
 
   colorPitchON(e:any, index: number) {
     this.managerPageWBService.changeColor(index, "PitchColorON", e.target.value)

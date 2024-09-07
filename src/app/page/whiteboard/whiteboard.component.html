@@ -46,22 +46,32 @@
         <span *ngIf="!isSolo(index)">&nbsp;({{ numberSelectedComponents }})</span>
       </button>
       <button class="contextual-menu-item" cdkMenuItem (click)="doCopy(index)">Copy (Ctrl+C)
-        <span *ngIf="!isSolo(index)">&nbsp;({{ numberSelectedComponents }})</span></button>
-      <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="format"
+        <span *ngIf="!isSolo(index)">&nbsp;({{ numberSelectedComponents }})</span>
+      </button>
+      <button class="contextual-menu-item" cdkMenuItem (click)="doPaste()">Paste (Ctrl+V)
+        <span *ngIf="!isSolo(index)">&nbsp;({{ numberSelectedComponents }})</span>
+      </button>
+      <button class="contextual-menu-item" cdkMenuItem (click)="doPasteFormat(index)">Paste Format (Ctrl+Shift+V)
+        <span *ngIf="!isSolo(index)">&nbsp;({{ numberSelectedComponents }})</span>
+      </button>
+
+      <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="color"
               [cdkMenuTriggerData]="{index: index}">
-        Format <span>&#10148;</span>
+        Color <span>&#10148;</span>
       </button>
 
       <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doSingleToggleSelected(index)">
         <mat-slide-toggle [checked]="isSelected(index)">Selected</mat-slide-toggle>
       </button>
-      <button class="contextual-menu-item" cdkMenuItem (click)="doDelete(index)">Delete
-        <span *ngIf="!isSolo(index)">&nbsp;({{ numberSelectedComponents }})</span></button>
-      <!--      <button class="contextual-menu-item" cdkMenuItem (click)="doDuplicate(index)">Duplicate <span *ngIf="!isSolo(index)">&nbsp;({{numberSelectedComponents}})</span></button>-->
+<!--  delete & duplicate also via cut/copy/paste    -->
+<!--      <button class="contextual-menu-item" cdkMenuItem (click)="doDelete(index)">Delete-->
+<!--        <span *ngIf="!isSolo(index)">&nbsp;({{ numberSelectedComponents }})</span></button>-->
+
       <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="duplicate"
               [cdkMenuTriggerData]="{index: index}">
         Duplicate <span *ngIf="!isSolo(index)">&nbsp;({{ numberSelectedComponents }})</span> <span> &#10148;</span>
       </button>
+
       <button class="contextual-menu-item" [cdkMenuTriggerData]="{index: index}" cdkMenuItem
               [cdkMenuTriggerFor]="primes">
         Prime Form <span>&#10148;</span>
@@ -216,13 +226,8 @@
   </ng-template>
 
 
-  <ng-template #format let-index="index">
+  <ng-template #color let-index="index">
     <div class="contextual-menu" cdkMenu>
-      <button class="contextual-menu-item" cdkMenuItem disabled (click)="doCopyTemplate(index)">Copy Template</button>
-      <button class="contextual-menu-item" cdkMenuItem disabled (click)="doPasteTemplate(index)">Paste Template</button>
-      <hr/>
-      <div class="text-center"  >Color</div>
-      <hr/>
 
       <label for="colorPitchOn" (click)="doGoColorPitchOn()"
              id="idLabelColorPitchOn" class="form-label contextual-menu-item"
@@ -280,6 +285,10 @@
       <button class="contextual-menu-item" cdkMenuItem
               [disabled]="isEmptyClipboard()"
               (cdkMenuItemTriggered)="doPaste()">Paste (Ctrl+V)
+      </button>
+      <button class="contextual-menu-item" cdkMenuItem
+              [disabled]="isEmptyClipboard()"
+              (cdkMenuItemTriggered)="doPasteFormat()">Paste Format
       </button>
       <hr/>
       <button class="contextual-menu-item" (cdkMenuItemTriggered)="doDeselectAll()" cdkMenuItem>Deselect All</button>

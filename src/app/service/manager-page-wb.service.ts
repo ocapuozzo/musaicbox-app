@@ -190,7 +190,7 @@ export class ManagerPageWBService {
    * @param direction if < 0 then zoom- else if positif then zoom+
    * @param indexElementsToZoom
    */
-  doZoom(direction: TZoomDirection, indexElementsToZoom: number[] = []) {
+  doZoom(direction: TZoomDirection, indexElementsToZoom: number[] = []) : void | Error {
 
     let DELTA_ZOOM = this.OFFSET_ZOOM * direction // positive or negative
 
@@ -419,7 +419,7 @@ export class ManagerPageWBService {
 
     if (this.isIndexInElementsSelected(index)) {
       // do on all selected elements
-      indexes = this.orderedIndexesSelectedPcsDto
+      indexes = [...this.orderedIndexesSelectedPcsDto]
     } else {
       if (index < 0 || index >= this.uiPcsDtoList.length) {
         throw new Error("oops bad index : " + index)
@@ -427,6 +427,8 @@ export class ManagerPageWBService {
       // do only for this one
       indexes = [index]
     }
+
+    this.doUnselectAll()
 
     indexes.forEach(index => {
 
@@ -436,11 +438,12 @@ export class ManagerPageWBService {
         ...pcsDto, position: {x: pcsDto.position.x + deltaPosition, y: pcsDto.position.y + deltaPosition}, // do not share ref !
         isSelected: true
       })
-      // console.log(newPcsDto)
       newPcsDtos.push(newPcsDto)
+      // because previous call doUnselectAll(), we add now new index in ordered selection index
+      this.orderedIndexesSelectedPcsDto.push(this.uiPcsDtoList.length -1 + newPcsDtos.length)
     })
-    this.doUnselectAll()
-    this.uiPcsDtoList.push(...newPcsDtos)
+
+    this.uiPcsDtoList.push(...newPcsDtos) //
     this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
     this.emit()
   }
@@ -476,16 +479,20 @@ export class ManagerPageWBService {
   }
 
   /**
-   * Delete objects where their index is in indexToDeleteList
+   * Delete objects where their index is in indexToDeleteList or in orderedIndexesSelectedPcsDto
    * @param indexToDeleteList
    */
   doDelete(indexToDeleteList: number[] = []) {
-    if (indexToDeleteList.length === 0) {
-      indexToDeleteList = this.orderedIndexesSelectedPcsDto
+    const deleteAllSelectedPcs = indexToDeleteList.length === 0
+    if (deleteAllSelectedPcs) {
+      indexToDeleteList = [...this.orderedIndexesSelectedPcsDto]
     }
-    this.doUnselectAll()
+
     this.uiPcsDtoList =
       this.uiPcsDtoList.filter((value, index) => !indexToDeleteList.includes(index))
+
+    this.doUnselectAll()
+
     this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
     this.emit()
   }
@@ -856,7 +863,7 @@ export class ManagerPageWBService {
 
   doCut(index ?: number) {
      this.doCopy(index)
-     this.doDelete(index ? [index] : [])
+     this.doDelete(index !== undefined ? [index] : [])
   }
 
   doCopy(index ?: number) {
@@ -920,4 +927,31 @@ export class ManagerPageWBService {
     this.emit()
   }
 
+  doPasteFormatToSelection(indexes: number[] = []) {
+    if (this.isEmptyClipboard()) return
+
+    const template = this.managerLocalStorageService.paste()[0]
+
+    if (!template) return // never because first guard
+
+    this.uiPcsDtoList = [...this.uiPcsDtoList]
+
+    if (indexes.length === 0) {
+      indexes = this.orderedIndexesSelectedPcsDto
+    }
+
+    indexes.forEach(index => {
+      if (index < 0 || index >= this.uiPcsDtoList.length) {
+        throw new Error("oops bad index : " + index)
+      }
+      this.uiPcsDtoList[index] =
+          new UIPcsDto({
+            ...template,
+            pcs:this.uiPcsDtoList[index].pcs,
+            position:this.uiPcsDtoList[index].position // restore position
+          })
+    })
+    this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
+    this.emit()
+  }
 }
