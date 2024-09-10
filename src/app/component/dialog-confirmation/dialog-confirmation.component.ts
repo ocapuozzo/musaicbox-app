@@ -42,6 +42,6 @@ export class DialogConfirmationComponent implements OnInit {
   saveBefore() {
     this.managerPageWBService.doOpenDialogAndSaveContentToFile()
     this.dialog.close(2);  // 2 : pass a number for differentiate with a boolean
-    // see doClearContent() of whiteboard component
+    // see doClearContentSaveAndEmit() of whiteboard component
   }
 }

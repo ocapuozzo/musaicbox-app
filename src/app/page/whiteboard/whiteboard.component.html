@@ -8,30 +8,53 @@
     (mouseup)="doDownZIndexRectangleSelector()"
   ></app-rect-selector>
 
+  <!-- pcs has 3 data context : element DOM, object himself and pcsDto -->
   @for (pcsDto of pcsDtoList; track pcsDto; let idx = $index) {
-    <!--component has 3 data context : element DOM, object himself and pcsDto -->
-    <app-pcs
-      [ngClass]="{
-      'pcs-box': true,
-      'e-selected-marker': pcsDto.isSelected
-      }"
-      [attr.data-index-pcsdtos]=idx
-      [style.height.px]="pcsDto.height"
-      [style.width.px]="pcsDto.width"
-      [style.top.px]="pcsDto.position.y"
-      [style.left.px]="pcsDto.position.x"
-      [cdkContextMenuTriggerFor]="menu"
-      [cdkContextMenuTriggerData]="{
+    @if (pcsDto.indexFormDrawer === UIPcsDto.FREE_TEXT) {
+      <app-pcs
+        [ngClass]="{
+          'pcs-box': true,
+          'e-selected-marker': pcsDto.isSelected
+        }"
+        [pcsDto]="pcsDto"
+        [attr.data-index-pcsdtos]=idx
+        [style.height.px]="pcsDto.height"
+        [style.width.px]="pcsDto.width"
+        [style.top.px]="pcsDto.position.y"
+        [style.left.px]="pcsDto.position.x"
+        [cdkContextMenuTriggerFor]="menuFreeText"
+        [cdkContextMenuTriggerData]="{
             name: pcsDto.pcs.getPcsStr(),
             index:idx,
             indexFormDrawer: pcsDto.indexFormDrawer
             }"
-      [pcsDto]="pcsDto"
-      (cdkContextMenuOpened)="doContextMenuOpen()"
-      (cdkContextMenuClosed)="doContextMenuClose()"
-      (mousedown)="doToggleSelected($event,idx)"
-    >
-    </app-pcs>
+        (mousedown)="doToggleSelected($event,idx)"
+      ></app-pcs>
+    } @else {
+      <!--component has 3 data context : element DOM, object himself and pcsDto -->
+      <app-pcs
+        [ngClass]="{
+          'pcs-box': true,
+          'e-selected-marker': pcsDto.isSelected
+        }"
+        [attr.data-index-pcsdtos]=idx
+        [style.height.px]="pcsDto.height"
+        [style.width.px]="pcsDto.width"
+        [style.top.px]="pcsDto.position.y"
+        [style.left.px]="pcsDto.position.x"
+        [cdkContextMenuTriggerFor]="menu"
+        [cdkContextMenuTriggerData]="{
+            name: pcsDto.pcs.getPcsStr(),
+            index:idx,
+            indexFormDrawer: pcsDto.indexFormDrawer
+            }"
+        [pcsDto]="pcsDto"
+        (cdkContextMenuOpened)="doContextMenuOpen()"
+        (cdkContextMenuClosed)="doContextMenuClose()"
+        (mousedown)="doToggleSelected($event,idx)"
+      >
+      </app-pcs>
+    }
   }
   <!--  (menuOpened)="contextMenuOpened()"-->
   <ng-template #menu matMenuContent let-index="index" let-name="name" let-indexFormDrawer="indexFormDrawer">
@@ -63,9 +86,6 @@
       <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doSingleToggleSelected(index)">
         <mat-slide-toggle [checked]="isSelected(index)">Selected</mat-slide-toggle>
       </button>
-<!--  delete & duplicate also via cut/copy/paste    -->
-<!--      <button class="contextual-menu-item" cdkMenuItem (click)="doDelete(index)">Delete-->
-<!--        <span *ngIf="!isSolo(index)">&nbsp;({{ numberSelectedComponents }})</span></button>-->
 
       <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="duplicate"
               [cdkMenuTriggerData]="{index: index}">
@@ -106,13 +126,13 @@
 
       <hr/>
       <div cdkMenuGroup>
-        @for (drawer of drawers; track drawer; let idx = $index) {
+        @for (drawer of UIPcsDto.ALL_DRAWERS | keyvalue; track drawer; ) {
           <button
             cdkMenuItemRadio
             class="contextual-menu-item"
-            [cdkMenuItemChecked]="idx === indexFormDrawer"
-            (cdkMenuItemTriggered)="updateDrawer(drawer, index)">
-            {{ drawer }}
+            [cdkMenuItemChecked]="drawer.value === indexFormDrawer"
+            (cdkMenuItemTriggered)="updateDrawer(drawer.key, index)">
+            {{ drawer.key }}
           </button>
         }
       </div>
@@ -234,7 +254,7 @@
              style="width: 82%">
         Pitch ON&nbsp;&nbsp;
         <span [style.background-color]="pcsDtoList[index].colorPitchOn"
-              [style.height.px]="12" >&nbsp;&nbsp;&nbsp;
+              [style.height.px]="12">&nbsp;&nbsp;&nbsp;
         </span>&nbsp;&nbsp;
 
         <input type="color" class="form-control form-control-color" style="display:none; width: 30px" id="colorPitchOn"
@@ -248,7 +268,7 @@
              style="width: 82%; margin-top: 4px">
         Pitch OFF&nbsp;
         <span [style.background-color]="pcsDtoList[index].colorPitchOff"
-              [style.height.px]="12" >&nbsp;&nbsp;&nbsp;
+              [style.height.px]="12">&nbsp;&nbsp;&nbsp;
         </span>&nbsp;&nbsp;
 
         <input type="color" class="form-control form-control-color" style="display:none; width: 30px" id="colorPitchOff"
@@ -257,7 +277,7 @@
         >
       </label>
       <button class="contextual-menu-item" cdkMenuItem disabled>
-       Polygon
+        Polygon
       </button>
     </div>
   </ng-template>
@@ -267,6 +287,7 @@
       <button class="contextual-menu-item" (cdkMenuItemTriggered)="doUnDo()" [disabled]="!canUndo" cdkMenuItem>Undo
         (ctrl+z)
       </button>
+
       <button class="contextual-menu-item" (cdkMenuItemTriggered)="doReDo()" [disabled]="!canRedo" cdkMenuItem>Redo
         (ctrl+y)
       </button>
@@ -303,11 +324,45 @@
   </ng-template>
 </div>
 
+<ng-template #menuFreeText matMenuContent let-index="index" let-name="name"  let-indexFormDrawer="indexFormDrawer">
+  <div class="contextual-menu" cdkMenu>
+    <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doEditFreeText(index)">
+      Edit...
+    </button>
+    <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doSingleToggleSelected(index)">
+      <mat-slide-toggle [checked]="isSelected(index)">Selected</mat-slide-toggle>
+    </button>
+    <button class="contextual-menu-item" cdkMenuItem (click)="doCut(index)">Cut (Ctrl+X)
+      <span *ngIf="!isSolo(index)">&nbsp;({{ numberSelectedComponents }})</span>
+    </button>
+    <button class="contextual-menu-item" cdkMenuItem (click)="doCopy(index)">Copy (Ctrl+C)
+      <span *ngIf="!isSolo(index)">&nbsp;({{ numberSelectedComponents }})</span>
+    </button>
+    <button class="contextual-menu-item" cdkMenuItem (click)="doPaste()">Paste (Ctrl+V)
+      <span *ngIf="!isSolo(index)">&nbsp;({{ numberSelectedComponents }})</span>
+    </button>
+    <hr/>
+    <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="align">
+      Align <span>&#10148;</span>
+    </button>
+    <hr/>
+    <div cdkMenuGroup>
+      @for (drawer of UIPcsDto.ALL_DRAWERS | keyvalue; track drawer) {
+        <button
+          cdkMenuItemRadio
+          class="contextual-menu-item"
+          [cdkMenuItemChecked]="drawer.value === indexFormDrawer"
+          (cdkMenuItemTriggered)="updateDrawer(drawer.key, index)">
+          {{ drawer.key }}
+        </button>
+      }
+    </div>
 
-{{ ''// see doOpenLocalFile()  }}
+  </div>
+</ng-template>
+
+{{ ''// see doOpenLocalFile()   }}
 <div style="display:none; flex-direction: row;">
   <button (click)="fileInput.click()">Open file</button>
   <input #fileInput type="file" (change)="onLoadLocalFile($event)" accept=".musaicbox" style="display:none"/>
 </div>
-
-

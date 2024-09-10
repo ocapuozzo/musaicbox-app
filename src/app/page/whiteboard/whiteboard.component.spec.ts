@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { WhiteboardComponent } from './whiteboard.component';
 
 describe('WhiteboardComponent', () => {
@@ -11,7 +10,7 @@ describe('WhiteboardComponent', () => {
       imports: [WhiteboardComponent]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(WhiteboardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

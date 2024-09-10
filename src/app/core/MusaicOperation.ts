@@ -117,7 +117,7 @@ export class MusaicOperation {
    * @param  other MusaicOperation (a',t',c')
    * @return MusaicOperation (this.a,this.t,this.c) (a',t',c') = (aa', at' + t, c xor c'), a new instance
    */
-  compose(other: MusaicOperation) {
+  compose(other: MusaicOperation) : MusaicOperation {
     if (this.n !== other.n)
       throw new Error("MusaicOperation MusaicGroup Exception bad N in compose op");
 
@@ -183,7 +183,7 @@ export class MusaicOperation {
    * So:    M1-T3, M1-T0, CM1-T5, M5-T0, CM7-T8, CM7-T3
    * give : M1-T0, M5-T0, M1-T3, CM7-T3, CM1-T5, CM7-T8
    */
-  static compareStab(op1: MusaicOperation, op2: MusaicOperation) {
+  static compareStab(op1: MusaicOperation, op2: MusaicOperation) : number {
     let w1 = op1.t;
     let w2 = op2.t;
 
@@ -200,8 +200,6 @@ export class MusaicOperation {
 
     return comp;
   }
-
-
 
   compareTo(other: MusaicOperation) {
     return MusaicOperation.compare(this, other)

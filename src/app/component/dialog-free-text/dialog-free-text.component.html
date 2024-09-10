@@ -1,0 +1,42 @@
+<h2 mat-dialog-title>Free text</h2>
+<mat-dialog-content>
+
+  <mat-form-field>
+    <mat-label>Font size</mat-label>
+    <mat-select #fontSize value="16px" (selectionChange)="triggerResize()" [(ngModel)]="data.fontSize">
+      <mat-option value="10px">10px</mat-option>
+      <mat-option value="12px">12px</mat-option>
+      <mat-option value="14px">14px</mat-option>
+      <mat-option value="16px">16px</mat-option>
+      <mat-option value="18px">18px</mat-option>
+      <mat-option value="20px">20px</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+<!--  <mat-form-field>-->
+<!--    <mat-label>Enter a text</mat-label>-->
+<!--    <textarea matInput [(ngModel)]="data.freeText"> </textarea>-->
+<!--  </mat-form-field>-->
+<!--  -->
+  <mat-form-field [style.width.%]="100"
+    [style.font-size]="fontSize.value">
+    <mat-label>Autosize textarea</mat-label>
+    <textarea matInput
+              [(ngModel)]="data.text"
+              cdkTextareaAutosize
+              #autosize="cdkTextareaAutosize"
+              cdkAutosizeMinRows="1"
+              cdkAutosizeMaxRows="5"></textarea>
+  </mat-form-field>
+
+
+  <!--  <p>-->
+<!--    <mat-label>Add date-time into file name ?</mat-label>-->
+<!--    <mat-checkbox  [(ngModel)]="data.withDateInFileName" />-->
+<!--  </p>-->
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
+</mat-dialog-actions>
+

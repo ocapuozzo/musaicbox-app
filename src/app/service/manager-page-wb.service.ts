@@ -9,7 +9,8 @@ import {HistoryT} from "../utils/HistoryT";
 import {DialogSaveAsFileNameService} from "./dialog-save-as-file-name.service";
 import {IDialogDataSaveToFile} from "../component/dialog-save-to-file/IDialogDataSaveToFile";
 import {DomSanitizer} from "@angular/platform-browser";
-import {PcsComponent} from "../component/pcs/pcs.component";
+import {DialogUpdateFreeTextService} from "./dialog-update-free-text.service";
+import {IDialogDataSaveFreeText} from "../component/dialog-free-text/IDialogDataSaveFreeText";
 
 export interface FinalElementMove {
   index: number,
@@ -33,8 +34,6 @@ export class ManagerPageWBService {
   static deltaPositionNewPcs = 20;
 
   history: HistoryT<UIPcsDto[]>
-
-  DRAWERS: string[] = ["Musaic", "Clock", "Score"]
 
   /**
    * Array of pcsDto managed by whiteboard page
@@ -68,44 +67,55 @@ export class ManagerPageWBService {
 
   constructor(private managerLocalStorageService: ManagerLocalStorageService,
               private dialogSaveAsFileNameService: DialogSaveAsFileNameService,
+              private dialogUpdateFreeTextService: DialogUpdateFreeTextService,
               private sanitizer: DomSanitizer) {
 
     this.dialogSaveAsFileNameService.eventFileNameSetByUser.subscribe((fileName) => {
       this.doSaveContentToFile(fileName)
       if (this.userAskClearContentAfterSave) {
         this.userAskClearContentAfterSave = false
-        this.doClearContent()
+        this.doClearContentSaveAndEmit()
         // console.log("Clear content after save")
       }
     })
 
-    this.history = new HistoryT<UIPcsDto[]>()
+    this.dialogUpdateFreeTextService.eventUpdateFreeText.subscribe((data: IDialogDataSaveFreeText) => {
+      this.doUpdateFreeText(data)
+    })
 
+    this.history = new HistoryT<UIPcsDto[]>()
+    let initialPcsDtoList = this.makeInitialPcsDtoList();
+    let restorePcsDtoList = this.managerLocalStorageService.getPcsDtoListFromLocalStorage()
+    this.uiPcsDtoList = restorePcsDtoList.length === 0 ? initialPcsDtoList : restorePcsDtoList
+    // start with no selected element
+    // this.uiPcsDtoList.forEach((pcsDto: UIPcsDto) => pcsDto.isSelected = false)
+    // this.orderedIndexesSelectedPcsDto = []
+    if (restorePcsDtoList === initialPcsDtoList) {
+      this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
+    }else {
+      this.history.pushIntoPresent(this.uiPcsDtoList)
+    }
+  }
+
+  private makeInitialPcsDtoList() {
     let pcs1 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[58].getPcsMin()
     let pcs2 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[61].getPcsMin().complement().modalPrimeForm()
     let pcs3 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[55].getPcsMin().modalPrimeForm()
     let pcs4 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[26].getPcsMin().complement().modalPrimeForm()
     let uiMus = new UIMusaic({rounded: true})
 
-    let pcsDtoList = [
+    return [
       new UIPcsDto({pcs: pcs1, indexFormDrawer: 0, position: {x: 0, y: 10}}),
       new UIPcsDto({pcs: pcs2, indexFormDrawer: 1, position: {x: 110, y: 10}, isSelected: true}),
       new UIPcsDto({pcs: pcs3, indexFormDrawer: 2, position: {x: 220, y: 10}, isSelected: true}),
       new UIPcsDto({
+        freeText: {text: ' oh !', width: 88, height: 25, fontSize: "12px"},
         pcs: pcs4,
-        indexFormDrawer: 0,
+        indexFormDrawer: 42,
         position: {x: 400, y: 30},
         uiMusaic: {...uiMus, width: 35, height: 35, widthCell: 3}
       })
     ]
-    let restorePcsDtoList = this.managerLocalStorageService.getPcsDtoListFromLocalStorage()
-    this.uiPcsDtoList = restorePcsDtoList.length === 0 ? pcsDtoList : restorePcsDtoList
-    // start with no selected element
-    this.uiPcsDtoList.forEach((pcsDto: UIPcsDto) => pcsDto.isSelected = false)
-    this.orderedIndexesSelectedPcsDto = []
-
-    this.history.pushIntoPresent(this.uiPcsDtoList)
-
   }
 
   emit() {
@@ -120,7 +130,7 @@ export class ManagerPageWBService {
     circularAlign = circularAlign ?? false
     indexCenterElement = indexCenterElement ?? undefined
     // console.log(`circular : ${circularAlign},  indexcenter : ${indexCenterElement}`)
-    this.doUnselectAll()
+    this.doUnselectAll(false)
     const selectedIndexPcs: number[] = []
 
     this.uiPcsDtoList = [...this.uiPcsDtoList]
@@ -131,7 +141,7 @@ export class ManagerPageWBService {
     if (indexCenterElement) {
       // use it for template ui
       this.pcsDtoForTemplate = this.uiPcsDtoList[indexCenterElement]
-      console.log("clock width = ", this.pcsDtoForTemplate.uiClock.width)
+      // console.log("clock width = ", this.pcsDtoForTemplate.uiClock.width)
     }
     somePcs.forEach(pcs => {
       let pcsDto =
@@ -221,19 +231,22 @@ export class ManagerPageWBService {
       let preferredSize = cellWith * (n + 1)
 
       // too small ?
-      if (preferredSize >= this._MIN_WIDTH) {
 
-        // if pcsDto.indexFormDrawer === PcsPageComponent.CLOCK_INDEX, then pcsDto.width or height
+      if (preferredSize < this._MIN_WIDTH) preferredSize = this._MIN_WIDTH
+
+
+
+        // if pcsDto.indexFormDrawer === UIPcsDto.CLOCK, then pcsDto.width or height
         // impact pcsDto.uiClock.width or height
         // put another way : pcsDto.width/height are polymorph
         let barycenterBeforeChangeSize = this.getXYFromBarycenter(pcsDto)
 
-        if (pcsDto.indexFormDrawer === PcsComponent.MUSAIC_INDEX) {
+        if (pcsDto.indexFormDrawer === UIPcsDto.MUSAIC) {
           // real change widthCell
           pcsDto.uiMusaic.widthCell = cellWith
         }
 
-        if (pcsDto.indexFormDrawer === PcsComponent.SCORE_INDEX) {
+        if (pcsDto.indexFormDrawer === UIPcsDto.SCORE) {
           // TODO do better, in reaction of abcjs render
           if (pcsDto.pcs.cardinal >= 4) {
             pcsDto.height = (preferredSize / 2 >= 88) ? (preferredSize / 2) : preferredSize / 1.5
@@ -252,7 +265,7 @@ export class ManagerPageWBService {
         }
         listChanged = true
         this.uiPcsDtoList[index] = pcsDto
-      }
+
     })
     if (listChanged) {
       this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
@@ -277,7 +290,7 @@ export class ManagerPageWBService {
       if (index < 0 || index >= this.uiPcsDtoList.length) {
         throw new Error("oops bad index : " + index)
       }
-      if (this.uiPcsDtoList[index].indexFormDrawer === PcsComponent.MUSAIC_INDEX &&
+      if (this.uiPcsDtoList[index].indexFormDrawer === UIPcsDto.MUSAIC &&
         this.uiPcsDtoList[index].uiMusaic.rounded !== valueRounded) {
         let pcsDto
           = new UIPcsDto({...this.uiPcsDtoList[index]})
@@ -296,8 +309,9 @@ export class ManagerPageWBService {
       indexes = this.orderedIndexesSelectedPcsDto
     }
 
-    let newIndexFormDrawer = this.DRAWERS.findIndex((d) => d === drawer)
-    if (newIndexFormDrawer < 0) newIndexFormDrawer = 0
+    // let newIndexFormDrawer = this.DRAWERS.findIndex((d) => d === drawer)
+    let newIndexFormDrawer = UIPcsDto.ALL_DRAWERS.get(drawer)
+    if (newIndexFormDrawer === undefined) newIndexFormDrawer = 0
 
     indexes.forEach(index => {
       if (index < 0 || index >= this.uiPcsDtoList.length) {
@@ -365,7 +379,7 @@ export class ManagerPageWBService {
   /**
    * Unselect all components
    */
-  doUnselectAll() {
+  doUnselectAll(emit:boolean = true) {
     this.uiPcsDtoList.forEach((e, index) => {
       if (e.isSelected) {
         let pcsDto
@@ -378,7 +392,9 @@ export class ManagerPageWBService {
     this.orderedIndexesSelectedPcsDto = []
 
     // no historisation
-    this.emit()
+    if (emit) {
+      this.emit()
+    }
   }
 
   doSelectAll() {
@@ -428,7 +444,7 @@ export class ManagerPageWBService {
       indexes = [index]
     }
 
-    this.doUnselectAll()
+    this.doUnselectAll(false)
 
     indexes.forEach(index => {
 
@@ -491,7 +507,7 @@ export class ManagerPageWBService {
     this.uiPcsDtoList =
       this.uiPcsDtoList.filter((value, index) => !indexToDeleteList.includes(index))
 
-    this.doUnselectAll()
+    this.doUnselectAll(false)
 
     this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
     this.emit()
@@ -503,7 +519,7 @@ export class ManagerPageWBService {
       let pcsDtoList = this.history.unDoToPresent()
       if (pcsDtoList != undefined) {
         this.uiPcsDtoList = pcsDtoList
-        this.doUnselectAll()
+        this.doUnselectAll(false)
         this.managerLocalStorageService.savePageWB(this.uiPcsDtoList)
         this.emit()
       }
@@ -629,7 +645,9 @@ export class ManagerPageWBService {
    * @param indexCenterElement pcs around which the others will be positioned (or barycenter)
    */
   doCircularAlign(selectedPcsIndexes: number[] = [], indexCenterElement ?: number) {
-    if (selectedPcsIndexes.length === 0) selectedPcsIndexes = this.getSelectedPcsDtoIndexes()
+    if (selectedPcsIndexes.length === 0) {
+      selectedPcsIndexes = this.getSelectedPcsDtoIndexes()
+    }
 
     let finalMoveElements: FinalElementMove[] = []
 
@@ -641,15 +659,23 @@ export class ManagerPageWBService {
 
     let point = new Point(0, 0)
 
-    selectedPcsIndexes.forEach(index => {
-      point.x += this.uiPcsDtoList[index].position.x + this.uiPcsDtoList[index].width / 2
-      point.y += this.uiPcsDtoList[index].position.y + this.uiPcsDtoList[index].height / 2
-      radius += this.uiPcsDtoList[index].width
-    })
-    // barycenter point
-    barycenter.x = point.x / selectedPcsIndexes.length
-    barycenter.y = point.y / selectedPcsIndexes.length
+    // if (!indexCenterElement) {
+      selectedPcsIndexes.forEach(index => {
+        point.x += this.uiPcsDtoList[index].position.x + this.uiPcsDtoList[index].width / 2
+        point.y += this.uiPcsDtoList[index].position.y + this.uiPcsDtoList[index].height / 2
+        radius += this.uiPcsDtoList[index].width
+      })
+    // }
 
+    // barycenter point
+    // if (indexCenterElement) {
+    //   const elCenter = this.uiPcsDtoList[indexCenterElement]
+    //   barycenter.x = (elCenter.position.x + elCenter.width) / 2
+    //   barycenter.y = (elCenter.position.y + elCenter.height) / 2
+    // } else {
+      barycenter.x = point.x / selectedPcsIndexes.length
+      barycenter.y = point.y / selectedPcsIndexes.length
+    // }
     // radius increase with number of selected elements.
     // Dividing it by four seems like a good choice, a good number (?)
     // rem : if selectedPcsIndexes.length == 4, radius is avg width
@@ -688,10 +714,6 @@ export class ManagerPageWBService {
       if (pcsDto.isSelected) this.orderedIndexesSelectedPcsDto.push(index)
     })
 
-    // this.orderedIndexesSelectedPcsDto =
-    //   this.uiPcsDtoList
-    //     .map((pcsDto, index) => pcsDto.isSelected ? index : -1)
-    //     .filter(index => index >= 0)
     this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
     this.emit()
   }
@@ -735,7 +757,8 @@ export class ManagerPageWBService {
     const pcsDto = this.uiPcsDtoList[index]
     let newPcsDtoInOthersView: UIPcsDto[] = []
 
-    this.DRAWERS.forEach((drawer, index) => {
+
+    UIPcsDto.ALL_DRAWERS.forEach((index, drawer) => {
       if (index != pcsDto.indexFormDrawer) {
         newPcsDtoInOthersView.push(new UIPcsDto({
           ...pcsDto,  // on same position (because circular align in fine)
@@ -745,20 +768,17 @@ export class ManagerPageWBService {
         }))
       }
     })
-    this.uiPcsDtoList = [...this.uiPcsDtoList, ...newPcsDtoInOthersView]
 
-    // unselect all
-    this.orderedIndexesSelectedPcsDto.forEach(index => {
-      this.uiPcsDtoList[index].isSelected = false
-    })
-    this.orderedIndexesSelectedPcsDto = []
+    this.doUnselectAll(false)
+    this.uiPcsDtoList = [...this.uiPcsDtoList, ...newPcsDtoInOthersView]
 
     // now, select concerned components
     this.uiPcsDtoList[index].isSelected = true
     this.orderedIndexesSelectedPcsDto.push(index)
+
     //start to one (because already pcsDto is in place)
-    for (let i = 1; i < this.DRAWERS.length; i++) {
-      // add last indexes (or elements having isSelect true)
+    for (let i = 1; i < UIPcsDto.ALL_DRAWERS.size; i++) {
+      // add last indexes (or elements having isSelect true, see above)
       this.orderedIndexesSelectedPcsDto.push(this.uiPcsDtoList.length - i)
     }
 
@@ -797,8 +817,8 @@ export class ManagerPageWBService {
     }
   }
 
-  doClearContent() {
-    this.doUnselectAll()
+  doClearContentSaveAndEmit() {
+    this.doUnselectAll(false)
     this.uiPcsDtoList = []
     this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
     this.emit()
@@ -888,7 +908,7 @@ export class ManagerPageWBService {
           isSelected: true
         })
       )
-      this.doUnselectAll()
+      this.doUnselectAll(false)
 
       // initialize indexes of selected elements
       this.orderedIndexesSelectedPcsDto = [...updateData.map((value, index) => this.uiPcsDtoList.length + index)]
@@ -906,7 +926,6 @@ export class ManagerPageWBService {
   isEmptyClipboard(): boolean {
     return this.managerLocalStorageService.isEmptyClipboard()
   }
-
 
   changeColor(indexPcsForEdit: number, property: TColorProperty, value: string) {
     this.uiPcsDtoList = [...this.uiPcsDtoList]
@@ -951,6 +970,36 @@ export class ManagerPageWBService {
             position:this.uiPcsDtoList[index].position // restore position
           })
     })
+    this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
+    this.emit()
+  }
+
+  doEditFreeText(index: number) {
+    this.dialogUpdateFreeTextService.openDialogForUpdateFreeText(
+      {
+        text:this.uiPcsDtoList[index].freeText.text,
+        index:index,
+        fontSize:this.uiPcsDtoList[index].freeText.fontSize ?? "12px"
+      })
+  }
+
+  private doUpdateFreeText(data: { index:number, text : string, fontSize: string }) {
+    if (data.index < 0 || data.index >= this.uiPcsDtoList.length) {
+      throw new Error("oops bad index : " + data.index)
+    }
+
+    this.uiPcsDtoList = [...this.uiPcsDtoList]
+
+    let pcsDto = new UIPcsDto({...this.uiPcsDtoList[data.index]})
+
+    pcsDto.freeText =  {
+      ...pcsDto.freeText,
+      ...data,
+      height:data.text.split("\n").length*parseInt(data.fontSize)
+    } // new object (keep width value)
+
+    this.uiPcsDtoList[data.index] = pcsDto
+
     this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
     this.emit()
   }

@@ -19,7 +19,7 @@ import {MusaicComponent} from "../../component/musaic/musaic.component";
 import {MatMenu, MatMenuContent, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 import {MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
-import {NgClass, NgForOf, NgIf, NgStyle} from "@angular/common";
+import {KeyValuePipe, NgClass, NgForOf, NgIf, NgStyle, NgTemplateOutlet} from "@angular/common";
 import {
   FinalElementMove,
   ManagerPageWBService,
@@ -40,6 +40,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {DialogConfirmationComponent} from "../../component/dialog-confirmation/dialog-confirmation.component";
 import {MatInput} from "@angular/material/input";
 import {MatLine} from "@angular/material/core";
+
 
 interface ElementMove {
   elt: HTMLElement,
@@ -71,14 +72,15 @@ interface ElementMove {
     CdkMenuItemCheckbox,
     CdkMenuItem,
     NgForOf,
-    // DraggableDirective,
     NgClass,
     NgIf,
     MatSlideToggle,
     RectSelectorComponent,
     FormsModule,
     MatInput,
-    MatLine
+    MatLine,
+    NgTemplateOutlet,
+    KeyValuePipe
   ],
   templateUrl: './whiteboard.component.html',
   styleUrl: './whiteboard.component.css'
@@ -92,11 +94,6 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
    */
   unlistenerRenderer2Mousemove: Function;
 
-  /**
-   * For mouseMoveListener
-   */
-  unlistenerRenderer2Touchmove: Function;
-
 
   /**
    * Lise of UIPcsDto (from service)
@@ -108,10 +105,10 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
    */
   initialPointOfSelectedElements: ElementMove[] = []
 
-  /**
-   * List of FormDrawer names
-   */
-  drawers: string[]
+  // /**
+  //  * List of FormDrawer names
+  //  */
+  // drawers: string[]
 
   /**
    * Specify when button mouse is actually down
@@ -142,7 +139,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
               public dialogConfirmation: MatDialog) {
 
     this.pcsDtoList = this.managerPageWBService.uiPcsDtoList
-    this.drawers = this.managerPageWBService.DRAWERS
+    // this.drawers = this.managerPageWBService.DRAWERS
 
     this.managerPageWBService.eventChangePcsPdoList.subscribe((uiPcsDtoList: UIPcsDto[]) => {
       this.pcsDtoList = uiPcsDtoList
@@ -156,7 +153,6 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   public ngOnDestroy(): void {
     // remove listener
     this.unlistenerRenderer2Mousemove()
-    this.unlistenerRenderer2Touchmove()
   }
 
   ngOnInit() {
@@ -170,7 +166,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
       this.onMouseMove(e)
     });
 
-    // warning on google browser
+    // warning by google browser
 
     // this.unlistenerRenderer2Touchmove = this.renderer2.listen(elt, 'touchmove', e => {
     //   this.onMouseMove(e)
@@ -251,9 +247,9 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     }
     if (e.ctrlKey) {
       // if not click on object in page, deselect all
-      let pcsElements = Array.from(document.getElementsByTagName('app-pcs'))
+      let allPcsElements = Array.from(document.getElementsByTagName('app-pcs'))
 
-      const clickInPcsElement = pcsElements.some(e => pointClick.isIncludeIn(e.getBoundingClientRect()))
+      const clickInPcsElement = allPcsElements.some(e => pointClick.isIncludeIn(e.getBoundingClientRect()))
       if (!clickInPcsElement) {
         this.doDeselectAll()
       }
@@ -270,9 +266,13 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
       selectedElements.some(e => pointClick.isIncludeIn(e.getBoundingClientRect()))
 
     if (!clickInSelectedElement) {
-      this.isRectangleSelecting = true
-      this.initPositionRectSelector = pointClick
-      return
+      // let allPcsElements = Array.from(document.getElementsByTagName('app-pcs'))
+      // const clickOnPcsElement = allPcsElements.some(e => pointClick.isIncludeIn(e.getBoundingClientRect()))
+      // if (!clickOnPcsElement) {
+        this.isRectangleSelecting = true
+        this.initPositionRectSelector = pointClick
+        return
+      // }
     }
 
     // now we can initialize data for changeAreaRect component
@@ -429,11 +429,17 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   // on mouse up event
   doToggleSelected($event: MouseEvent, index: number) {
     if (!this.pcsDtoList.some((pcsDto) => pcsDto.isSelected)) {
-      // select this one and only one
+      // no select component, select this one
       this.managerPageWBService.doToggleSelected(index)
     } else if ($event.ctrlKey) {
       // toggle selected
       this.managerPageWBService.doToggleSelected(index)
+    } else {
+      // classic use : deselect all and select this one
+      if (!this.managerPageWBService.isIndexInElementsSelected(index)) {
+        this.managerPageWBService.doUnselectAll(false)
+        this.managerPageWBService.doToggleSelected(index)
+      }
     }
   }
 
@@ -454,13 +460,14 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     this.managerPageWBService.doDuplicate(index)
   }
 
-  doDelete(index: any) {
-    if (!this.managerPageWBService.isIndexInElementsSelected(index)) {
-      this.managerPageWBService.doDelete([index])
-    } else {
-      this.managerPageWBService.doDelete()
-    }
-  }
+  // see doCut
+  // doDelete(index: any) {
+  //   if (!this.managerPageWBService.isIndexInElementsSelected(index)) {
+  //     this.managerPageWBService.doDelete([index])
+  //   } else {
+  //     this.managerPageWBService.doDelete()
+  //   }
+  // }
 
   doPushToPcsPage(index: number) {
     // this.indexDtoPcsForUpdate = index
@@ -704,7 +711,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
       .afterClosed()
       .subscribe((confirmation: Boolean | number) => {
         if (confirmation === true) {
-          this.managerPageWBService.doClearContent()
+          this.managerPageWBService.doClearContentSaveAndEmit()
         } else if (typeof confirmation === 'number') {
           // console.log("Call save before clear content")
           const clearContentAfterSavingToFile = true
@@ -734,7 +741,6 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
       throw new Error(`Invalid index : $ {index}`)
     }
-    console.log("doCut : index ", index )
     this.managerPageWBService.doCut(index)
   }
 
@@ -766,12 +772,6 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     }
   }
 
-  // doCopyTemplate(index: number) {
-  //   if (index >= 0 && index < this.pcsDtoList.length) {
-  //     this.managerPageWBService.setPcsDtoForTemplate(this.pcsDtoList[index])
-  //   }
-  // }
-
   colorPitchON(e:any, index: number) {
     this.managerPageWBService.changeColor(index, "PitchColorON", e.target.value)
     // doContextMenuClose is not called (?)
@@ -793,5 +793,9 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     el.style.display = "inline"
   }
 
+  doEditFreeText(index: number) {
+    this.managerPageWBService.doEditFreeText(index)
+  }
 
+  protected readonly UIPcsDto = UIPcsDto;
 }

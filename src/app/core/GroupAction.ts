@@ -292,7 +292,6 @@ export class GroupAction {
     return resultOrbitsSortedByMotifStabilizer
   }
 
-
   /**
    * @return {ISortedOrbits[]} array of ISortedOrbits
    */

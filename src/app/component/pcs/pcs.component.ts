@@ -7,6 +7,7 @@ import {ClockFormDraw} from "../../ui/ClockFormDraw";
 import {ScoreFormDraw} from "../../ui/ScoreFormDraw";
 import {StringHash} from "../../utils/StringHash";
 import {ScoreNotationComponent} from "../score-notation/score-notation.component";
+import {MatInput} from "@angular/material/input";
 
 /**
  * Wrapper for various representation : musaic, clock, score... for whiteboard page
@@ -18,7 +19,8 @@ import {ScoreNotationComponent} from "../score-notation/score-notation.component
   imports: [
     NgClass,
     ScoreNotationComponent,
-    NgIf
+    NgIf,
+    MatInput
   ],
   templateUrl: './pcs.component.html',
   styleUrl: './pcs.component.css'
@@ -51,10 +53,6 @@ export class PcsComponent {
     this.drawForm()
   }
 
-  get pcColorSet() {
-    return this._pcsDto.colorPitchOn
-  }
-
   // https://stackoverflow.com/questions/36653678/angular2-input-to-a-property-with-get-set
   @Input() set pcColorSet(value: string) {
     this._pcsDto.colorPitchOn = value
@@ -68,26 +66,26 @@ export class PcsComponent {
     this.drawForm()
   }
 
-  static MUSAIC_INDEX = 0
-  static CLOCK_INDEX = 1
-  static SCORE_INDEX = 2
-
   get scoreView(): boolean {
-    return this._pcsDto.indexFormDrawer === 2
+    return this._pcsDto.indexFormDrawer === UIPcsDto.SCORE
   }
+
 
   drawForm() {
     // if (!this.canvas) return
     switch (this._pcsDto.indexFormDrawer) {
-      case PcsComponent.MUSAIC_INDEX :
+      case UIPcsDto.MUSAIC :
         this.formDrawing = new MusaicFormDraw()
         break
-      case PcsComponent.CLOCK_INDEX :
+      case UIPcsDto.CLOCK :
         this.formDrawing = new ClockFormDraw()
         break
-      case PcsComponent.SCORE_INDEX :
+      case UIPcsDto.SCORE :
         this.formDrawing = new ScoreFormDraw(this.randomId)
         break
+      case UIPcsDto.FREE_TEXT :
+        // nothing to do (see html template)
+        return
       default :
         this.formDrawing = new ClockFormDraw()
     }
@@ -95,4 +93,5 @@ export class PcsComponent {
   }
 
   protected readonly UIPcsDto = UIPcsDto;
+
 }
