@@ -724,17 +724,25 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   }
 
   doGetPcsMusaicFacets(typeFacet: string, index: number, distinct: boolean = false) {
-
+    if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
+      throw new Error(`Invalid index : $ {index}`)
+    }
     this.managerPageWBService.doPcsMusaicFacets(typeFacet, index, distinct)
     this.managerPageWBService.doZoom(-1, [index])
   }
 
   howManyDistinctAffineFacets(index: number): number {
-    return this.managerPageWBService.doGetPcsFacets('Affine', index, true).length;
+    if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
+      throw new Error(`Invalid index : $ {index}`)
+    }
+    return this.managerPageWBService.doGetPcsFacetsFromPcs(this.pcsDtoList[index].pcs, 'Affine', true).length;
   }
 
   howManyDistinctMusaicFacets(index: number): number {
-    return this.managerPageWBService.doGetPcsFacets('Musaic', index, true).length;
+    if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
+      throw new Error(`Invalid index : $ {index}`)
+    }
+    return this.managerPageWBService.doGetPcsFacetsFromPcs(this.pcsDtoList[index].pcs, 'Musaic', true).length;
   }
 
   doCut(index ?: number) {

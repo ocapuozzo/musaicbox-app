@@ -11,6 +11,7 @@ import {IDialogDataSaveToFile} from "../component/dialog-save-to-file/IDialogDat
 import {DomSanitizer} from "@angular/platform-browser";
 import {DialogUpdateFreeTextService} from "./dialog-update-free-text.service";
 import {IDialogDataSaveFreeText} from "../component/dialog-free-text/IDialogDataSaveFreeText";
+import {ManagerPcsService} from "./manager-pcs.service";
 
 export interface FinalElementMove {
   index: number,
@@ -68,6 +69,7 @@ export class ManagerPageWBService {
   constructor(private managerLocalStorageService: ManagerLocalStorageService,
               private dialogSaveAsFileNameService: DialogSaveAsFileNameService,
               private dialogUpdateFreeTextService: DialogUpdateFreeTextService,
+              private managerPcsService: ManagerPcsService,
               private sanitizer: DomSanitizer) {
 
     this.dialogSaveAsFileNameService.eventFileNameSetByUser.subscribe((fileName) => {
@@ -232,7 +234,10 @@ export class ManagerPageWBService {
 
       // too small ?
 
-      if (preferredSize < this._MIN_WIDTH) preferredSize = this._MIN_WIDTH
+      while (preferredSize < this._MIN_WIDTH) {
+        preferredSize = ++cellWith * (n + 1)
+      }
+      // if (preferredSize < this._MIN_WIDTH) preferredSize = this._MIN_WIDTH
 
 
 
@@ -824,50 +829,35 @@ export class ManagerPageWBService {
     this.emit()
   }
 
-  doGetPcsFacets(facet: string, index: number, distinct: boolean = false): IPcs[] {
-    if (index < 0 || index >= this.uiPcsDtoList.length) {
-      throw new Error(`bad index : ${index}`)
-    }
+  doGetPcsFacetsFromPcs(pcs : IPcs, facet: string, distinct: boolean = false): IPcs[] {
     const pcsList: IPcs[] = []
     if (['Affine', 'Musaic'].includes(facet)) {
       // default Affine
-      const pcsSelected = this.uiPcsDtoList[index].pcs.unMap()
+      const pcsSelected = pcs.unMap()
 
       pcsList.push(pcsSelected)
-
-      if (pcsSelected.pid() !== pcsSelected.affineOp(7, 0).pid() || !distinct) {
-        pcsList.push(pcsSelected.affineOp(7, 0))
-      }
-      if (pcsSelected.pid() !== pcsSelected.affineOp(11, 0).pid() || !distinct) {
-        pcsList.push(pcsSelected.affineOp(11, 0))
-      }
-      if (pcsSelected.pid() !== pcsSelected.affineOp(5, 0).pid() || !distinct) {
-        pcsList.push(pcsSelected.affineOp(5, 0))
-      }
-
-      const pcsSelectedCplt = pcsSelected.complement()
+      pcsList.push(pcsSelected.affineOp(7, 0))
+      pcsList.push(pcsSelected.affineOp(11, 0))
+      pcsList.push(pcsSelected.affineOp(5, 0))
 
       if (facet === 'Musaic') {
-        if (pcsSelected.pid() !== pcsSelectedCplt.pid() || !distinct) {
-          pcsList.push(pcsSelectedCplt)
-        }
-        if (pcsSelectedCplt.pid() !== pcsSelectedCplt.affineOp(7, 0).pid() || !distinct) {
-          pcsList.push(pcsSelectedCplt.affineOp(7, 0))
-        }
-        if (pcsSelectedCplt.pid() !== pcsSelectedCplt.affineOp(11, 0).pid() || !distinct) {
-          pcsList.push(pcsSelectedCplt.affineOp(11, 0))
-        }
-        if (pcsSelectedCplt.pid() !== pcsSelectedCplt.affineOp(5, 0).pid() || !distinct) {
-          pcsList.push(pcsSelectedCplt.affineOp(5, 0))
-        }
+        const pcsSelectedCplt = this.managerPcsService.complement(pcsSelected) // for set pivot
+        pcsList.push(pcsSelectedCplt)
+        pcsList.push(pcsSelectedCplt.affineOp(7, 0))
+        pcsList.push(pcsSelectedCplt.affineOp(11, 0))
+        pcsList.push(pcsSelectedCplt.affineOp(5, 0))
       }
+    }
+    if (distinct) {
+      return pcsList.reduce((unique:IPcs[], item) =>
+        unique.find(pcs => pcs.pid() === item.pid()) ? unique : [...unique, item], [])
     }
     return pcsList
   }
 
+
   doPcsMusaicFacets(facet: string, index: number, distinct: boolean = false) {
-    const pcsFacets = this.doGetPcsFacets(facet, index, distinct)
-    //this.pcsDtoForTemplate = this.uiPcsDtoList[index]
+    const pcsFacets = this.doGetPcsFacetsFromPcs(this.uiPcsDtoList[index].pcs, facet, distinct)
     this.addPcs({somePcs: pcsFacets, circularAlign: true, indexCenterElement: index})
   }
 
