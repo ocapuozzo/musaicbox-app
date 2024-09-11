@@ -90,8 +90,8 @@ export class ManagerPageWBService {
     let restorePcsDtoList = this.managerLocalStorageService.getPcsDtoListFromLocalStorage()
     this.uiPcsDtoList = restorePcsDtoList.length === 0 ? initialPcsDtoList : restorePcsDtoList
     // start with no selected element
-    // this.uiPcsDtoList.forEach((pcsDto: UIPcsDto) => pcsDto.isSelected = false)
-    // this.orderedIndexesSelectedPcsDto = []
+    this.uiPcsDtoList.forEach((pcsDto: UIPcsDto) => pcsDto.isSelected = false)
+    this.orderedIndexesSelectedPcsDto = []
     if (restorePcsDtoList === initialPcsDtoList) {
       this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
     }else {
@@ -758,13 +758,16 @@ export class ManagerPageWBService {
     this.dialogSaveAsFileNameService.openDialogForSaveIntoFile(this.dataSaveToFile)
   }
 
-  doDuplicateInOthersView(index: number) {
+  /**
+   * Duplicate pcs in all views (musaic, clock, score,... but not FREE_TEXT)
+   * @param index pcs concerned
+   */
+  doDuplicateInAllViews(index: number) {
     const pcsDto = this.uiPcsDtoList[index]
     let newPcsDtoInOthersView: UIPcsDto[] = []
 
-
     UIPcsDto.ALL_DRAWERS.forEach((index, drawer) => {
-      if (index != pcsDto.indexFormDrawer) {
+      if (index != pcsDto.indexFormDrawer && index != UIPcsDto.FREE_TEXT) {
         newPcsDtoInOthersView.push(new UIPcsDto({
           ...pcsDto,  // on same position (because circular align in fine)
           indexFormDrawer: index,
@@ -775,16 +778,15 @@ export class ManagerPageWBService {
     })
 
     this.doUnselectAll(false)
+
+    // add pcs selected (duplicate)
+    newPcsDtoInOthersView.push(new UIPcsDto({...pcsDto, isSelected:true}))
+
     this.uiPcsDtoList = [...this.uiPcsDtoList, ...newPcsDtoInOthersView]
 
-    // now, select concerned components
-    this.uiPcsDtoList[index].isSelected = true
-    this.orderedIndexesSelectedPcsDto.push(index)
-
-    //start to one (because already pcsDto is in place)
-    for (let i = 1; i < UIPcsDto.ALL_DRAWERS.size; i++) {
-      // add last indexes (or elements having isSelect true, see above)
-      this.orderedIndexesSelectedPcsDto.push(this.uiPcsDtoList.length - i)
+    for (let i = 0; i < newPcsDtoInOthersView.length; i++) {
+      // add new last indexes (or elements having isSelect true, see above)
+      this.orderedIndexesSelectedPcsDto.push(this.uiPcsDtoList.length - 1 - i)
     }
 
     // in place, because components have same position

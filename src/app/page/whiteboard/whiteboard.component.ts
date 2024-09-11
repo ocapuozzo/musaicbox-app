@@ -637,8 +637,8 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     return this.pcsDtoList[index].showChordName
   }
 
-  doDuplicateInOthersView(index: number) {
-    this.managerPageWBService.doDuplicateInOthersView(index)
+  doDuplicateInAllViews(index: number) {
+    this.managerPageWBService.doDuplicateInAllViews(index)
   }
 
   protected readonly console = console;

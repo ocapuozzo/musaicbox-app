@@ -177,8 +177,8 @@
     <div class="contextual-menu" cdkMenu>
       <button class="contextual-menu-item" (cdkMenuItemTriggered)="doDuplicate(index)" cdkMenuItem>Same <span
         *ngIf="!isSolo(index)">&nbsp;({{ numberSelectedComponents }})</span></button>
-      <button class="contextual-menu-item" (cdkMenuItemTriggered)="doDuplicateInOthersView(index)" cdkMenuItem>Same in
-        other views
+      <button class="contextual-menu-item" (cdkMenuItemTriggered)="doDuplicateInAllViews(index)" cdkMenuItem>Same in
+        all views
       </button>
 
     </div>
