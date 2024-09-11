@@ -90,7 +90,7 @@ export class ScoreDrawingAbcNotation {
           note += "'"
         }
 
-        notes = notes + ' ' + note;
+        notes = notes ? notes + ' ' + note : note;
         chord = chord + note;
       }
     }// end for
@@ -114,7 +114,7 @@ export class ScoreDrawingAbcNotation {
 
       const orderedChar = "CDEFGABCDEFGAB"
 
-      let noteArray = notes.trim().split(' ')
+      let noteArray = notes.split(' ')
 
       // console.log("noteArray =", noteArray)
 
@@ -198,6 +198,18 @@ export class ScoreDrawingAbcNotation {
       notes = noteArray.join(' ')
 
     } // end 3 or 4chord
+
+    // check if first note is well (because not checked)
+    let noteArray = notes.split(' ')
+    if (noteArray.length > 1 && noteArray[0].length > 1) {
+      if (noteArray[0].startsWith('_')) {
+        // avoid _Y Y, change by ^X Y
+        if (noteArray[0][1] === noteArray[1][0]) {
+          noteArray[0] = ScoreDrawingAbcNotation.lettersSharpedNotation[ScoreDrawingAbcNotation.lettersFlattedNotation.indexOf('_'+noteArray[0][1])]
+          notes = noteArray.join(' ')
+        }
+      }
+    }
 
     chord = '' //(this.pcsList.cardinal < 5) ? chord + ' ]  \n' : '' // experimental
     notes = chord ? notes + '|' : notes

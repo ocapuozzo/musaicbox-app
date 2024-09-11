@@ -156,4 +156,11 @@ describe('ScoreDrawingAbcNotation', () => {
 
   })
 
+  it('chromatic scales', () => {
+    let pentatonicChromatic  = new IPcs({strPcs: "10,8,9,0,11"})
+    let abcNotation = ScoreDrawingAbcNotation.fromPcsToABCNotation(pentatonicChromatic)
+    expect(abcNotation).toEqual("^A B C' ^G' A'")
+
+  })
+
 })
