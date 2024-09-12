@@ -1,16 +1,13 @@
 import {Component, CUSTOM_ELEMENTS_SCHEMA, HostListener} from '@angular/core';
-import {Router, RouterOutlet} from '@angular/router';
+import {Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
-import {RouterLink, RouterLinkActive} from '@angular/router';
 import {MatDrawerMode, MatSidenavModule} from '@angular/material/sidenav';
 import {MatIconModule} from '@angular/material/icon';
 import {BooleanInput} from '@angular/cdk/coercion';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
-import {faCoffee, IconDefinition} from '@fortawesome/free-solid-svg-icons';
-import {faCat} from '@fortawesome/free-solid-svg-icons';
-import {faGuitar} from '@fortawesome/free-solid-svg-icons';
+import {faCat, faCoffee, faGuitar, IconDefinition} from '@fortawesome/free-solid-svg-icons';
 import {faGithub} from '@fortawesome/free-brands-svg-icons';
 import {FormBuilder, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {IPcs} from "./core/IPcs";
@@ -82,8 +79,9 @@ export class AppComponent {
   @HostListener('window:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {
     if (event.altKey && (event.shiftKey  || event.metaKey)) {
+      console.log("event key = ", event)
       switch ( event.key) {
-        case "g" :
+        case "G" :
           this.p4GuitarPageActivate = ! this.p4GuitarPageActivate
           break
       }
