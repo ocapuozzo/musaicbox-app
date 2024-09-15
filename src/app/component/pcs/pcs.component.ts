@@ -37,7 +37,7 @@ export class PcsComponent {
   // /**
   //  *  and if pcs cardinal is 3 or 4, and if chord name exists !
   //  */
-  // @Input() showChordName: boolean = false
+  // @Input() showName: boolean = false
 
   // for template attribute
   get rounded(): boolean {

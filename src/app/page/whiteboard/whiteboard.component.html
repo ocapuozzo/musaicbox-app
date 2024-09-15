@@ -31,7 +31,6 @@
         (mousedown)="doToggleSelected($event,idx)"
       ></app-pcs>
     } @else {
-      <!--component has 3 data context : element DOM, object himself and pcsDto -->
       <app-pcs
         [ngClass]="{
           'pcs-box': true,
@@ -116,9 +115,9 @@
               (cdkMenuItemTriggered)="doSetRounded(index)">
         <mat-slide-toggle [checked]="isRounded(index)">Rounded</mat-slide-toggle>
       </button>
-      <button *ngIf="canShowChordName(index)" class="contextual-menu-item" cdkMenuItem
-              (cdkMenuItemTriggered)="doToggleShowChordName(index)">
-        <mat-slide-toggle [checked]="isShowChordName(index)">ChordName</mat-slide-toggle>
+      <button class="contextual-menu-item" cdkMenuItem
+              (cdkMenuItemTriggered)="doToggleShowNames(index)">
+        <mat-slide-toggle [checked]="isShowName(index)">Show Names</mat-slide-toggle>
       </button>
       <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="align">
         Align <span>&#10148;</span>

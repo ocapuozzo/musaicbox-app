@@ -113,6 +113,7 @@ export class AppComponent {
       } else {
           try {
             let pcs = new IPcs({strPcs: pcsString})
+            //console.log(" pcs = ", pcs)
             if (pcs.cardinal > 0) {
               this.checkoutForm.reset();
               // console.log("this route = ",  this.router.url)

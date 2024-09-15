@@ -2,8 +2,13 @@ import scales2048 from '../data/2048scales.json';
 import {IPcs} from "./IPcs";
 import {INameDefLink, IScaleName} from "./IScaleName";
 
+/**
+ * scales2048 is imported (see import)
+ * see https://github.com/json-world/how-to-read-local-json-file-in-angular-application
+ */
 export class Scales2048Name {
-  // https://github.com/json-world/how-to-read-local-json-file-in-angular-application
+
+  static ROOT_NAMES = ['C', 'C♯/D♭', 'D', 'D♯/E♭', 'E', 'F', 'F♯/G♭', 'G', 'G♯/A♭', 'A', 'A♯/B♭', 'B']
 
   static getScale2048Name(pcs: IPcs): IScaleName {
     const isOfPcs = pcs.is().toString()
@@ -36,7 +41,16 @@ export class Scales2048Name {
     }
   }
 
-
+  static getLinksNameDefs(pcs : IPcs) : INameDefLink[] {
+    let res: INameDefLink[] = []
+    const links = Scales2048Name.getScale2048Name(pcs)?.sources ?? res
+    for (let i = 0; i < links.length ; i++) {
+      if (links[i].name) {
+        res.push({url: links[i].url, name: links[i].name, type: links[i].type})
+      }
+    }
+    return res
+  }
 
 
   //  @see

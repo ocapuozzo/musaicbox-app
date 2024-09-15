@@ -1,14 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  HostListener,
-  Input,
-  NgZone,
-  Output,
-  Renderer2,
-  ViewChild
-} from '@angular/core';
+import {Component, ElementRef, HostListener, NgZone, Renderer2, ViewChild} from '@angular/core';
 import {IPcs} from "../../core/IPcs";
 import {ClockDrawing} from "../../ui/ClockDrawing";
 import {ScoreNotationComponent} from "../score-notation/score-notation.component";
@@ -24,7 +14,6 @@ import {Scales2048Name} from "../../core/Scales2048Name";
 import {MatTooltip} from "@angular/material/tooltip";
 import {INameDefLink} from "../../core/IScaleName";
 import {BreakpointObserver} from "@angular/cdk/layout";
-import {timeout} from "rxjs";
 
 @Component({
   selector: 'app-ui-clock',
@@ -377,13 +366,6 @@ export class UiClockComponent {
   }
 
   getLinksNameDefs() : INameDefLink[] {
-    let res: INameDefLink[] = []
-    const links = Scales2048Name.getScale2048Name(this.pcs)?.sources ?? res
-    for (let i = 0; i < links.length ; i++) {
-      if (links[i].name) {
-        res.push({url: links[i].url, name: links[i].name, type: links[i].type})
-      }
-    }
-    return res
+    return Scales2048Name.getLinksNameDefs(this.pcs)
   }
 }

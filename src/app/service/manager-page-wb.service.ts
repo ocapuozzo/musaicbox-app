@@ -140,18 +140,24 @@ export class ManagerPageWBService {
     // avoid put outside screen
     if (somePcs.length > 10 && !circularAlign) ManagerPageWBService.deltaPositionNewPcs = 0
 
-    if (indexCenterElement) {
+    if (indexCenterElement && !isNaN(indexCenterElement)) {
       // use it for template ui
       this.pcsDtoForTemplate = this.uiPcsDtoList[indexCenterElement]
       // console.log("clock width = ", this.pcsDtoForTemplate.uiClock.width)
     }
     somePcs.forEach(pcs => {
       let pcsDto =
-        this.pcsDtoForTemplate
-          ? new UIPcsDto({...this.pcsDtoForTemplate, uiMusaic: {...this.pcsDtoForTemplate.uiMusaic}})
-          : new UIPcsDto() // {uiMusaic: new UIMusaic({rounded: !pcs.isDetached()})})
+        this.pcsDtoForTemplate !== undefined
+          ? new UIPcsDto({...this.pcsDtoForTemplate,
+            pcs:pcs,
+
+            freeText:undefined,
+            })
+          : new UIPcsDto({pcs:pcs}) // {uiMusaic: new UIMusaic({rounded: !pcs.isDetached()})})
+
+      // uiMusaic: {...this.pcsDtoForTemplate.uiMusaic},
       pcsDto.uiMusaic.rounded = pcsDto.uiMusaic.rounded || !pcs.isDetached()
-      pcsDto.pcs = pcs
+
       if (!circularAlign) {
         ManagerPageWBService.deltaPositionNewPcs += this._GAP_BETWEEN
       }
@@ -469,7 +475,7 @@ export class ManagerPageWBService {
     this.emit()
   }
 
-  doToggleShowChordName(index: number) {
+  doToggleShowName(index: number) {
     this.uiPcsDtoList = [...this.uiPcsDtoList]
     let indexes: number[]
 
@@ -485,13 +491,13 @@ export class ManagerPageWBService {
     }
 
     // work with value of element target event
-    const valueShowChordName = !this.uiPcsDtoList[index].showChordName
+    const valueShowNames = !this.uiPcsDtoList[index].showName
 
     indexes.forEach(index => {
       let pcsDto = this.uiPcsDtoList[index]
       this.uiPcsDtoList[index] = new UIPcsDto({
         ...pcsDto,
-        showChordName: valueShowChordName
+        showName: valueShowNames
       })
     })
 
@@ -795,10 +801,11 @@ export class ManagerPageWBService {
 
   updatePcsDto(indexPcsForEdit: number, pcs: IPcs) {
     this.uiPcsDtoList = [...this.uiPcsDtoList]
-    let pcsDto
-      = new UIPcsDto({...this.uiPcsDtoList[indexPcsForEdit]})
-    pcsDto.pcs = pcs
-    this.uiPcsDtoList[indexPcsForEdit] = pcsDto
+    this.uiPcsDtoList[indexPcsForEdit] = new UIPcsDto({
+      ...this.uiPcsDtoList[indexPcsForEdit],
+      pcs: pcs,
+      freeText: undefined
+    })
     this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
     this.emit()
   }
@@ -958,6 +965,7 @@ export class ManagerPageWBService {
       this.uiPcsDtoList[index] =
           new UIPcsDto({
             ...template,
+            freeText: {...this.uiPcsDtoList[index].freeText}, // keep text
             pcs:this.uiPcsDtoList[index].pcs,
             position:this.uiPcsDtoList[index].position // restore position
           })

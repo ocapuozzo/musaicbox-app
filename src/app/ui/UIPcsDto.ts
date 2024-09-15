@@ -1,4 +1,5 @@
 import {IPcs} from "../core/IPcs";
+import {Scales2048Name} from "../core/Scales2048Name";
 
 export interface ISerializedPcs {
   pcsStr: string
@@ -114,7 +115,7 @@ export class UIPcsDto {
   colorPitchOff: string = 'white'
   indexFormDrawer: number
   isSelected: boolean
-  showChordName: boolean
+  showName: boolean
   uiMusaic: UIMusaic
   uiClock: UIClock
   uiScore: UIScore
@@ -160,7 +161,7 @@ export class UIPcsDto {
       case UIPcsDto.MUSAIC :
         return this.uiMusaic.height
       case UIPcsDto.CLOCK :
-        // if (this.showChordName) return this.uiClock.height + 16
+        // if (this.showName) return this.uiClock.height + 16
         return this.uiClock.height
       case UIPcsDto.SCORE :
         return this.uiScore.height - 10 // difficult to set good height
@@ -201,7 +202,7 @@ export class UIPcsDto {
       colorPitchOff,
       indexFormDrawer,
       isSelected,
-      showChordName,
+      showName,
       uiMusaic,
       uiClock,
       uiScore
@@ -215,19 +216,13 @@ export class UIPcsDto {
       colorPitchOff?: string,
       indexFormDrawer?: number,
       isSelected?: boolean,
-      showChordName?: boolean,
+      showName?: boolean,
       uiMusaic?: UIMusaic,
       uiClock?: UIClock,
       uiScore?: UIScore
     } = {}
   ) {
 
-    this.freeText = freeText ?? {
-      text:'todo',
-      width:25,
-      height:25,
-      fontSize:"12px"
-    }
     this.serializedPcs = serializedPcs ?? {pcsStr: '', iPivot: 0}
     this.pcs = pcs ? pcs
       : this.serializedPcs.pcsStr ? new IPcs({strPcs: this.serializedPcs.pcsStr, iPivot: this.serializedPcs.iPivot})
@@ -235,12 +230,29 @@ export class UIPcsDto {
 
     this.id = this.pcs.id.toString() + new Date().valueOf().toString(10);
 
+    if (freeText === undefined) {
+      const pcsMap12 = this.pcs.unMap()
+      const pcsNames = Scales2048Name.getLinksNameDefs(pcsMap12).map(value => value.name).join("\n")
+      const infoRoot = pcsMap12.iPivot ? ` (root = ${Scales2048Name.ROOT_NAMES[pcsMap12.iPivot]}) \n` : ""
+      let infoChord = pcsMap12.getChordName()
+      if (infoChord) infoChord += "\n"
+
+      this.freeText = {
+        text: infoChord + infoRoot + pcsNames,
+        width:pcsNames.length * 7, // approximate for 12px fontSize
+        height:25,
+        fontSize:"12px"
+      }
+    } else {
+      this.freeText = freeText
+    }
+
     this.position = position ?? {x: 50, y: 50}
     this.colorPitchOn = colorPitchOn ?? 'black'
     this.colorPitchOff = colorPitchOff ?? 'white'
     this.indexFormDrawer = indexFormDrawer ?? 0
     this.isSelected = isSelected ?? false
-    this.showChordName = showChordName ?? true
+    this.showName = showName ?? true
     // construct 3 new objects (else they are shared)
     this.uiMusaic = uiMusaic ? {...uiMusaic} : new UIMusaic()
     this.uiClock = uiClock ? {...uiClock} : new UIClock()

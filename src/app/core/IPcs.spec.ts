@@ -215,7 +215,7 @@ describe('IPcs unit tests', () => {
       const complement = ipcs12pc.complement()
       expect(complement.cardinal).toEqual(0)
     } catch (e: any) {
-      expect(e.toString()).toMatch("Not accept detached pcsList ?")
+      expect(e.toString()).toMatch("Not accept detached pcs?")
     }
   });
 
@@ -256,7 +256,7 @@ describe('IPcs unit tests', () => {
     let ipcs = new IPcs({strPcs: "0, 3, 6, 9", iPivot: 0})
     expect(ipcs.cardOrbitCyclic()).toEqual(3)
     ipcs = ipcs.cyclicPrimeForm()
-    // pcsList is now attached with good orbit (for good average test)
+    // pcs is now attached with good orbit (for good average test)
     expect(ipcs.cardOrbitCyclic()).toEqual(3)
 
     ipcs = new IPcs({strPcs: "0, 4, 8", iPivot: 0})
@@ -293,7 +293,7 @@ describe('IPcs unit tests', () => {
     expect(ipcs.cyclicPrimeForm().getMappedBinPcs()).toEqual(pcsExpected.getMappedBinPcs())
   });
 
-  it("IPcs cyclicPrimeForm from pcsList with orbit set", () => {
+  it("IPcs cyclicPrimeForm from pcs with orbit set", () => {
     let ipcsNotPF = new IPcs({strPcs: "1, 4, 7, 10"})
     expect(ipcsNotPF.isDetached()).toBeTruthy()
     const groupAction: GroupAction = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
@@ -310,7 +310,7 @@ describe('IPcs unit tests', () => {
     const cMajDihedralPF = new IPcs({strPcs: "0, 3, 7"})
     expect(cMaj.dihedralPrimeForm().getMappedBinPcs()).toEqual(cMajDihedralPF.getMappedBinPcs())
 
-    // test when pcsList have already good orbit
+    // test when pcs have already good orbit
     const ipcs2 = cMaj.dihedralPrimeForm()
     expect(ipcs2.getMappedBinPcs()).toEqual(ipcs2.translation(2).dihedralPrimeForm().getMappedBinPcs())
   })
@@ -322,7 +322,7 @@ describe('IPcs unit tests', () => {
     expect(ipcs.getMappedBinPcs()).toEqual([1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0])
     expect(ipcs.getMappedBinPcs()).toEqual(cMaj.affinePrimeForm().getMappedBinPcs())
 
-    // test when pcsList have already good orbit
+    // test when pcs have already good orbit
     const ipcs2 = cMaj.affinePrimeForm()
     expect(ipcs2.getMappedBinPcs()).toEqual(ipcs2.translation(2).affinePrimeForm().getMappedBinPcs())
   })
@@ -680,7 +680,7 @@ describe('IPcs unit tests', () => {
     expect(otherPics.cardinal).toEqual(4)
     expect(otherPics.abinPcs).toEqual([1, 0, 1, 0, 1, 0, 1])
 
-    // verify that getMappedBinPcs of mapped pcsList (n=7) is equals to getMappedBinPcs of none mapped pcsList (n=12)
+    // verify that getMappedBinPcs of mapped pcs (n=7) is equals to getMappedBinPcs of none mapped pcs (n=12)
     let binPcs = new IPcs(
       {strPcs: '[0, 4, 7, 11]', n: 12}).getMappedBinPcs()
     expect(otherPics.getMappedBinPcs()).toEqual(binPcs)
@@ -748,12 +748,17 @@ describe('IPcs unit tests', () => {
   })
 
 
-  it("unMap a pcsList not mapped", () => {
+  it("unMap a pcs not mapped", () => {
     const ipcsDminor = new IPcs({
       strPcs: "[2, 5, 9]", // D minor
       n: 12,
     })
     expect(ipcsDminor.unMap()).toEqual(ipcsDminor)
+
+    const ipcsCMaj = new IPcs({strPcs: "[0, 4, 7]" })
+    expect(ipcsCMaj.unMap().pid()).toEqual(ipcsCMaj.pid())
+
+    expect(ipcsCMaj.unMap().getChordName()).toEqual("CMaj")
   })
 
 
@@ -778,7 +783,7 @@ describe('IPcs unit tests', () => {
       strPcs: "[0, 2, 4]", // first 3-chord
       n: 7,
       nMapping: 12,
-      templateMappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // pcsList mapped into [0,4,7] {C E G}
+      templateMappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // pcs mapped into [0,4,7] {C E G}
     })
     expect(pcsDiatMajMapped.indexMappedToIndexInner(0)).toEqual(0)
     expect(pcsDiatMajMapped.indexMappedToIndexInner(2)).toEqual(1)
@@ -806,7 +811,7 @@ describe('IPcs unit tests', () => {
     expect(ipcsEmpty.forteNum()).toContain('5-4');
   });
 
-  it("Forte bad pcsList", () => {
+  it("Forte bad pcs", () => {
     const ipcsEmpty = new IPcs({strPcs: '[0,1,2,3,6]', n: 7})
     // n != 12
     expect(ipcsEmpty.forteNum()).toEqual('');
@@ -815,7 +820,7 @@ describe('IPcs unit tests', () => {
 
   it("Forte inversions are marked 8-4B", () => {
     let ipcs = new IPcs({strPcs: '[0,1,3,4,5,6,7,8]'})
-    // pass by pcsList.dihedralPrimeForm().pcsStr
+    // pass by pcs.dihedralPrimeForm().pcsStr
     expect(ipcs.forteNum()).toEqual('8-4');
   });
 
@@ -836,7 +841,7 @@ describe('IPcs unit tests', () => {
       strPcs: "[0, 2, 4]", // first 3-chord {C E G}
       n: 7,
       nMapping: 12,
-      templateMappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // pcsList mapped into [0,4,7]
+      templateMappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // pcs mapped into [0,4,7]
     })
     expect(pcsDiatMajMapped.getMappedPcsStr()).toEqual('[0,4,7]')
     expect(pcsDiatMajMapped.is()).toEqual([4, 3, 5]);

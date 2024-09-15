@@ -1,18 +1,13 @@
 import {
   CdkContextMenuTrigger,
   CdkMenu,
-  CdkMenuGroup, CdkMenuItem,
+  CdkMenuGroup,
+  CdkMenuItem,
   CdkMenuItemCheckbox,
   CdkMenuItemRadio,
   CdkMenuTrigger
 } from "@angular/cdk/menu";
-import {
-  AfterViewInit,
-  Component, ElementRef, HostListener,
-  OnInit,
-  Renderer2,
-  ViewChild
-} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {CdkDrag, CdkDragHandle} from "@angular/cdk/drag-drop";
 import {ClockComponent} from "../../component/clock/clock.component";
 import {MusaicComponent} from "../../component/musaic/musaic.component";
@@ -22,9 +17,10 @@ import {MatIcon} from "@angular/material/icon";
 import {KeyValuePipe, NgClass, NgForOf, NgIf, NgStyle, NgTemplateOutlet} from "@angular/common";
 import {
   FinalElementMove,
-  ManagerPageWBService,
   LiteralPrimeForms,
-  TPrimeForm, TZoomDirection
+  ManagerPageWBService,
+  TPrimeForm,
+  TZoomDirection
 } from "../../service/manager-page-wb.service";
 import {UIPcsDto} from "../../ui/UIPcsDto";
 import {PcsComponent} from "../../component/pcs/pcs.component";
@@ -624,17 +620,18 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   ///// End persistence logic zone
 
   canShowChordName(index: number) {
-    return this.pcsDtoList[index].indexFormDrawer === 1
+    return this.pcsDtoList[index].showName
+    /*return this.pcsDtoList[index].indexFormDrawer === 1
       && [3, 4].includes(this.pcsDtoList[index].pcs.cardinal)
-      && this.pcsDtoList[index].pcs.getChordName()
+      && this.pcsDtoList[index].pcs.getChordName()*/
   }
 
-  doToggleShowChordName(index: number) {
-    this.managerPageWBService.doToggleShowChordName(index)
+  doToggleShowNames(index: number) {
+    this.managerPageWBService.doToggleShowName(index)
   }
 
-  isShowChordName(index: number) {
-    return this.pcsDtoList[index].showChordName
+  isShowName(index: number) {
+    return this.pcsDtoList[index].showName
   }
 
   doDuplicateInAllViews(index: number) {

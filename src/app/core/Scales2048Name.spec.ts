@@ -5,7 +5,7 @@ import {IPcs} from "./IPcs";
 import {EightyEight} from "../utils/EightyEight";
 import {GroupAction} from "./GroupAction";
 import {Group} from "./Group";
-import {INameDefLink, IScaleName} from "./IScaleName";
+import {IScaleName} from "./IScaleName";
 // import {Ianring} from "../data/ianringScaleNames";
 
 describe('test getFirstScaleName from 2048pcs.json', () => {
@@ -85,6 +85,8 @@ describe('test getFirstScaleName from 2048pcs.json', () => {
     expect(scaleName).toEqual('Dolitonic')
 
   })
+
+  // TODO : Unit Test for Scales2048Name.getLinksNameDefs()
 
 
   // it("convert to new interface with INameDefLink", () => {
