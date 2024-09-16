@@ -1,5 +1,4 @@
 import {IPcs} from "../core/IPcs";
-import {Scales2048Name} from "../core/Scales2048Name";
 
 export interface ISerializedPcs {
   pcsStr: string
@@ -157,19 +156,25 @@ export class UIPcsDto {
   }
 
   get height() {
+    let h : number
     switch (this.indexFormDrawer) {
       case UIPcsDto.MUSAIC :
-        return this.uiMusaic.height
+        h = this.uiMusaic.height
+        break
       case UIPcsDto.CLOCK :
         // if (this.showName) return this.uiClock.height + 16
-        return this.uiClock.height
+        h = this.uiClock.height
+        break
       case UIPcsDto.SCORE :
-        return this.uiScore.height - 10 // difficult to set good height
+        h = this.uiScore.height - 10 // difficult to set good height
+        break
       case UIPcsDto.FREE_TEXT :
-        return this.freeText.height
+        h = this.freeText.height
+        break
       default :
-        return this.uiMusaic.height
+        h =  this.uiMusaic.height
     }
+    return h
   }
 
   set height(h) {
@@ -234,13 +239,10 @@ export class UIPcsDto {
 
     if (freeText === undefined) {
       const pcsMap12 = this.pcs.unMap()
-      const pcsNames = Scales2048Name.getLinksNameDefs(pcsMap12).map(value => value.name).join("\n")
-
-      const names = pcsMap12.getNames()
       this.freeText = {
-        text: names,
-        width:pcsNames.length * 7, // approximate for 12px fontSize
-        height: names.split("\n").length*(12+10), // idem
+        text: pcsMap12.getPcsStr(),
+        width: pcsMap12.cardinal * 12,
+        height: 22, // approximate 12 + 10//  names.split("\n").length*(12+10), // idem
         fontSize:"12px"
       }
     } else {

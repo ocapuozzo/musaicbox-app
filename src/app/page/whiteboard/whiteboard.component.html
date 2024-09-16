@@ -99,6 +99,12 @@
               [cdkMenuTriggerFor]="facets">
         Musaic Facets <span>&#10148;</span>
       </button>
+      <button class="contextual-menu-item" [cdkMenuTriggerData]="{index: index}" cdkMenuItem
+              [cdkMenuTriggerFor]="menuOrbits">
+        Orbits <span>&#10148;</span>
+      </button>
+
+
       <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="neighbors">
         Neighbors <span>&#10148;</span>
       </button>
@@ -359,6 +365,16 @@
 
   </div>
 </ng-template>
+
+
+<ng-template #menuOrbits matMenuContent let-index="index" let-name="name" >
+  <div class="contextual-menu" cdkMenu>
+    <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doMakeCyclicOrbit(index)">
+      Cyclic orbit
+    </button>
+  </div>
+</ng-template>
+
 
 {{ ''// see doOpenLocalFile()   }}
 <div style="display:none; flex-direction: row;">

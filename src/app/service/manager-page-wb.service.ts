@@ -111,7 +111,7 @@ export class ManagerPageWBService {
       new UIPcsDto({pcs: pcs2, indexFormDrawer: 1, position: {x: 110, y: 10}, isSelected: true}),
       new UIPcsDto({pcs: pcs3, indexFormDrawer: 2, position: {x: 220, y: 10}, isSelected: true}),
       new UIPcsDto({
-        freeText: {text: ' oh !', width: 88, height: 25, fontSize: "12px"},
+        freeText: {text: pcs4.getPcsStr(), width: 88, height: 25, fontSize: "12px"},
         pcs: pcs4,
         indexFormDrawer: 42,
         position: {x: 400, y: 30},
@@ -993,9 +993,13 @@ export class ManagerPageWBService {
 
     let pcsDto = new UIPcsDto({...this.uiPcsDtoList[data.index]})
 
+    if (!data.text) {
+      data.text = pcsDto.pcs.getPcsStr()
+    }
+
     pcsDto.freeText =  {
       ...pcsDto.freeText,
-      ...data, // TODO if text is empty
+      ...data,
       height:data.text.split("\n").length*(parseInt(data.fontSize)+10)
     } // new object (keep width value)
 
@@ -1006,4 +1010,14 @@ export class ManagerPageWBService {
   }
 
 
+  doMakeCyclicOrbit(index: number) {
+    const pcs = this.uiPcsDtoList[index].pcs
+    let pcsCyclicList = [pcs]
+    // no get from orbit cyclic because no sorted, and pivot no logic
+    for (let i = 1; i < pcs.n ; i++) {
+      pcsCyclicList.push(pcs.translation(i))
+    }
+    this.pcsDtoForTemplate = this.uiPcsDtoList[index]
+    this.addPcs({somePcs: pcsCyclicList, circularAlign: true, indexCenterElement: index})
+  }
 }

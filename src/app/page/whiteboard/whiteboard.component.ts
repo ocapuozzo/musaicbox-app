@@ -233,7 +233,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   }
 
   onMouseDown(e: any) {
-    console.log("onMouseDown this.isDown = ", this.isDown)
+    // console.log("onMouseDown this.isDown = ", this.isDown)
     // this.isDown = true;
     e.preventDefault()
     // console.log("this.isDown =", this.isDown," this.isContextMenuOpened = ", this.isContextMenuOpened,
@@ -276,8 +276,9 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     // User can move elements by mouse action ONLY if click on a component with class 'e-selected-marker'
     let selectedElements =
       Array.from(document.getElementsByClassName('e-selected-marker'))
+
     const clickInSelectedElement =
-      selectedElements.some(e => pointClick.isIncludeIn(e.getBoundingClientRect()))
+      selectedElements.some(el => pointClick.isIncludeIn(el.getBoundingClientRect()))
 
     if (!clickInSelectedElement) {
       // let allPcsElements = Array.from(document.getElementsByTagName('app-pcs'))
@@ -827,4 +828,11 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   }
 
   protected readonly UIPcsDto = UIPcsDto;
+
+  doMakeCyclicOrbit(index: number) {
+    if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
+      throw new Error(`Invalid index : $ {index}`)
+    }
+    this.managerPageWBService.doMakeCyclicOrbit(index)
+  }
 }

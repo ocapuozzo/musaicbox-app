@@ -34,6 +34,7 @@
   max-width: 100%;
   max-height: 100%;
 
+  /* fix by preventDefault in mouseDown and move event handler */
   /*https://stackoverflow.com/questions/5429827/how-can-i-prevent-text-element-selection-with-cursor-drag */
   /*-webkit-touch-callout: none;*/
   /*-webkit-user-select: none;*/

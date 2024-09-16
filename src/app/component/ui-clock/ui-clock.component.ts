@@ -364,7 +364,6 @@ export class UiClockComponent {
   getLinkName() {
     return Scales2048Name.getScale2048Name(this.pcs).sources[0]
   }
-
   getLinksNameDefs() : INameDefLink[] {
     return Scales2048Name.getLinksNameDefs(this.pcs)
   }
