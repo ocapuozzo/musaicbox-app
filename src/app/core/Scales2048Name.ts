@@ -15,6 +15,16 @@ export class Scales2048Name {
     return scales2048.find((row: IScaleName) => row.is == isOfPcs)
   }
 
+  static getDefaultFreeText(pcs: IPcs) : string {
+    pcs = pcs.unMap()
+    const pcsNames = Scales2048Name.getLinksNameDefs(pcs).map(value => value.name).join("\n")
+    const infoRoot = pcs.iPivot ? ` (root = ${Scales2048Name.ROOT_NAMES[pcs.iPivot]}) \n` : ""
+    let infoChord = pcs.getChordName()
+    if (infoChord) infoChord += "\n"
+
+    return infoChord + infoRoot + pcsNames
+  }
+
 
   /**
    * Get first scale name or degree of close one

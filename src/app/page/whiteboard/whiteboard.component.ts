@@ -234,7 +234,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
 
   onMouseDown(e: any) {
     console.log("onMouseDown this.isDown = ", this.isDown)
-    this.isDown = true;
+    // this.isDown = true;
     e.preventDefault()
     // console.log("this.isDown =", this.isDown," this.isContextMenuOpened = ", this.isContextMenuOpened,
     //   " e.button = ", e.button, " e.ctrlKey = ", e.ctrlKey, )
@@ -271,6 +271,8 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
       return
     }
 
+    this.isDown = true;
+
     // User can move elements by mouse action ONLY if click on a component with class 'e-selected-marker'
     let selectedElements =
       Array.from(document.getElementsByClassName('e-selected-marker'))
@@ -304,10 +306,6 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
 
   onMouseMove(e: any) {
     e.preventDefault()
-    console.log("on move")
-    console.log("this.isContextMenuOpened = ", this.isContextMenuOpened)
-    console.log("this.isRectangleSelecting = ", this.isRectangleSelecting)
-    console.log("this.isDown = ", this.isDown)
 
     if (this.isContextMenuOpened) {
       // do context menu modal
@@ -319,7 +317,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     }
 
     if (this.isDown) {
-      // e.preventDefault()
+
       e.stopPropagation()
       // final set position will set by onMouseUp event
       if (this.initialPointOfSelectedElements.length > 0) {

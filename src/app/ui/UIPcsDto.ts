@@ -235,14 +235,12 @@ export class UIPcsDto {
     if (freeText === undefined) {
       const pcsMap12 = this.pcs.unMap()
       const pcsNames = Scales2048Name.getLinksNameDefs(pcsMap12).map(value => value.name).join("\n")
-      const infoRoot = pcsMap12.iPivot ? ` (root = ${Scales2048Name.ROOT_NAMES[pcsMap12.iPivot]}) \n` : ""
-      let infoChord = pcsMap12.getChordName()
-      if (infoChord) infoChord += "\n"
 
+      const names = pcsMap12.getNames()
       this.freeText = {
-        text: infoChord + infoRoot + pcsNames,
+        text: names,
         width:pcsNames.length * 7, // approximate for 12px fontSize
-        height:25,
+        height: names.split("\n").length*(12+10), // idem
         fontSize:"12px"
       }
     } else {

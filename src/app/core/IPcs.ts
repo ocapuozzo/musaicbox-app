@@ -1179,8 +1179,26 @@ export class IPcs {
     const pcsNames = Scales2048Name.getLinksNameDefs(pcsMap12).map(value => value.name).join("\n")
     const infoRoot = pcsMap12.iPivot ? ` (root = ${Scales2048Name.ROOT_NAMES[pcsMap12.iPivot]}) \n` : ""
     let infoChord = pcsMap12.getChordName()
+    let othersChordNames = pcsMap12.getOthersChordNames()
     if (infoChord) infoChord += "\n"
-    return infoChord + infoRoot + pcsNames
+    if (othersChordNames) othersChordNames = '(' + othersChordNames + ")\n"
+
+    return infoChord + infoRoot + othersChordNames + pcsNames
+  }
+
+  /**
+   * Get some others mode name, if exist
+   */
+  getOthersChordNames(): string {
+    const pcsMap12 = this.unMap()
+    let res = ''
+    let pcs = pcsMap12.modulation(IPcs.NEXT_DEGREE)
+    for (let i = 1; i < this.cardinal-1; i++) {
+      const chordName = pcs.getChordName()
+      if (chordName) res += chordName + "\n"
+      pcs = pcsMap12.modulation(IPcs.NEXT_DEGREE)
+    }
+    return res.trim()
   }
 
   getFirstScaleNameOrDerived() {

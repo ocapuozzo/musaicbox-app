@@ -37,7 +37,8 @@ The person who abstracts, reduces reality, or what he perceives as reality, into
 
 === Orbit
 Orbit is, finally, another term to describe an abstraction.
-
+Elements of orbit share same characteristics of orbit.
+Example : Orbit cyclic of major chord as `{ C, E, G }` is composed of 12 elements (`{ C, E, G }, { C#, E#, G# }, ..., { B, D#, F# }`)
 
 == Representation
 

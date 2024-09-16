@@ -867,6 +867,7 @@ export class ManagerPageWBService {
 
   doPcsMusaicFacets(facet: string, index: number, distinct: boolean = false) {
     const pcsFacets = this.doGetPcsFacetsFromPcs(this.uiPcsDtoList[index].pcs, facet, distinct)
+    this.pcsDtoForTemplate = this.uiPcsDtoList[index]
     this.addPcs({somePcs: pcsFacets, circularAlign: true, indexCenterElement: index})
   }
 
@@ -994,7 +995,7 @@ export class ManagerPageWBService {
 
     pcsDto.freeText =  {
       ...pcsDto.freeText,
-      ...data,
+      ...data, // TODO if text is empty
       height:data.text.split("\n").length*(parseInt(data.fontSize)+10)
     } // new object (keep width value)
 
@@ -1003,4 +1004,6 @@ export class ManagerPageWBService {
     this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
     this.emit()
   }
+
+
 }
