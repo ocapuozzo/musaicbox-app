@@ -35,11 +35,11 @@
   max-height: 100%;
 
   /*https://stackoverflow.com/questions/5429827/how-can-i-prevent-text-element-selection-with-cursor-drag */
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+  /*-webkit-touch-callout: none;*/
+  /*-webkit-user-select: none;*/
+  /*-moz-user-select: none;*/
+  /*-ms-user-select: none;*/
+  /*user-select: none;*/
 }
 
 /*.app-clock {*/

@@ -262,7 +262,7 @@ export class ManagerPageWBService {
           if (pcsDto.pcs.cardinal >= 4) {
             pcsDto.height = (preferredSize / 2 >= 88) ? (preferredSize / 2) : preferredSize / 1.5
           } else {
-            pcsDto.height = preferredSize
+            pcsDto.height = preferredSize > 100 ? preferredSize / 1.5 : preferredSize
           }
         } else {
           pcsDto.height = preferredSize
@@ -995,7 +995,7 @@ export class ManagerPageWBService {
     pcsDto.freeText =  {
       ...pcsDto.freeText,
       ...data,
-      height:data.text.split("\n").length*parseInt(data.fontSize)
+      height:data.text.split("\n").length*(parseInt(data.fontSize)+10)
     } // new object (keep width value)
 
     this.uiPcsDtoList[data.index] = pcsDto

@@ -184,6 +184,8 @@ export class UIPcsDto {
         this.uiScore.height = h
         break
       case UIPcsDto.FREE_TEXT :
+        // this.freeText.height = h
+        this.freeText.height = this.freeText.text.split("\n").length*(parseInt(this.freeText.fontSize)+10)
         // bypass, always computed (see doUpdateFreeText() of manager-page-wb-service )
         //
         break

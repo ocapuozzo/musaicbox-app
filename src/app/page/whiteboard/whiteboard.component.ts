@@ -190,6 +190,19 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     }
   }
 
+  // when mouse is out page
+  // https://stackoverflow.com/questions/5429827/how-can-i-prevent-text-element-selection-with-cursor-drag
+  @HostListener('window:touchend', ['$event'])
+  touchEnd(e: Event) {
+    this.onMouseUp(e)
+  }
+
+  @HostListener('window:mouseup', ['$event'])
+  windowMouseUp(e: Event) {
+    this.onMouseUp(e)
+  }
+
+
   // TODO test this (without render2)
 
   @HostListener('window:touchmove', ['$event'])
@@ -220,6 +233,9 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   }
 
   onMouseDown(e: any) {
+    console.log("onMouseDown this.isDown = ", this.isDown)
+    this.isDown = true;
+    e.preventDefault()
     // console.log("this.isDown =", this.isDown," this.isContextMenuOpened = ", this.isContextMenuOpened,
     //   " e.button = ", e.button, " e.ctrlKey = ", e.ctrlKey, )
     // console.log("MouseEvent : ", e)
@@ -269,6 +285,8 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
         this.initPositionRectSelector = pointClick
         return
       // }
+    } else {
+      this.isRectangleSelecting = false
     }
 
     // now we can initialize data for changeAreaRect component
@@ -285,6 +303,12 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   }
 
   onMouseMove(e: any) {
+    e.preventDefault()
+    console.log("on move")
+    console.log("this.isContextMenuOpened = ", this.isContextMenuOpened)
+    console.log("this.isRectangleSelecting = ", this.isRectangleSelecting)
+    console.log("this.isDown = ", this.isDown)
+
     if (this.isContextMenuOpened) {
       // do context menu modal
       return
@@ -295,7 +319,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     }
 
     if (this.isDown) {
-      e.preventDefault()
+      // e.preventDefault()
       e.stopPropagation()
       // final set position will set by onMouseUp event
       if (this.initialPointOfSelectedElements.length > 0) {
@@ -312,12 +336,14 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   onMouseUp(e: any) {
     if (this.isRectangleSelecting) {
       this.isRectangleSelecting = false
+      this.isDown = false;
       return
     }
     if (!this.isDown) {
       return
     }
     this.isDown = false;
+
     if (e.button > 1) {
       // context menu handles this
       return
