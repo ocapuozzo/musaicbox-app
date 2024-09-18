@@ -15,17 +15,19 @@ endif::[]
 ifndef::backend-pdf[]
 :source-highlighter: highlight.js
 endif::[]
-:imagesdir: ../assets/images
+:imagesdir: ./assets/images
 
-This document presents the main concepts illustrated on the 88musaics.org site, plus others (concept of modes and scales). The implementation chosen for this application are detailed, and certain concepts from Musial Set Theory are discussed.
+This document presents the main concepts illustrated on the https://88musaics.org[88musaics.org] site, plus others (modes and scales). The implementation chosen for this application are detailed, and certain concepts from Musial Set Theory are discussed.
 
 == Introduction
 
+Aim of this study is to highlight relationship (morphism) between logic spatial and sound structures.
+
 Timbre, expression, duration, function... Everything that makes music touch us is not part of this study.
 
-Nous cherchons simplement ici à identifier des liens potentiels entre structures musicales élémentaires (PCS)
-
 === For which audience ?
+
+Artists are looking for new "muses", based on a neutral and scientific approachfootnote:[provided that they accept the postulate of the decomposition of an octave into 12 equal parts.].
 
 == PCS
 
@@ -36,11 +38,27 @@ Abstraction is a description of a reality.
 The person who abstracts, reduces reality, or what he perceives as reality, into something smaller.
 
 === Orbit
-Orbit is, finally, another term to describe an abstraction.
+Orbit is, finally, another term to describe an abstraction class.
 Elements of orbit share same characteristics of orbit.
-Example : Orbit cyclic of major chord as `{ C, E, G }` is composed of 12 elements (`{ C, E, G }, { C#, E#, G# }, ..., { B, D#, F# }`)
+Example : Orbit cyclic of major chord `{ C,E,G }` characterised by interval structure  `IS:(4,3,5)`  is composed of 12 elements (`{ C, E, G }, { C#, E#, G# }, ..., { B, D#, F# }`)
+
+[.float-group]
+--
+[.left]
+.Orbit Cyclic in score view
+image::maj-orbit-score2.png["Orbit cyclic" float="left",align="center"]
+--
+
+Below, same, with clock representation.
+[.float-group]
+--
+[.left]
+.Orbit Cyclic in clock view
+image::maj-orbit-clock2.png["Orbit cyclic" float="left",align="center"]
+--
 
 == Representation
+dd ddfd
 
 === Set
 === Vector

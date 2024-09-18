@@ -657,10 +657,23 @@ export class IPcs {
    * Get Forte Num of this or empty string
    */
   forteNum(): string {
-    if (this.n != 12) return ""
+    if (this.n !== 12) return ""
+
+    let forteNum = Forte.forteNum(this);
+
+    if (forteNum) {
+      return forteNum;
+    }
+    // not found ? get with dihedralPrimeForm
+    return Forte.forteNum(this.dihedralPrimeForm());
+  }
+/*
+
+  _forteNum(): string {
+    if (this.n !== 12) return ""
 
     let cpf = this.cyclicPrimeForm();
-    let fortenum = Forte.forte(cpf.getPcsStr());
+    let fortenum = Forte.forteNum(cpf.getPcsStr());
 
     if (fortenum) {
       return fortenum;
@@ -668,8 +681,10 @@ export class IPcs {
     // not found ? get with dihedralPrimeForm
     let dpcsf = cpf.dihedralPrimeForm();
 
-    return Forte.forte(dpcsf.getPcsStr());
+    return Forte.forteNum(dpcsf.getPcsStr());
   }
+*/
+
 
   /**
    * Change iPivot
