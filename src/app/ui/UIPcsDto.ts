@@ -254,7 +254,7 @@ export class UIPcsDto {
     this.colorPitchOff = colorPitchOff ?? 'white'
     this.indexFormDrawer = indexFormDrawer ?? 0
     this.isSelected = isSelected ?? false
-    this.showName = showName ?? true
+    this.showName = showName ?? false
     // construct 3 new objects (else they are shared)
     this.uiMusaic = uiMusaic ? {...uiMusaic} : new UIMusaic()
     this.uiClock = uiClock ? {...uiClock} : new UIClock()
