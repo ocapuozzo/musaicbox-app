@@ -7,7 +7,7 @@
 import {IPcs} from "./IPcs";
 
 /**
- * key : pcs in Cyclic Prime Form (string format)  (interval vector cannot be a key, because multi values )
+ * key : pcs in Cyclic Prime Form (array string format)  (interval vector cannot be a key, because multi values )
  * value : Forte number
  */
 const forteMap = new Map<string,string>([
