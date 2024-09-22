@@ -1,5 +1,7 @@
 import {Forte} from "./Forte";
 import {IPcs} from "./IPcs";
+import {GroupAction} from "./GroupAction";
+import {Group} from "./Group";
 
 /**
  * @link https://en.wikipedia.org/wiki/List_of_set_classes
@@ -25,5 +27,19 @@ describe('Forte num', () => {
   it("Aeolian Harmonic IV", () => {
     expect(Forte.forteNum(new IPcs({strPcs:'0,3,4,6,7,9,11'}))).toEqual('7-32');
   });
+
+  it("all 352 PCS has Forte Number", () => {
+    const cyclicGroupPcs = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
+    const orbits352PcsRepr = cyclicGroupPcs.orbits.map(orbit => orbit.getPcsMin())
+
+    orbits352PcsRepr.forEach(pcs  => {
+      if (!pcs.forteNum()) {
+        console.log(`ERROR : Pcs without Forte Number : ${pcs.getPcsStr()}`)
+      }
+      expect(pcs.forteNum()).not.toEqual('')
+    })
+
+  });
+
 
 })
