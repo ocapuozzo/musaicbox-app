@@ -8,9 +8,8 @@
     (mouseup)="doDownZIndexRectangleSelector()"
   ></app-rect-selector>
 
-  <!-- pcs has 3 data context : element DOM, object himself and pcsDto -->
+  <!-- careful, pcs has 3 data context : element DOM, object himself and pcsDto -->
   @for (pcsDto of pcsDtoList; track pcsDto; let idx = $index) {
-    @if (pcsDto.indexFormDrawer === UIPcsDto.FREE_TEXT) {
       <app-pcs
         [ngClass]="{
           'pcs-box': true,
@@ -22,41 +21,19 @@
         [style.width.px]="pcsDto.width"
         [style.top.px]="pcsDto.position.y"
         [style.left.px]="pcsDto.position.x"
-        [cdkContextMenuTriggerFor]="menuFreeText"
+        [cdkContextMenuTriggerFor]="pcsDto.indexFormDrawer === UIPcsDto.FREE_TEXT ? menuPcsFreeText : menuPcs"
         [cdkContextMenuTriggerData]="{
             name: pcsDto.pcs.getPcsStr(),
             index:idx,
             indexFormDrawer: pcsDto.indexFormDrawer
             }"
-        (mousedown)="doToggleSelected($event,idx)"
-      ></app-pcs>
-    } @else {
-      <app-pcs
-        [ngClass]="{
-          'pcs-box': true,
-          'e-selected-marker': pcsDto.isSelected
-        }"
-        [attr.data-index-pcsdtos]=idx
-        [style.height.px]="pcsDto.height"
-        [style.width.px]="pcsDto.width"
-        [style.top.px]="pcsDto.position.y"
-        [style.left.px]="pcsDto.position.x"
-        [cdkContextMenuTriggerFor]="menu"
-        [cdkContextMenuTriggerData]="{
-            name: pcsDto.pcs.getPcsStr(),
-            index:idx,
-            indexFormDrawer: pcsDto.indexFormDrawer
-            }"
-        [pcsDto]="pcsDto"
         (cdkContextMenuOpened)="doContextMenuOpen()"
         (cdkContextMenuClosed)="doContextMenuClose()"
         (mousedown)="doToggleSelected($event,idx)"
-      >
-      </app-pcs>
-    }
+      ></app-pcs>
   }
   <!--  (menuOpened)="contextMenuOpened()"-->
-  <ng-template #menu matMenuContent let-index="index" let-name="name" let-indexFormDrawer="indexFormDrawer">
+  <ng-template #menuPcs matMenuContent let-index="index" let-name="name" let-indexFormDrawer="indexFormDrawer">
     <div class="contextual-menu" cdkMenu>
       <span class="text-center">Do with {{ name }}</span>
       <hr/>
@@ -104,7 +81,6 @@
         Orbits <span>&#10148;</span>
       </button>
 
-
       <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="neighbors">
         Neighbors <span>&#10148;</span>
       </button>
@@ -143,22 +119,6 @@
       </div>
     </div>
   </ng-template>
-
-  <!--  <ng-template #create let-index="index">-->
-  <!--    <div class="contextual-menu" cdkMenu>-->
-  <!--      <button class="contextual-menu-item" disabled cdkMenuItem>ModalPrimeForm</button>-->
-  <!--      <hr/>-->
-  <!--      <button class="contextual-menu-item" disabled cdkMenuItem>Pcs CyclicPF in orbit</button>-->
-  <!--      <button class="contextual-menu-item" disabled cdkMenuItem>Simple Pcs in Cyclic orbit</button>-->
-  <!--      <button class="contextual-menu-item" disabled cdkMenuItem>Other</button>-->
-  <!--    </div>-->
-  <!--  </ng-template>-->
-
-  <!--  <ng-template #selection let-index="index">-->
-  <!--    <div class="contextual-menu"   cdkMenu>-->
-  <!--      <button class="contextual-menu-item" disabled cdkMenuItem >nop</button>-->
-  <!--    </div>-->
-  <!--  </ng-template>-->
 
   <ng-template #align>
     <div class="contextual-menu" cdkMenu>
@@ -329,7 +289,7 @@
   </ng-template>
 </div>
 
-<ng-template #menuFreeText matMenuContent let-index="index" let-name="name"  let-indexFormDrawer="indexFormDrawer">
+<ng-template #menuPcsFreeText matMenuContent let-index="index" let-name="name" let-indexFormDrawer="indexFormDrawer">
   <div class="contextual-menu" cdkMenu>
     <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doEditFreeText(index)">
       Edit...

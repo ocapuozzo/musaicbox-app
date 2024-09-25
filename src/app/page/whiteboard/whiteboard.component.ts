@@ -119,7 +119,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   private originPositionOfClickForMoving: Point;
 
   /**
-   * set to true when context menu is open, false else
+   * set to true when context menuPcs is open, false else
    * @private
    */
   private isContextMenuOpened: boolean = false
