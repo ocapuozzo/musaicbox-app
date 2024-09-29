@@ -17,17 +17,70 @@ ifndef::backend-pdf[]
 endif::[]
 :imagesdir: ./assets/images
 
-This document presents the main concepts illustrated on the https://88musaics.org[88musaics.org] site, plus others (modes and scales). The implementation chosen for this application are detailed, and certain concepts from Musial Set Theory are discussed.
+This project is a POC for main concepts illustrated on the https://88musaics.org[88musaics.org] site, plus others (modes, scales, chords...). The implementation chosen for this application are detailed, and certain concepts from Musial Set Theory are discussed.
 
 == Introduction
 
-Aim of this study is to highlight relationship (morphism) between logic spatial and sound structures.
+Aim of this software is to highlight relationship (morphism) between logic spatial and sound structures.
 
-Timbre, expression, duration, function... Everything that makes music touch us is not part of this study.
+The only sound will be product are there generate by user on his instruments :)
 
 === For which audience ?
 
-Artists are looking for new "muses", based on a neutral and scientific approachfootnote:[provided that they accept the postulate of the decomposition of an octave into 12 equal parts.].
+Musicians are looking for new "muses", based on a neutral and scientific approach.footnote:[provided that they accept the postulate of the decomposition of an octave into 12 equal parts.]
+
+=== Use Case
+
+4 entries (4 pages)
+
+* PCS page (with Undo/Redo.footnote:[redo:return to future if past is not updated])
+====
+Useful form one PCS, explore modes, possible chords and other PCS in geometrical relationship, but not else.
+====
+
+* ZnExplorer page
+====
+Explore orbits resulting of various group action.
+
+A good illustration of mathematics concepts.
+
+Example : Get Limited Transposition PCS in Cyclic Prime Form : Select only `M1` operation and click on button with label :  _Show orbits (352) grouped by Stabilizers signature_. On 352 PCS representatives, 335 are 12 uniques transposed, 17 are less than 12 (called PCS in Limited Transposition)
+[.float-group]
+--
+[.left]
+.17 PCS LT in Cyclic Prime Form
+image::17PCS-LT.png["17 PCS LT in Cyclic Prime Form" float="left",align="center"]
+--
+
+====
+
+* 88 musaics page
+====
+
+Explore musaics shearing same meta-stabilizers.footnote:[A stabiliser is a transformation operation which conserve structure] (meta for "up to transposition")
+
+Example : There is 6 musaics which are invariant by complement operation (a stabilizer) : Select only `CM1` operation (C for _complement_ M1 for _neutral multiplication operation_)
+
+Push selection musaics to "Whiteboard" page (right click), or explore one musaic into "PCS" page.
+
+[.float-group]
+--
+[.left]
+.Musaics invariant by Cplt pushed on Whiteboard page
+image::6MusaicsInvariantByCplt.png["6 musaics invariant by Cplt" float="left",align="center"]
+--
+
+
+====
+
+* white board page (with Undo/Redo.footnote:[redo:return to future if past is not updated] and Copy/Cut/Paste)
+====
+
+Organize PCS in various representations on 2D surface.
+
+Give to musician possibility to add text, arrange PCS (selection multiple, position, representation, zoom,...), save content page into file and restore content from local file.
+
+====
 
 == PCS
 
@@ -50,6 +103,7 @@ image::maj-orbit-score2.png["Orbit cyclic" float="left",align="center"]
 --
 
 Below, same, with clock representation.
+
 [.float-group]
 --
 [.left]
@@ -57,8 +111,10 @@ Below, same, with clock representation.
 image::maj-orbit-clock2.png["Orbit cyclic" float="left",align="center"]
 --
 
-== Representation
-dd ddfd
+
+== PCS Representation
+
+bla bla
 
 === Set
 === Vector
@@ -91,91 +147,64 @@ Reduce to 352 orbits
 
 === Musaic equivalence
 
-This is a paragraph with a *bold* word and an _italicized_ word.
-
-.Image caption
-image::image-file-name.png[I am the image alt text.]
-
-This is another paragraph.footnote:[I am footnote text and will be displayed at the bottom of the article.]
-
 == Prime Form
 
 === What Prime Form is
 === What Prime Form is not
 
-==
+
 === Modal prime form
 
+//
+// ==== Third level heading
+//
+// [#id-for-listing-block]
+// .Listing block title
+// ----
+// Content in a listing block is subject to verbatim substitutions.
+// Listing block content is commonly used to preserve code input.
+// ----
+//
+// ===== Fourth level heading
+//
+// .Table title
+// |===
+// |Column heading 1 |Column heading 2
+//
+// |Column 1, row 1
+// |Column 2, row 1
+//
+// |Column 1, row 2
+// |Column 2, row 2
+// |===
+//
+// ====== Fifth level heading
+//
+// [quote,firstname lastname,movie title]
+// ____
+// I am a block quote or a prose excerpt.
+// I am subject to normal substitutions.
+// ____
+//
+// [verse,firstname lastname,poem title and more]
+// ____
+// I am a verse block.
+//   Indents and endlines are preserved in verse blocks.
+// ____
+//
+// == First level heading
+//
+// TIP: There are five admonition labels: Tip, Note, Important, Caution and Warning.
+//
+// // I am a comment and won't be rendered.
+//
+// . ordered list item
+// .. nested ordered list item
+// . ordered list item
+//
+// The text at the end of this sentence is cross referenced to <<_third_level_heading,the third level heading>>
 
-
-.Unordered list title
-* list item 1
-** nested list item
-*** nested nested list item 1
-*** nested nested list item 2
-* list item 2
-
-This is a paragraph.
-
-.Example block title
-====
-Content in an example block is subject to normal substitutions.
-====
-
-.Sidebar title
-****
-Sidebars contain aside text and are subject to normal substitutions.
-****
-
-==== Third level heading
-
-[#id-for-listing-block]
-.Listing block title
-----
-Content in a listing block is subject to verbatim substitutions.
-Listing block content is commonly used to preserve code input.
-----
-
-===== Fourth level heading
-
-.Table title
-|===
-|Column heading 1 |Column heading 2
-
-|Column 1, row 1
-|Column 2, row 1
-
-|Column 1, row 2
-|Column 2, row 2
-|===
-
-====== Fifth level heading
-
-[quote,firstname lastname,movie title]
-____
-I am a block quote or a prose excerpt.
-I am subject to normal substitutions.
-____
-
-[verse,firstname lastname,poem title and more]
-____
-I am a verse block.
-  Indents and endlines are preserved in verse blocks.
-____
-
-== First level heading
-
-TIP: There are five admonition labels: Tip, Note, Important, Caution and Warning.
-
-// I am a comment and won't be rendered.
-
-. ordered list item
-.. nested ordered list item
-. ordered list item
-
-The text at the end of this sentence is cross referenced to <<_third_level_heading,the third level heading>>
-
-== First level heading
+== Refs
 
 This is a link to the https://docs.asciidoctor.org/home/[Asciidoctor documentation].
 This is an attribute reference {url-quickref}[that links this text to the AsciiDoc Syntax Quick Reference].

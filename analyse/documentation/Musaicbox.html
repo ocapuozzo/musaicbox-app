@@ -565,6 +565,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_introduction">Introduction</a>
 <ul class="sectlevel2">
 <li><a href="#_for_which_audience">For which audience ?</a></li>
+<li><a href="#_use_case">Use Case</a></li>
 </ul>
 </li>
 <li><a href="#_pcs">PCS</a>
@@ -573,7 +574,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_orbit">Orbit</a></li>
 </ul>
 </li>
-<li><a href="#_representation">Representation</a>
+<li><a href="#_pcs_representation">PCS Representation</a>
 <ul class="sectlevel2">
 <li><a href="#_set">Set</a></li>
 <li><a href="#_vector">Vector</a></li>
@@ -603,19 +604,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_prime_form">Prime Form</a>
 <ul class="sectlevel2">
 <li><a href="#_what_prime_form_is">What Prime Form is</a></li>
-<li><a href="#_what_prime_form_is_not">What Prime Form is not</a>
-<ul class="sectlevel3">
-<li><a href="#_third_level_heading">Third level heading</a>
-<ul class="sectlevel4">
-<li><a href="#_fourth_level_heading">Fourth level heading</a></li>
+<li><a href="#_what_prime_form_is_not">What Prime Form is not</a></li>
+<li><a href="#_modal_prime_form">Modal prime form</a></li>
 </ul>
 </li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#_first_level_heading">First level heading</a></li>
-<li><a href="#_first_level_heading_2">First level heading</a></li>
+<li><a href="#_refs">Refs</a></li>
 </ul>
 </div>
 </div>
@@ -623,7 +616,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>This document presents the main concepts illustrated on the 88musaics.org site, plus others (concept of modes and scales). The implementation chosen for this application are detailed, and certain concepts from Musial Set Theory are discussed.</p>
+<p>This project is a POC for main concepts illustrated on the <a href="https://88musaics.org">88musaics.org</a> site, plus others (modes, scales, chords&#8230;&#8203;). The implementation chosen for this application are detailed, and certain concepts from Musial Set Theory are discussed.</p>
 </div>
 </div>
 </div>
@@ -631,14 +624,113 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_introduction">Introduction</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Timbre, expression, duration, function&#8230;&#8203; Everything that makes music touch us is not part of this study.</p>
+<p>Aim of this software is to highlight relationship (morphism) between logic spatial and sound structures.</p>
 </div>
 <div class="paragraph">
-<p>Nous cherchons simplement ici à identifier des liens potentiels entre structures musicales élémentaires (PCS)</p>
+<p>The only sound will be product are there generate by user on his instruments :)</p>
 </div>
 <div class="sect2">
 <h3 id="_for_which_audience">For which audience ?</h3>
-
+<div class="paragraph">
+<p>Musicians are looking for new "muses", based on a neutral and scientific approach.<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_use_case">Use Case</h3>
+<div class="paragraph">
+<p>4 entries (4 pages)</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>PCS page (with Undo/Redo.<sup class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup>)</p>
+</li>
+</ul>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>Useful form one PCS, explore modes, possible chords and other PCS in geometrical relationship, but not else.</p>
+</div>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>ZnExplorer page</p>
+</li>
+</ul>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>Explore orbits resulting of various group action.</p>
+</div>
+<div class="paragraph">
+<p>A good illustration of mathematics concepts.</p>
+</div>
+<div class="paragraph">
+<p>Example : Get Limited Transposition PCS in Cyclic Prime Form : Select only <code>M1</code> operation and click on button with label :  <em>Show orbits (352) grouped by Stabilizers signature</em>. On 352 PCS representatives, 335 are 12 uniques transposed, 17 are less than 12 (called PCS in Limited Transposition)</p>
+</div>
+<div class="openblock float-group">
+<div class="content">
+<div class="imageblock left text-center left">
+<div class="content">
+<img src="./assets/images/17PCS-LT.png" alt="17 PCS LT in Cyclic Prime Form">
+</div>
+<div class="title">Figure 1. 17 PCS LT in Cyclic Prime Form</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>88 musaics page</p>
+</li>
+</ul>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>Explore musaics shearing same meta-stabilizers.<sup class="footnote">[<a id="_footnoteref_3" class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup> (meta for "up to transposition")</p>
+</div>
+<div class="paragraph">
+<p>Example : There is 6 musaics which are invariant by complement operation (a stabilizer) : Select only <code>CM1</code> operation (C for <em>complement</em> M1 for <em>neutral multiplication operation</em>)</p>
+</div>
+<div class="paragraph">
+<p>Push selection musaics to "Whiteboard" page (right click), or explore one musaic into "PCS" page.</p>
+</div>
+<div class="openblock float-group">
+<div class="content">
+<div class="imageblock left text-center left">
+<div class="content">
+<img src="./assets/images/6MusaicsInvariantByCplt.png" alt="6 musaics invariant by Cplt">
+</div>
+<div class="title">Figure 2. Musaics invariant by Cplt pushed on Whiteboard page</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>white board page (with Undo/Redo.<sup class="footnote">[<a id="_footnoteref_4" class="footnote" href="#_footnotedef_4" title="View footnote.">4</a>]</sup> and Copy/Cut/Paste)</p>
+</li>
+</ul>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>Organize PCS in various representations on 2D surface.</p>
+</div>
+<div class="paragraph">
+<p>Give to musician possibility to add text, arrange PCS (selection multiple, position, representation, zoom,&#8230;&#8203;), save content page into file and restore content from local file.</p>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -667,7 +759,7 @@ Example : Orbit cyclic of major chord <code>{ C,E,G }</code> characterised by in
 <div class="content">
 <img src="./assets/images/maj-orbit-score2.png" alt="Orbit cyclic">
 </div>
-<div class="title">Figure 1. Orbit Cyclic in score view</div>
+<div class="title">Figure 3. Orbit Cyclic in score view</div>
 </div>
 </div>
 </div>
@@ -680,7 +772,7 @@ Example : Orbit cyclic of major chord <code>{ C,E,G }</code> characterised by in
 <div class="content">
 <img src="./assets/images/maj-orbit-clock2.png" alt="Orbit cyclic">
 </div>
-<div class="title">Figure 2. Orbit Cyclic in clock view</div>
+<div class="title">Figure 4. Orbit Cyclic in clock view</div>
 </div>
 </div>
 </div>
@@ -688,10 +780,10 @@ Example : Orbit cyclic of major chord <code>{ C,E,G }</code> characterised by in
 </div>
 </div>
 <div class="sect1">
-<h2 id="_representation">Representation</h2>
+<h2 id="_pcs_representation">PCS Representation</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>dd ddfd</p>
+<p>bla bla</p>
 </div>
 <div class="sect2">
 <h3 id="_set">Set</h3>
@@ -753,18 +845,7 @@ Example : Orbit cyclic of major chord <code>{ C,E,G }</code> characterised by in
 </div>
 <div class="sect2">
 <h3 id="_musaic_equivalence">Musaic equivalence</h3>
-<div class="paragraph">
-<p>This is a paragraph with a <strong>bold</strong> word and an <em>italicized</em> word.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="./assets/images/image-file-name.png" alt="I am the image alt text.">
-</div>
-<div class="title">Figure 3. Image caption</div>
-</div>
-<div class="paragraph">
-<p>This is another paragraph.<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup></p>
-</div>
+
 </div>
 </div>
 </div>
@@ -777,158 +858,16 @@ Example : Orbit cyclic of major chord <code>{ C,E,G }</code> characterised by in
 </div>
 <div class="sect2">
 <h3 id="_what_prime_form_is_not">What Prime Form is not</h3>
-<div class="paragraph">
-<p>==
-=== Modal prime form</p>
+
 </div>
-<div class="ulist">
-<div class="title">Unordered list title</div>
-<ul>
-<li>
-<p>list item 1</p>
-<div class="ulist">
-<ul>
-<li>
-<p>nested list item</p>
-<div class="ulist">
-<ul>
-<li>
-<p>nested nested list item 1</p>
-</li>
-<li>
-<p>nested nested list item 2</p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>list item 2</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>This is a paragraph.</p>
-</div>
-<div class="exampleblock">
-<div class="title">Example 1. Example block title</div>
-<div class="content">
-<div class="paragraph">
-<p>Content in an example block is subject to normal substitutions.</p>
-</div>
-</div>
-</div>
-<div class="sidebarblock">
-<div class="content">
-<div class="title">Sidebar title</div>
-<div class="paragraph">
-<p>Sidebars contain aside text and are subject to normal substitutions.</p>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_third_level_heading">Third level heading</h4>
-<div id="id-for-listing-block" class="listingblock">
-<div class="title">Listing 1. Listing block title</div>
-<div class="content">
-<pre>Content in a listing block is subject to verbatim substitutions.
-Listing block content is commonly used to preserve code input.</pre>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_fourth_level_heading">Fourth level heading</h5>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. Table title</caption>
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Column heading 1</th>
-<th class="tableblock halign-left valign-top">Column heading 2</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Column 1, row 1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Column 2, row 1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Column 1, row 2</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Column 2, row 2</p></td>
-</tr>
-</tbody>
-</table>
-<div class="sect5">
-<h6 id="_fifth_level_heading">Fifth level heading</h6>
-<div class="quoteblock">
-<blockquote>
-<div class="paragraph">
-<p>I am a block quote or a prose excerpt.
-I am subject to normal substitutions.</p>
-</div>
-</blockquote>
-<div class="attribution">
-&#8212; firstname lastname<br>
-<cite>movie title</cite>
-</div>
-</div>
-<div class="verseblock">
-<pre class="content">I am a verse block.
-  Indents and endlines are preserved in verse blocks.</pre>
-<div class="attribution">
-&#8212; firstname lastname<br>
-<cite>poem title and more</cite>
-</div>
-</div>
-</div>
-</div>
-</div>
+<div class="sect2">
+<h3 id="_modal_prime_form">Modal prime form</h3>
+
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_first_level_heading">First level heading</h2>
-<div class="sectionbody">
-<div class="admonitionblock tip">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
-</td>
-<td class="content">
-There are five admonition labels: Tip, Note, Important, Caution and Warning.
-</td>
-</tr>
-</table>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>ordered list item</p>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>nested ordered list item</p>
-</li>
-</ol>
-</div>
-</li>
-<li>
-<p>ordered list item</p>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p>The text at the end of this sentence is cross referenced to <a href="#_third_level_heading">the third level heading</a></p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_first_level_heading_2">First level heading</h2>
+<h2 id="_refs">Refs</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>This is a link to the <a href="https://docs.asciidoctor.org/home/">Asciidoctor documentation</a>.
@@ -940,13 +879,22 @@ This is an attribute reference <a href="https://docs.asciidoctor.org/asciidoc/la
 <div id="footnotes">
 <hr>
 <div class="footnote" id="_footnotedef_1">
-<a href="#_footnoteref_1">1</a>. I am footnote text and will be displayed at the bottom of the article.
+<a href="#_footnoteref_1">1</a>. provided that they accept the postulate of the decomposition of an octave into 12 equal parts.
+</div>
+<div class="footnote" id="_footnotedef_2">
+<a href="#_footnoteref_2">2</a>. redo:return to future if past is not updated
+</div>
+<div class="footnote" id="_footnotedef_3">
+<a href="#_footnoteref_3">3</a>. A stabiliser is a transformation operation which conserve structure
+</div>
+<div class="footnote" id="_footnotedef_4">
+<a href="#_footnoteref_4">4</a>. redo:return to future if past is not updated
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 1.0<br>
-Last updated 2024-09-16 18:43:53 +0200
+Last updated 2024-09-25 14:57:45 +0200
 </div>
 </div>
 <script>
