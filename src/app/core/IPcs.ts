@@ -1191,12 +1191,12 @@ export class IPcs {
 
   getNames(): string {
     const pcsMap12 = this.unMap()
-    const pcsNames = Scales2048Name.getLinksNameDefs(pcsMap12).map(value => value.name).join("\n")
+    const pcsNames = Scales2048Name.getLinksNameDefs(pcsMap12).map(value => value.name).join("<br>")
     // const infoRoot = pcsMap12.iPivot ? ` (root = ${Scales2048Name.ROOT_NAMES[pcsMap12.iPivot]}) \n` : ""
     let infoChord = pcsMap12.getChordName()
     let othersChordNames = pcsMap12.getOthersChordNames()
-    if (infoChord) infoChord += "\n"
-    if (othersChordNames) othersChordNames = '(' + othersChordNames + ")\n"
+    if (infoChord) infoChord += "<br>"
+    if (othersChordNames) othersChordNames = '(' + othersChordNames + ")<br>"
 
     return infoChord + /*infoRoot + */ othersChordNames + pcsNames
   }
@@ -1206,14 +1206,17 @@ export class IPcs {
    */
   getOthersChordNames(): string {
     const pcsMap12 = this.unMap()
-    let res = ''
+    let names : string[] = []
+
     let pcs = pcsMap12.modulation(IPcs.NEXT_DEGREE)
     for (let i = 1; i < this.cardinal-1; i++) {
       const chordName = pcs.getChordName()
-      if (chordName) res += chordName + "\n"
+      if (chordName && !names.includes(chordName)) {
+        names.push(chordName)
+      }
       pcs = pcsMap12.modulation(IPcs.NEXT_DEGREE)
     }
-    return res.trim()
+    return names.join("\n")
   }
 
   getFirstScaleNameOrDerived() {

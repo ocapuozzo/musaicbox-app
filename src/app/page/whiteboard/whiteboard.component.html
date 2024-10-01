@@ -329,6 +329,9 @@
 
 <ng-template #menuOrbits matMenuContent let-index="index" let-name="name" >
   <div class="contextual-menu" cdkMenu>
+    <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doMakeModeOrbit(index)">
+      Mode orbit
+    </button>
     <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doMakeCyclicOrbit(index)">
       Cyclic orbit
     </button>

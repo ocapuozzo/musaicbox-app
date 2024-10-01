@@ -187,6 +187,7 @@ export class ManagerPageWBService {
     }) // end for each
 
     // pcs with index = indexCenterElement will be selected also (with others new pcs)
+    // TODO : is it a good idea ? (see whiteboard doMakeModeOrbit)
     if (circularAlign && indexCenterElement) {
       this.orderedIndexesSelectedPcsDto.push(indexCenterElement)
       this.uiPcsDtoList[indexCenterElement].isSelected = true
@@ -664,17 +665,19 @@ export class ManagerPageWBService {
 
     // compute barycenter
     let barycenter = new Point(0, 0)
-    let radius = indexCenterElement && selectedPcsIndexes.length == 2
+    let radius = indexCenterElement != undefined && selectedPcsIndexes.length == 2
       ? this.uiPcsDtoList[indexCenterElement].width * 3 // more space when 2 elts and center elt
       : 0
 
     let point = new Point(0, 0)
 
+    let spaceIfShowName = (selectedPcsIndexes.length > 3) ? 0 :  30
+
     // if (!indexCenterElement) {
       selectedPcsIndexes.forEach(index => {
         point.x += this.uiPcsDtoList[index].position.x + this.uiPcsDtoList[index].width / 2
         point.y += this.uiPcsDtoList[index].position.y + this.uiPcsDtoList[index].height / 2
-        radius += this.uiPcsDtoList[index].width
+        radius += this.uiPcsDtoList[index].width + (this.uiPcsDtoList[selectedPcsIndexes[0]].showName ? spaceIfShowName : 0)
       })
     // }
 
@@ -1019,5 +1022,17 @@ export class ManagerPageWBService {
     }
     this.pcsDtoForTemplate = this.uiPcsDtoList[index]
     this.addPcs({somePcs: pcsCyclicList, circularAlign: true, indexCenterElement: index})
+  }
+
+  doMakeModeOrbit(index: number) {
+    let pcs = this.uiPcsDtoList[index].pcs
+    let pcsModeList = [pcs]
+    let cardinal = pcs.cardOrbitMode()
+    for (let degree = 1; degree < cardinal; degree++) {
+      pcs = pcs.modulation(IPcs.NEXT_DEGREE)
+      pcsModeList.push(pcs)
+    }
+    this.pcsDtoForTemplate = this.uiPcsDtoList[index]
+    this.addPcs({somePcs: pcsModeList, circularAlign: true, indexCenterElement: index})
   }
 }

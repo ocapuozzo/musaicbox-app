@@ -749,8 +749,10 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
       throw new Error(`Invalid index : $ {index}`)
     }
+    // add all facets
     this.managerPageWBService.doPcsMusaicFacets(typeFacet, index, distinct)
-    this.managerPageWBService.doZoom(-1, [index])
+    // deselect component source, because is it duplicate (present as pcs facet)
+    this.managerPageWBService.doToggleSelected(index)
   }
 
   howManyDistinctAffineFacets(index: number): number {
@@ -834,5 +836,13 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
       throw new Error(`Invalid index : $ {index}`)
     }
     this.managerPageWBService.doMakeCyclicOrbit(index)
+  }
+
+  doMakeModeOrbit(index: any) {
+    if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
+      throw new Error(`Invalid index : $ {index}`)
+    }
+    this.managerPageWBService.doMakeModeOrbit(index)
+    this.managerPageWBService.doToggleSelected(index)
   }
 }
