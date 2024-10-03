@@ -257,6 +257,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     } else {
       pointClick = new Point(e.touches[0].clientX, e.touches[0].clientY)
     }
+
     if (e.ctrlKey) {
       // if not click on object in page, deselect all
       let allPcsElements = Array.from(document.getElementsByTagName('app-pcs'))
@@ -447,20 +448,25 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     }
   }
 
-  // on mouse up event
+  // on mouse up event (template used)
   doToggleSelected($event: MouseEvent, index: number) {
     if (!this.pcsDtoList.some((pcsDto) => pcsDto.isSelected)) {
       // no select component, select this one
       this.managerPageWBService.doToggleSelected(index)
     } else if ($event.ctrlKey) {
-      // toggle selected
+      // rem : ctrlKey on no component is manager by mouseDown handler
+      // toggle selected component at index
       this.managerPageWBService.doToggleSelected(index)
     } else {
-      // classic use : deselect all and select this one
-      if (!this.managerPageWBService.isIndexInElementsSelected(index)) {
-        this.managerPageWBService.doUnselectAll(false)
-        this.managerPageWBService.doToggleSelected(index)
-      }
+      // temporary tip for deactivate focus pitch of abc component...
+      this.managerPageWBService.doToggleSelected(index)
+      this.managerPageWBService.doToggleSelected(index)
+
+      // classic use ? : deselect all and select this one
+      // if (!this.managerPageWBService.isIndexInElementsSelected(index)) {
+      //   // this.managerPageWBService.doUnselectAll(false)
+      //   this.managerPageWBService.doToggleSelected(index)
+      // }
     }
   }
 
