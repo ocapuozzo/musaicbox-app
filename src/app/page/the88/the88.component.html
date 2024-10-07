@@ -2,38 +2,44 @@
 
 <div class="row" style="margin: auto; width: 80%">
 
-<div *ngFor="let orbitMusaic of listOrbits; index as index" class="box88" style="width: 60px;">
-  <div class="box88-id text-muted p-0">
-    {{ index + 1 }}
-  </div>
-  <div class="box88-body">
-    <app-pcs
-      [opaque]="musaicDrawGrid"
-      [pcsDto]="orbitMusaic.pcsDto"
-      [pcColorSet]="orbitMusaic.pcsDto.colorPitchOn"
-      (click)="doPushToPcsPage(orbitMusaic.pcsDto.pcs)"
-      [cdkContextMenuTriggerFor]="menu"
-      [cdkContextMenuTriggerData]="{
+  <div *ngFor="let musaic of listOrbits; index as index"
+       class="box88" style="width: 60px;"
+       [ngClass]="{'box88': true,
+                   'box-selected': musaic.pcsDto.colorPitchOn !== 'black',
+                   'box-not-selected' : musaic.pcsDto.colorPitchOn === 'black'
+                   }"
+  >
+    <div class="box88-id text-muted p-0">
+      {{ index + 1 }}
+    </div>
+    <div class="box88-body">
+      <app-pcs
+        [opaque]="musaicDrawGrid"
+        [pcsDto]="musaic.pcsDto"
+        [pcColorSet]="musaic.pcsDto.colorPitchOn"
+        (click)="doPushToPcsPage(musaic.pcsDto.pcs)"
+        [cdkContextMenuTriggerFor]="menu"
+        [cdkContextMenuTriggerData]="{
             name: 'Musaic N°' + (index+1),
             index:index,
-            pcsDto:orbitMusaic.pcsDto
+            pcsDto:musaic.pcsDto
             }"
-      style="cursor: pointer"
-    >
-    </app-pcs>
+        style="cursor: pointer"
+      >
+      </app-pcs>
+    </div>
+    <div class="box88-footer">
+      #{{ musaic.cardinal }}
+    </div>
   </div>
-  <div class="box88-footer">
-    #{{ orbitMusaic.cardinal }}
-  </div>
-</div>
 </div>
 
 <div class="text-center" style="margin-top: 20px">
-  <h3> Your selection : @for (op of currentSelectedOp; track op) {
+  <h3> Your selection : @for (op of currentSelectedOps; track op) {
     {{ op }}
-  } -> {{ nbMusaicsMatch ? nbMusaicsMatch : 'All' }} match</h3>
+  } -> {{ nbMusaicsMatch ? nbMusaicsMatch : 'All' }} musaic{{ nbMusaicsMatch > 1 ? 's' : '' }} stabilized</h3>
 
-  <h5>Select operations to highlight stabilized musaics</h5>
+  <h5>Select operations to highlight motif stabilizer</h5>
   <div class="button-row">
     <input type="checkbox" class="operation" id="m1" checked disabled/> <label for="m1">M1&nbsp;&nbsp;</label>
     @for (op of EightyEight.ORDERED_OPERATIONS_NAMES; track op; let index = $index) {
@@ -44,8 +50,29 @@
     }
   </div>
 </div>
+<div style="margin: auto; text-align: center">
+  @for (groupedOrbitsByMotifStab of this.orbitsGroupedByMotifStab; track groupedOrbitsByMotifStab; let idx = $index) {
+    <div style="display: inline-block; margin-top: 10px">
+      <div [ngClass]="{
+      'ddom-body':true,
+      'ddom-selected': groupedOrbitsByMotifStab.selected,
+      'ddom-active': groupedOrbitsByMotifStab.selected && groupedOrbitsByMotifStab.active}">
+        <span (click)="doSelectOrbitsHavingSameMotifStabilizerThan(idx)">
+          <app-ddom
+            [w]="85"
+            [pcs]="groupedOrbitsByMotifStab.pcs"
+            [selected]="pcsMatchOperationStabilizersSelected(groupedOrbitsByMotifStab.pcs)"
+          ></app-ddom>
+        </span>
+      </div>
+      <div class="box88-footer">
+        #{{ groupedOrbitsByMotifStab.cardinal }}
+      </div>
+    </div>
+  }
+</div>
 
-<ng-template  #menu matMenuContent let-index="index" let-name="name" let-pcsDto="pcsDto" >
+<ng-template #menu matMenuContent let-index="index" let-name="name" let-pcsDto="pcsDto">
   <div class="contextual-menu" cdkMenu>
     <span>Do with {{ name }}</span>
     <hr/>
@@ -55,8 +82,9 @@
     <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doPushToWhiteboardPage(index)">
       Push this to Whiteboard page
     </button>
-    <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doPushSelectionToWhiteboardPage(pcsDto.colorPitchOn)">
-      Push selection ({{cardinalWithThisColor(pcsDto.colorPitchOn)}}) to Whiteboard page
+    <button class="contextual-menu-item" cdkMenuItem
+            (cdkMenuItemTriggered)="doPushSelectionToWhiteboardPage(pcsDto.colorPitchOn)">
+      Push selection ({{ cardinalWithThisColor(pcsDto.colorPitchOn) }}) to Whiteboard page
     </button>
   </div>
 </ng-template>

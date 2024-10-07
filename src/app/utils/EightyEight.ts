@@ -24,7 +24,7 @@ export class EightyEight {
    * @param pcs
    * @return {IPcs} instance
    */
-  static getMusaic(pcs : IPcs) {
+  static getMusaic(pcs : IPcs): IPcs {
     const group88 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC)
     return group88.orbits[EightyEight.idNumberOf(pcs) -1].getPcsMin()
   }
@@ -59,5 +59,6 @@ export class EightyEight {
     }
     return newCurrentSelectedOpOrdered;
   }
+
 
 }

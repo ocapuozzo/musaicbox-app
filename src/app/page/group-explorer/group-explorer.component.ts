@@ -158,13 +158,13 @@ export class GroupExplorerComponent {
         //this.stabilizers = this.groupAction.stabilizers
         //this.fixedPcsInPrimeForms = this.groupAction.stabilizers.fixedPcsInPrimeForm()
         if (byCriteria === "Stabilizer") {
-          this.orbitsPartitions = this.groupAction!.orbitsSortedByStabilizers
+          this.orbitsPartitions = this.groupAction!.orbitsSortedGroupedByStabilizers
           this.criteriaEquiv = "set of stabilizers"
         } else if (byCriteria === "MotifStabilizer") {
-          this.orbitsPartitions = this.groupAction!.orbitsSortedByMotifStabilizers
+          this.orbitsPartitions = this.groupAction!.orbitsSortedGroupedByMotifStabilizers
           this.criteriaEquiv = "set of meta-stabilizer"
         } else if (byCriteria === "Cardinal") {
-          this.orbitsPartitions = this.groupAction!.orbitsSortedByCardinal
+          this.orbitsPartitions = this.groupAction!.orbitsSortedGroupedByCardinal
           this.criteriaEquiv = "cardinal"
         }
         this.saveConfig();

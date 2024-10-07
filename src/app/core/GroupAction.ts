@@ -40,9 +40,9 @@ export class GroupAction {
 
   operationsNameWithoutTxStr : string
 
-  private _orbitsSortedByStabilizers ?: ISortedOrbits[];
-  private _orbitsSortedByMotifStabilizers ?: ISortedOrbits[];
-  private _orbitsSortedByCardinal ?: ISortedOrbits[];
+  private _orbitsSortedGroupedByStabilizers ?: ISortedOrbits[];
+  private _orbitsSortedGroupedByMotifStabilizers ?: ISortedOrbits[];
+  private _orbitsSortedGroupedByCardinal ?: ISortedOrbits[];
 
   private static _predefinedGroupsActions: Map<number, GroupAction[]>
 
@@ -62,9 +62,9 @@ export class GroupAction {
     this.powerset = GroupAction.buildPowerSetOfIPcs(this.n);
     this.orbits = this.buildOrbitsByActionOnPowerset();
 
-    this._orbitsSortedByStabilizers = undefined
-    this._orbitsSortedByMotifStabilizers = undefined
-    this._orbitsSortedByCardinal = undefined
+    this._orbitsSortedGroupedByStabilizers = undefined
+    this._orbitsSortedGroupedByMotifStabilizers = undefined
+    this._orbitsSortedGroupedByCardinal = undefined
 
     this.buildOrbitMotifStabilizers()
     // build operations name without Tx
@@ -174,25 +174,25 @@ export class GroupAction {
     }) // end loop orbits
   }
 
-  get orbitsSortedByMotifStabilizers(): ISortedOrbits[] {
-    if (!this._orbitsSortedByMotifStabilizers)
-      this._orbitsSortedByMotifStabilizers = this.computeOrbitSortedByMotifStabilizers()
+  get orbitsSortedGroupedByMotifStabilizers(): ISortedOrbits[] {
+    if (!this._orbitsSortedGroupedByMotifStabilizers)
+      this._orbitsSortedGroupedByMotifStabilizers = this.computeOrbitSortedByMotifStabilizers()
 
-    return this._orbitsSortedByMotifStabilizers
+    return this._orbitsSortedGroupedByMotifStabilizers
   }
 
-  get orbitsSortedByStabilizers() {
-    if (!this._orbitsSortedByStabilizers)
-      this._orbitsSortedByStabilizers = this.computeOrbitSortedByStabilizers()
+  get orbitsSortedGroupedByStabilizers() {
+    if (!this._orbitsSortedGroupedByStabilizers)
+      this._orbitsSortedGroupedByStabilizers = this.computeOrbitSortedByStabilizers()
 
-    return this._orbitsSortedByStabilizers
+    return this._orbitsSortedGroupedByStabilizers
   }
 
-  get orbitsSortedByCardinal(): ISortedOrbits[] {
-    if (!this._orbitsSortedByCardinal)
-      this._orbitsSortedByCardinal = this.computeOrbitSortedByCardinal()
+  get orbitsSortedGroupedByCardinal(): ISortedOrbits[] {
+    if (!this._orbitsSortedGroupedByCardinal)
+      this._orbitsSortedGroupedByCardinal = this.computeOrbitSortedByCardinal()
 
-    return this._orbitsSortedByCardinal
+    return this._orbitsSortedGroupedByCardinal
   }
 
   /**
@@ -228,18 +228,18 @@ export class GroupAction {
   }
   //
   // private _computeOrbitSortedByStabilizers(): ISortedOrbits[] {
-  //   let orbitsSortedByStabilizers = new Map<string, Orbit[]>() // k=name orbit based on his stabs, v=array of orbits
+  //   let orbitsSortedGroupedByStabilizers = new Map<string, Orbit[]>() // k=name orbit based on his stabs, v=array of orbits
   //   this.orbits.forEach(orbit => {
   //     orbit.stabilizers.forEach(stab => {
   //       // make an subOrbit based on stabilizer : subOrbits partitioning orbit
   //       let subOrbit = new Orbit({stabs: [stab], ipcsSet: stab.fixedPcs})
   //
   //       let nameStab = stab.getShortName()
-  //       if (!orbitsSortedByStabilizers.has(nameStab)) {
-  //         orbitsSortedByStabilizers.set(nameStab, [subOrbit])
+  //       if (!orbitsSortedGroupedByStabilizers.has(nameStab)) {
+  //         orbitsSortedGroupedByStabilizers.set(nameStab, [subOrbit])
   //       } else {
   //         // @ts-ignore undefined get element
-  //         orbitsSortedByStabilizers.get(nameStab).push(subOrbit)
+  //         orbitsSortedGroupedByStabilizers.get(nameStab).push(subOrbit)
   //       }
   //     }) // end loop all stab of current orbit
   //   }) // end loop orbits
@@ -247,13 +247,13 @@ export class GroupAction {
   //   // sort map on keys (lexical order)
   //   // make a "view adapter" for v-for
   //   let resultOrbitsSortedByStabilizers: ISortedOrbits[] = []
-  //   Array.from(orbitsSortedByStabilizers.keys()).sort().forEach((name) => {
+  //   Array.from(orbitsSortedGroupedByStabilizers.keys()).sort().forEach((name) => {
   //     const obj: ISortedOrbits =
   //       {
   //         groupingCriterion: name,
   //         // to avoid duplicate keys in vue
   //         hashcode: StringHash.stringHashCode(name) + Date.now(),
-  //         orbits: orbitsSortedByStabilizers.get(name) ?? [] //  always set
+  //         orbits: orbitsSortedGroupedByStabilizers.get(name) ?? [] //  always set
   //       }
   //     resultOrbitsSortedByStabilizers.push(obj)
   //   })
@@ -265,11 +265,10 @@ export class GroupAction {
    * @return {ISortedOrbits[]} array of ISortedOrbits
    */
   private computeOrbitSortedByMotifStabilizers(): ISortedOrbits[] {
-    let orbitsSortedByMotifStabilizer = new Map() // k=name orbit based on his stabs, v=array of orbits
+    let orbitsSortedByMotifStabilizer = new Map() // k=MotifStabilizer orbit based on his stabs, v=array of orbits
     this.orbits.forEach(orbit => {
       let kNameMotifStab = Array.from(orbitsSortedByMotifStabilizer.keys())
         .find(ms => ms.hashCode() === orbit.motifStabilizer.hashCode())
-      // orbit name based on his stabilizers and shortName
       if (!kNameMotifStab) {
         orbitsSortedByMotifStabilizer.set(orbit.motifStabilizer, [orbit])
       } else {
@@ -328,7 +327,7 @@ export class GroupAction {
   }
 
   cardinalOfOrbitStabilized() {
-    return this.orbitsSortedByStabilizers.reduce((sum, sortedOrbits) => sum + sortedOrbits.orbits.length, 0)
+    return this.orbitsSortedGroupedByStabilizers.reduce((sum, sortedOrbits) => sum + sortedOrbits.orbits.length, 0)
   }
 
 

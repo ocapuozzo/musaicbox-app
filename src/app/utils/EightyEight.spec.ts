@@ -12,5 +12,4 @@ describe('88 musaics utility', () => {
     expect(EightyEight.idNumberOf(wholeTonePcs)).toEqual(88)
   })
 
-
 })

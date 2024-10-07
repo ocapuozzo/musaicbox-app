@@ -229,6 +229,10 @@ export class Stabilizer {
     // return this.getShortName() + "";
   }
 
+  /**
+   * Reduce texte representation of stabilizers.
+   * Example : CM1-T3 CM1-T9 => CM1-T3~6*  where 6 is step
+   */
   getShortName() {
     if (!this._shortName)
       this._shortName = this.makeShortName();

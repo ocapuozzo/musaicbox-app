@@ -2,8 +2,8 @@ import materialColors from '../color/materialColors.json'
 import {StringHash} from "../utils/StringHash";
 
 const colorMotifs: Map<string, string> = new Map([
-  ['M1','black'],
-  ['M1-T0','black'],
+  ['M1',materialColors['lightblue'][900]],
+  ['M1-T0',materialColors['lightblue'][900]],
   ['M1 CM1',materialColors['red'][500]],
   ['M1 CM1 CM11',materialColors['brown'][400]],
   ['M1 M5', materialColors['purple'][900]],
@@ -17,7 +17,7 @@ const colorMotifs: Map<string, string> = new Map([
   ['M1 M7 CM5 CM11', materialColors['pink'][900]],
   ['M1 M11 CM1 CM11', materialColors['lightgreen'][700]],
   ['M1 M11 CM5 CM7', materialColors['red'][600]],
-  ['M1 M5 M7 M11 CM1 CM5 CM7 CM11', materialColors['lightblue'][900]]
+  ['M1 M5 M7 M11 CM1 CM5 CM7 CM11', 'blue']
   ])
 
 

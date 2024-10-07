@@ -124,8 +124,8 @@ describe('Stabilizer', () => {
     // 5 classes of limited transposition plus identity stab ([M1-T0]), so 6 waiting
     // expected 6 stabilizers (2/1 , 54/6 , 12/4 , 6/3 , 2/2 and 4020/12)
     expect(setStabilizers.size).toEqual(6) // = 6
-    expect(cyclicGroup.orbitsSortedByStabilizers.length).toEqual(6)
-    // cyclicGroup.orbitsSortedByStabilizers.forEach(stab=> console.log("stab name : "+ stab.stabilizerName))
+    expect(cyclicGroup.orbitsSortedGroupedByStabilizers.length).toEqual(6)
+    // cyclicGroup.orbitsSortedGroupedByStabilizers.forEach(stab=> console.log("stab name : "+ stab.stabilizerName))
   })
 
   it("Musaic Group Explore n=12", () => {
@@ -154,11 +154,11 @@ describe('Stabilizer', () => {
       orbit.stabilizers.forEach(stab => setStabilizers.add(stab.hashCode()))
     })
     expect(setStabilizers.size).toEqual(111)
-    expect(musaicGroup.orbitsSortedByMotifStabilizers.length).toEqual(13)
+    expect(musaicGroup.orbitsSortedGroupedByMotifStabilizers.length).toEqual(13)
 
-    // expect(musaicGroup.orbitsSortedByStabilizers.length).toEqual(111)
+    // expect(musaicGroup.orbitsSortedGroupedByStabilizers.length).toEqual(111)
 
-//  musaicGroup.orbitsSortedByMotifStabilizers.forEach(motifSatb => console.log(motifSatb.toString()))
+//  musaicGroup.orbitsSortedGroupedByMotifStabilizers.forEach(motifSatb => console.log(motifSatb.toString()))
   })
 
   it("Stabilizer isMotifEquivalence", () => {
@@ -223,7 +223,7 @@ describe('Stabilizer', () => {
     //  console.log("mapPcs size : " + mapPcs.size)
     expect(sumPcs).toEqual(group.powerset.size)
     let names = ""
-    group.orbitsSortedByStabilizers.forEach(stab => names += stab.groupingCriterion) //console.log("stab name : "+ stab.stabilizerName))
+    group.orbitsSortedGroupedByStabilizers.forEach(stab => names += stab.groupingCriterion) //console.log("stab name : "+ stab.stabilizerName))
   })
 
   it("Group Explore n=7 cyclic shortname", () => {
@@ -240,33 +240,33 @@ describe('Stabilizer', () => {
     expect(sumPcs).toEqual(group.powerset.size)
 
     let shortNames: string[] = []
-    group.orbitsSortedByMotifStabilizers.forEach(stab => shortNames.push(stab.groupingCriterion))
+    group.orbitsSortedGroupedByMotifStabilizers.forEach(stab => shortNames.push(stab.groupingCriterion))
     expect(shortNames).toEqual(["M1"])
 
     shortNames = []
-    group.orbitsSortedByStabilizers.forEach(stab => shortNames.push(stab.groupingCriterion))
+    group.orbitsSortedGroupedByStabilizers.forEach(stab => shortNames.push(stab.groupingCriterion))
     // neutral op and detached and full IPcs (2 pcsList) transposables 7 times in same state by step 1
     expect(shortNames).toEqual(["M1-T0", "M1-T0~1*"])
   })
 
   it("toString", () => {
     const group = GroupAction.predefinedGroupsActions(12, Group.MUSAIC)
-    const stabStr = group.orbitsSortedByStabilizers[0].orbits[0].stabilizers[0].toString()
+    const stabStr = group.orbitsSortedGroupedByStabilizers[0].orbits[0].stabilizers[0].toString()
 
     expect(stabStr).toContain('Stab: M1-T0 #FixedPcs: 96')
 
-    let pcs = group.orbitsSortedByStabilizers[0].orbits[0].stabilizers[0].fixedPcs[1].getPcsStr()
+    let pcs = group.orbitsSortedGroupedByStabilizers[0].orbits[0].stabilizers[0].fixedPcs[1].getPcsStr()
     expect(pcs).toEqual('[0,2,3]') // 12 in orbit
-    pcs = group.orbitsSortedByStabilizers[0].orbits[0].stabilizers[0].fixedPcs[0].getPcsStr()
+    pcs = group.orbitsSortedGroupedByStabilizers[0].orbits[0].stabilizers[0].fixedPcs[0].getPcsStr()
     expect(pcs).toEqual('[0,1,3]') // idem
   })
 
   //
   // it("isInclude", () => {
   //   const group = GroupAction.predefinedGroupsActions(12, Group.MUSAIC)
-  //   const stab = group.orbitsSortedByStabilizers[2].orbits[2].stabilizers[0]
+  //   const stab = group.orbitsSortedGroupedByStabilizers[2].orbits[2].stabilizers[0]
   //
-  //   const stabStr = group.orbitsSortedByStabilizers[2].orbits[2].stabilizers[0].toString()
+  //   const stabStr = group.orbitsSortedGroupedByStabilizers[2].orbits[2].stabilizers[0].toString()
   //
   //   expect(stabStr).toEqual('Stab: M1-T0,CM11-T11 #FixedPcs: 12')
   //

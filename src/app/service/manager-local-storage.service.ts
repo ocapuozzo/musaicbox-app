@@ -18,7 +18,7 @@ export class ManagerLocalStorageService {
     let inStorage: string[] = []
     try {
       // @ts-ignore
-      inStorage = JSON.parse(localStorage.getItem('page88.currentSelectedOp')) || ["M1"]
+      inStorage = JSON.parse(localStorage.getItem('page88.currentSelectedOps')) || ["M1"]
     } catch (e: any) {
       // nothing
     }
@@ -36,7 +36,7 @@ export class ManagerLocalStorageService {
   }
 
   savePageThe88(selectedOp: string[]) {
-    localStorage.setItem("page88.currentSelectedOp", JSON.stringify(selectedOp))
+    localStorage.setItem("page88.currentSelectedOps", JSON.stringify(selectedOp))
   }
 
   makeSerialVersion(listPcsDto: UIPcsDto[]) : UIPcsDto[] {

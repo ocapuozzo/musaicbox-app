@@ -7,4 +7,9 @@ export class ArrayUtil{
       return element === arr2[index]
     });
   }
+
+ static isIncludeIn(arr: any[], into : any[]) : boolean {
+    return arr.every(v => into.includes(v));
+ }
+
 }

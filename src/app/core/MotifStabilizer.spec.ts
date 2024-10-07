@@ -9,6 +9,9 @@
  */
 
 import {MotifStabilizer} from "./MotifStabilizer";
+import {IPcs} from "./IPcs";
+import {GroupAction} from "./GroupAction";
+import {Group} from "./Group";
 
 describe('MotifStabilizer', () => {
   it("MotifStabilizer Constructor", () => {
@@ -94,5 +97,16 @@ describe('MotifStabilizer', () => {
     expect(MotifStabilizer.compare(motifStab1, motifStab2)).toEqual(0)
   });
 
+  it("MotifStabilizer of pcs", () => {
+    const pcsSource = new IPcs({strPcs:"[0,1,3,5,8,10]"})
+    const pcs = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).getIPcsInOrbit(pcsSource)
+    let motifStabWaiting = new MotifStabilizer("M1,M11,CM1,CM11");
+
+    expect(motifStabWaiting.toString()).toEqual(pcs!.stabilizer!.motifStabilizer!.toString())
+    expect(motifStabWaiting.motifStabOperations.length).toEqual(4)
+  });
+
+
 
 })
+

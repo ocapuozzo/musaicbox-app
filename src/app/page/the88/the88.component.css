@@ -3,7 +3,6 @@
   text-align: center;
 }
 
-
 .box88-id {
   font-size: 0.6em !important;
   font-weight: bold;
@@ -17,9 +16,34 @@
   margin: 2px;
 }
 
+.box-selected {
+  background-color: lightyellow;
+}
+
+.box-not-selected {
+  background-color: white;
+}
+
 .box88-body {
   text-align:center;
 }
+
+.ddom-body {
+  text-align:center;
+  border: solid white;
+}
+
+.ddom-selected {
+  border: solid lightgray;
+  cursor: pointer;
+}
+
+.ddom-active {
+  background-color: lightyellow;
+  border: solid lightgray;
+}
+
+
 .row {
   display: flex;
   flex-direction: row;

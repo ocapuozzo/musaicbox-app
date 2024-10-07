@@ -3,7 +3,7 @@ import {PcsColor} from "./PcsColor";
 describe('PcsColor unit tests', () => {
   it('get orbit color', () => {
     const color = PcsColor.getColor('M1')
-    expect(color).toEqual('black')
+    expect(color).toEqual('#01579b')
 
     expect(PcsColor.getColor(42)).toEqual('#7cb342')
     // (42 * 31) % 19 = 10 => lightgreen offset 600

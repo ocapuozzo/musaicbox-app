@@ -111,7 +111,7 @@
       Show orbits ({{ preReactOrbits.length }}) grouped by Stabilizers
       @if (groupAction) {
         <span>
-          ({{ groupAction.orbitsSortedByStabilizers.length }})
+          ({{ groupAction.orbitsSortedGroupedByStabilizers.length }})
         </span>
       }
     </button>
@@ -121,7 +121,7 @@
       Show orbits ({{ preReactOrbits.length }}) grouped by Motif-Stabilizers
       @if (groupAction) {
         <span>
-          ({{ groupAction.orbitsSortedByMotifStabilizers.length }})
+          ({{ groupAction.orbitsSortedGroupedByMotifStabilizers.length }})
         </span>
       }
     </button>
@@ -176,12 +176,12 @@
         <div><span>nb Orbits : {{ preReactOrbits.length }} </span></div>
         @if (groupAction != null) {
           <div>
-            <span>nb Stabilizers classes : ({{ groupAction.orbitsSortedByStabilizers.length }})</span>
+            <span>nb Stabilizers classes : ({{ groupAction.orbitsSortedGroupedByStabilizers.length }})</span>
           </div>
         }
         @if (groupAction != null) {
           <div>
-            <span>nb Meta Stabilize : ({{ groupAction.orbitsSortedByMotifStabilizers.length }})</span>
+            <span>nb Meta Stabilize : ({{ groupAction.orbitsSortedGroupedByMotifStabilizers.length }})</span>
           </div>
         }
       </fieldset>
