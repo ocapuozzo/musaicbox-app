@@ -20,7 +20,7 @@ import {CdkContextMenuTrigger, CdkMenu, CdkMenuItem} from "@angular/cdk/menu";
 import {MatMenuContent} from "@angular/material/menu";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
 import {ManagerPageWBService} from "../../service/manager-page-wb.service";
-import {DdomComponent} from "../../component/ddom/ddom.component";
+import {OctotropeComponent} from "../../component/octotrope/octotrope.component";
 import {ArrayUtil} from "../../utils/ArrayUtil";
 
 
@@ -58,7 +58,7 @@ export interface IDdom {
     MatMenuContent,
     MatSlideToggle,
     CdkContextMenuTrigger,
-    DdomComponent,
+    OctotropeComponent,
     NgClass
   ],
   templateUrl: './the88.component.html',

@@ -39,8 +39,9 @@
     {{ op }}
   } -> {{ nbMusaicsMatch ? nbMusaicsMatch : 'All' }} musaic{{ nbMusaicsMatch > 1 ? 's' : '' }} stabilized</h3>
 
-  <h5>Select operations to highlight motif stabilizer</h5>
+<!--  <h4>Select operations to highlight motif stabilizer</h4>-->
   <div class="button-row">
+    <span>Select stabilizer operations : </span>
     <input type="checkbox" class="operation" id="m1" checked disabled/> <label for="m1">M1&nbsp;&nbsp;</label>
     @for (op of EightyEight.ORDERED_OPERATIONS_NAMES; track op; let index = $index) {
       @if (index > 0) {
@@ -51,18 +52,22 @@
   </div>
 </div>
 <div style="margin: auto; text-align: center">
+  <h3 style="margin-top: 15px; font-style: italic">
+    Octotropes
+  </h3>
+
   @for (groupedOrbitsByMotifStab of this.orbitsGroupedByMotifStab; track groupedOrbitsByMotifStab; let idx = $index) {
-    <div style="display: inline-block; margin-top: 10px">
+    <div style="display: inline-block; margin-top: 5px">
       <div [ngClass]="{
-      'ddom-body':true,
-      'ddom-selected': groupedOrbitsByMotifStab.selected,
-      'ddom-active': groupedOrbitsByMotifStab.selected && groupedOrbitsByMotifStab.active}">
+      'octotrope-body':true,
+      'octotrope-selected': groupedOrbitsByMotifStab.selected,
+      'octotrope-active': groupedOrbitsByMotifStab.selected && groupedOrbitsByMotifStab.active}">
         <span (click)="doSelectOrbitsHavingSameMotifStabilizerThan(idx)">
-          <app-ddom
+          <app-octotrope
             [w]="85"
             [pcs]="groupedOrbitsByMotifStab.pcs"
             [selected]="pcsMatchOperationStabilizersSelected(groupedOrbitsByMotifStab.pcs)"
-          ></app-ddom>
+          ></app-octotrope>
         </span>
       </div>
       <div class="box88-footer">

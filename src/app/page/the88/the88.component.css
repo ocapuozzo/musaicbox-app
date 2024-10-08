@@ -28,21 +28,20 @@
   text-align:center;
 }
 
-.ddom-body {
+.octotrope-body {
   text-align:center;
   border: solid white;
 }
 
-.ddom-selected {
+.octotrope-selected {
   border: solid lightgray;
   cursor: pointer;
 }
 
-.ddom-active {
+.octotrope-active {
   background-color: lightyellow;
   border: solid lightgray;
 }
-
 
 .row {
   display: flex;
