@@ -10,8 +10,8 @@ const colorMetaClassStabilizer: Map<string, string> = new Map([
   ['CM7', 'red'],
   ['M11', 'blue'],
   ['CM11', 'blue'],
-  ['M5', 'lightgreen'],
-  ['CM5', 'lightgreen']
+  ['M5', 'green'],
+  ['CM5', 'green']
 ])
 
 /**
@@ -86,7 +86,7 @@ export class DdomComponent {
 
     // draw polygon diamond
     this.ctx.beginPath();
-    this.ctx.lineWidth = radius / 8;
+    this.ctx.lineWidth = radius / 6;
     this.ctx.strokeStyle = "rgba(185, 185, 185)" // "gray";
 
     let ang = 3 * Math.PI / 2;
@@ -147,7 +147,7 @@ export class DdomComponent {
           this.ctx.fillStyle = 'white'
           this.ctx.arc(x, y, size / 9, 0, 2 * Math.PI);
           this.ctx.fill()
-
+          this.ctx.lineWidth = Math.round(radius / 8);
           this.ctx.strokeStyle = colorMetaClassStabilizer.get(indexPearlColorCplt) ?? "yellow";
           this.ctx.arc(x, y, size / 9, 0, 2 * Math.PI);
           this.ctx.stroke()
