@@ -5,8 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.23">
-<meta name="description" content="support avec exercices">
-<meta name="author" content="Olivier Capuozzo">
+<meta name="author" content="Another toolbox for musical composition">
 <title>MusaicBox</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -435,7 +434,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 /*! Asciidoctor Tabs | Copyright (c) 2018-present Dan Allen | MIT License */
 .tabs {
@@ -549,74 +547,19 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 }
 </style>
 </head>
-<body class="article toc2 toc-left">
+<body class="article">
 <div id="header">
 <h1>MusaicBox</h1>
 <div class="details">
-<span id="author" class="author">Olivier Capuozzo</span><br>
-<span id="email" class="email"><a href="mailto:olivier.capuozzo@gmail.com">olivier.capuozzo@gmail.com</a></span><br>
-<span id="revnumber">version 1.0,</span>
-<span id="revdate">May 20, 2024</span>
-<br><span id="revremark">Another toolbox for musical composition</span>
-</div>
-<div id="toc" class="toc2">
-<div id="toctitle">Table des matières</div>
-<ul class="sectlevel1">
-<li><a href="#_introduction">Introduction</a>
-<ul class="sectlevel2">
-<li><a href="#_for_which_audience">For which audience ?</a></li>
-<li><a href="#_use_cases">Use Cases</a></li>
-</ul>
-</li>
-<li><a href="#_pcs">PCS</a>
-<ul class="sectlevel2">
-<li><a href="#_abstraction">Abstraction</a></li>
-<li><a href="#_orbit">Orbit</a></li>
-</ul>
-</li>
-<li><a href="#_pcs_representation">PCS Representation</a>
-<ul class="sectlevel2">
-<li><a href="#_set">Set</a></li>
-<li><a href="#_vector">Vector</a></li>
-<li><a href="#_integer">Integer</a></li>
-<li><a href="#_geometry">Geometry</a>
-<ul class="sectlevel3">
-<li><a href="#_circle">Circle</a></li>
-<li><a href="#_dis">DIS</a>
-<ul class="sectlevel4">
-<li><a href="#_tonetz_musaic_and_more">Tonetz, Musaic and more</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#_together">Together</a></li>
-</ul>
-</li>
-<li><a href="#_equivalence_relations">Equivalence relations</a>
-<ul class="sectlevel2">
-<li><a href="#_octave_equivalence">Octave equivalence</a></li>
-<li><a href="#_intervallic_structure_equivalence">Intervallic structure equivalence</a></li>
-<li><a href="#_dihedral_equivalence">Dihedral equivalence</a></li>
-<li><a href="#_affine_equivalence">Affine equivalence</a></li>
-<li><a href="#_musaic_equivalence">Musaic equivalence</a></li>
-</ul>
-</li>
-<li><a href="#_prime_form">Prime Form</a>
-<ul class="sectlevel2">
-<li><a href="#_what_prime_form_is">What Prime Form is</a></li>
-<li><a href="#_what_prime_form_is_not">What Prime Form is not</a></li>
-<li><a href="#_modal_prime_form">Modal prime form</a></li>
-</ul>
-</li>
-<li><a href="#_refs">Refs</a></li>
-</ul>
+<span id="author" class="author">Another toolbox for musical composition</span><br>
+<span id="revdate">From 88musaics.org project</span>
 </div>
 </div>
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>This project is a POC for main concepts illustrated on the <a href="https://88musaics.org">88musaics.org</a> site, plus others (modes, scales, chords&#8230;&#8203;). The implementation chosen for this application are detailed, and certain concepts from Musial Set Theory are discussed.</p>
+<p>Musaicbox application is intended to be a POC for main concepts illustrated on the <a href="https://88musaics.org">88musaics.org</a> site, plus others (modes, scales, chords&#8230;&#8203;). The implementation chosen for this application are detailed, and certain concepts from Musial Set Theory are discussed.</p>
 </div>
 </div>
 </div>
@@ -624,33 +567,33 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_introduction">Introduction</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Aim of this software is to highlight relationship (morphism) between logic spatial and sound structures.</p>
+<p>The idea behind this application is to offer the user a UI/UX to concretely manipulate abstract concepts, highlight relationship (morphism) between logic spatial and sound structures.</p>
 </div>
 <div class="paragraph">
-<p>The only sound will be product are there generate by user on his instruments :)</p>
+<p>We hope that user will make use of this tool in his composition and instrumental practice activities.<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup></p>
 </div>
 <div class="sect2">
 <h3 id="_for_which_audience">For which audience ?</h3>
 <div class="paragraph">
-<p>Musicians are looking for new "muses", based on a neutral and scientific approach.<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup></p>
+<p>Musicians are looking for new "muses", based on a neutral and scientific approach.<sup class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup></p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_use_cases">Use Cases</h3>
 <div class="paragraph">
-<p>4 entries (4 pages)</p>
+<p>4 entries (four main pages)</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>PCS page (with Undo/Redo.<sup class="footnote" id="_footnote_redo">[<a id="_footnoteref_2" class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup>)</p>
+<p>PCS page (with undo/redo.<sup class="footnote" id="_footnote_redo">[<a id="_footnoteref_3" class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup>)</p>
 </li>
 </ul>
 </div>
 <div class="exampleblock">
 <div class="content">
 <div class="paragraph">
-<p>Useful form one PCS, explore modes, possible chords and other PCS in geometrical transformation relationship (with animation), Forte number, invariant class, and more&#8230;&#8203;.</p>
+<p>Useful from one PCS, explore modes, possible chords and other PCS in geometrical transformation relationship (with animation), Forte number, invariant class, and more&#8230;&#8203;.</p>
 </div>
 <div class="openblock float-group">
 <div class="content">
@@ -704,10 +647,33 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="exampleblock">
 <div class="content">
 <div class="paragraph">
-<p>Explore musaics shearing same meta-stabilizers.<sup class="footnote">[<a id="_footnoteref_3" class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup> (meta for "up to transposition")</p>
+<p>Explore musaics shearing same is-stabilizers.<sup class="footnote">[<a id="_footnoteref_4" class="footnote" href="#_footnotedef_4" title="View footnote.">4</a>]</sup>, and partitioned by <strong>octotropes</strong>.</p>
+</div>
+<div class="openblock float-group">
+<div class="content">
+<div class="imageblock left text-center left">
+<div class="content">
+<img src="./assets/images/page88musaics.png" alt="page 88 musaics">
+</div>
+<div class="title">Figure 3. Example page 88 musaics</div>
+</div>
+</div>
+</div>
+<div class="openblock float-group">
+<div class="content">
+<div class="imageblock left text-center left">
+<div class="content">
+<img src="./assets/images/octotrope.png" alt="Octotrope def">
+</div>
+<div class="title">Figure 4. Octotrope, a geometry figure for is-stabilizers classes</div>
+</div>
+</div>
 </div>
 <div class="paragraph">
-<p>Example : There is 6 musaics which are invariant by complement operation (a stabilizer) : Select only <code>CM1</code> operation (C for <em>complement</em> M1 for <em>neutral multiplication operation</em>)</p>
+<p>Example : There is 6 musaics which are invariant by complement operation (a stabilizer) : Select only <code>CM1</code> operation (C for <em>complement</em> M1 for <em>neutral multiplication operation</em>). Set of these 6 musaics is partitioned by 3 octotropes (is-stabilizers classes) : <code>M1,M5,CM1,CM5</code>, <code>M1,M11,CM1,CM11</code> and <code>M1,M5,M7,M11,CM1,CM5,CM7,CM11</code></p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./assets/images/octotrope-cm1.png" alt="octotrope cm1"></span></p>
 </div>
 <div class="paragraph">
 <p>Push selection musaics to "Whiteboard" page (right click), or explore one musaic into "PCS" page.</p>
@@ -718,7 +684,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="content">
 <img src="./assets/images/6MusaicsInvariantByCplt.png" alt="6 musaics invariant by Cplt">
 </div>
-<div class="title">Figure 3. Musaics invariant by Cplt pushed on Whiteboard page</div>
+<div class="title">Figure 5. Musaics invariant by CM1 pushed on Whiteboard page</div>
 </div>
 </div>
 </div>
@@ -727,7 +693,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p>whiteboard page (with Undo/Redo.<sup class="footnoteref">[<a class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup> and Copy/Cut/Paste)</p>
+<p>whiteboard page (with Undo/Redo.<sup class="footnoteref">[<a class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup> and Copy/Cut/Paste)</p>
 </li>
 </ul>
 </div>
@@ -738,6 +704,26 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div class="paragraph">
 <p>Give the musician the ability to add text, organize PCS (multiple selection, position, representation, zoom, …), save page content to a file and restore content from a local file.</p>
+</div>
+<div class="openblock float-group">
+<div class="content">
+<div class="imageblock left text-center left">
+<div class="content">
+<img src="./assets/images/pageWhiteboard1.png" alt="Example Whiteboard page 1">
+</div>
+<div class="title">Figure 6. Example Whiteboard page 1</div>
+</div>
+</div>
+</div>
+<div class="openblock float-group">
+<div class="content">
+<div class="imageblock left text-center left">
+<div class="content">
+<img src="./assets/images/pageWhiteboard2.png" alt="Example Whiteboard page 2">
+</div>
+<div class="title">Figure 7. Example Whiteboard page 2</div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -750,18 +736,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect2">
 <h3 id="_abstraction">Abstraction</h3>
 <div class="paragraph">
-<p>Abstraction is a description of a reality.</p>
-</div>
-<div class="paragraph">
-<p>The person who abstracts, reduces reality, or what he perceives as reality, into something smaller.</p>
+<p>PCS is abstraction, a <em>pitches class set</em> where a pitch class refer to all pitches related to each other by octave and/or enharmonic equivalence.<sup class="footnote">[<a id="_footnoteref_5" class="footnote" href="#_footnotedef_5" title="View footnote.">5</a>]</sup></p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_orbit">Orbit</h3>
 <div class="paragraph">
-<p>Orbit is, finally, another term to describe an abstraction class.
-Elements of orbit share same characteristics of orbit.
-Example : Orbit cyclic of major chord <code>{ C,E,G }</code> characterised by interval structure  <code>IS:(4,3,5)</code>  is composed of 12 elements (<code>{ C, E, G }, { C#, E#, G# }, &#8230;&#8203;, { B, D#, F# }</code>)</p>
+<p>Orbit is a set where all elements (pcs) share the same equivalence property.</p>
+</div>
+<div class="paragraph">
+<p>Example : Orbit cyclic of major chord <code>{ C,E,G }</code> characterised by interval structure  <code>IS:(4,3,5)</code>  is composed of 12 elements (<code>{ C, E, G }, { C#, E#, G# }, &#8230;&#8203;, { B, D#, F# }</code>)</p>
 </div>
 <div class="openblock float-group">
 <div class="content">
@@ -769,7 +753,7 @@ Example : Orbit cyclic of major chord <code>{ C,E,G }</code> characterised by in
 <div class="content">
 <img src="./assets/images/maj-orbit-score2.png" alt="Orbit cyclic">
 </div>
-<div class="title">Figure 4. Orbit Cyclic in score view</div>
+<div class="title">Figure 8. Orbit Cyclic in score view</div>
 </div>
 </div>
 </div>
@@ -782,9 +766,12 @@ Example : Orbit cyclic of major chord <code>{ C,E,G }</code> characterised by in
 <div class="content">
 <img src="./assets/images/maj-orbit-clock2.png" alt="Orbit cyclic">
 </div>
-<div class="title">Figure 5. Orbit Cyclic in clock view</div>
+<div class="title">Figure 9. Orbit Cyclic in clock view</div>
 </div>
 </div>
+</div>
+<div class="paragraph">
+<p>More formally, orbits are the result of the action of a group (cyclic, affine, dihedral, &#8230;&#8203;, musaic) on Z/nZ.</p>
 </div>
 </div>
 </div>
@@ -831,57 +818,190 @@ Example : Orbit cyclic of major chord <code>{ C,E,G }</code> characterised by in
 <h2 id="_equivalence_relations">Equivalence relations</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This is a link that brings together different elements under one same roof, same orbit, same abstraction.</p>
+<p>It is about gathering all the elements sharing the same characteristic, in the same set called <strong>equivalence orbit</strong>, or <strong>X orbit</strong>, or <strong>orbit</strong> is equivalence context is clear.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+An orbit can be empty (contains empty pcs) or contain all elements. For a given equivalence relation, an element belongs to only one orbit. Orbits, as result of action of a group, partition the resulting data of this action.
+</td>
+</tr>
+</table>
 </div>
 <div class="sect2">
-<h3 id="_octave_equivalence">Octave equivalence</h3>
+<h3 id="_octaveenharmonic_equivalence">Octave/Enharmonic equivalence</h3>
 <div class="paragraph">
-<p>Reduce to 12 pitch classes and its 4096 PCS (2^12)</p>
+<p>Reduce to 12 pitches class and its 4096 PCS combinaisons (2^12).</p>
+</div>
+<div class="paragraph">
+<p><strong>Trivial group</strong> has <strong>4096</strong> orbits, each orbit has max only one pcs (cardinal = 1)</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_intervallic_structure_equivalence">Intervallic structure equivalence</h3>
 <div class="paragraph">
-<p>Reduce to 352 orbits</p>
+<p>This is form a cyclic group (group action on Z12).</p>
+</div>
+<div class="paragraph">
+<p>All pcs of a given orbit share <strong>same intervallic structure</strong>, <strong>obtained by transposition</strong>.</p>
+</div>
+<div class="paragraph">
+<p>Cyclic group has <strong>352</strong> orbits.<sup class="footnote">[<a id="_footnoteref_6" class="footnote" href="#_footnotedef_6" title="View footnote.">6</a>]</sup></p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_dihedral_equivalence">Dihedral equivalence</h3>
-
+<div class="paragraph">
+<p>In this group, all PCs of a given orbit share the same interval structure of itself or its <strong>inverse</strong>.</p>
+</div>
+<div class="paragraph">
+<p>Dihedral group has <strong>224</strong> orbits.</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_affine_equivalence">Affine equivalence</h3>
-
+<div class="paragraph">
+<p>In this group, any pcs of a given orbit share with others pcs into this orbit, same intervallic structure of itself or this inverse or this transformed by <strong>multiplication by 5 or 7 and their inverse</strong>.</p>
+</div>
+<div class="paragraph">
+<p>Affine group has <strong>156</strong> orbits.</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_musaic_equivalence">Musaic equivalence</h3>
-
+<div class="paragraph">
+<p>In this group, any pcs of a given orbit are in affine equivalence with itself or <strong>affine complement</strong>.</p>
+</div>
+<div class="paragraph">
+<p>Musaic group has 88 orbits.</p>
+</div>
 </div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_prime_form">Prime Form</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>A quality that allows, without ambiguity, to designate a representative among the elements of an orbit.</p>
+</div>
+<div class="paragraph">
+<p>To put it simply, it is the <strong>smallest element of an orbit</strong>.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Can be represented by a function XPrimeForm : pcs &#8594; pcs, where X is an equivalence relation.
+<br>
+Given 2 pcs: pcs1, pcs2, if XPrimeForm(pcs1) == XPrimeForm(pcs2), then pcs1 and pcs2 belong to the same X equivalence orbit.
+</td>
+</tr>
+</table>
+</div>
 <div class="sect2">
 <h3 id="_what_prime_form_is">What Prime Form is</h3>
-
+<div class="paragraph">
+<p>Given a X orbit (of pcs), there will always be a uniq pcs <em>smaller</em> than others into same orbit.</p>
+</div>
+<div class="paragraph">
+<p>Originally <a href="#Forte">[Forte]</a>, prime denotes a pcs in normal form and "most packed on the left (0)"</p>
+</div>
+<div class="paragraph">
+<p><a href="#Rahn">[Rahn]</a> John Rahn proposes a more rational approach, based on the vector representation of a pcs (and its image function in an integer)</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_what_prime_form_is_not">What Prime Form is not</h3>
-
+<div class="paragraph">
+<p>Prime form is an internal technique, <strong>without musical resonance</strong>.</p>
+</div>
+<div class="paragraph">
+<p>In absolu, any pcs into an orbit can be a representative of their orbit.</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_modal_prime_form">Modal prime form</h3>
-
+<div class="paragraph">
+<p>It is a pcs of cyclic orbit that, if possible, highlights its symmetry (else is cyclic prime form).</p>
+</div>
+<div class="paragraph">
+<p>Example on pcs : [2, 3, 5, 7, 8] :</p>
+</div>
+<div class="openblock float-group">
+<div class="content">
+<div class="imageblock left text-center left">
+<div class="content">
+<img src="./assets/images/pcs_2_3_5_7_8.png" alt="Modal and cyclic prime form">
+</div>
+<div class="title">Figure 10. Modal and cyclic prime form</div>
+</div>
+</div>
+</div>
+<div class="openblock float-group">
+<div class="content">
+<div class="imageblock left text-center left">
+<div class="content">
+<img src="./assets/images/pcs_2_3_5_7_8-PF.png" alt="Cyclic prime form">
+</div>
+<div class="title">Figure 11. Cyclic prime form</div>
+</div>
+</div>
+</div>
+<div class="openblock float-group">
+<div class="content">
+<div class="imageblock left text-center left">
+<div class="content">
+<img src="./assets/images/pcs_2_3_5_7_8-MPF.png" alt="Modal prime form">
+</div>
+<div class="title">Figure 12. Modal prime form</div>
+</div>
+</div>
+</div>
+<div class="openblock float-group">
+<div class="content">
+<div class="imageblock left text-center left">
+<div class="content">
+<img src="./assets/images/pcs_2_3_5_7_8-wb1.png" alt="Modal and cyclic prime form">
+</div>
+<div class="title">Figure 13. Cyclic orbit and his modal and prime form</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Same, in other views :</p>
+</div>
+<div class="openblock float-group">
+<div class="content">
+<div class="imageblock left text-center left">
+<div class="content">
+<img src="./assets/images/pcs_2_3_5_7_8-wb2.png" alt="Modal and cyclic prime form">
+</div>
+<div class="title">Figure 14. Cyclic orbit and his modal and prime form</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_refs">Refs</h2>
+<h2 id="_references">References</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>This is a link to the <a href="https://docs.asciidoctor.org/home/">Asciidoctor documentation</a>.
-This is an attribute reference <a href="https://docs.asciidoctor.org/asciidoc/latest/syntax-quick-reference/">that links this text to the AsciiDoc Syntax Quick Reference</a>.</p>
+<div class="ulist bibliography">
+<ul class="bibliography">
+<li>
+<p><a id="Forte"></a>[Forte] Forte, Allen. 1973. The Structure of Atonal Music. New Haven: Yale University Press.</p>
+</li>
+<li>
+<p>[<a id="Rahn"></a> Rahn, John. 1980. Basic Atonal Theory. New York: Longman.</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -889,19 +1009,27 @@ This is an attribute reference <a href="https://docs.asciidoctor.org/asciidoc/la
 <div id="footnotes">
 <hr>
 <div class="footnote" id="_footnotedef_1">
-<a href="#_footnoteref_1">1</a>. provided that they accept the postulate of the decomposition of an octave into 12 equal parts.
+<a href="#_footnoteref_1">1</a>. The only sound that will be produced will be the one generated by the user on his instrument :)
 </div>
 <div class="footnote" id="_footnotedef_2">
-<a href="#_footnoteref_2">2</a>. redo:Back to the future only possible if the past has not been updated
+<a href="#_footnoteref_2">2</a>. provided that they accept the postulate of the decomposition of an octave into 12 equal parts.
 </div>
 <div class="footnote" id="_footnotedef_3">
-<a href="#_footnoteref_3">3</a>. A stabiliser is a transformation operation which conserve structure
+<a href="#_footnoteref_3">3</a>. redo:Back to the future only possible if the past has not been updated
+</div>
+<div class="footnote" id="_footnotedef_4">
+<a href="#_footnoteref_4">4</a>. A stabiliser is a transformation operation which conserve intervallic structure
+</div>
+<div class="footnote" id="_footnotedef_5">
+<a href="#_footnoteref_5">5</a>. see Allen Forte, John Rahn&#8230;&#8203;
+</div>
+<div class="footnote" id="_footnotedef_6">
+<a href="#_footnoteref_6">6</a>. 352 &gt; 4096 / 12, because somme pcs are there cardinal cyclic orbit smaller than 12 (pcs in <strong>limited transposition</strong>)
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 1.0<br>
-Last updated 2024-10-01 19:09:06 +0200
+Last updated 2024-10-10 18:47:40 +0200
 </div>
 </div>
 <script>

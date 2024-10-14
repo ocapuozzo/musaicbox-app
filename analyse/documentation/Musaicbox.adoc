@@ -1,13 +1,15 @@
 = MusaicBox
-Olivier Capuozzo <olivier.capuozzo@gmail.com>
-1.0, May 20, 2024: Another toolbox for musical composition
-:description: support avec exercices
+Another toolbox for musical composition
+From 88musaics.org project
+
+:description: about musaicbox app
 :icons: font
 :listing-caption: Listing
 :toc-title: Table des matières
 :toc: left
 :toclevels: 4
-:url-quickref: https://docs.asciidoctor.org/asciidoc/latest/syntax-quick-reference/
+// :author: Olivier Capuozzo <olivier.capuozzo@gmail.com>
+// :url-quickref: https://docs.asciidoctor.org/asciidoc/latest/syntax-quick-reference/
 
 ifdef::backend-pdf[]
 :source-highlighter: rouge
@@ -17,7 +19,7 @@ ifndef::backend-pdf[]
 endif::[]
 :imagesdir: ./assets/images
 
-This project/application is intended to be a POC for main concepts illustrated on the https://88musaics.org[88musaics.org] site, plus others (modes, scales, chords...). The implementation chosen for this application are detailed, and certain concepts from Musial Set Theory are discussed.
+Musaicbox application is intended to be a POC for main concepts illustrated on the https://88musaics.org[88musaics.org] site, plus others (modes, scales, chords...). The implementation chosen for this application are detailed, and certain concepts from Musial Set Theory are discussed.
 
 == Introduction
 
@@ -35,7 +37,7 @@ Musicians are looking for new "muses", based on a neutral and scientific approac
 
 * PCS page (with undo/redo.footnote:redo[redo:Back to the future only possible if the past has not been updated])
 ====
-Useful form one PCS, explore modes, possible chords and other PCS in geometrical transformation relationship (with animation), Forte number, invariant class, and more....
+Useful from one PCS, explore modes, possible chords and other PCS in geometrical transformation relationship (with animation), Forte number, invariant class, and more....
 [.float-group]
 --
 [.left]
@@ -64,16 +66,37 @@ image::17PCS-LT.png["17 PCS LT in Cyclic Prime Form" float="left",align="center"
 * 88 musaics page
 ====
 
-Explore musaics shearing same meta-stabilizers.footnote:[A stabiliser is a transformation operation which conserve structure] (meta for "up to transposition")
 
-Example : There is 6 musaics which are invariant by complement operation (a stabilizer) : Select only `CM1` operation (C for _complement_ M1 for _neutral multiplication operation_)
+Explore musaics shearing same is-stabilizers.footnote:[A stabiliser is a transformation operation which conserve intervallic structure], and partitioned by *octotropes*.
+
+[.float-group]
+--
+[.left]
+.Example page 88 musaics
+image::page88musaics.png["page 88 musaics" float="left",align="center"]
+--
+
+
+
+[.float-group]
+--
+[.left]
+.Octotrope, a geometry figure for is-stabilizers classes
+image::octotrope.png["Octotrope def" float="left",align="center"]
+--
+
+
+
+Example : There is 6 musaics which are invariant by complement operation (a stabilizer) : Select only `CM1` operation (C for _complement_ M1 for _neutral multiplication operation_). Set of these 6 musaics is partitioned by 3 octotropes (is-stabilizers classes) : `M1,M5,CM1,CM5`, `M1,M11,CM1,CM11` and `M1,M5,M7,M11,CM1,CM5,CM7,CM11`
+
+image:octotrope-cm1.png[]
 
 Push selection musaics to "Whiteboard" page (right click), or explore one musaic into "PCS" page.
 
 [.float-group]
 --
 [.left]
-.Musaics invariant by Cplt pushed on Whiteboard page
+.Musaics invariant by CM1 pushed on Whiteboard page
 image::6MusaicsInvariantByCplt.png["6 musaics invariant by Cplt" float="left",align="center"]
 --
 
@@ -87,19 +110,33 @@ Organize PCS in various representations on 2D surface.
 
 Give the musician the ability to add text, organize PCS (multiple selection, position, representation, zoom, …), save page content to a file and restore content from a local file.
 
+[.float-group]
+--
+[.left]
+.Example Whiteboard page 1
+image::pageWhiteboard1.png["Example Whiteboard page 1" float="left",align="center"]
+--
+
+[.float-group]
+--
+[.left]
+.Example Whiteboard page 2
+image::pageWhiteboard2.png["Example Whiteboard page 2" float="left",align="center"]
+--
+
+
+
 ====
 
 == PCS
 
 === Abstraction
 
-Abstraction is a description of a reality.
-
-The person who abstracts, reduces reality, or what he perceives as reality, into something smaller.
+PCS is abstraction, a _pitches class set_ where a pitch class refer to all pitches related to each other by octave and/or enharmonic equivalence.footnote:[see Allen Forte, John Rahn...]
 
 === Orbit
-Orbit is, finally, another term to describe an abstraction class.
-Elements of orbit share same characteristics of orbit.
+Orbit is a set where all elements (pcs) share the same equivalence property.
+
 Example : Orbit cyclic of major chord `{ C,E,G }` characterised by interval structure  `IS:(4,3,5)`  is composed of 12 elements (`{ C, E, G }, { C#, E#, G# }, ..., { B, D#, F# }`)
 
 [.float-group]
@@ -117,6 +154,8 @@ Below, same, with clock representation.
 .Orbit Cyclic in clock view
 image::maj-orbit-clock2.png["Orbit cyclic" float="left",align="center"]
 --
+
+More formally, orbits are the result of the action of a group (cyclic, affine, dihedral, ..., musaic) on Z/nZ.
 
 
 == PCS Representation
@@ -136,31 +175,113 @@ bla bla
 
 == Equivalence relations
 
-This is a link that brings together different elements under one same roof, same orbit, same abstraction.
+It is about gathering all the elements sharing the same characteristic, in the same set called *equivalence orbit*, or *X orbit*, or *orbit* is equivalence context is clear.
 
+TIP: An orbit can be empty (contains empty pcs) or contain all elements. For a given equivalence relation, an element belongs to only one orbit. Orbits, as result of action of a group, partition the resulting data of this action.
 
-=== Octave equivalence
+=== Octave/Enharmonic equivalence
 
-Reduce to 12 pitch classes and its 4096 PCS (2^12)
+Reduce to 12 pitches class and its 4096 PCS combinaisons (2^12).
+
+*Trivial group* has *4096* orbits, each orbit has max only one pcs (cardinal = 1)
 
 === Intervallic structure equivalence
 
-Reduce to 352 orbits
+This is form a cyclic group (group action on Z12).
 
+All pcs of a given orbit share *same intervallic structure*, *obtained by transposition*.
+
+Cyclic group has *352* orbits.footnote:[352 > 4096 / 12, because somme pcs are there cardinal cyclic orbit smaller than 12 (pcs in *limited transposition*)]
 
 === Dihedral equivalence
 
+In this group, all PCs of a given orbit share the same interval structure of itself or its *inverse*.
+
+Dihedral group has *224* orbits.
+
 === Affine equivalence
+
+In this group, any pcs of a given orbit share with others pcs into this orbit, same intervallic structure of itself or this inverse or this transformed by *multiplication by 5 or 7 and their inverse*.
+
+Affine group has *156* orbits.
 
 === Musaic equivalence
 
+In this group, any pcs of a given orbit are in affine equivalence with itself or *affine complement*.
+
+Musaic group has 88 orbits.
+
 == Prime Form
 
+A quality that allows, without ambiguity, to designate a representative among the elements of an orbit.
+
+To put it simply, it is the *smallest element of an orbit*.
+
+TIP: Can be represented by a function XPrimeForm : pcs -> pcs, where X is an equivalence relation.
+ +
+Given 2 pcs: pcs1, pcs2, if XPrimeForm(pcs1) == XPrimeForm(pcs2), then pcs1 and pcs2 belong to the same X equivalence orbit.
+
 === What Prime Form is
+
+Given a X orbit (of pcs), there will always be a uniq pcs _smaller_ than others into same orbit.
+
+Originally <<Forte>>, prime denotes a pcs in normal form and "most packed on the left (0)"
+
+<<Rahn>> John Rahn proposes a more rational approach, based on the vector representation of a pcs (and its image function in an integer)
+
+
 === What Prime Form is not
 
+Prime form is an internal technique, *without musical resonance*.
+
+In absolu, any pcs into an orbit can be a representative of their orbit.
 
 === Modal prime form
+
+It is a pcs of cyclic orbit that, if possible, highlights its symmetry (else is cyclic prime form).
+
+Example on pcs : [2, 3, 5, 7, 8] :
+
+[.float-group]
+--
+[.left]
+.Modal and cyclic prime form
+image::pcs_2_3_5_7_8.png["Modal and cyclic prime form" float="left",align="center"]
+--
+
+[.float-group]
+--
+[.left]
+.Cyclic prime form
+image::pcs_2_3_5_7_8-PF.png["Cyclic prime form" float="left",align="center"]
+--
+
+[.float-group]
+--
+[.left]
+.Modal prime form
+image::pcs_2_3_5_7_8-MPF.png["Modal prime form" float="left",align="center"]
+--
+
+
+
+[.float-group]
+--
+[.left]
+.Cyclic orbit and his modal and prime form
+image::pcs_2_3_5_7_8-wb1.png["Modal and cyclic prime form" float="left",align="center"]
+--
+
+Same, in other views :
+
+[.float-group]
+--
+[.left]
+.Cyclic orbit and his modal and prime form
+image::pcs_2_3_5_7_8-wb2.png["Modal and cyclic prime form" float="left",align="center"]
+--
+
+
 
 //
 // ==== Third level heading
@@ -210,8 +331,16 @@ Reduce to 352 orbits
 // . ordered list item
 //
 // The text at the end of this sentence is cross referenced to <<_third_level_heading,the third level heading>>
+//
+// == Refs
+//
+// This is a link to the https://docs.asciidoctor.org/home/[Asciidoctor documentation].
+// This is an attribute reference {url-quickref}[that links this text to the AsciiDoc Syntax Quick Reference].
 
-== Refs
 
-This is a link to the https://docs.asciidoctor.org/home/[Asciidoctor documentation].
-This is an attribute reference {url-quickref}[that links this text to the AsciiDoc Syntax Quick Reference].
+[bibliography]
+== References
+
+* [[[Forte]]] Forte, Allen. 1973. The Structure of Atonal Music. New Haven: Yale University Press.
+
+* [[[Rahn]] Rahn, John. 1980. Basic Atonal Theory. New York: Longman.
