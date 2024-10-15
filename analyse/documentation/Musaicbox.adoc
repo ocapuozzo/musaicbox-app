@@ -217,18 +217,17 @@ A quality that allows, without ambiguity, to designate a representative among th
 
 To put it simply, it is the *smallest element of an orbit*.
 
-TIP: Can be represented by a function XPrimeForm : pcs -> pcs, where X is an equivalence relation.
+TIP: Can be represented by a function PrimeForm : EquivalenceRelation x pcs -> pcs (from an equivalence relation and a pcs given we obtain one and oly one pcs representative of equivalence relation orbit.
  +
-Given 2 pcs: pcs1, pcs2, if XPrimeForm(pcs1) == XPrimeForm(pcs2), then pcs1 and pcs2 belong to the same X equivalence orbit.
+Given R, a equivalence relation, and 2 pcs: pcs1, pcs2, if PrimeForm(R, pcs1) == XPrimeForm(R, pcs2), then pcs1 and pcs2 belong to the same R equivalence orbit.
 
 === What Prime Form is
 
-Given a X orbit (of pcs), there will always be a uniq pcs _smaller_ than others into same orbit.
+Given a equivalence relation orbit (of pcs), there will always be a uniq pcs _smaller_ than others into same orbit.
 
 Originally <<Forte>>, prime denotes a pcs in normal form and "most packed on the left (0)"
 
 <<Rahn>> John Rahn proposes a more rational approach, based on the vector representation of a pcs (and its image function in an integer)
-
 
 === What Prime Form is not
 

@@ -1386,6 +1386,10 @@ export class IPcs {
     return pcsSameFeatureIS;
   }
 
-  // TODO arranger les opérations en inner et mapped et peut-être sortir des fonctions utilitaires pour binpcs ?
+  isInWellKnowPrimeForm(): boolean {
+    const idsInPrimeForm = [this.cyclicPrimeForm().id, this.dihedralPrimeForm().id, this.affinePrimeForm().id, this.musaicPrimeForm().id]
+    return idsInPrimeForm.includes(this.id)
+  }
 
+  // TODO arrange operations in inner and mapped ?? maybe out utility functions for binpcs ?
 }

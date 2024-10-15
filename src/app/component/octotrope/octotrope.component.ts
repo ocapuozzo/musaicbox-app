@@ -29,7 +29,9 @@ const indexOperationOctotrope = [['M1', 'CM1'], ['M7', 'CM7'], ['M11', 'CM11'], 
 })
 export class OctotropeComponent {
   @ViewChild('canvas', {static: false}) canvas: ElementRef<HTMLCanvasElement>;
-  @Input() pcs: IPcs | null = null
+
+  @Input() pcs: IPcs | null
+
   @Input() opStabilizers : string[] = []  // useful for testing
 
   size = 25
@@ -37,7 +39,6 @@ export class OctotropeComponent {
 
   @Input() selected = false
   active = true
-
 
   ngAfterViewInit() {
     this.draw();
@@ -59,13 +60,14 @@ export class OctotropeComponent {
 
     if (this.opStabilizers.length === 0) {
        if (this.pcs === null) {
-         console.error("ddom on no data !!!")
+         console.error("octotrope on no data !!!")
          return;
        }
       this.opStabilizers = this.pcs.stabilizer.motifStabilizer.motifStabOperations
     }
 
     this.ctx = this.canvas.nativeElement.getContext('2d');
+
     if (!this.ctx) return
 
     const size = this.size
@@ -165,7 +167,6 @@ export class OctotropeComponent {
       }
       ang = ang + 2 * Math.PI / 4;
     }
-
     this.ctx.restore()
   }
 }

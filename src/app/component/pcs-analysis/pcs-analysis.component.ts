@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component} from '@angular/core';
 import {IPcs} from "../../core/IPcs";
 import {ManagerPagePcsListService} from "../../service/manager-page-pcs-list.service";
 import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
@@ -12,6 +12,7 @@ import {PcsColor} from "../../color/PcsColor";
 import {MatTooltip} from "@angular/material/tooltip";
 import {MusaicOperation} from "../../core/MusaicOperation";
 import {MusaicComponent} from "../musaic/musaic.component";
+import {OctotropeComponent} from "../octotrope/octotrope.component";
 
 @Component({
   selector: 'app-pcs-analysis',
@@ -20,7 +21,8 @@ import {MusaicComponent} from "../musaic/musaic.component";
     MatButton,
     MatIcon,
     MatTooltip,
-    MusaicComponent
+    MusaicComponent,
+    OctotropeComponent
   ],
   templateUrl: './pcs-analysis.component.html',
   styleUrl: './pcs-analysis.component.css'

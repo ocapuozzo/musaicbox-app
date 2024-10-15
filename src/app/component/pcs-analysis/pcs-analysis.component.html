@@ -9,7 +9,7 @@
       </p>
       <p [hidden]="pcs.n == 12">
         PCS :
-        <span class="analyse-pcs"> {{ pcs.getPcsStr() }}<sub> {{ pcs.iPivot }} </sub></span> &nbsp;
+        <span class="analyse-pcs"> {{ pcs.getPcsStr() }}<sub> {{ pcs.iPivot }} </sub> </span>
         Cardinal :
         <span class="analyse-pcs">#{{ pcs.cardinal }}</span>
         PowerSet cardinal :
@@ -27,6 +27,7 @@
       <p>
         PCS :
         <span class="analyse-pcs"> {{ pcsMapped.getPcsStr() }}<sub> {{ pcsMapped.iPivot }} </sub></span> &nbsp;
+        @if (pcs.isInWellKnowPrimeForm()) { <span style="font-style: italic"> &nbsp; (* prime form) </span>}
       </p>
       <p>
         Vector : <span class="analyse-pcs">[{{ pcsMapped.getMappedBinPcs() }}]<sub> {{ pcsMapped.iPivot }} </sub></span> &nbsp;
@@ -156,12 +157,22 @@
     </p>
   </fieldset>
 </div>
-@if (pcsMapped.n == 12) {
+@if (pcsMapped.n === 12) {
   <div class="marge-5">
   <fieldset class="representation-border" style="max-width: 350px;">
-    <legend class="representation-border">{{ orbitWithSameMotifStabilizersOf(pcsMapped).length }} Musaics sharing
-      exactly same set of motif-stabilizers (up to transposition) :
-      {{ pcsMapped.musaicPrimeForm().orbit.motifStabilizer.name }}
+    <legend class="representation-border">
+      <span style="display: inline-flex; align-items: center;">
+        {{ '' // tips for refresh octotrope component !! ??? }}
+        @for  (pcs of [pcsMapped.musaicPrimeForm()] ; track pcs.id) {
+          <app-octotrope [w]="50" [pcs]="pcs"></app-octotrope>
+        }
+        <span style="padding-left: 8px">
+        {{ orbitWithSameMotifStabilizersOf(pcsMapped).length }} &nbsp;&nbsp;Musaics sharing
+      exactly same set of is-stabilizers (up to transposition) :
+        {{ pcsMapped.musaicPrimeForm().orbit.motifStabilizer.name }}
+          </span>
+      </span>
+
     </legend>
     <hr>
     <div class="row">
@@ -185,6 +196,7 @@
   </fieldset>
   </div>
 }
+
 
 @if (!pcs.orbit.isDetached()) {
   <div class="marge-5">
