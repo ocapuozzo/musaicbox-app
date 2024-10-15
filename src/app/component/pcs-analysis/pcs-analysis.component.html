@@ -167,7 +167,8 @@
           <app-octotrope [w]="50" [pcs]="pcs"></app-octotrope>
         }
         <span style="padding-left: 8px">
-        {{ orbitWithSameMotifStabilizersOf(pcsMapped).length }} &nbsp;&nbsp;Musaics sharing
+        {{ orbitWithSameMotifStabilizersOf(pcsMapped).length }}
+          &nbsp;Musaic{{ orbitWithSameMotifStabilizersOf(pcsMapped).length > 1 ? 's': ''}} sharing
       exactly same set of is-stabilizers (up to transposition) :
         {{ pcsMapped.musaicPrimeForm().orbit.motifStabilizer.name }}
           </span>
