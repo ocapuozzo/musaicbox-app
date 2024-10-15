@@ -115,7 +115,8 @@ export class OctotropeComponent {
         ? indexOperationOctotrope[index][1] // CM1 ou CM5, or CM7 or CM11
         : ''
 
-      if (indexPearlColor + indexPearlColorCplt === 'no') {
+      if (indexPearlColor + indexPearlColorCplt === 'no') { // test minimalist octotrope :))
+        // never pass in this branch, else change 'no' by '' (empty string)
         // NO operation Mx CMx stabilizer, draw gray pearl
         this.ctx.beginPath();
         this.ctx.lineWidth = 1
