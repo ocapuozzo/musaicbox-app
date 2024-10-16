@@ -1230,6 +1230,15 @@ export class IPcs {
     // twice have private property in lazy/cache, so have same complexity O(n) (?)
   }
 
+  /**
+   * true if orbit cardinal < 96 (i.e motif stabilizer more than M1-T0)
+   */
+  isLimitedTransformation() {
+    // implementation limited for n === 12
+    // TODO : generalize this method !!!
+    return this.n === 12 && this.musaicPrimeForm().orbit.cardinal < this.n*8;
+  }
+  
   getPivot(): number | undefined {
     return this.iPivot;
   }
@@ -1392,4 +1401,5 @@ export class IPcs {
   }
 
   // TODO arrange operations in inner and mapped ?? maybe out utility functions for binpcs ?
+
 }

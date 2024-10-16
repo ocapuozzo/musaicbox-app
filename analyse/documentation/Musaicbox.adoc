@@ -166,12 +166,20 @@ bla bla
 === Vector
 === Integer
 === Geometry
-
 ==== Circle
 ==== DIS
 ===== Tonetz, Musaic and more
 
 === Together
+
+== PCS Identity
+=== State
+=== Number
+==== Polynomial function
+==== Augmented Polynomial function
+
+
+
 
 == Equivalence relations
 
@@ -227,13 +235,13 @@ Given a equivalence relation orbit (of pcs), there will always be a uniq pcs _sm
 
 Originally <<Forte>>, prime denotes a pcs in normal form and "most packed on the left (0)"
 
-<<Rahn>> John Rahn proposes a more rational approach, based on the vector representation of a pcs (and its image function in an integer)
+<<Rahn>> John Rahn proposes a more rational approach, based on vector representation of a pcs (and its image function in an integer)
 
 === What Prime Form is not
 
 Prime form is an internal technique, *without musical resonance*.
 
-In absolu, any pcs into an orbit can be a representative of their orbit.
+In absolute terms, any pcs into an orbit can be a representative of their orbit.
 
 === Modal prime form
 

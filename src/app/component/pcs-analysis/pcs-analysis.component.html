@@ -64,10 +64,34 @@
       </p>
       <p>
         PCS in Limited Transposition :
-        <span class="analyse-pcs">{{ pcsMapped.isLimitedTransposition() }}</span>
+        <span class="analyse-pcs">
+        @if (pcsMapped.isLimitedTransposition()) {
+          <b>{{ pcsMapped.isLimitedTransposition() }}</b>
+        }@else {
+          {{ pcsMapped.isLimitedTransposition() }}
+        }
+        </span>
         @if (pcsMapped.isLimitedTransposition()) {
           ( <span class="analyse-pcs">{{ pcs.cyclicPrimeForm().orbit.name }}</span> )
         }
+      </p>
+      <p>
+        PCS in Limited Transformation :
+        <span style="display: inline-flex; align-items: center;">
+        <span class="analyse-pcs">
+          @if (pcsMapped.isLimitedTransformation()) {
+            <b>{{ pcsMapped.isLimitedTransformation() }}</b>
+          }@else {
+            {{ pcsMapped.isLimitedTransformation() }}
+          }
+
+        </span>&nbsp;&nbsp;
+        {{ '' // tips for refresh octotrope component !! ??? }}
+          @for  (pcs of [pcsMapped.musaicPrimeForm()] ; track pcs.id) {
+            <app-octotrope [w]="30" [pcs]="pcs"></app-octotrope>
+          }
+        </span>
+
       </p>
       <p style="max-width: 400px">
         Invariant by :
