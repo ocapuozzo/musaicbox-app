@@ -22,6 +22,7 @@ import {MatSlideToggle} from "@angular/material/slide-toggle";
 import {ManagerPageWBService} from "../../service/manager-page-wb.service";
 import {OctotropeComponent} from "../../component/octotrope/octotrope.component";
 import {ArrayUtil} from "../../utils/ArrayUtil";
+import {ManagerPageEightyHeightService} from "../../service/manager-page-eighty-height.service";
 
 
 export interface IOrbitMusaic {
@@ -79,7 +80,9 @@ export class The88Component implements OnInit {
   constructor(private readonly managerHomePcsService: ManagerPagePcsService,
               private readonly router: Router,
               private readonly managerLocalStorageService: ManagerLocalStorageService,
-              private readonly managerPageWBService: ManagerPageWBService) {
+              private readonly managerPageWBService: ManagerPageWBService,
+              private readonly managerPageEightyHeightService: ManagerPageEightyHeightService,
+              ) {
 
     function makePcsDto(pcs: IPcs): UIPcsDto {
       let uiMus = new UIMusaic({
@@ -118,6 +121,9 @@ export class The88Component implements OnInit {
   ngOnInit(): void {
     this.currentSelectedOps = this.managerLocalStorageService.restorePageThe88()
     this.updateOrbitsGroupedByMotifStab()
+    this.managerPageEightyHeightService.eventSearchMatchMusaic.subscribe((somePcs: IPcs[]) => {
+      this.searchMusaicThatMatches(somePcs)
+    })
     // this.update88musicsWhenUserSelectOp()
   }
 
@@ -242,6 +248,31 @@ export class The88Component implements OnInit {
     return match
   }
 
+  private searchMusaicThatMatches(somePcs: IPcs[]) {
+    let newMusaicOrbits: IOrbitMusaic[] = []
+    let color: string = "black"
+    this.nbMusaicsMatch = 0
+
+    // loop over 88 musaics
+    this.listOrbits.forEach(musaic => {
+      color = "black"
+      // search if current musaic match one pcs of somePcs
+      for (let i = 0; i < somePcs.length; i++) {
+        const pcs = somePcs[i]
+        if (musaic.pcsDto.pcs.orbit.getPcsWithThisPid(pcs.pid()) !== undefined) {
+          this.nbMusaicsMatch++
+          color = 'blue'
+          break
+        }
+      }
+      musaic.pcsDto.colorPitchOn = color
+      newMusaicOrbits.push({...musaic, color: color})
+    })
+    // for auto update template
+    this.listOrbits = newMusaicOrbits
+  }
+
   protected readonly console = console;
   protected readonly EightyEight = EightyEight;
+
 }

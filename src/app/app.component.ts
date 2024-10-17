@@ -18,6 +18,7 @@ import {ManagerPagePcsListService} from "./service/manager-page-pcs-list.service
 import {MatTooltip} from "@angular/material/tooltip";
 import {PcsSearch} from "./utils/PcsSearch";
 import {ManagerPageWBService} from "./service/manager-page-wb.service";
+import {ManagerPageEightyHeightService} from "./service/manager-page-eighty-height.service";
 
 
 @Component({
@@ -54,6 +55,7 @@ export class AppComponent {
               private readonly managerPagePcsService: ManagerPagePcsService,
               private readonly managerPagePcsListService: ManagerPagePcsListService,
               private readonly managerPageWBService: ManagerPageWBService,
+              private readonly managerPageEightyHeightService: ManagerPageEightyHeightService,
               private readonly breakpointObserver: BreakpointObserver,
               private readonly router: Router) {
     this.breakpoint$.subscribe(() =>
@@ -78,11 +80,11 @@ export class AppComponent {
    */
   @HostListener('window:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {
-    if (event.altKey && (event.shiftKey  || event.metaKey)) {
-      console.log("event key = ", event)
-      switch ( event.key) {
+    if (event.altKey && (event.shiftKey || event.metaKey)) {
+      // console.log("event key = ", event)
+      switch (event.key) {
         case "G" :
-          this.p4GuitarPageActivate = ! this.p4GuitarPageActivate
+          this.p4GuitarPageActivate = !this.p4GuitarPageActivate
           break
       }
     }
@@ -105,24 +107,18 @@ export class AppComponent {
       if (pcsString) {
         if (pcsString.startsWith('iv:')) {
           this.searchPcsWithThisIV(pcsString.substring(3))
-        }else if (pcsString.startsWith('is:')) {
+        } else if (pcsString.startsWith('is:')) {
           this.searchPcsWithThisIS(pcsString.substring(3))
 
-      }else if (pcsString.startsWith('pid:')) {
-        this.searchPcsWithThisPid(pcsString.substring(4))
-      } else {
+        } else if (pcsString.startsWith('pid:')) {
+          this.searchPcsWithThisPid(pcsString.substring(4))
+        } else {
           try {
             let pcs = new IPcs({strPcs: pcsString})
             //console.log(" pcs = ", pcs)
             if (pcs.cardinal > 0) {
               this.checkoutForm.reset();
-              // console.log("this route = ",  this.router.url)
-              if (this.router.url === '/w-board') {
-                 this.managerPageWBService.addPcs({somePcs:[pcs]})
-              } else {
-                this.managerPagePcsService.replaceBy(pcs)
-                this.router.navigateByUrl('/pcs');
-              }
+              this.gotoCurrentPage(pcs)
             }
           } catch (e: any) {
           }
@@ -142,16 +138,21 @@ export class AppComponent {
     const pcsWithSameIV: IPcs[] = PcsSearch.searchPcsWithThisIV(searchIV)
     // console.log("pcsWithSameIV : " + pcsWithSameIV)
     if (pcsWithSameIV.length > 0) {
-      if (this.router.url == '/w-board') {
-        this.managerPageWBService.addPcs({somePcs:pcsWithSameIV})
-      } else {
-        // select the first of list as current pcs
-        this.managerPagePcsService.replaceBy(pcsWithSameIV[0])
-        // push all pcs having same IV into list pcs of pcs page
-        for (const pcs of pcsWithSameIV) {
-          this.managerPagePcsListService.addPcs('iv:' + searchIV, pcs)
-        }
-        this.router.navigateByUrl('/pcs');
+      switch (this.router.url) {
+        case '/w-board' :
+          this.managerPageWBService.addPcs({somePcs: pcsWithSameIV})
+          break
+        case '/the88' :
+          this.managerPageEightyHeightService.searchMusaic(pcsWithSameIV)
+          break;
+        default :
+          // select the first of list as current pcs
+          this.managerPagePcsService.replaceBy(pcsWithSameIV[0])
+          // push all pcs having same IV into list pcs of pcs page
+          for (const pcs of pcsWithSameIV) {
+            this.managerPagePcsListService.addPcs('iv:' + searchIV, pcs)
+          }
+          this.router.navigateByUrl('/pcs');
       }
     }
   }
@@ -166,13 +167,7 @@ export class AppComponent {
   private searchPcsWithThisIS(searchIS: string) {
     const pcs = PcsSearch.searchPcsWithThisIS(searchIS)
     if (pcs) {
-      if (this.router.url == '/w-board') {
-        this.managerPageWBService.addPcs({somePcs:[pcs]})
-      } else {
-        // select the first of list as current pcs
-        this.managerPagePcsService.replaceBy(pcs)
-        this.router.navigateByUrl('/pcs');
-      }
+      this.gotoCurrentPage(pcs)
     }
   }
 
@@ -181,14 +176,23 @@ export class AppComponent {
     if (!isNaN(integerPid)) {
       const pcs = PcsSearch.searchPcsWithThisPid(integerPid)
       if (pcs) {
-        if (this.router.url == '/w-board') {
-          this.managerPageWBService.addPcs({somePcs:[pcs]})
-        } else {
-          // select the first of list as current pcs
-          this.managerPagePcsService.replaceBy(pcs)
-          this.router.navigateByUrl('/pcs');
-        }
+        this.gotoCurrentPage(pcs)
       }
+    }
+  }
+
+  private gotoCurrentPage(pcs: IPcs) {
+    console.log("this route = ", this.router.url)
+    switch (this.router.url) {
+      case '/w-board' :
+        this.managerPageWBService.addPcs({somePcs: [pcs]})
+        break
+      case '/the88' :
+        this.managerPageEightyHeightService.searchMusaic([pcs])
+        break;
+      default :
+        this.managerPagePcsService.replaceBy(pcs)
+        this.router.navigateByUrl('/pcs');
     }
   }
 }
