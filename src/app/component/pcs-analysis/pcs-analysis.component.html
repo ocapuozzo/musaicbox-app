@@ -42,7 +42,14 @@
       </p>
       <p>
         Intervallic Structure :
-        <span class="analyse-pcs">({{ pcsMapped.is() }})</span>
+        <span class="analyse-pcs">({{ pcsMapped.getWithDefaultPivot().is() }})</span>
+
+        @if (! pcsMapped.isPivotFirstPosition() ) {
+          shifted to
+          <button mat-button (click)="doReplaceByPcsWithIS(pcsMapped.is())">
+            <span class="analyse-pcs">({{ pcsMapped.is() }})</span>
+          </button>
+        }
       </p>
 
       <p>

@@ -900,4 +900,23 @@ describe('IPcs unit tests', () => {
     }
   })
 
+  it("getWithDefaultPivot", () => {
+    let pcs1 = new IPcs({strPcs: '[0,4,7]'})
+    expect(pcs1.getPivot()).toEqual(0)
+    let pcs2 = pcs1.getWithDefaultPivot()
+    expect(pcs2.getPivot()).toEqual(0)
+
+    pcs1 = new IPcs({strPcs: '[4,0,7]'})
+    expect(pcs1.getPivot()).toEqual(4)
+    pcs2 = pcs1.getWithDefaultPivot()
+    expect(pcs2.getPivot()).toEqual(0)
+
+    pcs1 = new IPcs({strPcs: '[5,1,8]'})
+    expect(pcs1.getPivot()).toEqual(5)
+    pcs2 = pcs1.getWithDefaultPivot()
+    // waiting "leftmost" (or min) pivot
+    expect(pcs2.getPivot()).toEqual(1)
+
+  })
+
 })

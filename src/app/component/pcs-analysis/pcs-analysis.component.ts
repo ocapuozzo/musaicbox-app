@@ -142,6 +142,14 @@ export class PcsAnalysisComponent {
     this.managerPagePcsService.replaceBy(pcs)
   }
 
+
+  doReplaceByPcsWithIS(numbers: number[]) {
+     const pcs = PcsSearch.searchPcsWithThisIS(numbers.toString())
+     if (pcs) {
+       this.managerPagePcsService.replaceBy(pcs)
+     }
+  }
+
   doPushToPcsPage(pcs: IPcs) {
     this.managerPagePcsService.replaceBy(pcs)
   }

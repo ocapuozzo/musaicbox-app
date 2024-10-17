@@ -170,7 +170,7 @@ export class IPcs {
       this.iPivot = this.abinPcs.findIndex((pc => pc === 1))
     } else if (strPcs !== undefined) {
       this.abinPcs = this._fromStringTobinArray(strPcs, n)
-      if (!iPivot) {
+      if (iPivot === undefined) {
         this.iPivot = IPcs.defaultPivotFromStrBin(strPcs)
         // set param iPivot
         iPivot = this.iPivot
@@ -221,7 +221,7 @@ export class IPcs {
     }
 
     // @see method getMappedBinPcs()
-    // construct mappedBinPcs
+    // construct mappedBinPcs (default mapping on himself)
     this._mappedBinPcs = new Array<number>(this.nMapping).fill(0)
     for (let i = 0; i < this.templateMappingBinPcs.length; i++) {
       this._mappedBinPcs[this.templateMappingBinPcs[i]] = this.abinPcs[i];
@@ -687,19 +687,31 @@ export class IPcs {
 
 
   /**
+   * Change iPivot by default pivot ("leftmost")
+   *
+   *
+   * @return new instance, but same orbit because same pcs is returned (just pivot change)
+   */
+  getWithDefaultPivot(): IPcs {
+    const defaultPivot = this.getMappedBinPcs().findIndex(value => value === 1)
+    return this.getWithNewPivot(defaultPivot)
+  }
+
+
+    /**
    * Change iPivot
    *
    * @param iPivot
    *
    * @return new instance, but same orbit because same pcs is returned (just pivot change)
    */
-  getWithNewPivot(iPivot: number): IPcs {
+  getWithNewPivot(iPivot ?: number): IPcs {
     // exception is catch when bad iPivot (in constructor logic)
     let newBinPcs = this.abinPcs.slice()
     return new IPcs({
       binPcs: newBinPcs,
       n: newBinPcs.length,
-      iPivot: iPivot,
+      iPivot: iPivot, // if undefined set default pivot
       orbit: this.orbit, // same orbit because same pcs, just pivot change
       templateMappingBinPcs: this.templateMappingBinPcs,
       nMapping: this.nMapping
@@ -1238,7 +1250,7 @@ export class IPcs {
     // TODO : generalize this method !!!
     return this.n === 12 && this.musaicPrimeForm().orbit.cardinal < this.n*8;
   }
-  
+
   getPivot(): number | undefined {
     return this.iPivot;
   }
@@ -1398,6 +1410,15 @@ export class IPcs {
   isInWellKnowPrimeForm(): boolean {
     const idsInPrimeForm = [this.cyclicPrimeForm().id, this.dihedralPrimeForm().id, this.affinePrimeForm().id, this.musaicPrimeForm().id]
     return idsInPrimeForm.includes(this.id)
+  }
+
+  /**
+   * true if this.iPivot is the leftmost possible pivot.
+   * Example : pcs [0, 1, 5] => 0, pcs [2, 3 4] => 2
+   * Use for Intervallic Structure where pivot don't exist
+   */
+  isPivotFirstPosition() {
+    return this.iPivot === this.getMappedBinPcs().findIndex(value => value === 1);
   }
 
   // TODO arrange operations in inner and mapped ?? maybe out utility functions for binpcs ?
