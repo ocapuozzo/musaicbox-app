@@ -17,8 +17,6 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatCheckbox} from "@angular/material/checkbox";
 import {MatButton} from "@angular/material/button";
 import {BreakpointObserver} from "@angular/cdk/layout";
-import {ManagerPageWBService} from "../../service/manager-page-wb.service";
-import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-ui-musaic',
@@ -69,9 +67,9 @@ export class UiMusaicComponent {
     });
   }
 
-  @HostListener('window:resize', ['$event.target.innerWidth'])
-  onResize(width: number) {
-    // console.log("onResize = " + window.innerWidth)
+  @HostListener('window:resize', ['event'])
+  onResize(event : any) {
+    // console.log("onResize = ", window.innerWidth)
     if (this.containerCanvas) this.drawsMusaic(this.optionDrawPitchIndex)
   }
 
