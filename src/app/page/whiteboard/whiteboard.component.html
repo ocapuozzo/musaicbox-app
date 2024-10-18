@@ -72,7 +72,13 @@
               [cdkMenuTriggerFor]="primes">
         Prime Form <span>&#10148;</span>
       </button>
-      <button class="contextual-menu-item" [cdkMenuTriggerData]="{index: index}" cdkMenuItem
+      <button class="contextual-menu-item"
+              [cdkMenuTriggerData]="{
+              index: index,
+              countMusaicMotifs: howManyDistinctMusaicMotifs(index),
+              countDistinctAffineMotifs: howManyDistinctAffineMotifs(index)
+              }"
+              cdkMenuItem
               [cdkMenuTriggerFor]="motifs">
         Motifs <span>&#10148;</span>
       </button>
@@ -159,24 +165,28 @@
       <button class="contextual-menu-item" disabled cdkMenuItem>Others</button>
     </div>
   </ng-template>
-  <ng-template #motifs let-index="index">
+
+  <ng-template #motifs let-index="index"
+               let-countMusaicMotifs="countMusaicMotifs"
+               let-countDistinctAffineMotifs="countDistinctAffineMotifs">
+
     <div class="contextual-menu" cdkMenu>
       <button class="contextual-menu-item" cdkMenuItem
-              (cdkMenuItemTriggered)="doGetPcsMusaicMotifs('Affine',index)">Affine Motifs (4)
+              (cdkMenuItemTriggered)="doGetPcsMotifs('Affine',index)">Affine Motifs (4)
       </button>
       <button class="contextual-menu-item" cdkMenuItem
-              (cdkMenuItemTriggered)="doGetPcsMusaicMotifs('Musaic',index)">Musaic Motifs (8)
+              (cdkMenuItemTriggered)="doGetPcsMotifs('Musaic',index)">Musaic Motifs (8)
       </button>
       <hr/>
       <button class="contextual-menu-item" cdkMenuItem
-              [disabled]="[1, 4].includes(howManyDistinctAffineMotifs(index))"
-              (cdkMenuItemTriggered)="doGetPcsMusaicMotifs('Affine',index, true)">
-        Distinct Affine Motifs ({{ howManyDistinctAffineMotifs(index) }})
+              [disabled]="[1, 4].includes(countDistinctAffineMotifs)"
+              (cdkMenuItemTriggered)="doGetPcsMotifs('Affine',index, true)">
+        Distinct Affine Motifs ({{ countDistinctAffineMotifs }})
       </button>
       <button class="contextual-menu-item" cdkMenuItem
-              [disabled]="howManyDistinctMusaicMotifs(index) === 8"
-              (cdkMenuItemTriggered)="doGetPcsMusaicMotifs('Musaic',index, true)">
-        Distinct Musaic Motifs ({{ howManyDistinctMusaicMotifs(index) }})
+              [disabled]="countMusaicMotifs === 8"
+              (cdkMenuItemTriggered)="doGetPcsMotifs('Musaic',index, true)">
+        Distinct Musaic Motifs ({{ countMusaicMotifs }})
       </button>
     </div>
   </ng-template>

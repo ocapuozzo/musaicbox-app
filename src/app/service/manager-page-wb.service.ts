@@ -841,7 +841,7 @@ export class ManagerPageWBService {
     this.emit()
   }
 
-  doGetPcsFacetsFromPcs(pcs : IPcs, groupName: string, distinct: boolean = false): IPcs[] {
+  doGetMotifsPcsFromPcs(pcs : IPcs, groupName: string, distinct: boolean = false): IPcs[] {
     const pcsList: IPcs[] = []
     if (['Affine', 'Musaic'].includes(groupName)) {
       // default Affine
@@ -868,8 +868,8 @@ export class ManagerPageWBService {
   }
 
 
-  doPcsMusaicMotifs(facet: string, index: number, distinct: boolean = false) {
-    const pcsMotifs = this.doGetPcsFacetsFromPcs(this.uiPcsDtoList[index].pcs, facet, distinct)
+  doPcsMotifs(groupName: string, index: number, distinct: boolean = false) {
+    const pcsMotifs = this.doGetMotifsPcsFromPcs(this.uiPcsDtoList[index].pcs, groupName, distinct)
     this.pcsDtoForTemplate = this.uiPcsDtoList[index]
     this.addPcs({somePcs: pcsMotifs, circularAlign: true, indexCenterElement: index})
   }

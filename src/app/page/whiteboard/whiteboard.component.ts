@@ -751,13 +751,13 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
       });
   }
 
-  doGetPcsMusaicMotifs(typeFacet: string, index: number, distinct: boolean = false) {
+  doGetPcsMotifs(groupName: string, index: number, distinct: boolean = false) {
     if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
       throw new Error(`Invalid index : $ {index}`)
     }
     // add all motifs
-    this.managerPageWBService.doPcsMusaicMotifs(typeFacet, index, distinct)
-    // deselect component source, because is it duplicate (present as pcs facet)
+    this.managerPageWBService.doPcsMotifs(groupName, index, distinct)
+    // deselect component source, because is it duplicate (present as pcs motif)
     this.managerPageWBService.doToggleSelected(index)
   }
 
@@ -765,14 +765,14 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
       throw new Error(`Invalid index : $ {index}`)
     }
-    return this.managerPageWBService.doGetPcsFacetsFromPcs(this.pcsDtoList[index].pcs, 'Affine', true).length;
+    return this.managerPageWBService.doGetMotifsPcsFromPcs(this.pcsDtoList[index].pcs, 'Affine', true).length;
   }
 
   howManyDistinctMusaicMotifs(index: number): number {
     if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
       throw new Error(`Invalid index : $ {index}`)
     }
-    return this.managerPageWBService.doGetPcsFacetsFromPcs(this.pcsDtoList[index].pcs, 'Musaic', true).length;
+    return this.managerPageWBService.doGetMotifsPcsFromPcs(this.pcsDtoList[index].pcs, 'Musaic', true).length;
   }
 
   doCut(index ?: number) {
