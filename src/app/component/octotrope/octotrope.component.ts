@@ -30,7 +30,7 @@ const indexOperationOctotrope = [['M1', 'CM1'], ['M7', 'CM7'], ['M11', 'CM11'], 
 export class OctotropeComponent {
   @ViewChild('canvas', {static: false}) canvas: ElementRef<HTMLCanvasElement>;
 
-  @Input() pcs: IPcs | null
+  @Input() pcs: IPcs = new IPcs({strPcs:'0,3, 6, 9'}).musaicPrimeForm()
 
   @Input() opStabilizers : string[] = []  // useful for testing
 
@@ -115,7 +115,7 @@ export class OctotropeComponent {
         ? indexOperationOctotrope[index][1] // CM1 ou CM5, or CM7 or CM11
         : ''
 
-      if (indexPearlColor + indexPearlColorCplt === 'no') { // test minimalist octotrope :))
+      if (indexPearlColor + indexPearlColorCplt === 'no') { // test minimalist octotrope :)
         // never pass in this branch, else change 'no' by '' (empty string)
         // NO operation Mx CMx stabilizer, draw gray pearl
         this.ctx.beginPath();

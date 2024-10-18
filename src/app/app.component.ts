@@ -19,6 +19,7 @@ import {MatTooltip} from "@angular/material/tooltip";
 import {PcsSearch} from "./utils/PcsSearch";
 import {ManagerPageWBService} from "./service/manager-page-wb.service";
 import {ManagerPageEightyHeightService} from "./service/manager-page-eighty-height.service";
+import {NgOptimizedImage} from "@angular/common";
 
 
 @Component({
@@ -26,7 +27,7 @@ import {ManagerPageEightyHeightService} from "./service/manager-page-eighty-heig
   standalone: true,
   imports: [RouterOutlet, RouterLink, RouterLinkActive,
     MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, FontAwesomeModule,
-    FormsModule, ReactiveFormsModule, MatFormField, MatInput, MatTooltip
+    FormsModule, ReactiveFormsModule, MatFormField, MatInput, MatTooltip, NgOptimizedImage
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './app.component.html',
@@ -49,7 +50,6 @@ export class AppComponent {
   checkoutForm = this.formBuilder.group({
     pcsStr: ''
   });
-
 
   constructor(private formBuilder: FormBuilder,
               private readonly managerPagePcsService: ManagerPagePcsService,
@@ -98,7 +98,8 @@ export class AppComponent {
     if (this.checkoutForm.value.pcsStr) {
 
       let pcsString = this.checkoutForm.value.pcsStr.trim() ?? ''
-
+      // accept separators : comma space underscore
+      pcsString = pcsString.replace(/\s\s+/g, ',')
       // replace sep _ or space by comma
       pcsString = pcsString.replace(/[ _]/g, ",").trim();
       // replace double comma by single comma
@@ -106,19 +107,19 @@ export class AppComponent {
 
       if (pcsString) {
         if (pcsString.startsWith('iv:')) {
-          this.searchPcsWithThisIV(pcsString.substring(3))
+          this.searchPcsWithThisIV(pcsString.substring(3), pcsString)
         } else if (pcsString.startsWith('is:')) {
-          this.searchPcsWithThisIS(pcsString.substring(3))
-
+          this.searchPcsWithThisIS(pcsString.substring(3), pcsString)
         } else if (pcsString.startsWith('pid:')) {
-          this.searchPcsWithThisPid(pcsString.substring(4))
+          this.searchPcsWithThisPid(pcsString.substring(4), pcsString)
         } else {
+          // search pcs
           try {
             let pcs = new IPcs({strPcs: pcsString})
             //console.log(" pcs = ", pcs)
             if (pcs.cardinal > 0) {
-              this.checkoutForm.reset();
-              this.gotoCurrentPage(pcs)
+              // this.checkoutForm.reset();
+              this.gotoCurrentPage(pcs, pcsString)
             }
           } catch (e: any) {
           }
@@ -132,9 +133,10 @@ export class AppComponent {
    * Ex : 0,0,4,0,0,2 => PCS : { 0, 3, 7 }, { 0, 4, 7 }
    * If is found, push result on pcs or white board page.
    * @param searchIV intervallic vector
+   * @param inputSearch original user input search
    * @private
    */
-  private searchPcsWithThisIV(searchIV: string) {
+  private searchPcsWithThisIV(searchIV: string, inputSearch : string) {
     const pcsWithSameIV: IPcs[] = PcsSearch.searchPcsWithThisIV(searchIV)
     // console.log("pcsWithSameIV : " + pcsWithSameIV)
     if (pcsWithSameIV.length > 0) {
@@ -143,9 +145,9 @@ export class AppComponent {
           this.managerPageWBService.addPcs({somePcs: pcsWithSameIV})
           break
         case '/the88' :
-          this.managerPageEightyHeightService.searchMusaic(pcsWithSameIV)
+          this.managerPageEightyHeightService.searchMusaic({ somePcs:pcsWithSameIV, searchInput:inputSearch })
           break;
-        default :
+        default : // PCS page
           // select the first of list as current pcs
           this.managerPagePcsService.replaceBy(pcsWithSameIV[0])
           // push all pcs having same IV into list pcs of pcs page
@@ -162,33 +164,34 @@ export class AppComponent {
    * Ex : 3,3,3,3 => PCS : { 0, 3, 6, 9 }
    * If is found, push result on pcs or white board page
    * @param searchIS intervallic structure
+   * @param searchInput original user input search
    * @private
    */
-  private searchPcsWithThisIS(searchIS: string) {
+  private searchPcsWithThisIS(searchIS: string, searchInput : string) {
     const pcs = PcsSearch.searchPcsWithThisIS(searchIS)
     if (pcs) {
-      this.gotoCurrentPage(pcs)
+      this.gotoCurrentPage(pcs, searchInput)
     }
   }
 
-  private searchPcsWithThisPid(pid: string) {
+  private searchPcsWithThisPid(pid: string, searchInput : string) {
     const integerPid = parseInt(pid)
     if (!isNaN(integerPid)) {
       const pcs = PcsSearch.searchPcsWithThisPid(integerPid)
       if (pcs) {
-        this.gotoCurrentPage(pcs)
+        this.gotoCurrentPage(pcs, searchInput)
       }
     }
   }
 
-  private gotoCurrentPage(pcs: IPcs) {
-    console.log("this route = ", this.router.url)
+  private gotoCurrentPage(pcs: IPcs, searchInput : string) {
+    // console.log("this route = ", this.router.url)
     switch (this.router.url) {
       case '/w-board' :
         this.managerPageWBService.addPcs({somePcs: [pcs]})
         break
       case '/the88' :
-        this.managerPageEightyHeightService.searchMusaic([pcs])
+        this.managerPageEightyHeightService.searchMusaic({searchInput:searchInput ?? '', somePcs:[pcs]})
         break;
       default :
         this.managerPagePcsService.replaceBy(pcs)

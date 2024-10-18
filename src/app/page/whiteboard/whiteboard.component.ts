@@ -751,24 +751,24 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
       });
   }
 
-  doGetPcsMusaicFacets(typeFacet: string, index: number, distinct: boolean = false) {
+  doGetPcsMusaicMotifs(typeFacet: string, index: number, distinct: boolean = false) {
     if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
       throw new Error(`Invalid index : $ {index}`)
     }
-    // add all facets
-    this.managerPageWBService.doPcsMusaicFacets(typeFacet, index, distinct)
+    // add all motifs
+    this.managerPageWBService.doPcsMusaicMotifs(typeFacet, index, distinct)
     // deselect component source, because is it duplicate (present as pcs facet)
     this.managerPageWBService.doToggleSelected(index)
   }
 
-  howManyDistinctAffineFacets(index: number): number {
+  howManyDistinctAffineMotifs(index: number): number {
     if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
       throw new Error(`Invalid index : $ {index}`)
     }
     return this.managerPageWBService.doGetPcsFacetsFromPcs(this.pcsDtoList[index].pcs, 'Affine', true).length;
   }
 
-  howManyDistinctMusaicFacets(index: number): number {
+  howManyDistinctMusaicMotifs(index: number): number {
     if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
       throw new Error(`Invalid index : $ {index}`)
     }

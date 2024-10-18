@@ -2,7 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {OctotropeComponent} from './octotrope.component';
 
-describe('DdomComponent', () => {
+describe('OctotropeComponent', () => {
   let component: OctotropeComponent;
   let fixture: ComponentFixture<OctotropeComponent>;
 

@@ -73,8 +73,8 @@
         Prime Form <span>&#10148;</span>
       </button>
       <button class="contextual-menu-item" [cdkMenuTriggerData]="{index: index}" cdkMenuItem
-              [cdkMenuTriggerFor]="facets">
-        Musaic Facets <span>&#10148;</span>
+              [cdkMenuTriggerFor]="motifs">
+        Motifs <span>&#10148;</span>
       </button>
       <button class="contextual-menu-item" [cdkMenuTriggerData]="{index: index}" cdkMenuItem
               [cdkMenuTriggerFor]="menuOrbits">
@@ -159,24 +159,24 @@
       <button class="contextual-menu-item" disabled cdkMenuItem>Others</button>
     </div>
   </ng-template>
-  <ng-template #facets let-index="index">
+  <ng-template #motifs let-index="index">
     <div class="contextual-menu" cdkMenu>
       <button class="contextual-menu-item" cdkMenuItem
-              (cdkMenuItemTriggered)="doGetPcsMusaicFacets('Affine',index)">Affine Facets (4)
+              (cdkMenuItemTriggered)="doGetPcsMusaicMotifs('Affine',index)">Affine Motifs (4)
       </button>
       <button class="contextual-menu-item" cdkMenuItem
-              (cdkMenuItemTriggered)="doGetPcsMusaicFacets('Musaic',index)">Musaic Facets (8)
+              (cdkMenuItemTriggered)="doGetPcsMusaicMotifs('Musaic',index)">Musaic Motifs (8)
       </button>
       <hr/>
       <button class="contextual-menu-item" cdkMenuItem
-              [disabled]="[1, 4].includes(howManyDistinctAffineFacets(index))"
-              (cdkMenuItemTriggered)="doGetPcsMusaicFacets('Affine',index, true)">
-        Distinct Affine Facets ({{ howManyDistinctAffineFacets(index) }})
+              [disabled]="[1, 4].includes(howManyDistinctAffineMotifs(index))"
+              (cdkMenuItemTriggered)="doGetPcsMusaicMotifs('Affine',index, true)">
+        Distinct Affine Motifs ({{ howManyDistinctAffineMotifs(index) }})
       </button>
       <button class="contextual-menu-item" cdkMenuItem
-              [disabled]="howManyDistinctMusaicFacets(index) === 8"
-              (cdkMenuItemTriggered)="doGetPcsMusaicFacets('Musaic',index, true)">
-        Distinct Musaic Facets ({{ howManyDistinctMusaicFacets(index) }})
+              [disabled]="howManyDistinctMusaicMotifs(index) === 8"
+              (cdkMenuItemTriggered)="doGetPcsMusaicMotifs('Musaic',index, true)">
+        Distinct Musaic Motifs ({{ howManyDistinctMusaicMotifs(index) }})
       </button>
     </div>
   </ng-template>

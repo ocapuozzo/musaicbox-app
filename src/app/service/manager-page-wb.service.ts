@@ -665,8 +665,8 @@ export class ManagerPageWBService {
 
     // compute barycenter
     let barycenter = new Point(0, 0)
-    let radius = indexCenterElement != undefined && selectedPcsIndexes.length == 2
-      ? this.uiPcsDtoList[indexCenterElement].width * 3 // more space when 2 elts and center elt
+    let radius = indexCenterElement !== undefined && selectedPcsIndexes.length <= 3
+      ? this.uiPcsDtoList[indexCenterElement].width * (selectedPcsIndexes.length == 2 ? 3 : 2.5) // more space when 2 or 3 els and center elt
       : 0
 
     let point = new Point(0, 0)
@@ -841,9 +841,9 @@ export class ManagerPageWBService {
     this.emit()
   }
 
-  doGetPcsFacetsFromPcs(pcs : IPcs, facet: string, distinct: boolean = false): IPcs[] {
+  doGetPcsFacetsFromPcs(pcs : IPcs, groupName: string, distinct: boolean = false): IPcs[] {
     const pcsList: IPcs[] = []
-    if (['Affine', 'Musaic'].includes(facet)) {
+    if (['Affine', 'Musaic'].includes(groupName)) {
       // default Affine
       const pcsSelected = pcs.unMap()
 
@@ -852,7 +852,7 @@ export class ManagerPageWBService {
       pcsList.push(pcsSelected.affineOp(11, 0))
       pcsList.push(pcsSelected.affineOp(5, 0))
 
-      if (facet === 'Musaic') {
+      if (groupName === 'Musaic') {
         const pcsSelectedCplt = this.managerPcsService.complement(pcsSelected) // for set pivot
         pcsList.push(pcsSelectedCplt)
         pcsList.push(pcsSelectedCplt.affineOp(7, 0))
@@ -862,16 +862,16 @@ export class ManagerPageWBService {
     }
     if (distinct) {
       return pcsList.reduce((unique:IPcs[], item) =>
-        unique.find(pcs => pcs.pid() === item.pid()) ? unique : [...unique, item], [])
+        unique.find(pcs => pcs.cyclicPrimeForm().pid() === item.cyclicPrimeForm().pid()) ? unique : [...unique, item], [])
     }
     return pcsList
   }
 
 
-  doPcsMusaicFacets(facet: string, index: number, distinct: boolean = false) {
-    const pcsFacets = this.doGetPcsFacetsFromPcs(this.uiPcsDtoList[index].pcs, facet, distinct)
+  doPcsMusaicMotifs(facet: string, index: number, distinct: boolean = false) {
+    const pcsMotifs = this.doGetPcsFacetsFromPcs(this.uiPcsDtoList[index].pcs, facet, distinct)
     this.pcsDtoForTemplate = this.uiPcsDtoList[index]
-    this.addPcs({somePcs: pcsFacets, circularAlign: true, indexCenterElement: index})
+    this.addPcs({somePcs: pcsMotifs, circularAlign: true, indexCenterElement: index})
   }
 
   windowMaxWidth(): number {

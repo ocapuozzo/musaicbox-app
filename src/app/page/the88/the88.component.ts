@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {GroupAction} from "../../core/GroupAction";
 import {Group} from "../../core/Group";
 import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
@@ -10,7 +10,7 @@ import {MatButton} from "@angular/material/button";
 import {MatButtonToggle, MatButtonToggleGroup} from "@angular/material/button-toggle";
 import {MatCheckbox} from "@angular/material/checkbox";
 import {FormsModule} from "@angular/forms";
-import {NgClass, NgForOf} from "@angular/common";
+import {NgClass, NgForOf, NgTemplateOutlet} from "@angular/common";
 import {ManagerLocalStorageService} from "../../service/manager-local-storage.service";
 import {EightyEight} from "../../utils/EightyEight";
 import {MusaicComponent} from "../../component/musaic/musaic.component";
@@ -22,19 +22,19 @@ import {MatSlideToggle} from "@angular/material/slide-toggle";
 import {ManagerPageWBService} from "../../service/manager-page-wb.service";
 import {OctotropeComponent} from "../../component/octotrope/octotrope.component";
 import {ArrayUtil} from "../../utils/ArrayUtil";
-import {ManagerPageEightyHeightService} from "../../service/manager-page-eighty-height.service";
+import {ISearchPcs, ManagerPageEightyHeightService} from "../../service/manager-page-eighty-height.service";
+import {MatTab, MatTabChangeEvent, MatTabGroup} from "@angular/material/tabs";
 
 
 export interface IOrbitMusaic {
-  pcsDto: UIPcsDto  // a representant of orbit (prime forme in modalPF)
+  pcsDto: UIPcsDto  // a representative of orbit (prime forme in modalPF)
   motifStabilizerNames: string[] // of orbit
   color: string
   cardinal: number
 }
 
-export interface IDdom {
-  pcs: IPcs  // a representant of orbit (prime forme in modalPF)
-  // motifStabilizerNames: string[] // of orbit
+export interface IOctotrope {
+  pcs: IPcs  // a representative of orbit (prime forme in modalPF ?)
   cardinal: number
   active: boolean
   selected: boolean
@@ -60,22 +60,27 @@ export interface IDdom {
     MatSlideToggle,
     CdkContextMenuTrigger,
     OctotropeComponent,
-    NgClass
+    NgClass,
+    MatTabGroup,
+    MatTab,
+    NgTemplateOutlet
   ],
   templateUrl: './the88.component.html',
   styleUrl: './the88.component.css'
 })
 export class The88Component implements OnInit {
+  @ViewChild("matTabGroup", { static: false }) matTabGroup: MatTabGroup;
   groupMusaic = GroupAction.predefinedGroupsActions(12, Group.MUSAIC)
-  orbitsGroupedByMotifStab: IDdom[]
+  octotropes: IOctotrope[]
 
   musaicDrawGrid: boolean = false
   listOrbits: IOrbitMusaic[] = []
   nbMusaicsMatch = 0
 
   currentSelectedOps: string[] = ["M1"]
+  searchPcsInput : ISearchPcs = {somePcs:[], searchInput:''}
 
-  pcs1: IPcs = new IPcs({strPcs: "0,3,4,5"});
+  pcs: IPcs = new IPcs({strPcs: "0,3,4,5"}); // updated into constructor
 
   constructor(private readonly managerHomePcsService: ManagerPagePcsService,
               private readonly router: Router,
@@ -105,11 +110,11 @@ export class The88Component implements OnInit {
         cardinal: orbit.cardinal
       }))
 
-    this.pcs1 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).getIPcsInOrbit(this.pcs1)
-    // console.log("this.pcs1", this.pcs1.stabilizer.motifStabilizer.motifStabOperations)
+    this.pcs = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).getIPcsInOrbit(this.pcs)
+    // console.log("this.pcs", this.pcs.stabilizer.motifStabilizer.motifStabOperations)
 
-    // initialize 13 ddom data
-    this.orbitsGroupedByMotifStab = this.groupMusaic.orbitsSortedGroupedByMotifStabilizers.map(orbit => ({
+    // initialize 13 octotropes data
+    this.octotropes = this.groupMusaic.orbitsSortedGroupedByMotifStabilizers.map(orbit => ({
       pcs: orbit.orbits[0].getPcsMin(),
       cardinal: orbit.orbits.length,
       active: false,
@@ -119,12 +124,13 @@ export class The88Component implements OnInit {
   }
 
   ngOnInit(): void {
+    this.managerPageEightyHeightService.eventSearchMatchMusaic.subscribe((searchData : ISearchPcs) => {
+      this.searchPcsInput = searchData
+      this.searchMusaicThatMatches(searchData)
+      this.openTab3(this.matTabGroup)
+    })
     this.currentSelectedOps = this.managerLocalStorageService.restorePageThe88()
     this.updateOrbitsGroupedByMotifStab()
-    this.managerPageEightyHeightService.eventSearchMatchMusaic.subscribe((somePcs: IPcs[]) => {
-      this.searchMusaicThatMatches(somePcs)
-    })
-    // this.update88musicsWhenUserSelectOp()
   }
 
   doPushToPcsPage(pcs: IPcs) {
@@ -148,26 +154,26 @@ export class The88Component implements OnInit {
   }
 
   /**
-   * 1/ update orbitsGroupedByMotifStab (ddoms) from this.currentSelectedOps (ops selected by user)
-   * 2/ call update pcdDto of elements of this.listOrbits from orbitsGroupedByMotifStab selected (for update template)
+   * 1/ update octotropes (octotropes) from this.currentSelectedOps (ops selected by user)
+   * 2/ call update pcdDto of elements of this.listOrbits from octotropes selected (for update template)
    *
    * @private
    */
   private updateOrbitsGroupedByMotifStab() {
     // first step
-    let newOrbitsGroupedByMotifStab = [...this.orbitsGroupedByMotifStab]
-    for (let i = 0; i < this.orbitsGroupedByMotifStab.length; i++) {
-      // if current selected operations are include into "ddom", select this group of orbits shearing same stabilizer
+    let newOrbitsGroupedByMotifStab = [...this.octotropes]
+    for (let i = 0; i < this.octotropes.length; i++) {
+      // if current selected operations are include into "octotrope", select this group of orbits shearing same stabilizer
       if (ArrayUtil.isIncludeIn(
            this.currentSelectedOps,
-           this.orbitsGroupedByMotifStab[i].pcs.stabilizer.motifStabilizer.motifStabOperations))
+           this.octotropes[i].pcs.stabilizer.motifStabilizer.motifStabOperations))
       {
-        newOrbitsGroupedByMotifStab[i] = { ...this.orbitsGroupedByMotifStab[i], selected : true, active : true }
-      } else if (this.orbitsGroupedByMotifStab[i].selected) {
-        newOrbitsGroupedByMotifStab[i] = { ...this.orbitsGroupedByMotifStab[i], selected : false, active : false }
+        newOrbitsGroupedByMotifStab[i] = { ...this.octotropes[i], selected : true, active : true }
+      } else if (this.octotropes[i].selected) {
+        newOrbitsGroupedByMotifStab[i] = { ...this.octotropes[i], selected : false, active : false }
       }
     }
-    this.orbitsGroupedByMotifStab = newOrbitsGroupedByMotifStab
+    this.octotropes = newOrbitsGroupedByMotifStab
     // second step
     this.update88musicsFromOrbitsGroupedByMotifStabSelectedAndActive()
   }
@@ -181,10 +187,10 @@ export class The88Component implements OnInit {
     this.listOrbits.forEach(musaic => {
       color = "black"
       // search if current musaic match
-      for (let i = 0; i < this.orbitsGroupedByMotifStab.length; i++) {
-        if (this.orbitsGroupedByMotifStab[i].pcs.stabilizer.motifStabilizer.hashCode() === musaic.pcsDto.pcs.stabilizer.motifStabilizer.hashCode()
-            && this.orbitsGroupedByMotifStab[i].selected
-            && this.orbitsGroupedByMotifStab[i].active) {
+      for (let i = 0; i < this.octotropes.length; i++) {
+        if (this.octotropes[i].pcs.stabilizer.motifStabilizer.hashCode() === musaic.pcsDto.pcs.stabilizer.motifStabilizer.hashCode()
+            && this.octotropes[i].selected
+            && this.octotropes[i].active) {
           this.nbMusaicsMatch++
           color = PcsColor.getColor(this.currentSelectedOps.join(' '));
           break
@@ -226,12 +232,12 @@ export class The88Component implements OnInit {
   }
 
   doSelectOrbitsHavingSameMotifStabilizerThan(index: number) {
-    // toggle active ddom if ddom active > 1 (avoid empty selection)
+    // toggle active octotrope if octotrope active > 1 (avoid empty selection)
     if (index > -1)  {
-      if (this.orbitsGroupedByMotifStab.reduce((previousValue: number, currentValue) => currentValue.active ? previousValue = previousValue+1 : previousValue, 0) > 1
-          || !this.orbitsGroupedByMotifStab[index].active
+      if (this.octotropes.reduce((previousValue: number, currentValue) => currentValue.active ? previousValue = previousValue+1 : previousValue, 0) > 1
+          || !this.octotropes[index].active
       )
-      this.orbitsGroupedByMotifStab[index]= { ...this.orbitsGroupedByMotifStab[index], active:!this.orbitsGroupedByMotifStab[index].active }
+      this.octotropes[index]= { ...this.octotropes[index], active:!this.octotropes[index].active }
       this.update88musicsFromOrbitsGroupedByMotifStabSelectedAndActive()
     }
   }
@@ -248,7 +254,7 @@ export class The88Component implements OnInit {
     return match
   }
 
-  private searchMusaicThatMatches(somePcs: IPcs[]) {
+  private searchMusaicThatMatches(searchData : ISearchPcs) {
     let newMusaicOrbits: IOrbitMusaic[] = []
     let color: string = "black"
     this.nbMusaicsMatch = 0
@@ -257,8 +263,8 @@ export class The88Component implements OnInit {
     this.listOrbits.forEach(musaic => {
       color = "black"
       // search if current musaic match one pcs of somePcs
-      for (let i = 0; i < somePcs.length; i++) {
-        const pcs = somePcs[i]
+      for (let i = 0; i < searchData.somePcs.length; i++) {
+        const pcs = searchData.somePcs[i]
         if (musaic.pcsDto.pcs.orbit.getPcsWithThisPid(pcs.pid()) !== undefined) {
           this.nbMusaicsMatch++
           color = 'blue'
@@ -275,4 +281,42 @@ export class The88Component implements OnInit {
   protected readonly console = console;
   protected readonly EightyEight = EightyEight;
 
+  doSelectOctotrope(index: number) {
+    // toggle active octotrope if octotrope active > 1 (avoid empty selection)
+    if (index > -1)  {
+      for (let i = 0; i < this.octotropes.length; i++) {
+        if (this.octotropes[i].active && i !== index) {
+          this.octotropes[i]= { ...this.octotropes[i], active:false}
+        }
+      }
+      if (!this.octotropes[index].active) {
+        this.octotropes[index]= { ...this.octotropes[index], active:true}
+      }
+      this.update88musicsFromOrbitsGroupedByMotifStabSelectedAndActive()
+    }
+  }
+
+  tabChanged(tabChangeEvent: MatTabChangeEvent) {
+    switch (tabChangeEvent.index) {
+      case 0 :
+        this.updateOrbitsGroupedByMotifStab()
+        break
+      case 1 :
+        for (let i = 0; i < this.octotropes.length; i++) {
+          if (! this.octotropes[i].selected) {
+            this.octotropes[i]= { ...this.octotropes[i], selected:true, active:false}
+          }
+        }
+        // TODO save state of index octotropes
+        this.doSelectOctotrope(0)
+        break
+      case 2 :
+        this.searchMusaicThatMatches(this.searchPcsInput)
+        break
+    }
+  }
+
+  openTab3(tabGroup: MatTabGroup) {
+    tabGroup.selectedIndex = 2
+  }
 }

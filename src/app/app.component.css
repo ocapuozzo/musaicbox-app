@@ -116,3 +116,7 @@
 body {
   overscroll-behavior: contain;
 }
+
+.line-broken-tooltip {
+  white-space: pre-line;
+}
