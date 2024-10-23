@@ -9,7 +9,7 @@
     <p class="font-italic box-center">Mapping {{ pcs.n }} => {{ pcs.nMapping }}</p>
   </div>
   <div [hidden]="pcs.n != 12" [class.box-center]="pcs.n == 12">
-    <figure style="max-width: 60px; margin: 0">
+    <figure style="max-width: 50px; min-width: 40px; margin: 0">
     <img
       (click)="m11Click()"
       #m11
@@ -18,12 +18,12 @@
       title="m11"
       class="actionable img-fluid anim-button"
       alt="M11"
-      width="60"
+      width="50"
       style="margin-bottom: 0"
     />
       <figcaption>m11</figcaption>
     </figure>
-    <figure style="max-width: 60px; margin: 0">
+    <figure style="max-width: 50px; min-width: 40px; margin: 0">
     <img
       (click)="m5Click()"
       #m5
@@ -31,12 +31,12 @@
       src="./assets/img/m5.png"
       title="m5"
       class="actionable img-fluid anim-button"
-      width="60"
+      width="50"
       alt="M5"
     />
       <figcaption>m5</figcaption>
     </figure>
-    <figure style="max-width: 60px; margin: 0">
+    <figure style="max-width: 50px; min-width: 40px; margin: 0">
     <img
       (click)="m7Click()"
       #m7
@@ -44,14 +44,14 @@
       src="./assets/img/m7.png"
       title="m7"
       class="actionable img-fluid anim-button"
-      width="60"
+      width="50"
       alt="M7"
     />
         <figcaption>m7</figcaption>
       </figure>
   </div>
   <div [hidden]="pcs.n != 12" [class.box-center]="pcs.n == 12">
-    <figure style="max-width: 60px; margin-bottom: 20px">
+    <figure style="max-width: 40px; margin-bottom: 20px">
         <img
           (click)="complement()"
           src="./assets/img/cplt.png"

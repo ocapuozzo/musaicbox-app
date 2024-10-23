@@ -1,4 +1,4 @@
-import {Component, EventEmitter, HostListener, Output, SimpleChanges} from '@angular/core';
+import {Component, HostListener} from '@angular/core';
 
 import {UiClockComponent} from "../../component/ui-clock/ui-clock.component";
 import {UiMusaicComponent} from "../../component/ui-musaic/ui-musaic.component";
@@ -107,19 +107,16 @@ export class PcsPageComponent {
             switch (this.currentScreenSize) {
               case "Small":
               case "XSmall" :
-                this.maxWidthParentUiMusaic = "170px"
-                this.maxWidthUiMusaic = "150px"
-                // this.widthUiClock = "220px"
+                this.maxWidthParentUiMusaic = "150px"
+                this.maxWidthUiMusaic = "145px"
                 break
               case "Medium":
                 this.maxWidthParentUiMusaic = "210px"
                 this.maxWidthUiMusaic = "190px"
-                // this.widthUiClock = "240px"
                 break
               default : // large
                 this.maxWidthParentUiMusaic = "270px"
                 this.maxWidthUiMusaic = "250px"
-                // this.widthUiClock = "320px"
             }
             this.managerPagePcsService.refresh()
             break

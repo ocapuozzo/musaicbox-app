@@ -1,7 +1,11 @@
 <div>
   <div class="row">
-    <div [hidden]="pcs.nMapping != 12" class="box text-center" [style.max-width]="maxWidthParentUiMusaic"
-         [style.width]="maxWidthParentUiMusaic">
+    <div [hidden]="pcs.nMapping != 12"
+         class="box text-center"
+         [style.max-width]="maxWidthParentUiMusaic"
+         [style.width]="maxWidthParentUiMusaic"
+         [style.min-width]="maxWidthUiMusaic"
+    >
       <h5 class="text-center title-detail actionable" style="margin-bottom: 0">
         <button mat-button (click)="changeByMusaic()"  style="height: 24px">
           <span>Musaic n° {{ EightyEight.idNumberOf(pcs) }}</span>
@@ -9,7 +13,12 @@
       </h5>
       <div [ngClass]="{'inner-box-musaic-orbit':!pcs.isDetached(), 'inner-box-musaic':pcs.isDetached()}">
         <p class="text-small">{{ pcs.orbit.groupAction?.group?.name?.substring(4) }}</p>
-        <app-ui-musaic [style.max-width]="maxWidthUiMusaic" [style.width]="maxWidthUiMusaic"></app-ui-musaic>
+        <app-ui-musaic
+          [style.max-width]="maxWidthUiMusaic"
+          [style.width]="maxWidthUiMusaic"
+          [style.min-width]="maxWidthUiMusaic"
+
+        ></app-ui-musaic>
 
         @if (isForUpdatePcsDto()) {
         <div style="margin-top: 10px">
@@ -31,6 +40,7 @@
     <div class="box"
          [style.max-width]="maxWidthParentUiMusaic"
          [style.width]="maxWidthParentUiMusaic"
+         [style.min-width]="maxWidthUiMusaic"
     >
       <div class="text-center title-detail">
         <button mat-button [disabled]="!canUndo" (click)="doUnDo()"
@@ -50,7 +60,7 @@
       </div>
     </div>
 
-    <div class="box"  style="min-width:200px; max-width: 100%; width: 50%">
+    <div class="box"  style="min-width:330px; max-width: 100%; width: 50%">
       <h5 class="text-center title-detail" style="height: 24px">
         <span>Analysis</span>
       </h5>
