@@ -70,7 +70,7 @@
         <span class="analyse-pcs">{{ pcsMapped.forteNum() }}</span>
       </p>
       <p>
-        PCS in Limited Transposition :
+        Limited Transposition :
         <span class="analyse-pcs">
         @if (pcsMapped.isLimitedTransposition()) {
           <b>{{ pcsMapped.isLimitedTransposition() }}</b>
@@ -83,7 +83,7 @@
         }
       </p>
       <p>
-        PCS in Limited Transformation :
+        Limited Transformation :
         <span style="display: inline-flex; align-items: center;">
         <span class="analyse-pcs">
           @if (pcsMapped.isLimitedTransformation()) {
@@ -200,7 +200,7 @@
         <span style="padding-left: 8px">
         {{ orbitWithSameMotifStabilizersOf(pcsMapped).length }}
           &nbsp;Musaic{{ orbitWithSameMotifStabilizersOf(pcsMapped).length > 1 ? 's': ''}} sharing
-      exactly same set of is-stabilizers (up to transposition) :
+      exactly same set of motif-stabilizers (up to transposition) :
         {{ pcsMapped.musaicPrimeForm().orbit.motifStabilizer.name }}
           </span>
       </span>
