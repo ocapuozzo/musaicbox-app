@@ -14,6 +14,7 @@ export class ManagerPagePcsListService {
   private list3chordsGenerated: number[] = [];
   private list4chordsGenerated: number[] = [];
   private listStabilizersFixedPcs: string[] = [];
+  private listModesGenerated: number[] = [];
 
   constructor() { }
 
@@ -48,6 +49,7 @@ export class ManagerPagePcsListService {
     this.list4chordsGenerated = []
     this.list3chordsGenerated = []
     this.listStabilizersFixedPcs = []
+    this.listModesGenerated = []
   }
 
   isAlreadyCompute3Chords(idPcs: number) {
@@ -76,8 +78,18 @@ export class ManagerPagePcsListService {
     }
   }
 
+  addModesOf(idPcs: number) {
+    if (! this.listModesGenerated.includes(idPcs)) {
+      this.listModesGenerated.push(idPcs)
+    }
+  }
+
 
   isAlreadyShowFixedPcs(stabilizers: string) {
     return this.listStabilizersFixedPcs.includes(stabilizers);
+  }
+
+  isAlreadyComputeModes(pcs: IPcs) {
+    return this.listModesGenerated.includes(pcs.id);
   }
 }

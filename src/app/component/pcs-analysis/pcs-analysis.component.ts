@@ -99,11 +99,15 @@ export class PcsAnalysisComponent {
   }
 
   doPushModesOf(pcs: IPcs) {
+    if (this.managerPagePcsListService.isAlreadyComputeModes(pcs)) {
+      return
+    }
     let cardinal = pcs.cardOrbitMode()
     for (let degree = 0; degree < cardinal; degree++) {
       this.managerPagePcsListService.addPcs(PcsAnalysisComponent.ROMAIN[degree], pcs, true)
       pcs = pcs.modulation(IPcs.NEXT_DEGREE)
     }
+    this.managerPagePcsListService.addModesOf(pcs.id)
   }
 
   doPushModalPF(pcs: IPcs) {
