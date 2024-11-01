@@ -29,7 +29,7 @@ export class EightyEight {
     return group88.orbits[EightyEight.idNumberOf(pcs) -1].getPcsMin()
   }
 
-  static getMusaicsWithSameMotifStabilizersOf(pcs: IPcs) : IPcs[] {
+  static getPrimeFormMusaicsWithSameMotifStabilizersOf(pcs: IPcs) : IPcs[] {
     const group88 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC)
     const orbit =  group88.getOrbitOf(pcs)
     let pcsReprOfMusaic : IPcs[] = []

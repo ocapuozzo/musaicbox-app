@@ -96,7 +96,7 @@ export class ScoreDrawingAbcNotation {
     }// end for
 
     // TODO hack for G# Major scales... prefer sharp (it is hard to place 12 to 7 tonal... must do better)
-    if (pcsMapped.id === 32106) {
+    if (pcsMapped.id === 32106 && notes.startsWith("^F")) {
       notes = "^F^G^AB^C'^D'^E'"
     }
 

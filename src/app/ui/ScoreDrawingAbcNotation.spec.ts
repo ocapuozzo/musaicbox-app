@@ -162,4 +162,16 @@ describe('ScoreDrawingAbcNotation', () => {
 
   })
 
+  it('mixolydian scales', () => {
+    let mixolydian  = new IPcs({strPcs: "0,2,4,5,7,9,10"})
+    let abcNotation = ScoreDrawingAbcNotation.fromPcsToABCNotation(mixolydian)
+    expect(abcNotation).toEqual("C D E F G A _B")
+    mixolydian = mixolydian.translation(1)
+    abcNotation = ScoreDrawingAbcNotation.fromPcsToABCNotation(mixolydian)
+    expect(abcNotation).toEqual("^C ^D F _G _A ^A B")
+  })
+
+
+
+
 })

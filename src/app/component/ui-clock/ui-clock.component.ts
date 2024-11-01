@@ -62,18 +62,18 @@ export class UiClockComponent {
   }
 
   constructor(
-     private managerHomePcsService: ManagerPagePcsService,
-     private managerHomePcsListService: ManagerPagePcsListService,
+     private managerPagePcsService: ManagerPagePcsService,
+     private managerPagePcsListService: ManagerPagePcsListService,
      private ngZone: NgZone,
      private renderer2: Renderer2,
      private responsive: BreakpointObserver)
   {
 
-    this.managerHomePcsService.updatePcsEvent.subscribe((pcs: IPcs) => {
+    this.managerPagePcsService.updatePcsEvent.subscribe((pcs: IPcs) => {
       this.pcs = pcs
     })
 
-    this.pcs = this.managerHomePcsService.pcs
+    this.pcs = this.managerPagePcsService.pcs
   }
 
   ngAfterViewInit() {
@@ -93,7 +93,7 @@ export class UiClockComponent {
 
   doUpdateGraphics() {
     this.updateGraphicContext()
-    this.managerHomePcsService.refresh()
+    this.managerPagePcsService.refresh()
   }
 
   updateGraphicContext() {
@@ -106,7 +106,7 @@ export class UiClockComponent {
     this.canvas.nativeElement.height = len // square
 
     this.clockDrawing = new ClockDrawing({
-      ipcs: this.managerHomePcsService.pcs,
+      ipcs: this.managerPagePcsService.pcs,
       ctx: this.context,
       width: len,
       height: len, // square
@@ -193,7 +193,7 @@ export class UiClockComponent {
     // right click and long click => change iPivot
     if (isRightMB || longClick) {
       if (index !== this.getIPivot()) {
-        this.managerHomePcsService.toggleIndexOrSetIPivot(index)
+        this.managerPagePcsService.toggleIndexOrSetIPivot(index)
       }
       this.dateMouseDone = undefined
       return;
@@ -201,7 +201,7 @@ export class UiClockComponent {
 
     // accept unset iPivot when cardinal == 1 only
     if (index >= 0 && (index !== this.getIPivot() || this.pcs.cardinal === 1)) {
-      this.managerHomePcsService.toggleIndex(index)
+      this.managerPagePcsService.toggleIndex(index)
     }
   }
 
@@ -211,7 +211,7 @@ export class UiClockComponent {
 
   public setIPivot(newPivot: number) {
     if (newPivot < this.pcs.n && newPivot >= 0) {
-      this.managerHomePcsService.toggleIndexOrSetIPivot(newPivot)
+      this.managerPagePcsService.toggleIndexOrSetIPivot(newPivot)
     } else {
       throw new Error("Invalid iPivot")
     }
@@ -291,9 +291,9 @@ export class UiClockComponent {
     if (index !== this.getIPivot()) {
       this.touchendOk = true
       if (longClick) {
-        this.managerHomePcsService.toggleIndexOrSetIPivot(index)
+        this.managerPagePcsService.toggleIndexOrSetIPivot(index)
       } else {
-        this.managerHomePcsService.toggleIndex(index)
+        this.managerPagePcsService.toggleIndex(index)
       }
     }
   }
@@ -309,52 +309,52 @@ export class UiClockComponent {
    */
   changePcsFromModuleTranslationControl($event: string) {
     if ($event.startsWith('T')) {
-      this.managerHomePcsService.translateByM1Tx($event == 'T-1' ? -1 : +1)
+      this.managerPagePcsService.translateByM1Tx($event == 'T-1' ? -1 : +1)
     } else { // M
-      this.managerHomePcsService.modulation($event == 'M-1' ? IPcs.PREV_DEGREE : IPcs.NEXT_DEGREE)
+      this.managerPagePcsService.modulation($event == 'M-1' ? IPcs.PREV_DEGREE : IPcs.NEXT_DEGREE)
     }
     // this.drawClock()
     // this.changePcs.emit(this.pcsList)
   }
 
   autoMap() {
-    this.managerHomePcsService.autoMap()
+    this.managerPagePcsService.autoMap()
   }
 
   unMap() {
-    this.managerHomePcsService.unMap()
+    this.managerPagePcsService.unMap()
   }
 
   addToList() {
-    this.managerHomePcsListService.addPcs('', this.pcs)
+    this.managerPagePcsListService.addPcs('', this.pcs)
   }
 
   threeChordList() {
-    if (this.managerHomePcsListService.isAlreadyCompute3Chords(this.pcs.id)) return
+    if (this.managerPagePcsListService.isAlreadyCompute3Chords(this.pcs.id)) return
 
     const list3Chords = AnalyseChord.getListChords(this.pcs, 3)
     for (const list3Chord of list3Chords) {
       if (list3Chord[1].length == 0) {
-        this.managerHomePcsListService.addPcs(list3Chord[0], null)
+        this.managerPagePcsListService.addPcs(list3Chord[0], null)
       } else for (let i = 0; i < list3Chord[1].length ; i++) {
-        this.managerHomePcsListService.addPcs(list3Chord[0], list3Chord[1][i], true)
+        this.managerPagePcsListService.addPcs(list3Chord[0], list3Chord[1][i], true)
       }
     }
-    this.managerHomePcsListService.addCompute3Chords(this.pcs.id)
+    this.managerPagePcsListService.addCompute3Chords(this.pcs.id)
   }
 
   fourChordList() {
-    if (this.managerHomePcsListService.isAlreadyCompute4Chords(this.pcs.id)) return
+    if (this.managerPagePcsListService.isAlreadyCompute4Chords(this.pcs.id)) return
 
     const listSeventhChords = AnalyseChord.getListChords(this.pcs, 4)
     for (const fourChord of listSeventhChords) {
       if (fourChord[1].length == 0) {
-        this.managerHomePcsListService.addPcs(fourChord[0], null, true)
+        this.managerPagePcsListService.addPcs(fourChord[0], null, true)
       } else for (let i = 0; i < fourChord[1].length ; i++) {
-        this.managerHomePcsListService.addPcs(fourChord[0], fourChord[1][i], true)
+        this.managerPagePcsListService.addPcs(fourChord[0], fourChord[1][i], true)
       }
     }
-    this.managerHomePcsListService.addCompute4Chords(this.pcs.id)
+    this.managerPagePcsListService.addCompute4Chords(this.pcs.id)
   }
 
   protected readonly ChordName = ChordNaming;

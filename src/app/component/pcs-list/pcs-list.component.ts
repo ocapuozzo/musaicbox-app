@@ -5,13 +5,15 @@ import {ScoreNotationComponent} from "../score-notation/score-notation.component
 import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
 import {IElementListPcs} from "../../service/IElementListPcs";
 import {ClockComponent} from "../clock/clock.component";
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-pcs-list',
   standalone: true,
   imports: [
     ScoreNotationComponent,
-    ClockComponent
+    ClockComponent,
+    NgIf
   ],
   templateUrl: './pcs-list.component.html',
   styleUrl: './pcs-list.component.css'
@@ -38,7 +40,7 @@ export class PcsListComponent {
   }
 
   doClearList() {
-    this.managerHomePcsListService.clearList()
+    this.managerHomePcsListService.clearLists()
   }
 
   doPushPcsFromList(pcs: IPcs) {

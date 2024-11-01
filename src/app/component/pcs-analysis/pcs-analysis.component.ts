@@ -13,6 +13,7 @@ import {MatTooltip} from "@angular/material/tooltip";
 import {MusaicOperation} from "../../core/MusaicOperation";
 import {MusaicComponent} from "../musaic/musaic.component";
 import {OctotropeComponent} from "../octotrope/octotrope.component";
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-pcs-analysis',
@@ -22,7 +23,8 @@ import {OctotropeComponent} from "../octotrope/octotrope.component";
     MatIcon,
     MatTooltip,
     MusaicComponent,
-    OctotropeComponent
+    OctotropeComponent,
+    NgIf
   ],
   templateUrl: './pcs-analysis.component.html',
   styleUrl: './pcs-analysis.component.css'
@@ -57,11 +59,15 @@ export class PcsAnalysisComponent {
 
   fixedPcsList() {
     const stabilizers = this.pcs.orbit.stabilizers
+    if (this.managerPagePcsListService.isAlreadyShowFixedPcs(stabilizers.toString())) {
+      return
+    }
     for (const stab of stabilizers) {
       for (let i = 0; i < stab.fixedPcs.length; i++) {
         this.managerPagePcsListService.addPcs(stab.getShortName(), stab.fixedPcs[i])
       }
     }
+    this.managerPagePcsListService.addStabilizersFixedPcs(stabilizers.toString())
   }
 
   doPushOrbitCyclicPF(pcs: IPcs) {
@@ -156,8 +162,8 @@ export class PcsAnalysisComponent {
 
   protected readonly EightyEight = EightyEight;
 
-  orbitWithSameMotifStabilizersOf(pcs: IPcs): IPcs[] {
-    return EightyEight.getMusaicsWithSameMotifStabilizersOf(pcs)
+  primeFormOrbitWithSameMotifStabilizersOf(pcs: IPcs): IPcs[] {
+    return EightyEight.getPrimeFormMusaicsWithSameMotifStabilizersOf(pcs)
   }
 
   colorOrbit(pcsRepr: IPcs) {

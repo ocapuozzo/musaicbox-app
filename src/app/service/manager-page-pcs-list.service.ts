@@ -13,6 +13,7 @@ export class ManagerPagePcsListService {
 
   private list3chordsGenerated: number[] = [];
   private list4chordsGenerated: number[] = [];
+  private listStabilizersFixedPcs: string[] = [];
 
   constructor() { }
 
@@ -41,11 +42,12 @@ export class ManagerPagePcsListService {
     }
   }
 
-  clearList() {
+  clearLists() {
     this.labeledListPcs.clear()
     this.updatePcsListEvent.emit(this.labeledListPcs)
     this.list4chordsGenerated = []
     this.list3chordsGenerated = []
+    this.listStabilizersFixedPcs = []
   }
 
   isAlreadyCompute3Chords(idPcs: number) {
@@ -53,17 +55,29 @@ export class ManagerPagePcsListService {
   }
 
   isAlreadyCompute4Chords(idPcs: number) {
-    return (this.list4chordsGenerated.includes(idPcs))
+    return this.list4chordsGenerated.includes(idPcs)
   }
 
   addCompute3Chords(idPcs: number) {
-    if (! this.list3chordsGenerated.includes(idPcs))
-       this.list3chordsGenerated.push(idPcs)
+    if (! this.list3chordsGenerated.includes(idPcs)) {
+      this.list3chordsGenerated.push(idPcs)
+    }
   }
 
   addCompute4Chords(idPcs: number) {
-    if (! this.list4chordsGenerated.includes(idPcs))
-       this.list4chordsGenerated.push(idPcs)
+    if (! this.list4chordsGenerated.includes(idPcs)) {
+      this.list4chordsGenerated.push(idPcs)
+    }
   }
 
+  addStabilizersFixedPcs(stab : string) {
+    if (! this.listStabilizersFixedPcs.includes(stab)) {
+      this.listStabilizersFixedPcs.push(stab)
+    }
+  }
+
+
+  isAlreadyShowFixedPcs(stabilizers: string) {
+    return this.listStabilizersFixedPcs.includes(stabilizers);
+  }
 }

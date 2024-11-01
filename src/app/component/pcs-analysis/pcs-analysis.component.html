@@ -27,10 +27,13 @@
       <p>
         PCS :
         <span class="analyse-pcs"> {{ pcsMapped.getPcsStr() }}<sub> {{ pcsMapped.iPivot }} </sub></span> &nbsp;
-        @if (pcs.isInWellKnowPrimeForm()) { <span style="font-style: italic"> &nbsp; (* prime form) </span>}
+        @if (pcs.isInWellKnowPrimeForm()) {
+          <span style="font-style: italic"> &nbsp; (* prime form) </span>
+        }
       </p>
       <p>
-        Vector : <span class="analyse-pcs">[{{ pcsMapped.getMappedBinPcs() }}]<sub> {{ pcsMapped.iPivot }} </sub></span> &nbsp;
+        Vector : <span class="analyse-pcs">[{{ pcsMapped.getMappedBinPcs() }}]<sub> {{ pcsMapped.iPivot }} </sub></span>
+        &nbsp;
       </p>
       <p>
         Polynomial id :
@@ -44,7 +47,7 @@
         Intervallic Structure :
         <span class="analyse-pcs">({{ pcsMapped.getWithDefaultPivot().is() }})</span>
 
-        @if (! pcsMapped.isPivotFirstPosition() ) {
+        @if (!pcsMapped.isPivotFirstPosition()) {
           shifted to
           <button mat-button (click)="doReplaceByPcsWithIS(pcsMapped.is())">
             <span class="analyse-pcs">({{ pcsMapped.is() }})</span>
@@ -69,32 +72,31 @@
         Forte :
         <span class="analyse-pcs">{{ pcsMapped.forteNum() }}</span>
       </p>
-      <p>
+      <p *ngIf="{ltp:pcsMapped.isLimitedTransposition()} as data">
         Limited Transposition :
-        <span class="analyse-pcs">
-        @if (pcsMapped.isLimitedTransposition()) {
-          <b>{{ pcsMapped.isLimitedTransposition() }}</b>
-        }@else {
-          {{ pcsMapped.isLimitedTransposition() }}
-        }
-        </span>
-        @if (pcsMapped.isLimitedTransposition()) {
-          ( <span class="analyse-pcs">{{ pcs.cyclicPrimeForm().orbit.name }}</span> )
+        @if (data.ltp) {
+          <span class="analyse-pcs">
+          <b>{{ data.ltp }}</b>
+          </span> (<span>{{ pcs.cyclicPrimeForm().orbit.name }}</span> )
+        } @else {
+          <span class="analyse-pcs">
+          {{ data.ltp }}
+          </span>
         }
       </p>
       <p>
         Limited Transformation :
         <span style="display: inline-flex; align-items: center;">
-        <span class="analyse-pcs">
-          @if (pcsMapped.isLimitedTransformation()) {
-            <b>{{ pcsMapped.isLimitedTransformation() }}</b>
-          }@else {
-            {{ pcsMapped.isLimitedTransformation() }}
+        <span class="analyse-pcs" *ngIf="{ltf:pcsMapped.isLimitedTransformation()} as data">
+          @if (data.ltf) {
+            <b>{{ data.ltf }}</b>
+          } @else {
+            {{ data.ltf }}
           }
 
         </span>&nbsp;&nbsp;
-        {{ '' // tips for refresh octotrope component !! ??? }}
-          @for  (pcs of [pcsMapped.musaicPrimeForm()] ; track pcs.id) {
+          {{ '' // tips @for for refresh octotrope component !! ???  }}
+          @for (pcs of [pcsMapped.musaicPrimeForm()]; track pcs.id) {
             <app-octotrope [w]="30" [pcs]="pcs"></app-octotrope>
           }
         </span>
@@ -103,168 +105,179 @@
       <p style="max-width: 400px">
         Invariant by :
         <span
-          class="analyse-pcs">{{ operationsStabilizerOf(pcsMapped) //pcsMapped.musaicPrimeForm().orbit.motifStabilizer.name  }}</span>
+          class="analyse-pcs">{{ operationsStabilizerOf(pcsMapped) //pcsMapped.musaicPrimeForm().orbit.motifStabilizer.name   }}</span>
         &nbsp;&nbsp;
       </p>
     </div>
   </fieldset>
   <div class="marge-5">
-  <fieldset class="representation-border">
-    <legend class="representation-border">Fecundity</legend>
-    <hr />
-    <p style="margin: 1px">
-      <button mat-button (click)="doPushModesOf(pcsMapped)">
-        <mat-icon>filter_tilt_shift</mat-icon>
-        <i class="bi bi-chevron-double-down"> Modes : </i>
-      </button>
-      {{ ''// sub sub below => to have same height that next fieldset    }}
-      <span class="analyse-pcs">#{{ pcsMapped.cardOrbitMode() }} <sub></sub></span>
-    </p>
+    <fieldset class="representation-border">
+      <legend class="representation-border">Fecundity</legend>
+      <hr/>
+      <p style="margin: 1px">
+        <button mat-button (click)="doPushModesOf(pcsMapped)">
+          <mat-icon>filter_tilt_shift</mat-icon>
+          <i class="bi bi-chevron-double-down"> Modes : </i>
+        </button>
+        {{ ''// sub sub below => to have same height that next fieldset     }}
+        <span class="analyse-pcs">#{{ pcsMapped.cardOrbitMode() }} <sub></sub></span>
+      </p>
 
-    <p style="margin: 1px">
-      <button mat-button (click)="doPushOrbitCyclicPF(pcsMapped)">
-        <mat-icon>sync</mat-icon>
-        <span style="font-size: small">Cyclic <span style="font-size: smaller"> (M1) </span> :</span>
-      </button>
-      <span class="analyse-pcs">#{{ pcsMapped.cardOrbitCyclic() }}</span>
-    </p>
-    <p style="margin: 1px">
-      <button mat-button (click)="doPushOrbitDihedralPF(pcsMapped)">
-        <mat-icon>swap_vertical_circle</mat-icon>
-        <span style="font-size: small">Dihedral <span style="font-size: smaller"> (M1,M11)</span> : </span>
-      </button>
-      <span class="analyse-pcs">#{{ pcsMapped.dihedralPrimeForm().orbit.cardinal }}</span>
-    </p>
-    <p style="margin: 1px">
-      <button mat-button (click)="doPushOrbitAffinePF(pcsMapped)">
-        <mat-icon>star</mat-icon>
-        <span style="font-size: small">Affine <span style="font-size: smaller"> (M1,M5,M7,M11) </span>:</span>
-      </button>
-      <span class="analyse-pcs">#{{ pcsMapped.affinePrimeForm().orbit.cardinal }}</span>
-    </p>
-    <p style="margin: 1px">
-      <button mat-button (click)="doPushOrbitMusaicPF(pcsMapped)">
-        <mat-icon>star_half</mat-icon>
-        <span style="font-size: small">Musaic <span style="font-size: smaller"> (M1,M5,M7,M11,Cplt)</span> :</span>
-      </button>
-      <span class="analyse-pcs">#{{ pcsMapped.musaicPrimeForm().orbit.cardinal }}</span>
-    </p>
+      <p style="margin: 1px">
+        <button mat-button (click)="doPushOrbitCyclicPF(pcsMapped)">
+          <mat-icon>sync</mat-icon>
+          <span style="font-size: small">Cyclic <span style="font-size: smaller"> (M1) </span> :</span>
+        </button>
+        <span class="analyse-pcs">#{{ pcsMapped.cardOrbitCyclic() }}</span>
+      </p>
+      <p style="margin: 1px">
+        <button mat-button (click)="doPushOrbitDihedralPF(pcsMapped)">
+          <mat-icon>swap_vertical_circle</mat-icon>
+          <span style="font-size: small">Dihedral <span style="font-size: smaller"> (M1,M11)</span> : </span>
+        </button>
+        <span class="analyse-pcs">#{{ pcsMapped.dihedralPrimeForm().orbit.cardinal }}</span>
+      </p>
+      <p style="margin: 1px">
+        <button mat-button (click)="doPushOrbitAffinePF(pcsMapped)">
+          <mat-icon>star</mat-icon>
+          <span style="font-size: small">Affine <span style="font-size: smaller"> (M1,M5,M7,M11) </span>:</span>
+        </button>
+        <span class="analyse-pcs">#{{ pcsMapped.affinePrimeForm().orbit.cardinal }}</span>
+      </p>
+      <p style="margin: 1px">
+        <button mat-button (click)="doPushOrbitMusaicPF(pcsMapped)">
+          <mat-icon>star_half</mat-icon>
+          <span style="font-size: small">Musaic <span style="font-size: smaller"> (M1,M5,M7,M11,Cplt)</span> :</span>
+        </button>
+        <span class="analyse-pcs">#{{ pcsMapped.musaicPrimeForm().orbit.cardinal }}</span>
+      </p>
 
-  </fieldset>
+    </fieldset>
 
-  <fieldset class="representation-border">
-    <legend class="representation-border">Prime Form</legend>
-    <hr>
-    <p style="margin: 1px">
-      <button mat-button (click)="doPushModalPF(pcsMapped)">Modal :
-        <span class="analyse-pcs"> {{ pcsMapped.modalPrimeForm().getPcsStr() }}
-          <sub> {{ pcsMapped.modalPrimeForm().iPivot }} </sub>
-          @if (pcsMapped.modalPrimeForm().pid() === pcsMapped.pid()) { * }</span>
-      </button>
-    </p>
-    <p style="margin: 1px">
-      <button mat-button (click)="doPushCyclicPF(pcsMapped)">Cyclic :
-        <span class="analyse-pcs">{{ pcsMapped.cyclicPrimeForm().getPcsStr() }}
-          @if (pcsMapped.cyclicPrimeForm().pid() === pcsMapped.pid()) { * }</span>
-      </button>
-    </p>
-    <p style="margin: 1px">
-      <button mat-button (click)="doPushDihedralPF(pcsMapped)">Dihedral :
-        <span class="analyse-pcs">{{ pcsMapped.dihedralPrimeForm().getPcsStr() }}
-          @if (pcsMapped.dihedralPrimeForm().pid() === pcsMapped.pid()) { * }</span>
-      </button>
-    </p>
-    <p style="margin: 1px">
-      <button mat-button (click)="doPushAffinePF(pcsMapped)">Affine :
-        <span class="analyse-pcs">{{ pcsMapped.affinePrimeForm().getPcsStr() }}
-          @if (pcsMapped.affinePrimeForm().pid() === pcsMapped.pid()) { * }</span>
-      </button>
-    </p>
-    <p style="margin: 1px">
-      <button mat-button (click)="doPushMusaicPF(pcsMapped)">Musaic :
-        <span class="analyse-pcs">{{ pcsMapped.musaicPrimeForm().getPcsStr() }}
-          @if (pcsMapped.musaicPrimeForm().pid() === pcsMapped.pid()) { * }</span>
-      </button>
-    </p>
-  </fieldset>
-</div>
-@if (pcsMapped.n === 12) {
-  <div class="marge-5">
-  <fieldset class="representation-border" style="max-width: 350px;">
-    <legend class="representation-border">
+    <fieldset class="representation-border">
+      <legend class="representation-border">Prime Form</legend>
+      <hr>
+      <p style="margin: 1px">
+        <button mat-button (click)="doPushModalPF(pcsMapped)">Modal :
+          <span class="analyse-pcs"> {{ pcsMapped.modalPrimeForm().getPcsStr() }}
+            <sub> {{ pcsMapped.modalPrimeForm().iPivot }} </sub>
+            @if (pcsMapped.modalPrimeForm().pid() === pcsMapped.pid()) {
+              *
+            }</span>
+        </button>
+      </p>
+      <p style="margin: 1px">
+        <button mat-button (click)="doPushCyclicPF(pcsMapped)">Cyclic :
+          <span class="analyse-pcs">{{ pcsMapped.cyclicPrimeForm().getPcsStr() }}
+            @if (pcsMapped.cyclicPrimeForm().pid() === pcsMapped.pid()) {
+              *
+            }</span>
+        </button>
+      </p>
+      <p style="margin: 1px">
+        <button mat-button (click)="doPushDihedralPF(pcsMapped)">Dihedral :
+          <span class="analyse-pcs">{{ pcsMapped.dihedralPrimeForm().getPcsStr() }}
+            @if (pcsMapped.dihedralPrimeForm().pid() === pcsMapped.pid()) {
+              *
+            }</span>
+        </button>
+      </p>
+      <p style="margin: 1px">
+        <button mat-button (click)="doPushAffinePF(pcsMapped)">Affine :
+          <span class="analyse-pcs">{{ pcsMapped.affinePrimeForm().getPcsStr() }}
+            @if (pcsMapped.affinePrimeForm().pid() === pcsMapped.pid()) {
+              *
+            }</span>
+        </button>
+      </p>
+      <p style="margin: 1px">
+        <button mat-button (click)="doPushMusaicPF(pcsMapped)">Musaic :
+          <span class="analyse-pcs">{{ pcsMapped.musaicPrimeForm().getPcsStr() }}
+            @if (pcsMapped.musaicPrimeForm().pid() === pcsMapped.pid()) {
+              *
+            }</span>
+        </button>
+      </p>
+    </fieldset>
+  </div>
+  @if (pcsMapped.n === 12) {
+    <div class="marge-5"
+         *ngIf="{primeFormWithSameMotifStabilizers : primeFormOrbitWithSameMotifStabilizersOf(pcsMapped)} as data">
+      <fieldset class="representation-border" style="max-width: 450px;">
+        <legend class="representation-border">
       <span style="display: inline-flex; align-items: center;">
-        {{ '' // tips for refresh octotrope component !! ??? }}
-        @for  (pcs of [pcsMapped.musaicPrimeForm()] ; track pcs.id) {
+        {{ '' // tips @for for refresh octotrope component !! ???  }}
+        @for (pcs of [pcsMapped.musaicPrimeForm()]; track pcs.id) {
           <app-octotrope [w]="50" [pcs]="pcs"></app-octotrope>
         }
         <span style="padding-left: 8px">
-        {{ orbitWithSameMotifStabilizersOf(pcsMapped).length }}
-          &nbsp;Musaic{{ orbitWithSameMotifStabilizersOf(pcsMapped).length > 1 ? 's': ''}} sharing
+        {{ data.primeFormWithSameMotifStabilizers.length }}
+          &nbsp;Musaic{{ data.primeFormWithSameMotifStabilizers.length > 1 ? 's' : '' }} sharing
       exactly same set of motif-stabilizers (up to transposition) :
-        {{ pcsMapped.musaicPrimeForm().orbit.motifStabilizer.name }}
+          {{ pcsMapped.musaicPrimeForm().orbit.motifStabilizer.name }}
           </span>
       </span>
 
-    </legend>
-    <hr>
-    <div class="row">
-      @for (pcsRepr of orbitWithSameMotifStabilizersOf(pcsMapped); track pcsRepr.id) {
-        <div class="boxPcs" style="max-width: 60px; margin-left: 10px; text-align: center;">
-          <span class="text-center label-ipcs">N° {{ EightyEight.idNumberOf(pcsRepr) }}</span>
-          <app-musaic
-            [w]="54"
-            [ipcs]="pcsRepr"
-            [opaque]="false"
-            [pcColorSet]="colorOrbit(pcsRepr)"
-            (click)="doPushToPcsPage(pcsRepr.modalPrimeForm())"
-            class="ms-1"
-            style="cursor: pointer"
-          >
-          </app-musaic>
-          <span class="text-center label-ipcs">#{{ pcsRepr.orbit.cardinal }}</span>
+        </legend>
+        <hr>
+        <div class="row">
+          @for (pcsRepr of data.primeFormWithSameMotifStabilizers; track pcsRepr.id) {
+            <div class="boxPcs" style="max-width: 60px; margin-left: 10px; text-align: center;">
+              <span class="text-center label-ipcs">N° {{ EightyEight.idNumberOf(pcsRepr) }}</span>
+              <app-musaic
+                [w]="54"
+                [ipcs]="pcsRepr"
+                [opaque]="false"
+                [pcColorSet]="colorOrbit(pcsRepr)"
+                (click)="doPushToPcsPage(pcsRepr.modalPrimeForm())"
+                class="ms-1"
+                style="cursor: pointer"
+              >
+              </app-musaic>
+              <span class="text-center label-ipcs">#{{ pcsRepr.orbit.cardinal }}</span>
+            </div>
+          }
         </div>
-      }
+      </fieldset>
     </div>
-  </fieldset>
-  </div>
-}
+  }
 
 
-@if (!pcs.orbit.isDetached()) {
-  <div class="marge-5">
-  <fieldset class="representation-border" style="max-width: 400px">
-    <legend class="representation-border">Pcs in orbit. Group : {{ pcs.orbit!.groupAction!.group!.name }}</legend>
-    <hr>
-    <p>
-      Orbit cardinal :
-      <span class="analyse-pcs"> {{ pcs.orbit.cardinal }}</span>
-    </p>
-    <p>
-      Orbit name (stabilizers signature) :
-      <span class="analyse-pcs"> {{ pcs.orbit.name }}</span>
-    </p>
-    <p>
-      {{ pcs.orbit.stabilizers.length }} Stabilizers :
-      @for (stab of pcs.orbit.stabilizers; track stab.hashCode()) {
-        <span class="analyse-pcs m-1">{{ stab.getShortName() }}</span> ({{ stab.fixedPcs.length }})
-      }
-    </p>
-    <p>
+  @if (!pcs.orbit.isDetached()) {
+    <div class="marge-5">
+      <fieldset class="representation-border" style="max-width: 400px">
+        <legend class="representation-border">Pcs in orbit. Group : {{ pcs.orbit!.groupAction!.group!.name }}</legend>
+        <hr>
+        <p>
+          Orbit cardinal :
+          <span class="analyse-pcs"> {{ pcs.orbit.cardinal }}</span>
+        </p>
+        <p>
+          Orbit name (stabilizers signature) :
+          <span class="analyse-pcs"> {{ pcs.orbit.name }}</span>
+        </p>
+        <p>
+          {{ pcs.orbit.stabilizers.length }} Stabilizers :
+          @for (stab of pcs.orbit.stabilizers; track stab.hashCode()) {
+            <span class="analyse-pcs m-1">{{ stab.getShortName() }}</span> ({{ stab.fixedPcs.length }})
+          }
+        </p>
+        <p>
          <span class="m-1"
                (click)="fixedPcsList()" style="cursor: pointer">
             <i class="bi bi-chevron-double-down">fixedPcs</i>
          </span>
-    </p>
-  </fieldset>
-  </div>
-}
+        </p>
+      </fieldset>
+    </div>
+  }
 
-<div class="padding-3">
-  <p>
-    (debug) iPCS :
-    <span class="analyse-pcs">{{ pcs.toString() }}</span> ~
-    <span class="id-pcs">id : {{ pcs.id }}</span> ~ <span class="id-pcs">pid : {{ pcs.pid() }}</span>
-  </p>
-</div>
+  <div class="padding-3">
+    <p>
+      (debug) iPCS :
+      <span class="analyse-pcs">{{ pcs.toString() }}</span> ~
+      <span class="id-pcs">id : {{ pcs.id }}</span> ~ <span class="id-pcs">pid : {{ pcs.pid() }}</span>
+    </p>
+  </div>
 
 </div>
