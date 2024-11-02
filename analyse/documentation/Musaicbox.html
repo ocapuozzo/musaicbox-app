@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.23">
-<meta name="description" content="about musaicbox app">
+<meta name="description" content="Musaicbox frontend app">
 <meta name="author" content="Another toolbox for musical composition">
 <title>MusaicBox</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
@@ -569,11 +569,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel2">
 <li><a href="#_abstraction">Abstraction</a></li>
 <li><a href="#_enumeration">Enumeration</a></li>
-<li><a href="#_order_relation">Order relation</a></li>
-<li><a href="#_orbit">Orbit</a></li>
 </ul>
 </li>
-<li><a href="#_pcs_representation">PCS Representation</a>
+<li><a href="#_pcs_representations">PCS Representations</a>
 <ul class="sectlevel2">
 <li><a href="#_set">Set</a></li>
 <li><a href="#_vector">Vector</a></li>
@@ -581,12 +579,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_geometry">Geometry</a>
 <ul class="sectlevel3">
 <li><a href="#_linear">Linear</a></li>
-<li><a href="#_circle">Circle</a></li>
-<li><a href="#_musaic">Musaic</a>
-<ul class="sectlevel4">
-<li><a href="#_tonnetz_musaic_and_more">Tonnetz, Musaic and more</a></li>
-</ul>
-</li>
+<li><a href="#_circle_clock">Circle / Clock</a></li>
+<li><a href="#_musaic">Musaic</a></li>
+<li><a href="#_dis_musaic_tonnetz_and_more">DIS : Musaic, Tonnetz and more</a></li>
 </ul>
 </li>
 <li><a href="#_together">Together</a></li>
@@ -594,19 +589,21 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#_pcs_identity">PCS Identity</a>
 <ul class="sectlevel2">
+<li><a href="#_order_relation">Order relation</a></li>
 <li><a href="#_state">State</a></li>
-<li><a href="#_number">Number</a>
+<li><a href="#_integer_2">Integer</a>
 <ul class="sectlevel3">
 <li><a href="#_polynomial_function">Polynomial function</a></li>
 <li><a href="#_augmented_polynomial_function">Augmented Polynomial function</a></li>
 </ul>
 </li>
+<li><a href="#_orbit">Orbit</a></li>
 </ul>
 </li>
 <li><a href="#_equivalence_relations">Equivalence relations</a>
 <ul class="sectlevel2">
 <li><a href="#_octaveenharmonic_equivalence">Octave/Enharmonic equivalence</a></li>
-<li><a href="#_intervallic_structure_equivalence">Intervallic structure equivalence</a></li>
+<li><a href="#_intervallic_structure_equivalence_up_to_shift">Intervallic structure equivalence up to shift</a></li>
 <li><a href="#_dihedral_equivalence">Dihedral equivalence</a></li>
 <li><a href="#_affine_equivalence">Affine equivalence</a></li>
 <li><a href="#_musaic_equivalence">Musaic equivalence</a></li>
@@ -627,7 +624,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>Musaicbox application is intended to be a POC for main concepts illustrated on the <a href="https://88musaics.org">88musaics.org</a> site, plus others (modes, scales, chords&#8230;&#8203;). The implementation chosen for this application are detailed, and certain concepts from Musial Set Theory are discussed.</p>
+<p>Musaicbox application is intended to be a POC for main concepts defined and illustrated on <a href="https://88musaics.org">88musaics.org</a> site, plus others (modes, scales, chords&#8230;&#8203;). The implementation chosen for this application are detailed, and some concepts from Musical Set Theory are discussed.</p>
 </div>
 </div>
 </div>
@@ -813,77 +810,229 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>With set of 12 elements <code>E</code> = <code>{0,1,2,3,4,5,6,7,8,9,10,11}</code></p>
 </div>
 <div class="paragraph">
-<p>Is there 2^12 = <strong>4096 pcs</strong>, from empty set <code>{}</code> to ful set <code>{0,1,2,3,4,5,6,7,8,9,10,11}</code> passing by all possible ordered configurations as <code>{0}</code>, <code>{1}</code>, &#8230;&#8203;, <code>{0,4,7}</code>, <code>{1,5,7}</code>,&#8230;&#8203; , etc.</p>
+<p>Is there 2^12 = <strong>4096 pcs</strong>, from empty set <code>{}</code> to ful set <code>{0,1,2,3,4,5,6,7,8,9,10,11}</code> passing by all possible ordered pcs configurations as <code>{0}</code>, <code>{1}</code>, &#8230;&#8203;, <code>{0,4,7}</code>, <code>{1,5,7}</code>,&#8230;&#8203; , etc</p>
 </div>
 <div class="paragraph">
-<p>Set of all these sets is known as <code>P(E)</code> (<strong>power set</strong>),</p>
+<p>Enumeration via line 12 of Pascal triangle</p>
 </div>
-</div>
-<div class="sect2">
-<h3 id="_order_relation">Order relation</h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1112%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PCS cardinal</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Orbit cardinal</p></td>
+<td class="tableblock halign-center valign-top" colspan="6"><p class="tableblock"><em>Coefficient of Transposition</em></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">12</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>line 12</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">12</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">66</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">19</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">18</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">220</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">43</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">40</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">495</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">66</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">66</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">792</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">80</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">75</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">924</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">66</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">66</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">792</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">43</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">40</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">495</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">19</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">18</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">220</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">66</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">12</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">12</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">total</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">352</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">335</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4096</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-center valign-top" colspan="5"><p class="tableblock"><em>17 orbits PCS in Limited Transposition</em></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
-<p>It would be useful to be able to sort the pcs among themselves. To do this, we need to define a total order relation that verifies: ∀ x, y ∈ P(E), (x ≤ y and y ≤ x) &#8658; x = y</p>
-</div>
-<div class="paragraph">
-<p>To implement it, it is customary to go through the order of natural integers</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_orbit">Orbit</h3>
-<div class="paragraph">
-<p>Orbit is a set where all elements (pcs) share the same equivalence property.</p>
-</div>
-<div class="paragraph">
-<p>Example : Orbit cyclic of major chord <code>{ C,E,G }</code> characterised by interval structure  <code>IS:(4,3,5)</code>  is composed of 12 elements (<code>{ C, E, G }, { C#, E#, G# }, &#8230;&#8203;, { B, D#, F# }</code>)</p>
-</div>
-<div class="openblock float-group">
-<div class="content">
-<div class="imageblock left text-center left">
-<div class="content">
-<img src="./assets/images/maj-triad-orbit-score.png" alt="Orbit cyclic">
-</div>
-<div class="title">Figure 8. Orbit Cyclic in score view</div>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p>Below, same, with clock representation.</p>
-</div>
-<div class="openblock float-group">
-<div class="content">
-<div class="imageblock left text-center left">
-<div class="content">
-<img src="./assets/images/maj-orbit-clock2.png" alt="Orbit cyclic">
-</div>
-<div class="title">Figure 9. Orbit Cyclic in clock view</div>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p>More formally, orbits are the result of the action of a group (cyclic, affine, dihedral, &#8230;&#8203;, musaic) on Z/nZ.</p>
+<p>Set of all these sets is known as <code>P(E)</code> (<strong>power set</strong>), and cardinal(P(E)) = 2^n = 4096, ordered by PCS cardinality by line 12 of Pascal triangle.</p>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_pcs_representation">PCS Representation</h2>
+<h2 id="_pcs_representations">PCS Representations</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>A <em>Pitch Set Class</em> (PCS, or pcs) may have multiple forms.</p>
+<p>A <em>Pitch Set Class</em> (PCS, or pcs) may have multiple representations.</p>
 </div>
 <div class="sect2">
 <h3 id="_set">Set</h3>
 <div class="paragraph">
-<p>Example for C,E,F :  <code>{0,4,7}</code> or <code>[0,4,7]</code></p>
+<p>Example for C,E,G :  <code>{0,4,7}</code> or <code>[0,4,7]</code> (from musical set theory)</p>
 </div>
 <div class="paragraph">
-<p>It is customary to represent pitches class into a PCS in an ordered manner, called <em>Normal Form</em>, from smallest to largest. For example: {0, 4, 7} not {4, 0, 7}</p>
+<p>It is customary to represent pitches class into a PCS in an ordered manner, called <em>Normal Form</em>, from smallest to largest. For example: [0, 4, 7] not [4, 0, 7]</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_vector">Vector</h3>
 <div class="paragraph">
-<p>Example for {C,E,G} :  <code>[<strong>1</strong>,0,0,0,<strong>1</strong>,0,0,<strong>1</strong>,0,0,0,0]</code>  (12 values)</p>
+<p>Example for C,E,G :  <code>[<strong>1</strong>,0,0,0,<strong>1</strong>,0,0,<strong>1</strong>,0,0,0,0]</code>  (12 values)</p>
 </div>
 <div class="paragraph">
 <p>Note : can be also vector of boolean values : <code>[<strong>true</strong>,false,false,false,<strong>true</strong>,false,false,<strong>true</strong>,false,false,false,false]</code></p>
@@ -1001,7 +1150,10 @@ As each pcs into the 4096 is unique, each of these pcs has a unique value by pol
 </div>
 </div>
 <div class="sect3">
-<h4 id="_circle">Circle</h4>
+<h4 id="_circle_clock">Circle / Clock</h4>
+<div class="paragraph">
+<p>Optional with polygon inscribed.</p>
+</div>
 <div class="openblock float-group">
 <div class="content">
 <div class="imageblock left text-center">
@@ -1033,34 +1185,237 @@ As each pcs into the 4096 is unique, each of these pcs has a unique value by pol
 </div>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_tonnetz_musaic_and_more">Tonnetz, Musaic and more</h5>
-
+</div>
+<div class="sect3">
+<h4 id="_dis_musaic_tonnetz_and_more">DIS : Musaic, Tonnetz and more</h4>
+<div class="paragraph">
+<p>More generally, a matrix regular representation is instance of a <em>Dual Interval Space</em> (<a href="#DIS">[DIS]</a>), a two-dimensional array of pitches where “rows” are separated by the same interval and the “columns” by one other but also same (non-zero) interval.</p>
+</div>
+<div class="paragraph">
+<p>Examples : DIS(y,x) where y is row interval and x is column interval. Violin is DIS(1,7), guitar in P4 Tuning is DIS(1,5), Tonnetz is DIS(4, 7), etc.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Instrument in DIS(x,y) are in <em>regular interface</em> family.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_together">Together</h3>
-
+<div class="paragraph">
+<p>All PCS representations are interchangeable by bijective connection.</p>
+</div>
+<div class="paragraph">
+<p>Example : Integer to PCS, PCS to Integer, Integer to Vector etc.</p>
+</div>
+<div class="openblock float-group">
+<div class="content">
+<div class="imageblock left text-center">
+<div class="content">
+<img src="./assets/images/together-representation-fleches.png" alt="together-representation-fleches">
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_pcs_identity">PCS Identity</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_state">State</h3>
-
+<div class="paragraph">
+<p>Any ordered PCS (in normal form) is unique, but it is not a sufficient quality to sort them.</p>
 </div>
 <div class="sect2">
-<h3 id="_number">Number</h3>
+<h3 id="_order_relation">Order relation</h3>
+<div class="paragraph">
+<p>It would be useful to be able to sort the pcs among themselves. To do this, we need to define a total order relation that verifies: ∀ x, y ∈ P(E), (id(x) ≤ id(y) and id(y) ≤ id(x)) &#8658; x = y (same)</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_state">State</h3>
+<div class="paragraph">
+<p>By definition, a PCS is a collection of PC. Type is not atomic, and may have some algorithmic efficiency problem, so we prefer a scalar identity.</p>
+</div>
+<div class="paragraph">
+<p>To implement order relation, we use integer representation, to go through the order of natural of integer.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_integer_2">Integer</h3>
 <div class="sect3">
 <h4 id="_polynomial_function">Polynomial function</h4>
-
+<div class="paragraph">
+<p>Polynomial function is a good candidate for sorting the PCS among themselves.</p>
+</div>
+<div class="paragraph">
+<p>However, there remains a bias.</p>
+</div>
+<div class="paragraph">
+<p>Examples :</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. Example Compare with Polynomial Identifier</caption>
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">pcs1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">pcs2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">pid(pcs1)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">pid(pcs2)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">pcs1 &lt; pcs1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[ ]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[0]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>true</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[0,4,7]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[1,5,8]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">145</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">290</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>true</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[0,3,7]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[2,6,11]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">137</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2116</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>true</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[0,11]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[0,3,7]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2049</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">137</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>false</strong> (???)
+ <strong><em>waiting true</em></strong></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>In the first line, we admitted that a piece with a smaller cardinal than another piece will be considered smaller than the latter. But this is contradicted by the last line.</p>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_augmented_polynomial_function">Augmented Polynomial function</h4>
-
+<div class="paragraph">
+<p>In order to solve the inconsistency of the polynomial function for sort pcs lists, we increase this function by another value that takes into account the cardinality of the set. The first value, outside <em>pid</em> domain, is 2^n * cardinal</p>
+</div>
+<div class="paragraph">
+<p>So, augmented polynomial function is  : <em>pid</em> + 2^12 * cardinal</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 3. Example Compare with Augmented Polynomial Identifier</caption>
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">pcs1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">pcs2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">augPid(pcs1)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">augPid(pcs2)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">pcs1 &lt; pcs1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[ ]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[0]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4097</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>true</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[0,4,7]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[1,5,8]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">12433</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">12578</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>true</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[0,3,7]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[2,6,11]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">12425</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">14404</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>true</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[0,11]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[0,3,7]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10241</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">12425</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>true</strong> (ok)</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+In Musaicbox code, Augmented Polynomial Identifier is called <em>id</em>, and <em>pid</em> is kept because is commonly used.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_orbit">Orbit</h3>
+<div class="paragraph">
+<p>Orbit is a set where all elements (pcs) share the same equivalence property.</p>
+</div>
+<div class="paragraph">
+<p>Example : Orbit cyclic of major chord <code>{ C,E,G }</code> characterised by interval structure  <code>IS:(4,3,5)</code>  is composed of 12 elements (<code>{ C, E, G }, { C#, E#, G# }, &#8230;&#8203;, { B, D#, F# }</code>)</p>
+</div>
+<div class="openblock float-group">
+<div class="content">
+<div class="imageblock left text-center left">
+<div class="content">
+<img src="./assets/images/maj-triad-orbit-score.png" alt="Orbit cyclic">
+</div>
+<div class="title">Figure 8. Orbit Cyclic in score view</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Below, same, with clock representation.</p>
+</div>
+<div class="openblock float-group">
+<div class="content">
+<div class="imageblock left text-center left">
+<div class="content">
+<img src="./assets/images/maj-orbit-clock2.png" alt="Orbit cyclic">
+</div>
+<div class="title">Figure 9. Orbit Cyclic in clock view</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>More formally, orbits are the result of the action of a group (cyclic, affine, dihedral, &#8230;&#8203;, musaic) on Z/nZ.</p>
 </div>
 </div>
 </div>
@@ -1093,12 +1448,15 @@ An orbit can be empty (contains empty pcs) or contain all elements. For a given 
 </div>
 </div>
 <div class="sect2">
-<h3 id="_intervallic_structure_equivalence">Intervallic structure equivalence</h3>
+<h3 id="_intervallic_structure_equivalence_up_to_shift">Intervallic structure equivalence up to shift</h3>
 <div class="paragraph">
 <p>This is form a cyclic group (group action on Z12).</p>
 </div>
 <div class="paragraph">
-<p>All pcs of a given orbit share <strong>same intervallic structure</strong>, <strong>obtained by transposition</strong>.</p>
+<p>All pcs of a given orbit share <strong>same intervallic structure up to shift</strong>, <strong>obtained by transposition</strong>.</p>
+</div>
+<div class="paragraph">
+<p>In other words, PCS in clock representation having the same inscribed polygon.</p>
 </div>
 <div class="paragraph">
 <p>Cyclic group has <strong>352</strong> orbits.<sup class="footnote">[<a id="_footnoteref_6" class="footnote" href="#_footnotedef_6" title="View footnote.">6</a>]</sup></p>
@@ -1151,7 +1509,7 @@ An orbit can be empty (contains empty pcs) or contain all elements. For a given 
 <td class="content">
 Can be represented by a function PrimeForm : EquivalenceRelation x pcs &#8594; pcs (from an equivalence relation and a pcs given we obtain one and oly one pcs representative of equivalence relation orbit.
 <br>
-Given R, a equivalence relation, and pcs1, pcs2 (two pcs), if PrimeForm(R, pcs1) == PrimeForm(R, pcs2), then pcs1 and pcs2 belong to the same R equivalence orbit.
+Given R, an equivalence relation, and pcs1, pcs2 (two pcs), if PrimeForm(R, pcs1) == PrimeForm(R, pcs2), then pcs1 and pcs2 belong to the same R equivalence orbit.
 </td>
 </tr>
 </table>
@@ -1159,7 +1517,7 @@ Given R, a equivalence relation, and pcs1, pcs2 (two pcs), if PrimeForm(R, pcs1)
 <div class="sect2">
 <h3 id="_what_prime_form_is">What Prime Form is</h3>
 <div class="paragraph">
-<p>Given a equivalence relation orbit (of pcs), there will always be a uniq pcs <em>smaller</em> than others into same orbit.</p>
+<p>Given an equivalence relation orbit (of pcs), there will always be a unique pcs <em>smaller</em> than others into same orbit (thanks to the order relation).</p>
 </div>
 <div class="paragraph">
 <p>Originally <a href="#Forte">[Forte]</a>, prime denotes a pcs in normal form and "most packed on the left (0)"</p>
@@ -1252,6 +1610,9 @@ Given R, a equivalence relation, and pcs1, pcs2 (two pcs), if PrimeForm(R, pcs1)
 <li>
 <p><a id="Rahn"></a>[Rahn] Rahn, John. 1980. Basic Atonal Theory. New York: Longman.</p>
 </li>
+<li>
+<p><a id="DIS"></a>[DIS] Stephen C.Brown. Dual Interval Space in Twentieth-Century Music,  Musaic in armature 1-5 is DIS(1,5).</p>
+</li>
 </ul>
 </div>
 </div>
@@ -1280,7 +1641,7 @@ Given R, a equivalence relation, and pcs1, pcs2 (two pcs), if PrimeForm(R, pcs1)
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-11-02 06:38:59 +0100
+Last updated 2024-11-02 22:51:17 +0100
 </div>
 </div>
 <script>

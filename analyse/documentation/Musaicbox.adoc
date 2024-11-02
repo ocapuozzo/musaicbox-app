@@ -1,7 +1,7 @@
 = MusaicBox
 Another toolbox for musical composition
 From 88musaics.org project
-:description: about musaicbox app
+:description: Musaicbox frontend app
 :icons: font
 :listing-caption: Listing
 :toc-title: Table des matières
@@ -18,7 +18,7 @@ ifndef::backend-pdf[]
 endif::[]
 :imagesdir: ./assets/images
 
-Musaicbox application is intended to be a POC for main concepts illustrated on the https://88musaics.org[88musaics.org] site, plus others (modes, scales, chords...). The implementation chosen for this application are detailed, and certain concepts from Musial Set Theory are discussed.
+Musaicbox application is intended to be a POC for main concepts defined and illustrated on https://88musaics.org[88musaics.org] site, plus others (modes, scales, chords...). The implementation chosen for this application are detailed, and some concepts from Musical Set Theory are discussed.
 
 == Introduction
 
@@ -135,53 +135,45 @@ PCS is abstraction, a _pitches class set_ where a pitch class refer to all pitch
 
 With set of 12 elements `E` = `{0,1,2,3,4,5,6,7,8,9,10,11}`
 
-Is there 2^12 = *4096 pcs*, from empty set `{}` to ful set `{0,1,2,3,4,5,6,7,8,9,10,11}` passing by all possible ordered configurations as `{0}`, `{1}`, ..., `{0,4,7}`, `{1,5,7}`,... , etc.
+Is there 2^12 = *4096 pcs*, from empty set `{}` to ful set `{0,1,2,3,4,5,6,7,8,9,10,11}` passing by all possible ordered pcs configurations as `{0}`, `{1}`, ..., `{0,4,7}`, `{1,5,7}`,... , etc
 
-Set of all these sets is known as `P(E)` (*power set*),
+Enumeration via line 12 of Pascal triangle
+|===
+|PCS cardinal|Orbit cardinal 6+^|_Coefficient of Transposition_|
+|||1|2|3|4|6|12|_line 12_
+|0|1|1||||||1
+|1|1||||||1|12
+|2|6|||||1|5|66
+|3|19||||1||18|220
+|4|43|||1||2|40|495
+|5|66||||||66|792
+|6|80||1||1|3|75|924
+|7|66||||||66|792
+|8|43|||1||2|40|495
+|9|19||||1||18|220
+|10|6|||||1|5|66
+|11|1||||||1|12
+|12|1|1||||||1
+|total|352|2|1|2|3|9|335|4096
+|| 5+^|_17 orbits PCS in Limited Transposition_||
 
-=== Order relation
+|===
 
-It would be useful to be able to sort the pcs among themselves. To do this, we need to define a total order relation that verifies: ∀ x, y ∈ P(E), (x ≤ y and y ≤ x) => x = y
+Set of all these sets is known as `P(E)` (*power set*), and cardinal(P(E)) = 2^n = 4096, ordered by PCS cardinality by line 12 of Pascal triangle.
 
-To implement it, it is customary to go through the order of natural integers
+== PCS Representations
 
-=== Orbit
-Orbit is a set where all elements (pcs) share the same equivalence property.
-
-Example : Orbit cyclic of major chord `{ C,E,G }` characterised by interval structure  `IS:(4,3,5)`  is composed of 12 elements (`{ C, E, G }, { C#, E#, G# }, ..., { B, D#, F# }`)
-
-[.float-group]
---
-[.left]
-.Orbit Cyclic in score view
-image::maj-triad-orbit-score.png["Orbit cyclic" float="left",align="center"]
---
-
-Below, same, with clock representation.
-
-[.float-group]
---
-[.left]
-.Orbit Cyclic in clock view
-image::maj-orbit-clock2.png["Orbit cyclic" float="left",align="center"]
---
-
-More formally, orbits are the result of the action of a group (cyclic, affine, dihedral, ..., musaic) on Z/nZ.
-
-
-== PCS Representation
-
-A _Pitch Set Class_ (PCS, or pcs) may have multiple forms.
+A _Pitch Set Class_ (PCS, or pcs) may have multiple representations.
 
 === Set
 
-Example for C,E,F :  `{0,4,7}` or `[0,4,7]`
+Example for C,E,G :  `{0,4,7}` or `[0,4,7]` (from musical set theory)
 
-It is customary to represent pitches class into a PCS in an ordered manner, called _Normal Form_, from smallest to largest. For example: {0, 4, 7} not {4, 0, 7}
+It is customary to represent pitches class into a PCS in an ordered manner, called _Normal Form_, from smallest to largest. For example: [0, 4, 7] not [4, 0, 7]
 
 === Vector
 
-Example for {C,E,G} :  `[*1*,0,0,0,*1*,0,0,*1*,0,0,0,0]`  (12 values)
+Example for C,E,G :  `[*1*,0,0,0,*1*,0,0,*1*,0,0,0,0]`  (12 values)
 
 Note : can be also vector of boolean values : `[*true*,false,false,false,*true*,false,false,*true*,false,false,false,false]`
 
@@ -213,14 +205,15 @@ Example with [0,4,7]
 
 &#9632;&#9633;&#9633;&#9633;&#9632;&#9633;&#9633;&#9632;&#9633;&#9633;&#9633;&#9633;
 
-==== Circle
+==== Circle / Clock
+
+Optional with polygon inscribed.
 
 [.float-group]
 --
 image::_0_4_7.png["_0_4_7_clock-names",float="left",align="center"]
 image::_0_4_7_clock.png["_0_4_7_clock",float="left",align="center" ]
 --
-
 
 ==== Musaic
 
@@ -230,18 +223,100 @@ image::_0_4_7_musaic-names.png["_0_4_7_musaic-names",float="left",align="center"
 image::_0_4_7_musaic.png["_0_4_7_musaic",float="left",align="center" ]
 --
 
-===== Tonnetz, Musaic and more
+==== DIS : Musaic, Tonnetz and more
+
+More generally, a matrix regular representation is instance of a _Dual Interval Space_ (<<DIS>>), a two-dimensional array of pitches where “rows” are separated by the same interval and the “columns” by one other but also same (non-zero) interval.
+
+Examples : DIS(y,x) where y is row interval and x is column interval. Violin is DIS(1,7), guitar in P4 Tuning is DIS(1,5), Tonnetz is DIS(4, 7), etc.
+
+NOTE: Instrument in DIS(x,y) are in _regular interface_ family.
 
 === Together
 
+All PCS representations are interchangeable by bijective connection.
+
+Example : Integer to PCS, PCS to Integer, Integer to Vector etc.
+
+
+[.float-group]
+--
+image::together-representation-fleches.png["together-representation-fleches",float="left",align="center"]
+--
+
 == PCS Identity
+
+Any ordered PCS (in normal form) is unique, but it is not a sufficient quality to sort them.
+
+=== Order relation
+
+It would be useful to be able to sort the pcs among themselves. To do this, we need to define a total order relation that verifies: ∀ x, y ∈ P(E), (id(x) ≤ id(y) and id(y) ≤ id(x)) => x = y (same)
+
 === State
-=== Number
+By definition, a PCS is a collection of PC. Type is not atomic, and may have some algorithmic efficiency problem, so we prefer a scalar identity.
+
+To implement order relation, we use integer representation, to go through the order of natural of integer.
+
+=== Integer
+
 ==== Polynomial function
+
+Polynomial function is a good candidate for sorting the PCS among themselves.
+
+However, there remains a bias.
+
+Examples :
+
+.Example Compare with Polynomial Identifier
+|===
+|pcs1| pcs2| pid(pcs1) | pid(pcs2)| pcs1 < pcs1
+| [ ]| [0]| 0 | 1 | **true**
+|[0,4,7]| [1,5,8]| 145 | 290 | **true**
+|[0,3,7]| [2,6,11]| 137 | 2116 | **true**
+|[0,11] | [0,3,7] | 2049 |137 | **false** (???)
+ **_waiting true_**
+|===
+
+In the first line, we admitted that a piece with a smaller cardinal than another piece will be considered smaller than the latter. But this is contradicted by the last line.
+
 ==== Augmented Polynomial function
 
+In order to solve the inconsistency of the polynomial function for sort pcs lists, we increase this function by another value that takes into account the cardinality of the set. The first value, outside _pid_ domain, is 2^n * cardinal
 
+So, augmented polynomial function is  : _pid_ + 2^12 * cardinal
 
+.Example Compare with Augmented Polynomial Identifier
+|===
+|pcs1| pcs2| augPid(pcs1) | augPid(pcs2)| pcs1 < pcs1
+| [ ]| [0]| 0 | 4097 | **true**
+|[0,4,7]| [1,5,8]| 12433 | 12578 | **true**
+|[0,3,7]| [2,6,11]| 12425 | 14404 | **true**
+|[0,11] | [0,3,7] | 10241 |12425 | **true** (ok)
+|===
+
+NOTE: In Musaicbox code, Augmented Polynomial Identifier is called _id_, and _pid_ is kept because is commonly used.
+
+=== Orbit
+Orbit is a set where all elements (pcs) share the same equivalence property.
+
+Example : Orbit cyclic of major chord `{ C,E,G }` characterised by interval structure  `IS:(4,3,5)`  is composed of 12 elements (`{ C, E, G }, { C#, E#, G# }, ..., { B, D#, F# }`)
+
+[.float-group]
+--
+[.left]
+.Orbit Cyclic in score view
+image::maj-triad-orbit-score.png["Orbit cyclic" float="left",align="center"]
+--
+
+Below, same, with clock representation.
+
+[.float-group]
+--
+[.left]
+.Orbit Cyclic in clock view
+image::maj-orbit-clock2.png["Orbit cyclic" float="left",align="center"]
+--
+
+More formally, orbits are the result of the action of a group (cyclic, affine, dihedral, ..., musaic) on Z/nZ.
 
 == Equivalence relations
 
@@ -255,11 +330,13 @@ Reduce to 12 pitches class and its 4096 PCS combinaisons (2^12).
 
 *Trivial group* has *4096* orbits, each orbit has max only one pcs (cardinal = 1)
 
-=== Intervallic structure equivalence
+=== Intervallic structure equivalence up to shift
 
 This is form a cyclic group (group action on Z12).
 
-All pcs of a given orbit share *same intervallic structure*, *obtained by transposition*.
+All pcs of a given orbit share *same intervallic structure up to circular shift*, *obtained by transposition*.
+
+In other words, PCS in clock representation having the *same inscribed polygon*.
 
 Cyclic group has *352* orbits.footnote:[352 > 4096 / 12, because somme pcs are there cardinal cyclic orbit smaller than 12 (pcs in *limited transposition*)]
 
@@ -289,11 +366,11 @@ To put it simply, it is the *smallest element of an orbit*.
 
 TIP: Can be represented by a function PrimeForm : EquivalenceRelation x pcs -> pcs (from an equivalence relation and a pcs given we obtain one and oly one pcs representative of equivalence relation orbit.
  +
-Given R, a equivalence relation, and pcs1, pcs2 (two pcs), if PrimeForm(R, pcs1) == PrimeForm(R, pcs2), then pcs1 and pcs2 belong to the same R equivalence orbit.
+Given R, an equivalence relation, and pcs1, pcs2 (two pcs), if PrimeForm(R, pcs1) == PrimeForm(R, pcs2), then pcs1 and pcs2 belong to the same R equivalence orbit.
 
 === What Prime Form is
 
-Given a equivalence relation orbit (of pcs), there will always be a uniq pcs _smaller_ than others into same orbit.
+Given an equivalence relation orbit (of pcs), there will always be a unique pcs _smaller_ than others into same orbit (thanks to the order relation).
 
 Originally <<Forte>>, prime denotes a pcs in normal form and "most packed on the left (0)"
 
@@ -351,65 +428,11 @@ image::pcs_2_3_5_7_8-wb2.png["Modal and cyclic prime form" float="left",align="c
 --
 
 
-
-//
-// ==== Third level heading
-//
-// [#id-for-listing-block]
-// .Listing block title
-// ----
-// Content in a listing block is subject to verbatim substitutions.
-// Listing block content is commonly used to preserve code input.
-// ----
-//
-// ===== Fourth level heading
-//
-// .Table title
-// |===
-// |Column heading 1 |Column heading 2
-//
-// |Column 1, row 1
-// |Column 2, row 1
-//
-// |Column 1, row 2
-// |Column 2, row 2
-// |===
-//
-// ====== Fifth level heading
-//
-// [quote,firstname lastname,movie title]
-// ____
-// I am a block quote or a prose excerpt.
-// I am subject to normal substitutions.
-// ____
-//
-// [verse,firstname lastname,poem title and more]
-// ____
-// I am a verse block.
-//   Indents and endlines are preserved in verse blocks.
-// ____
-//
-// == First level heading
-//
-// TIP: There are five admonition labels: Tip, Note, Important, Caution and Warning.
-//
-// // I am a comment and won't be rendered.
-//
-// . ordered list item
-// .. nested ordered list item
-// . ordered list item
-//
-// The text at the end of this sentence is cross referenced to <<_third_level_heading,the third level heading>>
-//
-// == Refs
-//
-// This is a link to the https://docs.asciidoctor.org/home/[Asciidoctor documentation].
-// This is an attribute reference {url-quickref}[that links this text to the AsciiDoc Syntax Quick Reference].
-
-
 [bibliography]
 == References
 
 * [[[Forte]]] Forte, Allen. 1973. The Structure of Atonal Music. New Haven: Yale University Press.
 
 * [[[Rahn]]] Rahn, John. 1980. Basic Atonal Theory. New York: Longman.
+
+* [[[DIS]]] Stephen C.Brown. Dual Interval Space in Twentieth-Century Music,  Musaic in armature 1-5 is DIS(1,5).
