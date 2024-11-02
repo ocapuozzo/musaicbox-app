@@ -872,6 +872,11 @@
         "name": "Major Triad",
         "url": "https://en.wikipedia.org/wiki/Major_chord",
         "type": "wikipedia"
+      },
+      {
+        "name": "Major Triad",
+        "url": "https://ianring.com/musictheory/scales/145",
+        "type": "ianring"
       }
     ]
   },
