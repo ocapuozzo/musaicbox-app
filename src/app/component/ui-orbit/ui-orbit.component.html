@@ -16,7 +16,7 @@
           [w]="52"
           [ipcs]="orbit.getPcsMin()"
           [opaque]="false"
-          [pcColorSet]="colorOrbitCriterion(orbitsGroup?.groupingCriterion ?? orbit.motifStabilizer.name)"
+          [pcColorSet]="colorOrbit(orbit)"
         ></app-musaic>
         <span class="text-center label-ipcs">#{{ orbit.ipcsset.length }}</span>
         <span>

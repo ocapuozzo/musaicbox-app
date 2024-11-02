@@ -65,7 +65,6 @@ export class ManagerExplorerService implements IDataExplorerState{
       orbitsPartitions : this.orbitsPartitions,
       preReactOrbits: this.preReactOrbits,
       actionCommand: this.actionCommand
-      // stabilizers: this.stabilizers
     }
   }
 
