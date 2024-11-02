@@ -2,7 +2,6 @@ import {MusaicOperation} from "../core/MusaicOperation";
 import {GroupAction} from "../core/GroupAction";
 import {ISortedOrbits} from "../core/ISortedOrbits";
 import {Orbit} from "../core/Orbit";
-import {Stabilizer} from "../core/Stabilizer";
 
 export interface IDataExplorerState {
 
@@ -15,6 +14,5 @@ export interface IDataExplorerState {
   groupAction: GroupAction | null
   orbitsPartitions: ISortedOrbits[]
   preReactOrbits: Orbit[]
-  // stabilizers : Stabilizer[]
-
+  actionCommand : string
 }

@@ -5,7 +5,6 @@ import {GroupAction} from "../core/GroupAction";
 import {ISortedOrbits} from "../core/ISortedOrbits";
 import {Orbit} from "../core/Orbit";
 import {Stabilizer} from "../core/Stabilizer";
-import {IPcs} from "../core/IPcs";
 
 @Injectable({
   providedIn: 'root'
@@ -22,8 +21,10 @@ export class ManagerExplorerService implements IDataExplorerState{
   orbitsPartitions: ISortedOrbits[]
   preReactOrbits: Orbit[]
   stabilizers : Stabilizer[]
+  actionCommand: string;
 
   @Output() saveExplorerConfigEvent = new EventEmitter();
+
 
   constructor() {
   }
@@ -38,6 +39,7 @@ export class ManagerExplorerService implements IDataExplorerState{
     groupAction: GroupAction | null
     orbitsPartitions: ISortedOrbits[]
     preReactOrbits: Orbit[]
+    action:string
   }) {
     this.n = x.n ?? 12
     this.primesWithN = x.primesWithN ?? [1, 5, 7, 11]
@@ -48,6 +50,7 @@ export class ManagerExplorerService implements IDataExplorerState{
     this.groupAction = x.groupAction ?? null
     this.orbitsPartitions = x.orbitsPartitions ?? []
     this.preReactOrbits = x.preReactOrbits ?? []
+    this.actionCommand = x.action
   }
 
   getConfig() : IDataExplorerState {
@@ -61,6 +64,7 @@ export class ManagerExplorerService implements IDataExplorerState{
       groupAction :  this.groupAction,
       orbitsPartitions : this.orbitsPartitions,
       preReactOrbits: this.preReactOrbits,
+      actionCommand: this.actionCommand
       // stabilizers: this.stabilizers
     }
   }

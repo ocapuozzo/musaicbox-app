@@ -276,7 +276,7 @@ export class GroupAction {
       }
     })
     // sort operations
-    // make a "view adapter" (initially for Vue v-for and this cache)
+    // make a "view adapter" (initially for Vue v-for and cache)
     let resultOrbitsSortedByMotifStabilizer: ISortedOrbits[] = []
     Array.from(orbitsSortedByMotifStabilizer.keys()).sort(MotifStabilizer.compare).forEach(motifStab => {
       const obj: ISortedOrbits =

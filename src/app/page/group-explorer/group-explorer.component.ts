@@ -34,10 +34,11 @@ export class GroupExplorerComponent {
   opTransChoices = [1]
   opComplement = false
   // array with neutral operation
-  groupOperations : MusaicOperation[] = []  //new MusaicOperation(this.n, 1, 1)]
+  groupOperations: MusaicOperation[] = []  //new MusaicOperation(this.n, 1, 1)]
   groupAction: GroupAction | null
   orbitsPartitions: ISortedOrbits[] = []
   preReactOrbits: Orbit[] = []
+  actionCommand: string  // last user choice
   waitingCompute = false
 
   criteriaEquiv = "" // for UI
@@ -46,6 +47,7 @@ export class GroupExplorerComponent {
   toggleShowHide: string = "hidden"
 
   protected readonly Math = Math;
+
 
   constructor(private readonly managerExplorerService: ManagerExplorerService) {
     this.managerExplorerService.saveExplorerConfigEvent.subscribe(() => {
@@ -56,9 +58,10 @@ export class GroupExplorerComponent {
   ngOnInit() {
     this.updateConfig();
     this.buildAllOperationsOfGroup()
+    this.showOrbits(this.actionCommand)
   }
 
-  private saveConfig() {
+  private saveConfig(action:string = "") {
     this.managerExplorerService.saveConfig({
       n: this.n,
       primesWithN: this.primesWithN,
@@ -68,7 +71,8 @@ export class GroupExplorerComponent {
       groupOperations: this.groupOperations,
       groupAction: this.groupAction,
       orbitsPartitions: this.orbitsPartitions,
-      preReactOrbits: this.preReactOrbits
+      preReactOrbits: this.preReactOrbits,
+      action: action
     })
   }
 
@@ -84,6 +88,7 @@ export class GroupExplorerComponent {
     this.groupAction = currentState.groupAction ?? null
     this.orbitsPartitions = currentState.orbitsPartitions ?? []
     this.preReactOrbits = currentState.preReactOrbits ?? []
+    this.actionCommand = currentState.actionCommand
   }
 
   doubleRaf(callback: FrameRequestCallback) {
@@ -166,8 +171,20 @@ export class GroupExplorerComponent {
         } else if (byCriteria === "Cardinal") {
           this.orbitsPartitions = this.groupAction!.orbitsSortedGroupedByCardinal
           this.criteriaEquiv = "cardinal"
+        } else if (byCriteria === "AllInOne") {
+          const temp: ISortedOrbits[] = this.groupAction!.orbitsSortedGroupedByCardinal
+
+          let allOrbits: Orbit[] = []
+          let hashcode = 0
+          for (let i = 0; i < temp.length; i++) {
+            allOrbits = allOrbits.concat(temp[i].orbits)
+            hashcode += temp[i].hashcode
+          }
+          allOrbits.sort(Orbit.comparePcsMin)
+          this.orbitsPartitions = [{orbits: allOrbits, hashcode: hashcode, groupingCriterion: 'AllInOne'}]
+          this.criteriaEquiv = "All In One"
         }
-        this.saveConfig();
+        this.saveConfig(byCriteria);
         this.nextTick()
       })
     }
