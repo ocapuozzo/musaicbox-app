@@ -440,7 +440,8 @@ export class ManagerPageWBService {
   }
 
 
-  doDuplicate(index: number, deltaPosition = 20) {
+  doDuplicate(index: number, complement : boolean = false) {
+    const deltaPosition = 20
     this.uiPcsDtoList = [...this.uiPcsDtoList]
     let newPcsDtos: UIPcsDto[] = []
     let indexes: number[] = []
@@ -464,7 +465,8 @@ export class ManagerPageWBService {
 
       let newPcsDto = new UIPcsDto({
         ...pcsDto, position: {x: pcsDto.position.x + deltaPosition, y: pcsDto.position.y + deltaPosition}, // do not share ref !
-        isSelected: true
+        isSelected: true,
+        pcs : complement ? pcsDto.pcs.complement() : pcsDto.pcs // readonly, pcs can be shared
       })
       newPcsDtos.push(newPcsDto)
       // because previous call doUnselectAll(), we add now new index in ordered selection index
@@ -1034,5 +1036,9 @@ export class ManagerPageWBService {
     }
     this.pcsDtoForTemplate = this.uiPcsDtoList[index]
     this.addPcs({somePcs: pcsModeList, circularAlign: true, indexCenterElement: index})
+  }
+
+  doMakeComplement(index : number) {
+    this.doDuplicate(index, true)
   }
 }

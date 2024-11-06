@@ -1,6 +1,6 @@
 <div class="main-page"
      id="white-board"
-     [cdkContextMenuTriggerFor]="whiteboard"
+     [cdkContextMenuTriggerFor]="menuBackgroundWhiteboard"
 >
   <app-rect-selector
     (changeAreaRect)="doCheckPcsComponentsInRectangleSelector($event)"
@@ -54,7 +54,7 @@
         <span *ngIf="!isSolo(index)">&nbsp;({{ numberSelectedComponents }})</span>
       </button>
 
-      <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="color"
+      <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="menuColor"
               [cdkMenuTriggerData]="{index: index}">
         Color <span>&#10148;</span>
       </button>
@@ -63,13 +63,13 @@
         <mat-slide-toggle [checked]="isSelected(index)">Selected</mat-slide-toggle>
       </button>
 
-      <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="duplicate"
+      <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="menuDuplicate"
               [cdkMenuTriggerData]="{index: index}">
         Duplicate <span *ngIf="!isSolo(index)">&nbsp;({{ numberSelectedComponents }})</span> <span> &#10148;</span>
       </button>
 
       <button class="contextual-menu-item" [cdkMenuTriggerData]="{index: index}" cdkMenuItem
-              [cdkMenuTriggerFor]="primes">
+              [cdkMenuTriggerFor]="menuPrimes">
         Prime Form <span>&#10148;</span>
       </button>
       <button class="contextual-menu-item"
@@ -79,15 +79,20 @@
               countDistinctAffineMotifs: howManyDistinctAffineMotifs(index)
               }"
               cdkMenuItem
-              [cdkMenuTriggerFor]="motifs">
+              [cdkMenuTriggerFor]="menuMotifs">
         Motifs <span>&#10148;</span>
       </button>
+
       <button class="contextual-menu-item" [cdkMenuTriggerData]="{index: index}" cdkMenuItem
               [cdkMenuTriggerFor]="menuOrbits">
         Orbits <span>&#10148;</span>
       </button>
+      <button class="contextual-menu-item" [cdkMenuTriggerData]="{index: index}" cdkMenuItem
+              [cdkMenuTriggerFor]="menuSetOps">
+        Set Ops <span>&#10148;</span>
+      </button>
 
-      <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="neighbors">
+      <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="menuNeighbors">
         Neighbors <span>&#10148;</span>
       </button>
       <hr/>
@@ -107,26 +112,26 @@
               (cdkMenuItemTriggered)="doToggleShowNames(index)">
         <mat-slide-toggle [checked]="isShowName(index)">Show Names</mat-slide-toggle>
       </button>
-      <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="align">
+      <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="menuAlign">
         Align <span>&#10148;</span>
       </button>
 
       <hr/>
       <div cdkMenuGroup>
-        @for (drawer of UIPcsDto.ALL_DRAWERS | keyvalue; track drawer; ) {
+        @for (drawer of UIPcsDto.ALL_DRAWERS.keys(); track drawer; ) {
           <button
             cdkMenuItemRadio
             class="contextual-menu-item"
-            [cdkMenuItemChecked]="drawer.value === indexFormDrawer"
-            (cdkMenuItemTriggered)="updateDrawer(drawer.key, index)">
-            {{ drawer.key }}
+            [cdkMenuItemChecked]="UIPcsDto.ALL_DRAWERS.get(drawer) === indexFormDrawer"
+            (cdkMenuItemTriggered)="updateDrawer(drawer, index)">
+            {{ drawer }}
           </button>
         }
       </div>
     </div>
   </ng-template>
 
-  <ng-template #align>
+  <ng-template #menuAlign>
     <div class="contextual-menu" cdkMenu>
       <button class="contextual-menu-item" (cdkMenuItemTriggered)="doHorizontalAlign()"
               cdkMenuItem [disabled]="numberSelectedComponents < 2">
@@ -144,7 +149,7 @@
   </ng-template>
 
 
-  <ng-template #duplicate let-index="index">
+  <ng-template #menuDuplicate let-index="index">
     <div class="contextual-menu" cdkMenu>
       <button class="contextual-menu-item" (cdkMenuItemTriggered)="doDuplicate(index)" cdkMenuItem>Same <span
         *ngIf="!isSolo(index)">&nbsp;({{ numberSelectedComponents }})</span></button>
@@ -155,18 +160,17 @@
     </div>
   </ng-template>
 
-  <ng-template #neighbors>
+  <ng-template #menuNeighbors>
     <div class="contextual-menu" cdkMenu>
       <button class="contextual-menu-item" disabled cdkMenuItem>Up semitone</button>
       <button class="contextual-menu-item" disabled cdkMenuItem>Down semitone</button>
       <hr/>
-      <button class="contextual-menu-item" disabled cdkMenuItem>Similarity IS</button>
       <button class="contextual-menu-item" disabled cdkMenuItem>Similarity IV</button>
       <button class="contextual-menu-item" disabled cdkMenuItem>Others</button>
     </div>
   </ng-template>
 
-  <ng-template #motifs let-index="index"
+  <ng-template #menuMotifs let-index="index"
                let-countMusaicMotifs="countMusaicMotifs"
                let-countDistinctAffineMotifs="countDistinctAffineMotifs">
 
@@ -191,7 +195,7 @@
     </div>
   </ng-template>
 
-  <ng-template #primes let-index="index">
+  <ng-template #menuPrimes let-index="index">
     <div class="contextual-menu" cdkMenu>
       <button class="contextual-menu-item" cdkMenuItem
               [disabled]="samePcsAs('Modal',index)"
@@ -221,7 +225,7 @@
   </ng-template>
 
 
-  <ng-template #color let-index="index">
+  <ng-template #menuColor let-index="index">
     <div class="contextual-menu" cdkMenu>
 
       <label for="colorPitchOn" (click)="doGoColorPitchOn()"
@@ -257,7 +261,7 @@
     </div>
   </ng-template>
 
-  <ng-template #whiteboard>
+  <ng-template #menuBackgroundWhiteboard>
     <div class="contextual-menu" cdkMenu>
       <button class="contextual-menu-item" (cdkMenuItemTriggered)="doUnDo()" [disabled]="!canUndo" cdkMenuItem>Undo
         (ctrl+z)
@@ -317,7 +321,7 @@
       <span *ngIf="!isSolo(index)">&nbsp;({{ numberSelectedComponents }})</span>
     </button>
     <hr/>
-    <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="align">
+    <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="menuAlign">
       Align <span>&#10148;</span>
     </button>
     <hr/>
@@ -336,7 +340,6 @@
   </div>
 </ng-template>
 
-
 <ng-template #menuOrbits matMenuContent let-index="index" let-name="name" >
   <div class="contextual-menu" cdkMenu>
     <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doMakeModeOrbit(index)">
@@ -344,6 +347,24 @@
     </button>
     <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doMakeCyclicOrbit(index)">
       Cyclic orbit
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #menuSetOps matMenuContent let-index="index" let-name="name" >
+  <div class="contextual-menu" cdkMenu>
+     <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doMakeComplement(index)">
+       Complement
+     </button>
+    <button
+      [disabled]="isSolo(index)"
+      class="contextual-menu-item"
+      cdkMenuItem (cdkMenuItemTriggered)="doMakeIntersection()">Intersection
+    </button>
+    <button
+      [disabled]="isSolo(index)"
+      class="contextual-menu-item"
+      cdkMenuItem (cdkMenuItemTriggered)="doMakeSymmetricDiffence()">Sym Diff
     </button>
   </div>
 </ng-template>

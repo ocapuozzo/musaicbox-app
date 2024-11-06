@@ -98,8 +98,7 @@ export class UIPcsDto {
   // TODO others index...
 
   // TODO revoir la logique ici : dict [[string, number]]
-  static ALL_DRAWERS : Map<string,number> = new Map( [["Musaic", 0], ["Clock", 1], ["Score",2], ["Text",42]])
-
+  static  ALL_DRAWERS : Map<string,number> = new Map( [["Musaic", 0], ["Clock", 1], ["Score",2], ["FreeText",42]])
 
   id: string
 
