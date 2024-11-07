@@ -94,7 +94,7 @@ export class ManagerPageWBService {
     this.orderedIndexesSelectedPcsDto = []
     if (restorePcsDtoList === initialPcsDtoList) {
       this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
-    }else {
+    } else {
       this.history.pushIntoPresent(this.uiPcsDtoList)
     }
   }
@@ -148,12 +148,13 @@ export class ManagerPageWBService {
     somePcs.forEach(pcs => {
       let pcsDto =
         this.pcsDtoForTemplate !== undefined
-          ? new UIPcsDto({...this.pcsDtoForTemplate,
-            pcs:pcs,
+          ? new UIPcsDto({
+            ...this.pcsDtoForTemplate,
+            pcs: pcs,
 
-            freeText:undefined,
-            })
-          : new UIPcsDto({pcs:pcs}) // {uiMusaic: new UIMusaic({rounded: !pcs.isDetached()})})
+            freeText: undefined,
+          })
+          : new UIPcsDto({pcs: pcs}) // {uiMusaic: new UIMusaic({rounded: !pcs.isDetached()})})
 
       // uiMusaic: {...this.pcsDtoForTemplate.uiMusaic},
       pcsDto.uiMusaic.rounded = pcsDto.uiMusaic.rounded || !pcs.isDetached()
@@ -209,7 +210,7 @@ export class ManagerPageWBService {
    * @param direction if < 0 then zoom- else if positif then zoom+
    * @param indexElementsToZoom
    */
-  doZoom(direction: TZoomDirection, indexElementsToZoom: number[] = []) : void | Error {
+  doZoom(direction: TZoomDirection, indexElementsToZoom: number[] = []): void | Error {
 
     let DELTA_ZOOM = this.OFFSET_ZOOM * direction // positive or negative
 
@@ -247,36 +248,35 @@ export class ManagerPageWBService {
       // if (preferredSize < this._MIN_WIDTH) preferredSize = this._MIN_WIDTH
 
 
+      // if pcsDto.indexFormDrawer === UIPcsDto.CLOCK, then pcsDto.width or height
+      // impact pcsDto.uiClock.width or height
+      // put another way : pcsDto.width/height are polymorph
+      let barycenterBeforeChangeSize = this.getXYFromBarycenter(pcsDto)
 
-        // if pcsDto.indexFormDrawer === UIPcsDto.CLOCK, then pcsDto.width or height
-        // impact pcsDto.uiClock.width or height
-        // put another way : pcsDto.width/height are polymorph
-        let barycenterBeforeChangeSize = this.getXYFromBarycenter(pcsDto)
+      if (pcsDto.indexFormDrawer === UIPcsDto.MUSAIC) {
+        // real change widthCell
+        pcsDto.uiMusaic.widthCell = cellWith
+      }
 
-        if (pcsDto.indexFormDrawer === UIPcsDto.MUSAIC) {
-          // real change widthCell
-          pcsDto.uiMusaic.widthCell = cellWith
-        }
-
-        if (pcsDto.indexFormDrawer === UIPcsDto.SCORE) {
-          // TODO do better, in reaction of abcjs render
-          if (pcsDto.pcs.cardinal >= 4) {
-            pcsDto.height = (preferredSize / 2 >= 88) ? (preferredSize / 2) : preferredSize / 1.5
-          } else {
-            pcsDto.height = preferredSize > 100 ? preferredSize / 1.5 : preferredSize
-          }
+      if (pcsDto.indexFormDrawer === UIPcsDto.SCORE) {
+        // TODO do better, in reaction of abcjs render
+        if (pcsDto.pcs.cardinal >= 4) {
+          pcsDto.height = (preferredSize / 2 >= 88) ? (preferredSize / 2) : preferredSize / 1.5
         } else {
-          pcsDto.height = preferredSize
+          pcsDto.height = preferredSize > 100 ? preferredSize / 1.5 : preferredSize
         }
-        pcsDto.width = preferredSize
+      } else {
+        pcsDto.height = preferredSize
+      }
+      pcsDto.width = preferredSize
 
-        // Let's center the component
-        pcsDto.position = {
-          x: barycenterBeforeChangeSize.x - pcsDto.width / 2,
-          y: barycenterBeforeChangeSize.y - pcsDto.height / 2
-        }
-        listChanged = true
-        this.uiPcsDtoList[index] = pcsDto
+      // Let's center the component
+      pcsDto.position = {
+        x: barycenterBeforeChangeSize.x - pcsDto.width / 2,
+        y: barycenterBeforeChangeSize.y - pcsDto.height / 2
+      }
+      listChanged = true
+      this.uiPcsDtoList[index] = pcsDto
 
     })
     if (listChanged) {
@@ -391,7 +391,7 @@ export class ManagerPageWBService {
   /**
    * Unselect all components
    */
-  doUnselectAll(emit:boolean = true) {
+  doUnselectAll(emit: boolean = true) {
     this.uiPcsDtoList.forEach((e, index) => {
       if (e.isSelected) {
         let pcsDto
@@ -440,7 +440,7 @@ export class ManagerPageWBService {
   }
 
 
-  doDuplicate(index: number, complement : boolean = false) {
+  doDuplicate(index: number, complement: boolean = false) {
     const deltaPosition = 20
     this.uiPcsDtoList = [...this.uiPcsDtoList]
     let newPcsDtos: UIPcsDto[] = []
@@ -466,11 +466,11 @@ export class ManagerPageWBService {
       let newPcsDto = new UIPcsDto({
         ...pcsDto, position: {x: pcsDto.position.x + deltaPosition, y: pcsDto.position.y + deltaPosition}, // do not share ref !
         isSelected: true,
-        pcs : complement ? pcsDto.pcs.complement() : pcsDto.pcs // readonly, pcs can be shared
+        pcs: complement ? this.managerPcsService.complement(pcsDto.pcs) : pcsDto.pcs // readonly, pcs can be shared
       })
       newPcsDtos.push(newPcsDto)
       // because previous call doUnselectAll(), we add now new index in ordered selection index
-      this.orderedIndexesSelectedPcsDto.push(this.uiPcsDtoList.length -1 + newPcsDtos.length)
+      this.orderedIndexesSelectedPcsDto.push(this.uiPcsDtoList.length - 1 + newPcsDtos.length)
     })
 
     this.uiPcsDtoList.push(...newPcsDtos) //
@@ -673,14 +673,14 @@ export class ManagerPageWBService {
 
     let point = new Point(0, 0)
 
-    let spaceIfShowName = (selectedPcsIndexes.length > 3) ? 0 :  30
+    let spaceIfShowName = (selectedPcsIndexes.length > 3) ? 0 : 30
 
     // if (!indexCenterElement) {
-      selectedPcsIndexes.forEach(index => {
-        point.x += this.uiPcsDtoList[index].position.x + this.uiPcsDtoList[index].width / 2
-        point.y += this.uiPcsDtoList[index].position.y + this.uiPcsDtoList[index].height / 2
-        radius += this.uiPcsDtoList[index].width + (this.uiPcsDtoList[selectedPcsIndexes[0]].showName ? spaceIfShowName : 0)
-      })
+    selectedPcsIndexes.forEach(index => {
+      point.x += this.uiPcsDtoList[index].position.x + this.uiPcsDtoList[index].width / 2
+      point.y += this.uiPcsDtoList[index].position.y + this.uiPcsDtoList[index].height / 2
+      radius += this.uiPcsDtoList[index].width + (this.uiPcsDtoList[selectedPcsIndexes[0]].showName ? spaceIfShowName : 0)
+    })
     // }
 
     // barycenter point
@@ -689,8 +689,8 @@ export class ManagerPageWBService {
     //   barycenter.x = (elCenter.position.x + elCenter.width) / 2
     //   barycenter.y = (elCenter.position.y + elCenter.height) / 2
     // } else {
-      barycenter.x = point.x / selectedPcsIndexes.length
-      barycenter.y = point.y / selectedPcsIndexes.length
+    barycenter.x = point.x / selectedPcsIndexes.length
+    barycenter.y = point.y / selectedPcsIndexes.length
     // }
     // radius increase with number of selected elements.
     // Dividing it by four seems like a good choice, a good number (?)
@@ -779,19 +779,20 @@ export class ManagerPageWBService {
 
     UIPcsDto.ALL_DRAWERS.forEach((index, drawer) => {
       if (index != pcsDto.indexFormDrawer && index != UIPcsDto.FREE_TEXT) {
-        newPcsDtoInOthersView.push(new UIPcsDto({
-          ...pcsDto,  // on same position (because circular align in fine)
-          indexFormDrawer: index,
-          isSelected: true,  // will be placed in orderedIndexesSelectedPcsDto below
-          uiMusaic: new UIMusaic({...pcsDto.uiMusaic, rounded: true})
-        }))
+        newPcsDtoInOthersView.push(
+          new UIPcsDto({
+            ...pcsDto,  // on same position (because circular align in fine)
+            indexFormDrawer: index,
+            isSelected: true,  // will be placed in orderedIndexesSelectedPcsDto below
+            uiMusaic: new UIMusaic({...pcsDto.uiMusaic, rounded: true})
+          }))
       }
     })
 
     this.doUnselectAll(false)
 
     // add pcs selected (duplicate)
-    newPcsDtoInOthersView.push(new UIPcsDto({...pcsDto, isSelected:true}))
+    newPcsDtoInOthersView.push(new UIPcsDto({...pcsDto, isSelected: true}))
 
     this.uiPcsDtoList = [...this.uiPcsDtoList, ...newPcsDtoInOthersView]
 
@@ -843,27 +844,27 @@ export class ManagerPageWBService {
     this.emit()
   }
 
-  doGetMotifsPcsFromPcs(pcs : IPcs, groupName: string, distinct: boolean = false): IPcs[] {
+  doGetMotifsPcsFromPcs(pcs: IPcs, groupName: string, distinct: boolean = false): IPcs[] {
     const pcsList: IPcs[] = []
     if (['Affine', 'Musaic'].includes(groupName)) {
       // default Affine
       const pcsSelected = pcs.unMap()
 
       pcsList.push(pcsSelected)
-      pcsList.push(pcsSelected.affineOp(7, 0))
-      pcsList.push(pcsSelected.affineOp(11, 0))
-      pcsList.push(pcsSelected.affineOp(5, 0))
+      pcsList.push(this.managerPcsService.doTransformAffine(pcsSelected, 7, 0)) // .affineOp(7, 0))
+      pcsList.push(this.managerPcsService.doTransformAffine(pcsSelected, 11, 0)) //pcsSelected.affineOp(11, 0))
+      pcsList.push(this.managerPcsService.doTransformAffine(pcsSelected, 5, 0)) //pcsSelected.affineOp(5, 0))
 
       if (groupName === 'Musaic') {
         const pcsSelectedCplt = this.managerPcsService.complement(pcsSelected) // for set pivot
         pcsList.push(pcsSelectedCplt)
-        pcsList.push(pcsSelectedCplt.affineOp(7, 0))
-        pcsList.push(pcsSelectedCplt.affineOp(11, 0))
-        pcsList.push(pcsSelectedCplt.affineOp(5, 0))
+        pcsList.push(this.managerPcsService.doTransformAffine(pcsSelectedCplt, 7, 0))
+        pcsList.push(this.managerPcsService.doTransformAffine(pcsSelectedCplt, 11, 0))
+        pcsList.push(this.managerPcsService.doTransformAffine(pcsSelectedCplt, 5, 0))
       }
     }
     if (distinct) {
-      return pcsList.reduce((unique:IPcs[], item) =>
+      return pcsList.reduce((unique: IPcs[], item) =>
         unique.find(pcs => pcs.cyclicPrimeForm().pid() === item.cyclicPrimeForm().pid()) ? unique : [...unique, item], [])
     }
     return pcsList
@@ -887,8 +888,8 @@ export class ManagerPageWBService {
   }
 
   doCut(index ?: number) {
-     this.doCopy(index)
-     this.doDelete(index !== undefined ? [index] : [])
+    this.doCopy(index)
+    this.doDelete(index !== undefined ? [index] : [])
   }
 
   doCopy(index ?: number) {
@@ -969,12 +970,12 @@ export class ManagerPageWBService {
         throw new Error("oops bad index : " + index)
       }
       this.uiPcsDtoList[index] =
-          new UIPcsDto({
-            ...template,
-            freeText: {...this.uiPcsDtoList[index].freeText}, // keep text
-            pcs:this.uiPcsDtoList[index].pcs,
-            position:this.uiPcsDtoList[index].position // restore position
-          })
+        new UIPcsDto({
+          ...template,
+          freeText: {...this.uiPcsDtoList[index].freeText}, // keep text
+          pcs: this.uiPcsDtoList[index].pcs,
+          position: this.uiPcsDtoList[index].position // restore position
+        })
     })
     this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
     this.emit()
@@ -983,13 +984,13 @@ export class ManagerPageWBService {
   doEditFreeText(index: number) {
     this.dialogUpdateFreeTextService.openDialogForUpdateFreeText(
       {
-        text:this.uiPcsDtoList[index].freeText.text,
-        index:index,
-        fontSize:this.uiPcsDtoList[index].freeText.fontSize ?? "12px"
+        text: this.uiPcsDtoList[index].freeText.text,
+        index: index,
+        fontSize: this.uiPcsDtoList[index].freeText.fontSize ?? "12px"
       })
   }
 
-  private doUpdateFreeText(data: { index:number, text : string, fontSize: string }) {
+  private doUpdateFreeText(data: { index: number, text: string, fontSize: string }) {
     if (data.index < 0 || data.index >= this.uiPcsDtoList.length) {
       throw new Error("oops bad index : " + data.index)
     }
@@ -1002,10 +1003,10 @@ export class ManagerPageWBService {
       data.text = pcsDto.pcs.getPcsStr()
     }
 
-    pcsDto.freeText =  {
+    pcsDto.freeText = {
       ...pcsDto.freeText,
       ...data,
-      height:data.text.split("\n").length*(parseInt(data.fontSize)+10)
+      height: data.text.split("\n").length * (parseInt(data.fontSize) + 10)
     } // new object (keep width value)
 
     this.uiPcsDtoList[data.index] = pcsDto
@@ -1019,7 +1020,7 @@ export class ManagerPageWBService {
     const pcs = this.uiPcsDtoList[index].pcs
     let pcsCyclicList = [pcs]
     // no get from orbit cyclic because no sorted, and pivot no logic
-    for (let i = 1; i < pcs.n ; i++) {
+    for (let i = 1; i < pcs.n; i++) {
       pcsCyclicList.push(pcs.translation(i))
     }
     this.pcsDtoForTemplate = this.uiPcsDtoList[index]
@@ -1038,7 +1039,47 @@ export class ManagerPageWBService {
     this.addPcs({somePcs: pcsModeList, circularAlign: true, indexCenterElement: index})
   }
 
-  doMakeComplement(index : number) {
-    this.doDuplicate(index, true)
+  doMakeComplement(index: number) {
+    this.doMakeSetOperation('Complement')
+  }
+  doMakeIntersection() {
+    this.doMakeSetOperation('Intersection')
+  }
+  doMakeUnion() {
+    this.doMakeSetOperation('Union')
+  }
+  doMakeSymmetricDifference() {
+    this.doMakeSetOperation('SymmetricDifference')
+  }
+
+  private doMakeSetOperation(opName: string) {
+    if (opName === 'Complement' && this.getSelectedPcsDtoIndexes().length > 0) {
+      const complement = true
+      this.doDuplicate(this.getSelectedPcsDtoIndexes()[0], complement)
+    } else if (this.getSelectedPcsDtoIndexes().length > 1) {
+      // operation requires 2 or more pcs
+      // get first pcs vector
+      let vector = [...this.uiPcsDtoList[this.getSelectedPcsDtoIndexes()[0]].pcs.abinPcs]
+      // start with 1, because first is initial value
+      for (let i = 1; i < this.getSelectedPcsDtoIndexes().length; i++) {
+        for (let j = 0; j < vector.length; j++) {
+          switch (opName) {
+            case 'SymmetricDifference' :
+              vector[j] += this.uiPcsDtoList[this.getSelectedPcsDtoIndexes()[i]].pcs.abinPcs[j] % 2  // xor op
+              break
+            case 'Union' :
+              if (this.uiPcsDtoList[this.getSelectedPcsDtoIndexes()[i]].pcs.abinPcs[j] === 1) {
+                vector[j] = 1 // 1 iif not 0 and 0
+              }
+              break
+            case 'Intersection' :
+              vector[j] *= this.uiPcsDtoList[this.getSelectedPcsDtoIndexes()[i]].pcs.abinPcs[j]  // 1 iif 1 * 1
+              break
+          }
+        }
+      }
+      // create new pcs via this.managerPcsService for synchro groupAction if exists
+      this.addPcs({somePcs: [this.managerPcsService.doTransformAffine(new IPcs({binPcs: vector}), 1, 0)]})
+    }
   }
 }

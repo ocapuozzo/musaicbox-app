@@ -334,6 +334,8 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
 
   // @HostListener('window:mouseup', ['$event'])
   onMouseUp(e: any) {
+    this.isContextMenuOpened = false
+    
     if (this.isRectangleSelecting) {
       this.isRectangleSelecting = false
       this.isDown = false;
@@ -463,10 +465,10 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
       this.managerPageWBService.doToggleSelected(index)
 
       // classic use ? : deselect all and select this one
-      // if (!this.managerPageWBService.isIndexInElementsSelected(index)) {
-      //   // this.managerPageWBService.doUnselectAll(false)
-      //   this.managerPageWBService.doToggleSelected(index)
-      // }
+      if (!this.managerPageWBService.isIndexInElementsSelected(index)) {
+        this.managerPageWBService.doUnselectAll(false)
+        this.managerPageWBService.doToggleSelected(index)
+      }
     }
   }
 
@@ -859,11 +861,28 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     this.managerPageWBService.doMakeComplement(index)
   }
 
-  doMakeIntersection() {
-
+  doMakeIntersection(index: number) {
+    if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
+      throw new Error(`Invalid index : $ {index}`)
+    }
+    this.managerPageWBService.setPcsDtoForTemplate(this.pcsDtoList[index])
+    this.managerPageWBService.doMakeIntersection()
   }
 
-  doMakeSymmetricDiffence() {
-
+  doMakeUnion(index: number) {
+    if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
+      throw new Error(`Invalid index : $ {index}`)
+    }
+    this.managerPageWBService.setPcsDtoForTemplate(this.pcsDtoList[index])
+    this.managerPageWBService.doMakeUnion()
   }
+
+  doMakeSymmetricDifference(index: number) {
+    if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
+      throw new Error(`Invalid index : $ {index}`)
+    }
+    this.managerPageWBService.setPcsDtoForTemplate(this.pcsDtoList[index])
+    this.managerPageWBService.doMakeSymmetricDifference()
+  }
+
 }

@@ -111,7 +111,7 @@ export class ManagerPcsService {
     let newPcs = pcs.affineOp(a, t)
     const savPivot = newPcs.getPivot()
     if (pcs.orbit?.groupAction) {
-      newPcs = ManagerPcsService.makeNewInstanceOf(newPcs, pcs.orbit?.groupAction, savPivot);
+      newPcs = ManagerPcsService.makeNewInstanceOf(newPcs, pcs.orbit.groupAction, savPivot);
     }
     return newPcs
   }

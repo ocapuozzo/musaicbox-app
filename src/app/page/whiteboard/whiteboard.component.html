@@ -359,12 +359,17 @@
     <button
       [disabled]="isSolo(index)"
       class="contextual-menu-item"
-      cdkMenuItem (cdkMenuItemTriggered)="doMakeIntersection()">Intersection
+      cdkMenuItem (cdkMenuItemTriggered)="doMakeIntersection(index)">Intersection
     </button>
     <button
       [disabled]="isSolo(index)"
       class="contextual-menu-item"
-      cdkMenuItem (cdkMenuItemTriggered)="doMakeSymmetricDiffence()">Sym Diff
+      cdkMenuItem (cdkMenuItemTriggered)="doMakeUnion(index)">Union
+    </button>
+    <button
+      [disabled]="isSolo(index)"
+      class="contextual-menu-item"
+      cdkMenuItem (cdkMenuItemTriggered)="doMakeSymmetricDifference(index)">Sym Diff
     </button>
   </div>
 </ng-template>
