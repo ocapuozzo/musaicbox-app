@@ -54,12 +54,12 @@
   <div class="text-center" style="margin-top: 20px">
     <h3> Your selection : @for (op of currentSelectedOps; track op) {
       {{ op }}
-    } -> {{ nbMusaicsMatch ? nbMusaicsMatch : 'All' }} musaic{{ nbMusaicsMatch > 1 ? 's' : '' }} stabilized
+    } -> {{ nbMusaicsMatch ? nbMusaicsMatch : 'All' }} musaic{{ nbMusaicsMatch > 1 ? 's' : '' }} stabilized (#{{numberOfCyclicOrbitsInSelectedOctotropes()}} cyclic orbits / #{{numberOfPcsInSelectedOctotropes()}} pcs )
     </h3>
 
     <!--  <h4>Select operations to highlight motif stabilizer</h4>-->
     <div class="button-row">
-      <span>Select stabilizer operations : </span>
+      <span>Select stabilizer operations (</span><input type="checkbox" class="operation" id="t1" checked disabled/> <label for="t1">T1 ) </label> <span> : </span>
       <input type="checkbox" class="operation" id="m1" checked disabled/> <label for="m1">M1&nbsp;&nbsp;</label>
       @for (op of EightyEight.ORDERED_OPERATIONS_NAMES; track op; let index = $index) {
         @if (index > 0) {
@@ -89,7 +89,7 @@
         </span>
         </div>
         <div class="box88-footer">
-          #{{ octotrope.cardinal }}
+          #{{ octotrope.numberOfMusaics }} <br> (#{{ octotrope.numberOfCyclicOrbits }} / #{{ octotrope.numberOfPcs }})
         </div>
       </div>
     }
@@ -119,7 +119,7 @@
         </span>
         </div>
         <div class="box88-footer">
-          #{{ octotrope.cardinal }}
+          #{{ octotrope.numberOfMusaics }} <br> (#{{ octotrope.numberOfCyclicOrbits }} / #{{ octotrope.numberOfPcs }})
         </div>
       </div>
     }

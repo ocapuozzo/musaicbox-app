@@ -1,8 +1,25 @@
-import {Component, ElementRef, Input, ViewChild} from '@angular/core';
-import {IPcs} from "../../core/IPcs";
+/**
+ * Copyright (c) 2019. Olivier Capuozzo
+ *
+ * This file is part of the musaicbox project
+ *
+ * (c) Olivier Capuozzo <olivier.capuozzo@gmail.com>
+ *
+ * For the full copyright and license information, please view the README.md
+ * file on git server.
+ */
 
 
-const colorMetaClassStabilizer: Map<string, string> = new Map([
+import {UIPcsDto} from "./UIPcsDto";
+import {IPcs} from "../core/IPcs";
+
+/**
+ * From M1 to M5, clock order
+ */
+const indexOperationOctotrope = [['M1', 'CM1'], ['M7', 'CM7'], ['M11', 'CM11'], ['M5', 'CM5']]
+
+
+const colorMotifClassStabilizer: Map<string, string> = new Map([
   ['', 'lightgray'],
   ['M1', 'black'],
   ['CM1', 'black'],
@@ -14,65 +31,33 @@ const colorMetaClassStabilizer: Map<string, string> = new Map([
   ['CM5', 'green']
 ])
 
-/**
- * From M1 to M5, clock order
- */
-const indexOperationOctotrope = [['M1', 'CM1'], ['M7', 'CM7'], ['M11', 'CM11'], ['M5', 'CM5']]
+export class OctotropeDrawing {
+  pcsDto : UIPcsDto
+  opStabilizers : string[]
+  ctx: CanvasRenderingContext2D
+  pcsInMusaicGroup : IPcs  // for octotrope
 
+  constructor(
+    x: {
+      pcsDto?: UIPcsDto
+      ctx?: CanvasRenderingContext2D
+    } = {}) {
+    if (!x.ctx)
+      throw new Error("canvas context missing !!!")
 
-@Component({
-  selector: 'app-octotrope',
-  standalone: true,
-  imports: [],
-  templateUrl: './octotrope.component.html',
-  styleUrl: './octotrope.component.css'
-})
-export class OctotropeComponent {
-  @ViewChild('canvas', {static: false}) canvas: ElementRef<HTMLCanvasElement>;
+    if (this.pcsDto.pcs?.isDetached()) return
 
-  @Input() pcs: IPcs = new IPcs({strPcs:'0,3, 6, 9'}).musaicPrimeForm()
+    this.ctx = x.ctx
+    this.pcsDto = x.pcsDto ?? new UIPcsDto()
 
-  @Input() opStabilizers : string[] = []  // useful for testing
-
-  size = 25 // wrapper by w property
-
-  private ctx: CanvasRenderingContext2D | null;
-
-  @Input() selected = false
-  active = true
-
-  ngAfterViewInit() {
-    this.draw();
-  }
-
-  get w() {
-    return this.size
-  }
-
-  @Input() set w(value: number) {
-    this.size = value
-    if (this.canvas) {
-      this.draw();
-    }
-  }
-
-  draw(): void {
-    if (this.pcs?.isDetached()) return
-
-    if (this.opStabilizers.length === 0) {
-       if (this.pcs === null) {
-         console.error("octotrope on no data !!!")
-         return;
-       }
-      // if no opStabilizers then initialize here
-      this.opStabilizers = this.pcs.stabilizer.motifStabilizer.motifStabOperations
+    this.pcsInMusaicGroup = this.pcsDto.pcs.musaicPrimeForm()
+    this.opStabilizers = this.pcsInMusaicGroup.stabilizer.motifStabilizer.motifStabOperations
     }
 
-    this.ctx = this.canvas.nativeElement.getContext('2d');
+  drawOctotrope() {
 
-    if (!this.ctx) return
+    const size = this.pcsDto.width // default uimusaic width
 
-    const size = this.size
     const RATIO_LARGE_CIRCLE = 9; // complement circle is bigger
     const RATIO_SMALL_CIRCLE = 16; //
 
@@ -150,7 +135,7 @@ export class OctotropeComponent {
           this.ctx.fill()
 
           this.ctx.lineWidth = Math.round(size / 32);
-          this.ctx.strokeStyle = colorMetaClassStabilizer.get(indexPearlColorCplt) ?? "yellow";
+          this.ctx.strokeStyle = colorMotifClassStabilizer.get(indexPearlColorCplt) ?? "yellow";
           this.ctx.arc(x, y, size / RATIO_LARGE_CIRCLE, 0, 2 * Math.PI);
           this.ctx.stroke()
           this.ctx.closePath()
@@ -163,7 +148,7 @@ export class OctotropeComponent {
           this.ctx.arc(x, y, size / RATIO_SMALL_CIRCLE, 0, 2 * Math.PI);
           this.ctx.stroke()
 
-          this.ctx.fillStyle = colorMetaClassStabilizer.get(indexPearlColor) ?? "yellow";
+          this.ctx.fillStyle = colorMotifClassStabilizer.get(indexPearlColor) ?? "yellow";
           this.ctx.fill()
 
           this.ctx.closePath()

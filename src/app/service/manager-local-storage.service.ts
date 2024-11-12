@@ -4,6 +4,14 @@ import {UIPcsDto} from "../ui/UIPcsDto";
 import {IPcs} from "../core/IPcs";
 import {ClipboardService} from "./clipboard.service";
 
+
+export interface IStoragePage88 {
+  selectedOps: string[]
+  indexTab : number
+  indexSelectedOctotrope : number
+
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -13,30 +21,35 @@ export class ManagerLocalStorageService {
   constructor() {
   }
 
-  restorePageThe88(): string[] {
+  restorePageThe88(): IStoragePage88 {
     // get op selected with filter (hack)
-    let inStorage: string[] = []
+    let inStorage: IStoragePage88
     try {
       // @ts-ignore
-      inStorage = JSON.parse(localStorage.getItem('page88.currentSelectedOps')) || ["M1"]
+      inStorage = JSON.parse(localStorage.getItem('page88')) || {selectedOps:['M1'], indexSelectedOctotrope:0}
     } catch (e: any) {
-      // nothing
+      inStorage =  {selectedOps:['M1'], indexTab:0, indexSelectedOctotrope:0}
     }
 
+    let selectedOps = inStorage.selectedOps
     // don't trust the input data, just data in EightyEight.ORDERED_OPERATIONS_NAMES are accepted
     let operationsUserSelectedAndLocalStored =
-      inStorage.filter(value => EightyEight.ORDERED_OPERATIONS_NAMES.includes(value))
+      selectedOps.filter(value => EightyEight.ORDERED_OPERATIONS_NAMES.includes(value))
 
     // add "M1" if not includes (M1-TO is neutral operation)
     if (!operationsUserSelectedAndLocalStored.includes("M1")) {
       operationsUserSelectedAndLocalStored.push("M1")
     }
-    // sort
-    return EightyEight.sortToOrderedOperationsName(operationsUserSelectedAndLocalStored)
+
+    return {
+      selectedOps: EightyEight.sortToOrderedOperationsName(operationsUserSelectedAndLocalStored),
+      indexTab : inStorage.indexTab || 0,
+      indexSelectedOctotrope: inStorage.indexSelectedOctotrope || 0
+    }
   }
 
-  savePageThe88(selectedOp: string[]) {
-    localStorage.setItem("page88.currentSelectedOps", JSON.stringify(selectedOp))
+  savePageThe88(data : IStoragePage88) {
+    localStorage.setItem("page88", JSON.stringify(data))
   }
 
   makeSerialVersion(listPcsDto: UIPcsDto[]) : UIPcsDto[] {
