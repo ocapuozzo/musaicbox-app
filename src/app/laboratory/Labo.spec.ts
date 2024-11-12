@@ -207,8 +207,11 @@ describe('Laboratory explorer', () => {
         groupGenerators.get(e[0])?.sort((a, b) => {
           let res = a.length - b.length
           if (res === 0) {
-            res =  a.length * a.reduce((previousValue: number, currentValue) => previousValue += currentValue.getHashCode(),  0)
-              - b.length * b.reduce((previousValue: number, currentValue) => previousValue += currentValue.getHashCode(), 0)
+            res =
+              a.length * a.reduce((previousValue: number, currentValue) =>
+                previousValue + currentValue.getHashCode(),  0)
+              - b.length * b.reduce((previousValue: number, currentValue) =>
+                previousValue + currentValue.getHashCode(), 0)
           }
           return res
         })

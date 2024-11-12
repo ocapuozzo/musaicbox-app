@@ -32,14 +32,15 @@ const colorMotifClassStabilizer: Map<string, string> = new Map([
 ])
 
 export class OctotropeDrawing {
-  pcsDto : UIPcsDto
-  opStabilizers : string[]
+  pcsDto: UIPcsDto
+  opStabilizers: string[]
   ctx: CanvasRenderingContext2D
-  pcsInMusaicGroup : IPcs  // for octotrope
+  pcsInMusaicGroup: IPcs  // for octotrope
 
   constructor(
     x: {
       pcsDto?: UIPcsDto
+      opStabilizers?: string[]
       ctx?: CanvasRenderingContext2D
     } = {}) {
     if (!x.ctx)
@@ -51,8 +52,8 @@ export class OctotropeDrawing {
     this.pcsDto = x.pcsDto ?? new UIPcsDto()
 
     this.pcsInMusaicGroup = this.pcsDto.pcs.musaicPrimeForm()
-    this.opStabilizers = this.pcsInMusaicGroup.stabilizer.motifStabilizer.motifStabOperations
-    }
+    this.opStabilizers = x.opStabilizers ?? this.pcsInMusaicGroup.stabilizer.motifStabilizer.motifStabOperations
+  }
 
   drawOctotrope() {
 

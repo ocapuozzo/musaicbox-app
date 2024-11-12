@@ -125,7 +125,8 @@ export class The88Component implements OnInit {
     this.octotropes = this.groupMusaic.orbitsSortedGroupedByMotifStabilizers.map(orbit => ({
       pcs: orbit.orbits[0].getPcsMin(), // get any pcs in any orbit... min by default
       numberOfMusaics: orbit.orbits.length,
-      numberOfPcs: orbit.orbits.reduce((numberPcs, orbit) => numberPcs = numberPcs + orbit.cardinal, 0),
+      numberOfPcs: orbit.orbits.reduce((numberPcs, orbit) =>
+        numberPcs + orbit.cardinal, 0),
       numberOfCyclicOrbits: this.getNumberCyclicPF(orbit.orbits),
       active: false,
       selected: false,
@@ -181,10 +182,12 @@ export class The88Component implements OnInit {
     // first step
     let newOctotropes = [...this.octotropes]
     for (let i = 0; i < this.octotropes.length; i++) {
-      // if current selected operations are include into "octotrope", select this group of orbits shearing same stabilizer
+      // if current selected operations are include into "octotrope",
+      // select this group of orbits shearing same stabilizer
       if (ArrayUtil.isIncludeIn(
         this.currentSelectedOps,
-        this.octotropes[i].pcs.stabilizer.motifStabilizer.motifStabOperations)) {
+        this.octotropes[i].pcs.stabilizer.motifStabilizer.motifStabOperations))
+      {
         newOctotropes[i] = {...this.octotropes[i], selected: true, active: true}
       } else if (this.octotropes[i].selected) {
         newOctotropes[i] = {...this.octotropes[i], selected: false, active: false}
@@ -245,13 +248,15 @@ export class The88Component implements OnInit {
   }
 
   cardinalWithThisColor(color: string) {
-    return this.listOrbits.reduce((countSameColor, orbit) => orbit.pcsDto.colorPitchOn === color ? countSameColor + 1 : countSameColor, 0);
+    return this.listOrbits.reduce((countSameColor, orbit) =>
+      orbit.pcsDto.colorPitchOn === color ? countSameColor + 1 : countSameColor, 0);
   }
 
   doSelectOrbitsHavingSameMotifStabilizerThan(index: number) {
     // toggle active octotrope if octotrope active > 1 (avoid empty selection)
     if (index > -1) {
-      if (this.octotropes.reduce((previousValue: number, currentValue) => currentValue.active ? previousValue = previousValue + 1 : previousValue, 0) > 1
+      if (this.octotropes.reduce((previousValue: number, currentValue) =>
+          currentValue.active ? previousValue + 1 : previousValue, 0) > 1
         || !this.octotropes[index].active
       )
         this.octotropes[index] = {...this.octotropes[index], active: !this.octotropes[index].active}
@@ -338,7 +343,6 @@ export class The88Component implements OnInit {
             this.octotropes[i] = {...this.octotropes[i], selected: true, active: false}
           }
         }
-        // TODO save state of index octotropes
         this.doSelectOctotrope(this.indexSelectedOctotrope)
         break
       case 2 :
@@ -350,7 +354,9 @@ export class The88Component implements OnInit {
   }
 
   numberOfPcsInSelectedOctotropes() {
-    return this.octotropes.filter(octotrope => octotrope.active).reduce((numberOfPcs: number, octotrope) => numberOfPcs = numberOfPcs + octotrope.numberOfPcs, 0)
+    return this.octotropes.filter(octotrope => octotrope.active)
+      .reduce((numberOfPcs: number, octotrope) =>
+        numberOfPcs + octotrope.numberOfPcs, 0)
   }
 
   private getNumberCyclicPF(orbits: Orbit[]) {
@@ -367,7 +373,10 @@ export class The88Component implements OnInit {
   }
 
   numberOfCyclicOrbitsInSelectedOctotropes() {
-    return this.octotropes.filter(octotrope => octotrope.active).reduce((numberOfCyclicPF: number, octotrope) => numberOfCyclicPF = numberOfCyclicPF + octotrope.numberOfCyclicOrbits, 0)
+    return this.octotropes.filter(
+      octotrope => octotrope.active)
+      .reduce((numberOfCyclicPF: number, octotrope) =>
+        numberOfCyclicPF + octotrope.numberOfCyclicOrbits, 0)
   }
 
 }

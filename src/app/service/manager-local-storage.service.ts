@@ -9,7 +9,6 @@ export interface IStoragePage88 {
   selectedOps: string[]
   indexTab : number
   indexSelectedOctotrope : number
-
 }
 
 @Injectable({
@@ -43,8 +42,8 @@ export class ManagerLocalStorageService {
 
     return {
       selectedOps: EightyEight.sortToOrderedOperationsName(operationsUserSelectedAndLocalStored),
-      indexTab : inStorage.indexTab || 0,
-      indexSelectedOctotrope: inStorage.indexSelectedOctotrope || 0
+      indexTab : inStorage.indexTab % 3 || 0,
+      indexSelectedOctotrope: inStorage.indexSelectedOctotrope % 13 || 0
     }
   }
 
