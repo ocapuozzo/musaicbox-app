@@ -144,11 +144,14 @@ export class The88Component implements OnInit {
       this.searchMusaicThatMatches(searchData)
       this.matTabGroup.selectedIndex = 2
     })
-    const dataRestore = this.managerLocalStorageService.restorePageThe88()
-    this.currentSelectedOps = [...dataRestore.selectedOps]
-    this.matTabGroup.selectedIndex = dataRestore.indexTab
-    this.indexSelectedOctotrope = dataRestore.indexSelectedOctotrope
-    this.updateOctotropes()
+    // https://stackoverflow.com/questions/71978152/how-can-i-fix-this-specific-ng0100-expressionchangedafterithasbeencheckederror
+    setTimeout(() => {
+      const dataRestore = this.managerLocalStorageService.restorePageThe88()
+      this.currentSelectedOps = [...dataRestore.selectedOps]
+      this.matTabGroup.selectedIndex = dataRestore.indexTab
+      this.indexSelectedOctotrope = dataRestore.indexSelectedOctotrope
+      this.updateOctotropes()
+    })
   }
 
   doPushToPcsPage(pcs: IPcs) {

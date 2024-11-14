@@ -1,46 +1,57 @@
 <fieldset class="representation-border p-3 text-center">
   <legend class="representation-border float-none w-auto px-3">
+
+    <span style="display: inline-flex; align-items: center;">
+       @if (orbitsGroup ? orbitsGroup.orbits[0].getPcsMin().n === 12 : false) {
+         @if (isMotifStabilizer(orbitsGroup?.groupingCriterion)) {
+           <app-octotrope [w]="50" [opStabilizers]="split(orbitsGroup!.groupingCriterion)"></app-octotrope>
+         }
+       }
+      <span style="padding-left: 8px">
+
     {{ orbitsGroup?.groupingCriterion }} ({{ orbitsGroup?.orbits?.length ?? 0 }})&nbsp;
-    @if (orbitsGroup ? orbitsGroup.orbits[0].getPcsMin().n === 12 : false) {
-      <button type="button" (click)="changeViewIPcs()" class="toggle" aria-pressed="false">
+        @if (orbitsGroup ? orbitsGroup.orbits[0].getPcsMin().n === 12 : false) {
+          <button type="button" (click)="changeViewIPcs()" class="toggle" aria-pressed="false">
         {{ textButtonViewMusaicClock }}
       </button>
-    }
+        }
+      </span>
+    </span>
   </legend>
   <div class="row">
-  @for (orbit of orbitsGroup?.orbits; track orbit.getPcsMin().id) {
-    @if (viewMusaic) {
-      <div class="boxPcs" style="width: 60px;"
-        matTooltip ="Musaic reference N° {{EightyEight.idNumberOf(orbit.getPcsMin())}}" >
-        <app-musaic
-          [w]="52"
-          [ipcs]="orbit.getPcsMin()"
-          [opaque]="false"
-          [pcColorSet]="colorOrbit(orbit)"
-        ></app-musaic>
-        <span class="text-center label-ipcs">#{{ orbit.ipcsset.length }}</span>
-        <span>
+    @for (orbit of orbitsGroup?.orbits; track orbit.getPcsMin().id) {
+      @if (viewMusaic) {
+        <div class="boxPcs" style="width: 60px;"
+             matTooltip="Musaic reference N° {{EightyEight.idNumberOf(orbit.getPcsMin())}}">
+          <app-musaic
+            [w]="52"
+            [ipcs]="orbit.getPcsMin()"
+            [opaque]="false"
+            [pcColorSet]="colorOrbit(orbit)"
+          ></app-musaic>
+          <span class="text-center label-ipcs">#{{ orbit.ipcsset.length }}</span>
+          <span>
           <i (click)="doPushToPcsPage(orbit.getPcsMin())" class="bi bi-eye p-1" style="cursor: pointer">
           </i>
         </span>
-      </div>
-    } @else {
-      <div class="boxPcs"
-        matTooltip ="{{orbit.getPcsMin().n == 12 ? 'Musaic reference N° ' + EightyEight.idNumberOf(orbit.getPcsMin()): ''}}">
-        <app-clock
-          [w]="60"
-          [ipcs]="orbit.getPcsMin()"
-          [pcColorSet]="colorOrbit(orbit)"
-          [drawPivot]="false"
-          class="clock-pcs"
-        ></app-clock>
-        <span class="text-center label-ipcs">#{{ orbit.ipcsset.length }}</span>
-        <span [hidden]="orbit.getPcsMin().n != 12">
+        </div>
+      } @else {
+        <div class="boxPcs"
+             matTooltip="{{orbit.getPcsMin().n == 12 ? 'Musaic reference N° ' + EightyEight.idNumberOf(orbit.getPcsMin()): ''}}">
+          <app-clock
+            [w]="60"
+            [ipcs]="orbit.getPcsMin()"
+            [pcColorSet]="colorOrbit(orbit)"
+            [drawPivot]="false"
+            class="clock-pcs"
+          ></app-clock>
+          <span class="text-center label-ipcs">#{{ orbit.ipcsset.length }}</span>
+          <span [hidden]="orbit.getPcsMin().n != 12">
           <i (click)="doPushToPcsPage(orbit.getPcsMin())" class="bi bi-eye p-1" style="cursor: pointer">
           </i>
         </span>
-      </div>
+        </div>
+      }
     }
-  }
   </div>
 </fieldset>

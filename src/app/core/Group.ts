@@ -84,31 +84,31 @@ export class Group {
    */
   static buildOperationsGroupByCaylayTable(someGeneratorMusaicPcsOperation: MusaicOperation[]): MusaicOperation[] {
     let allOps: MusaicOperation[] = [...someGeneratorMusaicPcsOperation]
-    let loop = true
-    while (loop) {
+    // let loop = true
+    // while (loop) {
       let cardinalOp = allOps.length
-      loop = false;
+      // loop = false;
       // forLoop:
       for (let i = 0; i < cardinalOp; i++) {
         for (let j = 0; j < cardinalOp; j++) {
-          let newop = allOps[i].compose(allOps[j]);
-          if (!allOps.find(op => op.getHashCode() === newop.getHashCode())) {
+          let newOp = allOps[i].compose(allOps[j]);
+          if (!allOps.find(op => op.getHashCode() === newOp.getHashCode())) {
             // ho ! add a line and column to the calay table
             // no more restart from begin index because
             // up vector dimension add redundant by symmetry
             // TODO  must be demonstrated... and verified by tests unit
-            allOps.push(newop)
+            allOps.push(newOp)
+            cardinalOp++
             // loop = true;
             // break forLoop
-            cardinalOp++
           } else {
             // console.log("-------------------------------------")
-            // console.log("newop = " + newop)
-            // console.log("newop.getHashCode() : " + newop.getHashCode())
+            // console.log("newOp = " + newOp)
+            // console.log("newOp.getHashCode() : " + newOp.getHashCode())
           }
         }// for j
       }// for i
-    } // while loop
+    // } // while loop
     allOps.sort(MusaicOperation.compare)
     return allOps
   }
@@ -159,10 +159,10 @@ export class Group {
   }
 
   /**
-   *  Be careful : M1 M5 CM11 => M1-T0 M5-T0 CM7-T0 CM11-T0  (no CM5 !)
-   *               so, name : M1 M5 CM7 CM11 T0
-   *  Group.CYCLIC name => n=12 [M1 Tx]
-   *  Group.MUSAIC name => n=12 [M1 M5 M7 M11 CM1 CM5 CM7 CM11 Tx]
+   *  Be careful : M1 M5 CM11 => M1 M5 CM7 CM11 (no CM5 !)
+
+   *  Group.CYCLIC name => n=12 [M1]
+   *  Group.MUSAIC name => n=12 [M1 M5 M7 M11 CM1 CM5 CM7 CM11]
    *
    * @private
    */
@@ -181,42 +181,13 @@ export class Group {
     for (const opNameWithoutT of dico) {
       opsM += opsM ? ' ' + opNameWithoutT : opNameWithoutT
     }
+
     // opsM += t > 1 ? ' Tx' : ' T0'
     // Tx = up to transposition, always set
-    opsM += t > 1 ? '' : ' T0'
+    // opsM += t > 1 ? '' : ' T0'
 
     opsM = '[' + opsM + ']'
     return `n=${this.operations[0].n} ${opsM}`
   }
 
-  /**
-   *  Be careful : M1 M5 CM11 => M1-T0 M5-T0 CM7-T0 CM11-T0  (no CM5 !)
-   *
-   *  Group.CYCLIC name => n=12 [M1, T1]
-   *  Group.MUSAIC name => n=12 [M1, M5, M7, M11, Cplt, T1]
-   *
-   * @private
-   */
-  private sav_buildNameGroup() {
-    const dico: Map<number, number> = new Map<number, number>()
-    for (const op of this.operations) {
-      if (dico.has(op.a)) {
-        // @ts-ignore
-        dico.set(op.a, dico.get(op.a) + op.t)
-      } else {
-        dico.set(op.a, op.t)
-      }
-    }
-    let opsM = ''
-    let opT = 0
-    for (const ops_a of dico.keys()) {
-      opsM += opsM ? ', M' + ops_a : 'M' + ops_a
-      opT += dico.get(ops_a) ?? 0
-    }
-    opsM += this.isComplemented() ? ', Cplt' : ''
-    opsM += opT > 1 ? ', T1' : ', T0'
-
-    opsM = '[' + opsM + ']'
-    return `n=${this.operations[0].n} ${opsM}`
-  }
 }

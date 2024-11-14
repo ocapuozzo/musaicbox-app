@@ -107,6 +107,36 @@ describe('Group', () => {
     expect(allOps.length).toEqual(order * 4 * 2)
   })
 
+  
+  it("testCayleySubGroupM1_M7_CM5_CM11", () => {
+    let someOperations: MusaicOperation[] = []
+    let order = 12;
+    let a = 1;
+    let t = 1;
+    let complement = false;
+    someOperations.push(new MusaicOperation(order, a, t, complement));
+
+    a = 7;
+    someOperations.push(new MusaicOperation(order, a, t, complement));
+
+    a = 5;
+    complement = true;
+    someOperations.push(new MusaicOperation(order, a, t, complement));
+
+    a = 11;
+    complement = true;
+    someOperations.push(new MusaicOperation(order, a, t, complement));
+
+    let allOps = Group.buildOperationsGroupByCaylayTable(someOperations)
+
+    console.log("allOps.length = ", allOps.length)
+    // waiting 96 operations : 12 * each a = 48 and each complement (*2)
+    // expect(allOps.length).toEqual(order * 4 * 2)
+  })
+
+
+
+  // M1, M7, CM5, CM11
 
   it("Group buildOrbit", () => {
     let someOperations: MusaicOperation[] = []

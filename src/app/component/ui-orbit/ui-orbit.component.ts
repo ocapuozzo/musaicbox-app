@@ -11,6 +11,7 @@ import {PcsColor} from "../../color/PcsColor";
 import {Orbit} from "../../core/Orbit";
 import {MusaicComponent} from "../musaic/musaic.component";
 import {ClockComponent} from "../clock/clock.component";
+import {OctotropeComponent} from "../octotrope/octotrope.component";
 
 @Component({
   selector: 'app-orbit',
@@ -21,6 +22,7 @@ import {ClockComponent} from "../clock/clock.component";
     MatTooltip,
     MusaicComponent,
     ClockComponent,
+    OctotropeComponent,
   ],
   templateUrl: './ui-orbit.component.html',
   styleUrl: './ui-orbit.component.css'
@@ -66,5 +68,15 @@ export class UiOrbitComponent {
     //   return 'black'
     // }
     return PcsColor.getColor(orbit.motifStabilizer.name);
+  }
+
+  split(groupingCriterion: string) {
+    return groupingCriterion.split(" ");
+  }
+
+  isMotifStabilizer(groupingCriterion: string | undefined) {
+    return groupingCriterion !== undefined &&
+      (groupingCriterion.includes("M1 ") || (groupingCriterion.includes("M1") && groupingCriterion.length ==2))
+      // (groupingCriterion.includes("-T") || groupingCriterion.includes("card"))
   }
 }
