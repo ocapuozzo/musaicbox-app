@@ -11,15 +11,14 @@
 
 
 import {UIPcsDto} from "./UIPcsDto";
-import {IPcs} from "../core/IPcs";
 
 /**
  * From M1 to M5, clock order
  */
-const indexOperationOctotrope = [['M1', 'CM1'], ['M7', 'CM7'], ['M11', 'CM11'], ['M5', 'CM5']]
+const ORDERED_OCTOTROPE_OPS = [['M1', 'CM1'], ['M7', 'CM7'], ['M11', 'CM11'], ['M5', 'CM5']]
 
 
-const colorMotifClassStabilizer: Map<string, string> = new Map([
+const COLOR_MOTIF_STABILIZER: Map<string, string> = new Map([
   ['', 'lightgray'],
   ['M1', 'black'],
   ['CM1', 'black'],
@@ -32,10 +31,9 @@ const colorMotifClassStabilizer: Map<string, string> = new Map([
 ])
 
 export class OctotropeDrawing {
-  pcsDto: UIPcsDto
+  pcsDto: UIPcsDto  // contains octotrope.width for initialize size
   opStabilizers: string[]
   ctx: CanvasRenderingContext2D
-  pcsInMusaicGroup: IPcs  // for octotrope
 
   constructor(
     x: {
@@ -43,21 +41,21 @@ export class OctotropeDrawing {
       opStabilizers?: string[]
       ctx?: CanvasRenderingContext2D
     } = {}) {
-    if (!x.ctx)
+    if (!x.ctx) {
       throw new Error("canvas context missing !!!")
-
-    if (this.pcsDto.pcs?.isDetached()) return
+    }
 
     this.ctx = x.ctx
     this.pcsDto = x.pcsDto ?? new UIPcsDto()
-
-    this.pcsInMusaicGroup = this.pcsDto.pcs.musaicPrimeForm()
-    this.opStabilizers = x.opStabilizers ?? this.pcsInMusaicGroup.stabilizer.motifStabilizer.motifStabOperations
+    // if pcs is detached, get pcs into musaic group, else leave pcs in his group
+    const pcsInGroup = this.pcsDto.pcs.isDetached() ? this.pcsDto.pcs.musaicPrimeForm() : this.pcsDto.pcs
+    // priority to operations list (opStabilizers)
+    this.opStabilizers = x.opStabilizers ?? pcsInGroup.stabilizer.motifStabilizer.motifStabOperations
   }
 
   drawOctotrope() {
 
-    const size = this.pcsDto.width // default uimusaic width
+    const size = this.pcsDto.width // polymorph property
 
     const RATIO_LARGE_CIRCLE = 9; // complement circle is bigger
     const RATIO_SMALL_CIRCLE = 16; //
@@ -90,17 +88,17 @@ export class OctotropeDrawing {
 
     // draw pearl's diamond
     ang = 3 * Math.PI / 2;
-    for (let index = 0; index < indexOperationOctotrope.length; index++) {
+    for (let index = 0; index < ORDERED_OCTOTROPE_OPS.length; index++) {
       let x = Math.round(ox + Math.cos(ang) * radius);
       let y = Math.round(oy + Math.sin(ang) * radius);
 
       this.ctx.lineWidth = Math.round(size / 32);
 
-      let indexPearlColor = this.opStabilizers.includes(indexOperationOctotrope[index][0])
-        ? indexOperationOctotrope[index][0] // M1 ou M5, or M7 or M11
+      let indexPearlColor = this.opStabilizers.includes(ORDERED_OCTOTROPE_OPS[index][0])
+        ? ORDERED_OCTOTROPE_OPS[index][0] // M1 ou M5, or M7 or M11
         : ''
-      let indexPearlColorCplt = this.opStabilizers.includes(indexOperationOctotrope[index][1])
-        ? indexOperationOctotrope[index][1] // CM1 ou CM5, or CM7 or CM11
+      let indexPearlColorCplt = this.opStabilizers.includes(ORDERED_OCTOTROPE_OPS[index][1])
+        ? ORDERED_OCTOTROPE_OPS[index][1] // CM1 ou CM5, or CM7 or CM11
         : ''
 
       const minimal = true
@@ -136,7 +134,7 @@ export class OctotropeDrawing {
           this.ctx.fill()
 
           this.ctx.lineWidth = Math.round(size / 32);
-          this.ctx.strokeStyle = colorMotifClassStabilizer.get(indexPearlColorCplt) ?? "yellow";
+          this.ctx.strokeStyle = COLOR_MOTIF_STABILIZER.get(indexPearlColorCplt) ?? "yellow";
           this.ctx.arc(x, y, size / RATIO_LARGE_CIRCLE, 0, 2 * Math.PI);
           this.ctx.stroke()
           this.ctx.closePath()
@@ -149,7 +147,7 @@ export class OctotropeDrawing {
           this.ctx.arc(x, y, size / RATIO_SMALL_CIRCLE, 0, 2 * Math.PI);
           this.ctx.stroke()
 
-          this.ctx.fillStyle = colorMotifClassStabilizer.get(indexPearlColor) ?? "yellow";
+          this.ctx.fillStyle = COLOR_MOTIF_STABILIZER.get(indexPearlColor) ?? "yellow";
           this.ctx.fill()
 
           this.ctx.closePath()

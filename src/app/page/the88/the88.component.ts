@@ -82,9 +82,7 @@ export class The88Component implements OnInit {
 
   currentSelectedOps: string[] = ["M1"]
   searchPcsInput: ISearchPcs = {somePcs: [], searchInput: ''}
-
-  // for tab select octotrope
-  indexTab: number = 0;
+  
   private indexSelectedOctotrope: number;
 
   pcs: IPcs = new IPcs({strPcs: "0,3,4,5"}); // updated into constructor
@@ -256,6 +254,7 @@ export class The88Component implements OnInit {
   }
 
   doSelectOrbitsHavingSameMotifStabilizerThan(index: number) {
+    if (! this.octotropes[index].selected) { return }
     // toggle active octotrope if octotrope active > 1 (avoid empty selection)
     if (index > -1) {
       if (this.octotropes.reduce((previousValue: number, currentValue) =>
@@ -382,4 +381,10 @@ export class The88Component implements OnInit {
         numberOfCyclicPF + octotrope.numberOfCyclicOrbits, 0)
   }
 
+  /**
+   * Call for retrieve octotrope selected by user when this.matTabGroup.selectedIndex == 1
+   */
+  getOnlyOctotropeTabSelectedActive(): IOctotrope {
+    return this.octotropes.filter(octotropre => octotropre.active)[0];
+  }
 }

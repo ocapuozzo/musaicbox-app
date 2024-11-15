@@ -94,14 +94,14 @@ export class UIPcsDto {
   static MUSAIC = 0
   static CLOCK = 1
   static SCORE = 2
+  static OCTOTROPE = 13
   static FREE_TEXT = 42
-  // TODO others index...
+  // TODO others index... or Array.from(ALL_DRAWERS.values())
 
   // TODO revoir la logique ici : dict [[string, number]]
-  static  ALL_DRAWERS : Map<string,number> = new Map( [["Musaic", 0], ["Clock", 1], ["Score",2], ["FreeText",42]])
+  static  ALL_DRAWERS : Map<string,number> = new Map( [["Musaic", 0], ["Clock", 1], ["Score",2], ["Octotrope", 13], ["FreeText",42]])
 
   id: string
-
   freeText : IFreeText
   // pcs will not be serialized (transient)
   pcs: IPcs = new IPcs({strPcs: "0, 4, 8"})
@@ -117,6 +117,7 @@ export class UIPcsDto {
   uiMusaic: UIMusaic
   uiClock: UIClock
   uiScore: UIScore
+  octotrope: { size: number }
   // polymorphism width and height
   // in differance of extends class, here a component see all data
   // usefully, by example, to doZoom service
@@ -130,6 +131,8 @@ export class UIPcsDto {
         return this.uiScore.width
       case UIPcsDto.FREE_TEXT :
         return this.freeText.width
+      case UIPcsDto.OCTOTROPE :
+        return this.octotrope.size
       default :
         return this.uiMusaic.width
     }
@@ -148,6 +151,9 @@ export class UIPcsDto {
         break
       case UIPcsDto.FREE_TEXT :
         this.freeText.width = w
+        break
+      case UIPcsDto.OCTOTROPE :
+        this.octotrope.size = w
         break
       default :
         this.uiMusaic.width = w
@@ -170,6 +176,9 @@ export class UIPcsDto {
       case UIPcsDto.FREE_TEXT :
         h = this.freeText.height
         break
+      case UIPcsDto.OCTOTROPE :
+        h = this.octotrope.size
+        break
       default :
         h =  this.uiMusaic.height
     }
@@ -186,6 +195,9 @@ export class UIPcsDto {
         break
       case UIPcsDto.SCORE :
         this.uiScore.height = h
+        break
+      case UIPcsDto.OCTOTROPE :
+        this.octotrope.size = h
         break
       case UIPcsDto.FREE_TEXT :
         // this.freeText.height = h
@@ -209,6 +221,7 @@ export class UIPcsDto {
       indexFormDrawer,
       isSelected,
       showName,
+      octotrope,
       uiMusaic,
       uiClock,
       uiScore
@@ -223,6 +236,7 @@ export class UIPcsDto {
       indexFormDrawer?: number,
       isSelected?: boolean,
       showName?: boolean,
+      octotrope ?: { size: number },
       uiMusaic?: UIMusaic,
       uiClock?: UIClock,
       uiScore?: UIScore
@@ -254,6 +268,7 @@ export class UIPcsDto {
     this.indexFormDrawer = indexFormDrawer ?? 0
     this.isSelected = isSelected ?? false
     this.showName = showName ?? false
+    this.octotrope = octotrope ? { ...octotrope} : { size: 50 }
     // construct 3 new objects (else they are shared)
     this.uiMusaic = uiMusaic ? {...uiMusaic} : new UIMusaic()
     this.uiClock = uiClock ? {...uiClock} : new UIClock()

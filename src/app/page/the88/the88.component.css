@@ -38,6 +38,10 @@
   cursor: pointer;
 }
 
+.octotrope-not-selected {
+  cursor: not-allowed;
+}
+
 .octotrope-active {
   background-color: lightyellow;
   border: solid lightgray;

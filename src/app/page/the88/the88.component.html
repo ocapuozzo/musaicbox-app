@@ -35,9 +35,9 @@
 </div>
 
 <div style="margin: auto; width: 80%">
-<!--  class="row" style="margin: auto; width: 80%">-->
+  <!--  class="row" style="margin: auto; width: 80%">-->
   <mat-tab-group fitInkBarToContent #matTabGroup (selectedTabChange)="tabChanged($event)">
-    <mat-tab label="Select by invariance operations" >
+    <mat-tab label="Select by invariance operations">
       <div *ngTemplateOutlet="invariantsAndOctotropes"></div>
     </mat-tab>
     <mat-tab label="Select by octotrope">
@@ -46,7 +46,7 @@
     <mat-tab label="Search for a musaic">
       <div *ngTemplateOutlet="searchMusaic"></div>
     </mat-tab>
-<!--    <mat-tab label="Fourth" disabled>Content 4</mat-tab>-->
+    <!--    <mat-tab label="Fourth" disabled>Content 4</mat-tab>-->
   </mat-tab-group>
 </div>
 
@@ -54,12 +54,14 @@
   <div class="text-center" style="margin-top: 20px">
     <h3> Your selection : @for (op of currentSelectedOps; track op) {
       {{ op }}
-    } -> {{ nbMusaicsMatch ? nbMusaicsMatch : 'All' }} musaic{{ nbMusaicsMatch > 1 ? 's' : '' }} stabilized (#{{numberOfCyclicOrbitsInSelectedOctotropes()}} cyclic orbits / #{{numberOfPcsInSelectedOctotropes()}} pcs )
+    } -> {{ nbMusaicsMatch ? nbMusaicsMatch : 'All' }} musaic{{ nbMusaicsMatch > 1 ? 's' : '' }} stabilized
+      (#{{ numberOfCyclicOrbitsInSelectedOctotropes() }} cyclic orbits / 352 ==> #{{ numberOfPcsInSelectedOctotropes() }} pcs / 4096)
     </h3>
 
     <!--  <h4>Select operations to highlight motif stabilizer</h4>-->
     <div class="button-row">
-      <span>Select stabilizer operations (</span><input type="checkbox" class="operation" id="t1" checked disabled/> <label for="t1">T1 ) </label> <span> : </span>
+      <span>Select stabilizer operations (</span><input type="checkbox" class="operation" id="t1" checked disabled/>
+      <label for="t1">T1 ) </label> <span> : </span>
       <input type="checkbox" class="operation" id="m1" checked disabled/> <label for="m1">M1&nbsp;&nbsp;</label>
       @for (op of EightyEight.ORDERED_OPERATIONS_NAMES; track op; let index = $index) {
         @if (index > 0) {
@@ -80,7 +82,8 @@
       'octotrope-body':true,
       'octotrope-selected': octotrope.selected,
       'octotrope-active': octotrope.selected && octotrope.active}">
-        <span (click)="doSelectOrbitsHavingSameMotifStabilizerThan(idx)">
+        <span [ngClass]="{'octotrope-not-selected': !octotrope.selected}"
+              (click)="doSelectOrbitsHavingSameMotifStabilizerThan(idx)">
           <app-octotrope
             [w]="85"
             [pcs]="octotrope.pcs"
@@ -89,7 +92,7 @@
         </span>
         </div>
         <div class="box88-footer">
-          #{{ octotrope.numberOfMusaics }} <br> (#{{ octotrope.numberOfCyclicOrbits }} / #{{ octotrope.numberOfPcs }})
+          #{{ octotrope.numberOfMusaics }} <br> (#{{ octotrope.numberOfCyclicOrbits }} -- #{{ octotrope.numberOfPcs }})
         </div>
       </div>
     }
@@ -97,19 +100,24 @@
 
 </ng-template>
 
-
 <ng-template #octotropesOnly>
   <div style="margin: auto; text-align: center; width: 100%">
     <h3 style="margin-top: 15px; font-style: italic">
       Octotropes
     </h3>
-
+    @if (getOnlyOctotropeTabSelectedActive()) {
+      <p>{{ getOnlyOctotropeTabSelectedActive().numberOfCyclicOrbits }} cyclic orbits / 352  ==>
+        {{ getOnlyOctotropeTabSelectedActive().numberOfPcs }} pcs (trivial group) / 4096
+      </p>
+    }
     @for (octotrope of this.octotropes; track octotrope; let idx = $index) {
       <div style="display: inline-block; margin-top: 5px">
         <div [ngClass]="{
       'octotrope-body':true,
       'octotrope-selected': octotrope.selected,
-      'octotrope-active': octotrope.selected && octotrope.active}">
+      'octotrope-active': octotrope.selected && octotrope.active
+      }"
+        >
         <span (click)="doSelectOctotrope(idx)">
           <app-octotrope
             [w]="85"
@@ -119,7 +127,7 @@
         </span>
         </div>
         <div class="box88-footer">
-          #{{ octotrope.numberOfMusaics }} <br> (#{{ octotrope.numberOfCyclicOrbits }} / #{{ octotrope.numberOfPcs }})
+          #{{ octotrope.numberOfMusaics }} <br> (#{{ octotrope.numberOfCyclicOrbits }} -- #{{ octotrope.numberOfPcs }})
         </div>
       </div>
     }
@@ -129,7 +137,7 @@
 <ng-template #searchMusaic>
   <div class="text-center" style="margin-top: 20px">
     <h3 style="margin-top: 15px; font-style: italic">
-      @if (! searchPcsInput.searchInput) {
+      @if (!searchPcsInput.searchInput) {
         No search
       } @else {
         Your search : {{ searchPcsInput.searchInput }}

@@ -8,6 +8,7 @@ import {ScoreFormDraw} from "../../ui/ScoreFormDraw";
 import {StringHash} from "../../utils/StringHash";
 import {ScoreNotationComponent} from "../score-notation/score-notation.component";
 import {MatInput} from "@angular/material/input";
+import {OctotropeFormDraw} from "../../ui/OctotropeFormDraw";
 
 /**
  * Wrapper for various representation : musaic, clock, score... for whiteboard page
@@ -73,17 +74,21 @@ export class PcsComponent {
 
   drawForm() {
     // if (!this.canvas) return
+    const ALL_DRAWERS_INDEX = Array.from(UIPcsDto.ALL_DRAWERS.values())
     switch (this._pcsDto.indexFormDrawer) {
-      case UIPcsDto.MUSAIC :
+      case ALL_DRAWERS_INDEX[0] :
         this.formDrawing = new MusaicFormDraw()
         break
-      case UIPcsDto.CLOCK :
+      case ALL_DRAWERS_INDEX[1] :
         this.formDrawing = new ClockFormDraw()
         break
-      case UIPcsDto.SCORE :
+      case ALL_DRAWERS_INDEX[2] :
         this.formDrawing = new ScoreFormDraw(this.randomId)
         break
-      case UIPcsDto.FREE_TEXT :
+      case ALL_DRAWERS_INDEX[3] :
+        this.formDrawing = new OctotropeFormDraw()
+        break
+      case ALL_DRAWERS_INDEX[4] : // FREE_TEXT
         // nothing to do (see html template)
         return
       default :
