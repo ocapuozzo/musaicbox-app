@@ -38,16 +38,17 @@ export class GroupAction {
 
   orbits: Orbit[];
 
-  operationsNameWithoutTxStr : string
+  operationsNameWithoutTxStr: string
 
   private _orbitsSortedGroupedByStabilizers ?: ISortedOrbits[];
   private _orbitsSortedGroupedByMotifStabilizers ?: ISortedOrbits[];
   private _orbitsSortedGroupedByCardinal ?: ISortedOrbits[];
 
   private static _predefinedGroupsActions: Map<number, GroupAction[]>
+  private static GENERATED_GROUPS: Map<string, GroupAction>;
 
   constructor(
-      { n, someMusaicOperations, group}:
+    {n, someMusaicOperations, group}:
       { n?: number, someMusaicOperations?: MusaicOperation[], group?: Group } = {}) {
     if (group) {
       this.group = group
@@ -226,6 +227,7 @@ export class GroupAction {
 
     return resultOrbitsSortedByStabilizers
   }
+
   //
   // private _computeOrbitSortedByStabilizers(): ISortedOrbits[] {
   //   let orbitsSortedGroupedByStabilizers = new Map<string, Orbit[]>() // k=name orbit based on his stabs, v=array of orbits
@@ -310,7 +312,7 @@ export class GroupAction {
     let resultOrbitsSortedByCardinal: ISortedOrbits[] = []
     // default, sort cast key to string...
     Array.from(orbitsSortedByCardinal.keys()).sort((a, b) => (Number(a) - Number(b))).forEach(card => {
-      let _groupingCriterion : string= ' card : ' + card
+      let _groupingCriterion: string = ' card : ' + card
       if (isComplemented) {
         _groupingCriterion += "/" + (this.n - card)
       }
@@ -360,8 +362,8 @@ export class GroupAction {
       GroupAction.createPredefinedGroupAction()
     }
     // if not exist, create only Cyclic group action
-    if ( ! GroupAction._predefinedGroupsActions.has(n)) {
-      const opM1T1 = new MusaicOperation(n, 1,1, false)
+    if (!GroupAction._predefinedGroupsActions.has(n)) {
+      const opM1T1 = new MusaicOperation(n, 1, 1, false)
       const groupAction = new GroupAction({someMusaicOperations: [opM1T1]})
       // add Cyclic group action (Group.CYCLIC is 0, match index first element of array)
       GroupAction._predefinedGroupsActions.set(n, [groupAction])
@@ -380,7 +382,7 @@ export class GroupAction {
     return this.operations.length
   }
 
-  private static createPredefinedGroupAction() : void {
+  private static createPredefinedGroupAction(): void {
     GroupAction._predefinedGroupsActions = new Map<number, GroupAction[]>
     let groupsActions: GroupAction[] = new Array<GroupAction>()
     // index == 0 == Group.CYCLIC
@@ -400,24 +402,24 @@ export class GroupAction {
     groupsActions = new Array<GroupAction>()
     //Cyclic
     let opM1_T1 = new MusaicOperation(7, 1, 1, false);
-    let group7Cyclic = new GroupAction({n:7, someMusaicOperations:[opM1_T1]})
+    let group7Cyclic = new GroupAction({n: 7, someMusaicOperations: [opM1_T1]})
     groupsActions.push(group7Cyclic)
 
     //Dihedral
     let opM6_T1 = new MusaicOperation(7, 6, 1, false);
-    groupsActions.push(new GroupAction({n:7, someMusaicOperations:[opM1_T1, opM6_T1]}))
+    groupsActions.push(new GroupAction({n: 7, someMusaicOperations: [opM1_T1, opM6_T1]}))
 
     // bad Affine (Dihedral again, temporary for test)
-    groupsActions.push(new GroupAction({n:7, someMusaicOperations:[opM1_T1, opM6_T1]}))
+    groupsActions.push(new GroupAction({n: 7, someMusaicOperations: [opM1_T1, opM6_T1]}))
 
     // bad musaic
     let opM6_T1C = new MusaicOperation(7, 6, 1, true);
-    groupsActions.push(new GroupAction({n:7, someMusaicOperations:[opM1_T1, opM6_T1, opM6_T1C]}))
+    groupsActions.push(new GroupAction({n: 7, someMusaicOperations: [opM1_T1, opM6_T1, opM6_T1C]}))
 
     GroupAction._predefinedGroupsActions.set(7, groupsActions)
   }
 
-  getPcsWithThisIS(intervallicStructure : string): IPcs | undefined {
+  getPcsWithThisIS(intervallicStructure: string): IPcs | undefined {
     for (const orbit of this.orbits) {
       const pcs = orbit.getPcsWithThisIS(intervallicStructure)
       if (pcs) return pcs
@@ -426,7 +428,7 @@ export class GroupAction {
   }
 
 
-  getPcsWithThisPid(pid: number) : IPcs | undefined {
+  getPcsWithThisPid(pid: number): IPcs | undefined {
     for (const orbit of this.orbits) {
       const pcs = orbit.getPcsWithThisPid(pid)
       if (pcs) return pcs
@@ -442,7 +444,6 @@ export class GroupAction {
   }
 
 
-
   /**
    * form operations list build simple name
    * Ex: M1-T0, M1-T5, M5-T1, M5-T8 => M1, M5
@@ -451,11 +452,22 @@ export class GroupAction {
   private buildOpNameWithoutTxToString() {
     const isStabilizersMap = new Map<string, boolean>()
     this.operations.forEach((o) => isStabilizersMap.set(o.toStringWithoutTransp(), true))
-    let isOpWithoutT = ''
+    let nameOpsWithoutT = ''
     for (const opWithoutTElement of isStabilizersMap.keys()) {
-      isOpWithoutT = isOpWithoutT ? isOpWithoutT +', ' + opWithoutTElement : opWithoutTElement
+      nameOpsWithoutT = nameOpsWithoutT ? nameOpsWithoutT + ', ' + opWithoutTElement : opWithoutTElement
     }
-    return isOpWithoutT
+    return nameOpsWithoutT
   }
 
+  /**
+   *
+   * @param n
+   * @param opNameWithoutTx operation name without Tx (ex: CM5, M11)
+   * @private
+   */
+  static makeMusaicOperation(n: number, opNameWithoutTx: string) {
+    const complement = opNameWithoutTx.startsWith('C')
+    const a = parseInt(opNameWithoutTx.substring(complement ? 2 : 1))
+    return new MusaicOperation(n, a, 1, complement); // T=1
+  }
 }

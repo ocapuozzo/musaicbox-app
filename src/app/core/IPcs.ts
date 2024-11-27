@@ -130,9 +130,10 @@ export class IPcs {
   /**
    * stabilizer of this (getter/setter)
    * is set by a group action @link GroupAction
-   * (also - and same - into this orbit)
+   * (also - and same - into this.orbit)
    */
   _stabilizer: Stabilizer
+
   set stabilizer(stab) {
     this._stabilizer = stab
   }

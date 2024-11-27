@@ -3,6 +3,7 @@ import {IPcs} from "../core/IPcs";
 export interface ISerializedPcs {
   pcsStr: string
   iPivot: number
+  groupAction ?: string | undefined
 }
 
 export interface IFreeText {
@@ -248,6 +249,10 @@ export class UIPcsDto {
       : this.serializedPcs.pcsStr ? new IPcs({strPcs: this.serializedPcs.pcsStr, iPivot: this.serializedPcs.iPivot})
         : new IPcs({strPcs: "0, 4, 8"});
 
+    if (this.serializedPcs.groupAction) {
+      // get pcs from group action
+      // todo
+    }
     this.id = this.pcs.id.toString() + new Date().valueOf().toString(10);
 
     if (freeText === undefined) {

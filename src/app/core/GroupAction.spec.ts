@@ -32,7 +32,7 @@ describe('GroupAction', () => {
     expect(musaicGroup12.size).toEqual(Math.pow(2, 12))
   });
 
-  it("Action group trivial n = 12 ", () => {
+  it("Action trivial group n = 12 ", () => {
     let opNeutral = new MusaicOperation(12, 1, 0);
     let musaicGroup12 = new GroupAction({n: 12, someMusaicOperations: [opNeutral]});
     expect(musaicGroup12.powerset.size).toEqual(Math.pow(2, 12))
@@ -41,7 +41,7 @@ describe('GroupAction', () => {
     expect(musaicGroup12.orbitsSortedGroupedByStabilizers.length).toEqual(1)
   });
 
-  it("Action group cyclic n = 12 ", () => {
+  it("Action cyclic group n = 12 ", () => {
     let opNeutral = new MusaicOperation(12, 1, 0);
     let opM1T1 = new MusaicOperation(12, 1, 1);
     let cyclicGroup12 = new GroupAction({n: 12, someMusaicOperations: [opNeutral, opM1T1]});
@@ -90,7 +90,7 @@ describe('GroupAction', () => {
     expect(sumLTs).toEqual(17)
   });
 
-  it("Action group dihedral n = 12 ", () => {
+  it("Action dihedral group n = 12 ", () => {
     let opNeutral = new MusaicOperation(12, 1, 0);
 
     let opM1T1 = new MusaicOperation(12, 1, 1);
@@ -101,7 +101,7 @@ describe('GroupAction', () => {
     expect(musaicGroup12.orbits.length).toEqual(224)
   });
 
-  it("Action group affine n = 12 ", () => {
+  it("Action affine group n = 12 ", () => {
     let opNeutral = new MusaicOperation(12, 1, 0);
     let opT1 = new MusaicOperation(12, 1, 1);
     let opM5 = new MusaicOperation(12, 5, 0);
@@ -112,7 +112,7 @@ describe('GroupAction', () => {
     expect(musaicGroup12.orbits.length).toEqual(158)
   });
 
-  it("Action group musaic n = 5 ", () => {
+  it("Action musaic group n = 5 ", () => {
     let opNeutral = new MusaicOperation(5, 1, 0);
     let opCM1 = new MusaicOperation(5, 1, 1, true);
 

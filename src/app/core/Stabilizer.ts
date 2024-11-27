@@ -18,7 +18,7 @@ export class Stabilizer {
   operations: MusaicOperation[];
   metaStabilizer: string;
   _shortName: string
-  _isMotifStabilizer ?: MotifStabilizer
+  _motifStabilizer ?: MotifStabilizer
   _hashCode ?: number
   sumT: number
   _fixedPcsInPrimeForm: IPcs[]
@@ -31,7 +31,7 @@ export class Stabilizer {
     this.metaStabilizer = "";
     this._shortName = ""
     this._hashCode = undefined
-    this._isMotifStabilizer = undefined
+    this._motifStabilizer = undefined
     this.sumT = this.computeSumTNear0();
     this._fixedPcsInPrimeForm = []
   }
@@ -65,7 +65,7 @@ export class Stabilizer {
       this.metaStabilizer = "";
       this._shortName = "";
       this._hashCode = undefined
-      this._isMotifStabilizer = undefined
+      this._motifStabilizer = undefined
       this._fixedPcsInPrimeForm = []
     }
   }
@@ -126,10 +126,10 @@ export class Stabilizer {
   }
 
   get motifStabilizer() {
-    if (!this._isMotifStabilizer) {
-      this._isMotifStabilizer = new MotifStabilizer(this.reduceNameByIgnoreTransp().trim())
+    if (!this._motifStabilizer) {
+      this._motifStabilizer = new MotifStabilizer(this.reduceNameByIgnoreTransp().trim())
     }
-    return this._isMotifStabilizer
+    return this._motifStabilizer
   }
 
   /**
@@ -176,26 +176,15 @@ export class Stabilizer {
     return this.operations.length;
   }
 
-  /*
-
-  clear() {
-    this.operations = []
-    this.fixedPcs = []
-    this.metaStabilizer = null;
-    this._shortName = null;
-    this._hashCode = null;
-    this._isMotifStabilizer = ""
-  }
-*/
 
   compareTo(otherStab: Stabilizer): number {
     // return this.getName().compare(o.getName());
     return Stabilizer.compare(this, otherStab)
   }
 
-  // TODO cache in const COMP_SHORT_NAME map with key is this.hashCode() ?
   static compareShortName(stab1: Stabilizer, stab2: Stabilizer) {
-    return StringHash.stringHashCode(stab1.getShortName()) - StringHash.stringHashCode(stab2.getShortName())
+    // return StringHash.stringHashCode(stab1.getShortName()) - StringHash.stringHashCode(stab2.getShortName())
+    return stab1.getShortName().localeCompare(stab2.getShortName(), 'us') // 'us' for determinist !
   }
 
   static compare(stab1: Stabilizer, stab2: Stabilizer) {

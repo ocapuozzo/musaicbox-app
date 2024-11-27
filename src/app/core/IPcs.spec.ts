@@ -482,7 +482,7 @@ describe('IPcs unit tests', () => {
     // dim chord two symmetries
     ipcs = new IPcs({strPcs: "0, 3, 6, 9"})
     symmetries = ipcs.getAxialSymmetries()
-    console.log("symmetries.symMedian = " + symmetries.symMedian)
+    // console.log("symmetries.symMedian = " + symmetries.symMedian)
     symMedian = [1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0]
     symInter = [0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
     expect(symmetries.symMedian).toEqual(symMedian)
@@ -524,8 +524,8 @@ describe('IPcs unit tests', () => {
     expect(symmetries.symInter).toEqual(symInter)
     ipcs = new IPcs({strPcs: "1,4,5,6,7,10"})
     symmetries = ipcs.getAxialSymmetries()
-    console.log(symmetries.symMedian)
-    console.log(symmetries.symInter)
+    // console.log(symmetries.symMedian)
+    // console.log(symmetries.symInter)
     expect(symmetries.symInter).toEqual([0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0])
   })
 

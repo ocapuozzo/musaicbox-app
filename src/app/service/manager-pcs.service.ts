@@ -119,19 +119,24 @@ export class ManagerPcsService {
   /**
    * Build instance of IPcs from pcs and group action (king of clone, with pivot may be changed)
    * @param pcs to find image in action group
-   * @param groupAction where to find
+   * @param groupAction where to find pcs (for cloning)
    * @param newPivot
    * @private
    */
   private static makeNewInstanceOf(pcs: IPcs, groupAction: GroupAction, newPivot: number | undefined) {
     let newPcsInOrbit = groupAction.getIPcsInOrbit(pcs)
-    return new IPcs({
+
+    let clonePcs = new IPcs({
       binPcs: newPcsInOrbit.abinPcs,
       iPivot: newPivot,
       orbit: newPcsInOrbit.orbit,
+
       templateMappingBinPcs: newPcsInOrbit.templateMappingBinPcs,
       nMapping: newPcsInOrbit.nMapping
     })
+
+    clonePcs.stabilizer = newPcsInOrbit.stabilizer
+    return clonePcs
   }
 
 }

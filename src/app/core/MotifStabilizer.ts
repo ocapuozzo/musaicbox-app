@@ -85,7 +85,7 @@ export class MotifStabilizer {
         if (isNaN(a2)) {
           a2 = 0;
         }
-        // should compareTo this only if ia2==ia1 ?
+        // should compareTo this only if ia2===ia1 ?
         cmp = a1 - a2;
         if (cmp !== 0)
           return cmp;

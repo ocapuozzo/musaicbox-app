@@ -287,7 +287,7 @@ export class Orbit {
   }
 
   isDetached(): boolean {
-    return this.groupAction == undefined // or this.ipcsset.length == 0
+    return this.groupAction === undefined // or this.ipcsset.length == 0
   }
 
   has(pcs: IPcs):boolean {
@@ -295,10 +295,11 @@ export class Orbit {
   }
 
   getPcsWithThisIS(intervallicStructure: string):IPcs | undefined {
-    return this.ipcsset.find( p => p.is().toString() == intervallicStructure)
+    return this.ipcsset.find( p => p.is().toString() === intervallicStructure)
   }
 
   getPcsWithThisPid(pid: number) {
-    return this.ipcsset.find( p => p.pid() == pid)
+    return this.ipcsset.find( p => p.pid() === pid)
   }
+
 }

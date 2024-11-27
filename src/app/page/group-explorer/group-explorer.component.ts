@@ -114,7 +114,7 @@ export class GroupExplorerComponent {
     this.preReactOrbits = []
     this.debug = true
     this.buildAllOperationsOfGroup();
-    this.saveConfig();
+
   }
 
   /**
@@ -126,7 +126,7 @@ export class GroupExplorerComponent {
     // see https://github.com/vuejs/vue/issues/9200
     this.waitingCompute = true
     this.doubleRaf(() => {
-      let local_groupOperations = Group.buildOperationsGroupByCaylayTable(this.getGeneratedSetOperationsFromUI());
+      let local_groupOperations = Group.buildOperationsGroupByCayleyTable(this.getGeneratedSetOperationsFromUI());
       let start = 0
       if (this.debug) {
         start = new Date().getTime();

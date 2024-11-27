@@ -12,7 +12,11 @@
         </button>
       </h5>
       <div [ngClass]="{'inner-box-musaic-orbit':!pcs.isDetached(), 'inner-box-musaic':pcs.isDetached()}">
-        <p class="text-small">{{ pcs.orbit.groupAction?.group?.name?.substring(4) }}</p>
+        <p class="text-small">
+          @if (!pcs.isDetached()) {
+             [{{ pcs.orbit.groupAction?.group?.opsNamesWithoutTx?.join(" ") }}]
+          }
+        </p>
         <app-ui-musaic
           [style.max-width]="maxWidthUiMusaic"
           [style.width]="maxWidthUiMusaic"

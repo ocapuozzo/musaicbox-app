@@ -25,15 +25,18 @@ export class Group {
 
   operations: MusaicOperation[]
 
-  name: string
+  readonly name: string
+  readonly opsNamesWithoutTx: string[]
 
   /**
    * initialize instance by generate all operations from operations passed in parameter
    * @param {MusaicOperation[]} someGeneratorMusaicPcsOperations
    */
   constructor(someGeneratorMusaicPcsOperations: MusaicOperation[]) {
-    this.operations = Group.buildOperationsGroupByCaylayTable(someGeneratorMusaicPcsOperations)
-    this.name = this.buildNameGroup()
+    this.operations = Group.buildOperationsGroupByCayleyTable(someGeneratorMusaicPcsOperations)
+    let res = this.buildGroupNameAndOpsNameWithoutTx()
+    this.name = res.name
+    this.opsNamesWithoutTx = res.opsNamesWithoutTx
   }
 
   static get predefinedGroups12(): Group[] {
@@ -52,8 +55,8 @@ export class Group {
       this._predefinedGroups12.push(new Group([opM1_T1, opM11_T1, opM5_T1]))
 
       // index == 3 == Group.MUSAIC
-      let opCM1_T0 = new MusaicOperation(12, 1, 0, true);
-      this._predefinedGroups12.push(new Group([opM1_T1, opM11_T1, opM5_T1, opCM1_T0]))
+      let opCM1_T1 = new MusaicOperation(12, 1, 1, true);
+      this._predefinedGroups12.push(new Group([opM1_T1, opM11_T1, opM5_T1, opCM1_T1]))
     }
     return this._predefinedGroups12
   }
@@ -77,12 +80,11 @@ export class Group {
    * Generate all operations from a set of operations, implement Cayley
    * table algorithm
    *
-   * @param {Array} someGeneratorMusaicPcsOperation
-   *           : a "sub group operations" (generators of group)
+   * @param {Array} someGeneratorMusaicPcsOperation a "sub group operations" (generators of group)
    * @return {Array} ordered list of operations including someOperations and 0..n more generated
    * operations by table cayley composition.
    */
-  static buildOperationsGroupByCaylayTable(someGeneratorMusaicPcsOperation: MusaicOperation[]): MusaicOperation[] {
+  static buildOperationsGroupByCayleyTable(someGeneratorMusaicPcsOperation: MusaicOperation[]): MusaicOperation[] {
     let allOps: MusaicOperation[] = [...someGeneratorMusaicPcsOperation]
     // let loop = true
     // while (loop) {
@@ -93,7 +95,7 @@ export class Group {
         for (let j = 0; j < cardinalOp; j++) {
           let newOp = allOps[i].compose(allOps[j]);
           if (!allOps.find(op => op.getHashCode() === newOp.getHashCode())) {
-            // ho ! add a line and column to the calay table
+            // ho ! add a line and column to the cayley table
             // no more restart from begin index because
             // up vector dimension add redundant by symmetry
             // TODO  must be demonstrated... and verified by tests unit
@@ -159,35 +161,36 @@ export class Group {
   }
 
   /**
-   *  Be careful : M1 M5 CM11 => M1 M5 CM7 CM11 (no CM5 !)
-
+   *  Examples :
+   *  <pre>
    *  Group.CYCLIC name => n=12 [M1]
    *  Group.MUSAIC name => n=12 [M1 M5 M7 M11 CM1 CM5 CM7 CM11]
+   * </pre>
    *
    * @private
    */
-  private buildNameGroup() {
-    let dico: string[] = []
-    let t = 0
+  private buildGroupNameAndOpsNameWithoutTx() : { opsNamesWithoutTx: string[], name : string } {
+    let opsNamesWithoutTx: string[] = []
+
+    // REM: this.operations is sorted
     for (const op of this.operations) {
-      if (t < op.t) t = op.t
       const opNameWithoutT = op.toStringWithoutTransp()
-      if (! dico.includes(opNameWithoutT)) {
-        dico.push(opNameWithoutT)
+      if (! opsNamesWithoutTx.includes(opNameWithoutT)) {
+        opsNamesWithoutTx.push(opNameWithoutT)
       }
     }
 
-    let opsM = ''
-    for (const opNameWithoutT of dico) {
-      opsM += opsM ? ' ' + opNameWithoutT : opNameWithoutT
+    return {
+      name: `n=${this.operations[0].n} [${opsNamesWithoutTx.join(" ")}]`,
+      opsNamesWithoutTx : opsNamesWithoutTx,
     }
-
-    // opsM += t > 1 ? ' Tx' : ' T0'
-    // Tx = up to transposition, always set
-    // opsM += t > 1 ? '' : ' T0'
-
-    opsM = '[' + opsM + ']'
-    return `n=${this.operations[0].n} ${opsM}`
   }
+  //
+  // getGroupName() : IGroupName {
+  //   return {
+  //     n:this.operations[0].n,
+  //     metaOps : this.opsNamesWithoutTx
+  //   }
+  // }
 
 }

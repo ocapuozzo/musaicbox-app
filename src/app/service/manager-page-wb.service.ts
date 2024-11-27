@@ -87,7 +87,7 @@ export class ManagerPageWBService {
 
     this.history = new HistoryT<UIPcsDto[]>()
     let initialPcsDtoList = this.makeInitialPcsDtoList();
-    let restorePcsDtoList = this.managerLocalStorageService.getPcsDtoListFromLocalStorage()
+    let restorePcsDtoList = this.managerLocalStorageService.getPcsDtoListFromLocalStoragePageWB()
     this.uiPcsDtoList = restorePcsDtoList.length === 0 ? initialPcsDtoList : restorePcsDtoList
     // start with no selected element
     this.uiPcsDtoList.forEach((pcsDto: UIPcsDto) => pcsDto.isSelected = false)
@@ -735,7 +735,7 @@ export class ManagerPageWBService {
   }
 
   getSerialDataContent() {
-    return this.managerLocalStorageService.getSerialStringDataPcsDtoListFromLocalStorage();
+    return this.managerLocalStorageService.getSerialStringDataPcsDtoListPageWBFromLocalStorage();
   }
 
   /**

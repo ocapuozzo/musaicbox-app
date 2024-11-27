@@ -15,7 +15,7 @@ describe('Group', () => {
     let opM1_T0 = new MusaicOperation(12, 1, 0, false);
     let someOps = [opM1_T0]
     let opsWaiting = someOps
-    let allOps = Group.buildOperationsGroupByCaylayTable(someOps)
+    let allOps = Group.buildOperationsGroupByCayleyTable(someOps)
     expect(1).toEqual(opsWaiting.length)
     expect(allOps).toEqual(opsWaiting)
     expect(allOps.length).toEqual(1)
@@ -26,7 +26,7 @@ describe('Group', () => {
     let someOps = [opM1_T1]
     let opsWaiting: MusaicOperation[] = []
 
-    let allOperations = Group.buildOperationsGroupByCaylayTable(someOps)
+    let allOperations = Group.buildOperationsGroupByCayleyTable(someOps)
 
     expect(allOperations.length).toEqual(12)
     for (let i = 0; i < 12; i++) {
@@ -44,13 +44,13 @@ describe('Group', () => {
     for (let i = 0; i < 12; i++) {
       opsWaiting.push(new MusaicOperation(12, 1, i, false))
     }
-    let allOperations = Group.buildOperationsGroupByCaylayTable(someOps)
+    let allOperations = Group.buildOperationsGroupByCayleyTable(someOps)
     expect(allOperations.length).toEqual(12)
     expect(allOperations).toEqual(opsWaiting)
 
     let opM5_T1 = new MusaicOperation(12, 5, 1, false);
     someOps.push(opM5_T1)
-    expect(Group.buildOperationsGroupByCaylayTable(someOps).length).toEqual(24)
+    expect(Group.buildOperationsGroupByCayleyTable(someOps).length).toEqual(24)
   })
 
   it("Predefined Cyclic Group", () => {
@@ -72,7 +72,7 @@ describe('Group', () => {
     a = 11;
     someOperations.push(new MusaicOperation(order, a, t, complement));
 
-    const allOperations = Group.buildOperationsGroupByCaylayTable(someOperations)
+    const allOperations = Group.buildOperationsGroupByCayleyTable(someOperations)
     // generate 48 operations : 12 * each a
     expect(allOperations.length).toEqual(order * 4)
 
@@ -98,7 +98,7 @@ describe('Group', () => {
     t = getRandomInt(12)
     let aleaOp = new MusaicOperation(order, 11, t, complement)
 
-    let allOps = Group.buildOperationsGroupByCaylayTable(someOperations)
+    let allOps = Group.buildOperationsGroupByCayleyTable(someOperations)
 
     // test if aleaOp is in allOps
     expect(allOps.find((op) => op.getHashCode() === aleaOp.getHashCode())).toBeTruthy()
@@ -107,7 +107,7 @@ describe('Group', () => {
     expect(allOps.length).toEqual(order * 4 * 2)
   })
 
-  
+
   it("testCayleySubGroupM1_M7_CM5_CM11", () => {
     let someOperations: MusaicOperation[] = []
     let order = 12;
@@ -127,7 +127,7 @@ describe('Group', () => {
     complement = true;
     someOperations.push(new MusaicOperation(order, a, t, complement));
 
-    let allOps = Group.buildOperationsGroupByCaylayTable(someOperations)
+    let allOps = Group.buildOperationsGroupByCayleyTable(someOperations)
 
     console.log("allOps.length = ", allOps.length)
     // waiting 96 operations : 12 * each a = 48 and each complement (*2)

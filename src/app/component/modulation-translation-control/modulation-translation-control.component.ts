@@ -14,7 +14,7 @@ export class ModulationTranslationControlComponent {
 
   }
 
-  onTranslate(direction: string) : void{
+  onTranspose(direction: string) : void{
     this.changePcsEvent.emit("T" + direction)
   }
 

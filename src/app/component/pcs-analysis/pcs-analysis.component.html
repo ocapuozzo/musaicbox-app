@@ -48,7 +48,7 @@
         <span class="analyse-pcs">({{ pcsMapped.getWithDefaultPivot().is() }})</span>
 
         @if (!pcsMapped.isPivotFirstPosition()) {
-          shifted to
+          circular-shift to
           <button mat-button (click)="doReplaceByPcsWithIS(pcsMapped.is())">
             <span class="analyse-pcs">({{ pcsMapped.is() }})</span>
           </button>

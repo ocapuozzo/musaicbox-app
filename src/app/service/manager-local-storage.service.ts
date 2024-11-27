@@ -3,6 +3,7 @@ import {EightyEight} from "../utils/EightyEight";
 import {UIPcsDto} from "../ui/UIPcsDto";
 import {IPcs} from "../core/IPcs";
 import {ClipboardService} from "./clipboard.service";
+import {ManagerGroupActionService} from "./manager-group-action.service";
 
 
 export interface IStoragePage88 {
@@ -16,7 +17,7 @@ export interface IStoragePage88 {
 })
 export class ManagerLocalStorageService {
   private clipboard : ClipboardService<UIPcsDto[]> = inject(ClipboardService<UIPcsDto[]>)
-
+  private managerGroupAction  : ManagerGroupActionService = inject(ManagerGroupActionService)
   constructor() {
   }
 
@@ -51,17 +52,22 @@ export class ManagerLocalStorageService {
     localStorage.setItem("page88", JSON.stringify(data))
   }
 
-  makeSerialVersion(listPcsDto: UIPcsDto[]) : UIPcsDto[] {
+  /**
+   * Make a new UIPcsDto[] list, extended with serializedPcs properties
+   * @param listPcsDto
+   */
+  makeSerialVersionPageWB(listPcsDto: UIPcsDto[]) : UIPcsDto[] {
     let savListPcsDto: any[] = []
     listPcsDto.forEach(pcsDto => {
       let obj = {
         ...pcsDto,
-        pcs: null, // pcs is no serialized (object complex in relationship)
+        pcs: null, // pcs is no directly serialized (object complex in relationship)
         serializedPcs: {
           pcsStr: pcsDto.pcs.getPcsStr(),
           iPivot: pcsDto.pcs.iPivot,
           nMapping: pcsDto.pcs.nMapping,
-          templateMappingBinPcs: pcsDto.pcs.templateMappingBinPcs
+          templateMappingBinPcs: pcsDto.pcs.templateMappingBinPcs,
+          groupName: pcsDto.pcs.isDetached() ? '' : pcsDto.pcs.orbit!.groupAction!.group.name
         }
       }
       savListPcsDto.push(obj)
@@ -70,14 +76,14 @@ export class ManagerLocalStorageService {
   }
 
   savePageWB(listPcsDto: UIPcsDto[]) {
-    localStorage.setItem("pageWB.currentContent", JSON.stringify(this.makeSerialVersion(listPcsDto)))
+    localStorage.setItem("pageWB.currentContent", JSON.stringify(this.makeSerialVersionPageWB(listPcsDto)))
   }
 
-  getSerialStringDataPcsDtoListFromLocalStorage(): string {
+  getSerialStringDataPcsDtoListPageWBFromLocalStorage(): string {
     return localStorage.getItem("pageWB.currentContent") || "[]"
   }
 
-  getPcsDtoListFromLocalStorage(): UIPcsDto[] {
+  getPcsDtoListFromLocalStoragePageWB(): UIPcsDto[] {
     return this.getPcsDtoListFromJsonContent(localStorage.getItem("pageWB.currentContent") || "[]")
   }
 
@@ -100,7 +106,14 @@ export class ManagerLocalStorageService {
             nMapping:pcsSerialDto.serializedPcs.nMapping ?? 12,
             templateMappingBinPcs:pcsSerialDto.serializedPcs.templateMappingBinPcs ?? []
           })
-          //console.log("pcs = ", pcs)
+          // if group action, get pcs from it
+          if (pcsSerialDto.serializedPcs.groupName && typeof(pcsSerialDto.serializedPcs.groupName) === 'string') {
+            const groupAction = this.managerGroupAction.getGroupActionFromGroupName(pcsSerialDto.serializedPcs.groupName)
+            if (groupAction) {
+              // change pcs by same into orbit
+              pcs = groupAction.getIPcsInOrbit(pcs)
+            }
+          }
         }
         let pcsDto = new UIPcsDto({
           ...pcsSerialDto,

@@ -38,7 +38,6 @@
 
 import {StringHash} from "../utils/StringHash";
 import {IPcs} from "./IPcs";
-import {Stabilizer} from "./Stabilizer";
 
 export class MusaicOperation {
   a: number
@@ -48,14 +47,14 @@ export class MusaicOperation {
   _strRepr: string
   _strReprWithoutTransp: string
   fixedPcs: IPcs[]
-  stabilizers: Stabilizer[]
+  //stabilizers: Stabilizer[]
   _hashcode ?: number
 
   /**
    *  ((ax + t) modulo n) . c
    *
    * @param n number dimension vector
-   * @param a number  coef mult
+   * @param a number coef mult
    * @param t number translation value
    * @param complement boolean
    */
@@ -68,7 +67,7 @@ export class MusaicOperation {
     this._strRepr = prefix + "M" + this.a + "-T" + this.t; // n ? generally used into same Zn
     this._strReprWithoutTransp = prefix + "M" + a;
     this.fixedPcs = []  // new ArrayList<Pcs>();
-    this.stabilizers = [] // new ArrayList<Stabilizer>();
+  //  this.stabilizers = [] // new ArrayList<Stabilizer>();
     this.getHashCode()
   }
 
@@ -119,7 +118,7 @@ export class MusaicOperation {
    */
   compose(other: MusaicOperation) : MusaicOperation {
     if (this.n !== other.n)
-      throw new Error("MusaicOperation MusaicGroup Exception bad N in compose op");
+      throw new Error("MusaicOperation MusaicGroup Exception bad N in compose op : " + this.n  + " !== " + other.n);
 
     return new MusaicOperation(
       this.n,

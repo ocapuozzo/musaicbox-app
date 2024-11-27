@@ -49,7 +49,6 @@ export class UiOrbitComponent {
 
   doPushToPcsPage(pcs: IPcs) {
     this.managerPagePcsService.replaceBy(pcs)
-    this.managerExplorerService.doSaveConfig()
     this.router.navigateByUrl('/pcs');
   }
 
@@ -63,10 +62,6 @@ export class UiOrbitComponent {
   }
 
   colorOrbit(orbit: Orbit): string {
-    // if (orbit!.groupAction!.cardinal == orbit.cardinal) {
-    //   // no stabilizer
-    //   return 'black'
-    // }
     return PcsColor.getColor(orbit.motifStabilizer.name);
   }
 

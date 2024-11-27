@@ -269,7 +269,7 @@ Examples :
 
 .Example Compare with Polynomial Identifier
 |===
-|pcs1| pcs2| pid(pcs1) | pid(pcs2)| pcs1 < pcs1
+|pcs1| pcs2| pid(pcs1) | pid(pcs2)| pcs1 < pcs2
 | [ ]| [0]| 0 | 1 | **true**
 |[0,4,7]| [1,5,8]| 145 | 290 | **true**
 |[0,3,7]| [2,6,11]| 137 | 2116 | **true**
