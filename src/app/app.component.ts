@@ -12,8 +12,6 @@ import {faGithub} from '@fortawesome/free-brands-svg-icons';
 import {FormBuilder, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {IPcs} from "./core/IPcs";
 import {ManagerPagePcsService} from "./service/manager-page-pcs.service";
-import {MatFormField} from "@angular/material/form-field";
-import {MatInput} from "@angular/material/input";
 import {ManagerPagePcsListService} from "./service/manager-page-pcs-list.service";
 import {MatTooltip} from "@angular/material/tooltip";
 import {PcsSearch} from "./utils/PcsSearch";
@@ -27,7 +25,7 @@ import {NgOptimizedImage} from "@angular/common";
   standalone: true,
   imports: [RouterOutlet, RouterLink, RouterLinkActive,
     MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, FontAwesomeModule,
-    FormsModule, ReactiveFormsModule, MatFormField, MatInput, MatTooltip, NgOptimizedImage
+    FormsModule, ReactiveFormsModule, MatTooltip, NgOptimizedImage
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './app.component.html',
@@ -197,5 +195,13 @@ export class AppComponent {
         this.managerPagePcsService.replaceBy(pcs)
         this.router.navigateByUrl('/pcs');
     }
+  }
+
+  onActivate($event: any) {
+     window.scroll({
+       top:0,
+       left:0,
+       behavior:'smooth'
+     })
   }
 }

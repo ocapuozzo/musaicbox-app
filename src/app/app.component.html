@@ -147,6 +147,6 @@
     </div>
   </mat-drawer>
   <mat-drawer-content class="body">
-    <router-outlet></router-outlet>
+    <router-outlet (activate)="onActivate($event)"></router-outlet>
   </mat-drawer-content>
 </mat-drawer-container>

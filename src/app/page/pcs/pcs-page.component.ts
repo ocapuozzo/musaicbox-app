@@ -82,6 +82,7 @@ export class PcsPageComponent {
 
     this.managerPagePcsService.updatePcsEvent.subscribe( (pcs: IPcs) => {
         this.pcs = pcs
+        this.goToTopPage()
     })
 
     this.managerPagePcsListService.updatePcsListEvent.subscribe( (labeledListPcs : Map<string, IElementListPcs>) => {
@@ -180,5 +181,13 @@ export class PcsPageComponent {
     this.managerPagePcsService.indexPcsForEdit = -1
     this.managerPageWBService.addPcs({somePcs:[this.pcs]})
     this.router.navigateByUrl('/w-board');
+  }
+
+  private goToTopPage() {
+    window.scroll({
+      top:0,
+      left:0,
+      behavior:"auto"
+    })
   }
 }

@@ -53,7 +53,7 @@ export class ManagerLocalStorageService {
   }
 
   /**
-   * Make a new UIPcsDto[] list, extended with serializedPcs properties
+   * Make a new UIPcsDto[] list for storage, extended with serializedPcs properties
    * @param listPcsDto
    */
   makeSerialVersionPageWB(listPcsDto: UIPcsDto[]) : UIPcsDto[] {
