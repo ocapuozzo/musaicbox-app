@@ -43,8 +43,7 @@ export class ScoreNotationComponent {
     const len = this.containerCanvas.nativeElement.clientWidth
     const suffix = 'X:1\nL: 1/4\nK:C\n';
     const codeAbc = suffix + ScoreDrawingAbcNotation.fromPcsToABCNotation(this.pcs)
-
-    abcjs.renderAbc(
+    const visualObj = abcjs.renderAbc(
       "paper-" + this.randomId,
       codeAbc,
       {
@@ -53,7 +52,16 @@ export class ScoreNotationComponent {
         paddingleft: 0,
         paddingright: 10,
         responsive: "resize"
-      });
+      })[0];
+    if (abcjs.synth.supportsAudio()) {
+      // for css integration, see angular.json (architect/build/options/styles)
+      let synthControl = new abcjs.synth.SynthController();
+      synthControl.load("#abc-audio-" + this.randomId, null, {displayRestart: false, displayPlay: true, displayProgress: true});
+      synthControl.setTune(visualObj, false);
+    } else {
+      const id= `abc-audio-${this.randomId}`
+      document.querySelector(`#${id}`)!.innerHTML = "<div class='audio-error'>Audio is not supported in this browser.</div>"
+    }
   }
 
 }

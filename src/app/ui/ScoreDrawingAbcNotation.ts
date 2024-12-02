@@ -211,6 +211,11 @@ export class ScoreDrawingAbcNotation {
       }
     }
 
+    const firstNote = notes.split(' ')[0].toLowerCase()
+
+    // push first note to the end (scale root close scale)
+    notes += ` '${firstNote}`
+
     chord = '' //(this.pcsList.cardinal < 5) ? chord + ' ]  \n' : '' // experimental
     notes = chord ? notes + '|' : notes
 
