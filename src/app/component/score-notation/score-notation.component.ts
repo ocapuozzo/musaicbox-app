@@ -57,7 +57,11 @@ export class ScoreNotationComponent {
       // for css integration, see angular.json (architect/build/options/styles)
       let synthControl = new abcjs.synth.SynthController();
       synthControl.load("#abc-audio-" + this.randomId, null, {displayRestart: false, displayPlay: true, displayProgress: true});
-      synthControl.setTune(visualObj, false);
+      synthControl.setTune(visualObj, false,  {
+        defaultQpm: 280, // no change...
+        qpm: 280, // no change...
+        onEnded: () => {},
+      } )
     } else {
       const id= `abc-audio-${this.randomId}`
       document.querySelector(`#${id}`)!.innerHTML = "<div class='audio-error'>Audio is not supported in this browser.</div>"
