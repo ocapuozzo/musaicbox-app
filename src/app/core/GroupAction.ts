@@ -452,11 +452,7 @@ export class GroupAction {
   private buildOpNameWithoutTxToString() {
     const isStabilizersMap = new Map<string, boolean>()
     this.operations.forEach((o) => isStabilizersMap.set(o.toStringWithoutTransp(), true))
-    let nameOpsWithoutT = ''
-    for (const opWithoutTElement of isStabilizersMap.keys()) {
-      nameOpsWithoutT = nameOpsWithoutT ? nameOpsWithoutT + ', ' + opWithoutTElement : opWithoutTElement
-    }
-    return nameOpsWithoutT
+    return Array.from(isStabilizersMap.keys()).join(" ")
   }
 
   /**

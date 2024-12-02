@@ -18,6 +18,14 @@ describe('ManagerGroupActionService', () => {
     expect(ManagerGroupActionService.GROUP_ACTION_INSTANCES).toBeTruthy()
   })
 
+  it('ManagerGroupActionService Trivial', () => {
+    const groupAction = service.getGroupActionFromGroupName("n=12 []")
+    // REM  "n=12 []"  <>  "n=12 [M1]" because Mx are for all Mx-T1, so we note MX,
+    // expect trivial group (only neutral op - M1-T0 is not represented)
+    expect(groupAction).toBeTruthy()
+    expect(groupAction!.orbits.length).toEqual(4096)
+  })
+
   it('ManagerGroupActionService Affine', () => {
     const groupAction = service.getGroupActionFromGroupName("n=12 [M1 M5 M7 M11]")
     expect(groupAction).toBeTruthy()
@@ -28,6 +36,12 @@ describe('ManagerGroupActionService', () => {
     const groupAction = service.getGroupActionFromGroupName("n=12 [M1 M11]")
     expect(groupAction).toBeTruthy()
     expect(groupAction!.orbits.length).toEqual(224)
+  })
+
+  it('ManagerGroupActionService get Affine by alias name', () => {
+    const groupAction = service.getGroupActionFromGroupAliasName("Affine")
+    expect(groupAction).toBeTruthy()
+    expect(groupAction!.orbits.length).toEqual(158)
   })
 
 

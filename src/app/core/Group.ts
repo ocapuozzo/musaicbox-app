@@ -172,14 +172,17 @@ export class Group {
   private buildGroupNameAndOpsNameWithoutTx() : { opsNamesWithoutTx: string[], name : string } {
     let opsNamesWithoutTx: string[] = []
 
-    // REM: this.operations is sorted
-    for (const op of this.operations) {
-      const opNameWithoutT = op.toStringWithoutTransp()
-      if (! opsNamesWithoutTx.includes(opNameWithoutT)) {
-        opsNamesWithoutTx.push(opNameWithoutT)
+    if (this.operations.length === 1 && this.operations[0].a === 1 && this.operations[0].t === 0 && !this.operations[0].complement){
+      opsNamesWithoutTx.push("M1-T0")
+    } else {
+      // REM: this.operations is sorted
+      for (const op of this.operations) {
+        const opNameWithoutT = op.toStringWithoutTransp()
+        if (!opsNamesWithoutTx.includes(opNameWithoutT)) {
+          opsNamesWithoutTx.push(opNameWithoutT)
+        }
       }
     }
-
     return {
       name: `n=${this.operations[0].n} [${opsNamesWithoutTx.join(" ")}]`,
       opsNamesWithoutTx : opsNamesWithoutTx,

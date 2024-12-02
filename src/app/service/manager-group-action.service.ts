@@ -2,13 +2,13 @@ import {Injectable} from '@angular/core';
 import {GroupAction} from "../core/GroupAction";
 import {MusaicOperation} from "../core/MusaicOperation";
 
-
 /**
- * with n = 12, there are 16 possibles groups
+ * with n = 12, there are 17 (16+1) possibles groups
  * (see Labo.spec.ts - 'Explore all sub-group of musaic group - up to transposition')
  */
 const GROUPS_NAMES_N12 = [
-  {groupName: "n=12 [M1]", alias: "Trivial"},
+  {groupName: "n=12 []", alias: "Trivial"}, // only M1-T0 (neutral operation - not represented)
+  {groupName: "n=12 [M1]", alias: "Cyclic"}, // all Mx and CMx are with -T1 (translation by step 1)
   {groupName: "n=12 [M1 M5]", alias: ""},
   {groupName: "n=12 [M1 M7]", alias: ""},
   {groupName: "n=12 [M1 M11]", alias: "Dihedral"},
@@ -28,7 +28,7 @@ const GROUPS_NAMES_N12 = [
 
 /*
 Other sort on orbit cardinal (from Labo.spec.ts) :
-
+'n=12 [] => 4096' // M1-T0
 'n=12 [M1] => 352'
 'n=12 [M1 M7] => 226'
 'n=12 [M1 M11] => 224'
@@ -63,7 +63,8 @@ export class ManagerGroupActionService {
   buildGroupActionFromGroupName(groupName: string) {
     const someOperations: MusaicOperation[] = this.buildOperationsFromGroupName(groupName)
     if (someOperations.length === 0) {
-      throw new Error(`buildGroupActionFromGroupName Impossible : ${groupName}`)
+      someOperations.push(new MusaicOperation(12, 1, 0, false)) // M1-T0
+       // throw new Error(`buildGroupActionFromGroupName Impossible : ${groupName}`)
     }
     return new GroupAction({n: someOperations[0].n, someMusaicOperations: someOperations});
   }
@@ -100,8 +101,21 @@ export class ManagerGroupActionService {
   getGroupActionFromGroupName(groupName: string): GroupAction | undefined {
     if (!ManagerGroupActionService.GROUP_ACTION_INSTANCES.has(groupName)) {
       let groupAction: GroupAction = this.buildGroupActionFromGroupName(groupName)
-      ManagerGroupActionService.GROUP_ACTION_INSTANCES.set(groupAction.group.name, groupAction)
+      ManagerGroupActionService.GROUP_ACTION_INSTANCES.set(groupName, groupAction)
     }
     return ManagerGroupActionService.GROUP_ACTION_INSTANCES.get(groupName)
   }
+
+  getGroupActionFromGroupAliasName(aliasName: string) {
+    let groupNameTuple = this.findGroupName(aliasName)
+    if (groupNameTuple) {
+      return this.getGroupActionFromGroupName(groupNameTuple.groupName)
+    }
+    return undefined
+  }
+
+  findGroupName(alias: string) {
+    return GROUPS_NAMES_N12.find(value => value.alias === alias)
+  }
+
 }
