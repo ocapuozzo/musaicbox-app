@@ -53,6 +53,7 @@ export class ScoreNotationComponent {
     const codeAbc = suffix + ScoreDrawingAbcNotation.fromPcsToABCNotation(this.pcs, this.withChord)
 
     class CursorControl {
+      nNotesPlayingCounter = 0
       constructor(public superThis: ScoreNotationComponent) {
       }
 
@@ -62,6 +63,7 @@ export class ScoreNotationComponent {
         if (this.superThis.iCurrentOrderPlaying === -1) {
           this.superThis.iCurrentOrderPlaying = 0
           this.superThis.idPcsCurrentPlaying = this.superThis.pcs.id
+          this.nNotesPlayingCounter = 0
         }
          // console.log("The tune has started playing.");
       }
@@ -90,6 +92,7 @@ export class ScoreNotationComponent {
         }
 
         this.superThis.iCurrentOrderPlaying++
+        this.nNotesPlayingCounter++
 
         if (this.superThis.iCurrentOrderPlaying > this.superThis.pcs.cardinal) {
           this.superThis.iCurrentOrderPlaying = 1
@@ -98,12 +101,14 @@ export class ScoreNotationComponent {
         const currentIndex =
           this.superThis.pcs.getVectorIndexOfPitchOrder(this.superThis.iCurrentOrderPlaying)
 
-        // if ( this.superThis.iCurrentOrderPlaying < this.superThis.pcs.cardinal   )
-        this.superThis.animPitchService
-          .notePlaying({
-            idPcs: this.superThis.idPcsCurrentPlaying,
-            indexPitchPlaying: currentIndex
-          })
+        // avoid anim when chord playing
+        if (this.nNotesPlayingCounter <= this.superThis.pcs.cardinal+1) {
+          this.superThis.animPitchService
+            .notePlaying({
+              idPcs: this.superThis.idPcsCurrentPlaying,
+              indexPitchPlaying: currentIndex
+            })
+        }
       }
     }
 
