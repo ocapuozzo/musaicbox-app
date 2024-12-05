@@ -1422,6 +1422,32 @@ export class IPcs {
     return this.iPivot === this.getMappedBinPcs().findIndex(value => value === 1);
   }
 
-  // TODO arrange operations in inner and mapped ?? maybe out utility functions for binpcs ?
-
+  /**
+   * Get index of pitchOrder
+   * Example : {0, 4, 7}  (cardinal = 3)
+   *     pitch order of first pitch = 0
+   *     pitch order of second pitch = 4
+   *     pitch order of third pitch = 7
+   *
+   * @param pitchOrder : number [1..this.cardinal]
+   * @return index of pitchOrder into aBinPcs having bit to 1
+   */
+  getVectorIndexOfPitchOrder(pitchOrder: number) : number {
+    if (!pitchOrder || pitchOrder > this.cardinal) {
+      return -1
+      // throw new Error(`Invalid pitch order ${pitchOrder} `)
+    }
+    let currentOrder = 0
+    for (let i = this.getPivot() ?? 0 ; i < this.abinPcs.length; i = (i+1) % this.n) {
+      if (this.abinPcs[i] === 1 ) {
+        currentOrder++
+        if (currentOrder === pitchOrder) {
+          return i
+        }
+      }
+    }
+    // never pass here
+    // throw new Error(`Invalid pitch order ${pitchOrder} `)
+    return -1
+  }
 }

@@ -8,12 +8,12 @@ import {
 import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
 import {ManagerPagePcsListService} from "../../service/manager-page-pcs-list.service";
 import {AnalyseChord} from "../../utils/AnalyseChord";
-import {NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {ChordNaming} from "../../core/ChordNaming";
 import {Scales2048Name} from "../../core/Scales2048Name";
-import {MatTooltip} from "@angular/material/tooltip";
 import {INameDefLink} from "../../core/IScaleName";
 import {BreakpointObserver} from "@angular/cdk/layout";
+import {AnimPitchService, IPitchPlaying} from "../../service/anim-pitch.service";
 
 @Component({
   selector: 'app-ui-clock',
@@ -21,8 +21,6 @@ import {BreakpointObserver} from "@angular/cdk/layout";
   imports: [
     ScoreNotationComponent,
     ModulationTranslationControlComponent,
-    NgOptimizedImage,
-    MatTooltip,
     NgForOf,
     NgIf
   ],
@@ -39,10 +37,12 @@ export class UiClockComponent {
 
   private _pcs: IPcs
 
-  pcsFirstScaleNameOrDerived : INameDefLink
+  pcsFirstScaleNameOrDerived: INameDefLink
+  indexPlaying: number = -1
 
 
-  private unlisten  = () => {}; // Function
+  private unlisten = () => {
+  }; // Function
 
   /**
    * draw canvas when pcsList change
@@ -62,15 +62,29 @@ export class UiClockComponent {
   }
 
   constructor(
-     private managerPagePcsService: ManagerPagePcsService,
-     private managerPagePcsListService: ManagerPagePcsListService,
-     private ngZone: NgZone,
-     private renderer2: Renderer2,
-     private responsive: BreakpointObserver)
-  {
+    private managerPagePcsService: ManagerPagePcsService,
+    private managerPagePcsListService: ManagerPagePcsListService,
+    private managerAnimPitchService: AnimPitchService,
+    private ngZone: NgZone,
+    private renderer2: Renderer2,
+    private responsive: BreakpointObserver) {
 
     this.managerPagePcsService.updatePcsEvent.subscribe((pcs: IPcs) => {
+      this.indexPlaying = -1
       this.pcs = pcs
+    })
+
+    this.managerAnimPitchService.eventNotePlaying.subscribe((pitchPlaying: IPitchPlaying) => {
+      if (pitchPlaying.indexPitchPlaying === -1) {
+        this.indexPlaying = -1
+      } else if (pitchPlaying.idPcs === this.pcs.id) {
+        this.indexPlaying = pitchPlaying.indexPitchPlaying
+        // console.log("event in ui-clock, index playing : ", this.indexPlaying)
+      } else {
+        this.indexPlaying = -1
+      }
+      this.updateGraphicContext()
+      this.drawClock()
     })
 
     this.pcs = this.managerPagePcsService.pcs
@@ -111,12 +125,13 @@ export class UiClockComponent {
       width: len,
       height: len, // square
       pc_color_fill: "yellow",
-      segmentsLineDash: [[1, 2, 2, 1], [2, 3]] // median, inter
+      segmentsLineDash: [[1, 2, 2, 1], [2, 3]], // median, inter,
+      indexPlaying: this.indexPlaying
     })
   }
 
   ngOnDestroy() {
-     this.unlisten()
+    this.unlisten()
   }
 
   private setupEvents(): void {
@@ -148,7 +163,7 @@ export class UiClockComponent {
     });
   }
 
-  mouseMoveSetCursor(e:MouseEvent) {
+  mouseMoveSetCursor(e: MouseEvent) {
     // https://developer.mozilla.org/fr/docs/Web/API/MouseEvent
     let index = this.getIndexSelectedFromUIClock(e);
     if (index >= 0) {
@@ -233,7 +248,8 @@ export class UiClockComponent {
         width: len,
         height: len,
         pc_color_fill: "yellow",
-        segmentsLineDash: [[1, 2, 2, 1], [2, 3]] // median, inter
+        segmentsLineDash: [[1, 2, 2, 1], [2, 3]], // median, inter,
+        indexPlaying: this.indexPlaying
       })
   }
 
@@ -336,7 +352,7 @@ export class UiClockComponent {
     for (const list3Chord of list3Chords) {
       if (list3Chord[1].length == 0) {
         this.managerPagePcsListService.addPcs(list3Chord[0], null)
-      } else for (let i = 0; i < list3Chord[1].length ; i++) {
+      } else for (let i = 0; i < list3Chord[1].length; i++) {
         this.managerPagePcsListService.addPcs(list3Chord[0], list3Chord[1][i], true)
       }
     }
@@ -350,7 +366,7 @@ export class UiClockComponent {
     for (const fourChord of listSeventhChords) {
       if (fourChord[1].length == 0) {
         this.managerPagePcsListService.addPcs(fourChord[0], null, true)
-      } else for (let i = 0; i < fourChord[1].length ; i++) {
+      } else for (let i = 0; i < fourChord[1].length; i++) {
         this.managerPagePcsListService.addPcs(fourChord[0], fourChord[1][i], true)
       }
     }
@@ -364,7 +380,8 @@ export class UiClockComponent {
   getLinkName() {
     return Scales2048Name.getScale2048Name(this.pcs).sources[0]
   }
-  getLinksNameDefs() : INameDefLink[] {
+
+  getLinksNameDefs(): INameDefLink[] {
     return Scales2048Name.getLinksNameDefs(this.pcs)
   }
 }

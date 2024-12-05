@@ -40,7 +40,7 @@ export class ScoreDrawingAbcNotation {
    * rule6 : when pcs is chord (has chord name) so preference minor third over augmented second and
    *         diminished fifth over augmented fourth
    */
-  static fromPcsToABCNotation(pcs : IPcs): string {
+  static fromPcsToABCNotation(pcs : IPcs, withChord : boolean = false): string {
     if (!pcs) return "";
 
     if (pcs.cardinal === 0) return "z4" // silence (else no representation !)
@@ -104,7 +104,7 @@ export class ScoreDrawingAbcNotation {
     // 1,5,8,11 => Db F Ab B (Cb)   or C# F (E#) G# B  aie...
     // 1,3,7,10 pivot = 3
     // 0,3,6,8  pivot:0 Aie !!! third is D# will be Eb ?? but chord no name - only with pivot=8
-    //                 it is Ab7/3 bass third
+    //                 it is Ab7/3 bass third. Fixed
 
     if ([3, 4].includes(pcsMapped.cardinal) /*&& pcsMapped.getChordName()*/) {
       // chord has name, try minor third spelling Eb and diminished fifth (5b) and seventh...
@@ -163,7 +163,8 @@ export class ScoreDrawingAbcNotation {
         const root = noAlteredNotes[0]
         const fifth = noAlteredNotes[2]
         const iRoot = orderedChar.indexOf(root)
-        if (orderedChar[iRoot + 4] !== fifth) { // fifth is distance of 5, so 4 steps... from root
+        // 0,3,6,7 fifth can be fourth note...
+        if (orderedChar[iRoot + 4] !== fifth && orderedChar[iRoot + 4] !== noAlteredNotes[3]) { // fifth is distance of 5, so 4 steps... from root
           if (noteArray[2].startsWith('^')) {
             const indexLetters = this.lettersSharpedNotation.indexOf(noteArray[2].substring(0,2))
             noteArray[2] = this.lettersFlattedNotation[indexLetters] + (noteArray[2].endsWith("'") ? "'" : "")
@@ -211,15 +212,23 @@ export class ScoreDrawingAbcNotation {
       }
     }
 
+    chord = (pcsMapped.cardinal < 5) ? `[${notes}] \\n`  : '' // experimental
+
+    chord = notes[0].includes("_") || notes[0].includes("^")
+             ? "[" + notes[0]+notes[1]+"4"+notes.substring(2) + "]"
+             : "[" + notes[0]+"4"+notes.substring(1) + "]"
+
+    // "[C4 E G B] \n"
+
     const firstNote = notes.split(' ')[0].toLowerCase()
 
     // push first note to the end (scale root close scale)
     notes += ` '${firstNote}`
 
-    chord = '' //(this.pcsList.cardinal < 5) ? chord + ' ]  \n' : '' // experimental
-    notes = chord ? notes + '|' : notes
-
-    return notes + chord; //'C4 ^E4 G4 [C4E4G4]\n';
+    if (withChord && pcsMapped.cardinal < 5) {
+      return notes + ' | ' + chord;
+    }
+    return notes
   }
 
   drawScore() {

@@ -172,4 +172,13 @@ describe('ScoreDrawingAbcNotation', () => {
     expect(abcNotation).toEqual("^C ^D F _G _A ^A B '^c")
   })
 
+
+  it('BeMian 0,3,6,7  scales', () => {
+    let beMian = new IPcs({strPcs: "0,3,6,7"})
+    let abcNotation = ScoreDrawingAbcNotation.fromPcsToABCNotation(beMian)
+    expect(abcNotation).toEqual("C _E ^F G 'c")
+  })
+
+
+
 })

@@ -29,6 +29,9 @@ export class ClockDrawing {
   pointsRegions: Rect[]
   pointsAxesSym: Point[]
 
+  // experimental
+  private indexPlaying: number  = -1
+
   constructor(
     x: {
       ipcs?: IPcs,
@@ -39,7 +42,8 @@ export class ClockDrawing {
       pc_color_fill?: string,
       pc_color_stroke?: string,
       segmentsLineDash?: number[][],
-      drawPivot?:boolean
+      drawPivot?:boolean,
+      indexPlaying?: number
     } = {}) {
     if (!x.ctx)
       throw new Error("canvas context missing !!!")
@@ -47,8 +51,6 @@ export class ClockDrawing {
     this.pcs = x.ipcs ?? new IPcs({strPcs: "[0,3,7"})
     if (x.ctx)
       this.ctx = x.ctx
-
-    //this.ctx = x.ctx ?? null
 
     this.width = x.width ?? 20
     this.height = x.height ?? 20
@@ -60,6 +62,7 @@ export class ClockDrawing {
     this.pointsRegions = []
     this.pointsAxesSym = []
     this.segmentsLineDash = x.segmentsLineDash ?? [[1, 3], [1, 3, 3, 1]]
+    this.indexPlaying = x.indexPlaying ?? -1
   }
 
   setIpcs(ipcs: IPcs) {
@@ -102,6 +105,13 @@ export class ClockDrawing {
           ? this.drawPivot ? this.pc_pivot_color : this.pc_color_fill
           : this.pc_color_fill
         : this.pcs.templateMappingBinPcs.includes(index) ? 'white' : 'lightgray' ;
+
+
+    // console.log("this.indexPlaying, index  ", this.indexPlaying, index)
+    if (this.indexPlaying === index) {
+      ctx.fillStyle = "blue"
+    }
+
     ctx.fill();
     if (radius >= 6) {
       // draw text

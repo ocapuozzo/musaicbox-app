@@ -919,4 +919,18 @@ describe('IPcs unit tests', () => {
 
   })
 
+  it("get index in vector of order ptich ", () =>{
+    let pcs1 = new IPcs({strPcs: '[0,4,7]'})
+    expect(pcs1.getVectorIndexOfPitchOrder(2)).toEqual(4)
+    expect(pcs1.getVectorIndexOfPitchOrder(3)).toEqual(7)
+    expect(pcs1.getVectorIndexOfPitchOrder(1)).toEqual(0)
+
+    pcs1 = new IPcs({strPcs: '[0,4,7]', iPivot:4})
+    expect(pcs1.getVectorIndexOfPitchOrder(2)).toEqual(7)
+    expect(pcs1.getVectorIndexOfPitchOrder(3)).toEqual(0)
+    expect(pcs1.getVectorIndexOfPitchOrder(1)).toEqual(4)
+
+
+  })
+
 })

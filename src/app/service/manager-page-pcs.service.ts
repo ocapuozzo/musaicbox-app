@@ -3,13 +3,14 @@ import {IPcs} from "../core/IPcs";
 import {ManagerPcsService} from "./manager-pcs.service";
 import {HistoryT} from "../utils/HistoryT";
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class ManagerPagePcsService {
 
   @Output() updatePcsEvent = new EventEmitter<IPcs>();
-
+  
   pcs: IPcs = new IPcs({strPcs: '0,2,4,5,7,9,11'})
 
   historyPcs: HistoryT<IPcs>
