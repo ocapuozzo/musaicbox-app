@@ -86,8 +86,10 @@ export class ScoreNotationComponent {
         // a note is playing
         //  console.log("An event is happening", event);
         if (this.superThis.idPcsCurrentPlaying !== this.superThis.pcs.id) {
-          // console.log("STOP")
-          this.superThis.createSynth.stop() // does not work...
+          console.log("STOP")
+          // this.superThis.createSynth.stop() // does not work...
+          this.superThis.createSynth.resume() // does not work...
+
           return
         }
 

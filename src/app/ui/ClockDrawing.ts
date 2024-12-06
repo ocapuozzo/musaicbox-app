@@ -106,12 +106,6 @@ export class ClockDrawing {
           : this.pc_color_fill
         : this.pcs.templateMappingBinPcs.includes(index) ? 'white' : 'lightgray' ;
 
-
-    // console.log("this.indexPlaying, index  ", this.indexPlaying, index)
-    if (this.indexPlaying === index) {
-      ctx.fillStyle = "blue"
-    }
-
     ctx.fill();
     if (radius >= 6) {
       // draw text
@@ -139,6 +133,15 @@ export class ClockDrawing {
       ctx.textBaseline = "middle";
       ctx.textAlign = "center";
       ctx.fillText(pitch, x, y);
+    }
+
+    // console.log("this.indexPlaying, index  ", this.indexPlaying, index)
+    if (this.indexPlaying === index) {
+      ctx.beginPath();
+      ctx.arc(0, 0, radius, 0, 2 * Math.PI);
+      ctx.fillStyle = "rgb(0 0 255 /30%)"
+      ctx.fill();
+      ctx.closePath()
     }
     ctx.restore()
   }
