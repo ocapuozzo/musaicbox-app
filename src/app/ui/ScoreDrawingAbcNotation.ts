@@ -36,14 +36,18 @@ export class ScoreDrawingAbcNotation {
    * rule2 : Preference sharp over flat. Ex : A A# G, no A Gb G (avoid natural alteration)
    * rule3 : Preference for add a new spelling note, no existing based. Ex: C Db E, no C C# E
    * rule4 : no alteration double sharp or double flat
-   * rule5 : no natural enharmonic. Example : F flat => E
+   * rule5 : no natural enharmonic. Examples : F flat => E,  G flat flat => F (not so good for chord...)
    * rule6 : when pcs is chord (has chord name) so preference minor third over augmented second and
-   *         diminished fifth over augmented fourth
+   *         diminished fifth over augmented fourth (? arbitrary)
    */
-  static fromPcsToABCNotation(pcs : IPcs, withChord : boolean = false): string {
+  // static fromPcsToABCNotation(pcs : IPcs, withChordIfCardinalInf5 : boolean = false): string {
+  static fromPcsToABCNotation(pcs : IPcs, config : {withChordIfCardinalInf5 ?: boolean, onlyChord ?: boolean }={}): string {
     if (!pcs) return "";
 
     if (pcs.cardinal === 0) return "z4" // silence (else no representation !)
+
+    const withChordIfCardinalInf5 = config.withChordIfCardinalInf5 ?? false
+    const onlyChord = config.onlyChord ?? false
 
     // suffix add by caller (better for unit test)
     // let suffix = 'X:1\nL: 1/4\nK:C\n';
@@ -212,7 +216,7 @@ export class ScoreDrawingAbcNotation {
       }
     }
 
-    chord = (pcsMapped.cardinal < 5) ? `[${notes}] \\n`  : '' // experimental
+   // chord = (pcsMapped.cardinal < 5) ? `[${notes}] \\n`  : '' // experimental
 
     chord = notes[0].includes("_") || notes[0].includes("^")
              ? "[" + notes[0]+notes[1]+"4"+notes.substring(2) + "]"
@@ -225,9 +229,14 @@ export class ScoreDrawingAbcNotation {
     // push first note to the end (scale root close scale)
     notes += ` '${firstNote}`
 
-    if (withChord && pcsMapped.cardinal < 5) {
+    if (onlyChord) {
+      return chord
+    }
+
+    if (withChordIfCardinalInf5 && pcsMapped.cardinal < 5) {
       return notes + ' | ' + chord;
     }
+
     return notes
   }
 

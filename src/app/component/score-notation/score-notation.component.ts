@@ -24,6 +24,7 @@ export class ScoreNotationComponent {
   private createSynth: MidiBuffer;
 
   @Input() withChord : boolean = false
+  @Input() onlyChord : boolean = false
 
   @Input() set pcs(value: IPcs) {
     this._pcs = value
@@ -50,7 +51,12 @@ export class ScoreNotationComponent {
 
     const len = this.containerCanvas.nativeElement.clientWidth
     const suffix = 'X:1\nL: 1/4\nK:C\n';
-    const codeAbc = suffix + ScoreDrawingAbcNotation.fromPcsToABCNotation(this.pcs, this.withChord)
+    const codeAbc = suffix
+      + ScoreDrawingAbcNotation.fromPcsToABCNotation(this.pcs,
+        {
+          withChordIfCardinalInf5:this.withChord,
+          onlyChord : this.onlyChord
+        } )
 
     class CursorControl {
       nNotesPlayingCounter = 0
@@ -118,7 +124,7 @@ export class ScoreNotationComponent {
     let abcOptions = {add_classes: true};
     let audioParams = {
       chordsOff: true,
-      options: {qpm: 800} // does not work
+      options: {qpm: 380} // does not work
     };
 
     if (abcjs.synth.supportsAudio()) {
@@ -144,7 +150,6 @@ export class ScoreNotationComponent {
           paddingright: 10,
           responsive: "resize"
         })[0];
-
 
       this.createSynth = new abcjs.synth.CreateSynth();
 

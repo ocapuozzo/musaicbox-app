@@ -356,6 +356,7 @@ export class UiClockComponent {
         this.managerPagePcsListService.addPcs(list3Chord[0], list3Chord[1][i], true)
       }
     }
+    // for not repeat this generation of chords
     this.managerPagePcsListService.addCompute3Chords(this.pcs.id)
   }
 
@@ -370,6 +371,7 @@ export class UiClockComponent {
         this.managerPagePcsListService.addPcs(fourChord[0], fourChord[1][i], true)
       }
     }
+    // for not repeat this generation of chords
     this.managerPagePcsListService.addCompute4Chords(this.pcs.id)
   }
 

@@ -23,7 +23,9 @@
                 <i (click)="doPushPcsFromList(pcs)" class="bi bi-eye p-1" style="cursor: pointer"></i>
                 @if (pivot.drawPivot) {
                   <app-score-notation [hidden]="! withMusicalNotation"
-                                      [pcs]="pcs">
+                                      [pcs]="pcs"
+                                      [onlyChord]="pcs.cardinal < 5"
+                  >
                   </app-score-notation>
                 }
               }
@@ -59,7 +61,9 @@
                 <i (click)="doPushPcsFromList(pcs)" class="bi bi-eye p-1" style="cursor: pointer"></i>
                 @if (pivot.drawPivot) {
                   <app-score-notation [hidden]="! withMusicalNotation"
-                                      [pcs]="pcs">
+                                      [pcs]="pcs"
+                                      [onlyChord]="pcs.cardinal < 5"
+                  >
                   </app-score-notation>
                 }
               }
