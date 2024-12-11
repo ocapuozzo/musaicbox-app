@@ -75,7 +75,6 @@
     <h3 style="margin-top: 15px; font-style: italic">
       Octotropes
     </h3>
-
     @for (octotrope of this.octotropes; track octotrope; let idx = $index) {
       <div style="display: inline-block; margin-top: 5px">
         <div [ngClass]="{
@@ -102,10 +101,12 @@
 
 <ng-template #octotropesOnly>
   <div style="margin: auto; text-align: center; width: 100%">
-    <h3 style="margin-top: 15px; font-style: italic">
-      Octotropes
-    </h3>
+
     @if (getOnlyOctotropeTabSelectedActive()) {
+      <h3 style="margin-top: 10px"> Your selection : {{getOnlyOctotropeTabSelectedActive().pcs.orbit.motifStabilizer.name}}
+        -> {{ nbMusaicsMatch ? nbMusaicsMatch : 'All' }} exclusively stabilized musaic{{ nbMusaicsMatch > 1 ? 's' : '' }}
+      </h3>
+
       <p>{{ getOnlyOctotropeTabSelectedActive().numberOfCyclicOrbits }} cyclic orbits / 352  ==>
         {{ getOnlyOctotropeTabSelectedActive().numberOfPcs }} pcs (trivial group) / 4096
       </p>
