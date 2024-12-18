@@ -17,7 +17,6 @@ export interface IStoragePage88 {
 })
 export class ManagerLocalStorageService {
   private clipboard : ClipboardService<UIPcsDto[]> = inject(ClipboardService<UIPcsDto[]>)
-  private managerGroupAction  : ManagerGroupActionService = inject(ManagerGroupActionService)
   constructor() {
   }
 
