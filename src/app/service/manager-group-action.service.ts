@@ -1,4 +1,3 @@
-import {Injectable} from '@angular/core';
 import {GroupAction} from "../core/GroupAction";
 import {MusaicOperation} from "../core/MusaicOperation";
 
@@ -48,10 +47,6 @@ Other sort on orbit cardinal (from Labo.spec.ts) :
 
  */
 
-
-@Injectable({
-  providedIn: 'root'
-})
 export class ManagerGroupActionService {
 
   // key : group name,  value : GroupAction instance
@@ -60,7 +55,7 @@ export class ManagerGroupActionService {
   constructor() {
   }
 
-  buildGroupActionFromGroupName(groupName: string) {
+  static buildGroupActionFromGroupName(groupName: string) {
     const someOperations: MusaicOperation[] = this.buildOperationsFromGroupName(groupName)
     if (someOperations.length === 0) {
       someOperations.push(new MusaicOperation(12, 1, 0, false)) // M1-T0
@@ -75,7 +70,7 @@ export class ManagerGroupActionService {
    * @param groupName example "n=12 [M1 M5 M7 M11]"
    * @private
    */
-  buildOperationsFromGroupName(groupName: string): MusaicOperation[] {
+  static buildOperationsFromGroupName(groupName: string): MusaicOperation[] {
     let operations: MusaicOperation[] = []
     const n = parseInt(groupName.substring(2, groupName.indexOf("[")))
     if (Number.isInteger(n) && n > 0) {
@@ -98,23 +93,24 @@ export class ManagerGroupActionService {
    * else create new instance and put it into ManagerGroupActionService.GROUP_ACTION_INSTANCES
    * @param groupName
    */
-  getGroupActionFromGroupName(groupName: string): GroupAction | undefined {
+  static getGroupActionFromGroupName(groupName: string): GroupAction | undefined {
     if (!ManagerGroupActionService.GROUP_ACTION_INSTANCES.has(groupName)) {
-      let groupAction: GroupAction = this.buildGroupActionFromGroupName(groupName)
+      // in static context, 'this' refer to class, not instance
+      const groupAction: GroupAction = this.buildGroupActionFromGroupName(groupName)
       ManagerGroupActionService.GROUP_ACTION_INSTANCES.set(groupName, groupAction)
     }
     return ManagerGroupActionService.GROUP_ACTION_INSTANCES.get(groupName)
   }
 
-  getGroupActionFromGroupAliasName(aliasName: string) {
-    let groupNameTuple = this.findGroupName(aliasName)
+  static getGroupActionFromGroupAliasName(aliasName: string) {
+    const groupNameTuple = this.findGroupName(aliasName)
     if (groupNameTuple) {
       return this.getGroupActionFromGroupName(groupNameTuple.groupName)
     }
     return undefined
   }
 
-  findGroupName(alias: string) {
+  static findGroupName(alias: string) {
     return GROUPS_NAMES_N12.find(value => value.alias === alias)
   }
 

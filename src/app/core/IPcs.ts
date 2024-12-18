@@ -47,6 +47,7 @@ import {ChordNaming} from "./ChordNaming";
 import {Scales2048Name} from "./Scales2048Name";
 import {MusaicOperation} from "./MusaicOperation";
 import {ArrayUtil} from "../utils/ArrayUtil";
+import {ManagerGroupActionService} from "../service/manager-group-action.service";
 
 const NEXT_MODULATION = 1
 const PREV_MODULATION = 2
@@ -55,11 +56,16 @@ const negativeToPositiveModulo = (i: number, n: number): number => {
   return (n - ((i * -1) % n)) % n
 }
 
+const helperGetGroupActionFrom = (groupName : string): GroupAction | undefined => {
+  return ManagerGroupActionService.getGroupActionFromGroupName(groupName)
+}
+
 /**
  * @see at top of this file
  * @author Olivier Capuozzo
  */
 export class IPcs {
+
   // inner representation
   /**
    *  dimension of vector (default = 12)
@@ -133,6 +139,7 @@ export class IPcs {
    * (also - and same - into this.orbit)
    */
   _stabilizer: Stabilizer
+
 
   set stabilizer(stab) {
     this._stabilizer = stab
@@ -227,6 +234,8 @@ export class IPcs {
     for (let i = 0; i < this.templateMappingBinPcs.length; i++) {
       this._mappedBinPcs[this.templateMappingBinPcs[i]] = this.abinPcs[i];
     }
+
+    // this.serviceManagerGroupAction = inject(ManagerGroupActionService);
   }
   //
   // checkStrpcs(strpcs: string) {
@@ -420,6 +429,9 @@ export class IPcs {
     return newIPcs
   }
 
+  /// For understand prime form logic, see ManagerGroupActionService utility class
+  /// and their unit test in ManagerGroupActionService .spec
+
   /**
    * Get cyclic PF
    *
@@ -433,66 +445,38 @@ export class IPcs {
       return this._minCyclic
     }
     // lazy compute
-    if (this.orbit?.groupAction == GroupAction.predefinedGroupsActions(this.n, Group.CYCLIC))
-      this._minCyclic = this.orbit.getPcsMin()
-    else {
-      this._minCyclic = GroupAction.predefinedGroupsActions(this.n, Group.CYCLIC).getOrbitOf(this).getPcsMin()
-    }
-    // old implementation
-    // // lazy compute
-    // let n = this.abinPcs.length;
-    // let norm: number[] = this.abinPcs.slice();
-    // let min = norm;
-    // let minInt = IPcs.id(this.abinPcs);
-    //
-    // for (let i = 0; i < n - 1; i++) {
-    //   norm = IPcs.getBinPcsPermute(1, 1, 0, norm);
-    //   let curInt = IPcs.id(norm);
-    //   if (minInt > curInt) {
-    //     minInt = curInt;
-    //     min = norm;
-    //   }
-    // }
-    // this._minCyclic = new IPcs({binPcs: min, iPivot: 0})
+    const groupName = `n=${this.n} [M1]`
+    this._minCyclic = this.getMinFrom(groupName);
     return this._minCyclic
   }
 
   dihedralPrimeForm() {
-    if (this.orbit?.groupAction === GroupAction.predefinedGroupsActions(this.n, Group.DIHEDRAL))
-      return this.orbit.getPcsMin()
-    else {
-      return GroupAction.predefinedGroupsActions(this.n, Group.DIHEDRAL).getOrbitOf(this).getPcsMin()
-    }
-    // old implementation :
-    // let cpf = this.cyclicPrimeForm();
-    // let pcsM11 = cpf.affineOp(11, 0).cyclicPrimeForm();
-    // return cpf.id < pcsM11.id ? cpf : pcsM11;
+    // const groupName = `n=${this.n} [M1 M11]`
+    const groupName = `n=${this.n} [M1 M${this.n - 1}]`
+    return this.getMinFrom(groupName);
   }
 
   affinePrimeForm() {
-    if (this.orbit?.groupAction == GroupAction.predefinedGroupsActions(this.n, Group.AFFINE))
-      return this.orbit.getPcsMin()
-    else {
-      return GroupAction.predefinedGroupsActions(this.n, Group.AFFINE).getOrbitOf(this).getPcsMin()
-    }
-    // let cpf = this.dihedralPrimeForm();
-    // let pcsM5 = cpf.affineOp(5, 0).cyclicPrimeForm();
-    // let pcsM7 = cpf.affineOp(7, 0).cyclicPrimeForm();
-    //
-    // if (cpf.id < pcsM5.id && cpf.id < pcsM7.id)
-    //   return cpf
-    //
-    // if (pcsM5.id < pcsM7.id)
-    //   return pcsM5
-    //
-    // return pcsM7
+    // const groupName = `n=${this.n} [M1 M5 M7 M11]`
+    const operations = IPcs.getStrAffineOpsOf(this.n)
+    const groupName = `n=${this.n} ${operations}`
+    // console.log("group name = ", groupName)
+    return this.getMinFrom(groupName);
   }
 
   musaicPrimeForm(): IPcs {
-    if (this.orbit?.groupAction == GroupAction.predefinedGroupsActions(this.n, Group.MUSAIC))
+    // const groupName = `n=${this.n} [M1 M5 M7 M11 CM1 CM5 CM7 CM11]`
+    const musaicOps : string =  IPcs.getStrMusaicOpsOf(this.n)
+    const groupName = `n=${this.n} ${musaicOps}`
+    return this.getMinFrom(groupName);
+  }
+
+  private getMinFrom(groupName: string) {
+    if (this.orbit.groupAction && this.orbit.groupAction.group.name === groupName) {
       return this.orbit.getPcsMin()
-    else
-      return GroupAction.predefinedGroupsActions(this.n, Group.MUSAIC).getOrbitOf(this).getPcsMin()
+    } else {
+      return helperGetGroupActionFrom(groupName)!.getOrbitOf(this)!.getPcsMin()
+    }
   }
 
   /**
@@ -1449,5 +1433,29 @@ export class IPcs {
     // never pass here
     // throw new Error(`Invalid pitch order ${pitchOrder} `)
     return -1
+  }
+
+  private static getStrMusaicOpsOf(n: number) {
+    const nPrimeWithN = Group.phiEulerElements(n)
+    let res = ''
+    // affine op
+    for (let i = 0; i < nPrimeWithN.length; i++) {
+      res += res ? ` M${nPrimeWithN[i]}` : `M${nPrimeWithN[i]}`
+    }
+    // same with complement
+    for (let i = 0; i < nPrimeWithN.length; i++) {
+      res += ` CM${nPrimeWithN[i]}`
+    }
+    return `[${res}]`;
+  }
+
+  private static getStrAffineOpsOf(n: number) {
+    const nPrimeWithN = Group.phiEulerElements(n)
+    let res = ''
+    // affine op
+    for (let i = 0; i < nPrimeWithN.length; i++) {
+      res += res ? ` M${nPrimeWithN[i]}` : `M${nPrimeWithN[i]}`
+    }
+    return `[${res}]`;
   }
 }

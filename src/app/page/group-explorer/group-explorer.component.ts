@@ -7,7 +7,6 @@ import {ISortedOrbits} from "../../core/ISortedOrbits";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {UiOrbitComponent} from "../../component/ui-orbit/ui-orbit.component";
 import {ManagerExplorerService} from "../../service/manager-explorer.service";
-import {MatLabel} from "@angular/material/form-field";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {MatButton} from "@angular/material/button";
 
@@ -18,7 +17,6 @@ import {MatButton} from "@angular/material/button";
     ReactiveFormsModule,
     FormsModule,
     UiOrbitComponent,
-    MatLabel,
     MatProgressSpinner,
     MatButton,
   ],
@@ -104,6 +102,7 @@ export class GroupExplorerComponent {
     for (let i = 0; i < this.primesWithN.length; i++) {
       this.primesWithNOperations.push(`M${this.primesWithN[i]}`)
     }
+    // same with complement
     for (let i = 0; i < this.primesWithN.length; i++) {
       this.primesWithNOperations.push(`CM${this.primesWithN[i]}`)
     }

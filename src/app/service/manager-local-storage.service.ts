@@ -108,7 +108,7 @@ export class ManagerLocalStorageService {
           })
           // if group action, get pcs from it
           if (pcsSerialDto.serializedPcs.groupName && typeof(pcsSerialDto.serializedPcs.groupName) === 'string') {
-            const groupAction = this.managerGroupAction.getGroupActionFromGroupName(pcsSerialDto.serializedPcs.groupName)
+            const groupAction = ManagerGroupActionService.getGroupActionFromGroupName(pcsSerialDto.serializedPcs.groupName)
             if (groupAction) {
               // change pcs by same into orbit
               pcs = groupAction.getIPcsInOrbit(pcs)
