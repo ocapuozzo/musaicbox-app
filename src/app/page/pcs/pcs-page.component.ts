@@ -108,12 +108,12 @@ export class PcsPageComponent {
             switch (this.currentScreenSize) {
               case "Small":
               case "XSmall" :
-                this.maxWidthParentUiMusaic = "140px"
-                this.maxWidthUiMusaic = "140px"
+                this.maxWidthParentUiMusaic = "165px"
+                this.maxWidthUiMusaic = "165px"
                 break
               case "Medium":
                 this.maxWidthParentUiMusaic = "210px"
-                this.maxWidthUiMusaic = "190px"
+                this.maxWidthUiMusaic = "200px"
                 break
               default : // large
                 this.maxWidthParentUiMusaic = "270px"
