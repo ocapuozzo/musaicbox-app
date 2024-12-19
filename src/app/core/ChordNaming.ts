@@ -56,7 +56,7 @@ export class ChordNaming {
     ChordNaming.chordsModalPF.set('0,2,5,10', {name:'9sus2', order:10}) // no fifth
 
     ChordNaming.chordsModalPF.set('0,3,7,10', {name:'m7', order:2})
-    ChordNaming.chordsModalPF.set('0,3,7,11', {name:'m M7', order:5})
+    ChordNaming.chordsModalPF.set('0,3,7,11', {name:'m M7', order:6})
     ChordNaming.chordsModalPF.set('0,3,8,10', {name:'m7 ♯5', order:8})
     ChordNaming.chordsModalPF.set('0,3,7,9', {name:'m6', order:5})
     ChordNaming.chordsModalPF.set('0,3,7,8', {name:'m ♭6', order:7})
