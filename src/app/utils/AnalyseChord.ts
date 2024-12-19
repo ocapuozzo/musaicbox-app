@@ -13,7 +13,7 @@ export class AnalyseChord {
     let pcsWorking = pcs.n < 12 ? pcs.unMap() : pcs
     for (let nbDegree = 0; nbDegree < cardinal; nbDegree++) {
       let keysChords: string[]
-      if (nOfPitches == 3) {
+      if (nOfPitches === 3) {
         keysChords = ChordNaming.getKeysChord(pcsWorking, 3)
       } else {
         keysChords = ChordNaming.getKeysChord(pcsWorking, 4)

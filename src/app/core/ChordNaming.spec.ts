@@ -1,6 +1,6 @@
 import {IPcs} from "./IPcs";
 
-describe('IPcs unit tests', () => {
+describe('ChordNaming unit tests', () => {
 
   it("chordName mapped diat maj => 12", () => {
     const ipcsDiatMajMapped = new IPcs({
@@ -17,7 +17,7 @@ describe('IPcs unit tests', () => {
     expect(pcs.getChordName()).toEqual('CM7')
 
     pcs = new IPcs({strPcs: '{0,3,7}'})
-    expect(pcs.getChordName()).toEqual('Cmin')
+    expect(pcs.getChordName()).toEqual('Cm')
 
     pcs = new IPcs({strPcs: '[11,2,5]' /*, iPivot:11*/})
     expect(pcs.getChordName()).toEqual('Bdim')

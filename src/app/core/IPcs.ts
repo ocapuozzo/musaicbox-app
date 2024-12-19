@@ -460,7 +460,6 @@ export class IPcs {
     // const groupName = `n=${this.n} [M1 M5 M7 M11]`
     const operations = IPcs.getStrAffineOpsOf(this.n)
     const groupName = `n=${this.n} ${operations}`
-    // console.log("group name = ", groupName)
     return this.getMinFrom(groupName);
   }
 
