@@ -23,7 +23,8 @@ export class ChordNaming {
    * the only operation to have chord recognized, or not.
    */
   static {
-    // 3-chords
+    ///// 3-chords
+    // Major
     ChordNaming.chordsModalPF.set('0,4,7', {name:'Maj', order:1})
     ChordNaming.chordsModalPF.set('0,4,10', {name:'7', order:5})
     ChordNaming.chordsModalPF.set('0,4,6', {name:'Maj ♭5', order:15})
@@ -33,21 +34,22 @@ export class ChordNaming {
     ChordNaming.chordsModalPF.set('0,2,7', {name:'sus2', order: 8})
     ChordNaming.chordsModalPF.set('0,2,8', {name:'♯5 sus2', order:21})
     ChordNaming.chordsModalPF.set('0,2,6', {name:'♭5 sus2', order:20})
-    // ChordNaming.chordsModalPF.set('0,5,7', 'sus4')
-
-    ChordNaming.chordsModalPF.set('0,3,8', {name:'m ♯5', order:6})
+    // minor
     ChordNaming.chordsModalPF.set('0,3,7', {name:'m', order:2})
     ChordNaming.chordsModalPF.set('0,3,6', {name:'dim', order:3})
+    ChordNaming.chordsModalPF.set('0,3,8', {name:'m ♯5', order:6})
 
-    // 4-chords
-    ChordNaming.chordsModalPF.set('0,4,7,10', {name:'7', order:5}) // seventh
+    ///// 4-chords
+    // Major
     ChordNaming.chordsModalPF.set('0,4,7,9', {name:'6', order:5})
-    ChordNaming.chordsModalPF.set('0,4,7,11', {name:'M7', order:4}) // Major 7
-    ChordNaming.chordsModalPF.set('0,4,7,8', {name:'M♭6', order:6}) //
+    ChordNaming.chordsModalPF.set('0,4,7,11', {name:'M7', order:4})
+    ChordNaming.chordsModalPF.set('0,4,7,8', {name:'M♭6', order:6})
 
+    // Seventh
+    ChordNaming.chordsModalPF.set('0,4,7,10', {name:'7', order:5})
     ChordNaming.chordsModalPF.set('0,4,8,10', {name:'7 ♯5', order:8})
     ChordNaming.chordsModalPF.set('0,4,6,10', {name:'7 ♭5', order:6})
-    ChordNaming.chordsModalPF.set('0,5,7,10', {name:'7 sus4', order:15}) // seventh
+    ChordNaming.chordsModalPF.set('0,5,7,10', {name:'7 sus4', order:15})
     ChordNaming.chordsModalPF.set('0,5,7,11', {name:'sus4 M7', order:15})
     ChordNaming.chordsModalPF.set('0,4,8,11', {name:'aug M7', order:5})
     ChordNaming.chordsModalPF.set('0,2,7,10', {name:'7 sus2', order:7})
@@ -55,6 +57,7 @@ export class ChordNaming {
     ChordNaming.chordsModalPF.set('0,2,8,10', {name:'7 ♯5 sus2', order:23})
     ChordNaming.chordsModalPF.set('0,2,5,10', {name:'9sus2', order:10}) // no fifth
 
+    // minor
     ChordNaming.chordsModalPF.set('0,3,7,10', {name:'m7', order:2})
     ChordNaming.chordsModalPF.set('0,3,7,11', {name:'m M7', order:6})
     ChordNaming.chordsModalPF.set('0,3,8,10', {name:'m7 ♯5', order:8})
@@ -212,11 +215,9 @@ export class ChordNaming {
       // no altered
       nameRoot = ChordNaming.NOTE_NAMES_SHARP[indexNameRoot] // or NOTE_NAMES_FLAT what does it matter
     }
-    // console.log('nameRoot = ' + nameRoot)
-    // console.log('chordName = ' + _chordName)
+    // console.log('nameRoot = ', nameRoot)
+    // console.log('chordName = ', _chordName)
 
-    if (_chordName && '♭♯'.indexOf(nameRoot[nameRoot.length - 1]) >= 0 && '♭♯'.indexOf(_chordName[0]) >= 0)
-      return nameRoot + ' ' + _chordName
     return `${nameRoot}${_chordName}`
   }
 
