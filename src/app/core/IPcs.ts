@@ -1185,9 +1185,18 @@ export class IPcs {
     return ([3, 4].includes(this.cardinal)) ? ChordNaming.getFirstChordName(this, this.cardinal)  : '' // (this.getFirstScaleNameOrDerived().name ?? '') // or empty ??
   }
 
-  getNames(): string {
+  getFirstNameDetail(): string {
+    return this.getNamesDetails(true)
+  }
+
+
+  getNamesDetails(onlyOneName : boolean = false): string {
     const pcsMap12 = this.unMap()
-    const pcsNames = Scales2048Name.getLinksNameDefs(pcsMap12).map(value => value.name).join("<br>")
+    const pcsNames =
+      onlyOneName
+        ? Scales2048Name.getLinksNameDefs(pcsMap12).find(value => value.name)?.name
+        : Scales2048Name.getLinksNameDefs(pcsMap12).map(value => value.name).join("<br>")
+
     // const infoRoot = pcsMap12.iPivot ? ` (root = ${Scales2048Name.ROOT_NAMES[pcsMap12.iPivot]}) \n` : ""
     let infoChord = pcsMap12.getChordName()
     let othersChordNames = pcsMap12.getOthersChordNames()
