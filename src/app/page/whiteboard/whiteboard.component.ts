@@ -3,18 +3,13 @@ import {
   CdkMenu,
   CdkMenuGroup,
   CdkMenuItem,
-  CdkMenuItemCheckbox,
   CdkMenuItemRadio,
   CdkMenuTrigger
 } from "@angular/cdk/menu";
 import {AfterViewInit, Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild} from '@angular/core';
-import {CdkDrag, CdkDragHandle} from "@angular/cdk/drag-drop";
-import {ClockComponent} from "../../component/clock/clock.component";
-import {MusaicComponent} from "../../component/musaic/musaic.component";
-import {MatMenu, MatMenuContent, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
-import {MatIconButton} from "@angular/material/button";
+import {MatMenuContent, MatMenuTrigger} from "@angular/material/menu";
 import {MatIcon} from "@angular/material/icon";
-import {KeyValuePipe, NgClass, NgForOf, NgIf, NgStyle, NgTemplateOutlet} from "@angular/common";
+import {KeyValuePipe, NgClass, NgIf} from "@angular/common";
 import {
   FinalElementMove,
   LiteralPrimeForms,
@@ -34,8 +29,6 @@ import {FormsModule} from "@angular/forms";
 import {IPcs} from "../../core/IPcs";
 import {MatDialog} from "@angular/material/dialog";
 import {DialogConfirmationComponent} from "../../component/dialog-confirmation/dialog-confirmation.component";
-import {MatInput} from "@angular/material/input";
-import {MatLine} from "@angular/material/core";
 
 
 interface ElementMove {
@@ -48,34 +41,20 @@ interface ElementMove {
   selector: 'app-whiteboard',
   standalone: true,
   imports: [
-    CdkDrag,
-    CdkDragHandle,
-    ClockComponent,
-    MusaicComponent,
-    MatMenuTrigger,
-    MatMenu,
-    MatMenuItem,
     MatMenuContent,
-    MatIconButton,
     MatIcon,
-    NgStyle,
     PcsComponent,
     CdkContextMenuTrigger,
     CdkMenuGroup,
     CdkMenuItemRadio,
     CdkMenuTrigger,
     CdkMenu,
-    CdkMenuItemCheckbox,
     CdkMenuItem,
-    NgForOf,
     NgClass,
     NgIf,
     MatSlideToggle,
     RectSelectorComponent,
     FormsModule,
-    MatInput,
-    MatLine,
-    NgTemplateOutlet,
     KeyValuePipe
   ],
   templateUrl: './whiteboard.component.html',
@@ -188,7 +167,8 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
       eltRSelector!.style.zIndex = "1"
       this.updateRectangleSelectorDimension();
     }
-  }
+
+   }
 
   // when mouse is out page
   // https://stackoverflow.com/questions/5429827/how-can-i-prevent-text-element-selection-with-cursor-drag
@@ -335,7 +315,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   // @HostListener('window:mouseup', ['$event'])
   onMouseUp(e: any) {
     this.isContextMenuOpened = false
-    
+
     if (this.isRectangleSelecting) {
       this.isRectangleSelecting = false
       this.isDown = false;
@@ -403,6 +383,9 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     }
     if (event.key === "-") {
       this.doZoom(-1)
+    }
+    if (event.code === "Delete") {
+      this.managerPageWBService.doDelete()
     }
   }
 
