@@ -1,14 +1,14 @@
 import {Component, ElementRef, Input, ViewChild} from '@angular/core';
-import {NgClass, NgIf} from "@angular/common";
+import {NgClass} from "@angular/common";
 import {UIPcsDto} from "../../ui/UIPcsDto";
 import {FormDraw} from "../../ui/FormDraw";
 import {MusaicFormDraw} from "../../ui/MusaicFormDraw";
 import {ClockFormDraw} from "../../ui/ClockFormDraw";
 import {ScoreFormDraw} from "../../ui/ScoreFormDraw";
 import {StringHash} from "../../utils/StringHash";
-import {ScoreNotationComponent} from "../score-notation/score-notation.component";
-import {MatInput} from "@angular/material/input";
 import {OctotropeFormDraw} from "../../ui/OctotropeFormDraw";
+import {EightyEight} from "../../utils/EightyEight";
+import {MatTooltip} from "@angular/material/tooltip";
 
 /**
  * Wrapper for various representation : musaic, clock, score... for whiteboard page
@@ -19,9 +19,7 @@ import {OctotropeFormDraw} from "../../ui/OctotropeFormDraw";
   standalone: true,
   imports: [
     NgClass,
-    ScoreNotationComponent,
-    NgIf,
-    MatInput
+    MatTooltip
   ],
   templateUrl: './pcs.component.html',
   styleUrl: './pcs.component.css'
@@ -99,4 +97,5 @@ export class PcsComponent {
 
   protected readonly UIPcsDto = UIPcsDto;
 
+  protected readonly EightyEight = EightyEight;
 }

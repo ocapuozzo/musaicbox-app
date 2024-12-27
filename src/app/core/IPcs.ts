@@ -56,7 +56,7 @@ const negativeToPositiveModulo = (i: number, n: number): number => {
   return (n - ((i * -1) % n)) % n
 }
 
-const helperGetGroupActionFrom = (groupName : string): GroupAction | undefined => {
+const helperGetGroupActionFrom = (groupName: string): GroupAction | undefined => {
   return ManagerGroupActionService.getGroupActionFromGroupName(groupName)
 }
 
@@ -162,16 +162,16 @@ export class IPcs {
 
   constructor(
     {pidVal, strPcs, binPcs, n, iPivot, orbit, templateMappingBinPcs, nMapping}:
-      {
-        pidVal?: number,
-        strPcs?: string,
-        binPcs?: number[],
-        n?: number,
-        iPivot?: number,
-        orbit?: Orbit,
-        templateMappingBinPcs?: number[],
-        nMapping?: number
-      } = {}) {
+    {
+      pidVal?: number,
+      strPcs?: string,
+      binPcs?: number[],
+      n?: number,
+      iPivot?: number,
+      orbit?: Orbit,
+      templateMappingBinPcs?: number[],
+      nMapping?: number
+    } = {}) {
     if (pidVal !== undefined && pidVal >= 0) {
       this.abinPcs = IPcs.intToBinArray(pidVal, n ?? 12)
       // first index to 1 is iPivot
@@ -221,7 +221,7 @@ export class IPcs {
     this.nMapping = nMapping ? nMapping : this.n
     // Not this.nMapping = nMapping ?? this.n !!! in case or zero is value of nMapping param
 
-    if (this.nMapping < this.n ) throw new Error("Invalid data mapping")
+    if (this.nMapping < this.n) throw new Error("Invalid data mapping")
 
     // check mapping data
     if (this.templateMappingBinPcs.some(value => value >= this.nMapping)) {
@@ -237,6 +237,7 @@ export class IPcs {
 
     // this.serviceManagerGroupAction = inject(ManagerGroupActionService);
   }
+
   //
   // checkStrpcs(strpcs: string) {
   //   if (strpcs.length > 0) {
@@ -465,7 +466,7 @@ export class IPcs {
 
   musaicPrimeForm(): IPcs {
     // const groupName = `n=${this.n} [M1 M5 M7 M11 CM1 CM5 CM7 CM11]`
-    const musaicOps : string =  IPcs.getStrMusaicOpsOf(this.n)
+    const musaicOps: string = IPcs.getStrMusaicOpsOf(this.n)
     const groupName = `n=${this.n} ${musaicOps}`
     return this.getMinFrom(groupName);
   }
@@ -616,6 +617,22 @@ export class IPcs {
     return res;
   }
 
+  // experimental (use for tool tip that cannot be html code)
+  getPcsStrWithPivot(withBracket: boolean = true): string {
+    const pivotMarker = "*"
+    let res = "";
+    for (let index = 0; index < this.abinPcs.length; index++) {
+      const element = this.abinPcs[index];
+      if (element === 1) {
+        res = (res)
+          ? res + ',' + ((index === this.iPivot) ? pivotMarker + index + pivotMarker : index)
+          : index.toString()
+      }
+    }
+    return withBracket ? '[' + res + ']' : res
+  }
+
+
   /**
    * Get textuel representation of this in nMapping (notation bracket)
    * string image of PCS from bin array
@@ -651,23 +668,24 @@ export class IPcs {
     // not found ? get with dihedralPrimeForm
     return Forte.forteNum(this.dihedralPrimeForm());
   }
-/*
 
-  _forteNum(): string {
-    if (this.n !== 12) return ""
+  /*
 
-    let cpf = this.cyclicPrimeForm();
-    let fortenum = Forte.forteNum(cpf.getPcsStr());
+    _forteNum(): string {
+      if (this.n !== 12) return ""
 
-    if (fortenum) {
-      return fortenum;
+      let cpf = this.cyclicPrimeForm();
+      let fortenum = Forte.forteNum(cpf.getPcsStr());
+
+      if (fortenum) {
+        return fortenum;
+      }
+      // not found ? get with dihedralPrimeForm
+      let dpcsf = cpf.dihedralPrimeForm();
+
+      return Forte.forteNum(dpcsf.getPcsStr());
     }
-    // not found ? get with dihedralPrimeForm
-    let dpcsf = cpf.dihedralPrimeForm();
-
-    return Forte.forteNum(dpcsf.getPcsStr());
-  }
-*/
+  */
 
 
   /**
@@ -682,7 +700,7 @@ export class IPcs {
   }
 
 
-    /**
+  /**
    * Change iPivot
    *
    * @param iPivot
@@ -878,7 +896,7 @@ export class IPcs {
     // Discussion : is a good idea to make the job of ManagerPcsService here ?
     // hum... no, risk of side effect when construct group action ?
     // if not then we do same job with other transformation operations.
-    return  new IPcs({
+    return new IPcs({
       binPcs: binCplt,
       iPivot: new_iPivot,
       orbit: new Orbit(), // as new pcs, here we don't know its orbit (see note below)
@@ -1133,7 +1151,7 @@ export class IPcs {
       ? undefined
       : this.getMappedPivot()
 
-    return new IPcs({binPcs: this.getMappedBinPcs(), iPivot:pivot})
+    return new IPcs({binPcs: this.getMappedBinPcs(), iPivot: pivot})
   }
 
   /**
@@ -1182,7 +1200,7 @@ export class IPcs {
   }
 
   getChordName(): string {
-    return ([3, 4].includes(this.cardinal)) ? ChordNaming.getFirstChordName(this, this.cardinal)  : '' // (this.getFirstScaleNameOrDerived().name ?? '') // or empty ??
+    return ([3, 4].includes(this.cardinal)) ? ChordNaming.getFirstChordName(this, this.cardinal) : '' // (this.getFirstScaleNameOrDerived().name ?? '') // or empty ??
   }
 
   getFirstNameDetail(): string {
@@ -1190,7 +1208,7 @@ export class IPcs {
   }
 
 
-  getNamesDetails(onlyOneName : boolean = false): string {
+  getNamesDetails(onlyOneName: boolean = false): string {
     const pcsMap12 = this.unMap()
     const pcsNames =
       onlyOneName
@@ -1211,10 +1229,10 @@ export class IPcs {
    */
   getOthersChordNames(): string {
     const pcsMap12 = this.unMap()
-    let names : string[] = []
+    let names: string[] = []
 
     let pcs = pcsMap12.modulation(IPcs.NEXT_DEGREE)
-    for (let i = 1; i < this.cardinal-1; i++) {
+    for (let i = 1; i < this.cardinal - 1; i++) {
       const chordName = pcs.getChordName()
       if (chordName && !names.includes(chordName)) {
         names.push(chordName)
@@ -1241,7 +1259,7 @@ export class IPcs {
   isLimitedTransformation() {
     // implementation limited for n === 12
     // TODO : generalize this method !!!
-    return this.n === 12 && this.musaicPrimeForm().orbit.cardinal < this.n*8;
+    return this.n === 12 && this.musaicPrimeForm().orbit.cardinal < this.n * 8;
   }
 
   getPivot(): number | undefined {
@@ -1390,12 +1408,12 @@ export class IPcs {
    */
   getPcsSameFeatureIS() {
     const groupCyclic = GroupAction.predefinedGroupsActions(this.n, Group.CYCLIC)
-    let pcsSameFeatureIS : IPcs[] = []
+    let pcsSameFeatureIS: IPcs[] = []
     const featureIS = this.getFeatureIS()
     groupCyclic.orbits.forEach(orbit => {
-       if (ArrayUtil.compareTwoSortedArrays(orbit.getPcsMin().getFeatureIS(), featureIS)) {
-         pcsSameFeatureIS.push(orbit.getPcsMin())
-       }
+      if (ArrayUtil.compareTwoSortedArrays(orbit.getPcsMin().getFeatureIS(), featureIS)) {
+        pcsSameFeatureIS.push(orbit.getPcsMin())
+      }
     })
     return pcsSameFeatureIS;
   }
@@ -1424,14 +1442,14 @@ export class IPcs {
    * @param pitchOrder : number [1..this.cardinal]
    * @return index of pitchOrder into aBinPcs having bit to 1
    */
-  getVectorIndexOfPitchOrder(pitchOrder: number) : number {
+  getVectorIndexOfPitchOrder(pitchOrder: number): number {
     if (!pitchOrder || pitchOrder > this.cardinal) {
       return -1
       // throw new Error(`Invalid pitch order ${pitchOrder} `)
     }
     let currentOrder = 0
-    for (let i = this.getPivot() ?? 0 ; i < this.abinPcs.length; i = (i+1) % this.n) {
-      if (this.abinPcs[i] === 1 ) {
+    for (let i = this.getPivot() ?? 0; i < this.abinPcs.length; i = (i + 1) % this.n) {
+      if (this.abinPcs[i] === 1) {
         currentOrder++
         if (currentOrder === pitchOrder) {
           return i

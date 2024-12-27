@@ -353,6 +353,8 @@ export class GroupAction {
     if (!pcsInOrbit)
       throw new Error("Invalid pcs (is not in this group action)  ??? : " + pcs)
 
+    if (pcs.iPivot) pcsInOrbit.setPivot(pcs.iPivot)
+
     return pcsInOrbit
   }
 

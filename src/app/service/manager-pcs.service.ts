@@ -123,7 +123,7 @@ export class ManagerPcsService {
    * @param newPivot
    * @private
    */
-  private static makeNewInstanceOf(pcs: IPcs, groupAction: GroupAction, newPivot: number | undefined) {
+  public static makeNewInstanceOf(pcs: IPcs, groupAction: GroupAction, newPivot: number | undefined) {
     let newPcsInOrbit = groupAction.getIPcsInOrbit(pcs)
 
     let clonePcs = new IPcs({

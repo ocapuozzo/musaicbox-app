@@ -4,6 +4,7 @@ import {UIPcsDto} from "../ui/UIPcsDto";
 import {IPcs} from "../core/IPcs";
 import {ClipboardService} from "./clipboard.service";
 import {ManagerGroupActionService} from "./manager-group-action.service";
+import {ManagerPcsService} from "./manager-pcs.service";
 
 
 export interface IStoragePage88 {
@@ -105,12 +106,13 @@ export class ManagerLocalStorageService {
             nMapping:pcsSerialDto.serializedPcs.nMapping ?? 12,
             templateMappingBinPcs:pcsSerialDto.serializedPcs.templateMappingBinPcs ?? []
           })
+
           // if group action, get pcs from it
           if (pcsSerialDto.serializedPcs.groupName && typeof(pcsSerialDto.serializedPcs.groupName) === 'string') {
             const groupAction = ManagerGroupActionService.getGroupActionFromGroupName(pcsSerialDto.serializedPcs.groupName)
             if (groupAction) {
-              // change pcs by same into orbit
-              pcs = groupAction.getIPcsInOrbit(pcs)
+              const savPivot = pcs.getPivot()
+              pcs = ManagerPcsService.makeNewInstanceOf(pcs, groupAction, savPivot);
             }
           }
         }

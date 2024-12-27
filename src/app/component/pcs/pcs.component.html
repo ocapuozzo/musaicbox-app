@@ -8,10 +8,12 @@
   </div>
 } @else if (pcsDto.indexFormDrawer === UIPcsDto.SCORE) {
   <div #canvas id="paper-{{randomId}}"
+       matTooltip="pcs : {{pcsDto.pcs.getPcsStr()}}"
        [ngClass]="{'e-selected': pcsDto.isSelected}">
   </div>
 } @else {
   <canvas #canvas
+          matTooltip="pcs : {{pcsDto.pcs.getPcsStr()}}"
           [ngClass]="{
         'musaic': pcsDto.indexFormDrawer === UIPcsDto.MUSAIC,
         'rounded-musaic': rounded,
@@ -19,7 +21,7 @@
        }">
   </canvas>
 }
-@if (pcsDto.showName && pcsDto.indexFormDrawer !== UIPcsDto.FREE_TEXT) {
+@if (pcsDto.showName && pcsDto.indexFormDrawer !== UIPcsDto.FREE_TEXT && pcsDto.indexFormDrawer !== UIPcsDto.OCTOTROPE) {
   <p class="text-center"
      [style.width]="pcsDto.width"
      [style.font-size]="pcsDto.width <= 39 ? '50%' : pcsDto.width < 143 ? '80%' : '100%'"
