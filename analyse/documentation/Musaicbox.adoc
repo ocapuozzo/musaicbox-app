@@ -138,30 +138,6 @@ With set of 12 elements `E` = `{0,1,2,3,4,5,6,7,8,9,10,11}`
 
 Is there 2^12 = *4096 pcs*, from empty set `{}` to ful set `{0,1,2,3,4,5,6,7,8,9,10,11}` passing by all possible ordered pcs configurations as `{0}`, `{1}`, ..., `{0,4,7}`, `{1,5,7}`,... , etc
 
-Enumeration via line 12 of Pascal triangle
-|===
-|PCS cardinal|Orbit cardinal 6+^|_Coefficient of Transposition_|
-|||1|2|3|4|6|12|_line 12_
-|0|1|1||||||1
-|1|1||||||1|12
-|2|6|||||1|5|66
-|3|19||||1||18|220
-|4|43|||1||2|40|495
-|5|66||||||66|792
-|6|80||1||1|3|75|924
-|7|66||||||66|792
-|8|43|||1||2|40|495
-|9|19||||1||18|220
-|10|6|||||1|5|66
-|11|1||||||1|12
-|12|1|1||||||1
-|total|*352*|2|1|2|3|9|335|*4096*
-||352 orbits of cyclic group 5+^|_17 cyclic orbits PCS in Limited Transposition_||4096 orbits of trivial groupfootnote:[orbit of cardinal = 1]
-
-|===
-
-Set of all these sets is known as `_P(E)_` (*power set*), and cardinal(_P(E)_) = 2^n = *4096*, ordered by PCS cardinality by line 12 of Pascal triangle.
-
 == PCS Representations
 
 A _Pitch Set Class_ (PCS, or pcs) may have multiple representations.
@@ -271,6 +247,7 @@ However, there remains a bias.
 
 Examples :
 
+[%header]
 .Example Compare with Polynomial Identifier
 |===
 |pcs1| pcs2| pid(pcs1) | pid(pcs2)| pcs1 < pcs2
@@ -289,6 +266,7 @@ In order to solve the inconsistency of the polynomial function for sort pcs list
 
 So, augmented polynomial function is  : _pid_ + 2^12 * cardinal
 
+[%header]
 .Example Compare with Augmented Polynomial Identifier
 |===
 |pcs1| pcs2| augPid(pcs1) | augPid(pcs2)| pcs1 < pcs1
@@ -301,9 +279,9 @@ So, augmented polynomial function is  : _pid_ + 2^12 * cardinal
 NOTE: In Musaicbox code, Augmented Polynomial Identifier is called _id_, and _pid_ is kept because is commonly used.
 
 === Orbit
-Orbit is a set where all elements (pcs) share the same equivalence property.
+Orbit is a set where all elements (pcs) share the same equivalence property (see also _setoid_ or _bishop set_)
 
-Example : Orbit cyclic of major chord `{ C,E,G }` characterised by interval structure  `IS:(4,3,5)`  is composed of 12 elements (`{ C, E, G }, { C#, E#, G# }, ..., { B, D#, F# }`)
+Example : Orbit cyclic of major chord `{ C,E,G }` is a set with equivalence relations "_having same interval structure (4,3,5)_". This set is composed of 12 elements (`{ C, E, G }, { C#, E#, G# }, ..., { B, D#, F# }`)
 
 [.float-group]
 --
@@ -321,7 +299,36 @@ Below, same, with clock representation.
 image::maj-orbit-clock2.png["Orbit cyclic" float="left",align="center"]
 --
 
-More formally, orbits are the result of the action of a group (cyclic, affine, dihedral, ..., musaic) on Z/nZ.
+If we organize the 4096 pcs set into subsets with equivalence relation "_having same intervallic structure_", we obtain 352 subsets (orbits), a partition of 4096 pcs set.
+
+
+[%header]
+.Enumeration via line 12 of Pascal triangle
+|===
+|PCS cardinal|Orbit cardinal 6+^|_Coefficient of Transposition_|Pascal triangle line 12
+|||1|2|3|4|6|12|_line 12_
+|0|1|1||||||1
+|1|1||||||1|12
+|2|6|||||1|5|66
+|3|19||||1||18|220
+|4|43|||1||2|40|495
+|5|66||||||66|792
+|6|80||1||1|3|75|924
+|7|66||||||66|792
+|8|43|||1||2|40|495
+|9|19||||1||18|220
+|10|6|||||1|5|66
+|11|1||||||1|12
+|12|1|1||||||1
+|total|*352*|2|1|2|3|9|335|*4096*
+||352 orbits of cyclic group 5+^|_17 cyclic orbits PCS in Limited Transposition_||4096 orbits of trivial groupfootnote:[orbit of cardinal = 1]
+
+|===
+
+Set of all these sets is known as `_P(E)_` (*power set*), and cardinal(_P(E)_) = 2^n = *4096*, ordered by PCS cardinality by line 12 of Pascal triangle.
+
+
+// More formally, orbits are the result of the action of a group (cyclic, affine, dihedral, ..., musaic) on Z/nZ.
 
 == Equivalence relations
 
@@ -331,13 +338,17 @@ En musique, il est généralement admis que nous pouvons changer la hauteur d'un
 
 Exemple : petite mélodie en 2 tonalités
 
+On peut avoir 12 versions de cette mélodie (dans les 12 tonalités). L'ensemble de ces 12 versions est
+
 Equivalence relation : "Having same prime form"
+
+En identifiant n'importe quel son à une meme classe de hauteur (octave), nous pouvons réduire tout extrait musical à un ensemble classes de hauteur.
 
 
 It is about gathering all the elements sharing the same characteristic, in the same set called *equivalence orbit*, or *X orbit*, or *orbit* if equivalence context is clear.
 
 
-TIP: An orbit can be empty (contains empty pcs) or contain all elements. For a given equivalence relation, an element belongs to only one orbit. Orbits, as a result of a group action, form  a partition of the set on which it acts (4096 PCS).
+TIP: An orbit is a set which can be empty (contains empty pcs) or contain all elements. For a given equivalence relation, an element belongs to only one orbit. Orbits, as a result of a group action, form  a partition of the set on which it acts (4096 PCS).
 
 === Octave/Enharmonic equivalence
 

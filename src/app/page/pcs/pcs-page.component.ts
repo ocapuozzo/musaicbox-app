@@ -81,8 +81,11 @@ export class PcsPageComponent {
     this.labeledListPcs = this.managerPagePcsListService.labeledListPcs
 
     this.managerPagePcsService.updatePcsEvent.subscribe( (pcs: IPcs) => {
-        this.pcs = pcs
-        this.goToTopPage()
+      const isNew = this.pcs.id !== pcs.id
+      this.pcs = pcs
+      if (isNew) {
+          this.goToTopPage()
+      }
     })
 
     this.managerPagePcsListService.updatePcsListEvent.subscribe( (labeledListPcs : Map<string, IElementListPcs>) => {
