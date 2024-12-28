@@ -1,5 +1,5 @@
 import {EventEmitter, Injectable, Output} from '@angular/core';
-import {IDataExplorerState} from "./IDataExplorerState";
+import {IDataExplorerState} from "./IDataState";
 import {MusaicOperation} from "../core/MusaicOperation";
 import {GroupAction} from "../core/GroupAction";
 import {ISortedOrbits} from "../core/ISortedOrbits";

@@ -62,13 +62,20 @@ export class ManagerPcsService {
     return pcs.modulation(direction)
   }
 
+  /**
+   * TODO this method do 2 things... change this
+   *
+   * @param pcs
+   * @param index
+   */
   toggleInnerIndexOrSetIPivot(pcs: IPcs, index: number): IPcs {
     // inner index (no mapping index)
     let newPcs: IPcs
     if (pcs.abinPcs[index] === 0) {
       newPcs = pcs.toggleIndexPC(index)
       if (pcs.orbit?.groupAction) {
-        newPcs = pcs.orbit.groupAction.getIPcsInOrbit(newPcs)
+        // newPcs = pcs.orbit.groupAction.getIPcsInOrbit(newPcs)
+        newPcs = ManagerPcsService.makeNewInstanceOf(newPcs, pcs.orbit.groupAction, pcs.iPivot);
       }
     } else {
       if (index < pcs.n && index >= 0) {
@@ -119,24 +126,28 @@ export class ManagerPcsService {
   /**
    * Build instance of IPcs from pcs and group action (king of clone, with pivot may be changed)
    * @param pcs to find image in action group
-   * @param groupAction where to find pcs (for cloning)
+   * @param groupAction where to find pcs (for cloning or not)
    * @param newPivot
    * @private
    */
   public static makeNewInstanceOf(pcs: IPcs, groupAction: GroupAction, newPivot: number | undefined) {
     let newPcsInOrbit = groupAction.getIPcsInOrbit(pcs)
 
-    let clonePcs = new IPcs({
-      binPcs: newPcsInOrbit.abinPcs,
-      iPivot: newPivot,
-      orbit: newPcsInOrbit.orbit,
+    if (newPcsInOrbit.iPivot !== pcs.iPivot) {
+      // change pivot
+      let clonePcs = new IPcs({
+        binPcs: newPcsInOrbit.abinPcs,
+        iPivot: newPivot,
+        orbit: newPcsInOrbit.orbit,
 
-      templateMappingBinPcs: newPcsInOrbit.templateMappingBinPcs,
-      nMapping: newPcsInOrbit.nMapping
-    })
+        templateMappingBinPcs: newPcsInOrbit.templateMappingBinPcs,
+        nMapping: newPcsInOrbit.nMapping
+      })
 
-    clonePcs.stabilizer = newPcsInOrbit.stabilizer
-    return clonePcs
+      clonePcs.stabilizer = newPcsInOrbit.stabilizer
+      return clonePcs
+    }
+    return newPcsInOrbit // readonly by default, so can be shared
   }
 
 }

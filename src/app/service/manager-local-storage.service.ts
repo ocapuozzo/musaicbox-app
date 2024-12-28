@@ -5,19 +5,22 @@ import {IPcs} from "../core/IPcs";
 import {ClipboardService} from "./clipboard.service";
 import {ManagerGroupActionService} from "./manager-group-action.service";
 import {ManagerPcsService} from "./manager-pcs.service";
+import {IStoragePage88} from "./IDataState";
 
-
-export interface IStoragePage88 {
-  selectedOps: string[]
-  indexTab : number
-  indexSelectedOctotrope : number
+export interface ISerializedPcs {
+  strPcs: string
+  iPivot ?: number
+  nMapping: number
+  templateMappingBinPcs ?: number[]
+  groupName: string
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class ManagerLocalStorageService {
-  private clipboard : ClipboardService<UIPcsDto[]> = inject(ClipboardService<UIPcsDto[]>)
+  private clipboard: ClipboardService<UIPcsDto[]> = inject(ClipboardService<UIPcsDto[]>)
+
   constructor() {
   }
 
@@ -26,9 +29,9 @@ export class ManagerLocalStorageService {
     let inStorage: IStoragePage88
     try {
       // @ts-ignore
-      inStorage = JSON.parse(localStorage.getItem('page88')) || {selectedOps:['M1'], indexSelectedOctotrope:0}
+      inStorage = JSON.parse(localStorage.getItem('page88')) || {selectedOps: ['M1'], indexSelectedOctotrope: 0}
     } catch (e: any) {
-      inStorage =  {selectedOps:['M1'], indexTab:0, indexSelectedOctotrope:0}
+      inStorage = {selectedOps: ['M1'], indexTab: 0, indexSelectedOctotrope: 0}
     }
 
     let selectedOps = inStorage.selectedOps
@@ -43,12 +46,12 @@ export class ManagerLocalStorageService {
 
     return {
       selectedOps: EightyEight.sortToOrderedOperationsName(operationsUserSelectedAndLocalStored),
-      indexTab : inStorage.indexTab % 3 || 0,
+      indexTab: inStorage.indexTab % 3 || 0,
       indexSelectedOctotrope: inStorage.indexSelectedOctotrope % 13 || 0
     }
   }
 
-  savePageThe88(data : IStoragePage88) {
+  savePageThe88(data: IStoragePage88) {
     localStorage.setItem("page88", JSON.stringify(data))
   }
 
@@ -56,7 +59,7 @@ export class ManagerLocalStorageService {
    * Make a new UIPcsDto[] list for storage, extended with serializedPcs properties
    * @param listPcsDto
    */
-  makeSerialVersionPageWB(listPcsDto: UIPcsDto[]) : UIPcsDto[] {
+  makeSerialVersionPageWB(listPcsDto: UIPcsDto[]): UIPcsDto[] {
     let savListPcsDto: any[] = []
     listPcsDto.forEach(pcsDto => {
       let obj = {
@@ -94,31 +97,33 @@ export class ManagerLocalStorageService {
 
       restoreListPcsDto.forEach(pcsSerialDto => {
         // update value (and type) of property 'pcs' from 'string' to 'instance of IPcs'
-        let pcs : IPcs
-        if (typeof(pcsSerialDto.pcs) === 'string') {
-          // for compatibility with first version (but pivot is lost, nMapping also...)
-          pcs = new IPcs({strPcs: pcsSerialDto.pcs})
-        } else { // an object
-          // get info via serializedPcs property
-          pcs = new IPcs({
-            strPcs: pcsSerialDto.serializedPcs.pcsStr,
-            iPivot:pcsSerialDto.serializedPcs.iPivot,
-            nMapping:pcsSerialDto.serializedPcs.nMapping ?? 12,
-            templateMappingBinPcs:pcsSerialDto.serializedPcs.templateMappingBinPcs ?? []
-          })
+        let pcs: IPcs
+        // get info via serializedPcs property
+        const serializedPcs: ISerializedPcs = {
+          strPcs: pcsSerialDto.serializedPcs.pcsStr,
+          iPivot: pcsSerialDto.serializedPcs.iPivot,
+          nMapping: pcsSerialDto.serializedPcs.nMapping ?? 12,
+          templateMappingBinPcs: pcsSerialDto.serializedPcs.templateMappingBinPcs ?? [],
+          groupName: pcsSerialDto.serializedPcs.groupName ?? ''
+        }
 
-          // if group action, get pcs from it
-          if (pcsSerialDto.serializedPcs.groupName && typeof(pcsSerialDto.serializedPcs.groupName) === 'string') {
-            const groupAction = ManagerGroupActionService.getGroupActionFromGroupName(pcsSerialDto.serializedPcs.groupName)
-            if (groupAction) {
-              const savPivot = pcs.getPivot()
-              pcs = ManagerPcsService.makeNewInstanceOf(pcs, groupAction, savPivot);
-            }
+        pcs = new IPcs({
+          ...serializedPcs
+        })
+
+        // if group action, get pcs from it
+        if (serializedPcs.groupName) {
+          const groupAction =
+            ManagerGroupActionService.getGroupActionFromGroupName(serializedPcs.groupName)
+          if (groupAction) {
+            const savPivot = pcs.getPivot()
+            pcs = ManagerPcsService.makeNewInstanceOf(pcs, groupAction, savPivot);
           }
         }
+
         let pcsDto = new UIPcsDto({
           ...pcsSerialDto,
-          pcs:pcs // set pcs object
+          pcs: pcs // set pcs object
         })
         listPcsDto.push(pcsDto)
       })
@@ -129,12 +134,12 @@ export class ManagerLocalStorageService {
     return listPcsDto
   }
 
-  copy(somePcsDto : UIPcsDto[]) {
+  copy(somePcsDto: UIPcsDto[]) {
     this.clipboard.copy(somePcsDto)
 
   }
 
-  paste() : UIPcsDto[] {
+  paste(): UIPcsDto[] {
     return this.clipboard.paste()
   }
 

@@ -83,6 +83,7 @@ export class PcsPageComponent {
     this.managerPagePcsService.updatePcsEvent.subscribe( (pcs: IPcs) => {
       const isNew = this.pcs.id !== pcs.id
       this.pcs = pcs
+      // avoid refresh not desired on smartphone...
       if (isNew) {
           this.goToTopPage()
       }

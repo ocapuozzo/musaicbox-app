@@ -471,6 +471,12 @@ export class IPcs {
     return this.getMinFrom(groupName);
   }
 
+  /**
+   * If groupName is same of this pcs, get min of this orbit,
+   * else get it from groupAction (cached)
+   * @param groupName
+   * @private
+   */
   private getMinFrom(groupName: string) {
     if (this.orbit.groupAction && this.orbit.groupAction.group.name === groupName) {
       return this.orbit.getPcsMin()

@@ -1,10 +1,5 @@
 import {IPcs} from "../core/IPcs";
 
-export interface ISerializedPcs {
-  pcsStr: string
-  iPivot: number
-  groupAction ?: string | undefined
-}
 
 export interface IFreeText {
   text:string
@@ -100,14 +95,17 @@ export class UIPcsDto {
   // TODO others index... or Array.from(ALL_DRAWERS.values())
 
   // TODO revoir la logique ici : dict [[string, number]]
-  static  ALL_DRAWERS : Map<string,number> = new Map( [["Musaic", 0], ["Clock", 1], ["Score",2], ["Octotrope", 13], ["FreeText",42]])
+  static  ALL_DRAWERS : Map<string,number> = new Map( [
+      ["Musaic", 0], ["Clock", 1], ["Score",2], ["Octotrope", 13], ["FreeText",42]
+    ]
+  )
 
   id: string
   freeText : IFreeText
   // pcs will not be serialized (transient)
   pcs: IPcs = new IPcs({strPcs: "0, 4, 8"})
 
-  serializedPcs: ISerializedPcs
+  // serializedPcs: ISerializedPcs
 
   position: { x: number; y: number }
   colorPitchOn: string = 'black'
@@ -215,7 +213,7 @@ export class UIPcsDto {
     {
       pcs,
       freeText,
-      serializedPcs,
+      // serializedPcs,
       position,
       colorPitchOn,
       colorPitchOff,
@@ -230,7 +228,7 @@ export class UIPcsDto {
       // id : string,
       pcs?: IPcs, //new IPcs({strPcs:"0, 4, 8"}),
       freeText ?: IFreeText,
-      serializedPcs?: ISerializedPcs,
+      // serializedPcs?: ISerializedPcs,
       position?: { x: number, y: number },
       colorPitchOn?: string,
       colorPitchOff?: string,
@@ -244,15 +242,21 @@ export class UIPcsDto {
     } = {}
   ) {
 
-    this.serializedPcs = serializedPcs ?? {pcsStr: '', iPivot: 0}
-    this.pcs = pcs ? pcs
-      : this.serializedPcs.pcsStr ? new IPcs({strPcs: this.serializedPcs.pcsStr, iPivot: this.serializedPcs.iPivot})
+    // this.serializedPcs = serializedPcs ?? {pcsStr: '', iPivot: 0, groupName:'', nMapping:12}
+    this.pcs = pcs
+      ? pcs
+//      : this.serializedPcs.pcsStr ? new IPcs({strPcs: this.serializedPcs.pcsStr, iPivot: this.serializedPcs.iPivot})
         : new IPcs({strPcs: "0, 4, 8"});
 
-    if (this.serializedPcs.groupAction) {
-      // get pcs from group action
-      // todo
-    }
+    // // duplicate with manager local storage service line 107
+    // // see if this code is dead or not
+    // if (this.serializedPcs.groupName) {
+    //   const groupAction = ManagerGroupActionService.getGroupActionFromGroupName(this.serializedPcs.groupName)
+    //   if (groupAction) {
+    //     const savPivot = this.pcs.getPivot()
+    //     this.pcs = ManagerPcsService.makeNewInstanceOf(this.pcs, groupAction, savPivot);
+    //   }
+    // }
     this.id = this.pcs.id.toString() + new Date().valueOf().toString(10);
 
     if (freeText === undefined) {
