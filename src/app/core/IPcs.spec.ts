@@ -919,7 +919,7 @@ describe('IPcs unit tests', () => {
 
   })
 
-  it("get index in vector of order ptich ", () =>{
+  it("get index in vector of order pitch ", () =>{
     let pcs1 = new IPcs({strPcs: '[0,4,7]'})
     expect(pcs1.getVectorIndexOfPitchOrder(2)).toEqual(4)
     expect(pcs1.getVectorIndexOfPitchOrder(3)).toEqual(7)
