@@ -1,6 +1,6 @@
 # MusaicBoxApp
 
-Application Angular TS/JS is a demonstration implement of [88 Musaics](88Musaics.org) concepts.
+Application Angular TS/JS is a demonstration implement of [88 Musaics](https://88Musaics.org) concepts.
 Illustrates how geometry can highlight relationships between PCS.
 
 - Bidirectional UI interaction: in clock and matrix representations
