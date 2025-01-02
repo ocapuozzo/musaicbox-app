@@ -1057,29 +1057,34 @@ export class ManagerPageWBService {
       const complement = true
       this.doDuplicate(this.getSelectedPcsDtoIndexes()[0], complement)
     } else if (this.getSelectedPcsDtoIndexes().length > 1) {
+      const pcsRef = this.uiPcsDtoList[this.getSelectedPcsDtoIndexes()[0]].pcs
       // operation requires 2 or more pcs
-      // get first pcs vector
-      let vector = [...this.uiPcsDtoList[this.getSelectedPcsDtoIndexes()[0]].pcs.abinPcs]
-      // start with 1, because first is initial value
+      // get clone array bin vector of first pcs
+      let vector = [...pcsRef.abinPcs]
+      // start with 1, because first is pcs initial value for set operations with others pcs
       for (let i = 1; i < this.getSelectedPcsDtoIndexes().length; i++) {
+        const pcs = this.uiPcsDtoList[this.getSelectedPcsDtoIndexes()[i]].pcs
         for (let j = 0; j < vector.length; j++) {
           switch (opName) {
             case 'SymmetricDifference' :
-              vector[j] += this.uiPcsDtoList[this.getSelectedPcsDtoIndexes()[i]].pcs.abinPcs[j] % 2  // xor op
+              vector[j] += pcs.abinPcs[j] % 2  // xor op
               break
             case 'Union' :
-              if (this.uiPcsDtoList[this.getSelectedPcsDtoIndexes()[i]].pcs.abinPcs[j] === 1) {
+              if (pcs.abinPcs[j] === 1) {
                 vector[j] = 1 // 1 iif not 0 and 0
               }
               break
             case 'Intersection' :
-              vector[j] *= this.uiPcsDtoList[this.getSelectedPcsDtoIndexes()[i]].pcs.abinPcs[j]  // 1 iif 1 * 1
+              vector[j] *= pcs.abinPcs[j]  // 1 iif 1 * 1
               break
           }
         }
       }
-      // create new pcs via this.managerPcsService for synchro groupAction if exists
-      this.addPcs({somePcs: [this.managerPcsService.doTransformAffine(new IPcs({binPcs: vector}), 1, 0)]})
+      let newPcs = new IPcs({binPcs: vector})
+      if (!pcsRef.isDetached()) {
+        newPcs = ManagerPcsService.makeNewInstanceOf(newPcs, pcsRef.orbit!.groupAction!)
+      }
+      this.addPcs({somePcs: [newPcs]})
     }
   }
 }

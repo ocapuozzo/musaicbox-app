@@ -439,7 +439,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
       // no select component, select this one
       this.managerPageWBService.doToggleSelected(index)
     } else if ($event.ctrlKey) {
-      // rem : ctrlKey on no component is manager by mouseDown handler
+      // rem : ctrlKey on any component is manager by mouseDown handler
       // toggle selected component at index
       this.managerPageWBService.doToggleSelected(index)
     } else {
@@ -841,6 +841,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
       throw new Error(`Invalid index : $ {index}`)
     }
+    this.managerPageWBService.setPcsDtoForTemplate(this.pcsDtoList[index])
     this.managerPageWBService.doMakeComplement(index)
   }
 

@@ -128,7 +128,7 @@ export class ManagerPcsService {
    * @param newPivot
    * @private
    */
-  public static makeNewInstanceOf(pcs: IPcs, groupAction: GroupAction, newPivot: number | undefined) {
+  public static makeNewInstanceOf(pcs: IPcs, groupAction: GroupAction, newPivot ?: number ) {
     let newPcsInOrbit = groupAction.getIPcsInOrbit(pcs)
 
     if (newPcsInOrbit.iPivot !== pcs.iPivot) {

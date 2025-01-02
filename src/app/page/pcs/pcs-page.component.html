@@ -7,14 +7,14 @@
          [style.min-width]="maxWidthUiMusaic"
     >
       <h5 class="text-center title-detail actionable" style="margin-bottom: 0">
-        <button mat-button (click)="changeByMusaic()"  style="height: 24px">
+        <button mat-button (click)="changeByMusaic()" style="height: 24px">
           <span>Musaic n° {{ EightyEight.idNumberOf(pcs) }}</span>
         </button>
       </h5>
       <div [ngClass]="{'inner-box-musaic-orbit':!pcs.isDetached(), 'inner-box-musaic':pcs.isDetached()}">
         <p class="text-small">
           @if (!pcs.isDetached()) {
-             [{{ pcs.orbit.groupAction?.group?.opsNamesWithoutTx?.join(" ") }}]
+            [{{ pcs.orbit.groupAction?.group?.opsNamesWithoutTx?.join(" ") }}]
           }
         </p>
         <app-ui-musaic
@@ -24,17 +24,17 @@
         ></app-ui-musaic>
 
         @if (isForUpdatePcsDto()) {
-        <div style="margin-top: 10px">
-          <button mat-raised-button
-                  (click)="updateToWhiteBoardPage()">
-              <span>Update (goto WB page)</span>
-          </button>
-        </div>
+          <div style="margin-top: 10px">
+            <button mat-raised-button
+                    (click)="updateToWhiteBoardPage()">
+              <span>Update</span><br><span style="font-size:smaller">(goto WB page)</span>
+            </button>
+          </div>
         }
         <div style="margin-top: 10px">
           <button mat-raised-button
                   (click)="pushToWhiteBoardPage()">
-              <span>Add to WB page</span>
+            <span>Add to WB page</span>
           </button>
         </div>
 
@@ -63,7 +63,7 @@
       </div>
     </div>
 
-    <div class="box"  style="min-width:330px;" >
+    <div class="box" style="min-width:330px;">
       <h5 class="text-center title-detail" style="height: 24px">
         <span>Analysis</span>
       </h5>
