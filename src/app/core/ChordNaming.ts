@@ -40,6 +40,11 @@ export class ChordNaming {
     ChordNaming.chordsModalPF.set('0,3,6', {name:'dim', sortOrder:3, root:0})
     ChordNaming.chordsModalPF.set('0,3,8', {name:'m ♭6', sortOrder:6, root:0})
 
+    // (experimental) inversion
+    ChordNaming.chordsModalPF.set('0,5,9', {name:'Maj/5th', sortOrder:6, root:5})
+    ChordNaming.chordsModalPF.set('0,5,8', {name:'min/5th', sortOrder:6, root:5})
+    // => let chord third bass inversion are sixth chord considered ??
+
     ///// 4-chords
     // Major
     ChordNaming.chordsModalPF.set('0,4,7,9', {name:'6', sortOrder:5, root:0})
@@ -80,6 +85,18 @@ export class ChordNaming {
 
     if (pcs.cardinal < 3) return chordPcsList
 
+    if (pcs.cardinal === nPitches) {
+      let pcsPF = pcs
+      for (let i = 0; i < nPitches ; i++) {
+        pcsPF = pcs.transposition(- (pcsPF.getMappedPivot() ?? 0) )
+        if (ChordNaming.chordsModalPF.get(pcsPF.getMappedPcsStr(false))) {
+          chordPcsList.push(pcsPF.getMappedPcsStr(false))
+          break
+        }
+      }
+      return chordPcsList
+    }
+    // assert nMapping to be 12
     let pivot = pcs.getMappedPivot()
     let binPcs = pcs.getMappedBinPcs()
     let n = pcs.nMapping // 12 waiting
@@ -149,12 +166,13 @@ export class ChordNaming {
       }
     }
 
-    chordPcsList.sort((s1, s2) => {
-      const orderChord1 = ChordNaming.chordsModalPF.get(s1)?.sortOrder ?? 42  // normally sortOrder is set
-      const orderChord2 = ChordNaming.chordsModalPF.get(s2)?.sortOrder ?? 42  // idem
-      return orderChord1 - orderChord2
-    })
-
+    if (chordPcsList.length > 1) {
+      chordPcsList.sort((s1, s2) => {
+        const orderChord1 = ChordNaming.chordsModalPF.get(s1)?.sortOrder ?? 42  // normally sortOrder is set
+        const orderChord2 = ChordNaming.chordsModalPF.get(s2)?.sortOrder ?? 42  // idem
+        return orderChord1 - orderChord2
+      })
+    }
     return chordPcsList
   }
 
@@ -179,7 +197,14 @@ export class ChordNaming {
     // which nameRoot name ?
 
     let nameRoot = ''
-    const indexNameRoot = pcs.iPivot != undefined ? pcs.getMappedPivot() : -1
+    // const indexNameRoot = pcs.iPivot != undefined ? pcs.getMappedPivot() : -1
+    // experimental
+    let indexNameRoot = ChordNaming.chordsModalPF.get(chordsNPitches[0])!.root // case chord inversion
+    if (indexNameRoot === 0) {
+      indexNameRoot = pcs.iPivot != undefined
+        ? pcs.getMappedPivot()
+        : -1
+    }
     // console.log("indexNameRoot = ", indexNameRoot)
     if (ChordNaming.INDEX_ALTERED_NOTES.includes(indexNameRoot)) {
       // select # or b.
