@@ -241,7 +241,7 @@ export class Stabilizer {
    * @return {string} short name if possible
    */
   makeShortName(): string {
-    // key="CM5"=, values=[2,4,6] for value of transposition/translation for CM5-T2, CM5-T4, etc.
+    // key="CM5"=, values=[2,4,6] for value of transposition/transposition for CM5-T2, CM5-T4, etc.
     // Map<String, List<Integer>> mt = new HashMap<String, List<Integer>>();
     let mt = new Map<string, number[]>()
     // assert in : operations is sorted
@@ -310,7 +310,7 @@ export class Stabilizer {
    * [0, 2, 4, 6, 8, 10] return "-T0~2*" and detached list Example : n=12 [0, 3]
    * return "" and no action on list
    *
-   * @param {Map<string, number[]>} mt (mutable here) Map key = multiplication arg, value = translation values
+   * @param {Map<string, number[]>} mt (mutable here) Map key = multiplication arg, value = transposition values
    *
    * @param {string} nameOpWithoutT key string value (example : M2)
    * @return String reduce name and reduce list mt.get(nameOp) or detached string and same list

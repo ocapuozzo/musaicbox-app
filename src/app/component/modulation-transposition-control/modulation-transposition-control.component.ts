@@ -1,13 +1,13 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 
 @Component({
-  selector: 'app-module-translation-control',
+  selector: 'app-module-transposition-control',
   standalone: true,
   imports: [],
-  templateUrl: './modulation-translation-control.component.html',
-  styleUrl: './modulation-translation-control.component.css'
+  templateUrl: './modulation-transposition-control.component.html',
+  styleUrl: './modulation-transposition-control.component.css'
 })
-export class ModulationTranslationControlComponent {
+export class ModulationTranspositionControlComponent {
   @Output() changePcsEvent = new EventEmitter<string>();
 
   ngAfterViewInit() {

@@ -2,9 +2,6 @@ import {Component, ElementRef, HostListener, NgZone, Renderer2, ViewChild} from 
 import {IPcs} from "../../core/IPcs";
 import {ClockDrawing} from "../../ui/ClockDrawing";
 import {ScoreNotationComponent} from "../score-notation/score-notation.component";
-import {
-  ModulationTranslationControlComponent
-} from "../modulation-translation-control/modulation-translation-control.component";
 import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
 import {ManagerPagePcsListService} from "../../service/manager-page-pcs-list.service";
 import {AnalyseChord} from "../../utils/AnalyseChord";
@@ -14,15 +11,18 @@ import {Scales2048Name} from "../../core/Scales2048Name";
 import {INameDefLink} from "../../core/IScaleName";
 import {BreakpointObserver} from "@angular/cdk/layout";
 import {AnimPitchService, IPitchPlaying} from "../../service/anim-pitch.service";
+import {
+  ModulationTranspositionControlComponent
+} from "../modulation-transposition-control/modulation-transposition-control.component";
 
 @Component({
   selector: 'app-ui-clock',
   standalone: true,
   imports: [
     ScoreNotationComponent,
-    ModulationTranslationControlComponent,
     NgForOf,
-    NgIf
+    NgIf,
+    ModulationTranspositionControlComponent
   ],
   templateUrl: './ui-clock.component.html',
   styleUrl: './ui-clock.component.css'

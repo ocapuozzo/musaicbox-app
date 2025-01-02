@@ -22,7 +22,7 @@ export class AnalyseChord {
         chordsByDegree.set(AnalyseChord.ROMAIN[nbDegree], [])
       } else for (const keyChord of keysChords) {
         const chord = new IPcs({strPcs:keyChord})
-        AnalyseChord.addPcs(chordsByDegree, nbDegree + 1, chord.translation(pcsWorking.iPivot ?? 0));
+        AnalyseChord.addPcs(chordsByDegree, nbDegree + 1, chord.transposition(pcsWorking.iPivot ?? 0));
       }
       pcsWorking = pcsWorking.modulation(IPcs.NEXT_DEGREE)
     }

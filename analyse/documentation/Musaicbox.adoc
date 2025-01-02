@@ -136,13 +136,19 @@ PCS is abstraction, a _pitches class set_ where a pitch class refer to all pitch
 
 With set of 12 elements `E` = `{0,1,2,3,4,5,6,7,8,9,10,11}`
 
-Is there 2^12 = *4096 pcs*, from empty set `{}` to ful set `{0,1,2,3,4,5,6,7,8,9,10,11}` passing by all possible ordered pcs configurations as `{0}`, `{1}`, ..., `{0,4,7}`, `{1,5,7}`,... , etc
+Is there 2^12 = *4096 pcs*, from empty set `{}` to ful set `{0,1,2,3,4,5,6,7,8,9,10,11}` passing by all possible ordered pcs configurations as `{}`, `{0}`, `{1}`, ..., `{0,4,7}`, `{1,5,7}`,... , etc
 
 == PCS Representations
 
 A _Pitch Set Class_ (PCS, or pcs) may have multiple representations.
 
-=== Set
+=== Textual
+
+A PCS is, by definition, an unordered set of PC, even if, in practice, by convention, we always present them textually ordered, in ascending order.
+
+Let us take the PCS composed of the PCs {0, 4, 7} (C, E and G). Formally the textual representations below are all equal.
+
+image::_0_4_7_set_repr.png[_0_4_7_set_repr]
 
 Example for C,E,G :  `{0,4,7}` or `[0,4,7]` (from musical set theory)
 
@@ -150,15 +156,15 @@ It is customary to represent pitches class into a PCS in an ordered manner, call
 
 === Vector
 
-Example for C,E,G :  `[*1*,0,0,0,*1*,0,0,*1*,0,0,0,0]`  (12 values)
+Example for [0, 4, 7] :  `[*1*,0,0,0,*1*,0,0,*1*,0,0,0,0]`  (ordered list of binary values)
 
 Note : can be also vector of boolean values : `[*true*,false,false,false,*true*,false,false,*true*,false,false,false,false]`
 
 === Integer
 
-From vector representation, we sum of power of 2, where value is 1 (or true) into vector (algorithm called _polynomial function_)
+From binary vector representation, we sum of power of 2, where value is 1 (or true) into vector (algorithm called _polynomial function_)
 
-Example for {C,E,G} :  `1 + 16 + 128` = `145`  (decimal value)
+Example for [0, 4, 7] :  `1 + 16 + 128` = `145`  (decimal value)
 
 .Example Polynomial Identifier ([0,4,7])
 |===
@@ -212,9 +218,7 @@ NOTE: Instrument in DIS(x,y) are in _regular interface_ family.
 
 All PCS representations are interchangeable by bijective connection.
 
-Example : Integer to PCS, PCS to Integer, Integer to Vector etc.
-
-
+.Example with Set, Integer, Vector, musaic, clock and score notation.
 [.float-group]
 --
 image::together-representation-fleches.png["together-representation-fleches",float="left",align="center"]
@@ -226,20 +230,24 @@ Any ordered PCS (in normal form) is unique, but it is not a sufficient quality t
 
 === Order relation
 
-It would be useful to be able to sort the pcs among themselves. To do this, we need to define a total order relation that verifies: ∀ x, y ∈ P(E), (id(x) ≤ id(y) and id(y) ≤ id(x)) => x = y (same)
+It would be useful to be able to sort the pcs among themselves. To do this, we need to define a total order relation that verifies:
+
+// `∀ x, y ∈ P(E), (id(x) ≤ id(y) and id(y) ≤ id(x)) => x = y (same)`
+
+stem:[∀ x, y ∈ P(E), (id(x) ≤ id(y) and id(y) ≤ id(x)) => x = y ]
 
 In others all, if two PCS have same identity value, then we are dealing with the same PCS.
+
+Question is : How to represent the identity relationship (id function)?
 
 === State
 By definition, a PCS is a collection of PC. Type is not atomic, and may have some algorithmic efficiency problem, so we prefer a scalar identity.
 
-To implement order relation, we use integer representation, to go through the order of natural of integer.
+To implement order relation, we use integer representation, to go through the order of natural integer.
 
 === Integer
 
 ==== Polynomial function
-
-Nous pouvons être tanté d'utiliser la représentation numérique (valeur entière) d'un PCS pour cela..
 
 Polynomial function is a good candidate for sorting the PCS among themselves.
 
@@ -248,45 +256,59 @@ However, there remains a bias.
 Examples :
 
 [%header]
-.Example Compare with Polynomial Identifier
+.Example problem when compare identity with Polynomial Identifier
 |===
 |pcs1| pcs2| pid(pcs1) | pid(pcs2)| pcs1 < pcs2
-| [ ]| [0]| 0 | 1 | **true**
-|[0,4,7]| [1,5,8]| 145 | 290 | **true**
-|[0,3,7]| [2,6,11]| 137 | 2116 | **true**
-|[0,11] | [0,3,7] | 2049 |137 | **false** (???)
- **_waiting true_**
+| [ ]| [0]| _0_ | _1_ | **_true_**
+|[0,4,7]| [1,5,8]| _145_ | _290_ | **_true_**
+|[0,3,7]| [2,6,11]| _137_ | _2116_ | **_true_**
+|[0,11] | [0,3,7] | _2049_ |_137_ | **_false_** (???)
+ #_waiting true_#
 |===
 
 In the first line, we admitted that a piece with a smaller cardinal than another piece will be considered smaller than the latter. But this is contradicted by the last line.
 
 ==== Augmented Polynomial function
 
-In order to solve the inconsistency of the polynomial function for sort pcs lists, we increase this function by another value that takes into account the cardinality of the set. The first value, outside _pid_ domain, is 2^n * cardinal
+In order to solve the inconsistency of the polynomial function for sort pcs lists, we increase this function by another value that takes into account the cardinality of the set. The first valuefootnote:[the last is 2^12^-1], outside _pid_ domain, is `2^n^`
 
-So, augmented polynomial function is  : _pid_ + 2^12 * cardinal
+So, augmented polynomial function, which takes into account the cardinal, is  : `_pid_ + 2^12^ * cardinal`
 
 [%header]
 .Example Compare with Augmented Polynomial Identifier
 |===
 |pcs1| pcs2| augPid(pcs1) | augPid(pcs2)| pcs1 < pcs1
-| [ ]| [0]| 0 | 4097 | **true**
-|[0,4,7]| [1,5,8]| 12433 | 12578 | **true**
-|[0,3,7]| [2,6,11]| 12425 | 14404 | **true**
-|[0,11] | [0,3,7] | 10241 |12425 | **true** (ok)
+| [ ]| [0]| _0_ | _4097_ | **_true_**
+|[0,4,7]| [1,5,8]| _12433_ | _12578_ | **_true_**
+|[0,3,7]| [2,6,11]| _12425_ | _14404_ | **_true_**
+|[0,11] | [0,3,7] | _10241_ |_12425_ | **_true_** (ok)
 |===
 
 NOTE: In Musaicbox code, Augmented Polynomial Identifier is called _id_, and _pid_ is kept because is commonly used.
 
-=== Orbit
-Orbit is a set where all elements (pcs) share the same equivalence property (see also _setoid_ or _bishop set_)
+== Equivalence relations
 
-Example : Orbit cyclic of major chord `{ C,E,G }` is a set with equivalence relations "_having same interval structure (4,3,5)_". This set is composed of 12 elements (`{ C, E, G }, { C#, E#, G# }, ..., { B, D#, F# }`)
+Entities are said to be equivalent if they all share the same characteristic.
+
+Example of characteristic : "_To be a major triad_"
+
+
+=== Orbit
+Orbit is a set where all elements (pcs) share the same equivalence property.footnote:[see _setoid_ or _bishop set_]
+
+Example : Orbit cyclic of major triad as `{ C,E,G }` is a set with equivalence relations "_having same structure : major third then perfect fifth_". This set is composed of 12 elements (`{ C, E, G }, { C#, E#, G# }, ..., { B, D#, F# }`)
+
+[%header]
+.Equivalence "having same intervallic structure" in different representations
+|===
+|structure name| intervallic | clock | musaic
+| Major triad | major third then perfect fifth|specific inscribed polygon |specific motif
+|===
 
 [.float-group]
 --
 [.left]
-.Orbit Cyclic in score view
+.Orbit Cyclic in score view and Major Triad Motif
 image::maj-triad-orbit-score.png["Orbit cyclic" float="left",align="center"]
 --
 
@@ -295,12 +317,11 @@ Below, same, with clock representation.
 [.float-group]
 --
 [.left]
-.Orbit Cyclic in clock view
-image::maj-orbit-clock2.png["Orbit cyclic" float="left",align="center"]
+.Orbit Cyclic in clock view and their inscribed polygon
+image::maj-orbit-clock2.png["Orbit cyclic", float="left", align="center"]
 --
 
-If we organize the 4096 pcs set into subsets with equivalence relation "_having same intervallic structure_", we obtain 352 subsets (orbits), a partition of 4096 pcs set.
-
+If we organize the 4096 pcs set into subsets with equivalence relation "_having same structure of inscribed polygon_", we obtain 352footnote:[and not 4096/12, because some pcs have less than 12 transposed - limited transposition] subsets (orbits), a partition of 4096 pcs set.
 
 [%header]
 .Enumeration via line 12 of Pascal triangle
@@ -325,12 +346,15 @@ If we organize the 4096 pcs set into subsets with equivalence relation "_having 
 
 |===
 
-Set of all these sets is known as `_P(E)_` (*power set*), and cardinal(_P(E)_) = 2^n = *4096*, ordered by PCS cardinality by line 12 of Pascal triangle.
+Set of all these sets is known as `_P(E)_` (*power set*), and `cardinal(_P(E)_) = 2^n^ = *4096*`, cardinality ordered by line 12 of Pascal triangle.
 
 
 // More formally, orbits are the result of the action of a group (cyclic, affine, dihedral, ..., musaic) on Z/nZ.
 
-== Equivalence relations
+
+
+// By example : A4 (440 hz) and their lower and upper octaves share same characteristic : "having a frequency related to be a multiple of 2 of 440 Hz"
+//
 
 Pour partitionner l'ensemble des 4096 PCS,
 

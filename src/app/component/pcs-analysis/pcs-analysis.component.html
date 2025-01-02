@@ -57,15 +57,20 @@
 
       <p>
         Interval Vector :
-        <span class="analyse-pcs" style="margin-right: 10px">&lt;{{ pcsMapped.iv() }}&gt;</span>shared by :
-        @for (pcs of pcsWithSameIVas(pcsMapped); track pcs.id) {
-          <button mat-button (click)="doReplaceBy(pcs)">
+        <span class="analyse-pcs" style="margin-right: 10px">&lt;{{ pcsMapped.iv() }}&gt;</span>
+<!-- TODO add @let-->
+
+        @if (pcsWithSameIVas(pcsMapped).length > 1) {
+          shared by :
+          @for (pcs of pcsWithSameIVas(pcsMapped); track pcs.id) {
+            <button mat-button (click)="doReplaceBy(pcs)">
           <span class="other-pcs-same-iv">
             {{ pcs.getPcsStr() }} @if (pcs.cyclicPrimeForm().id == pcsMapped.cyclicPrimeForm().id) {
             *
           }
           </span>
-          </button>
+            </button>
+          }
         }
       </p>
       <p>
@@ -95,7 +100,7 @@
           }
 
         </span>&nbsp;&nbsp;
-          {{ '' // tips @for for refresh octotrope component !! ???  }}
+          {{ '' // tips @for for refresh octotrope component !! ???   }}
           @for (pcs of [pcsMapped.musaicPrimeForm()]; track pcs.id) {
             <app-octotrope [w]="30" [pcs]="pcs"></app-octotrope>
           }
@@ -105,7 +110,7 @@
       <p style="max-width: 400px">
         Invariant by :
         <span
-          class="analyse-pcs">{{ operationsStabilizerOf(pcsMapped) //pcsMapped.musaicPrimeForm().orbit.motifStabilizer.name   }}</span>
+          class="analyse-pcs">{{ operationsStabilizerOf(pcsMapped) //pcsMapped.musaicPrimeForm().orbit.motifStabilizer.name    }}</span>
         &nbsp;&nbsp;
       </p>
     </div>
@@ -119,7 +124,7 @@
           <mat-icon>filter_tilt_shift</mat-icon>
           <i class="bi bi-chevron-double-down"> Modes : </i>
         </button>
-        {{ ''// sub sub below => to have same height that next fieldset     }}
+        {{ ''// sub sub below => to have same height that next fieldset      }}
         <span class="analyse-pcs">#{{ pcsMapped.cardOrbitMode() }} <sub></sub></span>
       </p>
 
@@ -206,7 +211,7 @@
       <fieldset class="representation-border" style="max-width: 450px;">
         <legend class="representation-border">
       <span style="display: inline-flex; align-items: center;">
-        {{ '' // tips @for for refresh octotrope component !! ???  }}
+        {{ '' // tips @for for refresh octotrope component !! ???   }}
         @for (pcs of [pcsMapped.musaicPrimeForm()]; track pcs.id) {
           <app-octotrope [w]="50" [pcs]="pcs"></app-octotrope>
         }

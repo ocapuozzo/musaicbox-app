@@ -573,7 +573,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#_pcs_representations">PCS Representations</a>
 <ul class="sectlevel2">
-<li><a href="#_set">Set</a></li>
+<li><a href="#_textual">Textual</a></li>
 <li><a href="#_vector">Vector</a></li>
 <li><a href="#_integer">Integer</a></li>
 <li><a href="#_geometry">Geometry</a>
@@ -635,12 +635,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>The idea behind this application is to offer the user a UI/UX to concretely manipulate abstract concepts, highlight relationship (morphism) between logic spatial and sound structures (<em>Pitch Class Set</em>) .</p>
 </div>
 <div class="paragraph">
-<p>We hope that user will make use of this tool in his composition and instrumental practice activities.<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup></p>
+<p>We hope that user will make use of this tool in his composition and instrumental practice activities.</p>
 </div>
 <div class="sect2">
 <h3 id="_for_which_audience">For which audience ?</h3>
 <div class="paragraph">
-<p>Musician eager to add to his source of inspiration a muse of a scientific nature, based on idea of reducing any combination of sounds to a set of pitch classes, called <em>pitch class set</em> (PCS).<sup class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup></p>
+<p>Musician eager to add to his source of inspiration a muse of a scientific nature, based on idea of reducing any combination of sounds to a set of pitch classes, called <em>pitch class set</em> (PCS).<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup></p>
 </div>
 </div>
 <div class="sect2">
@@ -651,7 +651,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p>PCS page (with undo/redo.<sup class="footnote" id="_footnote_redo">[<a id="_footnoteref_3" class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup>)</p>
+<p>PCS page (with undo/redo.<sup class="footnote" id="_footnote_redo">[<a id="_footnoteref_2" class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup>)</p>
 </li>
 </ul>
 </div>
@@ -712,7 +712,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="exampleblock">
 <div class="content">
 <div class="paragraph">
-<p>Explore musaics shearing same is-stabilizers.<sup class="footnote">[<a id="_footnoteref_4" class="footnote" href="#_footnotedef_4" title="View footnote.">4</a>]</sup>, having same <strong>octotropes</strong> (partition) and search musaic that include a PCS given (search form on top right menu)</p>
+<p>Explore musaics shearing same is-stabilizers.<sup class="footnote">[<a id="_footnoteref_3" class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup>, having same <strong>octotropes</strong> (partition) and search musaic that include a PCS given (search form on top right menu)</p>
 </div>
 <div class="openblock float-group">
 <div class="content">
@@ -758,7 +758,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p>whiteboard page (with Undo/Redo.<sup class="footnoteref">[<a class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup> and Copy/Cut/Paste)</p>
+<p>whiteboard page (with Undo/Redo.<sup class="footnoteref">[<a class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup> and Copy/Cut/Paste)</p>
 </li>
 </ul>
 </div>
@@ -801,7 +801,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect2">
 <h3 id="_abstraction">Abstraction</h3>
 <div class="paragraph">
-<p>PCS is abstraction, a <em>pitches class set</em> where a pitch class refer to all pitches related to each other by octave and/or enharmonic equivalence.<sup class="footnote">[<a id="_footnoteref_5" class="footnote" href="#_footnotedef_5" title="View footnote.">5</a>]</sup></p>
+<p>PCS is abstraction, a <em>pitches class set</em> where a pitch class refer to all pitches related to each other by octave and/or enharmonic equivalence.<sup class="footnote">[<a id="_footnoteref_4" class="footnote" href="#_footnotedef_4" title="View footnote.">4</a>]</sup></p>
 </div>
 </div>
 <div class="sect2">
@@ -810,12 +810,463 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>With set of 12 elements <code>E</code> = <code>{0,1,2,3,4,5,6,7,8,9,10,11}</code></p>
 </div>
 <div class="paragraph">
-<p>Is there 2^12 = <strong>4096 pcs</strong>, from empty set <code>{}</code> to ful set <code>{0,1,2,3,4,5,6,7,8,9,10,11}</code> passing by all possible ordered pcs configurations as <code>{0}</code>, <code>{1}</code>, &#8230;&#8203;, <code>{0,4,7}</code>, <code>{1,5,7}</code>,&#8230;&#8203; , etc</p>
+<p>Is there 2^12 = <strong>4096 pcs</strong>, from empty set <code>{}</code> to ful set <code>{0,1,2,3,4,5,6,7,8,9,10,11}</code> passing by all possible ordered pcs configurations as <code>{}</code>, <code>{0}</code>, <code>{1}</code>, &#8230;&#8203;, <code>{0,4,7}</code>, <code>{1,5,7}</code>,&#8230;&#8203; , etc</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_pcs_representations">PCS Representations</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A <em>Pitch Set Class</em> (PCS, or pcs) may have multiple representations.</p>
+</div>
+<div class="sect2">
+<h3 id="_textual">Textual</h3>
+<div class="paragraph">
+<p>A PCS is, by definition, an unordered set of PC, even if, in practice, by convention, we always present them textually ordered, in ascending order.</p>
 </div>
 <div class="paragraph">
-<p>Enumeration via line 12 of Pascal triangle</p>
+<p>Let us take the PCS composed of the PCs {0, 4, 7} (C, E and G). Formally the textual representations below are all equal.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./assets/images/_0_4_7_set_repr.png" alt="_0_4_7_set_repr">
+</div>
+</div>
+<div class="paragraph">
+<p>Example for C,E,G :  <code>{0,4,7}</code> or <code>[0,4,7]</code> (from musical set theory)</p>
+</div>
+<div class="paragraph">
+<p>It is customary to represent pitches class into a PCS in an ordered manner, called <em>Normal Form</em>, from smallest to largest. For example: [0, 4, 7] not [4, 0, 7]</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_vector">Vector</h3>
+<div class="paragraph">
+<p>Example for [0, 4, 7] :  <code>[<strong>1</strong>,0,0,0,<strong>1</strong>,0,0,<strong>1</strong>,0,0,0,0]</code>  (ordered list of binary values)</p>
+</div>
+<div class="paragraph">
+<p>Note : can be also vector of boolean values : <code>[<strong>true</strong>,false,false,false,<strong>true</strong>,false,false,<strong>true</strong>,false,false,false,false]</code></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_integer">Integer</h3>
+<div class="paragraph">
+<p>From binary vector representation, we sum of power of 2, where value is 1 (or true) into vector (algorithm called <em>polynomial function</em>)</p>
+</div>
+<div class="paragraph">
+<p>Example for [0, 4, 7] :  <code>1 + 16 + 128</code> = <code>145</code>  (decimal value)</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Example Polynomial Identifier ([0,4,7])</caption>
+<colgroup>
+<col style="width: 7.1428%;">
+<col style="width: 7.1428%;">
+<col style="width: 7.1428%;">
+<col style="width: 7.1428%;">
+<col style="width: 7.1428%;">
+<col style="width: 7.1428%;">
+<col style="width: 7.1428%;">
+<col style="width: 7.1428%;">
+<col style="width: 7.1428%;">
+<col style="width: 7.1428%;">
+<col style="width: 7.1428%;">
+<col style="width: 7.1428%;">
+<col style="width: 7.1428%;">
+<col style="width: 7.1436%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Power of 2</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">16</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">32</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">64</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">128</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">252</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">512</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1024</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2048</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>pid</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>pcs</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>1</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>1</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>1</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>pid</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>1</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>16</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>128</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>145</em></strong></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Examples :</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>pid('[]') = 0 (empty set)
+pid('[0,1,2,3,4,5,6,7,8,9,10,11]') = 4095 (chromatic set)
+pid('[1,3,5,7,9,11]') = 2730 (whole tone scale)</pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+As each pcs into the 4096 is unique, each of these pcs has a unique value by polynomial function. We call this value <em>pid</em> for polynomial identifier.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_geometry">Geometry</h3>
+<div class="paragraph">
+<p>Example with [0,4,7]</p>
+</div>
+<div class="sect3">
+<h4 id="_linear">Linear</h4>
+<div class="paragraph">
+<p>&#9632;&#9633;&#9633;&#9633;&#9632;&#9633;&#9633;&#9632;&#9633;&#9633;&#9633;&#9633;</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_circle_clock">Circle / Clock</h4>
+<div class="paragraph">
+<p>Optional with polygon inscribed.</p>
+</div>
+<div class="openblock float-group">
+<div class="content">
+<div class="imageblock left text-center">
+<div class="content">
+<img src="./assets/images/_0_4_7.png" alt="_0_4_7_clock-names">
+</div>
+</div>
+<div class="imageblock left text-center">
+<div class="content">
+<img src="./assets/images/_0_4_7_clock.png" alt="_0_4_7_clock">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_musaic">Musaic</h4>
+<div class="openblock float-group">
+<div class="content">
+<div class="imageblock left text-center">
+<div class="content">
+<img src="./assets/images/_0_4_7_musaic-names.png" alt="_0_4_7_musaic-names">
+</div>
+</div>
+<div class="imageblock left text-center">
+<div class="content">
+<img src="./assets/images/_0_4_7_musaic.png" alt="_0_4_7_musaic">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_dis_musaic_tonnetz_and_more">DIS : Musaic, Tonnetz and more</h4>
+<div class="paragraph">
+<p>More generally, a matrix regular representation is instance of a <em>Dual Interval Space</em> (<a href="#DIS">[DIS]</a>), a two-dimensional array of pitches where “rows” are separated by the same interval and the “columns” by one other but also same (non-zero) interval.</p>
+</div>
+<div class="paragraph">
+<p>Examples : DIS(y,x) where y is row interval and x is column interval. Violin is DIS(1,7), guitar in P4 Tuning is DIS(1,5), Tonnetz is DIS(4, 7), etc.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Instrument in DIS(x,y) are in <em>regular interface</em> family.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_together">Together</h3>
+<div class="paragraph">
+<p>All PCS representations are interchangeable by bijective connection.</p>
+</div>
+<div class="openblock float-group">
+<div class="title">Example with Set, Integer, Vector, musaic, clock and score notation.</div>
+<div class="content">
+<div class="imageblock left text-center">
+<div class="content">
+<img src="./assets/images/together-representation-fleches.png" alt="together-representation-fleches">
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_pcs_identity">PCS Identity</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Any ordered PCS (in normal form) is unique, but it is not a sufficient quality to sort them.</p>
+</div>
+<div class="sect2">
+<h3 id="_order_relation">Order relation</h3>
+<div class="paragraph">
+<p>It would be useful to be able to sort the pcs among themselves. To do this, we need to define a total order relation that verifies:</p>
+</div>
+<div class="paragraph">
+<p>\$∀ x, y ∈ P(E), (id(x) ≤ id(y) and id(y) ≤ id(x)) =&gt; x = y \$</p>
+</div>
+<div class="paragraph">
+<p>In others all, if two PCS have same identity value, then we are dealing with the same PCS.</p>
+</div>
+<div class="paragraph">
+<p>Question is : How to represent the identity relationship (id function)?</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_state">State</h3>
+<div class="paragraph">
+<p>By definition, a PCS is a collection of PC. Type is not atomic, and may have some algorithmic efficiency problem, so we prefer a scalar identity.</p>
+</div>
+<div class="paragraph">
+<p>To implement order relation, we use integer representation, to go through the order of natural integer.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_integer_2">Integer</h3>
+<div class="sect3">
+<h4 id="_polynomial_function">Polynomial function</h4>
+<div class="paragraph">
+<p>Polynomial function is a good candidate for sorting the PCS among themselves.</p>
+</div>
+<div class="paragraph">
+<p>However, there remains a bias.</p>
+</div>
+<div class="paragraph">
+<p>Examples :</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. Example problem when compare identity with Polynomial Identifier</caption>
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">pcs1</th>
+<th class="tableblock halign-left valign-top">pcs2</th>
+<th class="tableblock halign-left valign-top">pid(pcs1)</th>
+<th class="tableblock halign-left valign-top">pid(pcs2)</th>
+<th class="tableblock halign-left valign-top">pcs1 &lt; pcs2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[ ]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[0]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>0</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>1</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>true</em></strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[0,4,7]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[1,5,8]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>145</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>290</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>true</em></strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[0,3,7]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[2,6,11]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>137</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>2116</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>true</em></strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[0,11]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[0,3,7]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>2049</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>137</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>false</em></strong> (???)
+ <mark><em>waiting true</em></mark></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>In the first line, we admitted that a piece with a smaller cardinal than another piece will be considered smaller than the latter. But this is contradicted by the last line.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_augmented_polynomial_function">Augmented Polynomial function</h4>
+<div class="paragraph">
+<p>In order to solve the inconsistency of the polynomial function for sort pcs lists, we increase this function by another value that takes into account the cardinality of the set. The first value<sup class="footnote">[<a id="_footnoteref_5" class="footnote" href="#_footnotedef_5" title="View footnote.">5</a>]</sup>, outside <em>pid</em> domain, is <code>2<sup>n</sup></code></p>
+</div>
+<div class="paragraph">
+<p>So, augmented polynomial function, which takes into account the cardinal, is  : <code><em>pid</em> + 2<sup>12</sup> * cardinal</code></p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 3. Example Compare with Augmented Polynomial Identifier</caption>
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">pcs1</th>
+<th class="tableblock halign-left valign-top">pcs2</th>
+<th class="tableblock halign-left valign-top">augPid(pcs1)</th>
+<th class="tableblock halign-left valign-top">augPid(pcs2)</th>
+<th class="tableblock halign-left valign-top">pcs1 &lt; pcs1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[ ]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[0]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>0</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>4097</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>true</em></strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[0,4,7]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[1,5,8]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>12433</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>12578</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>true</em></strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[0,3,7]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[2,6,11]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>12425</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>14404</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>true</em></strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[0,11]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[0,3,7]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>10241</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>12425</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>true</em></strong> (ok)</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+In Musaicbox code, Augmented Polynomial Identifier is called <em>id</em>, and <em>pid</em> is kept because is commonly used.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_orbit">Orbit</h3>
+<div class="paragraph">
+<p>Orbit is a set where all elements (pcs) share the same equivalence property (see also <em>setoid</em> or <em>bishop set</em>)</p>
+</div>
+<div class="paragraph">
+<p>Example : Orbit cyclic of major chord <code>{ C,E,G }</code> is a set with equivalence relations "<em>having same structure : major third then perfect fifth</em>". This set is composed of 12 elements (<code>{ C, E, G }, { C#, E#, G# }, &#8230;&#8203;, { B, D#, F# }</code>)</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 4. Equivalence of relationship equivalences</caption>
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">pcs</th>
+<th class="tableblock halign-left valign-top">interval</th>
+<th class="tableblock halign-left valign-top">clock</th>
+<th class="tableblock halign-left valign-top">musaic</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Major triad</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">major third then perfect fifth</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">specific inscribed polygon</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">specific motif</p></td>
+</tr>
+</tbody>
+</table>
+<div class="openblock float-group">
+<div class="content">
+<div class="imageblock left text-center left">
+<div class="content">
+<img src="./assets/images/maj-triad-orbit-score.png" alt="Orbit cyclic">
+</div>
+<div class="title">Figure 8. Orbit Cyclic in score view and Triad Major Motif</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Below, same, with clock representation.</p>
+</div>
+<div class="openblock float-group">
+<div class="content">
+<div class="imageblock left text-center left">
+<div class="content">
+<img src="./assets/images/maj-orbit-clock2.png" alt="Orbit cyclic">
+</div>
+<div class="title">Figure 9. Orbit Cyclic in clock view and their inscribed polygon</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>If we organize the 4096 pcs set into subsets with equivalence relation "<em>having same structure of inscribed polygon</em>", we obtain 352<sup class="footnote">[<a id="_footnoteref_6" class="footnote" href="#_footnotedef_6" title="View footnote.">6</a>]</sup> subsets (orbits), a partition of 4096 pcs set.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 5. Enumeration via line 12 of Pascal triangle</caption>
 <colgroup>
 <col style="width: 11.1111%;">
 <col style="width: 11.1111%;">
@@ -827,13 +1278,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <col style="width: 11.1111%;">
 <col style="width: 11.1112%;">
 </colgroup>
-<tbody>
+<thead>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PCS cardinal</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Orbit cardinal</p></td>
-<td class="tableblock halign-center valign-top" colspan="6"><p class="tableblock"><em>Coefficient of Transposition</em></p></td>
-<td class="tableblock halign-left valign-top"></td>
+<th class="tableblock halign-left valign-top">PCS cardinal</th>
+<th class="tableblock halign-left valign-top">Orbit cardinal</th>
+<th class="tableblock halign-center valign-top" colspan="6"><em>Coefficient of Transposition</em></th>
+<th class="tableblock halign-left valign-top">Pascal triangle line 12</th>
 </tr>
+</thead>
+<tbody>
 <tr>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"></td>
@@ -1004,7 +1457,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <td class="tableblock halign-left valign-top"><p class="tableblock">352 orbits of cyclic group</p></td>
 <td class="tableblock halign-center valign-top" colspan="5"><p class="tableblock"><em>17 cyclic orbits PCS in Limited Transposition</em></p></td>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4096 orbits of trivial group<sup class="footnote">[<a id="_footnoteref_6" class="footnote" href="#_footnotedef_6" title="View footnote.">6</a>]</sup></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4096 orbits of trivial group<sup class="footnote">[<a id="_footnoteref_7" class="footnote" href="#_footnotedef_7" title="View footnote.">7</a>]</sup></p></td>
 </tr>
 </tbody>
 </table>
@@ -1015,414 +1468,32 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect1">
-<h2 id="_pcs_representations">PCS Representations</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>A <em>Pitch Set Class</em> (PCS, or pcs) may have multiple representations.</p>
-</div>
-<div class="sect2">
-<h3 id="_set">Set</h3>
-<div class="paragraph">
-<p>Example for C,E,G :  <code>{0,4,7}</code> or <code>[0,4,7]</code> (from musical set theory)</p>
-</div>
-<div class="paragraph">
-<p>It is customary to represent pitches class into a PCS in an ordered manner, called <em>Normal Form</em>, from smallest to largest. For example: [0, 4, 7] not [4, 0, 7]</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_vector">Vector</h3>
-<div class="paragraph">
-<p>Example for C,E,G :  <code>[<strong>1</strong>,0,0,0,<strong>1</strong>,0,0,<strong>1</strong>,0,0,0,0]</code>  (12 values)</p>
-</div>
-<div class="paragraph">
-<p>Note : can be also vector of boolean values : <code>[<strong>true</strong>,false,false,false,<strong>true</strong>,false,false,<strong>true</strong>,false,false,false,false]</code></p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_integer">Integer</h3>
-<div class="paragraph">
-<p>From vector representation, we sum of power of 2, where value is 1 (or true) into vector (algorithm called <em>polynomial function</em>)</p>
-</div>
-<div class="paragraph">
-<p>Example for {C,E,G} :  <code>1 + 16 + 128</code> = <code>145</code>  (decimal value)</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. Example Polynomial Identifier ([0,4,7])</caption>
-<colgroup>
-<col style="width: 7.1428%;">
-<col style="width: 7.1428%;">
-<col style="width: 7.1428%;">
-<col style="width: 7.1428%;">
-<col style="width: 7.1428%;">
-<col style="width: 7.1428%;">
-<col style="width: 7.1428%;">
-<col style="width: 7.1428%;">
-<col style="width: 7.1428%;">
-<col style="width: 7.1428%;">
-<col style="width: 7.1428%;">
-<col style="width: 7.1428%;">
-<col style="width: 7.1428%;">
-<col style="width: 7.1436%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Power of 2</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">8</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">16</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">32</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">64</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">128</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">252</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">512</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1024</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2048</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>pid</em></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>pcs</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>1</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>1</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>1</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>pid</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>1</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>16</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>128</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>145</em></strong></p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>Examples :</p>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>pid('[]') = 0 (empty set)
-pid('[0,1,2,3,4,5,6,7,8,9,10,11]') = 4095 (chromatic set)
-pid('[1,3,5,7,9,11]') = 2730 (whole tone scale)</pre>
-</div>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-As each pcs into the 4096 is unique, each of these pcs has a unique value by polynomial function. We call this value <em>pid</em> for polynomial identifier.
-</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_geometry">Geometry</h3>
-<div class="paragraph">
-<p>Example with [0,4,7]</p>
-</div>
-<div class="sect3">
-<h4 id="_linear">Linear</h4>
-<div class="paragraph">
-<p>&#9632;&#9633;&#9633;&#9633;&#9632;&#9633;&#9633;&#9632;&#9633;&#9633;&#9633;&#9633;</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_circle_clock">Circle / Clock</h4>
-<div class="paragraph">
-<p>Optional with polygon inscribed.</p>
-</div>
-<div class="openblock float-group">
-<div class="content">
-<div class="imageblock left text-center">
-<div class="content">
-<img src="./assets/images/_0_4_7.png" alt="_0_4_7_clock-names">
-</div>
-</div>
-<div class="imageblock left text-center">
-<div class="content">
-<img src="./assets/images/_0_4_7_clock.png" alt="_0_4_7_clock">
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_musaic">Musaic</h4>
-<div class="openblock float-group">
-<div class="content">
-<div class="imageblock left text-center">
-<div class="content">
-<img src="./assets/images/_0_4_7_musaic-names.png" alt="_0_4_7_musaic-names">
-</div>
-</div>
-<div class="imageblock left text-center">
-<div class="content">
-<img src="./assets/images/_0_4_7_musaic.png" alt="_0_4_7_musaic">
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_dis_musaic_tonnetz_and_more">DIS : Musaic, Tonnetz and more</h4>
-<div class="paragraph">
-<p>More generally, a matrix regular representation is instance of a <em>Dual Interval Space</em> (<a href="#DIS">[DIS]</a>), a two-dimensional array of pitches where “rows” are separated by the same interval and the “columns” by one other but also same (non-zero) interval.</p>
-</div>
-<div class="paragraph">
-<p>Examples : DIS(y,x) where y is row interval and x is column interval. Violin is DIS(1,7), guitar in P4 Tuning is DIS(1,5), Tonnetz is DIS(4, 7), etc.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Instrument in DIS(x,y) are in <em>regular interface</em> family.
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_together">Together</h3>
-<div class="paragraph">
-<p>All PCS representations are interchangeable by bijective connection.</p>
-</div>
-<div class="paragraph">
-<p>Example : Integer to PCS, PCS to Integer, Integer to Vector etc.</p>
-</div>
-<div class="openblock float-group">
-<div class="content">
-<div class="imageblock left text-center">
-<div class="content">
-<img src="./assets/images/together-representation-fleches.png" alt="together-representation-fleches">
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_pcs_identity">PCS Identity</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Any ordered PCS (in normal form) is unique, but it is not a sufficient quality to sort them.</p>
-</div>
-<div class="sect2">
-<h3 id="_order_relation">Order relation</h3>
-<div class="paragraph">
-<p>It would be useful to be able to sort the pcs among themselves. To do this, we need to define a total order relation that verifies: ∀ x, y ∈ P(E), (id(x) ≤ id(y) and id(y) ≤ id(x)) &#8658; x = y (same)</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_state">State</h3>
-<div class="paragraph">
-<p>By definition, a PCS is a collection of PC. Type is not atomic, and may have some algorithmic efficiency problem, so we prefer a scalar identity.</p>
-</div>
-<div class="paragraph">
-<p>To implement order relation, we use integer representation, to go through the order of natural of integer.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_integer_2">Integer</h3>
-<div class="sect3">
-<h4 id="_polynomial_function">Polynomial function</h4>
-<div class="paragraph">
-<p>Polynomial function is a good candidate for sorting the PCS among themselves.</p>
-</div>
-<div class="paragraph">
-<p>However, there remains a bias.</p>
-</div>
-<div class="paragraph">
-<p>Examples :</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 2. Example Compare with Polynomial Identifier</caption>
-<colgroup>
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">pcs1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">pcs2</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">pid(pcs1)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">pid(pcs2)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">pcs1 &lt; pcs2</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[ ]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[0]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>true</strong></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[0,4,7]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[1,5,8]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">145</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">290</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>true</strong></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[0,3,7]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[2,6,11]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">137</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2116</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>true</strong></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[0,11]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[0,3,7]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2049</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">137</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>false</strong> (???)
- <strong><em>waiting true</em></strong></p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>In the first line, we admitted that a piece with a smaller cardinal than another piece will be considered smaller than the latter. But this is contradicted by the last line.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_augmented_polynomial_function">Augmented Polynomial function</h4>
-<div class="paragraph">
-<p>In order to solve the inconsistency of the polynomial function for sort pcs lists, we increase this function by another value that takes into account the cardinality of the set. The first value, outside <em>pid</em> domain, is 2^n * cardinal</p>
-</div>
-<div class="paragraph">
-<p>So, augmented polynomial function is  : <em>pid</em> + 2^12 * cardinal</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 3. Example Compare with Augmented Polynomial Identifier</caption>
-<colgroup>
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">pcs1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">pcs2</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">augPid(pcs1)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">augPid(pcs2)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">pcs1 &lt; pcs1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[ ]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[0]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4097</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>true</strong></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[0,4,7]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[1,5,8]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">12433</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">12578</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>true</strong></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[0,3,7]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[2,6,11]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">12425</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">14404</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>true</strong></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[0,11]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[0,3,7]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">10241</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">12425</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>true</strong> (ok)</p></td>
-</tr>
-</tbody>
-</table>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-In Musaicbox code, Augmented Polynomial Identifier is called <em>id</em>, and <em>pid</em> is kept because is commonly used.
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_orbit">Orbit</h3>
-<div class="paragraph">
-<p>Orbit is a set where all elements (pcs) share the same equivalence property.</p>
-</div>
-<div class="paragraph">
-<p>Example : Orbit cyclic of major chord <code>{ C,E,G }</code> characterised by interval structure  <code>IS:(4,3,5)</code>  is composed of 12 elements (<code>{ C, E, G }, { C#, E#, G# }, &#8230;&#8203;, { B, D#, F# }</code>)</p>
-</div>
-<div class="openblock float-group">
-<div class="content">
-<div class="imageblock left text-center left">
-<div class="content">
-<img src="./assets/images/maj-triad-orbit-score.png" alt="Orbit cyclic">
-</div>
-<div class="title">Figure 8. Orbit Cyclic in score view</div>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p>Below, same, with clock representation.</p>
-</div>
-<div class="openblock float-group">
-<div class="content">
-<div class="imageblock left text-center left">
-<div class="content">
-<img src="./assets/images/maj-orbit-clock2.png" alt="Orbit cyclic">
-</div>
-<div class="title">Figure 9. Orbit Cyclic in clock view</div>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p>More formally, orbits are the result of the action of a group (cyclic, affine, dihedral, &#8230;&#8203;, musaic) on Z/nZ.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
 <h2 id="_equivalence_relations">Equivalence relations</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>En règle générale, des entités sont dites équivalentes si elles partagent une même caractéristique.</p>
+</div>
+<div class="paragraph">
+<p>By example : A4 (440 hz) and their lower and upper octaves share same characteristic : "having a frequency related to be a multiple of 2 of 440 Hz"</p>
+</div>
+<div class="paragraph">
+<p>Pour partitionner l&#8217;ensemble des 4096 PCS,</p>
+</div>
+<div class="paragraph">
+<p>En musique, il est généralement admis que nous pouvons changer la hauteur d&#8217;une oeuvre sans en changer fondamentalement sa nature. Dans la musique tonale, cette action est appelée "changement de tonalité".</p>
+</div>
+<div class="paragraph">
+<p>Exemple : petite mélodie en 2 tonalités</p>
+</div>
+<div class="paragraph">
+<p>On peut avoir 12 versions de cette mélodie (dans les 12 tonalités). L&#8217;ensemble de ces 12 versions est</p>
+</div>
+<div class="paragraph">
+<p>Equivalence relation : "Having same prime form"</p>
+</div>
+<div class="paragraph">
+<p>En identifiant n&#8217;importe quel son à une meme classe de hauteur (octave), nous pouvons réduire tout extrait musical à un ensemble classes de hauteur.</p>
+</div>
 <div class="paragraph">
 <p>It is about gathering all the elements sharing the same characteristic, in the same set called <strong>equivalence orbit</strong>, or <strong>X orbit</strong>, or <strong>orbit</strong> if equivalence context is clear.</p>
 </div>
@@ -1433,7 +1504,7 @@ In Musaicbox code, Augmented Polynomial Identifier is called <em>id</em>, and <e
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-An orbit can be empty (contains empty pcs) or contain all elements. For a given equivalence relation, an element belongs to only one orbit. Orbits, as result of action of a group, partition the resulting data of this action.
+An orbit is a set which can be empty (contains empty pcs) or contain all elements. For a given equivalence relation, an element belongs to only one orbit. Orbits, as a result of a group action, form  a partition of the set on which it acts (4096 PCS).
 </td>
 </tr>
 </table>
@@ -1459,7 +1530,7 @@ An orbit can be empty (contains empty pcs) or contain all elements. For a given 
 <p>In other words, PCS in clock representation having the <strong>same inscribed polygon</strong>.</p>
 </div>
 <div class="paragraph">
-<p>Cyclic group has <strong>352</strong> orbits.<sup class="footnote">[<a id="_footnoteref_7" class="footnote" href="#_footnotedef_7" title="View footnote.">7</a>]</sup></p>
+<p>Cyclic group has <strong>352</strong> orbits.<sup class="footnote">[<a id="_footnoteref_8" class="footnote" href="#_footnotedef_8" title="View footnote.">8</a>]</sup></p>
 </div>
 </div>
 <div class="sect2">
@@ -1621,30 +1692,33 @@ Given R, an equivalence relation, and pcs1, pcs2 (two pcs), if PrimeForm(R, pcs1
 <div id="footnotes">
 <hr>
 <div class="footnote" id="_footnotedef_1">
-<a href="#_footnoteref_1">1</a>. The only sound that will be produced will be the one generated by the user on his instrument :)
+<a href="#_footnoteref_1">1</a>. provided that they accept the postulate of the decomposition of an octave into 12 "equal parts".
 </div>
 <div class="footnote" id="_footnotedef_2">
-<a href="#_footnoteref_2">2</a>. provided that they accept the postulate of the decomposition of an octave into 12 "equal parts".
+<a href="#_footnoteref_2">2</a>. redo:Back to the future only possible if the past has not been updated
 </div>
 <div class="footnote" id="_footnotedef_3">
-<a href="#_footnoteref_3">3</a>. redo:Back to the future only possible if the past has not been updated
+<a href="#_footnoteref_3">3</a>. A stabiliser is a transformation operation which conserve intervallic structure
 </div>
 <div class="footnote" id="_footnotedef_4">
-<a href="#_footnoteref_4">4</a>. A stabiliser is a transformation operation which conserve intervallic structure
+<a href="#_footnoteref_4">4</a>. see Allen Forte, John Rahn&#8230;&#8203;
 </div>
 <div class="footnote" id="_footnotedef_5">
-<a href="#_footnoteref_5">5</a>. see Allen Forte, John Rahn&#8230;&#8203;
+<a href="#_footnoteref_5">5</a>. the last is 2<sup>12</sup>-1
 </div>
 <div class="footnote" id="_footnotedef_6">
-<a href="#_footnoteref_6">6</a>. orbit of cardinal = 1
+<a href="#_footnoteref_6">6</a>. and not 4096/12, because some pcs have less than 12 transposed
 </div>
 <div class="footnote" id="_footnotedef_7">
-<a href="#_footnoteref_7">7</a>. 352 &gt; 4096 / 12, because somme pcs are there cardinal cyclic orbit smaller than 12 (pcs in <strong>limited transposition</strong>)
+<a href="#_footnoteref_7">7</a>. orbit of cardinal = 1
+</div>
+<div class="footnote" id="_footnotedef_8">
+<a href="#_footnoteref_8">8</a>. 352 &gt; 4096 / 12, because somme pcs are there cardinal cyclic orbit smaller than 12 (pcs in <strong>limited transposition</strong>)
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-11-18 19:00:30 +0100
+Last updated 2024-12-31 18:57:02 +0100
 </div>
 </div>
 <script>

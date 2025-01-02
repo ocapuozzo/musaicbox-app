@@ -225,7 +225,7 @@ export class Orbit {
     })
 
     // 3: reducer name by extracting the transposition coefficient x, as ~x*
-    // CM5-T2 CM5-T6 CM5-T10 => CM5-T2~4*  (4 is transposition coefficient, equivalent 'up to 4-steps translation')
+    // CM5-T2 CM5-T6 CM5-T10 => CM5-T2~4*  (4 is transposition coefficient, equivalent 'up to 4-steps transposition')
     // M11-T0 M11-T2 M11-T4 M11-T6 M11-T8 M11-T10 => M11-T0~2*
     for (let i = 0; i < nameOpsWithoutT.length; i++) {
       let nameOpWithoutT = nameOpsWithoutT[i]

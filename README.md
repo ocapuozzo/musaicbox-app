@@ -18,13 +18,11 @@ May be use as
 - Compositional tool
 - Application example of Group Theory (Zx Affine Group). Develop with group theory concepts and implemented by permutation operations (inside a vector).
 
-Note : produces no sound !
-
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.10, migrate in angular 18
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.10, migrate to angular 18
 
 ## Online
 
-[a GithubPage app](https://ocapuozzo.github.io/musaicbox-app/)
+Go to [this Github Page App from this project](https://ocapuozzo.github.io/musaicbox-app/)
 
 
 ## Development server
@@ -33,7 +31,7 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The appli
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Run `./build.sh` to build the project. The build artifacts will be stored in the `docs/` directory.
 
 ## Running unit tests
 

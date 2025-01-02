@@ -7,13 +7,13 @@ describe('HistoryT test', () => {
      const h = new HistoryT<IPcs>()
      const maj = new IPcs({strPcs:"1,5,8"})
      h.pushIntoPresent(maj)
-     h.pushIntoPresent(maj.translation(1))
+     h.pushIntoPresent(maj.transposition(1))
      const pcsPF = maj.cyclicPrimeForm()
      h.pushIntoPresent(pcsPF)
 
-     expect(h.unDoToPresent()?.id).toEqual(maj.translation(1).id)
+     expect(h.unDoToPresent()?.id).toEqual(maj.transposition(1).id)
      expect(h.reDoToPresent()?.id).toEqual(pcsPF.id)
-     expect(h.unDoToPresent()?.id).toEqual(maj.translation(1).id)
+     expect(h.unDoToPresent()?.id).toEqual(maj.transposition(1).id)
      let pcs : IPcs | undefined
      pcs = h.unDoToPresent()
      expect(pcs?.id).toEqual(maj.id)
@@ -25,7 +25,7 @@ describe('HistoryT test', () => {
      expect(pcs?.id).toEqual(maj.id)
 
      pcs = h.reDoToPresent()
-     expect(pcs?.id).toEqual(maj.translation(1).id)
+     expect(pcs?.id).toEqual(maj.transposition(1).id)
 
   })
 

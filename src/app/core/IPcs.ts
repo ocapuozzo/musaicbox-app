@@ -396,7 +396,7 @@ export class IPcs {
   }
 
   /**
-   * return this by translation iPivot to zero, useful for analyse (musical mode)
+   * return this by transposition iPivot to zero, useful for analyse (musical mode)
    * @return {IPcs}
    */
   modalPrimeForm(): IPcs {
@@ -414,7 +414,7 @@ export class IPcs {
     // work with a copy (no side effect)
     let newPivot = newIPcs.getPivotFromSymmetry()
     if (newPivot >= 0) {
-      const newIPcs2 = newIPcs.translation(newIPcs.n - newPivot)
+      const newIPcs2 = newIPcs.transposition(newIPcs.n - newPivot)
       // newIPcs2 is in orbit (cyclic is base default)
       newIPcs = new IPcs({
         binPcs: newIPcs2.abinPcs,
@@ -535,7 +535,7 @@ export class IPcs {
     return new IPcs({
       binPcs: IPcs.getBinPcsPermute(a, t, newPivot, this.abinPcs),
       iPivot: newPivot,
-      orbit: new Orbit(),
+      orbit: new Orbit(), // detached pcs
       templateMappingBinPcs: this.templateMappingBinPcs,
       nMapping: this.nMapping
     })
@@ -552,11 +552,11 @@ export class IPcs {
   }
 
   /**
-   * Translation of this, in n
+   * Transposition of this, in n
    * @param t step
    * @returns {IPcs}
    */
-  translation(t: number): IPcs {
+  transposition(t: number): IPcs {
     return this.affineOp(1, t)
   }
 
@@ -1346,9 +1346,9 @@ export class IPcs {
               // The case T has been exhausted, let's search with values of T greater than zero.
               // let's try with a value of t which gradually moves away from zero
               // Note : this.n-t and t are both same distance from zero.
-              if (id === IPcs.OperationsT0_M11_M5_M7_CM11_CM5_CM7[i].actionOn(pcsForTest).translation(t).id
+              if (id === IPcs.OperationsT0_M11_M5_M7_CM11_CM5_CM7[i].actionOn(pcsForTest).transposition(t).id
                 ||
-                id === IPcs.OperationsT0_M11_M5_M7_CM11_CM5_CM7[i].actionOn(pcsForTest).translation(this.n - t).id) {
+                id === IPcs.OperationsT0_M11_M5_M7_CM11_CM5_CM7[i].actionOn(pcsForTest).transposition(this.n - t).id) {
                 // Closest value to zero find
                 return j
               }
@@ -1489,5 +1489,11 @@ export class IPcs {
       res += res ? ` M${nPrimeWithN[i]}` : `M${nPrimeWithN[i]}`
     }
     return `[${res}]`;
+  }
+
+  detach() {
+    // set "empty" ( x.orbit = new Orbit() is done by transposition op )
+    // transposition of zero step (kind of clone)
+    return this.transposition(0);
   }
 }

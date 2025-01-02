@@ -55,7 +55,7 @@ export class MusaicOperation {
    *
    * @param n number dimension vector
    * @param a number coef mult
-   * @param t number translation value
+   * @param t number transposition value
    * @param complement boolean
    */
   constructor(n: number, a: number, t: number, complement = false) {
@@ -146,7 +146,7 @@ export class MusaicOperation {
     return this._strRepr;
   }
 
-// without translation op
+// without transposition op
   toStringWithoutTransp() {
     return this._strReprWithoutTransp;
   }

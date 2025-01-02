@@ -2,6 +2,7 @@ import {MusaicOperation} from "./MusaicOperation";
 import {IPcs} from "./IPcs";
 import {GroupAction} from "./GroupAction";
 import {Group} from "./Group";
+
 describe('MusaicPcsOperation', () => {
 
   it("MusaicPcsOp testEqualsObject ", () => {
@@ -139,7 +140,7 @@ describe('MusaicPcsOperation', () => {
     let right : MusaicOperation = opM8_T2.compose(opM5_T11).compose(opM4_T3)
     expect(right.equals(left)).toBeTrue()
 
-    // commutative if t=0 (no translation)
+    // commutative if t=0 (no transposition)
     let opM7_T0 = new MusaicOperation(12, 7, 0, false);
     let opM5_T0 = new MusaicOperation(12, 5, 0, false);
     const op1 = opM7_T0.compose(opM5_T0)

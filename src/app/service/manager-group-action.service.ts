@@ -7,7 +7,7 @@ import {MusaicOperation} from "../core/MusaicOperation";
  */
 const GROUPS_NAMES_N12 = [
   {groupName: "n=12 []", alias: "Trivial"}, // only M1-T0 (neutral operation - not represented)
-  {groupName: "n=12 [M1]", alias: "Cyclic"}, // all Mx and CMx are with -T1 (translation by step 1)
+  {groupName: "n=12 [M1]", alias: "Cyclic"}, // all Mx and CMx are with -T1 (transposition by step 1)
   {groupName: "n=12 [M1 M5]", alias: ""},
   {groupName: "n=12 [M1 M7]", alias: ""},
   {groupName: "n=12 [M1 M11]", alias: "Dihedral"},

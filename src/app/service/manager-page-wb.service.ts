@@ -1021,7 +1021,7 @@ export class ManagerPageWBService {
     let pcsCyclicList = [pcs]
     // no get from orbit cyclic because no sorted, and pivot no logic
     for (let i = 1; i < pcs.n; i++) {
-      pcsCyclicList.push(pcs.translation(i))
+      pcsCyclicList.push(pcs.transposition(i))
     }
     this.pcsDtoForTemplate = this.uiPcsDtoList[index]
     this.addPcs({somePcs: pcsCyclicList, circularAlign: true, indexCenterElement: index})

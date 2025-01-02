@@ -9,7 +9,6 @@ import {MatIcon} from "@angular/material/icon";
 import {PcsSearch} from "../../utils/PcsSearch";
 import {EightyEight} from "../../utils/EightyEight";
 import {PcsColor} from "../../color/PcsColor";
-import {MatTooltip} from "@angular/material/tooltip";
 import {MusaicOperation} from "../../core/MusaicOperation";
 import {MusaicComponent} from "../musaic/musaic.component";
 import {OctotropeComponent} from "../octotrope/octotrope.component";
@@ -21,7 +20,6 @@ import {NgIf} from "@angular/common";
   imports: [
     MatButton,
     MatIcon,
-    MatTooltip,
     MusaicComponent,
     OctotropeComponent,
     NgIf
@@ -141,11 +139,13 @@ export class PcsAnalysisComponent {
   }
 
   pcsWithSameIVas(pcs: IPcs): IPcs[] {
-    let pcsSameIV = PcsSearch.searchPcsWithThisIV(pcs.iv().toString())
+    let pcsHavingSameIV = PcsSearch.searchPcsWithThisIV(pcs.iv().toString())
     if (pcs.orbit?.groupAction) {
-      pcsSameIV = pcsSameIV.map((pcsSameIV) => pcs.orbit!.groupAction!.getIPcsInOrbit(pcsSameIV))
+      pcsHavingSameIV = pcsHavingSameIV.map((pcsSameIV) => pcs.orbit!.groupAction!.getIPcsInOrbit(pcsSameIV))
+    } else {
+      pcsHavingSameIV = pcsHavingSameIV.map((pcsSameIV) => pcsSameIV.detach())
     }
-    return pcsSameIV
+    return pcsHavingSameIV
   }
 
   doReplaceBy(pcs: IPcs) {

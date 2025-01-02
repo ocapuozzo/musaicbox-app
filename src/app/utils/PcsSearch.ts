@@ -14,7 +14,7 @@ export class PcsSearch {
     const cyclicGroup = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
     for (const orbit of cyclicGroup.orbits) {
       const pcsPF = orbit.getPcsMin()
-      if (pcsPF.iv().toString() == searchIV) {
+      if (pcsPF.iv().toString() === searchIV) {
         pcsWithSameIV.push(pcsPF)
           // new IPcs({strPcs:pcsPF.getPcsStr(), orbit: new Orbit()}))
       }

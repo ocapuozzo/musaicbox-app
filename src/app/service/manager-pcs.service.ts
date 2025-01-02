@@ -18,7 +18,7 @@ export class ManagerPcsService {
     let newPcs = pcs.affineOp(a, 0)
     if (pcs.orbit?.groupAction) {
       let newPcsInOrbit = pcs.orbit.groupAction.getIPcsInOrbit(newPcs)
-      // set pivot from pivot obtained by translation
+      // set pivot from pivot obtained by transposition
       // rem: pivot is not signifiant for pcs identity
       if (newPcs.iPivot !== undefined && newPcs.iPivot !== newPcsInOrbit.iPivot) {
         newPcsInOrbit.setPivot(newPcs.iPivot)
@@ -109,9 +109,7 @@ export class ManagerPcsService {
    * @param pcs a detached PCS
    */
   doDetach(pcs: IPcs) : IPcs {
-    // set "empty" ( x.orbit = new Orbit() is done by translation op )
-    // translation of zero step (kind of clone)
-    return pcs.translation(0);
+    return pcs.detach()
   }
 
   doTransformAffine(pcs : IPcs, a : number, t : number) : IPcs {
