@@ -24,4 +24,22 @@ describe('ChordNaming unit tests', () => {
 
   })
 
+  it('Inversion chords', () => {
+    const cm = new IPcs({
+      strPcs: "[7, 0, 3]", // maj 3-chord bass 5th
+    })
+    expect(cm.getChordName()).toEqual('Cm/5th')
+
+    const fm = new IPcs({
+      strPcs: "[0, 5, 8]", // maj 3-chord
+    })
+    expect(fm.getChordName()).toEqual('Fm/5th')
+
+    const fM = new IPcs({
+      strPcs: "[0, 5, 9]", // maj 3-chord
+    })
+    expect(fM.getChordName()).toEqual('FMaj/5th')
+
+  })
+
 })

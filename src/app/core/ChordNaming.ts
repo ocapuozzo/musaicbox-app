@@ -15,64 +15,62 @@ export class ChordNaming {
 
   /**
    * List of chordNames : key = 'pcs primeForm as string', value = IChordNameOrder
+   *
+   *  List of "current" chords with their sortOrder (use for sort list of chords)
+   *  IMPORTANT : Add, update or remove elements of this list is
+   *  the only operation to have chord recognized, or not.
+   *
    */
-  static chordsModalPF = new Map<string, IChordNameOrder>()
-
-  /**
-   * A list of "current" chords with their sortOrder (use for sort list of chords)
-   * IMPORTANT : Add, update or remove elements of this list is
-   * the only operation to have chord recognized, or not.
-   */
-  static {
+  static chordsModalPF = new Map<string, IChordNameOrder>([
     ///// 3-chords
     // Major
-    ChordNaming.chordsModalPF.set('0,4,7', {name:'Maj', sortOrder:1, root:0})
-    ChordNaming.chordsModalPF.set('0,4,10', {name:'7', sortOrder:5, root:0})
-    ChordNaming.chordsModalPF.set('0,4,6', {name:'Maj ♭5', sortOrder:15, root:0})
-    ChordNaming.chordsModalPF.set('0,4,8', {name:'aug', sortOrder:13, root:0})
-    ChordNaming.chordsModalPF.set('0,4,9', {name:'Maj6', sortOrder:3, root:0})
-    ChordNaming.chordsModalPF.set('0,5,7', {name:'sus4', sortOrder: 9, root:0})
-    ChordNaming.chordsModalPF.set('0,2,7', {name:'sus2', sortOrder: 8, root:0})
-    ChordNaming.chordsModalPF.set('0,2,8', {name:'♯5 sus2', sortOrder:21, root:0})
-    ChordNaming.chordsModalPF.set('0,2,6', {name:'♭5 sus2', sortOrder:20, root:0})
+    ['0,4,7', {name:'Maj', sortOrder:1, root:0}],
+    ['0,4,10', {name:'7', sortOrder:5, root:0}],
+    ['0,4,6', {name:'Maj ♭5', sortOrder:15, root:0}],
+    ['0,4,8', {name:'aug', sortOrder:13, root:0}],
+    ['0,4,9', {name:'Maj6', sortOrder:3, root:0}],
+    ['0,5,7', {name:'sus4', sortOrder: 9, root:0}],
+    ['0,2,7', {name:'sus2', sortOrder: 8, root:0}],
+    ['0,2,8', {name:'♯5 sus2', sortOrder:21, root:0}],
+    ['0,2,6', {name:'♭5 sus2', sortOrder:20, root:0}],
     // minor
-    ChordNaming.chordsModalPF.set('0,3,7', {name:'m', sortOrder:2, root:0})
-    ChordNaming.chordsModalPF.set('0,3,6', {name:'dim', sortOrder:3, root:0})
-    ChordNaming.chordsModalPF.set('0,3,8', {name:'m ♭6', sortOrder:6, root:0})
+    ['0,3,7', {name:'m', sortOrder:2, root:0}],
+    ['0,3,6', {name:'dim', sortOrder:3, root:0}],
+    ['0,3,8', {name:'m ♭6', sortOrder:6, root:0}],
 
     // (experimental) inversion
-    ChordNaming.chordsModalPF.set('0,5,9', {name:'Maj/5th', sortOrder:6, root:5})
-    ChordNaming.chordsModalPF.set('0,5,8', {name:'min/5th', sortOrder:6, root:5})
+    ['0,5,9', {name:'Maj/5th', sortOrder:6, root:5}],
+    ['0,5,8', {name:'m/5th', sortOrder:6, root:5}],
     // => let chord third bass inversion are sixth chord considered ??
 
     ///// 4-chords
     // Major
-    ChordNaming.chordsModalPF.set('0,4,7,9', {name:'6', sortOrder:5, root:0})
-    ChordNaming.chordsModalPF.set('0,4,7,11', {name:'M7', sortOrder:4, root:0})
-    ChordNaming.chordsModalPF.set('0,4,7,8', {name:'M♭6', sortOrder:6, root:0})
+    ['0,4,7,9', {name:'6', sortOrder:5, root:0}],
+    ['0,4,7,11', {name:'M7', sortOrder:4, root:0}],
+    ['0,4,7,8', {name:'M♭6', sortOrder:6, root:0}],
 
     // Seventh
-    ChordNaming.chordsModalPF.set('0,4,7,10', {name:'7', sortOrder:5, root:0})
-    ChordNaming.chordsModalPF.set('0,4,8,10', {name:'7 ♯5', sortOrder:8, root:0})
-    ChordNaming.chordsModalPF.set('0,4,6,10', {name:'7 ♭5', sortOrder:6, root:0})
-    ChordNaming.chordsModalPF.set('0,5,7,10', {name:'7 sus4', sortOrder:15, root:0})
-    ChordNaming.chordsModalPF.set('0,5,7,11', {name:'sus4 M7', sortOrder:15, root:0})
-    ChordNaming.chordsModalPF.set('0,4,8,11', {name:'aug M7', sortOrder:5, root:0})
-    ChordNaming.chordsModalPF.set('0,2,7,10', {name:'7 sus2', sortOrder:7, root:0})
-    ChordNaming.chordsModalPF.set('0,2,6,10', {name:'7 ♭5 sus2', sortOrder:22, root:0})
-    ChordNaming.chordsModalPF.set('0,2,8,10', {name:'7 ♯5 sus2', sortOrder:23, root:0})
-    ChordNaming.chordsModalPF.set('0,2,5,10', {name:'9sus2', sortOrder:10, root:0}) // no fifth
+    ['0,4,7,10', {name:'7', sortOrder:5, root:0}],
+    ['0,4,8,10', {name:'7 ♯5', sortOrder:8, root:0}],
+    ['0,4,6,10', {name:'7 ♭5', sortOrder:6, root:0}],
+    ['0,5,7,10', {name:'7 sus4', sortOrder:15, root:0}],
+    ['0,5,7,11', {name:'sus4 M7', sortOrder:15, root:0}],
+    ['0,4,8,11', {name:'aug M7', sortOrder:5, root:0}],
+    ['0,2,7,10', {name:'7 sus2', sortOrder:7, root:0}],
+    ['0,2,6,10', {name:'7 ♭5 sus2', sortOrder:22, root:0}],
+    ['0,2,8,10', {name:'7 ♯5 sus2', sortOrder:23, root:0}],
+    ['0,2,5,10', {name:'9sus2', sortOrder:10, root:0}], // no fifth
 
     // minor
-    ChordNaming.chordsModalPF.set('0,3,7,10', {name:'m7', sortOrder:2, root:0})
-    ChordNaming.chordsModalPF.set('0,3,7,11', {name:'m M7', sortOrder:6, root:0})
-    ChordNaming.chordsModalPF.set('0,3,8,10', {name:'m7 ♯5', sortOrder:8, root:0})
-    ChordNaming.chordsModalPF.set('0,3,7,9', {name:'m6', sortOrder:5, root:0})
-    ChordNaming.chordsModalPF.set('0,3,7,8', {name:'m ♭6', sortOrder:7, root:0})
-    ChordNaming.chordsModalPF.set('0,3,6,10', {name:'ø', sortOrder:3, root:0})
-    ChordNaming.chordsModalPF.set('0,3,6,9', {name:'dim7', sortOrder:3, root:0})
+    ['0,3,7,10', {name:'m7', sortOrder:2, root:0}],
+    ['0,3,7,11', {name:'m M7', sortOrder:6, root:0}],
+    ['0,3,8,10', {name:'m7 ♯5', sortOrder:8, root:0}],
+    ['0,3,7,9', {name:'m6', sortOrder:5, root:0}],
+    ['0,3,7,8', {name:'m ♭6', sortOrder:7, root:0}],
+    ['0,3,6,10', {name:'ø', sortOrder:3, root:0}],
+    ['0,3,6,9', {name:'dim7', sortOrder:3, root:0}],
 
-  }
+  ])
 
   /**
    * From pcs, get list of possible currents chords
@@ -199,12 +197,8 @@ export class ChordNaming {
     let nameRoot = ''
     // const indexNameRoot = pcs.iPivot != undefined ? pcs.getMappedPivot() : -1
     // experimental
-    let indexNameRoot = ChordNaming.chordsModalPF.get(chordsNPitches[0])!.root // case chord inversion
-    if (indexNameRoot === 0) {
-      indexNameRoot = pcs.iPivot != undefined
-        ? pcs.getMappedPivot()
-        : -1
-    }
+    let indexNameRoot =  (pcs.getMappedPivot() + ChordNaming.chordsModalPF.get(chordsNPitches[0])!.root) % 12 // case chord inversion
+
     // console.log("indexNameRoot = ", indexNameRoot)
     if (ChordNaming.INDEX_ALTERED_NOTES.includes(indexNameRoot)) {
       // select # or b.
