@@ -597,11 +597,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_augmented_polynomial_function">Augmented Polynomial function</a></li>
 </ul>
 </li>
-<li><a href="#_orbit">Orbit</a></li>
 </ul>
 </li>
 <li><a href="#_equivalence_relations">Equivalence relations</a>
 <ul class="sectlevel2">
+<li><a href="#_orbit">Orbit</a></li>
 <li><a href="#_octaveenharmonic_equivalence">Octave/Enharmonic equivalence</a></li>
 <li><a href="#_intervallic_structure_equivalence_up_to_shift">Intervallic structure equivalence up to shift</a></li>
 <li><a href="#_dihedral_equivalence">Dihedral equivalence</a></li>
@@ -1206,16 +1206,27 @@ In Musaicbox code, Augmented Polynomial Identifier is called <em>id</em>, and <e
 </div>
 </div>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_equivalence_relations">Equivalence relations</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Entities are said to be equivalent if they all share the same characteristic.</p>
+</div>
+<div class="paragraph">
+<p>Example of characteristic : "<em>To be a major triad</em>"</p>
+</div>
 <div class="sect2">
 <h3 id="_orbit">Orbit</h3>
 <div class="paragraph">
-<p>Orbit is a set where all elements (pcs) share the same equivalence property (see also <em>setoid</em> or <em>bishop set</em>)</p>
+<p>Orbit is a set where all elements (pcs) share the same equivalence property.<sup class="footnote">[<a id="_footnoteref_6" class="footnote" href="#_footnotedef_6" title="View footnote.">6</a>]</sup></p>
 </div>
 <div class="paragraph">
-<p>Example : Orbit cyclic of major chord <code>{ C,E,G }</code> is a set with equivalence relations "<em>having same structure : major third then perfect fifth</em>". This set is composed of 12 elements (<code>{ C, E, G }, { C#, E#, G# }, &#8230;&#8203;, { B, D#, F# }</code>)</p>
+<p>Example : Orbit cyclic of major triad as <code>{ C,E,G }</code> is a set with equivalence relations "<em>having same structure : major third then perfect fifth</em>". This set is composed of 12 elements (<code>{ C, E, G }, { C#, E#, G# }, &#8230;&#8203;, { B, D#, F# }</code>)</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 4. Equivalence of relationship equivalences</caption>
+<caption class="title">Table 4. Equivalence "having same intervallic structure" in different representations</caption>
 <colgroup>
 <col style="width: 25%;">
 <col style="width: 25%;">
@@ -1224,8 +1235,8 @@ In Musaicbox code, Augmented Polynomial Identifier is called <em>id</em>, and <e
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">pcs</th>
-<th class="tableblock halign-left valign-top">interval</th>
+<th class="tableblock halign-left valign-top">structure name</th>
+<th class="tableblock halign-left valign-top">intervallic</th>
 <th class="tableblock halign-left valign-top">clock</th>
 <th class="tableblock halign-left valign-top">musaic</th>
 </tr>
@@ -1245,7 +1256,7 @@ In Musaicbox code, Augmented Polynomial Identifier is called <em>id</em>, and <e
 <div class="content">
 <img src="./assets/images/maj-triad-orbit-score.png" alt="Orbit cyclic">
 </div>
-<div class="title">Figure 8. Orbit Cyclic in score view and Triad Major Motif</div>
+<div class="title">Figure 8. Orbit Cyclic in score view and Major Triad Motif</div>
 </div>
 </div>
 </div>
@@ -1263,7 +1274,7 @@ In Musaicbox code, Augmented Polynomial Identifier is called <em>id</em>, and <e
 </div>
 </div>
 <div class="paragraph">
-<p>If we organize the 4096 pcs set into subsets with equivalence relation "<em>having same structure of inscribed polygon</em>", we obtain 352<sup class="footnote">[<a id="_footnoteref_6" class="footnote" href="#_footnotedef_6" title="View footnote.">6</a>]</sup> subsets (orbits), a partition of 4096 pcs set.</p>
+<p>If we organize the 4096 pcs set into subsets with equivalence relation "<em>having same structure of inscribed polygon</em>", we obtain 352<sup class="footnote">[<a id="_footnoteref_7" class="footnote" href="#_footnotedef_7" title="View footnote.">7</a>]</sup> subsets (orbits), a partition of 4096 pcs set.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 5. Enumeration via line 12 of Pascal triangle</caption>
@@ -1457,24 +1468,12 @@ In Musaicbox code, Augmented Polynomial Identifier is called <em>id</em>, and <e
 <td class="tableblock halign-left valign-top"><p class="tableblock">352 orbits of cyclic group</p></td>
 <td class="tableblock halign-center valign-top" colspan="5"><p class="tableblock"><em>17 cyclic orbits PCS in Limited Transposition</em></p></td>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4096 orbits of trivial group<sup class="footnote">[<a id="_footnoteref_7" class="footnote" href="#_footnotedef_7" title="View footnote.">7</a>]</sup></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4096 orbits of trivial group<sup class="footnote">[<a id="_footnoteref_8" class="footnote" href="#_footnotedef_8" title="View footnote.">8</a>]</sup></p></td>
 </tr>
 </tbody>
 </table>
 <div class="paragraph">
-<p>Set of all these sets is known as <code><em>P(E)</em></code> (<strong>power set</strong>), and cardinal(<em>P(E)</em>) = 2^n = <strong>4096</strong>, ordered by PCS cardinality by line 12 of Pascal triangle.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_equivalence_relations">Equivalence relations</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>En règle générale, des entités sont dites équivalentes si elles partagent une même caractéristique.</p>
-</div>
-<div class="paragraph">
-<p>By example : A4 (440 hz) and their lower and upper octaves share same characteristic : "having a frequency related to be a multiple of 2 of 440 Hz"</p>
+<p>Set of all these sets is known as <code><em>P(E)</em></code> (<strong>power set</strong>), and <code>cardinal(<em>P(E)</em>) = 2<sup>n</sup> = <strong>4096</strong></code>, cardinality ordered by line 12 of Pascal triangle.</p>
 </div>
 <div class="paragraph">
 <p>Pour partitionner l&#8217;ensemble des 4096 PCS,</p>
@@ -1509,6 +1508,7 @@ An orbit is a set which can be empty (contains empty pcs) or contain all element
 </tr>
 </table>
 </div>
+</div>
 <div class="sect2">
 <h3 id="_octaveenharmonic_equivalence">Octave/Enharmonic equivalence</h3>
 <div class="paragraph">
@@ -1530,7 +1530,7 @@ An orbit is a set which can be empty (contains empty pcs) or contain all element
 <p>In other words, PCS in clock representation having the <strong>same inscribed polygon</strong>.</p>
 </div>
 <div class="paragraph">
-<p>Cyclic group has <strong>352</strong> orbits.<sup class="footnote">[<a id="_footnoteref_8" class="footnote" href="#_footnotedef_8" title="View footnote.">8</a>]</sup></p>
+<p>Cyclic group has <strong>352</strong> orbits.<sup class="footnote">[<a id="_footnoteref_9" class="footnote" href="#_footnotedef_9" title="View footnote.">9</a>]</sup></p>
 </div>
 </div>
 <div class="sect2">
@@ -1707,18 +1707,21 @@ Given R, an equivalence relation, and pcs1, pcs2 (two pcs), if PrimeForm(R, pcs1
 <a href="#_footnoteref_5">5</a>. the last is 2<sup>12</sup>-1
 </div>
 <div class="footnote" id="_footnotedef_6">
-<a href="#_footnoteref_6">6</a>. and not 4096/12, because some pcs have less than 12 transposed
+<a href="#_footnoteref_6">6</a>. see <em>setoid</em> or <em>bishop set</em>
 </div>
 <div class="footnote" id="_footnotedef_7">
-<a href="#_footnoteref_7">7</a>. orbit of cardinal = 1
+<a href="#_footnoteref_7">7</a>. and not 4096/12, because some pcs have less than 12 transposed - limited transposition
 </div>
 <div class="footnote" id="_footnotedef_8">
-<a href="#_footnoteref_8">8</a>. 352 &gt; 4096 / 12, because somme pcs are there cardinal cyclic orbit smaller than 12 (pcs in <strong>limited transposition</strong>)
+<a href="#_footnoteref_8">8</a>. orbit of cardinal = 1
+</div>
+<div class="footnote" id="_footnotedef_9">
+<a href="#_footnoteref_9">9</a>. 352 &gt; 4096 / 12, because somme pcs are there cardinal cyclic orbit smaller than 12 (pcs in <strong>limited transposition</strong>)
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-12-31 18:57:02 +0100
+Last updated 2024-12-31 19:57:56 +0100
 </div>
 </div>
 <script>

@@ -6,6 +6,7 @@ import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
 import {IElementListPcs} from "../../service/IElementListPcs";
 import {ClockComponent} from "../clock/clock.component";
 import {NgIf} from "@angular/common";
+import {HtmlUtil} from "../../utils/HtmlUtil";
 
 @Component({
   selector: 'app-pcs-list',
@@ -41,6 +42,7 @@ export class PcsListComponent {
 
   doClearList() {
     this.managerHomePcsListService.clearLists()
+    HtmlUtil.gotoTopPage()
   }
 
   doPushPcsFromList(pcs: IPcs) {

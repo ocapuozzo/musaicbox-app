@@ -13,6 +13,7 @@ import {MusaicOperation} from "../../core/MusaicOperation";
 import {MusaicComponent} from "../musaic/musaic.component";
 import {OctotropeComponent} from "../octotrope/octotrope.component";
 import {NgIf} from "@angular/common";
+import {HtmlUtil} from "../../utils/HtmlUtil";
 
 @Component({
   selector: 'app-pcs-analysis',
@@ -66,6 +67,7 @@ export class PcsAnalysisComponent {
       }
     }
     this.managerPagePcsListService.addStabilizersFixedPcs(stabilizers.toString())
+    HtmlUtil.gotoAnchor("idListPcs")
   }
 
   doPushOrbitCyclicPF(pcs: IPcs) {
@@ -106,6 +108,7 @@ export class PcsAnalysisComponent {
       pcs = pcs.modulation(IPcs.NEXT_DEGREE)
     }
     this.managerPagePcsListService.addModesOf(pcs.id)
+    HtmlUtil.gotoAnchor("idListPcs")
   }
 
   doPushModalPF(pcs: IPcs) {

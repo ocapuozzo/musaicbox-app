@@ -17,6 +17,7 @@ import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 import {Subject, takeUntil} from "rxjs";
 import {ManagerPageWBService} from "../../service/manager-page-wb.service";
 import {PcsSearch} from "../../utils/PcsSearch";
+import {HtmlUtil} from "../../utils/HtmlUtil";
 
 
 @Component({
@@ -85,7 +86,7 @@ export class PcsPageComponent {
       this.pcs = pcs
       // avoid refresh not desired on smartphone...
       if (isNew) {
-          this.goToTopPage()
+          HtmlUtil.gotoTopPage()
       }
     })
 
@@ -187,11 +188,5 @@ export class PcsPageComponent {
     this.router.navigateByUrl('/w-board');
   }
 
-  private goToTopPage() {
-    window.scroll({
-      top:0,
-      left:0,
-      behavior:"auto"
-    })
-  }
+
 }

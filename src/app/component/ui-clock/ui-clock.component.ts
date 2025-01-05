@@ -9,11 +9,11 @@ import {NgForOf, NgIf} from "@angular/common";
 import {ChordNaming} from "../../core/ChordNaming";
 import {Scales2048Name} from "../../core/Scales2048Name";
 import {INameDefLink} from "../../core/IScaleName";
-import {BreakpointObserver} from "@angular/cdk/layout";
 import {AnimPitchService, IPitchPlaying} from "../../service/anim-pitch.service";
 import {
   ModulationTranspositionControlComponent
 } from "../modulation-transposition-control/modulation-transposition-control.component";
+import {HtmlUtil} from "../../utils/HtmlUtil";
 
 @Component({
   selector: 'app-ui-clock',
@@ -66,8 +66,7 @@ export class UiClockComponent {
     private managerPagePcsListService: ManagerPagePcsListService,
     private managerAnimPitchService: AnimPitchService,
     private ngZone: NgZone,
-    private renderer2: Renderer2,
-    private responsive: BreakpointObserver) {
+    private renderer2: Renderer2) {
 
     this.managerPagePcsService.updatePcsEvent.subscribe((pcs: IPcs) => {
       this.indexPlaying = -1
@@ -357,7 +356,9 @@ export class UiClockComponent {
       }
     }
     // for not repeat this generation of chords
-    this.managerPagePcsListService.addCompute3Chords(this.pcs.id)
+    this.managerPagePcsListService.addCompute3Chords(this.pcs.id);
+
+    HtmlUtil.gotoAnchor("idListPcs")
   }
 
   fourChordList() {
@@ -373,6 +374,7 @@ export class UiClockComponent {
     }
     // for not repeat this generation of chords
     this.managerPagePcsListService.addCompute4Chords(this.pcs.id)
+    HtmlUtil.gotoAnchor("idListPcs")
   }
 
   protected readonly ChordName = ChordNaming;
@@ -386,4 +388,6 @@ export class UiClockComponent {
   getLinksNameDefs(): INameDefLink[] {
     return Scales2048Name.getLinksNameDefs(this.pcs)
   }
+
+
 }

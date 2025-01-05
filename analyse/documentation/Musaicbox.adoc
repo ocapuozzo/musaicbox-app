@@ -284,26 +284,31 @@ So, augmented polynomial function, which takes into account the cardinal, is  : 
 |[0,11] | [0,3,7] | _10241_ |_12425_ | **_true_** (ok)
 |===
 
-NOTE: In Musaicbox code, Augmented Polynomial Identifier is called _id_, and _pid_ is kept because is commonly used.
+NOTE: In MusaicBox code, Augmented Polynomial Identifier is called _id_, and _pid_ is kept because is commonly used.
 
 == Equivalence relations
 
-Entities are said to be equivalent if they all share the same characteristic.
+Two entities are said "equivalent" if they share a same property.
 
-Example of characteristic : "_To be a major triad_"
+Example of property, as a _proposition_ : "_To be a major triad_"
 
+There are only 12 pcs, among the 4096 pcs, where this proposition is true.
+
+Such proposition can take form of a _equivalence relation_, by example ;
+_R_ = "_having same structure xxad_" (as monad, minor dyad, major triadfootnote:[tetrad, pentad and more. See https://en.wikipedia.org/wiki/Numeral_prefix], ...)
+
+Some characteristics of _R_ :
+
+symmetric : stem:[∀ x, y ∈ P(E), x\ R\ y => y\ R\ x ]
+
+reflexive : stem:[∀ x ∈ P(E), x\ R\ x ]
+
+transitive : stem:[∀ x, y, z ∈ P(E), (x\ R\ y and y\ R\ z) => x\ R\ z ]
 
 === Orbit
-Orbit is a set where all elements (pcs) share the same equivalence property.footnote:[see _setoid_ or _bishop set_]
+Orbit is a set where all elements (pcs) connected by the same equivalence relation.footnote:[see _setoid_ or _bishop set_]
 
-Example : Orbit cyclic of major triad as `{ C,E,G }` is a set with equivalence relations "_having same structure : major third then perfect fifth_". This set is composed of 12 elements (`{ C, E, G }, { C#, E#, G# }, ..., { B, D#, F# }`)
-
-[%header]
-.Equivalence "having same intervallic structure" in different representations
-|===
-|structure name| intervallic | clock | musaic
-| Major triad | major third then perfect fifth|specific inscribed polygon |specific motif
-|===
+Example : Orbit cyclic of major triad as `{ C,E,G }` is a set with equivalence relations "_having same structure of major triad_". This set is composed of 12 elements (`{ C, E, G }, { C#, E#, G# }, ..., { B, D#, F# }`)
 
 [.float-group]
 --
@@ -320,6 +325,15 @@ Below, same, with clock representation.
 .Orbit Cyclic in clock view and their inscribed polygon
 image::maj-orbit-clock2.png["Orbit cyclic", float="left", align="center"]
 --
+
+
+[%header]
+.Equivalence "having same intervallic structure" in different representations
+|===
+|structure name| intervals | clock | musaic
+| Major triad | major third then perfect fifth then perfect forth |specific inscribed polygon image:major-triad-polygone.png[major-triad-polygone]|specific motif image:major-triad-motif.png[major triad motif]
+|===
+
 
 If we organize the 4096 pcs set into subsets with equivalence relation "_having same structure of inscribed polygon_", we obtain 352footnote:[and not 4096/12, because some pcs have less than 12 transposed - limited transposition] subsets (orbits), a partition of 4096 pcs set.
 
@@ -348,10 +362,7 @@ If we organize the 4096 pcs set into subsets with equivalence relation "_having 
 
 Set of all these sets is known as `_P(E)_` (*power set*), and `cardinal(_P(E)_) = 2^n^ = *4096*`, cardinality ordered by line 12 of Pascal triangle.
 
-
 // More formally, orbits are the result of the action of a group (cyclic, affine, dihedral, ..., musaic) on Z/nZ.
-
-
 
 // By example : A4 (440 hz) and their lower and upper octaves share same characteristic : "having a frequency related to be a multiple of 2 of 440 Hz"
 //
@@ -366,17 +377,15 @@ On peut avoir 12 versions de cette mélodie (dans les 12 tonalités). L'ensemble
 
 Equivalence relation : "Having same prime form"
 
-En identifiant n'importe quel son à une meme classe de hauteur (octave), nous pouvons réduire tout extrait musical à un ensemble classes de hauteur.
-
+En identifiant n'importe quel son à une meme classe de hauteur (octave), modulo _n_, nous pouvons réduire tout extrait musical à un ensemble classes de hauteur.
 
 It is about gathering all the elements sharing the same characteristic, in the same set called *equivalence orbit*, or *X orbit*, or *orbit* if equivalence context is clear.
-
 
 TIP: An orbit is a set which can be empty (contains empty pcs) or contain all elements. For a given equivalence relation, an element belongs to only one orbit. Orbits, as a result of a group action, form  a partition of the set on which it acts (4096 PCS).
 
 === Octave/Enharmonic equivalence
 
-Reduce to 12 pitches class and its 4096 PCS combinaisons (2^12).
+Reduce to 12 pitches class and its 4096 PCS combinaisons (2^12^).
 
 *Trivial group* has *4096* orbits, each orbit has max only one pcs (cardinal = 1)
 
