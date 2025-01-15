@@ -7,6 +7,7 @@ From 88musaics.org project
 :toc-title: Table des matières
 :toc: left
 :toclevels: 4
+:stem:
 // :author: Olivier Capuozzo <olivier.capuozzo@gmail.com>
 // :url-quickref: https://docs.asciidoctor.org/asciidoc/latest/syntax-quick-reference/
 
@@ -128,15 +129,83 @@ image::pageWhiteboard2.png["Example Whiteboard page 2" float="left",align="cente
 
 == PCS
 
-=== Abstraction
+=== Pitch Class Abstraction
 
-PCS is abstraction, a _pitches class set_ where a pitch class refer to all pitches related to each other by octave and/or enharmonic equivalence.footnote:[see Allen Forte, John Rahn...]
+In equal-tempered music, any musical fragment can be reduced to a combination of pitch classes, whether that fragment is melodic (horizontal) or harmonic (vertical).
+
+* Equivalence of pitch classes
+
+image:equiv-pc.png[equiv pitch class]
+
+* Enharmonic equivalence
+
+image:equiv-enhar.png[equiv enharmonic]
+
+* Without reference to rythme
+
+image:equic-repet.png[equiv]
+
+* Insensitive to the order and repetitions of notes within the fragment, whether melodic or harmonic...
+
+image:equiv-hv.png[equiv pitch class]
+
+If we make the pitch class of C correspond to the class modulo 12 named stem:[bar 0], pitch class C# by stem:[bar 1] , … , and so on up to B by the pitch class number stem:[bar 11].
+
+* stem:[bar 0] represents all C's, and their enharmonics (B#, Dbb, ...) all octaves combined.
+
+* stem:[bar 1] represents all C#'s, and their enharmonics (B##, Db, ...) in any octave.
+
+etc.
+
+The resulting set of pitch classes is: stem:[Z//12Z] or stem:[Z_12]
+
+stem:[Z_12 = {bar 0, bar 1, bar 2, bar 3, bar 4, bar 5, bar 6, bar 7, bar 8, bar 9, bar 10, bar 11 } ]
+
+[NOTE]
+====
+It is customary, *for convenience*, *not* to use the barred notation, i.e.  stem:[0] instead of {nbsp} stem:[bar 0]
+
+=> This way of doing things will have unsuspected repercussion... this problem is studied later in this document.
+====
+
+We can easily establish a correspondence between the set of integers modulo 12 and the set of pitch classes name (without bar).
+
+This is the logic established by the Musical Set Theory and its great authors such as <<Forte>> and <<Rahn>>.
+
+So, there are *12 pitch classes*, numerical represented  by integers from 0 to 11footnote:[Sometimes 10 and 11 are noted A, B or e, t].
+
+image::cicrleFullV2.png[]
 
 === Enumeration
 
-With set of 12 elements `E` = `{0,1,2,3,4,5,6,7,8,9,10,11}`
+With set of 12 elements stem:[E = {0,1,2,3,4,5,6,7,8,9,10,11}]
 
-Is there 2^12 = *4096 pcs*, from empty set `{}` to ful set `{0,1,2,3,4,5,6,7,8,9,10,11}` passing by all possible ordered pcs configurations as `{}`, `{0}`, `{1}`, ..., `{0,4,7}`, `{1,5,7}`,... , etc
+The set of all subsets of stem:[E] is called https://en.wikipedia.org/wiki/Power_set[powerset], denoted stem:[P(E)], and has stem:[2^12] = 4096 elements (subsets).
+
+In the context of Musical Set Theory, a subset, element of stem:[P(E)], is called *PCS*, for _Pitch Class Set_.
+
+Is there 2^12^ = *4096 pcs*, from empty set `{}` to ful set `{0,1,2,3,4,5,6,7,8,9,10,11}` passing by all possible ordered pcs configurations as `{}`, `{0}`, `{1}`, ..., `{0,4,7}`, `{1,5,7}`,... , etc
+
+4096 pcs can be ordered by their number of pitch classes (cardinality).
+
+* Empty set : 1 pcs (with no pitch class)
+* Monad set : 12 pcs (seen in the circle)
+* Dyad set  : 66 pcs
+* Triad     : 220 pcs (among them, the 12 major triads)
+* ...
+* Full set : 1 pcs (chromatic set)
+
+Their distribution by cardinality is given by line 12 of Pascal's triangle below.
+
+.Pascal's triangle
+image::pascal-triangle-12.png[pascal-triangle-12,width=50%,height=50%]
+
+This classification is not very practical for us, because it is semantically poor (based on the cardinality of PCS).
+
+One of the major goals of the application is to refine the
+classifications.
+
+But before that, it seems useful to focus on the different representations of a PCS.
 
 == PCS Representations
 
@@ -146,31 +215,76 @@ A _Pitch Set Class_ (PCS, or pcs) may have multiple representations.
 
 A PCS is, by definition, an unordered set of PC, even if, in practice, by convention, we always present them textually ordered, in ascending order.
 
-Let us take the PCS composed of the PCs {0, 4, 7} (C, E and G). Formally the textual representations below are all equal.
+Let's take the PCS [0, 4, 7], C, E and G. Formally the textual representations below are all equal.
 
 image::_0_4_7_set_repr.png[_0_4_7_set_repr]
 
-Example for C,E,G :  `{0,4,7}` or `[0,4,7]` (from musical set theory)
-
-It is customary to represent pitches class into a PCS in an ordered manner, called _Normal Form_, from smallest to largest. For example: [0, 4, 7] not [4, 0, 7]
+Example for C,E,G :  `[0,4,7]`
 
 === Vector
 
-Example for [0, 4, 7] :  `[*1*,0,0,0,*1*,0,0,*1*,0,0,0,0]`  (ordered list of binary values)
+It is a binary representation of a pcs.
 
-Note : can be also vector of boolean values : `[*true*,false,false,false,*true*,false,false,*true*,false,false,false,false]`
+Example for [0, 4, 7]  (C major):  `[*1*,0,0,0,*1*,0,0,*1*,0,0,0,0]`  (ordered list of binary values) :
+
+image:047_vector.png[]
+
+This vector, of dimension _n_, is constructed by placing stem:[1] at the position corresponding to each pitch class present in the pcs studied, and stem:[0] at the position of the others. By convention, the position corresponds to the pitch class name (which turns out to be very practical for algorithms).
+
+A function
+
+stem:[tt"toVector(A)" : P(Z_n) -> {0,1}^n] {nbsp} defined by :
+
+// stem:[tt"toVector(A)" = \[v_0,v_1,...,v_(n-1)\] ] where stem:[v_i = f_A(i)]
+
+stem:[tt"toVector(A)" = \[f_A(0), f_A(1),...,f_A(n-1)\] ]
+
+where the characteristic function stem:[f_A : Z_n -> {0,1}]  is defined by :
+
+stem:[f_A(e) = { (1  if e in A), (0  if e notin A) :}]
+
+So, for _n = 12_, any pcs stem:[A] of stem:[P(Z_12)] corresponds a vector stem:[v] defined as follows:
+
+stem:[v = \[f_A(bar 0), f_A(bar 1), f_A(bar 2) , f_A(bar 3) , f_A(bar 4) , f_A(bar 5) , f_A(bar 6) , f_A(bar 7) , f_A(bar 8) , f_A(bar 9)  , f_A(bar 10) , f_A(bar 11)\] ]
+
+
+Example :
+
+toVector (0, 4, 7]) stem:[ = \[ v_0, v_1, v_2 , v_3 , v_4 , v_5 , v_6 , v_7 , v_8 , v_9 , v_10 , v_11\] ]
+
+where stem:[v_i="f"_"(0,4,7)"(bar i)], so we obtain vector stem:[\[1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0\] ]
+
+IMPORTANT: We can clearly see the use of the name of Pitch Class as an index. This dual role must be subject to caution.
+
+Example of analysis of a musical fragment. The fragment framed below is characterized by the pitch classes set [0, 4, 7] (Do, Mi Sol).
+
+image:047_fragment.png[]
 
 === Integer
 
-From binary vector representation, we sum of power of 2, where value is 1 (or true) into vector (algorithm called _polynomial function_)
+Yes, we can represent, identify, any PCS by an integer.
 
+From binary vector representation, we will do the sum of power of 2, where value is 1 into vector. This algorithm, known as _polynomial function_, which we will call, in the context of this project, _polynomial identifier : pid_.
+
+stem:["pid" : {0,1}^12 -> N]  {nbsp} defined by :
+
+stem:["pid("v")" = sum_(i=0)^(n-1) v_i 2^i ] {nbsp} so add powers of 2 where stem:[v_i] is non-zero.
+
+[NOTE]
+====
+Since there exists a function (toVector) which gives the vector image of any PCS, we can also define function _pid_ with this domain of definition  stem:["pid" : P(Z_12) -> N]
+
+====
 Example for [0, 4, 7] :  `1 + 16 + 128` = `145`  (decimal value)
 
-.Example Polynomial Identifier ([0,4,7])
+.Examples of Polynomial Identifier
 |===
 |_Power of 2_|1| 2| 4| 8| 16| 32| 64| 128| 252| 512| 1024| 2048| _pid_
-|_pcs_|*1*|0|0|0|*1*|0|0|*1*|0|0|0|0|
+|[0,4,7]|*1*|0|0|0|*1*|0|0|*1*|0|0|0|0|
 |_pid_|*1*|0|0|0|*16*|0|0|*128*|0|0|0|0|*_145_*
+||||||||||||||
+|[0,3,7]|*1*|0|0|*1*|0|0|0|*1*|0|0|0|0|
+|_pid_  |*1*|0|0|*8*|0|0|0|*128*|0|0|0|0|*_137_*
 |===
 
 Examples :
@@ -179,7 +293,7 @@ Examples :
  pid('[0,1,2,3,4,5,6,7,8,9,10,11]') = 4095 (chromatic set)
  pid('[1,3,5,7,9,11]') = 2730 (whole tone scale)
 
-NOTE: As each pcs into the 4096 is unique, each of these pcs has a unique value by polynomial function. We call this value _pid_ for polynomial identifier.
+NOTE: As each pcs into the 4096 is unique, each of these pcs has a unique value by polynomial function.
 
 === Geometry
 Example with [0,4,7]
@@ -198,7 +312,31 @@ image::_0_4_7.png["_0_4_7_clock-names",float="left",align="center"]
 image::_0_4_7_clock.png["_0_4_7_clock",float="left",align="center" ]
 --
 
+Polygon inscribed into circle denote the intervallic structure of the PCS.
+
+Other example, a minor 7 and its intervallic structure (3, 4, 3, 2) :
+
+image:minor7-circle-is.png[minor7-circle-is]
+
+TIP: Sum of intervals into intervallic structure is always _n_. For pcs : [0, 4, 7] this is (4, 3, 3, 2)
+
 ==== Musaic
+
+A musaic is, by default, based on a geometric structure od dimension stem:[(phi(n)) /2].
+
+For _n_ = 12, stem:[(phi(12)) /2 = 2 ], therefore 2D structure.
+
+Musaic is instance of a dual interval space <<DIS>>, as two-dimensional array of pitches where “rows” are separated by the same interval and the “columns” by an other but also same (non-zero) interval (regular interface).
+
+By default, we take as intervals step the "generator prime forme" of _n_, these are those in the first half of the prime integers with n. For n=12 these are 1 and 5 from [`*1*, *5*, n-5, n-1`].
+
+[NOTE]
+====
+Wy take prime form with n ?
+
+Because, each of them being generator of a generator step value of n, they guarantee to traverse the structure in its entirety, while preserving characteristics specific to n (in particular the invariants).
+====
+
 
 [.float-group]
 --
@@ -206,13 +344,14 @@ image::_0_4_7_musaic-names.png["_0_4_7_musaic-names",float="left",align="center"
 image::_0_4_7_musaic.png["_0_4_7_musaic",float="left",align="center" ]
 --
 
-==== DIS : Musaic, Tonnetz and more
-
-More generally, a matrix regular representation is instance of a _Dual Interval Space_ (<<DIS>>), a two-dimensional array of pitches where “rows” are separated by the same interval and the “columns” by one other but also same (non-zero) interval.
+[NOTE]
+====
+There are other types of representation, such as Tonnetz, Thor, ... DIS with one interval step not in prime...
 
 Examples : DIS(y,x) where y is row interval and x is column interval. Violin is DIS(1,7), guitar in P4 Tuning is DIS(1,5), Tonnetz is DIS(4, 7), etc.
+====
 
-NOTE: Instrument in DIS(x,y) are in _regular interface_ family.
+// NOTE: Instrument in DIS(x,y) are in _regular interface_ family.
 
 === Together
 
@@ -232,9 +371,10 @@ Any ordered PCS (in normal form) is unique, but it is not a sufficient quality t
 
 It would be useful to be able to sort the pcs among themselves. To do this, we need to define a total order relation that verifies:
 
-// `∀ x, y ∈ P(E), (id(x) ≤ id(y) and id(y) ≤ id(x)) => x = y (same)`
+// stem:[ ∀ x, y ∈ P(E), ( "id"(x) ≤ "id"(y) and "id"(y) ≤ "id"(x) ) => x = y ]
 
-stem:[∀ x, y ∈ P(E), (id(x) ≤ id(y) and id(y) ≤ id(x)) => x = y ]
+//see syntax https://asciimath.org/
+stem:[ AA x, y in P(E), ( "id"(x) <= "id"(y) and "id"(y) <= "id"(x) ) => x = y ]
 
 In others all, if two PCS have same identity value, then we are dealing with the same PCS.
 
@@ -243,17 +383,17 @@ Question is : How to represent the identity relationship (id function)?
 === State
 By definition, a PCS is a collection of PC. Type is not atomic, and may have some algorithmic efficiency problem, so we prefer a scalar identity.
 
-To implement order relation, we use integer representation, to go through the order of natural integer.
-
 === Integer
+
+To implement order relation, we use integer representation, to go through the order of natural integer.
 
 ==== Polynomial function
 
-Polynomial function is a good candidate for sorting the PCS among themselves.
+Polynomial function (_pid_) is a good candidate for sorting the PCS among themselves.
 
 However, there remains a bias.
 
-Examples :
+Examples with some pairs of pcs (pcs1 and pcs2), let's compare pid(pcs1) and pid(pcs2) to determine if pcs1 "is less than" pcs2 :
 
 [%header]
 .Example problem when compare identity with Polynomial Identifier
@@ -266,13 +406,30 @@ Examples :
  #_waiting true_#
 |===
 
-In the first line, we admitted that a piece with a smaller cardinal than another piece will be considered smaller than the latter. But this is contradicted by the last line.
+In the first line, we admitted that a pcs with a smaller cardinal than another pcs will be considered smaller than the latter. But this is contradicted by the last line, counterintuitive.
+
+We admit that when two PCS are compared, the one with the smaller cardinality will always be considered inferior to the other, which can be defined by :
+
+stem:[forall A, B in P(Z_n), |A| < |B| => A  < B]
+
 
 ==== Augmented Polynomial function
 
-In order to solve the inconsistency of the polynomial function for sort pcs lists, we increase this function by another value that takes into account the cardinality of the set. The first valuefootnote:[the last is 2^12^-1], outside _pid_ domain, is `2^n^`
+To take into account the cardinal in the general order relation that we are looking for, we introduce, independently of `pid` , a function stem:[w] : stem:[ P(Z_12) -> N ] {nbsp} defined by :
 
-So, augmented polynomial function, which takes into account the cardinal, is  : `_pid_ + 2^12^ * cardinal`
+stem:[w(A) = m cdot |A| ]
+
+In order to give significant weight to _w_ function, independently of _pid_, we take as the value of _m_, the multiplicative coefficient of the cardinal of the argument, a value greater than the upper limit of the domain of
+
+TODO
+
+definition of the coefficients of the polynomial P1, that is to say a value beyond the upper limit of [0..n-1], 2n being the first candidate. As for the cardinal of an element e of the set of parts of (Z/12Z), it is calculated by summing the values ​​ei of its vector representation, which gives:
+
+The first valuefootnote:[the last is 2^12^-1], outside _pid_ domain, is `2^n^`
+
+So, augmented polynomial function, which takes into account the cardinal, is  :  `_pid_ + 2^12^ * _cardinal_`
+
+
 
 [%header]
 .Example Compare with Augmented Polynomial Identifier
@@ -286,29 +443,33 @@ So, augmented polynomial function, which takes into account the cardinal, is  : 
 
 NOTE: In MusaicBox code, Augmented Polynomial Identifier is called _id_, and _pid_ is kept because is commonly used.
 
-== Equivalence relations
+== Equivalence relation
 
-Two entities are said "equivalent" if they share a same property.
-
-Example of property, as a _proposition_ : "_To be a major triad_"
+Example of _proposition_ : "_To be a major triad_"
 
 There are only 12 pcs, among the 4096 pcs, where this proposition is true.
 
-Such proposition can take form of a _equivalence relation_, by example ;
-_R_ = "_having same structure xxad_" (as monad, minor dyad, major triadfootnote:[tetrad, pentad and more. See https://en.wikipedia.org/wiki/Numeral_prefix], ...)
+[%header]
+.Different representations of _major triad_
+|===
+|structure name| intervals | clock | musaic
+| Major triad | major third then perfect fifth then perfect forth |specific inscribed polygon image:major-triad-polygone.png[major-triad-polygone]|specific motif image:major-triad-motif.png[major triad motif]
+|===
+
+Such proposition can take form of an _equivalence relation_ : _R_ = "_to share same structure_"
 
 Some characteristics of _R_ :
 
-symmetric : stem:[∀ x, y ∈ P(E), x\ R\ y => y\ R\ x ]
+* symmetric : stem:[∀ x, y ∈ P(E), x\ R\ y => y\ R\ x ]
 
-reflexive : stem:[∀ x ∈ P(E), x\ R\ x ]
+* reflexive : stem:[∀ x ∈ P(E), x\ R\ x ]
 
-transitive : stem:[∀ x, y, z ∈ P(E), (x\ R\ y and y\ R\ z) => x\ R\ z ]
+* transitive : stem:[∀ x, y, z ∈ P(E), (x\ R\ y and y\ R\ z) => x\ R\ z ]
 
 === Orbit
-Orbit is a set where all elements (pcs) connected by the same equivalence relation.footnote:[see _setoid_ or _bishop set_]
+Orbit is a set where all of its elements (pcs) are connected by the same equivalence relation.footnote:[see _setoid_ or _bishop set_]
 
-Example : Orbit cyclic of major triad as `{ C,E,G }` is a set with equivalence relations "_having same structure of major triad_". This set is composed of 12 elements (`{ C, E, G }, { C#, E#, G# }, ..., { B, D#, F# }`)
+Example : Orbit cyclic of major triad as `{ C,E,G }` is a set with equivalence relations "_having same structure of major triad_". This set is composed of 12 elements (`{ C, E, G }, { Cb, F, Ab }, ..., { B, D#, F# }`)
 
 [.float-group]
 --
@@ -326,16 +487,7 @@ Below, same, with clock representation.
 image::maj-orbit-clock2.png["Orbit cyclic", float="left", align="center"]
 --
 
-
-[%header]
-.Equivalence "having same intervallic structure" in different representations
-|===
-|structure name| intervals | clock | musaic
-| Major triad | major third then perfect fifth then perfect forth |specific inscribed polygon image:major-triad-polygone.png[major-triad-polygone]|specific motif image:major-triad-motif.png[major triad motif]
-|===
-
-
-If we organize the 4096 pcs set into subsets with equivalence relation "_having same structure of inscribed polygon_", we obtain 352footnote:[and not 4096/12, because some pcs have less than 12 transposed - limited transposition] subsets (orbits), a partition of 4096 pcs set.
+If we organize the 4096 pcs set into subsets with equivalence relation "_having same structure (of inscribed polygon)_", we obtain 352 types of polygonsfootnote:[and not 4096/12, because some pcs have less than 12 transposed - limited transposition] therefore 352 subsets (orbits) forming a partition of 4096 pcs set.
 
 [%header]
 .Enumeration via line 12 of Pascal triangle
@@ -356,7 +508,7 @@ If we organize the 4096 pcs set into subsets with equivalence relation "_having 
 |11|1||||||1|12
 |12|1|1||||||1
 |total|*352*|2|1|2|3|9|335|*4096*
-||352 orbits of cyclic group 5+^|_17 cyclic orbits PCS in Limited Transposition_||4096 orbits of trivial groupfootnote:[orbit of cardinal = 1]
+||352 orbits of cyclic group (17 + 335) 5+^|_17 cyclic orbits PCS in Limited Transposition_ (cardinal < 12)| 335 orbits of cardinal 12|4096 orbits of cardinal 1 (trivial group)
 
 |===
 

@@ -85,13 +85,16 @@ export class ChordNaming {
 
     if (pcs.cardinal === nPitches) {
       let pcsPF = pcs
+      const pivot = pcsPF.getMappedPivot() ?? 0
+      pcsPF = pcs.transposition(- pivot )
       for (let i = 0; i < nPitches ; i++) {
-        pcsPF = pcs.transposition(- (pcsPF.getMappedPivot() ?? 0) )
+        pcsPF = pcsPF.modulation(IPcs.NEXT_DEGREE)
         if (ChordNaming.chordsModalPF.get(pcsPF.getMappedPcsStr(false))) {
           chordPcsList.push(pcsPF.getMappedPcsStr(false))
           break
         }
       }
+
       return chordPcsList
     }
     // assert nMapping to be 12
