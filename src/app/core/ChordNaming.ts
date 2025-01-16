@@ -83,21 +83,16 @@ export class ChordNaming {
 
     if (pcs.cardinal < 3) return chordPcsList
 
-    /* experimentation
+    // experimentation
     if (pcs.cardinal === nPitches) {
       let pcsPF = pcs
       const pivot = pcsPF.getMappedPivot() ?? 0
       pcsPF = pcs.transposition(- pivot )
-      for (let i = 0; i < nPitches ; i++) {
-        pcsPF = pcsPF.modulation(IPcs.NEXT_DEGREE)
-        if (ChordNaming.chordsModalPF.get(pcsPF.getMappedPcsStr(false))) {
+      if (ChordNaming.chordsModalPF.get(pcsPF.getMappedPcsStr(false))) {
           chordPcsList.push(pcsPF.getMappedPcsStr(false))
-          break
-        }
       }
       return chordPcsList
     }
-    */
 
     // assert nMapping to be 12
     let pivot = pcs.getMappedPivot()
