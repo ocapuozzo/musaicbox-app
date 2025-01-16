@@ -83,6 +83,7 @@ export class ChordNaming {
 
     if (pcs.cardinal < 3) return chordPcsList
 
+    /* experimentation
     if (pcs.cardinal === nPitches) {
       let pcsPF = pcs
       const pivot = pcsPF.getMappedPivot() ?? 0
@@ -94,9 +95,10 @@ export class ChordNaming {
           break
         }
       }
-
       return chordPcsList
     }
+    */
+
     // assert nMapping to be 12
     let pivot = pcs.getMappedPivot()
     let binPcs = pcs.getMappedBinPcs()

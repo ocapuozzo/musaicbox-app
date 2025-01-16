@@ -567,7 +567,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#_pcs">PCS</a>
 <ul class="sectlevel2">
-<li><a href="#_abstraction">Abstraction</a></li>
+<li><a href="#_pitch_class_abstraction">Pitch Class Abstraction</a></li>
 <li><a href="#_enumeration">Enumeration</a></li>
 </ul>
 </li>
@@ -599,7 +599,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 </ul>
 </li>
-<li><a href="#_equivalence_relations">Equivalence relations</a>
+<li><a href="#_equivalence_relation">Equivalence relation</a>
 <ul class="sectlevel2">
 <li><a href="#_orbit">Orbit</a></li>
 <li><a href="#_octaveenharmonic_equivalence">Octave/Enharmonic equivalence</a></li>
@@ -799,18 +799,151 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_pcs">PCS</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_abstraction">Abstraction</h3>
+<h3 id="_pitch_class_abstraction">Pitch Class Abstraction</h3>
 <div class="paragraph">
-<p>PCS is abstraction, a <em>pitches class set</em> where a pitch class refer to all pitches related to each other by octave and/or enharmonic equivalence.<sup class="footnote">[<a id="_footnoteref_4" class="footnote" href="#_footnotedef_4" title="View footnote.">4</a>]</sup></p>
+<p>In equal-tempered music, any musical fragment can be reduced to a combination of pitch classes, whether that fragment is melodic (horizontal) or harmonic (vertical).</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Equivalence of pitch classes</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./assets/images/equiv-pc.png" alt="equiv pitch class"></span></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Enharmonic equivalence</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./assets/images/equiv-enhar.png" alt="equiv enharmonic"></span></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Without reference to rythme</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./assets/images/equic-repet.png" alt="equiv"></span></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Insensitive to the order and repetitions of notes within the fragment, whether melodic or harmonic&#8230;&#8203;</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./assets/images/equiv-hv.png" alt="equiv pitch class"></span></p>
+</div>
+<div class="paragraph">
+<p>If we make the pitch class of C correspond to the class modulo 12 named \$bar 0\$, pitch class C# by \$bar 1\$ , … , and so on up to B by the pitch class number \$bar 11\$.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>\$bar 0\$ represents all C&#8217;s, and their enharmonics (B#, Dbb, &#8230;&#8203;) all octaves combined.</p>
+</li>
+<li>
+<p>\$bar 1\$ represents all C#'s, and their enharmonics (B##, Db, &#8230;&#8203;) in any octave.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>etc.</p>
+</div>
+<div class="paragraph">
+<p>The resulting set of pitch classes is: \$Z//12Z\$ or \$Z_12\$</p>
+</div>
+<div class="paragraph">
+<p>\$Z_12 = {bar 0, bar 1, bar 2, bar 3, bar 4, bar 5, bar 6, bar 7, bar 8, bar 9, bar 10, bar 11 } \$</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>It is customary, <strong>for convenience</strong>, <strong>not</strong> to use the barred notation, i.e.  \$0\$ instead of &#160; \$bar 0\$</p>
+</div>
+<div class="paragraph">
+<p>&#8658; This way of doing things will have unsuspected repercussion&#8230;&#8203; this problem is studied later in this document.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>We can easily establish a correspondence between the set of integers modulo 12 and the set of pitch classes name (without bar).</p>
+</div>
+<div class="paragraph">
+<p>This is the logic established by the Musical Set Theory and its great authors such as <a href="#Forte">[Forte]</a> and <a href="#Rahn">[Rahn]</a>.</p>
+</div>
+<div class="paragraph">
+<p>So, there are <strong>12 pitch classes</strong>, numerical represented  by integers from 0 to 11<sup class="footnote">[<a id="_footnoteref_4" class="footnote" href="#_footnotedef_4" title="View footnote.">4</a>]</sup>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./assets/images/cicrleFullV2.png" alt="cicrleFullV2">
+</div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_enumeration">Enumeration</h3>
 <div class="paragraph">
-<p>With set of 12 elements <code>E</code> = <code>{0,1,2,3,4,5,6,7,8,9,10,11}</code></p>
+<p>With set of 12 elements \$E = {0,1,2,3,4,5,6,7,8,9,10,11}\$</p>
 </div>
 <div class="paragraph">
-<p>Is there 2^12 = <strong>4096 pcs</strong>, from empty set <code>{}</code> to ful set <code>{0,1,2,3,4,5,6,7,8,9,10,11}</code> passing by all possible ordered pcs configurations as <code>{}</code>, <code>{0}</code>, <code>{1}</code>, &#8230;&#8203;, <code>{0,4,7}</code>, <code>{1,5,7}</code>,&#8230;&#8203; , etc</p>
+<p>The number of possible subsets of \$E\$ is denoted \$P(E)\$ and has \$2^12\$ = 4096 elements (subsets).</p>
+</div>
+<div class="paragraph">
+<p>In the context of Musical Set Theory, a subset is called <strong>PCS</strong>, for <em>Pitch Class Set</em>.</p>
+</div>
+<div class="paragraph">
+<p>Is there 2<sup>12</sup> = <strong>4096 pcs</strong>, from empty set <code>{}</code> to ful set <code>{0,1,2,3,4,5,6,7,8,9,10,11}</code> passing by all possible ordered pcs configurations as <code>{}</code>, <code>{0}</code>, <code>{1}</code>, &#8230;&#8203;, <code>{0,4,7}</code>, <code>{1,5,7}</code>,&#8230;&#8203; , etc</p>
+</div>
+<div class="paragraph">
+<p>4096 pcs can be ordered by their number of pitch classes (cardinality).</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Empty set : 1 pcs (with no pitch class)</p>
+</li>
+<li>
+<p>Monad set : 12 pcs (seen in the circle)</p>
+</li>
+<li>
+<p>Dyad set  : 66 pcs</p>
+</li>
+<li>
+<p>Triad     : 220 pcs (among them, the 12 major triads)</p>
+</li>
+<li>
+<p>&#8230;&#8203;</p>
+</li>
+<li>
+<p>Full set : 1 pcs (chromatic set)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Their distribution by cardinality is given by line 12 of Pascal&#8217;s triangle below.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./assets/images/pascal-triangle-12.png" alt="pascal-triangle-12" width="50%" height="50%">
+</div>
+<div class="title">Figure 8. Pascal&#8217;s triangle</div>
 </div>
 </div>
 </div>
@@ -837,23 +970,94 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="paragraph">
 <p>Example for C,E,G :  <code>{0,4,7}</code> or <code>[0,4,7]</code> (from musical set theory)</p>
 </div>
-<div class="paragraph">
-<p>It is customary to represent pitches class into a PCS in an ordered manner, called <em>Normal Form</em>, from smallest to largest. For example: [0, 4, 7] not [4, 0, 7]</p>
-</div>
 </div>
 <div class="sect2">
 <h3 id="_vector">Vector</h3>
 <div class="paragraph">
-<p>Example for [0, 4, 7] :  <code>[<strong>1</strong>,0,0,0,<strong>1</strong>,0,0,<strong>1</strong>,0,0,0,0]</code>  (ordered list of binary values)</p>
+<p>It is a binary representation of a pcs.</p>
 </div>
 <div class="paragraph">
-<p>Note : can be also vector of boolean values : <code>[<strong>true</strong>,false,false,false,<strong>true</strong>,false,false,<strong>true</strong>,false,false,false,false]</code></p>
+<p>Example for [0, 4, 7]  (C major):  <code>[<strong>1</strong>,0,0,0,<strong>1</strong>,0,0,<strong>1</strong>,0,0,0,0]</code>  (ordered list of binary values) :</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./assets/images/047_vector.png" alt="047 vector"></span></p>
+</div>
+<div class="paragraph">
+<p>This vector, of dimension <em>n</em>, is constructed by placing \$1\$ at the position corresponding to each pitch class present in the pcs studied, an element of \$P(E)\$, and \$0\$ at the position of the others. By convention, the position corresponds to the pitch class name (which turns out to be very practical for algorithms).</p>
+</div>
+<div class="paragraph">
+<p>\$tt"toVector(A)" : P(Z_n) -&gt; {0,1}^n\$ &#160; defined by :</p>
+</div>
+<div class="paragraph">
+<p>\$tt"toVector(A)" = \[f_A(0), f_A(1),...,f_A(n-1)] \$</p>
+</div>
+<div class="paragraph">
+<p>where the characteristic function \$f_A : Z_n -&gt; {0,1}\$  is defined by :</p>
+</div>
+<div class="paragraph">
+<p>\$f_A(e) = { (1  if e in A), (0  if e notin A) :}\$</p>
+</div>
+<div class="paragraph">
+<p>So, for <em>n = 12</em>, any pcs \$A\$ of \$P(Z_12)\$ corresponds a vector \$v\$ defined as follows:</p>
+</div>
+<div class="paragraph">
+<p>\$v = \[f_A(bar 0), f_A(bar 1), f_A(bar 2) , f_A(bar 3) , f_A(bar 4) , f_A(bar 5) , f_A(bar 6) , f_A(bar 7) , f_A(bar 8) , f_A(bar 9)  , f_A(bar 10) , f_A(bar 11)] \$</p>
+</div>
+<div class="paragraph">
+<p>Example :</p>
+</div>
+<div class="paragraph">
+<p>toVector (0, 4, 7]) \$ = \[ v_0, v_1, v_2 , v_3 , v_4 , v_5 , v_6 , v_7 , v_8 , v_9 , v_10 , v_11] \$</p>
+</div>
+<div class="paragraph">
+<p>where \$v_i="f"_"(0,4,7)"(bar i)\$, so we obtain vector \$\[1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0] \$</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+We can clearly see the use of the name of Pitch Class as an index. This dual role must be subject to caution.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Example of analysis of a musical fragment. The fragment framed below is characterized by the pitch classes set [0, 4, 7] (Do, Mi Sol).</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./assets/images/047_fragment.png" alt="047 fragment"></span></p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_integer">Integer</h3>
 <div class="paragraph">
-<p>From binary vector representation, we sum of power of 2, where value is 1 (or true) into vector (algorithm called <em>polynomial function</em>)</p>
+<p>Yes, we can represent, identify, any PCS by an integer.</p>
+</div>
+<div class="paragraph">
+<p>From binary vector representation, we will do the sum of power of 2, where value is 1 into vector. This algorithm, known as <em>polynomial function</em>, which we will call, in the context of this project, <em>polynomial identifier : pid</em>.</p>
+</div>
+<div class="paragraph">
+<p>\$"pid" : {0,1}^12 -&gt; N\$  &#160; defined by :</p>
+</div>
+<div class="paragraph">
+<p>\$"pid("v")" = sum_(i=0)^(n-1) v_i 2^i \$ &#160; so add powers of 2 where \$v_i\$ is non-zero.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Since there exists a function (toVector) which gives the vector image of any PCS, we can define function <em>pid</em> with this domain of definition  \$"pid" : P(Z_12) -&gt; N\$</p>
+</div>
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>Example for [0, 4, 7] :  <code>1 + 16 + 128</code> = <code>145</code>  (decimal value)</p>
@@ -944,7 +1148,7 @@ pid('[1,3,5,7,9,11]') = 2730 (whole tone scale)</pre>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-As each pcs into the 4096 is unique, each of these pcs has a unique value by polynomial function. We call this value <em>pid</em> for polynomial identifier.
+As each pcs into the 4096 is unique, each of these pcs has a unique value by polynomial function.
 </td>
 </tr>
 </table>
@@ -1050,7 +1254,7 @@ Instrument in DIS(x,y) are in <em>regular interface</em> family.
 <p>It would be useful to be able to sort the pcs among themselves. To do this, we need to define a total order relation that verifies:</p>
 </div>
 <div class="paragraph">
-<p>\$∀ x, y ∈ P(E), (id(x) ≤ id(y) and id(y) ≤ id(x)) =&gt; x = y \$</p>
+<p>\$ AA x, y in P(E), ( "id"(x) &lt;= "id"(y) and "id"(y) &lt;= "id"(x) ) =&gt; x = y \$</p>
 </div>
 <div class="paragraph">
 <p>In others all, if two PCS have same identity value, then we are dealing with the same PCS.</p>
@@ -1064,22 +1268,22 @@ Instrument in DIS(x,y) are in <em>regular interface</em> family.
 <div class="paragraph">
 <p>By definition, a PCS is a collection of PC. Type is not atomic, and may have some algorithmic efficiency problem, so we prefer a scalar identity.</p>
 </div>
-<div class="paragraph">
-<p>To implement order relation, we use integer representation, to go through the order of natural integer.</p>
-</div>
 </div>
 <div class="sect2">
 <h3 id="_integer_2">Integer</h3>
+<div class="paragraph">
+<p>To implement order relation, we use integer representation, to go through the order of natural integer.</p>
+</div>
 <div class="sect3">
 <h4 id="_polynomial_function">Polynomial function</h4>
 <div class="paragraph">
-<p>Polynomial function is a good candidate for sorting the PCS among themselves.</p>
+<p>Polynomial function (<em>pid</em>) is a good candidate for sorting the PCS among themselves.</p>
 </div>
 <div class="paragraph">
 <p>However, there remains a bias.</p>
 </div>
 <div class="paragraph">
-<p>Examples :</p>
+<p>Examples with some pairs of pcs (pcs1 and pcs2), let&#8217;s compare pid(pcs1) and pid(pcs2) to determine if pcs1 "is less than" pcs2 :</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 2. Example problem when compare identity with Polynomial Identifier</caption>
@@ -1132,16 +1336,37 @@ Instrument in DIS(x,y) are in <em>regular interface</em> family.
 </tbody>
 </table>
 <div class="paragraph">
-<p>In the first line, we admitted that a piece with a smaller cardinal than another piece will be considered smaller than the latter. But this is contradicted by the last line.</p>
+<p>In the first line, we admitted that a pcs with a smaller cardinal than another pcs will be considered smaller than the latter. But this is contradicted by the last line, counterintuitive.</p>
+</div>
+<div class="paragraph">
+<p>We admit that when two PCS are compared, the one with the smaller cardinality will always be considered inferior to the other, which can be defined by :</p>
+</div>
+<div class="paragraph">
+<p>\$forall A, B in P(Z_n), |A| &lt; |B| =&gt; A  &lt; B\$</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_augmented_polynomial_function">Augmented Polynomial function</h4>
 <div class="paragraph">
-<p>In order to solve the inconsistency of the polynomial function for sort pcs lists, we increase this function by another value that takes into account the cardinality of the set. The first value<sup class="footnote">[<a id="_footnoteref_5" class="footnote" href="#_footnotedef_5" title="View footnote.">5</a>]</sup>, outside <em>pid</em> domain, is <code>2<sup>n</sup></code></p>
+<p>To take into account the cardinal in the general order relation that we are looking for, we introduce, independently of <code>pid</code> , a function \$w\$ : \$ P(Z_12) -&gt; N \$ &#160; defined by :</p>
 </div>
 <div class="paragraph">
-<p>So, augmented polynomial function, which takes into account the cardinal, is  : <code><em>pid</em> + 2<sup>12</sup> * cardinal</code></p>
+<p>\$w(A) = m cdot |A| \$</p>
+</div>
+<div class="paragraph">
+<p>In order to give significant weight to <em>w</em> function, independently of <em>pid</em>, we take as the value of <em>m</em>, the multiplicative coefficient of the cardinal of the argument, a value greater than the upper limit of the domain of</p>
+</div>
+<div class="paragraph">
+<p>TODO</p>
+</div>
+<div class="paragraph">
+<p>definition of the coefficients of the polynomial P1, that is to say a value beyond the upper limit of [0..n-1], 2n being the first candidate. As for the cardinal of an element e of the set of parts of (Z/12Z), it is calculated by summing the values ​​ei of its vector representation, which gives:</p>
+</div>
+<div class="paragraph">
+<p>The first value<sup class="footnote">[<a id="_footnoteref_5" class="footnote" href="#_footnotedef_5" title="View footnote.">5</a>]</sup>, outside <em>pid</em> domain, is <code>2<sup>n</sup></code></p>
+</div>
+<div class="paragraph">
+<p>So, augmented polynomial function, which takes into account the cardinal, is  :  <code><em>pid</em> + 2<sup>12</sup> * <em>cardinal</em></code></p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 3. Example Compare with Augmented Polynomial Identifier</caption>
@@ -1199,7 +1424,7 @@ Instrument in DIS(x,y) are in <em>regular interface</em> family.
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-In Musaicbox code, Augmented Polynomial Identifier is called <em>id</em>, and <em>pid</em> is kept because is commonly used.
+In MusaicBox code, Augmented Polynomial Identifier is called <em>id</em>, and <em>pid</em> is kept because is commonly used.
 </td>
 </tr>
 </table>
@@ -1209,24 +1434,16 @@ In Musaicbox code, Augmented Polynomial Identifier is called <em>id</em>, and <e
 </div>
 </div>
 <div class="sect1">
-<h2 id="_equivalence_relations">Equivalence relations</h2>
+<h2 id="_equivalence_relation">Equivalence relation</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Entities are said to be equivalent if they all share the same characteristic.</p>
+<p>Example of <em>proposition</em> : "<em>To be a major triad</em>"</p>
 </div>
 <div class="paragraph">
-<p>Example of characteristic : "<em>To be a major triad</em>"</p>
-</div>
-<div class="sect2">
-<h3 id="_orbit">Orbit</h3>
-<div class="paragraph">
-<p>Orbit is a set where all elements (pcs) share the same equivalence property.<sup class="footnote">[<a id="_footnoteref_6" class="footnote" href="#_footnotedef_6" title="View footnote.">6</a>]</sup></p>
-</div>
-<div class="paragraph">
-<p>Example : Orbit cyclic of major triad as <code>{ C,E,G }</code> is a set with equivalence relations "<em>having same structure : major third then perfect fifth</em>". This set is composed of 12 elements (<code>{ C, E, G }, { C#, E#, G# }, &#8230;&#8203;, { B, D#, F# }</code>)</p>
+<p>There are only 12 pcs, among the 4096 pcs, where this proposition is true.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 4. Equivalence "having same intervallic structure" in different representations</caption>
+<caption class="title">Table 4. Different representations of <em>major triad</em></caption>
 <colgroup>
 <col style="width: 25%;">
 <col style="width: 25%;">
@@ -1236,7 +1453,7 @@ In Musaicbox code, Augmented Polynomial Identifier is called <em>id</em>, and <e
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">structure name</th>
-<th class="tableblock halign-left valign-top">intervallic</th>
+<th class="tableblock halign-left valign-top">intervals</th>
 <th class="tableblock halign-left valign-top">clock</th>
 <th class="tableblock halign-left valign-top">musaic</th>
 </tr>
@@ -1244,19 +1461,46 @@ In Musaicbox code, Augmented Polynomial Identifier is called <em>id</em>, and <e
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Major triad</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">major third then perfect fifth</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">specific inscribed polygon</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">specific motif</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">major third then perfect fifth then perfect forth</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">specific inscribed polygon <span class="image"><img src="./assets/images/major-triad-polygone.png" alt="major-triad-polygone"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">specific motif <span class="image"><img src="./assets/images/major-triad-motif.png" alt="major triad motif"></span></p></td>
 </tr>
 </tbody>
 </table>
+<div class="paragraph">
+<p>Such proposition can take form of an <em>equivalence relation</em> : <em>R</em> = "<em>to share same structure</em>"</p>
+</div>
+<div class="paragraph">
+<p>Some characteristics of <em>R</em> :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>symmetric : \$∀ x, y ∈ P(E), x\ R\ y =&gt; y\ R\ x \$</p>
+</li>
+<li>
+<p>reflexive : \$∀ x ∈ P(E), x\ R\ x \$</p>
+</li>
+<li>
+<p>transitive : \$∀ x, y, z ∈ P(E), (x\ R\ y and y\ R\ z) =&gt; x\ R\ z \$</p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_orbit">Orbit</h3>
+<div class="paragraph">
+<p>Orbit is a set where all of its elements (pcs) are connected by the same equivalence relation.<sup class="footnote">[<a id="_footnoteref_6" class="footnote" href="#_footnotedef_6" title="View footnote.">6</a>]</sup></p>
+</div>
+<div class="paragraph">
+<p>Example : Orbit cyclic of major triad as <code>{ C,E,G }</code> is a set with equivalence relations "<em>having same structure of major triad</em>". This set is composed of 12 elements (<code>{ C, E, G }, { Cb, F, Ab }, &#8230;&#8203;, { B, D#, F# }</code>)</p>
+</div>
 <div class="openblock float-group">
 <div class="content">
 <div class="imageblock left text-center left">
 <div class="content">
 <img src="./assets/images/maj-triad-orbit-score.png" alt="Orbit cyclic">
 </div>
-<div class="title">Figure 8. Orbit Cyclic in score view and Major Triad Motif</div>
+<div class="title">Figure 9. Orbit Cyclic in score view and Major Triad Motif</div>
 </div>
 </div>
 </div>
@@ -1269,12 +1513,12 @@ In Musaicbox code, Augmented Polynomial Identifier is called <em>id</em>, and <e
 <div class="content">
 <img src="./assets/images/maj-orbit-clock2.png" alt="Orbit cyclic">
 </div>
-<div class="title">Figure 9. Orbit Cyclic in clock view and their inscribed polygon</div>
+<div class="title">Figure 10. Orbit Cyclic in clock view and their inscribed polygon</div>
 </div>
 </div>
 </div>
 <div class="paragraph">
-<p>If we organize the 4096 pcs set into subsets with equivalence relation "<em>having same structure of inscribed polygon</em>", we obtain 352<sup class="footnote">[<a id="_footnoteref_7" class="footnote" href="#_footnotedef_7" title="View footnote.">7</a>]</sup> subsets (orbits), a partition of 4096 pcs set.</p>
+<p>If we organize the 4096 pcs set into subsets with equivalence relation "<em>having same structure (of inscribed polygon)</em>", we obtain 352 types of polygons<sup class="footnote">[<a id="_footnoteref_7" class="footnote" href="#_footnotedef_7" title="View footnote.">7</a>]</sup> therefore 352 subsets (orbits) forming a partition of 4096 pcs set.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 5. Enumeration via line 12 of Pascal triangle</caption>
@@ -1465,10 +1709,10 @@ In Musaicbox code, Augmented Polynomial Identifier is called <em>id</em>, and <e
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">352 orbits of cyclic group</p></td>
-<td class="tableblock halign-center valign-top" colspan="5"><p class="tableblock"><em>17 cyclic orbits PCS in Limited Transposition</em></p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4096 orbits of trivial group<sup class="footnote">[<a id="_footnoteref_8" class="footnote" href="#_footnotedef_8" title="View footnote.">8</a>]</sup></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">352 orbits of cyclic group (17 + 335)</p></td>
+<td class="tableblock halign-center valign-top" colspan="5"><p class="tableblock"><em>17 cyclic orbits PCS in Limited Transposition</em> (cardinal &lt; 12)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">335 orbits of cardinal 12</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4096 orbits of cardinal 1 (trivial group)</p></td>
 </tr>
 </tbody>
 </table>
@@ -1491,7 +1735,7 @@ In Musaicbox code, Augmented Polynomial Identifier is called <em>id</em>, and <e
 <p>Equivalence relation : "Having same prime form"</p>
 </div>
 <div class="paragraph">
-<p>En identifiant n&#8217;importe quel son à une meme classe de hauteur (octave), nous pouvons réduire tout extrait musical à un ensemble classes de hauteur.</p>
+<p>En identifiant n&#8217;importe quel son à une meme classe de hauteur (octave), modulo <em>n</em>, nous pouvons réduire tout extrait musical à un ensemble classes de hauteur.</p>
 </div>
 <div class="paragraph">
 <p>It is about gathering all the elements sharing the same characteristic, in the same set called <strong>equivalence orbit</strong>, or <strong>X orbit</strong>, or <strong>orbit</strong> if equivalence context is clear.</p>
@@ -1512,7 +1756,7 @@ An orbit is a set which can be empty (contains empty pcs) or contain all element
 <div class="sect2">
 <h3 id="_octaveenharmonic_equivalence">Octave/Enharmonic equivalence</h3>
 <div class="paragraph">
-<p>Reduce to 12 pitches class and its 4096 PCS combinaisons (2^12).</p>
+<p>Reduce to 12 pitches class and its 4096 PCS combinaisons (2<sup>12</sup>).</p>
 </div>
 <div class="paragraph">
 <p><strong>Trivial group</strong> has <strong>4096</strong> orbits, each orbit has max only one pcs (cardinal = 1)</p>
@@ -1530,7 +1774,7 @@ An orbit is a set which can be empty (contains empty pcs) or contain all element
 <p>In other words, PCS in clock representation having the <strong>same inscribed polygon</strong>.</p>
 </div>
 <div class="paragraph">
-<p>Cyclic group has <strong>352</strong> orbits.<sup class="footnote">[<a id="_footnoteref_9" class="footnote" href="#_footnotedef_9" title="View footnote.">9</a>]</sup></p>
+<p>Cyclic group has <strong>352</strong> orbits.<sup class="footnote">[<a id="_footnoteref_8" class="footnote" href="#_footnotedef_8" title="View footnote.">8</a>]</sup></p>
 </div>
 </div>
 <div class="sect2">
@@ -1620,7 +1864,7 @@ Given R, an equivalence relation, and pcs1, pcs2 (two pcs), if PrimeForm(R, pcs1
 <div class="content">
 <img src="./assets/images/pcs_2_3_5_7_8.png" alt="Modal and cyclic prime form">
 </div>
-<div class="title">Figure 10. Modal and cyclic prime form</div>
+<div class="title">Figure 11. Modal and cyclic prime form</div>
 </div>
 </div>
 </div>
@@ -1630,7 +1874,7 @@ Given R, an equivalence relation, and pcs1, pcs2 (two pcs), if PrimeForm(R, pcs1
 <div class="content">
 <img src="./assets/images/pcs_2_3_5_7_8-PF.png" alt="Cyclic prime form">
 </div>
-<div class="title">Figure 11. Cyclic prime form</div>
+<div class="title">Figure 12. Cyclic prime form</div>
 </div>
 </div>
 </div>
@@ -1640,7 +1884,7 @@ Given R, an equivalence relation, and pcs1, pcs2 (two pcs), if PrimeForm(R, pcs1
 <div class="content">
 <img src="./assets/images/pcs_2_3_5_7_8-MPF.png" alt="Modal prime form">
 </div>
-<div class="title">Figure 12. Modal prime form</div>
+<div class="title">Figure 13. Modal prime form</div>
 </div>
 </div>
 </div>
@@ -1650,7 +1894,7 @@ Given R, an equivalence relation, and pcs1, pcs2 (two pcs), if PrimeForm(R, pcs1
 <div class="content">
 <img src="./assets/images/pcs_2_3_5_7_8-wb1.png" alt="Modal and cyclic prime form">
 </div>
-<div class="title">Figure 13. Cyclic orbit and his modal and prime form</div>
+<div class="title">Figure 14. Cyclic orbit and his modal and prime form</div>
 </div>
 </div>
 </div>
@@ -1663,7 +1907,7 @@ Given R, an equivalence relation, and pcs1, pcs2 (two pcs), if PrimeForm(R, pcs1
 <div class="content">
 <img src="./assets/images/pcs_2_3_5_7_8-wb2.png" alt="Modal and cyclic prime form">
 </div>
-<div class="title">Figure 14. Cyclic orbit and his modal and prime form</div>
+<div class="title">Figure 15. Cyclic orbit and his modal and prime form</div>
 </div>
 </div>
 </div>
@@ -1701,7 +1945,7 @@ Given R, an equivalence relation, and pcs1, pcs2 (two pcs), if PrimeForm(R, pcs1
 <a href="#_footnoteref_3">3</a>. A stabiliser is a transformation operation which conserve intervallic structure
 </div>
 <div class="footnote" id="_footnotedef_4">
-<a href="#_footnoteref_4">4</a>. see Allen Forte, John Rahn&#8230;&#8203;
+<a href="#_footnoteref_4">4</a>. Sometimes 10 and 11 are noted A, B or e, t
 </div>
 <div class="footnote" id="_footnotedef_5">
 <a href="#_footnoteref_5">5</a>. the last is 2<sup>12</sup>-1
@@ -1713,17 +1957,38 @@ Given R, an equivalence relation, and pcs1, pcs2 (two pcs), if PrimeForm(R, pcs1
 <a href="#_footnoteref_7">7</a>. and not 4096/12, because some pcs have less than 12 transposed - limited transposition
 </div>
 <div class="footnote" id="_footnotedef_8">
-<a href="#_footnoteref_8">8</a>. orbit of cardinal = 1
-</div>
-<div class="footnote" id="_footnotedef_9">
-<a href="#_footnoteref_9">9</a>. 352 &gt; 4096 / 12, because somme pcs are there cardinal cyclic orbit smaller than 12 (pcs in <strong>limited transposition</strong>)
+<a href="#_footnoteref_8">8</a>. 352 &gt; 4096 / 12, because somme pcs are there cardinal cyclic orbit smaller than 12 (pcs in <strong>limited transposition</strong>)
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-12-31 19:57:56 +0100
+Last updated 2025-01-15 10:50:22 +0100
 </div>
 </div>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  messageStyle: "none",
+  tex2jax: {
+    inlineMath: [["\\(", "\\)"]],
+    displayMath: [["\\[", "\\]"]],
+    ignoreClass: "nostem|nolatexmath"
+  },
+  asciimath2jax: {
+    delimiters: [["\\$", "\\$"]],
+    ignoreClass: "nostem|noasciimath"
+  },
+  TeX: { equationNumbers: { autoNumber: "none" } }
+})
+MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
+  MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
+    if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
+      data.math.root.display = "block"
+    }
+    return data
+  })
+})
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
 <script>
 ;(function () { /*! Asciidoctor Tabs | Copyright (c) 2018-present Dan Allen | MIT License */
   'use strict'

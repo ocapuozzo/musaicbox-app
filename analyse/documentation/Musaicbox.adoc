@@ -170,7 +170,7 @@ It is customary, *for convenience*, *not* to use the barred notation, i.e.  stem
 
 We can easily establish a correspondence between the set of integers modulo 12 and the set of pitch classes name (without bar).
 
-This is the logic established by the Musical Set Theory and its great authors such as <<Forte>> and <<Rahn>>.
+This is the logic established by the Musical Set Theory and its leading authors such as <<Forte>> and <<Rahn>>.
 
 So, there are *12 pitch classes*, numerical represented  by integers from 0 to 11footnote:[Sometimes 10 and 11 are noted A, B or e, t].
 
@@ -229,9 +229,9 @@ Example for [0, 4, 7]  (C major):  `[*1*,0,0,0,*1*,0,0,*1*,0,0,0,0]`  (ordered l
 
 image:047_vector.png[]
 
-This vector, of dimension _n_, is constructed by placing stem:[1] at the position corresponding to each pitch class present in the pcs studied, and stem:[0] at the position of the others. By convention, the position corresponds to the pitch class name (which turns out to be very practical for algorithms).
+This vector, of dimension _n_, is constructed by placing `1` at the position corresponding to each pitch class present in the pcs studied, and `0` at the position of the others. By convention, the position corresponds to the pitch class name (which turns out to be very practical for algorithms).
 
-A function
+To convert a PCS to a binary vector, we define a function named _toVector_.
 
 stem:[tt"toVector(A)" : P(Z_n) -> {0,1}^n] {nbsp} defined by :
 
@@ -239,9 +239,9 @@ stem:[tt"toVector(A)" : P(Z_n) -> {0,1}^n] {nbsp} defined by :
 
 stem:[tt"toVector(A)" = \[f_A(0), f_A(1),...,f_A(n-1)\] ]
 
-where the characteristic function stem:[f_A : Z_n -> {0,1}]  is defined by :
+where stem:[f_A], is the characteristic function stem:[f_A : Z_n -> {0,1}]  defined by :
 
-stem:[f_A(e) = { (1  if e in A), (0  if e notin A) :}]
+stem:[f_A(pc) = { (1  if pc in A), (0  if pc notin A) :}]
 
 So, for _n = 12_, any pcs stem:[A] of stem:[P(Z_12)] corresponds a vector stem:[v] defined as follows:
 
@@ -254,7 +254,7 @@ toVector (0, 4, 7]) stem:[ = \[ v_0, v_1, v_2 , v_3 , v_4 , v_5 , v_6 , v_7 , v_
 
 where stem:[v_i="f"_"(0,4,7)"(bar i)], so we obtain vector stem:[\[1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0\] ]
 
-IMPORTANT: We can clearly see the use of the name of Pitch Class as an index. This dual role must be subject to caution.
+IMPORTANT: We can clearly see the use of the name of Pitch Class as an index. We will see that this dual role is subject to caution.
 
 Example of analysis of a musical fragment. The fragment framed below is characterized by the pitch classes set [0, 4, 7] (Do, Mi Sol).
 
@@ -262,7 +262,7 @@ image:047_fragment.png[]
 
 === Integer
 
-Yes, we can represent, identify, any PCS by an integer.
+Yes, we can represent, identify, any PCS by a unique integer. Let's see how.
 
 From binary vector representation, we will do the sum of power of 2, where value is 1 into vector. This algorithm, known as _polynomial function_, which we will call, in the context of this project, _polynomial identifier : pid_.
 
