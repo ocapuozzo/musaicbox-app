@@ -233,22 +233,21 @@ This vector, of dimension _n_, is constructed by placing `1` at the position cor
 
 To convert a PCS to a binary vector, we define a function named _toVector_.
 
-stem:[tt"toVector(A)" : P(Z_n) -> {0,1}^n] {nbsp} defined by :
+// [.text-center]
+stem:[tt"toVector(A)" : P(Z_n) -> {0,1}^n] {nbsp} :{nbsp}
+stem:[tt"toVector(A)" = \[f_A(0), f_A(1),...,f_A(n-1)\] ]
 
 // stem:[tt"toVector(A)" = \[v_0,v_1,...,v_(n-1)\] ] where stem:[v_i = f_A(i)]
 
-stem:[tt"toVector(A)" = \[f_A(0), f_A(1),...,f_A(n-1)\] ]
+where stem:[f_A], is the characteristic function stem:[f_A : Z_n -> {0,1}]  : stem:[f_A(pc) = { (1  if pc in A), (0  if pc notin A) :}]
 
-where stem:[f_A], is the characteristic function stem:[f_A : Z_n -> {0,1}]  defined by :
-
-stem:[f_A(pc) = { (1  if pc in A), (0  if pc notin A) :}]
-
-So, for _n = 12_, any pcs stem:[A] of stem:[P(Z_12)] corresponds a vector stem:[v] defined as follows:
+So, for _n = 12_, any pcs stem:[A] of stem:[P(Z_12)] corresponds a unique vector stem:[v] defined as follows:
 
 stem:[v = \[f_A(bar 0), f_A(bar 1), f_A(bar 2) , f_A(bar 3) , f_A(bar 4) , f_A(bar 5) , f_A(bar 6) , f_A(bar 7) , f_A(bar 8) , f_A(bar 9)  , f_A(bar 10) , f_A(bar 11)\] ]
 
 
 Example :
+
 
 toVector (0, 4, 7]) stem:[ = \[ v_0, v_1, v_2 , v_3 , v_4 , v_5 , v_6 , v_7 , v_8 , v_9 , v_10 , v_11\] ]
 
@@ -256,9 +255,14 @@ where stem:[v_i="f"_"(0,4,7)"(bar i)], so we obtain vector stem:[\[1, 0, 0, 0, 1
 
 IMPORTANT: We can clearly see the use of the name of Pitch Class as an index. We will see that this dual role is subject to caution.
 
-Example of analysis of a musical fragment. The fragment framed below is characterized by the pitch classes set [0, 4, 7] (Do, Mi Sol).
+The fragment framed below is characterized by the pitch classes set [0, 4, 7].
 
-image:047_fragment.png[]
+.Analysis example of a musical fragment.
+image::047_fragment.png[]
+
+Example of reinterpretation of a vector representation
+
+image::047-vector-reinterpr.png[047-vector-reinterpr]
 
 === Integer
 
@@ -293,10 +297,10 @@ Examples :
  pid('[0,1,2,3,4,5,6,7,8,9,10,11]') = 4095 (chromatic set)
  pid('[1,3,5,7,9,11]') = 2730 (whole tone scale)
 
-NOTE: As each pcs into the 4096 is unique, each of these pcs has a unique value by polynomial function.
+NOTE: As each pcs into the 4096 is unique, each of these pcs has a unique integer value by polynomial function.
 
 === Geometry
-Example with [0,4,7]
+Example with pcs [0,4,7]
 
 ==== Linear
 
@@ -318,13 +322,13 @@ Other example, a minor 7 and its intervallic structure (3, 4, 3, 2) :
 
 image:minor7-circle-is.png[minor7-circle-is]
 
-TIP: Sum of intervals into intervallic structure is always _n_. For pcs : [0, 4, 7] this is (4, 3, 3, 2)
+TIP: Sum of intervals into intervallic structure is always _n_. For pcs : [0, 4, 7] this is (4, 3, 5)
 
 ==== Musaic
 
-A musaic is, by default, based on a geometric structure od dimension stem:[(phi(n)) /2].
+A musaic is, by default, based on a 2D geometric structure.
 
-For _n_ = 12, stem:[(phi(12)) /2 = 2 ], therefore 2D structure.
+TIP: (simple hypothesis) We think that the dimension (2D) is deduced from _n_. This would be the number of generators of all prime numbers with _n_, whose number is always even (for all _n_ > 2). All primes with _n_ is known as stem:[phi(n)], so for _n_ = 12, stem:[(phi(12)) /2 = 2 ], therefore 2D structure.
 
 Musaic is instance of a dual interval space <<DIS>>, as two-dimensional array of pitches where “rows” are separated by the same interval and the “columns” by an other but also same (non-zero) interval (regular interface).
 
@@ -334,10 +338,10 @@ By default, we take as intervals step the "generator prime forme" of _n_, these 
 ====
 Wy take prime form with n ?
 
-Because, each of them being generator of a generator step value of n, they guarantee to traverse the structure in its entirety, while preserving characteristics specific to n (in particular the invariants).
+Because, each of them being generator of a generator step value of n, they guarantee to traverse the structure in its entirety, while preserving characteristics specific to _n_ (in particular the invariants).
 ====
 
-
+.Example of musaic representation of [0,4,7]
 [.float-group]
 --
 image::_0_4_7_musaic-names.png["_0_4_7_musaic-names",float="left",align="center"]
@@ -346,7 +350,7 @@ image::_0_4_7_musaic.png["_0_4_7_musaic",float="left",align="center" ]
 
 [NOTE]
 ====
-There are other types of representation, such as Tonnetz, Thor, ... DIS with one interval step not in prime...
+There are many others types of representation, such as Thor, Tonnetz and others <<DIS>> with one interval step not in prime...
 
 Examples : DIS(y,x) where y is row interval and x is column interval. Violin is DIS(1,7), guitar in P4 Tuning is DIS(1,5), Tonnetz is DIS(4, 7), etc.
 ====

@@ -21,54 +21,54 @@ export class ChordNaming {
    *  the only operation to have chord recognized, or not.
    *
    */
-  static chordsModalPF = new Map<string, IChordNameOrder>([
+  static chordsModalPF = new Map<string, IChordNameOrder[]>([
     ///// 3-chords
     // Major
-    ['0,4,7', {name:'Maj', sortOrder:1, root:0}],
-    ['0,4,10', {name:'7', sortOrder:5, root:0}],
-    ['0,4,6', {name:'Maj ♭5', sortOrder:15, root:0}],
-    ['0,4,8', {name:'aug', sortOrder:13, root:0}],
-    ['0,4,9', {name:'Maj6', sortOrder:3, root:0}],
-    ['0,5,7', {name:'sus4', sortOrder: 9, root:0}],
-    ['0,2,7', {name:'sus2', sortOrder: 8, root:0}],
-    ['0,2,8', {name:'♯5 sus2', sortOrder:21, root:0}],
-    ['0,2,6', {name:'♭5 sus2', sortOrder:20, root:0}],
+    ['0,4,7', [{name:'Maj', sortOrder:1, root:0}]],
+    ['0,4,10', [{name:'7', sortOrder:5, root:0}]],
+    ['0,4,6', [{name:'Maj ♭5', sortOrder:15, root:0}]],
+    ['0,4,8', [{name:'aug', sortOrder:13, root:0}]],
+    ['0,4,9', [{name:'Maj6', sortOrder:3, root:0}, {name:'m/3rd', sortOrder:6, root:9}]],
+    ['0,5,7', [{name:'sus4', sortOrder: 9, root:0}]],
+    ['0,2,7', [{name:'sus2', sortOrder: 8, root:0}]],
+    ['0,2,8', [{name:'♯5 sus2', sortOrder:21, root:0}]],
+    ['0,2,6', [{name:'♭5 sus2', sortOrder:20, root:0}]],
     // minor
-    ['0,3,7', {name:'m', sortOrder:2, root:0}],
-    ['0,3,6', {name:'dim', sortOrder:3, root:0}],
-    ['0,3,8', {name:'m ♭6', sortOrder:6, root:0}],
+    ['0,3,7', [{name:'m', sortOrder:2, root:0}]],
+    ['0,3,6', [{name:'dim', sortOrder:3, root:0}]],
+    ['0,3,8', [{name:'m ♭6', sortOrder:6, root:0}, {name:'Maj/3rd', sortOrder:6, root:8} ]],
 
     // (experimental) inversion
-    ['0,5,9', {name:'Maj/5th', sortOrder:6, root:5}],
-    ['0,5,8', {name:'m/5th', sortOrder:6, root:5}],
+    ['0,5,9', [{name:'Maj/5th', sortOrder:6, root:5}]],
+    ['0,5,8', [{name:'m/5th', sortOrder:6, root:5}]],
     // => let chord third bass inversion are sixth chord considered ??
 
     ///// 4-chords
     // Major
-    ['0,4,7,9', {name:'6', sortOrder:5, root:0}],
-    ['0,4,7,11', {name:'M7', sortOrder:4, root:0}],
-    ['0,4,7,8', {name:'M♭6', sortOrder:6, root:0}],
+    ['0,4,7,9', [{name:'6', sortOrder:5, root:0}, {name:'m/3rd', sortOrder:6, root:9}]],
+    ['0,4,7,11', [{name:'M7', sortOrder:4, root:0}]],
+    ['0,4,7,8', [{name:'Maj ♭6', sortOrder:6, root:0}]],
 
     // Seventh
-    ['0,4,7,10', {name:'7', sortOrder:5, root:0}],
-    ['0,4,8,10', {name:'7 ♯5', sortOrder:8, root:0}],
-    ['0,4,6,10', {name:'7 ♭5', sortOrder:6, root:0}],
-    ['0,5,7,10', {name:'7 sus4', sortOrder:15, root:0}],
-    ['0,5,7,11', {name:'sus4 M7', sortOrder:15, root:0}],
-    ['0,4,8,11', {name:'aug M7', sortOrder:5, root:0}],
-    ['0,2,7,10', {name:'7 sus2', sortOrder:7, root:0}],
-    ['0,2,6,10', {name:'7 ♭5 sus2', sortOrder:22, root:0}],
-    ['0,2,8,10', {name:'7 ♯5 sus2', sortOrder:23, root:0}],
-    ['0,2,5,10', {name:'9sus2', sortOrder:10, root:0}], // no fifth
+    ['0,4,7,10', [{name:'7', sortOrder:5, root:0}]],
+    ['0,4,8,10', [{name:'7 ♯5', sortOrder:8, root:0}]],
+    ['0,4,6,10', [{name:'7 ♭5', sortOrder:6, root:0}]],
+    ['0,5,7,10', [{name:'7 sus4', sortOrder:15, root:0}]],
+    ['0,5,7,11', [{name:'sus4 M7', sortOrder:15, root:0}]],
+    ['0,4,8,11', [{name:'aug M7', sortOrder:5, root:0}]],
+    ['0,2,7,10', [{name:'7 sus2', sortOrder:7, root:0}]],
+    ['0,2,6,10', [{name:'7 ♭5 sus2', sortOrder:22, root:0}]],
+    ['0,2,8,10', [{name:'7 ♯5 sus2', sortOrder:23, root:0}]],
+    ['0,2,5,10', [{name:'9sus2', sortOrder:10, root:0}]], // no fifth
 
     // minor
-    ['0,3,7,10', {name:'m7', sortOrder:2, root:0}],
-    ['0,3,7,11', {name:'m M7', sortOrder:6, root:0}],
-    ['0,3,8,10', {name:'m7 ♯5', sortOrder:8, root:0}],
-    ['0,3,7,9', {name:'m6', sortOrder:5, root:0}],
-    ['0,3,7,8', {name:'m ♭6', sortOrder:7, root:0}],
-    ['0,3,6,10', {name:'ø', sortOrder:3, root:0}],
-    ['0,3,6,9', {name:'dim7', sortOrder:3, root:0}],
+    ['0,3,7,10', [{name:'m7', sortOrder:2, root:0}]],
+    ['0,3,7,11', [{name:'m M7', sortOrder:6, root:0}]],
+    ['0,3,8,10', [{name:'m7 ♯5', sortOrder:8, root:0}]],
+    ['0,3,7,9', [{name:'m6', sortOrder:5, root:0}]],
+    ['0,3,7,8', [{name:'m ♭6', sortOrder:7, root:0}]],
+    ['0,3,6,10', [{name:'ø', sortOrder:3, root:0}]],
+    ['0,3,6,9', [{name:'dim7', sortOrder:3, root:0}]],
 
   ])
 
@@ -87,10 +87,13 @@ export class ChordNaming {
     if (pcs.cardinal === nPitches) {
       let pcsPF = pcs
       const pivot = pcsPF.getMappedPivot() ?? 0
+      // translate where pivot = 0, for make a key
       pcsPF = pcs.transposition(- pivot )
-      if (ChordNaming.chordsModalPF.get(pcsPF.getMappedPcsStr(false))) {
-          chordPcsList.push(pcsPF.getMappedPcsStr(false))
+      const keyChord = pcsPF.getMappedPcsStr(false)
+      if (ChordNaming.chordsModalPF.get(keyChord)) {
+          chordPcsList.push(keyChord)
       }
+      // max one name
       return chordPcsList
     }
 
@@ -166,8 +169,8 @@ export class ChordNaming {
 
     if (chordPcsList.length > 1) {
       chordPcsList.sort((s1, s2) => {
-        const orderChord1 = ChordNaming.chordsModalPF.get(s1)?.sortOrder ?? 42  // normally sortOrder is set
-        const orderChord2 = ChordNaming.chordsModalPF.get(s2)?.sortOrder ?? 42  // idem
+        const orderChord1 = ChordNaming.chordsModalPF.get(s1)![0].sortOrder ?? 42  // normally sortOrder is set
+        const orderChord2 = ChordNaming.chordsModalPF.get(s2)![0].sortOrder ?? 42  // idem
         return orderChord1 - orderChord2
       })
     }
@@ -185,54 +188,70 @@ export class ChordNaming {
     if (nbPitches >= 3 && nbPitches <= 4 ) {
       chordsNPitches = ChordNaming.getKeysChord(pcs, nbPitches)
     }
+    //
+    // // verify if exist minimum one chord name
+    // const _chordName = chordsNPitches.length > 0
+    //   ? ChordNaming.chordsModalPF.get(chordsNPitches[0])![0]?.name
+    //   : undefined
+    //
+    // if (_chordName === undefined) return ''
 
-    const _chordName = chordsNPitches.length > 0
-      ? ChordNaming.chordsModalPF.get(chordsNPitches[0])?.name
-      : undefined
 
-    if (_chordName === undefined) return ''
 
-    // which nameRoot name ?
-
+    //
     let nameRoot = ''
     // const indexNameRoot = pcs.iPivot != undefined ? pcs.getMappedPivot() : -1
+    const names = ChordNaming.chordsModalPF.get(chordsNPitches[0])
+
     // experimental
-    let indexNameRoot =  (pcs.getMappedPivot() + ChordNaming.chordsModalPF.get(chordsNPitches[0])!.root) % 12 // case chord inversion
+    if (! names) return ''
 
-    // console.log("indexNameRoot = ", indexNameRoot)
-    if (ChordNaming.INDEX_ALTERED_NOTES.includes(indexNameRoot)) {
-      // select # or b.
-      // ref cycle of fifths
-      // https://fr.wikipedia.org/wiki/Cycle_des_quintes#/media/Fichier:Circle_of_fifths_deluxe_4_french.svg
-      if (indexNameRoot > 6 ) {
-        // FLAT_NAME
-        nameRoot = ChordNaming.NOTE_NAMES_FLAT[indexNameRoot]
-        // exception when chord
-        if ([3,4].includes(pcs.cardinal)) {
-          // based on score notation for set name root
-          if (!ScoreDrawingAbcNotation.fromPcsToABCNotation(pcs).substring(0,2).includes(nameRoot[0])) {
-            nameRoot = ChordNaming.NOTE_NAMES_SHARP[indexNameRoot]
+    let theChordName = ''
+
+    for (const chordName of names) {
+
+      const _chordName = chordName.name
+
+      // which nameRoot name ?
+      let indexNameRoot = (pcs.getMappedPivot() + chordName.root) % 12 // case chord inversion
+
+      // console.log("indexNameRoot = ", indexNameRoot)
+      if (ChordNaming.INDEX_ALTERED_NOTES.includes(indexNameRoot)) {
+        // select # or b.
+        // ref cycle of fifths
+        // https://fr.wikipedia.org/wiki/Cycle_des_quintes#/media/Fichier:Circle_of_fifths_deluxe_4_french.svg
+        if (indexNameRoot > 6) {
+          // FLAT_NAME
+          nameRoot = ChordNaming.NOTE_NAMES_FLAT[indexNameRoot]
+          // exception when chord
+          if ([3, 4].includes(pcs.cardinal)) {
+            // based on score notation for set name root
+            if (!ScoreDrawingAbcNotation.fromPcsToABCNotation(pcs).substring(0, 2).includes(nameRoot[0])) {
+              nameRoot = ChordNaming.NOTE_NAMES_SHARP[indexNameRoot]
+            }
+          }
+        } else {
+          // SHARP_NAME
+          nameRoot = ChordNaming.NOTE_NAMES_SHARP[indexNameRoot]
+          // exception when chord
+          if ([3, 4].includes(pcs.cardinal)) {
+            // based on score notation for set name root
+            if (!ScoreDrawingAbcNotation.fromPcsToABCNotation(pcs).substring(0, 2).includes(nameRoot[0])) {
+              nameRoot = ChordNaming.NOTE_NAMES_FLAT[indexNameRoot]
+            }
           }
         }
-      } else {
-        // SHARP_NAME
-        nameRoot = ChordNaming.NOTE_NAMES_SHARP[indexNameRoot]
-        // exception when chord
-        if ([3,4].includes(pcs.cardinal)) {
-          // based on score notation for set name root
-          if (!ScoreDrawingAbcNotation.fromPcsToABCNotation(pcs).substring(0,2).includes(nameRoot[0])) {
-            nameRoot = ChordNaming.NOTE_NAMES_FLAT[indexNameRoot]
-          }
-        }
+      } else if (indexNameRoot >= 0) {
+        // no altered
+        nameRoot = ChordNaming.NOTE_NAMES_SHARP[indexNameRoot] // or NOTE_NAMES_FLAT what does it matter
       }
-    } else if (indexNameRoot >= 0) {
-      // no altered
-      nameRoot = ChordNaming.NOTE_NAMES_SHARP[indexNameRoot] // or NOTE_NAMES_FLAT what does it matter
+      // console.log('nameRoot = ', nameRoot)
+      // console.log('chordName = ', _chordName)
+      theChordName = theChordName
+        ? `${theChordName} ~ ${nameRoot}${_chordName}`
+        : `${nameRoot}${_chordName}`
     }
-    // console.log('nameRoot = ', nameRoot)
-    // console.log('chordName = ', _chordName)
-
-    return `${nameRoot}${_chordName}`
+    return theChordName
   }
 
 }

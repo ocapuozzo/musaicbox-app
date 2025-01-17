@@ -581,7 +581,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_linear">Linear</a></li>
 <li><a href="#_circle_clock">Circle / Clock</a></li>
 <li><a href="#_musaic">Musaic</a></li>
-<li><a href="#_dis_musaic_tonnetz_and_more">DIS : Musaic, Tonnetz and more</a></li>
 </ul>
 </li>
 <li><a href="#_together">Together</a></li>
@@ -886,7 +885,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>We can easily establish a correspondence between the set of integers modulo 12 and the set of pitch classes name (without bar).</p>
 </div>
 <div class="paragraph">
-<p>This is the logic established by the Musical Set Theory and its great authors such as <a href="#Forte">[Forte]</a> and <a href="#Rahn">[Rahn]</a>.</p>
+<p>This is the logic established by the Musical Set Theory and its leading authors such as <a href="#Forte">[Forte]</a> and <a href="#Rahn">[Rahn]</a>.</p>
 </div>
 <div class="paragraph">
 <p>So, there are <strong>12 pitch classes</strong>, numerical represented  by integers from 0 to 11<sup class="footnote">[<a id="_footnoteref_4" class="footnote" href="#_footnotedef_4" title="View footnote.">4</a>]</sup>.</p>
@@ -903,10 +902,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>With set of 12 elements \$E = {0,1,2,3,4,5,6,7,8,9,10,11}\$</p>
 </div>
 <div class="paragraph">
-<p>The number of possible subsets of \$E\$ is denoted \$P(E)\$ and has \$2^12\$ = 4096 elements (subsets).</p>
+<p>The set of all subsets of \$E\$ is called <a href="https://en.wikipedia.org/wiki/Power_set">powerset</a>, denoted \$P(E)\$, and has \$2^12\$ = 4096 elements (subsets).</p>
 </div>
 <div class="paragraph">
-<p>In the context of Musical Set Theory, a subset is called <strong>PCS</strong>, for <em>Pitch Class Set</em>.</p>
+<p>In the context of Musical Set Theory, a subset, element of \$P(E)\$, is called <strong>PCS</strong>, for <em>Pitch Class Set</em>.</p>
 </div>
 <div class="paragraph">
 <p>Is there 2<sup>12</sup> = <strong>4096 pcs</strong>, from empty set <code>{}</code> to ful set <code>{0,1,2,3,4,5,6,7,8,9,10,11}</code> passing by all possible ordered pcs configurations as <code>{}</code>, <code>{0}</code>, <code>{1}</code>, &#8230;&#8203;, <code>{0,4,7}</code>, <code>{1,5,7}</code>,&#8230;&#8203; , etc</p>
@@ -945,6 +944,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div class="title">Figure 8. Pascal&#8217;s triangle</div>
 </div>
+<div class="paragraph">
+<p>This classification is not very practical for us, because it is semantically poor (based on the cardinality of PCS).</p>
+</div>
+<div class="paragraph">
+<p>One of the major goals of the application is to refine the
+classifications.</p>
+</div>
+<div class="paragraph">
+<p>But before that, it seems useful to focus on the different representations of a PCS.</p>
+</div>
 </div>
 </div>
 </div>
@@ -960,7 +969,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>A PCS is, by definition, an unordered set of PC, even if, in practice, by convention, we always present them textually ordered, in ascending order.</p>
 </div>
 <div class="paragraph">
-<p>Let us take the PCS composed of the PCs {0, 4, 7} (C, E and G). Formally the textual representations below are all equal.</p>
+<p>Let&#8217;s take the PCS [0, 4, 7], C, E and G. Formally the textual representations below are all equal.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -968,7 +977,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="paragraph">
-<p>Example for C,E,G :  <code>{0,4,7}</code> or <code>[0,4,7]</code> (from musical set theory)</p>
+<p>Example for C,E,G :  <code>[0,4,7]</code></p>
 </div>
 </div>
 <div class="sect2">
@@ -983,7 +992,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p><span class="image"><img src="./assets/images/047_vector.png" alt="047 vector"></span></p>
 </div>
 <div class="paragraph">
-<p>This vector, of dimension <em>n</em>, is constructed by placing \$1\$ at the position corresponding to each pitch class present in the pcs studied, an element of \$P(E)\$, and \$0\$ at the position of the others. By convention, the position corresponds to the pitch class name (which turns out to be very practical for algorithms).</p>
+<p>This vector, of dimension <em>n</em>, is constructed by placing <code>1</code> at the position corresponding to each pitch class present in the pcs studied, and <code>0</code> at the position of the others. By convention, the position corresponds to the pitch class name (which turns out to be very practical for algorithms).</p>
+</div>
+<div class="paragraph">
+<p>To convert a PCS to a binary vector, we define a function named <em>toVector</em>.</p>
 </div>
 <div class="paragraph">
 <p>\$tt"toVector(A)" : P(Z_n) -&gt; {0,1}^n\$ &#160; defined by :</p>
@@ -992,10 +1004,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>\$tt"toVector(A)" = \[f_A(0), f_A(1),...,f_A(n-1)] \$</p>
 </div>
 <div class="paragraph">
-<p>where the characteristic function \$f_A : Z_n -&gt; {0,1}\$  is defined by :</p>
+<p>where \$f_A\$, is the characteristic function \$f_A : Z_n -&gt; {0,1}\$  defined by :</p>
 </div>
 <div class="paragraph">
-<p>\$f_A(e) = { (1  if e in A), (0  if e notin A) :}\$</p>
+<p>\$f_A(pc) = { (1  if pc in A), (0  if pc notin A) :}\$</p>
 </div>
 <div class="paragraph">
 <p>So, for <em>n = 12</em>, any pcs \$A\$ of \$P(Z_12)\$ corresponds a vector \$v\$ defined as follows:</p>
@@ -1006,7 +1018,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="paragraph">
 <p>Example :</p>
 </div>
-<div class="paragraph">
+<div class="paragraph text-center">
 <p>toVector (0, 4, 7]) \$ = \[ v_0, v_1, v_2 , v_3 , v_4 , v_5 , v_6 , v_7 , v_8 , v_9 , v_10 , v_11] \$</p>
 </div>
 <div class="paragraph">
@@ -1019,22 +1031,33 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-We can clearly see the use of the name of Pitch Class as an index. This dual role must be subject to caution.
+We can clearly see the use of the name of Pitch Class as an index. We will see that this dual role is subject to caution.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>Example of analysis of a musical fragment. The fragment framed below is characterized by the pitch classes set [0, 4, 7] (Do, Mi Sol).</p>
+<p>The fragment framed below is characterized by the pitch classes set [0, 4, 7].</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./assets/images/047_fragment.png" alt="047 fragment">
+</div>
+<div class="title">Figure 9. Analysis example of a musical fragment.</div>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="./assets/images/047_fragment.png" alt="047 fragment"></span></p>
+<p>Example of reinterpretation of a vector representation</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./assets/images/047-vector-reinterpr.png" alt="047-vector-reinterpr">
+</div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_integer">Integer</h3>
 <div class="paragraph">
-<p>Yes, we can represent, identify, any PCS by an integer.</p>
+<p>Yes, we can represent, identify, any PCS by a unique integer. Let&#8217;s see how.</p>
 </div>
 <div class="paragraph">
 <p>From binary vector representation, we will do the sum of power of 2, where value is 1 into vector. This algorithm, known as <em>polynomial function</em>, which we will call, in the context of this project, <em>polynomial identifier : pid</em>.</p>
@@ -1053,7 +1076,7 @@ We can clearly see the use of the name of Pitch Class as an index. This dual rol
 </td>
 <td class="content">
 <div class="paragraph">
-<p>Since there exists a function (toVector) which gives the vector image of any PCS, we can define function <em>pid</em> with this domain of definition  \$"pid" : P(Z_12) -&gt; N\$</p>
+<p>Since there exists a function (toVector) which gives the vector image of any PCS, we can also define function <em>pid</em> with this domain of definition  \$"pid" : P(Z_12) -&gt; N\$</p>
 </div>
 </td>
 </tr>
@@ -1063,7 +1086,7 @@ We can clearly see the use of the name of Pitch Class as an index. This dual rol
 <p>Example for [0, 4, 7] :  <code>1 + 16 + 128</code> = <code>145</code>  (decimal value)</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. Example Polynomial Identifier ([0,4,7])</caption>
+<caption class="title">Table 1. Examples of Polynomial Identifier</caption>
 <colgroup>
 <col style="width: 7.1428%;">
 <col style="width: 7.1428%;">
@@ -1098,7 +1121,7 @@ We can clearly see the use of the name of Pitch Class as an index. This dual rol
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>pid</em></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>pcs</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[0,4,7]</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>1</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
@@ -1128,6 +1151,54 @@ We can clearly see the use of the name of Pitch Class as an index. This dual rol
 <td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>145</em></strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[0,3,7]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>1</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>1</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>1</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>pid</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>1</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>8</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>128</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>137</em></strong></p></td>
 </tr>
 </tbody>
 </table>
@@ -1184,9 +1255,59 @@ As each pcs into the 4096 is unique, each of these pcs has a unique value by pol
 </div>
 </div>
 </div>
+<div class="paragraph">
+<p>Polygon inscribed into circle denote the intervallic structure of the PCS.</p>
+</div>
+<div class="paragraph">
+<p>Other example, a minor 7 and its intervallic structure (3, 4, 3, 2) :</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./assets/images/minor7-circle-is.png" alt="minor7-circle-is"></span></p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0, 4, 7] this is (4, 3, 3, 2)
+</td>
+</tr>
+</table>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_musaic">Musaic</h4>
+<div class="paragraph">
+<p>A musaic is, by default, based on a geometric structure od dimension \$(phi(n)) /2\$.</p>
+</div>
+<div class="paragraph">
+<p>For <em>n</em> = 12, \$(phi(12)) /2 = 2 \$, therefore 2D structure.</p>
+</div>
+<div class="paragraph">
+<p>Musaic is instance of a dual interval space <a href="#DIS">[DIS]</a>, as two-dimensional array of pitches where “rows” are separated by the same interval and the “columns” by an other but also same (non-zero) interval (regular interface).</p>
+</div>
+<div class="paragraph">
+<p>By default, we take as intervals step the "generator prime forme" of <em>n</em>, these are those in the first half of the prime integers with n. For n=12 these are 1 and 5 from [<code><strong>1</strong>, <strong>5</strong>, n-5, n-1</code>].</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Wy take prime form with n ?</p>
+</div>
+<div class="paragraph">
+<p>Because, each of them being generator of a generator step value of n, they guarantee to traverse the structure in its entirety, while preserving characteristics specific to n (in particular the invariants).</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
 <div class="openblock float-group">
 <div class="content">
 <div class="imageblock left text-center">
@@ -1201,15 +1322,6 @@ As each pcs into the 4096 is unique, each of these pcs has a unique value by pol
 </div>
 </div>
 </div>
-</div>
-<div class="sect3">
-<h4 id="_dis_musaic_tonnetz_and_more">DIS : Musaic, Tonnetz and more</h4>
-<div class="paragraph">
-<p>More generally, a matrix regular representation is instance of a <em>Dual Interval Space</em> (<a href="#DIS">[DIS]</a>), a two-dimensional array of pitches where “rows” are separated by the same interval and the “columns” by one other but also same (non-zero) interval.</p>
-</div>
-<div class="paragraph">
-<p>Examples : DIS(y,x) where y is row interval and x is column interval. Violin is DIS(1,7), guitar in P4 Tuning is DIS(1,5), Tonnetz is DIS(4, 7), etc.</p>
-</div>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -1217,7 +1329,12 @@ As each pcs into the 4096 is unique, each of these pcs has a unique value by pol
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Instrument in DIS(x,y) are in <em>regular interface</em> family.
+<div class="paragraph">
+<p>There are other types of representation, such as Tonnetz, Thor, &#8230;&#8203; DIS with one interval step not in prime&#8230;&#8203;</p>
+</div>
+<div class="paragraph">
+<p>Examples : DIS(y,x) where y is row interval and x is column interval. Violin is DIS(1,7), guitar in P4 Tuning is DIS(1,5), Tonnetz is DIS(4, 7), etc.</p>
+</div>
 </td>
 </tr>
 </table>
@@ -1500,7 +1617,7 @@ In MusaicBox code, Augmented Polynomial Identifier is called <em>id</em>, and <e
 <div class="content">
 <img src="./assets/images/maj-triad-orbit-score.png" alt="Orbit cyclic">
 </div>
-<div class="title">Figure 9. Orbit Cyclic in score view and Major Triad Motif</div>
+<div class="title">Figure 10. Orbit Cyclic in score view and Major Triad Motif</div>
 </div>
 </div>
 </div>
@@ -1513,7 +1630,7 @@ In MusaicBox code, Augmented Polynomial Identifier is called <em>id</em>, and <e
 <div class="content">
 <img src="./assets/images/maj-orbit-clock2.png" alt="Orbit cyclic">
 </div>
-<div class="title">Figure 10. Orbit Cyclic in clock view and their inscribed polygon</div>
+<div class="title">Figure 11. Orbit Cyclic in clock view and their inscribed polygon</div>
 </div>
 </div>
 </div>
@@ -1864,7 +1981,7 @@ Given R, an equivalence relation, and pcs1, pcs2 (two pcs), if PrimeForm(R, pcs1
 <div class="content">
 <img src="./assets/images/pcs_2_3_5_7_8.png" alt="Modal and cyclic prime form">
 </div>
-<div class="title">Figure 11. Modal and cyclic prime form</div>
+<div class="title">Figure 12. Modal and cyclic prime form</div>
 </div>
 </div>
 </div>
@@ -1874,7 +1991,7 @@ Given R, an equivalence relation, and pcs1, pcs2 (two pcs), if PrimeForm(R, pcs1
 <div class="content">
 <img src="./assets/images/pcs_2_3_5_7_8-PF.png" alt="Cyclic prime form">
 </div>
-<div class="title">Figure 12. Cyclic prime form</div>
+<div class="title">Figure 13. Cyclic prime form</div>
 </div>
 </div>
 </div>
@@ -1884,7 +2001,7 @@ Given R, an equivalence relation, and pcs1, pcs2 (two pcs), if PrimeForm(R, pcs1
 <div class="content">
 <img src="./assets/images/pcs_2_3_5_7_8-MPF.png" alt="Modal prime form">
 </div>
-<div class="title">Figure 13. Modal prime form</div>
+<div class="title">Figure 14. Modal prime form</div>
 </div>
 </div>
 </div>
@@ -1894,7 +2011,7 @@ Given R, an equivalence relation, and pcs1, pcs2 (two pcs), if PrimeForm(R, pcs1
 <div class="content">
 <img src="./assets/images/pcs_2_3_5_7_8-wb1.png" alt="Modal and cyclic prime form">
 </div>
-<div class="title">Figure 14. Cyclic orbit and his modal and prime form</div>
+<div class="title">Figure 15. Cyclic orbit and his modal and prime form</div>
 </div>
 </div>
 </div>
@@ -1907,7 +2024,7 @@ Given R, an equivalence relation, and pcs1, pcs2 (two pcs), if PrimeForm(R, pcs1
 <div class="content">
 <img src="./assets/images/pcs_2_3_5_7_8-wb2.png" alt="Modal and cyclic prime form">
 </div>
-<div class="title">Figure 15. Cyclic orbit and his modal and prime form</div>
+<div class="title">Figure 16. Cyclic orbit and his modal and prime form</div>
 </div>
 </div>
 </div>
@@ -1962,7 +2079,7 @@ Given R, an equivalence relation, and pcs1, pcs2 (two pcs), if PrimeForm(R, pcs1
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-01-15 10:50:22 +0100
+Last updated 2025-01-17 12:08:59 +0100
 </div>
 </div>
 <script type="text/x-mathjax-config">
