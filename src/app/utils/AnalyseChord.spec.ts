@@ -42,7 +42,7 @@ describe('AnalyseChord chords list', () => {
     const fourChords = AnalyseChord.getList4Chords(ipcsDiatMaj)
 
     expect(fourChords.size).toEqual(7)
-    expect(fourChords.get('I')?.length).toEqual(2)
+    expect(fourChords.get('I')?.length).toEqual(3) // 2 plus IV bass I
     expect(fourChords.get('VII')?.length).toEqual(2)
   })
 

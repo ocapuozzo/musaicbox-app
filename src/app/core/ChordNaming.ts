@@ -47,6 +47,7 @@ export class ChordNaming {
     // Major
     ['0,4,7,9', [{name:'6', sortOrder:5, root:0}, {name:'m/3rd', sortOrder:6, root:9}]],
     ['0,4,7,11', [{name:'M7', sortOrder:4, root:0}]],
+
     ['0,4,7,8', [{name:'Maj ♭6', sortOrder:6, root:0}]],
 
     // Seventh
@@ -66,7 +67,13 @@ export class ChordNaming {
     ['0,3,7,11', [{name:'m M7', sortOrder:6, root:0}]],
     ['0,3,8,10', [{name:'m7 ♯5', sortOrder:8, root:0}]],
     ['0,3,7,9', [{name:'m6', sortOrder:5, root:0}]],
-    ['0,3,7,8', [{name:'m ♭6', sortOrder:7, root:0}]],
+    ['0,3,7,8', [{name:'m ♭6', sortOrder:7, root:0},{name:'M7/3rd', sortOrder:7, root:8}]],
+
+    // chord without name, but inversion
+    ['0,4,5,9', [{name:'M7/5th', sortOrder:7, root:5}]],
+    ['0,1,5,8', [{name:'M7/7th', sortOrder:7, root:1}]],
+    // end
+
     ['0,3,6,10', [{name:'ø', sortOrder:3, root:0}]],
     ['0,3,6,9', [{name:'dim7', sortOrder:3, root:0}]],
 
@@ -188,17 +195,7 @@ export class ChordNaming {
     if (nbPitches >= 3 && nbPitches <= 4 ) {
       chordsNPitches = ChordNaming.getKeysChord(pcs, nbPitches)
     }
-    //
-    // // verify if exist minimum one chord name
-    // const _chordName = chordsNPitches.length > 0
-    //   ? ChordNaming.chordsModalPF.get(chordsNPitches[0])![0]?.name
-    //   : undefined
-    //
-    // if (_chordName === undefined) return ''
 
-
-
-    //
     let nameRoot = ''
     // const indexNameRoot = pcs.iPivot != undefined ? pcs.getMappedPivot() : -1
     const names = ChordNaming.chordsModalPF.get(chordsNPitches[0])
@@ -209,9 +206,7 @@ export class ChordNaming {
     let theChordName = ''
 
     for (const chordName of names) {
-
       const _chordName = chordName.name
-
       // which nameRoot name ?
       let indexNameRoot = (pcs.getMappedPivot() + chordName.root) % 12 // case chord inversion
 
@@ -245,8 +240,7 @@ export class ChordNaming {
         // no altered
         nameRoot = ChordNaming.NOTE_NAMES_SHARP[indexNameRoot] // or NOTE_NAMES_FLAT what does it matter
       }
-      // console.log('nameRoot = ', nameRoot)
-      // console.log('chordName = ', _chordName)
+      // add new name tp theChordName (some pcs have more than one name)
       theChordName = theChordName
         ? `${theChordName} ~ ${nameRoot}${_chordName}`
         : `${nameRoot}${_chordName}`

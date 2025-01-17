@@ -51,12 +51,12 @@ describe('ChordNaming unit tests', () => {
     const bM7_7bass = new IPcs({
       strPcs: "[10,11,3,6]",
     })
-    expect(bM7_7bass.getChordName()).toEqual('')
+    expect(bM7_7bass.getChordName()).toEqual('BM7/7th')
 
     const cM7 = new IPcs({
       strPcs: "[11, 7, 0, 4]",
     })
-    expect(cM7.getChordName()).toEqual('')
+    expect(cM7.getChordName()).toEqual('CM7/7th')
   })
 
 })
