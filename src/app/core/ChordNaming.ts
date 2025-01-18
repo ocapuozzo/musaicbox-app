@@ -83,9 +83,10 @@ export class ChordNaming {
    * From pcs, get list of possible currents chords
    * @param pcs
    * @param nPitches 3 or 4 (3 or 4 pitches chords) to obtain
+   * @param includeInversion where .root > 0
    * @return string[] list of pcs in string representation as '0,3,6,9' (cardinal = nPitches)
    */
-  static getKeysChord(pcs: IPcs, nPitches: number): string[] {
+  static getKeysChord(pcs: IPcs, nPitches: number, includeInversion : boolean = true): string[] {
     let chordPcsList: string[] = []
 
     if (pcs.cardinal < 3) return chordPcsList
@@ -98,7 +99,9 @@ export class ChordNaming {
       pcsPF = pcs.transposition(- pivot )
       const keyChord = pcsPF.getMappedPcsStr(false)
       if (ChordNaming.chordsModalPF.get(keyChord)) {
-          chordPcsList.push(keyChord)
+         if (ChordNaming.chordsModalPF.get(keyChord)![0].root === 0 || ChordNaming.chordsModalPF.get(keyChord)![0].root > 0 && includeInversion) {
+           chordPcsList.push(keyChord)
+         }
       }
       // max one name
       return chordPcsList

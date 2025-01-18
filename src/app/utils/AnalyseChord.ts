@@ -6,6 +6,9 @@ export class AnalyseChord {
   static ROMAIN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII']
 
   static getListChords(pcs: IPcs, nOfPitches: number): Map<string, IPcs[]> {
+    const includeInversion = false
+       // because each degree is processed separately
+       // We don't want IV/5th to be added to the various chords of the 1st degree, for example.
     const chordsByDegree = new Map<string, IPcs[]>()
     const cardinal = pcs.cardinal
 
@@ -14,9 +17,9 @@ export class AnalyseChord {
     for (let nbDegree = 0; nbDegree < cardinal; nbDegree++) {
       let keysChords: string[]
       if (nOfPitches === 3) {
-        keysChords = ChordNaming.getKeysChord(pcsWorking, 3)
+        keysChords = ChordNaming.getKeysChord(pcsWorking, 3, includeInversion)
       } else {
-        keysChords = ChordNaming.getKeysChord(pcsWorking, 4)
+        keysChords = ChordNaming.getKeysChord(pcsWorking, 4, includeInversion)
       }
       if (keysChords.length == 0) {
         chordsByDegree.set(AnalyseChord.ROMAIN[nbDegree], [])
