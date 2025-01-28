@@ -7,6 +7,7 @@ From 88musaics.org project
 :toc-title: Table des matières
 :toc: left
 :toclevels: 4
+// :table-caption!:
 :stem:
 // :author: Olivier Capuozzo <olivier.capuozzo@gmail.com>
 // :url-quickref: https://docs.asciidoctor.org/asciidoc/latest/syntax-quick-reference/
@@ -151,7 +152,7 @@ image:equiv-hv.png[equiv pitch class]
 
 If we make the pitch class of C correspond to the class modulo 12 named stem:[bar 0], pitch class C# by stem:[bar 1] , … , and so on up to B by the pitch class number stem:[bar 11].
 
-* stem:[bar 0] represents all C's, and their enharmonics (B#, Dbb, ...) all octaves combined.
+* stem:[bar 0] is the pitch class that represents all C's, and their enharmonics (B#, Dbb, ...) all octaves combined.
 
 * stem:[bar 1] represents all C#'s, and their enharmonics (B##, Db, ...) in any octave.
 
@@ -163,7 +164,7 @@ stem:[Z_12 = {bar 0, bar 1, bar 2, bar 3, bar 4, bar 5, bar 6, bar 7, bar 8, bar
 
 [NOTE]
 ====
-It is customary, *for convenience*, *not* to use the barred notation, i.e.  stem:[0] instead of {nbsp} stem:[bar 0]
+It is customary, *for convenience*, *not* to use the barred notation for pitch classes, i.e.  stem:[0] instead of {nbsp} stem:[bar 0]
 
 => This way of doing things will have unsuspected repercussion... this problem is studied later in this document.
 ====
@@ -231,15 +232,17 @@ image:047_vector.png[]
 
 This vector, of dimension _n_, is constructed by placing `1` at the position corresponding to each pitch class present in the pcs studied, and `0` at the position of the others. By convention, the position corresponds to the pitch class name (which turns out to be very practical for algorithms).
 
-To convert a PCS to a binary vector, we define a function named _toVector_.
+To convert a PCS to a binary vector, we define a bijective function named _pcsToVector_.
 
-// [.text-center]
-stem:[tt"toVector(A)" : P(Z_n) -> {0,1}^n] {nbsp} :{nbsp}
-stem:[tt"toVector(A)" = \[f_A(0), f_A(1),...,f_A(n-1)\] ]
+[.text-center]
+stem:[P(Z_n) -> {0,1}^n] {nbsp}
+
+[.text-center]
+stem:[tt"pcsToVector(A)" := \[f_A(0), f_A(1),...,f_A(n-1)\] ]
 
 // stem:[tt"toVector(A)" = \[v_0,v_1,...,v_(n-1)\] ] where stem:[v_i = f_A(i)]
 
-where stem:[f_A], is the characteristic function stem:[f_A : Z_n -> {0,1}]  : stem:[f_A(pc) = { (1  if pc in A), (0  if pc notin A) :}]
+where stem:[f_A] (also known as stem:[chi_A]), is the characteristic function stem:[f_A : Z_n -> {0,1}]  : stem:[f_A(bar i) := { (1  if bar i in A), (0  if bar i notin A) :}]
 
 So, for _n = 12_, any pcs stem:[A] of stem:[P(Z_12)] corresponds a unique vector stem:[v] defined as follows:
 
@@ -248,17 +251,39 @@ stem:[v = \[f_A(bar 0), f_A(bar 1), f_A(bar 2) , f_A(bar 3) , f_A(bar 4) , f_A(b
 
 Example :
 
-
 toVector (0, 4, 7]) stem:[ = \[ v_0, v_1, v_2 , v_3 , v_4 , v_5 , v_6 , v_7 , v_8 , v_9 , v_10 , v_11\] ]
 
 where stem:[v_i="f"_"(0,4,7)"(bar i)], so we obtain vector stem:[\[1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0\] ]
 
-IMPORTANT: We can clearly see the use of the name of Pitch Class as an index. We will see that this dual role is subject to caution.
+IMPORTANT: We can clearly see the use of the name of Pitch Class stem:[bar i] as an index stem:[i] in vector (as stem:[v_i]) We will see that this dual role is subject to caution.
+
+[NOTE]
+====
+To get complement of a vector representation, we use inverse of characteristic function :
+[.text-center]
+--
+stem:[f_A^"-1" : Z_n -> {0,1}]
+
+stem:[f_A^"-1"(bar i) := 1 - f_A(bar i) ]
+--
+
+which transforms stem:[0] to stem:[1], and vice versa, pitch class representation into vector at index stem:[i].
+====
+
 
 The fragment framed below is characterized by the pitch classes set [0, 4, 7].
 
 .Analysis example of a musical fragment.
 image::047_fragment.png[]
+
+There is an inverse function _vectorToPcs_  defined by :
+
+[.text-center]
+--
+stem:[ZZ^n -> P(ZZ_n)]
+
+stem:["vectorToPcs(V)" := { bar i | V_i = 1 and 0 <= i < n} ]
+--
 
 Example of reinterpretation of a vector representation
 
@@ -272,7 +297,7 @@ From binary vector representation, we will do the sum of power of 2, where value
 
 stem:["pid" : {0,1}^12 -> N]  {nbsp} defined by :
 
-stem:["pid("v")" = sum_(i=0)^(n-1) v_i 2^i ] {nbsp} so add powers of 2 where stem:[v_i] is non-zero.
+stem:["pid("v")" = sum_(i=0)^(n-1) v_i 2^i ] {nbsp} (so add powers of 2 where stem:[v_i] is non-zero)
 
 [NOTE]
 ====
@@ -281,9 +306,10 @@ Since there exists a function (toVector) which gives the vector image of any PCS
 ====
 Example for [0, 4, 7] :  `1 + 16 + 128` = `145`  (decimal value)
 
-.Examples of Polynomial Identifier
+[%header]
+.Examples of Polynomial Identifier (first row is power of 2)
 |===
-|_Power of 2_|1| 2| 4| 8| 16| 32| 64| 128| 252| 512| 1024| 2048| _pid_
+| PCS|1| 2| 4| 8| 16| 32| 64| 128| 252| 512| 1024| 2048| _pid_
 |[0,4,7]|*1*|0|0|0|*1*|0|0|*1*|0|0|0|0|
 |_pid_|*1*|0|0|0|*16*|0|0|*128*|0|0|0|0|*_145_*
 ||||||||||||||
@@ -328,7 +354,13 @@ TIP: Sum of intervals into intervallic structure is always _n_. For pcs : [0, 4,
 
 A musaic is, by default, based on a 2D geometric structure.
 
-TIP: (simple hypothesis) We think that the dimension (2D) is deduced from _n_. This would be the number of generators of all prime numbers with _n_, whose number is always even (for all _n_ > 2). All primes with _n_ is known as stem:[phi(n)], so for _n_ = 12, stem:[(phi(12)) /2 = 2 ], therefore 2D structure.
+////
+
+// not the good place for this hypothesis !
+
+TIP: (simple hypothesis) We think that the dimension (2D) is deduced from _n_. This would be the number of generators of all prime numbers with _n_, whose number is always even (for all _n_ > 2). Number of primes with _n_ is known as stem:[phi(n)], so for _n_ = 12, stem:[(phi(12)) /2 = 2 ], therefore 2D structure.
+////
+
 
 Musaic is instance of a dual interval space <<DIS>>, as two-dimensional array of pitches where “rows” are separated by the same interval and the “columns” by an other but also same (non-zero) interval (regular interface).
 
@@ -359,7 +391,7 @@ Examples : DIS(y,x) where y is row interval and x is column interval. Violin is 
 
 === Together
 
-All PCS representations are interchangeable by bijective connection.
+All PCS representations are interchangeable by bijective connections (one-to-one relationship).
 
 .Example with Set, Integer, Vector, musaic, clock and score notation.
 [.float-group]
@@ -367,7 +399,531 @@ All PCS representations are interchangeable by bijective connection.
 image::together-representation-fleches.png["together-representation-fleches",float="left",align="center"]
 --
 
-== PCS Identity
+== Transformation operations
+
+Here we are interested in transformation operations that transform any PCS into other PCS, i.e. : stem:[P(E) -> P(E)].
+
+[TIP]
+====
+PCS are elements stem:[P(E)]. So writing stem:[P(E) -> P(E)] means that transformation operations take a pcs and return a pcs.
+====
+
+We will retain the following operations:
+
+• Transposition (**T**), which geometrically corresponds to a translation in the plane and musically to the transposition of a given step
+• Multiplication (**M**) by a prime number with cardinal of E, which geometrically corresponds to a half-rotation around an axis, and musically corresponds to a "symmetry".
+• Complementation (**C**), which geometrically and musically corresponds to a complementarity.
+
+We present these transformation operations below.
+
+=== Transposition
+
+Operation is {nbsp} stem:[T_k]
+
+[.text-center]
+--
+stem:[T_k  :  P(E) xx NN -> P(E)]
+
+{nbsp} stem:[T_k(A) := {\  (x + k) mod |E| \ },  forall   x in A]
+--
+
+
+//Operation is {nbsp}   stem:[T_k  :  P(E) -> P(E)]
+
+//defined by {nbsp} stem:[T_k(A) = {\  (x + k) mod |E| \ },  forall   x in A]
+
+Motivation: Allows us to establish an equivalence relationship "up to transposition" - an equivalence unanimously recognized in the musical field.
+
+Examples when stem:[E = {0, 1, ..., 11}]  (cardinal of stem:[E\ is\ |E| = 12])
+
+* Example1 : {nbsp} stem:[T_1("["0, 4, 7\]) ->"["1, 5, 8\]] {nbsp} (C Maj -> C# Maj)
+
+* Example2 : {nbsp} stem:[T_5("["0, 4, 7\]) -> "["0, 5, 9\]] {nbsp} (C Maj -> F Maj - [5, 9, 12] = [5, 9, 0] = [0, 5, 9])
+
+* Example3 : {nbsp} stem:[T_0("["0, 4, 7\]) ->"["0, 4, 7\]] {nbsp} (neutral operation)
+
+
+=== Multiplication
+
+Operation is {nbsp} stem:[M_a]
+
+[.text-center]
+--
+stem:[M_a  :  P(E) xx NN -> P(E)]
+
+stem:[M_a(A) := {\ (x * a) mod |E| \ },  forall   x in A]
+--
+
+
+// defined by {nbsp} stem:[M_a(A) = {\ (x * a) mod |E| \ },  forall   x in A]
+
+Where _a_ is prime with |E|, and stem:[*] is multiplication operator.
+
+Motivation: allows to establish an equivalence relation "up to a symmetry"
+
+Examples when stem:[E = {0, 1, ..., 11}]  (cardinal of stem:[E\ is\ |E| = 12])
+
+* Example M11 : {nbsp} stem:[M_11("["0, 4, 7\]) ->"["0, 5, 8\]] {nbsp} (C Maj -> Fm/5th - inversion)
+
+* Example M5 : {nbsp} stem:[M_5("["0, 4, 7\]) ->"["0, 8, 11\]] {nbsp}
+
+* Example M7 : {nbsp} stem:[M_7("["0, 4, 7\]) ->"["0, 1, 4\]] {nbsp}
+
+* Example noop : {nbsp} stem:[M_1("["0, 4, 7\]) ->"["0, 4, 7\]] {nbsp} (neutral operation)
+
+=== Complement
+
+Operation is {nbsp} stem:[C]
+
+[.text-center]
+--
+stem:[C : P(E) -> P(E)]
+
+stem:[C(A) := E\  – A]
+--
+
+Motivation: “up to the complement” equivalence
+
+Particularly because we have the equality : stem:[Stab(A) = Stab(E-A)] (Property studied later in this document)
+
+Examples when stem:[E = {0, 1, ..., 11}]  (cardinal of stem:[E\ is\ |E| = 12])
+
+* Example1 : {nbsp}  stem:[C("["0, 2, 4, 5, 7, 9, 11\]) ->"["1, 3, 6, 8, 10 \]] {nbsp} Major scale to Pentatonic scale
+
+=== Operations implementation
+
+=== Context
+https://88musaics.org/[88musaics project] presents different operations, when n = 12, as *geometrical transformations by rotation of half a turn*. M5 is left diagonal and M7 is right diagonal transformation, M11 (inversion) around central point, M1 is neutral operation anc C is a change of perspective of point of view.
+
+Into Musaicbox project (https://musaicbox.org/) , these operations are implemented by permutations, via the vector representation of PCS, i.e.   stem:[ NN^n -> NN^n].
+
+
+.Example of different points of view on transformation operations
+image::diff-4operations.png[diff-4operations]
+
+For transformations by multiplication, see also : https://en.wikipedia.org/wiki/Multiplication_(music)[wikipedia multiplication and music]
+
+The complementarity operation is also the object of great attention in musical set theory (<<Forte>>).
+
+These primitive operations can be combined. This is what we will see now.
+
+==== Affine operation
+
+Multiplication and Transposition may be grouped into one affine operation.
+
+Operation is stem:["Affine"]
+
+
+[.text-center]
+--
+stem:[M_aT_k  :  P(E) xx NN xx NN -> P(E)]
+
+stem:[M_aT_k(A) := {\ (ax + k) mod |E| \ },  forall  x in A]
+--
+
+Where _k_ is step of transposition and _a_ is factor of multiplication prime with cardinal of E, denoted by |E|.
+
+Examples when stem:[E = {0, 1, ..., 11}]  (cardinal of stem:[E\ is\ |E| = 12])
+
+. Example M1-T5 : {nbsp} stem:[M_1T_5("["0, 4, 7\]) -> "["5, 9, 12\]] so  stem:["["0, 5, 9,\]] Transposition of 5 halftones (T5)
+. Example M11-T0 : {nbsp} stem:[M_11T_0("["0, 4, 7\]) ->"["0, 5, 8\]] {nbsp} (C Maj -> Fm/5th - Multiplication only - M11 is inversion)
+
+. Example M1-T0 : {nbsp} stem:[M_1T_0("["0, 4, 7\]) ->"["0, 4, 7\]] {nbsp} (neutral op)
+
+. Example M5-T5 : {nbsp} stem:[M_5T_5("["0, 4, 7\]) ->"["1, 4, 5\]] {nbsp} Multiplication and Transposition
+
+
+=== General operation (musaicOp)
+
+If we add the complementarity operation to the affine function, we obtain the following operation: stem:[c * (ax + k)]
+
+[.text-center]
+--
+stem:[ "C"_cM_aT_k : P(E) xx B xx NN xx NN -> P(E)] {nbsp} where stem:[B = {false, true}]
+
+stem:["C"_cM_aT_k(A) := { ({\ (x * a + k) mod |E| \ }  forall x in A \ \ \ \ \ \ \ \ \  if c = false), (E - {\ (x * a + k) mod |E| \ }  forall x in A \  if c = true) :}]
+--
+
+or, if we use the affine operation seen previously :
+[.text-center]
+--
+stem:["C"_cM_aT_k(A) := { (M_aT_k(A) \ \ \ \ \ \ \ \ if c = false), (E - M_aT_k(A)  if c = true) :}]
+--
+
+[CAUTION]
+====
+In practice, we will not mention C when its _b_ value is false, so these writings are synonymous:
+
+stem:[C_"c=false"M_aT_k] , will be denoted by #MA-TK#
+
+stem:[C_"c=true"M_aT_k] , will be denoted by #CMA-TK#
+====
+
+Examples when stem:[E = {0, 1, ..., 11}]  (cardinal of stem:[E\ is\ |E| = 12]) :
+
+* *M1-T0* {nbsp}:{nbsp}  stem:[C_"false"M_1T_0("["0, 4, 7\]) ->"["0, 4, 7\]] {nbsp} (neutral op)
+
+* *CM1-T0* {nbsp}:{nbsp} stem:[C_"true"M_1T_0("["0, 2, 4, 5, 7, 9, 11\]) ->"["1, 3, 6, 8, 10\]] {nbsp} (complement only)
+
+* *M1-T1* {nbsp}:{nbsp} stem:[C_"false"M_1T_1("["0, 4, 7\]) ->"["1, 5, 8\]] {nbsp} (transposition of 1 halftone only)
+
+* *M5-T0* {nbsp}:{nbsp} stem:[C_"false"M_5T_0("["0, 4, 7\]) ->"["0, 8, 11\]] {nbsp} (M5 only)
+
+* *CM5-T4* {nbsp}:{nbsp} stem:[C_"true"M_5T_4("["0, 4, 7\]) ->"["1,2,5,6,7,8,9,10,11\]] {nbsp} (M5,  T4 and Complement)
+
+* *CM1-T1* {nbsp}:{nbsp} stem:[C_"true"M_1T_1("["0, 2, 4, 6, 8, 10\]) ->"["0,2,4,6,8,10\]] {nbsp} (T1 and Complement)
+
+
+etc.
+
+NOTE: General operation of transformation is called _MusaicOperation_ (or simply _musaicOp_) into MusaicBox project, not knowing if such a function has already been studied, if so, please inform the author of this study !
+
+
+== Group
+
+To define a group, we need to have a transformation operation (we have it, it is _musaicOp_) and a composition operation stem:[@] that we will define now.
+
+This composition operation stem:[@], based on musaicOp, will allow us to define a set of *all possible instances* of musaicOperation  : stem:[c * (ax + k)]
+
+For this, we extend the internal composition law of the affine group stem:[(ax + k)]
+
+[.text-center]
+--
+stem:[@ : \ (NN,NN) xx (NN,NN) -> (NN,NN)]
+
+stem:[(a,k) @ (a',k') = (aa', ak' + k)]
+--
+
+by this one :
+
+[.text-center]
+--
+stem:[@ : \ (B,NN,NN) xx (B,NN,NN) -> (B,NN,NN)]
+
+
+stem:[(c,a,k) @ (c',a',k') = ( c oplus c', aa', ak' + k)]
+
+where stem:[aa'] and {nbsp} stem:[(ak' + k)] {nbsp} are values stem:[mod n] {nbsp} (_n_ = |_E_|), stem:[oplus] the logical operator XOR and stem:[B := {false, true}].
+
+--
+
+Let us check that the law satisfies four expected properties (group axioms)
+
+* *Law of composition*
+
+For all _g_ and _g'_ elements of G, the result g stem:[@] g' is also in G.
+
+stem:[forall g, g' in G, (g @ g') in G]
+
+Yes, by definition (see above)
+
+
+* *Associative*
+
+stem:[forall (a,b,c) in G, (a @ b) @ c = a @ (b @ c)]
+
+This is true for stem:[(aa', ak' + k)] (law of composition of affine group)
+
+It remains to elucidate the case of the XOR operation.
+
+stem:[forall (a,b,c) in {0, 1}^3, (a oplus b) oplus c = a oplus (b oplus c)]
+
+|===
+|a|b|c|stem:[(a oplus b)]|stem:[(b oplus c)]|stem:[(a oplus b) oplus c]|stem:[a oplus (b oplus c)]
+
+|0
+|0
+|0
+|0
+|0
+|#0#
+|#0#
+
+|0
+|0
+|1
+|0
+|1
+|#1#
+|#1#
+
+|0
+|1
+|0
+|1
+|1
+|#1#
+|#1#
+
+|0
+|1
+|1
+|1
+|0
+|#0#
+|#0#
+
+|1
+|0
+|0
+|1
+|0
+|#1#
+|#1#
+
+|1
+|0
+|1
+|1
+|1
+|#0#
+|#0#
+
+|1
+|1
+|0
+|0
+|1
+|#0#
+|#0#
+
+|1
+|1
+|1
+|0
+|0
+|#1#
+|#1#
+
+|===
+
+We have shown that the XOR operator is associative, because for all combinations of _a_, _b_, _c_, the two expressions stem:[(a oplus b) oplus c] and stem:[a oplus (b oplus c)] always give the same result.
+
+We can therefore say that stem:[( c oplus c', aa', ak' + k)] is *associative*.
+
+* *Neutral element*
+
+There exists an element stem:[e in G]{nbsp} such that, for every stem:[a] in stem:[G] one has stem:[e @ a = a] and stem:[a @ e = a].
+
+This neutral element is :  stem:[(c, a, k) |-> (false, 1, 0) ] {nbsp} denoted by *M1-T0*
+
+stem:[e @ a = a] {nbsp} : {nbsp} stem:[(false, 1, 0) @ (c',a',k')  = ( false oplus c' ,a', k')]
+
+and
+
+stem:[a ⋅ e = a] {nbsp} : {nbsp} stem:[(c,a,k) @ (false, 1, 0) = ( c oplus false, a, k)]
+
+
+In its affine part, M1-T0, neutral operation use neutral values (1 for multiplication and 0 for addition). Let's see for stem:[oplus] if stem:[ (false oplus x) = (x oplus false) = x], whatever stem:[x] ?
+
+|===
+|{nbsp}stem:[x]|stem:[false] (fixed) |stem:[(x oplus false) = (false oplus x) = x ]
+
+|#false#
+|false
+|#false#
+
+|#true#
+|false
+|#true#
+
+|===
+
+Thus, by setting c' to false we ensure that c will stay the same  (stem:[AA c in {true, false}, (c oplus false) = c]).
+
+* *Symmetry element (inverse)*
+
+There exists an element stem:[e in G]{nbsp} such that, stem:[ AA a in G, EE b in G ->  a @ b = b @ a = e], where stem:[e] is neutral element (other name for *identity element*)
+
+so stem:[( c oplus c', aa', ak' + k)] = M1-T0
+
+We must therefore determine stem:[(c',a',k')] which satisfies the equation :
+
+[.text-center]
+stem:[(c,a,k) @ (c',a',k') = (c oplus c', aa', ak' + k) = (false, 1, 0)]
+
+Solution : stem:[(c', a', k') = (c , a , -k * a^-1)]
+
+Because :
+
+* by definition stem:[ c oplus c = false, AA c in {true, false}]
+
+* stem:[aa = 1] because stem:[((a * a) mod n) = 1] where stem:[a] is prime with stem:[n]
+
+* The modular inverse of stem:[ (-k * a^-1) (mod n)] {nbsp} is value of stem:[k'] which solves the equation stem:[ak' + k = 0],
+
+Examples with stem:[n = 12] : {nbsp} (reminder : M1-T0 is stem:[C_"c=false"M_"a=1"T_"k=0"])
+
+* M1-T0 stem:[@] *M1-T0* = M1-T0  {nbsp} (stem:[e . e = e])
+* *M1-T7* stem:[@] M1-T5 = M1-T0
+* M1-T5 stem:[@] *M1-T7* = M1-T0
+* M5-T5 stem:[@] *M5-T11* = M1-T0
+* CM5-T5 stem:[@] *CM5-T11* = M1-T0
+
+etc.
+
+=== Conclusion
+
+We have defined a group structure stem:[(G, @)] where stem:[@] is {nbsp} stem:[(c oplus c', aa', ak' + k)], with stem:[n>2], stem:[a] and stem:[a'] primes with stem:[n], {nbsp} stem:[k in [0..n-1\]] and stem:[c in {true, false}]
+
+Let us now consider the action of this group on a set E with 12 elements, stem:[E = ZZ "/" 12ZZ = ZZ_12] and more especially on stem:[P(E)], a set of stem:[2^|E| = 2^12 = 4096] PCS elements.
+
+
+// https://fr.wikipedia.org/wiki/Action_de_groupe_(math%C3%A9matiques)[]
+
+
+== Group Action
+The composition function stem:[@] allows us to determine all instances of musaicOp. For this we will use the algorithmic structure of the Cayley table.
+
+To begin with, we can focus on a few operations that will allow us to generate all possible transformation operations in T0. Several configurations are possible, all of which lead to the same result. For now, we will take :  {M1-T0, CM1-T0, M5-T0, M7-T0}, without transposition (step = 0).
+
+|===
+|{nbsp} {nbsp} stem:[@] |M1-T0 |CM1-T0 |M5-T0 |M7-T0
+
+|M1-T0
+|M1-T0
+|CM1-T0
+|M5-T0
+|M7-T0
+
+|CM1-T0
+|CM1-T0
+|M1-T0
+|#CM5-T0#
+|#CM7-T0#
+
+|M5-T0
+|M5-T0
+|#CM5-T0#
+|M1-T0
+|#M11-T0#
+
+|M7-T0
+|M7-T0
+|#CM7-T0#
+|#M11-T0#
+|M1-T0
+
+|===
+
+As we can see, three new operations are discovered (M11-T0, CM5-T0 and CM7-T0), we add them to the table structure (M11, CM5 and CM7), perform the calculations and repeat this process until no new operations are discovered, which gives, in fine:
+
+[cols="^h,,,,,,,,"]
+.As all operations are in T-0, but suffix -T0 is omitted (id = M1-T0)
+|===
+|{nbsp} stem:[@]|Id|M5|M7|M11|CM1|CM5|CM7|CM11
+
+|Id
+|*Id*
+|M5
+|M7
+|M11
+|CM1
+|CM5
+|CM7
+|CM11
+
+|M5
+|M5
+|*Id*
+|M11
+|M7
+|CM5
+|CM1
+|CM11
+|CM7
+
+|M7
+|M7
+|M11
+|*Id*
+|M5
+|CM7
+|CM11
+|CM1
+|CM5
+
+|M11
+|M11
+|M7
+|M5
+|*Id*
+|CM11
+|CM7
+|CM5
+|CM1
+
+|CM1
+|CM1
+|CM5
+|CM7
+|CM11
+|*Id*
+|M5
+|M7
+|M11
+
+|CM5
+|CM5
+|CM1
+|CM11
+|CM7
+|M5
+|*Id*
+|M11
+|M7
+
+|CM7
+|CM7
+|CM11
+|CM1
+|CM5
+|M7
+|M11
+|*Id*
+|M5
+
+|CM11
+|CM11
+|CM7
+|CM5
+|CM1
+|M11
+|M7
+|M5
+|*Id*
+
+|===
+
+We note that no other element of the group is generated (no new transformation operation). So the first inventory, without the transposition, gives *8 operations* :
+
+[.text-center]
+{ M1, M5, M7, M11, CM1, CM5, CM7, CM11 }
+
+By composing each of these operations with the 12 possible transposition steps, we obtain 96 operations in the group.
+
+[.text-center]
+|{ T0, T1, ..., T11 }| x |{ M1, M5, M7, M11, CM1, CM5, CM7, CM11 }| = 12 x 8 = *96 operations*
+
+It is thanks to this group that we will be able to partition our 4096 PCS into remarkable subsets by action of this group on stem:[Z_12].
+
+We now know that such a group action generates 88 orbits. However, we think it is more didactic to focus first on a smaller group, containing 12 operations (out of the 96 seen previously). This group, called the cyclic group, is a subgroup of G.
+
+[NOTE]
+====
+Later we will make an inventory of the possible subgroups of stem:[G] (we work with a finite set, which makes our work easier)
+====
+
+== Orbit
+
+== Orbit and its stabilizers
+
+== Orbit and its representative element
+
+
+=== Looking for the minimum
+
+=== PCS Identity
 
 Any ordered PCS (in normal form) is unique, but it is not a sufficient quality to sort them.
 
@@ -391,7 +947,7 @@ By definition, a PCS is a collection of PC. Type is not atomic, and may have som
 
 To implement order relation, we use integer representation, to go through the order of natural integer.
 
-==== Polynomial function
+==== Polynomial function pid()
 
 Polynomial function (_pid_) is a good candidate for sorting the PCS among themselves.
 
@@ -407,38 +963,36 @@ Examples with some pairs of pcs (pcs1 and pcs2), let's compare pid(pcs1) and pid
 |[0,4,7]| [1,5,8]| _145_ | _290_ | **_true_**
 |[0,3,7]| [2,6,11]| _137_ | _2116_ | **_true_**
 |[0,11] | [0,3,7] | _2049_ |_137_ | **_false_** (???)
- #_waiting true_#
+#_waiting true_#
 |===
 
 In the first line, we admitted that a pcs with a smaller cardinal than another pcs will be considered smaller than the latter. But this is contradicted by the last line, counterintuitive.
 
 We admit that when two PCS are compared, the one with the smaller cardinality will always be considered inferior to the other, which can be defined by :
 
-stem:[forall A, B in P(Z_n), |A| < |B| => A  < B]
+stem:[forall (pcsA, pcsB) in P(Z_n)^2, |pcsA| < |pcsB| => pcsA  < pcsB]
 
 
-==== Augmented Polynomial function
+==== Augmented pid : id()
 
-To take into account the cardinal in the general order relation that we are looking for, we introduce, independently of `pid` , a function stem:[w] : stem:[ P(Z_12) -> N ] {nbsp} defined by :
+To take into account the cardinal in the general order relation that we are looking for, we introduce, independently of _pid_ , a function stem:[w] : stem:[ P(Z_12) -> NN ] {nbsp} defined by :
 
 stem:[w(A) = m cdot |A| ]
 
-In order to give significant weight to _w_ function, independently of _pid_, we take as the value of _m_, the multiplicative coefficient of the cardinal of the argument, a value greater than the upper limit of the domain of
+In order to give significant weight to _w_ function, independently of _pid_, we take as the value of _m_ (the multiplicative coefficient of the cardinal of _A_) a value greater than the upper limit of the domain of _pid_ which is stem:[\[0..2^12[] {nbsp}, so the first next value outside _pid_ domain is  stem:[m=2^12].
 
-TODO
+So, augmented polynomial function, which called _id_, taked into account the cardinal, is
 
-definition of the coefficients of the polynomial P1, that is to say a value beyond the upper limit of [0..n-1], 2n being the first candidate. As for the cardinal of an element e of the set of parts of (Z/12Z), it is calculated by summing the values ​​ei of its vector representation, which gives:
+stem:[id_A = "pid"_A + w_A = "pid"_A + 2^n cdot |A| ]
 
-The first valuefootnote:[the last is 2^12^-1], outside _pid_ domain, is `2^n^`
-
-So, augmented polynomial function, which takes into account the cardinal, is  :  `_pid_ + 2^12^ * _cardinal_`
+stem:[id_A = "pid"_A + 2^n cdot |A| ]
 
 
 
 [%header]
-.Example Compare with Augmented Polynomial Identifier
+.Example Compare with Augmented Polynomial Identifier (id)
 |===
-|pcs1| pcs2| augPid(pcs1) | augPid(pcs2)| pcs1 < pcs1
+|pcs1| pcs2| id(pcs1) | id(pcs2)| pcs1 < pcs1
 | [ ]| [0]| _0_ | _4097_ | **_true_**
 |[0,4,7]| [1,5,8]| _12433_ | _12578_ | **_true_**
 |[0,3,7]| [2,6,11]| _12425_ | _14404_ | **_true_**
@@ -447,7 +1001,10 @@ So, augmented polynomial function, which takes into account the cardinal, is  : 
 
 NOTE: In MusaicBox code, Augmented Polynomial Identifier is called _id_, and _pid_ is kept because is commonly used.
 
-== Equivalence relation
+
+////
+== Orbit
+
 
 Example of _proposition_ : "_To be a major triad_"
 
@@ -572,6 +1129,7 @@ Affine group has *156* orbits.
 In this group, any pcs of a given orbit are in affine equivalence with itself or *affine complement*.
 
 Musaic group has *88* orbits.
+////
 
 == Prime Form
 
@@ -590,6 +1148,12 @@ Given an equivalence relation orbit (of pcs), there will always be a unique pcs 
 Originally <<Forte>>, prime denotes a pcs in normal form and "most packed on the left (0)"
 
 <<Rahn>> John Rahn proposes a more rational approach, based on vector representation of a pcs (and its image function in an integer result of polynomial function)
+
+*From there to saying that Prime Form quality is the minimum of an orbit, there is only one step, which we are taking !*
+
+So, we cannot talk about Prime Form without giving its context.
+
+NOTE: In musical set theory, historically, the default context of Prime Form is the dihedral group and prime form of the cyclic group is called Normal Form.
 
 === What Prime Form is not
 

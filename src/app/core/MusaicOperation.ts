@@ -8,8 +8,12 @@
  *
  */
 
+
+import {StringHash} from "../utils/StringHash";
+import {IPcs} from "./IPcs";
+
 /**
- * musaic operation group : ((ax + t) modulo n) . c
+ * musaic operation group : c . ((ax + t) modulo n)
  *
  * where 'a' is prime with n,  'x' a PCS (all PCs in x), 't' step of transposition, 'c' is
  * complement operation which can be : neutral operation or complement operation
@@ -35,10 +39,6 @@
  * @author kpu
  *
  */
-
-import {StringHash} from "../utils/StringHash";
-import {IPcs} from "./IPcs";
-
 export class MusaicOperation {
   a: number
   t: number
@@ -100,21 +100,22 @@ export class MusaicOperation {
    * Use for generate all operations from a subset of operations, inspired by Cayley
    * table algorithm : get a new operation by Law of composition of MusaicGroup :
    * <pre>
-   * (a,t,c) (a',t',c') = (aa', at' + t, c xor c')
+   * (c,a,t) (c',a',t') = ( c xor c', aa', at' + t)
    * </pre>
    * where :
    * <ul>
+   * <li>c is boolean (complement or not) </li>
    * <li>a is integer prime with n </li>
    * <li>t is integer into [0..n[ </li>
-   * <li>c is boolean (complement or not) </li>
    * </ul>
-   * Important remark : Neutral operation is M1-TO (complement == false else CM1-TO)
+   * Important remark : Where complement is false, op is denoted MA-Tk, else CMA-TK, so neutral operation is M1-TO
    *    whatever op :
-   *    M1-T0.compose(M1-T0) == M1-T0   (false !== false) => false
-   *    CM1-T0.compose(M1-T0) == CM1-T0 (true !== false) => true
+   *    M1-T0.compose(M1-T0)   -> M1-T0  (false !== false) => false
+   *    CM1-T0.compose(M1-T0)  -> CM1-T0 (true !== false) => true
+   *    CM1-T0.compose(CM1-T0) -> M1-T0  (true !== true) => false
    *
-   * @param  other MusaicOperation (a',t',c')
-   * @return MusaicOperation (this.a,this.t,this.c) (a',t',c') = (aa', at' + t, c xor c'), a new instance
+   * @param  other MusaicOperation (c',a',t')
+   * @return MusaicOperation (this.c,this.a,this.t) (c',a',t') = ( c xor c', aa', at' + t) (a new instance)
    */
   compose(other: MusaicOperation) : MusaicOperation {
     if (this.n !== other.n)

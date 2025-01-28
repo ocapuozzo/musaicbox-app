@@ -24,7 +24,7 @@ describe('MusaicPcsOperation', () => {
 
     op2 = new MusaicOperation(12, 7, 5, true);
     op1 = new MusaicOperation(12, 7, 0, true);
-    expect(op1.equals(op2)).not.toBeTruthy(); // bad t
+    expect(op1.equals(op2)).not.toBeTrue(); // bad t
 
   });
 
@@ -34,19 +34,52 @@ describe('MusaicPcsOperation', () => {
     let opT5 = new MusaicOperation(12, 1, 5, false);
 
     // action CM7 first and T5 second
-    expect(opCM7_T5.equals(opT5.compose(opCM7))).toBeTruthy();
+    expect(opCM7_T5.equals(opT5.compose(opCM7))).toBeTrue();
 
     // n = 7
     const badT5 = new MusaicOperation(7, 1, 5, true);
     try {
-      expect(opCM7_T5.equals(badT5.compose(opCM7))).toBeTruthy();
+      expect(opCM7_T5.equals(badT5.compose(opCM7))).toBeTrue();
       fail('Waiting exception because invalid n in operations')
     } catch (e: any) {
       expect(e.message).toContain("bad N in compose op")
     }
   });
 
-  it("MusaicPcsOp testActionOn", () => {
+
+  it("MusaicPcsOp compose neutral op", () => {
+    let opM1T0 = new MusaicOperation(12, 1, 0, false);
+    let opCM1T0 = new MusaicOperation(12, 1, 0, true);
+
+    // M1-T0.compose(M1-T0) == M1-T0   (false !== false) => false
+    // CM1-T0.compose(M1-T0) == CM1-T0 (true !== false) => true
+    // CM1-T0.compose(CM1-T0) == M1-T0 (true !== true) => false
+
+    expect(opM1T0.equals(opM1T0.compose(opM1T0))).toBeTrue();
+    expect(opCM1T0.equals(opM1T0.compose(opCM1T0))).toBeTrue();
+    expect(opCM1T0.equals(opCM1T0.compose(opM1T0))).toBeTrue();
+    expect(opM1T0.equals(opCM1T0.compose(opCM1T0))).toBeTrue();
+
+  })
+
+  it("MusaicPcsOp compose  op", () => {
+    // M3-T5 . M3-T2 = M9-T11
+    //  (this.c,this.a,this.t) (c',a',t') = ( c xor c', aa', at' + t)
+    let opM3T5 = new MusaicOperation(12, 3, 5, false);
+    let opM3T2 = new MusaicOperation(12, 3, 2, false);
+    let opM9T11 = new MusaicOperation(12, 9, 11, false);
+    expect(opM9T11.equals(opM3T5.compose(opM3T2))).toBeTrue();
+
+    let opCM3T5 = new MusaicOperation(12, 3, 5, true);
+    let opCM9T11 = new MusaicOperation(12, 9, 11, true);
+    expect(opCM9T11.equals(opCM3T5.compose(opM3T2))).toBeTrue();
+
+    let opCM3T10 = new MusaicOperation(12, 3, 10, true);
+    let opCM9T4 = new MusaicOperation(12, 9, 4, true);
+    expect(opCM9T4.equals(opCM3T10.compose(opM3T2))).toBeTrue();
+  })
+
+    it("MusaicPcsOp testActionOn", () => {
     let pcs = new IPcs({strPcs: "0,3,4,7,8,11"});
     let opCM7_T5 = new MusaicOperation(12, 7, 5, true);
     // n = 12, CM7_T5 is stabilizer for Pcs("0,3,4,7,8,11")

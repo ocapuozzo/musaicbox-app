@@ -56,6 +56,13 @@ describe('Laboratory explorer', () => {
 
   })
 
+
+  // TODO compare enumeration sorted by cardinal (cyclic and dihedral) with
+  //  Enumeration in Musical Theory by Harald Fripertinger, enumeration via Pólya’s Theorem
+  //  https://www.mat.univie.ac.at/~slc/s/s26fripert.pdf
+
+
+
   /////////// Explore PCS lists
 
 
@@ -153,7 +160,7 @@ describe('Laboratory explorer', () => {
     const numberOps = allOperations.length
     expect(numberOps).toEqual(7)
     const cardinalPowerset = Math.pow(2, numberOps)
-    expect(cardinalPowerset).toEqual(128)  // all possible combinaisons 
+    expect(cardinalPowerset).toEqual(128)  // all possible combinaisons
 
     // key = group name, value = some operations group generator
     let groupGenerators = new Map<string, MusaicOperation[][]>()
@@ -208,7 +215,7 @@ describe('Laboratory explorer', () => {
           if (res === 0) {
             res =
               a.length * a.reduce((previousValue: number, currentValue) =>
-                previousValue + currentValue.getHashCode(),  0)
+                previousValue + currentValue.getHashCode(), 0)
               - b.length * b.reduce((previousValue: number, currentValue) =>
                 previousValue + currentValue.getHashCode(), 0)
           }
@@ -263,21 +270,72 @@ describe('Laboratory explorer', () => {
     expect(res.length).toEqual(3)
   })
 
-  it ("intervallic structure feature", ()=> {
-    const majScale = new IPcs({strPcs:"0,2,4,5,7 ,9 ,11"})
+  it("intervallic structure feature", () => {
+    const majScale = new IPcs({strPcs: "0,2,4,5,7,9,11"})
     const featureIS = majScale.getFeatureIS()
     const featureWaiting = [1, 2]
     expect(featureIS).toEqual(featureWaiting)
   })
 
-  it ("get all pcs having same featureIS", ()=> {
-    const majScale = new IPcs({strPcs:"0,2,4,5,7,9,11"})
-    const pcsSameFeatureIS : IPcs[] = majScale.getPcsSameFeatureIS()
+  it("get all pcs having same interval types that Major scale", () => {
+    const majScale = new IPcs({strPcs: "0,2,4,5,7,9,11"})
+    const pcsSameFeatureIS: IPcs[] = majScale.getPcsSameFeatureIS()
+    console.log("PCS having same intervals that Major Scale (" + pcsSameFeatureIS.length + ")")
     pcsSameFeatureIS.forEach(pcs => console.log(pcs.is() + " Mus n° " + EightyEight.idNumberOf(pcs)))
     expect(pcsSameFeatureIS.length).toEqual(29) // 30 - chromatic scale
   })
 
+
   /*
+  // not great interest...
+
+  it("get all k' that resolve ak' + k = 0 with n = 12", () => {
+    const n = 12
+    const allPrimeWith12 = Group.phiEulerElements(n);
+    allPrimeWith12.forEach((a) => {
+      console.log(` ========== with n = ${n} and a = ${a}`)
+      for (let k = 0; k < n; k++) {
+        console.log(`  ${a}k'\t + ${k}\t = \t0  => \tk' ${PcsUtils.solveEquationV1(a, k, n)} \tV2 k' = \t${PcsUtils.solveEquationV2(a, k, n)}`)
+      }
+    })
+  })
+
+  it("get all k' that resolve ak' + k = 0 with 2 algorithms n = 7", () => {
+    const n = 7
+    const allPrimeWithN = Group.phiEulerElements(n);
+    allPrimeWithN.forEach((a) => {
+      console.log(` ========== with n = ${n} and a = ${a}`)
+      for (let k = 0; k < n; k++) {
+        console.log(`  ${a}k'\t + ${k}\t = \t0  => \tV1 k' = \t${PcsUtils.solveEquationV1(a, k, n)} \tV2 k' = \t${PcsUtils.solveEquationV2(a, k, n)}`)
+      }
+    })
+  })
+
+  it("Explore solveEquation 2 algorithms n : [2..13]", () => {
+    const nMax = 13
+    for (let n = 2; n <= nMax; n++) {
+      let fail = false
+      const allPrimeWithN = Group.phiEulerElements(n);
+      loopA:
+        for (let i = 0; i < allPrimeWithN.length; i++) {
+          for (let k = 0; k < n; k++) {
+            const a = allPrimeWithN[i]
+            if (PcsUtils.solveEquationV1(a, k, n) !== PcsUtils.solveEquationV2(a, k, n)) {
+              console.log(` === Fail with n = ${n}`)
+              fail = true
+              break loopA
+            }
+          }
+        }
+      if (!fail) console.log(`Works with n = ${n}`)
+    }
+  })
+
+*/
+
+
+  /* test dynamic mutable
+
   type TNoMutable<T> = {
     readonly [k in keyof T]: T[k];
   };

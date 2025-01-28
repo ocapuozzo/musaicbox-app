@@ -586,26 +586,34 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_together">Together</a></li>
 </ul>
 </li>
-<li><a href="#_pcs_identity">PCS Identity</a>
+<li><a href="#_transformation_operations">Transformation operations</a>
 <ul class="sectlevel2">
+<li><a href="#_transposition">Transposition</a></li>
+<li><a href="#_multiplication">Multiplication</a></li>
+<li><a href="#_complement">Complement</a></li>
+<li><a href="#_operations_implementation">Operations implementation</a>
+<ul class="sectlevel3">
+<li><a href="#_affine_operation">Affine operation</a></li>
+</ul>
+</li>
+<li><a href="#_general_operation_musaicop">General operation (musaicOp)</a></li>
+</ul>
+</li>
+<li><a href="#_group">Group</a></li>
+<li><a href="#_orbit">Orbit</a></li>
+<li><a href="#_orbit_and_its_stabilizers">Orbit and its stabilizers</a></li>
+<li><a href="#_orbit_and_its_representative_element">Orbit and its representative element</a>
+<ul class="sectlevel2">
+<li><a href="#_looking_for_the_minimum">Looking for the minimum</a></li>
+<li><a href="#_pcs_identity">PCS Identity</a></li>
 <li><a href="#_order_relation">Order relation</a></li>
 <li><a href="#_state">State</a></li>
 <li><a href="#_integer_2">Integer</a>
 <ul class="sectlevel3">
-<li><a href="#_polynomial_function">Polynomial function</a></li>
-<li><a href="#_augmented_polynomial_function">Augmented Polynomial function</a></li>
+<li><a href="#_polynomial_function_pid">Polynomial function pid()</a></li>
+<li><a href="#_augmented_pid_id">Augmented pid : id()</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li><a href="#_equivalence_relation">Equivalence relation</a>
-<ul class="sectlevel2">
-<li><a href="#_orbit">Orbit</a></li>
-<li><a href="#_octaveenharmonic_equivalence">Octave/Enharmonic equivalence</a></li>
-<li><a href="#_intervallic_structure_equivalence_up_to_shift">Intervallic structure equivalence up to shift</a></li>
-<li><a href="#_dihedral_equivalence">Dihedral equivalence</a></li>
-<li><a href="#_affine_equivalence">Affine equivalence</a></li>
-<li><a href="#_musaic_equivalence">Musaic equivalence</a></li>
 </ul>
 </li>
 <li><a href="#_prime_form">Prime Form</a>
@@ -848,7 +856,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p>\$bar 0\$ represents all C&#8217;s, and their enharmonics (B#, Dbb, &#8230;&#8203;) all octaves combined.</p>
+<p>\$bar 0\$ is the pitch class that represents all C&#8217;s, and their enharmonics (B#, Dbb, &#8230;&#8203;) all octaves combined.</p>
 </li>
 <li>
 <p>\$bar 1\$ represents all C#'s, and their enharmonics (B##, Db, &#8230;&#8203;) in any octave.</p>
@@ -872,7 +880,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </td>
 <td class="content">
 <div class="paragraph">
-<p>It is customary, <strong>for convenience</strong>, <strong>not</strong> to use the barred notation, i.e.  \$0\$ instead of &#160; \$bar 0\$</p>
+<p>It is customary, <strong>for convenience</strong>, <strong>not</strong> to use the barred notation for pitch classes, i.e.  \$0\$ instead of &#160; \$bar 0\$</p>
 </div>
 <div class="paragraph">
 <p>&#8658; This way of doing things will have unsuspected repercussion&#8230;&#8203; this problem is studied later in this document.</p>
@@ -998,19 +1006,14 @@ classifications.</p>
 <p>To convert a PCS to a binary vector, we define a function named <em>toVector</em>.</p>
 </div>
 <div class="paragraph">
-<p>\$tt"toVector(A)" : P(Z_n) -&gt; {0,1}^n\$ &#160; defined by :</p>
+<p>\$tt"toVector(A)" : P(Z_n) -&gt; {0,1}^n\$ &#160; :&#160;
+\$tt"toVector(A)" = \[f_A(0), f_A(1),...,f_A(n-1)] \$</p>
 </div>
 <div class="paragraph">
-<p>\$tt"toVector(A)" = \[f_A(0), f_A(1),...,f_A(n-1)] \$</p>
+<p>where \$f_A\$, is the characteristic function \$f_A : Z_n -&gt; {0,1}\$  : \$f_A(pc) = { (1  if pc in A), (0  if pc notin A) :}\$</p>
 </div>
 <div class="paragraph">
-<p>where \$f_A\$, is the characteristic function \$f_A : Z_n -&gt; {0,1}\$  defined by :</p>
-</div>
-<div class="paragraph">
-<p>\$f_A(pc) = { (1  if pc in A), (0  if pc notin A) :}\$</p>
-</div>
-<div class="paragraph">
-<p>So, for <em>n = 12</em>, any pcs \$A\$ of \$P(Z_12)\$ corresponds a vector \$v\$ defined as follows:</p>
+<p>So, for <em>n = 12</em>, any pcs \$A\$ of \$P(Z_12)\$ corresponds a unique vector \$v\$ defined as follows:</p>
 </div>
 <div class="paragraph">
 <p>\$v = \[f_A(bar 0), f_A(bar 1), f_A(bar 2) , f_A(bar 3) , f_A(bar 4) , f_A(bar 5) , f_A(bar 6) , f_A(bar 7) , f_A(bar 8) , f_A(bar 9)  , f_A(bar 10) , f_A(bar 11)] \$</p>
@@ -1018,7 +1021,7 @@ classifications.</p>
 <div class="paragraph">
 <p>Example :</p>
 </div>
-<div class="paragraph text-center">
+<div class="paragraph">
 <p>toVector (0, 4, 7]) \$ = \[ v_0, v_1, v_2 , v_3 , v_4 , v_5 , v_6 , v_7 , v_8 , v_9 , v_10 , v_11] \$</p>
 </div>
 <div class="paragraph">
@@ -1066,7 +1069,7 @@ We can clearly see the use of the name of Pitch Class as an index. We will see t
 <p>\$"pid" : {0,1}^12 -&gt; N\$  &#160; defined by :</p>
 </div>
 <div class="paragraph">
-<p>\$"pid("v")" = sum_(i=0)^(n-1) v_i 2^i \$ &#160; so add powers of 2 where \$v_i\$ is non-zero.</p>
+<p>\$"pid("v")" = sum_(i=0)^(n-1) v_i 2^i \$ &#160; (so add powers of 2 where \$v_i\$ is non-zero)</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1086,7 +1089,7 @@ We can clearly see the use of the name of Pitch Class as an index. We will see t
 <p>Example for [0, 4, 7] :  <code>1 + 16 + 128</code> = <code>145</code>  (decimal value)</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. Examples of Polynomial Identifier</caption>
+<caption class="title">Table 1. Examples of Polynomial Identifier (first row is power of 2)</caption>
 <colgroup>
 <col style="width: 7.1428%;">
 <col style="width: 7.1428%;">
@@ -1103,23 +1106,25 @@ We can clearly see the use of the name of Pitch Class as an index. We will see t
 <col style="width: 7.1428%;">
 <col style="width: 7.1436%;">
 </colgroup>
-<tbody>
+<thead>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Power of 2</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">8</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">16</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">32</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">64</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">128</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">252</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">512</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1024</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2048</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>pid</em></p></td>
+<th class="tableblock halign-left valign-top">PCS</th>
+<th class="tableblock halign-left valign-top">1</th>
+<th class="tableblock halign-left valign-top">2</th>
+<th class="tableblock halign-left valign-top">4</th>
+<th class="tableblock halign-left valign-top">8</th>
+<th class="tableblock halign-left valign-top">16</th>
+<th class="tableblock halign-left valign-top">32</th>
+<th class="tableblock halign-left valign-top">64</th>
+<th class="tableblock halign-left valign-top">128</th>
+<th class="tableblock halign-left valign-top">252</th>
+<th class="tableblock halign-left valign-top">512</th>
+<th class="tableblock halign-left valign-top">1024</th>
+<th class="tableblock halign-left valign-top">2048</th>
+<th class="tableblock halign-left valign-top"><em>pid</em></th>
 </tr>
+</thead>
+<tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[0,4,7]</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>1</strong></p></td>
@@ -1219,7 +1224,7 @@ pid('[1,3,5,7,9,11]') = 2730 (whole tone scale)</pre>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-As each pcs into the 4096 is unique, each of these pcs has a unique value by polynomial function.
+As each pcs into the 4096 is unique, each of these pcs has a unique integer value by polynomial function.
 </td>
 </tr>
 </table>
@@ -1228,7 +1233,7 @@ As each pcs into the 4096 is unique, each of these pcs has a unique value by pol
 <div class="sect2">
 <h3 id="_geometry">Geometry</h3>
 <div class="paragraph">
-<p>Example with [0,4,7]</p>
+<p>Example with pcs [0,4,7]</p>
 </div>
 <div class="sect3">
 <h4 id="_linear">Linear</h4>
@@ -1271,7 +1276,7 @@ As each pcs into the 4096 is unique, each of these pcs has a unique value by pol
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0, 4, 7] this is (4, 3, 3, 2)
+Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0, 4, 7] this is (4, 3, 5)
 </td>
 </tr>
 </table>
@@ -1280,10 +1285,7 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0, 
 <div class="sect3">
 <h4 id="_musaic">Musaic</h4>
 <div class="paragraph">
-<p>A musaic is, by default, based on a geometric structure od dimension \$(phi(n)) /2\$.</p>
-</div>
-<div class="paragraph">
-<p>For <em>n</em> = 12, \$(phi(12)) /2 = 2 \$, therefore 2D structure.</p>
+<p>A musaic is, by default, based on a 2D geometric structure.</p>
 </div>
 <div class="paragraph">
 <p>Musaic is instance of a dual interval space <a href="#DIS">[DIS]</a>, as two-dimensional array of pitches where “rows” are separated by the same interval and the “columns” by an other but also same (non-zero) interval (regular interface).</p>
@@ -1302,13 +1304,14 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0, 
 <p>Wy take prime form with n ?</p>
 </div>
 <div class="paragraph">
-<p>Because, each of them being generator of a generator step value of n, they guarantee to traverse the structure in its entirety, while preserving characteristics specific to n (in particular the invariants).</p>
+<p>Because, each of them being generator of a generator step value of n, they guarantee to traverse the structure in its entirety, while preserving characteristics specific to <em>n</em> (in particular the invariants).</p>
 </div>
 </td>
 </tr>
 </table>
 </div>
 <div class="openblock float-group">
+<div class="title">Example of musaic representation of [0,4,7]</div>
 <div class="content">
 <div class="imageblock left text-center">
 <div class="content">
@@ -1330,7 +1333,7 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0, 
 </td>
 <td class="content">
 <div class="paragraph">
-<p>There are other types of representation, such as Tonnetz, Thor, &#8230;&#8203; DIS with one interval step not in prime&#8230;&#8203;</p>
+<p>There are many others types of representation, such as Thor, Tonnetz and others <a href="#DIS">[DIS]</a> with one interval step not in prime&#8230;&#8203;</p>
 </div>
 <div class="paragraph">
 <p>Examples : DIS(y,x) where y is row interval and x is column interval. Violin is DIS(1,7), guitar in P4 Tuning is DIS(1,5), Tonnetz is DIS(4, 7), etc.</p>
@@ -1344,7 +1347,7 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0, 
 <div class="sect2">
 <h3 id="_together">Together</h3>
 <div class="paragraph">
-<p>All PCS representations are interchangeable by bijective connection.</p>
+<p>All PCS representations are interchangeable by bijective connections (one-to-one relationship).</p>
 </div>
 <div class="openblock float-group">
 <div class="title">Example with Set, Integer, Vector, musaic, clock and score notation.</div>
@@ -1360,10 +1363,779 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0, 
 </div>
 </div>
 <div class="sect1">
-<h2 id="_pcs_identity">PCS Identity</h2>
+<h2 id="_transformation_operations">Transformation operations</h2>
 <div class="sectionbody">
 <div class="paragraph">
+<p>Here we are interested in transformation operations that transform any PCS into other PCS, i.e. : \$P(E) -&gt; P(E)\$.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>PCS are elements \$P(E)\$. So writing \$P(E) -&gt; P(E)\$ means that transformation operations take a pcs and return a pcs.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>We will retain the following operations:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Transposition (<strong>T</strong>), which geometrically corresponds to a translation in the plane and musically to the transposition of a given step</p>
+</li>
+<li>
+<p>Multiplication (<strong>M</strong>) by a prime number with cardinal of E, which geometrically corresponds to a half-rotation around an axis, and musically corresponds to a "symmetry".</p>
+</li>
+<li>
+<p>Complementation (<strong>C</strong>), which geometrically and musically corresponds to a complementarity.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>We present these transformation operations below.</p>
+</div>
+<div class="sect2">
+<h3 id="_transposition">Transposition</h3>
+<div class="paragraph">
+<p>Operation is &#160; \$T_k\$</p>
+</div>
+<div class="openblock text-center">
+<div class="content">
+<div class="paragraph">
+<p>\$T_k  :  P(E) xx N -&gt; P(E)\$</p>
+</div>
+<div class="paragraph">
+<p>&#160; \$T_k(A) = {\  (x + k) mod |E| \ },  forall   x in A\$</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Motivation: Allows us to establish an equivalence relationship "up to transposition" - an equivalence unanimously recognized in the musical field.</p>
+</div>
+<div class="paragraph">
+<p>Example1 : &#160; \$T_1("["0, 4, 7]) -&gt;"["1, 5, 8]\$ &#160; (C Maj &#8594; C# Maj)</p>
+</div>
+<div class="paragraph">
+<p>Example2 : &#160; \$T_5("["0, 4, 7]) -&gt; "["0, 5, 9]\$ &#160; (C Maj &#8594; F Maj - [5, 9, 12] = [5, 9, 0] = [0, 5, 9])</p>
+</div>
+<div class="paragraph">
+<p>Example3 : &#160; \$T_0("["0, 4, 7]) -&gt;"["0, 4, 7]\$ &#160; (neutral operation)</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_multiplication">Multiplication</h3>
+<div class="paragraph">
+<p>Operation is &#160; \$M_a\$</p>
+</div>
+<div class="openblock text-center">
+<div class="content">
+<div class="paragraph">
+<p>\$M_a  :  P(E) xx N -&gt; P(E)\$</p>
+</div>
+<div class="paragraph">
+<p>\$M_a(A) = {\ (x * a) mod |E| \ },  forall   x in A\$</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Where <em>a</em> is prime with |E|, and \$*\$ is multiplication operator.</p>
+</div>
+<div class="paragraph">
+<p>Motivation: allows to establish an equivalence relation "up to a symmetry"</p>
+</div>
+<div class="paragraph">
+<p>Example M11 : &#160; \$M_11("["0, 4, 7]) -&gt;"["0, 5, 8]\$ &#160; (C Maj &#8594; Fm/5th - inversion)</p>
+</div>
+<div class="paragraph">
+<p>Example M5 : &#160; \$M_5("["0, 4, 7]) -&gt;"["0, 8, 11]\$ &#160;</p>
+</div>
+<div class="paragraph">
+<p>Example M7 : &#160; \$M_7("["0, 4, 7]) -&gt;"["0, 1, 4]\$ &#160;</p>
+</div>
+<div class="paragraph">
+<p>Example noop : &#160; \$M_1("["0, 4, 7]) -&gt;"["0, 4, 7]\$ &#160; (neutral operation)</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_complement">Complement</h3>
+<div class="paragraph">
+<p>Operation is &#160; \$C\$</p>
+</div>
+<div class="openblock text-center">
+<div class="content">
+<div class="paragraph">
+<p>\$C : P(E) -&gt; P(E)\$</p>
+</div>
+<div class="paragraph">
+<p>\$C(A) = E\  – A\$</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Motivation: “up to the complement” equivalence</p>
+</div>
+<div class="paragraph">
+<p>Particularly because we have the equality : \$Stab(A) = Stab(E-A)\$ (Property studied later in this document)</p>
+</div>
+<div class="paragraph">
+<p>Example : &#160;  \$C("["0, 2, 4, 5, 7, 9, 11]) -&gt;"["1, 3, 6, 8, 10 ]\$ &#160; Major scale to Pentatonic scale</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_operations_implementation">Operations implementation</h3>
+<div class="paragraph">
+<p><a href="https://88musaics.org/">88musaics project</a> presents these different operations as <strong>geometrical transformations by rotation of half a turn</strong>. M5 is left diagonal and M7 is right diagonal transformation, M11 (inversion) around central point, M1 is neutral operation anc C is a change of perspective of point of view.</p>
+</div>
+<div class="paragraph">
+<p>Into Musaicbox project, these operations are implemented by permutations, via the vector representation of PCS, i.e.   \$ N^n -&gt; N^n\$.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./assets/images/diff-4operations.png" alt="diff-4operations">
+</div>
+<div class="title">Figure 10. Example of different points of view on transformation operations</div>
+</div>
+<div class="paragraph">
+<p>For these kind of transformations, see also : <a href="https://en.wikipedia.org/wiki/Multiplication_(music)">wikipedia multiplication and music</a></p>
+</div>
+<div class="paragraph">
+<p>The complementarity operation is also the object of great attention in musical set theory (<a href="#Forte">[Forte]</a>).</p>
+</div>
+<div class="paragraph">
+<p>These primitive operations can be combined. This is what we will see now.</p>
+</div>
+<div class="sect3">
+<h4 id="_affine_operation">Affine operation</h4>
+<div class="paragraph">
+<p>Multiplication and Transposition may be grouped into one affine operation.</p>
+</div>
+<div class="paragraph">
+<p>Operation is \$"Affine"\$</p>
+</div>
+<div class="openblock text-center">
+<div class="content">
+<div class="paragraph">
+<p>\$M_aT_k  :  P(E) xx N xx N -&gt; P(E)\$</p>
+</div>
+<div class="paragraph">
+<p>\$M_aT_k(A) = {\ (ax + k) mod |E| \ },  forall  x in A\$</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Where <em>k</em> is step of transposition and <em>a</em> is factor of multiplication prime with cardinal of E, denoted by |E|.</p>
+</div>
+<div class="paragraph">
+<p>Example M5-T5 : &#160; \$M_5T_5("["0, 4, 7]) -&gt;"["1, 4, 5]\$ &#160; M5 first then T5</p>
+</div>
+<div class="paragraph">
+<p>Example M11-T0 : &#160; \$M_11T_0("["0, 4, 7]) -&gt;"["0, 5, 8]\$ &#160; (C Maj &#8594; Fm/5th - simple inversion)</p>
+</div>
+<div class="paragraph">
+<p>Example M1-T0 : &#160; \$M_1T_0("["0, 4, 7]) -&gt;"["0, 4, 7]\$ &#160; (neutral op)</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_general_operation_musaicop">General operation (musaicOp)</h3>
+<div class="paragraph">
+<p>If we add the complementarity operation to the affine function, we obtain the following operation: \$c * (ax + k)\$</p>
+</div>
+<div class="openblock text-center">
+<div class="content">
+<div class="paragraph">
+<p>\$ "C"_bM_aT_k : P(E) xx B xx N xx N -&gt; P(E)\$</p>
+</div>
+<div class="paragraph">
+<p>\$"C"_bM_aT_k(A) = { ({\ (x * a + k) mod |E| \ }  forall x in A "," if b = false), (E - {\ (x * a + k) mod |E| \ }  forall x in A "," if b = true) :}\$</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>or, if we use the affine operation seen previously :</p>
+</div>
+<div class="openblock text-center">
+<div class="content">
+<div class="paragraph">
+<p>\$"C"_bM_aT_k(A) = { (M_aT_k(A) "," if b = false), (E - M_aT_k(A) "," if b = true) :}\$</p>
+</div>
+</div>
+</div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-caution" title="Caution"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>In practice, we will not mention C when its <em>b</em> value is false, so these writings are synonymous:</p>
+</div>
+<div class="paragraph">
+<p>\$C_"b=false"M_aT_k\$ , will be denoted by <mark>MA-TK</mark></p>
+</div>
+<div class="paragraph">
+<p>\$C_"b=true"M_aT_k\$ , will be denoted by <mark>CMA-TK</mark></p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Examples :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>M1-T0</strong> &#160;:&#160;  \$C_"false"M_1T_0("["0, 4, 7]) -&gt;"["0, 4, 7]\$ &#160; (neutral op)</p>
+</li>
+<li>
+<p><strong>CM1-T0</strong> &#160;:&#160; \$C_"true"M_1T_0("["0, 2, 4, 5, 7, 9, 11]) -&gt;"["1, 3, 6, 8, 10]\$ &#160; (complement only)</p>
+</li>
+<li>
+<p><strong>M1-T1</strong> &#160;:&#160; \$C_"false"M_1T_1("["0, 4, 7]) -&gt;"["1, 5, 8]\$ &#160; (transposition of 1 halftone only)</p>
+</li>
+<li>
+<p><strong>M5-T0</strong> &#160;:&#160; \$C_"false"M_5T_0("["0, 4, 7]) -&gt;"["0, 8, 11]\$ &#160; (M5 only)</p>
+</li>
+<li>
+<p><strong>CM5-T4</strong> &#160;:&#160; \$C_"true"M_5T_4("["0, 4, 7]) -&gt;"["1,2,5,6,7,8,9,10,11]\$ &#160; (M5 then T4 then Complement)</p>
+</li>
+<li>
+<p><strong>CM1-T1</strong> &#160;:&#160; \$C_"true"M_1T_1("["0, 2, 4, 6, 8, 10]) -&gt;"["0,2,4,6,8,10]\$ &#160; (T1 then Complement)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>etc.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+General operation of transformation is called <em>MusaicOperation</em> (or simply <em>musaicOp</em>) into MusaicBox project, not knowing if such a function has already been studied, if so, please inform the author of this study !
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_group">Group</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To define a group, we need to have a transformation operation (we have it, it is <em>musaicOp</em>) and a composition operation \$@\$ that we will define now.</p>
+</div>
+<div class="paragraph">
+<p>This composition operation \$@\$, based on musaicOp, will allow us to define a set of <strong>all possible instances</strong> of musaicOperation  : \$c * (ax + k)\$</p>
+</div>
+<div class="paragraph">
+<p>For this, we extend the internal composition law of the affine group \$(ax + k)\$</p>
+</div>
+<div class="paragraph text-center">
+<p>\$(a,k) @ (a',k') = (aa', ak' + k)\$</p>
+</div>
+<div class="paragraph">
+<p>by this one :</p>
+</div>
+<div class="openblock text-center">
+<div class="content">
+<div class="paragraph">
+<p>\$@ : \ "musaicOp" xx "musaicOp" -&gt; "musaicOp"\$</p>
+</div>
+<div class="paragraph">
+<p>\$(c,a,k) @ (c',a',k') = ( c oplus c', aa', ak' + k)\$</p>
+</div>
+<div class="paragraph">
+<p>where \$aa'\$ and &#160; \$(ak' + k)\$ &#160; are values \$mod n\$ &#160; (<em>n</em> = |<em>E</em>|), and \$oplus\$ the logical operator XOR.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Let us check that the law satisfies four expected properties (group axioms)</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Law of composition</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>\$forall (g, g') in G, (g @ g') in G \$</p>
+</div>
+<div class="paragraph">
+<p>Yes, by definition (see above)</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Associative</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>\$forall (a,b,c) in G, (a @ b) @ c = a @ (b @ c)\$</p>
+</div>
+<div class="paragraph">
+<p>This is true for \$(aa', ak' + k)\$ (law of composition of affine group)</p>
+</div>
+<div class="paragraph">
+<p>It remains to elucidate the case of the XOR operation.</p>
+</div>
+<div class="paragraph">
+<p>\$forall (a,b,c) in {0, 1}^3, (a oplus b) oplus c = a oplus (b oplus c)\$</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2858%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">a</th>
+<th class="tableblock halign-left valign-top">b</th>
+<th class="tableblock halign-left valign-top">c</th>
+<th class="tableblock halign-left valign-top">\$(a oplus b)\$</th>
+<th class="tableblock halign-left valign-top">\$(b oplus c)\$</th>
+<th class="tableblock halign-left valign-top">\$(a oplus b) oplus c\$</th>
+<th class="tableblock halign-left valign-top">\$a oplus (b oplus c)\$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><mark>0</mark></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><mark>0</mark></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><mark>1</mark></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><mark>1</mark></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><mark>1</mark></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><mark>1</mark></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><mark>0</mark></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><mark>0</mark></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><mark>1</mark></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><mark>1</mark></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><mark>0</mark></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><mark>0</mark></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><mark>0</mark></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><mark>0</mark></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><mark>1</mark></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><mark>1</mark></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>We have proven that the XOR operator is associative, because for all combinations of <em>a</em>, <em>b</em>, <em>c</em>, the two expressions \$(a oplus b) oplus c\$ and \$a oplus (b oplus c)\$ always give the same result.</p>
+</div>
+<div class="paragraph">
+<p>We can therefore say that \$( c oplus c', aa', ak' + k)\$ is <strong>associative</strong>.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Neutral element</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>There exists an element \$e in G\$&#160; such that, for every \$a\$ in \$G\$ one has \$e ⋅ a = a\$ and \$a ⋅ e = a\$.</p>
+</div>
+<div class="paragraph">
+<p>It is <strong>M1-T0</strong> : &#160; \$C_"false"M_1T_0\$</p>
+</div>
+<div class="paragraph">
+<p>In its affine part, M1-T0, neutral operation use neutral values (1 for multiplication and 0 for addition). Let&#8217;s see for \$oplus\$.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">c</th>
+<th class="tableblock halign-left valign-top">c'</th>
+<th class="tableblock halign-left valign-top">\$(c oplus c') = c\$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><mark>false</mark></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><mark>false</mark></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><mark>true</mark></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">false</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><mark>true</mark></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Thus, by setting c' to false we ensure that c will stay the same.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Symmetry (or inverse) element</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>There exists an element \$e in G\$&#160; such that, \$ AA a in G, EE b in G -&gt;  a • b = b • a = e\$, where \$e\$ is neutral element (other name for <strong>identity element</strong>)</p>
+</div>
+<div class="paragraph">
+<p>so \$( c oplus c', aa', ak' + k)\$ = M1-T0</p>
+</div>
+<div class="paragraph">
+<p>so \$(c,a,k) @ (c',a',k') = (c oplus c', aa', ak' + k) = (false, 1, 0)\$</p>
+</div>
+<div class="paragraph">
+<p>Solution : \$(c', a', k') = (c, a, -k * a^-1)\$</p>
+</div>
+<div class="paragraph">
+<p>Because :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>by definition \$ c oplus c = false, AA c in {true, false}\$</p>
+</li>
+<li>
+<p>\$aa = 1\$ because \$((a * a) mod n) = 1\$ where \$a\$ is prime with \$n\$</p>
+</li>
+<li>
+<p>\$ (-k * a^-1) (mod n)\$ &#160;  (<em>a</em><sup>-1</sup> is modular inverse of <em>a</em> modulo <em>n</em>) is the  solution (<em>k'</em>) of : \$ak' + k = 0\$,</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Examples :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>M1-T0 \$@\$ <strong>M1-T0</strong> = M1-T0  &#160;&#160; (reminder : M1-T0 is \$C_"b=false"M_"a=1"T_"k=0"\$)</p>
+</li>
+<li>
+<p><strong>M1-T7</strong> \$@\$ M1-T5 = M1-T0</p>
+</li>
+<li>
+<p>M1-T5 \$@\$ <strong>M1-T7</strong> = M1-T0</p>
+</li>
+<li>
+<p>M5-T5 \$@\$ <strong>M5-T11</strong> = M1-T0</p>
+</li>
+<li>
+<p>CM5-T5 \$@\$ <strong>CM5-T11</strong> = M1-T0</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>etc.</p>
+</div>
+<div class="paragraph">
+<p>The composition function \$@\$ allows us to determine all instances of musaicOp. For this we will use the algorithmic structure of the Cayley table.</p>
+</div>
+<div class="paragraph">
+<p>To begin with, we can focus on a few operations that will allow us to generate all possible transformation operations in T0. Several configurations are possible, all of which lead to the same result. For now, we will take :  {M1-T0, CM1-T0, M5-T0, M7-T0}, without transposition (step = 0).</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">&#160; &#160; \$@\$</th>
+<th class="tableblock halign-left valign-top">M1-T0</th>
+<th class="tableblock halign-left valign-top">CM1-T0</th>
+<th class="tableblock halign-left valign-top">M5-T0</th>
+<th class="tableblock halign-left valign-top">M7-T0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M1-T0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M1-T0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CM1-T0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M5-T0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M7-T0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CM1-T0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CM1-T0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M1-T0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><mark>CM5-T0</mark></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><mark>CM7-T0</mark></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M5-T0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M5-T0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><mark>CM5-T0</mark></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M1-T0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><mark>M11-T0</mark></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M7-T0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M7-T0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><mark>CM7-T0</mark></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><mark>M11-T0</mark></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M1-T0</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>As we can see, three new operations are discovered (M11-T0, CM5-T0 and CM7-T0), we add them to the table structure (M11, CM5 and CM7), perform the calculations and repeat this process until no new operations are discovered, which gives, in fine:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. As all operations are in T-0, but suffix -T0 is omitted (id = M1-T0)</caption>
+<colgroup>
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1112%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top">&#160; \$@\$</th>
+<th class="tableblock halign-left valign-top">Id</th>
+<th class="tableblock halign-left valign-top">M5</th>
+<th class="tableblock halign-left valign-top">M7</th>
+<th class="tableblock halign-left valign-top">M11</th>
+<th class="tableblock halign-left valign-top">CM1</th>
+<th class="tableblock halign-left valign-top">CM5</th>
+<th class="tableblock halign-left valign-top">CM7</th>
+<th class="tableblock halign-left valign-top">CM11</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="tableblock halign-center valign-top"><p class="tableblock">Id</p></th>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Id</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CM1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CM5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CM7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CM11</p></td>
+</tr>
+<tr>
+<th class="tableblock halign-center valign-top"><p class="tableblock">M5</p></th>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Id</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CM5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CM1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CM11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CM7</p></td>
+</tr>
+<tr>
+<th class="tableblock halign-center valign-top"><p class="tableblock">M7</p></th>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Id</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CM7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CM11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CM1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CM5</p></td>
+</tr>
+<tr>
+<th class="tableblock halign-center valign-top"><p class="tableblock">M11</p></th>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Id</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CM11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CM7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CM5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CM1</p></td>
+</tr>
+<tr>
+<th class="tableblock halign-center valign-top"><p class="tableblock">CM1</p></th>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CM1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CM5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CM7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CM11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Id</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M11</p></td>
+</tr>
+<tr>
+<th class="tableblock halign-center valign-top"><p class="tableblock">CM5</p></th>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CM5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CM1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CM11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CM7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Id</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M7</p></td>
+</tr>
+<tr>
+<th class="tableblock halign-center valign-top"><p class="tableblock">CM7</p></th>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CM7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CM11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CM1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CM5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Id</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M5</p></td>
+</tr>
+<tr>
+<th class="tableblock halign-center valign-top"><p class="tableblock">CM11</p></th>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CM11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CM7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CM5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CM1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Id</strong></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>We note that no other element of the group is generated (no new transformation operation). So the first inventory, without the transposition, gives <strong>8 operations</strong> :</p>
+</div>
+<div class="paragraph text-center">
+<p>{ M1, M5, M7, M11, CM1, CM5, CM7, CM11 }</p>
+</div>
+<div class="paragraph">
+<p>By composing each of these operations with the 12 possible transposition steps, we obtain 96 operations in the group.</p>
+</div>
+<div class="paragraph text-center">
+<p>|{ T0, T1, &#8230;&#8203;, T11 }| x |{ M1, M5, M7, M11, CM1, CM5, CM7, CM11 }| = 12 x 8 = <strong>96 operations</strong></p>
+</div>
+<div class="paragraph">
+<p>It is thanks to this group that we will be able to partition our 4096 PCS into remarkable subsets by action of this group on \$Z_12\$.</p>
+</div>
+<div class="paragraph">
+<p>We now know that such a group action generates 88 orbits. However, we think it is more didactic to focus first on a smaller group, containing 12 operations (out of the 96 seen previously). This group, called the cyclic group, is a subgroup of G.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Later we will make an inventory of the possible subgroups of \$G\$ (we work with a finite set, which makes our work easier)</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_orbit">Orbit</h2>
+<div class="sectionbody">
+
+</div>
+</div>
+<div class="sect1">
+<h2 id="_orbit_and_its_stabilizers">Orbit and its stabilizers</h2>
+<div class="sectionbody">
+
+</div>
+</div>
+<div class="sect1">
+<h2 id="_orbit_and_its_representative_element">Orbit and its representative element</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_looking_for_the_minimum">Looking for the minimum</h3>
+
+</div>
+<div class="sect2">
+<h3 id="_pcs_identity">PCS Identity</h3>
+<div class="paragraph">
 <p>Any ordered PCS (in normal form) is unique, but it is not a sufficient quality to sort them.</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_order_relation">Order relation</h3>
@@ -1392,7 +2164,7 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0, 
 <p>To implement order relation, we use integer representation, to go through the order of natural integer.</p>
 </div>
 <div class="sect3">
-<h4 id="_polynomial_function">Polynomial function</h4>
+<h4 id="_polynomial_function_pid">Polynomial function pid()</h4>
 <div class="paragraph">
 <p>Polynomial function (<em>pid</em>) is a good candidate for sorting the PCS among themselves.</p>
 </div>
@@ -1403,7 +2175,7 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0, 
 <p>Examples with some pairs of pcs (pcs1 and pcs2), let&#8217;s compare pid(pcs1) and pid(pcs2) to determine if pcs1 "is less than" pcs2 :</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 2. Example problem when compare identity with Polynomial Identifier</caption>
+<caption class="title">Table 3. Example problem when compare identity with Polynomial Identifier</caption>
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 20%;">
@@ -1448,7 +2220,7 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0, 
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>2049</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>137</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>false</em></strong> (???)
- <mark><em>waiting true</em></mark></p></td>
+<mark><em>waiting true</em></mark></p></td>
 </tr>
 </tbody>
 </table>
@@ -1459,34 +2231,31 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0, 
 <p>We admit that when two PCS are compared, the one with the smaller cardinality will always be considered inferior to the other, which can be defined by :</p>
 </div>
 <div class="paragraph">
-<p>\$forall A, B in P(Z_n), |A| &lt; |B| =&gt; A  &lt; B\$</p>
+<p>\$forall (pcsA, pcsB) in P(Z_n)^2, |pcsA| &lt; |pcsB| =&gt; pcsA  &lt; pcsB\$</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_augmented_polynomial_function">Augmented Polynomial function</h4>
+<h4 id="_augmented_pid_id">Augmented pid : id()</h4>
 <div class="paragraph">
-<p>To take into account the cardinal in the general order relation that we are looking for, we introduce, independently of <code>pid</code> , a function \$w\$ : \$ P(Z_12) -&gt; N \$ &#160; defined by :</p>
+<p>To take into account the cardinal in the general order relation that we are looking for, we introduce, independently of <em>pid</em> , a function \$w\$ : \$ P(Z_12) -&gt; N \$ &#160; defined by :</p>
 </div>
 <div class="paragraph">
 <p>\$w(A) = m cdot |A| \$</p>
 </div>
 <div class="paragraph">
-<p>In order to give significant weight to <em>w</em> function, independently of <em>pid</em>, we take as the value of <em>m</em>, the multiplicative coefficient of the cardinal of the argument, a value greater than the upper limit of the domain of</p>
+<p>In order to give significant weight to <em>w</em> function, independently of <em>pid</em>, we take as the value of <em>m</em> (the multiplicative coefficient of the cardinal of <em>A</em>) a value greater than the upper limit of the domain of <em>pid</em> which is \$\[0..2^12[\$ &#160;, so the first next value outside <em>pid</em> domain is  \$m=2^12\$.</p>
 </div>
 <div class="paragraph">
-<p>TODO</p>
+<p>So, augmented polynomial function, which called <em>id</em>, taked into account the cardinal, is</p>
 </div>
 <div class="paragraph">
-<p>definition of the coefficients of the polynomial P1, that is to say a value beyond the upper limit of [0..n-1], 2n being the first candidate. As for the cardinal of an element e of the set of parts of (Z/12Z), it is calculated by summing the values ​​ei of its vector representation, which gives:</p>
+<p>\$id_A = "pid"_A + w_A = "pid"_A + 2^n cdot |A| \$</p>
 </div>
 <div class="paragraph">
-<p>The first value<sup class="footnote">[<a id="_footnoteref_5" class="footnote" href="#_footnotedef_5" title="View footnote.">5</a>]</sup>, outside <em>pid</em> domain, is <code>2<sup>n</sup></code></p>
-</div>
-<div class="paragraph">
-<p>So, augmented polynomial function, which takes into account the cardinal, is  :  <code><em>pid</em> + 2<sup>12</sup> * <em>cardinal</em></code></p>
+<p>\$id_A = "pid"_A + 2^n cdot |A| \$</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 3. Example Compare with Augmented Polynomial Identifier</caption>
+<caption class="title">Table 4. Example Compare with Augmented Polynomial Identifier (id)</caption>
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 20%;">
@@ -1498,8 +2267,8 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0, 
 <tr>
 <th class="tableblock halign-left valign-top">pcs1</th>
 <th class="tableblock halign-left valign-top">pcs2</th>
-<th class="tableblock halign-left valign-top">augPid(pcs1)</th>
-<th class="tableblock halign-left valign-top">augPid(pcs2)</th>
+<th class="tableblock halign-left valign-top">id(pcs1)</th>
+<th class="tableblock halign-left valign-top">id(pcs2)</th>
 <th class="tableblock halign-left valign-top">pcs1 &lt; pcs1</th>
 </tr>
 </thead>
@@ -1551,379 +2320,6 @@ In MusaicBox code, Augmented Polynomial Identifier is called <em>id</em>, and <e
 </div>
 </div>
 <div class="sect1">
-<h2 id="_equivalence_relation">Equivalence relation</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Example of <em>proposition</em> : "<em>To be a major triad</em>"</p>
-</div>
-<div class="paragraph">
-<p>There are only 12 pcs, among the 4096 pcs, where this proposition is true.</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 4. Different representations of <em>major triad</em></caption>
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">structure name</th>
-<th class="tableblock halign-left valign-top">intervals</th>
-<th class="tableblock halign-left valign-top">clock</th>
-<th class="tableblock halign-left valign-top">musaic</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Major triad</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">major third then perfect fifth then perfect forth</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">specific inscribed polygon <span class="image"><img src="./assets/images/major-triad-polygone.png" alt="major-triad-polygone"></span></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">specific motif <span class="image"><img src="./assets/images/major-triad-motif.png" alt="major triad motif"></span></p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>Such proposition can take form of an <em>equivalence relation</em> : <em>R</em> = "<em>to share same structure</em>"</p>
-</div>
-<div class="paragraph">
-<p>Some characteristics of <em>R</em> :</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>symmetric : \$∀ x, y ∈ P(E), x\ R\ y =&gt; y\ R\ x \$</p>
-</li>
-<li>
-<p>reflexive : \$∀ x ∈ P(E), x\ R\ x \$</p>
-</li>
-<li>
-<p>transitive : \$∀ x, y, z ∈ P(E), (x\ R\ y and y\ R\ z) =&gt; x\ R\ z \$</p>
-</li>
-</ul>
-</div>
-<div class="sect2">
-<h3 id="_orbit">Orbit</h3>
-<div class="paragraph">
-<p>Orbit is a set where all of its elements (pcs) are connected by the same equivalence relation.<sup class="footnote">[<a id="_footnoteref_6" class="footnote" href="#_footnotedef_6" title="View footnote.">6</a>]</sup></p>
-</div>
-<div class="paragraph">
-<p>Example : Orbit cyclic of major triad as <code>{ C,E,G }</code> is a set with equivalence relations "<em>having same structure of major triad</em>". This set is composed of 12 elements (<code>{ C, E, G }, { Cb, F, Ab }, &#8230;&#8203;, { B, D#, F# }</code>)</p>
-</div>
-<div class="openblock float-group">
-<div class="content">
-<div class="imageblock left text-center left">
-<div class="content">
-<img src="./assets/images/maj-triad-orbit-score.png" alt="Orbit cyclic">
-</div>
-<div class="title">Figure 10. Orbit Cyclic in score view and Major Triad Motif</div>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p>Below, same, with clock representation.</p>
-</div>
-<div class="openblock float-group">
-<div class="content">
-<div class="imageblock left text-center left">
-<div class="content">
-<img src="./assets/images/maj-orbit-clock2.png" alt="Orbit cyclic">
-</div>
-<div class="title">Figure 11. Orbit Cyclic in clock view and their inscribed polygon</div>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p>If we organize the 4096 pcs set into subsets with equivalence relation "<em>having same structure (of inscribed polygon)</em>", we obtain 352 types of polygons<sup class="footnote">[<a id="_footnoteref_7" class="footnote" href="#_footnotedef_7" title="View footnote.">7</a>]</sup> therefore 352 subsets (orbits) forming a partition of 4096 pcs set.</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 5. Enumeration via line 12 of Pascal triangle</caption>
-<colgroup>
-<col style="width: 11.1111%;">
-<col style="width: 11.1111%;">
-<col style="width: 11.1111%;">
-<col style="width: 11.1111%;">
-<col style="width: 11.1111%;">
-<col style="width: 11.1111%;">
-<col style="width: 11.1111%;">
-<col style="width: 11.1111%;">
-<col style="width: 11.1112%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">PCS cardinal</th>
-<th class="tableblock halign-left valign-top">Orbit cardinal</th>
-<th class="tableblock halign-center valign-top" colspan="6"><em>Coefficient of Transposition</em></th>
-<th class="tableblock halign-left valign-top">Pascal triangle line 12</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">12</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>line 12</em></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">12</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">66</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">19</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">18</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">220</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">43</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">40</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">495</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">66</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">66</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">792</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">80</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">75</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">924</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">66</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">66</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">792</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">8</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">43</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">40</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">495</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">9</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">19</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">18</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">220</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">66</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">11</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">12</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">12</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">total</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>352</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">9</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">335</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>4096</strong></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">352 orbits of cyclic group (17 + 335)</p></td>
-<td class="tableblock halign-center valign-top" colspan="5"><p class="tableblock"><em>17 cyclic orbits PCS in Limited Transposition</em> (cardinal &lt; 12)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">335 orbits of cardinal 12</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4096 orbits of cardinal 1 (trivial group)</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>Set of all these sets is known as <code><em>P(E)</em></code> (<strong>power set</strong>), and <code>cardinal(<em>P(E)</em>) = 2<sup>n</sup> = <strong>4096</strong></code>, cardinality ordered by line 12 of Pascal triangle.</p>
-</div>
-<div class="paragraph">
-<p>Pour partitionner l&#8217;ensemble des 4096 PCS,</p>
-</div>
-<div class="paragraph">
-<p>En musique, il est généralement admis que nous pouvons changer la hauteur d&#8217;une oeuvre sans en changer fondamentalement sa nature. Dans la musique tonale, cette action est appelée "changement de tonalité".</p>
-</div>
-<div class="paragraph">
-<p>Exemple : petite mélodie en 2 tonalités</p>
-</div>
-<div class="paragraph">
-<p>On peut avoir 12 versions de cette mélodie (dans les 12 tonalités). L&#8217;ensemble de ces 12 versions est</p>
-</div>
-<div class="paragraph">
-<p>Equivalence relation : "Having same prime form"</p>
-</div>
-<div class="paragraph">
-<p>En identifiant n&#8217;importe quel son à une meme classe de hauteur (octave), modulo <em>n</em>, nous pouvons réduire tout extrait musical à un ensemble classes de hauteur.</p>
-</div>
-<div class="paragraph">
-<p>It is about gathering all the elements sharing the same characteristic, in the same set called <strong>equivalence orbit</strong>, or <strong>X orbit</strong>, or <strong>orbit</strong> if equivalence context is clear.</p>
-</div>
-<div class="admonitionblock tip">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
-</td>
-<td class="content">
-An orbit is a set which can be empty (contains empty pcs) or contain all elements. For a given equivalence relation, an element belongs to only one orbit. Orbits, as a result of a group action, form  a partition of the set on which it acts (4096 PCS).
-</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_octaveenharmonic_equivalence">Octave/Enharmonic equivalence</h3>
-<div class="paragraph">
-<p>Reduce to 12 pitches class and its 4096 PCS combinaisons (2<sup>12</sup>).</p>
-</div>
-<div class="paragraph">
-<p><strong>Trivial group</strong> has <strong>4096</strong> orbits, each orbit has max only one pcs (cardinal = 1)</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_intervallic_structure_equivalence_up_to_shift">Intervallic structure equivalence up to shift</h3>
-<div class="paragraph">
-<p>This is form a cyclic group (group action on Z12).</p>
-</div>
-<div class="paragraph">
-<p>All pcs of a given orbit share <strong>same intervallic structure up to circular shift</strong>, <strong>obtained by transposition</strong>.</p>
-</div>
-<div class="paragraph">
-<p>In other words, PCS in clock representation having the <strong>same inscribed polygon</strong>.</p>
-</div>
-<div class="paragraph">
-<p>Cyclic group has <strong>352</strong> orbits.<sup class="footnote">[<a id="_footnoteref_8" class="footnote" href="#_footnotedef_8" title="View footnote.">8</a>]</sup></p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_dihedral_equivalence">Dihedral equivalence</h3>
-<div class="paragraph">
-<p>In this group, all PCs of a given orbit share the same interval structure of itself or its <strong>inverse</strong>.</p>
-</div>
-<div class="paragraph">
-<p>Dihedral group has <strong>224</strong> orbits.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_affine_equivalence">Affine equivalence</h3>
-<div class="paragraph">
-<p>In this group, any pcs of a given orbit share with others pcs into this orbit, same intervallic structure of itself or this inverse or this transformed by <strong>multiplication by 5 or 7 and their inverse</strong>.</p>
-</div>
-<div class="paragraph">
-<p>Affine group has <strong>156</strong> orbits.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_musaic_equivalence">Musaic equivalence</h3>
-<div class="paragraph">
-<p>In this group, any pcs of a given orbit are in affine equivalence with itself or <strong>affine complement</strong>.</p>
-</div>
-<div class="paragraph">
-<p>Musaic group has <strong>88</strong> orbits.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
 <h2 id="_prime_form">Prime Form</h2>
 <div class="sectionbody">
 <div class="paragraph">
@@ -1957,6 +2353,24 @@ Given R, an equivalence relation, and pcs1, pcs2 (two pcs), if PrimeForm(R, pcs1
 <div class="paragraph">
 <p><a href="#Rahn">[Rahn]</a> John Rahn proposes a more rational approach, based on vector representation of a pcs (and its image function in an integer result of polynomial function)</p>
 </div>
+<div class="paragraph">
+<p><strong>From there to saying that Prime Form quality is the minimum of an orbit, there is only one step, which we are taking !</strong></p>
+</div>
+<div class="paragraph">
+<p>So, we cannot talk about Prime Form without giving its context.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+In musical set theory, historically, the default context of Prime Form is the dihedral group and prime form of the cyclic group is called Normal Form.
+</td>
+</tr>
+</table>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_what_prime_form_is_not">What Prime Form is not</h3>
@@ -1981,7 +2395,7 @@ Given R, an equivalence relation, and pcs1, pcs2 (two pcs), if PrimeForm(R, pcs1
 <div class="content">
 <img src="./assets/images/pcs_2_3_5_7_8.png" alt="Modal and cyclic prime form">
 </div>
-<div class="title">Figure 12. Modal and cyclic prime form</div>
+<div class="title">Figure 11. Modal and cyclic prime form</div>
 </div>
 </div>
 </div>
@@ -1991,7 +2405,7 @@ Given R, an equivalence relation, and pcs1, pcs2 (two pcs), if PrimeForm(R, pcs1
 <div class="content">
 <img src="./assets/images/pcs_2_3_5_7_8-PF.png" alt="Cyclic prime form">
 </div>
-<div class="title">Figure 13. Cyclic prime form</div>
+<div class="title">Figure 12. Cyclic prime form</div>
 </div>
 </div>
 </div>
@@ -2001,7 +2415,7 @@ Given R, an equivalence relation, and pcs1, pcs2 (two pcs), if PrimeForm(R, pcs1
 <div class="content">
 <img src="./assets/images/pcs_2_3_5_7_8-MPF.png" alt="Modal prime form">
 </div>
-<div class="title">Figure 14. Modal prime form</div>
+<div class="title">Figure 13. Modal prime form</div>
 </div>
 </div>
 </div>
@@ -2011,7 +2425,7 @@ Given R, an equivalence relation, and pcs1, pcs2 (two pcs), if PrimeForm(R, pcs1
 <div class="content">
 <img src="./assets/images/pcs_2_3_5_7_8-wb1.png" alt="Modal and cyclic prime form">
 </div>
-<div class="title">Figure 15. Cyclic orbit and his modal and prime form</div>
+<div class="title">Figure 14. Cyclic orbit and his modal and prime form</div>
 </div>
 </div>
 </div>
@@ -2024,7 +2438,7 @@ Given R, an equivalence relation, and pcs1, pcs2 (two pcs), if PrimeForm(R, pcs1
 <div class="content">
 <img src="./assets/images/pcs_2_3_5_7_8-wb2.png" alt="Modal and cyclic prime form">
 </div>
-<div class="title">Figure 16. Cyclic orbit and his modal and prime form</div>
+<div class="title">Figure 15. Cyclic orbit and his modal and prime form</div>
 </div>
 </div>
 </div>
@@ -2064,22 +2478,10 @@ Given R, an equivalence relation, and pcs1, pcs2 (two pcs), if PrimeForm(R, pcs1
 <div class="footnote" id="_footnotedef_4">
 <a href="#_footnoteref_4">4</a>. Sometimes 10 and 11 are noted A, B or e, t
 </div>
-<div class="footnote" id="_footnotedef_5">
-<a href="#_footnoteref_5">5</a>. the last is 2<sup>12</sup>-1
-</div>
-<div class="footnote" id="_footnotedef_6">
-<a href="#_footnoteref_6">6</a>. see <em>setoid</em> or <em>bishop set</em>
-</div>
-<div class="footnote" id="_footnotedef_7">
-<a href="#_footnoteref_7">7</a>. and not 4096/12, because some pcs have less than 12 transposed - limited transposition
-</div>
-<div class="footnote" id="_footnotedef_8">
-<a href="#_footnoteref_8">8</a>. 352 &gt; 4096 / 12, because somme pcs are there cardinal cyclic orbit smaller than 12 (pcs in <strong>limited transposition</strong>)
-</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-01-17 12:08:59 +0100
+Last updated 2025-01-24 19:32:17 +0100
 </div>
 </div>
 <script type="text/x-mathjax-config">
