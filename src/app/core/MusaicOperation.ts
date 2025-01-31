@@ -110,9 +110,9 @@ export class MusaicOperation {
    * </ul>
    * Important remark : Where complement is false, op is denoted MA-Tk, else CMA-TK, so neutral operation is M1-TO
    *    whatever op :
-   *    M1-T0.compose(M1-T0)   -> M1-T0  (false !== false) => false
-   *    CM1-T0.compose(M1-T0)  -> CM1-T0 (true !== false) => true
-   *    CM1-T0.compose(CM1-T0) -> M1-T0  (true !== true) => false
+   * -   M1-T0.compose(M1-T0)   -> M1-T0  (false !== false) => false
+   * -  CM1-T0.compose(M1-T0)  -> CM1-T0 (true !== false) => true
+   * -  CM1-T0.compose(CM1-T0) -> M1-T0  (true !== true) => false
    *
    * @param  other MusaicOperation (c',a',t')
    * @return MusaicOperation (this.c,this.a,this.t) (c',a',t') = ( c xor c', aa', at' + t) (a new instance)

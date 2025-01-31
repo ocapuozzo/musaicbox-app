@@ -591,15 +591,28 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_transposition">Transposition</a></li>
 <li><a href="#_multiplication">Multiplication</a></li>
 <li><a href="#_complement">Complement</a></li>
-<li><a href="#_operations_implementation">Operations implementation</a>
-<ul class="sectlevel3">
-<li><a href="#_affine_operation">Affine operation</a></li>
+<li><a href="#_conclusion">Conclusion</a></li>
 </ul>
 </li>
-<li><a href="#_general_operation_musaicop">General operation (musaicOp)</a></li>
+<li><a href="#_group_operation">Group operation</a>
+<ul class="sectlevel2">
+<li><a href="#_special_affine_operation">Special Affine Operation</a></li>
+<li><a href="#_extended_sa_operation">Extended SA Operation</a></li>
 </ul>
 </li>
-<li><a href="#_group">Group</a></li>
+<li><a href="#_group">Group</a>
+<ul class="sectlevel2">
+<li><a href="#_group_axioms">Group Axioms</a></li>
+<li><a href="#_conclusion_2">Conclusion</a></li>
+</ul>
+</li>
+<li><a href="#_group_action">Group Action</a>
+<ul class="sectlevel2">
+<li><a href="#_context">Context</a></li>
+<li><a href="#_discovering_operations_of_g">Discovering operations of G</a></li>
+<li><a href="#_conclusion_3">Conclusion</a></li>
+</ul>
+</li>
 <li><a href="#_orbit">Orbit</a></li>
 <li><a href="#_orbit_and_its_stabilizers">Orbit and its stabilizers</a></li>
 <li><a href="#_orbit_and_its_representative_element">Orbit and its representative element</a>
@@ -1003,14 +1016,16 @@ classifications.</p>
 <p>This vector, of dimension <em>n</em>, is constructed by placing <code>1</code> at the position corresponding to each pitch class present in the pcs studied, and <code>0</code> at the position of the others. By convention, the position corresponds to the pitch class name (which turns out to be very practical for algorithms).</p>
 </div>
 <div class="paragraph">
-<p>To convert a PCS to a binary vector, we define a function named <em>toVector</em>.</p>
+<p>To convert a PCS to a binary vector, we define a bijective function named <em>pcsToVector</em>.</p>
+</div>
+<div class="paragraph text-center">
+<p>\$P(Z_n) -&gt; {0,1}^n\$ &#160;</p>
+</div>
+<div class="paragraph text-center">
+<p>\$tt"pcsToVector(A)" := \[f_A(0), f_A(1),...,f_A(n-1)] \$</p>
 </div>
 <div class="paragraph">
-<p>\$tt"toVector(A)" : P(Z_n) -&gt; {0,1}^n\$ &#160; :&#160;
-\$tt"toVector(A)" = \[f_A(0), f_A(1),...,f_A(n-1)] \$</p>
-</div>
-<div class="paragraph">
-<p>where \$f_A\$, is the characteristic function \$f_A : Z_n -&gt; {0,1}\$  : \$f_A(pc) = { (1  if pc in A), (0  if pc notin A) :}\$</p>
+<p>where \$f_A\$ (also known as \$chi_A\$), is the characteristic function \$f_A : Z_n -&gt; {0,1}\$  : \$f_A(bar i) := { (1  if bar i in A), (0  if bar i notin A) :}\$</p>
 </div>
 <div class="paragraph">
 <p>So, for <em>n = 12</em>, any pcs \$A\$ of \$P(Z_12)\$ corresponds a unique vector \$v\$ defined as follows:</p>
@@ -1034,7 +1049,34 @@ classifications.</p>
 <i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-We can clearly see the use of the name of Pitch Class as an index. We will see that this dual role is subject to caution.
+We can clearly see the use of the name of Pitch Class \$bar i\$ as an index \$i\$ in vector (as \$v_i\$) We will see that this dual role is subject to caution.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>To get complement of a vector representation, we use inverse of characteristic function :</p>
+</div>
+<div class="openblock text-center">
+<div class="content">
+<div class="paragraph">
+<p>\$f_A^"-1" : Z_n -&gt; {0,1}\$</p>
+</div>
+<div class="paragraph">
+<p>\$f_A^"-1"(bar i) := 1 - f_A(bar i) \$</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>which transforms \$0\$ to \$1\$, and vice versa, pitch class representation into vector at index \$i\$.</p>
+</div>
 </td>
 </tr>
 </table>
@@ -1047,6 +1089,19 @@ We can clearly see the use of the name of Pitch Class as an index. We will see t
 <img src="./assets/images/047_fragment.png" alt="047 fragment">
 </div>
 <div class="title">Figure 9. Analysis example of a musical fragment.</div>
+</div>
+<div class="paragraph">
+<p>There is an inverse function <em>vectorToPcs</em>  defined by :</p>
+</div>
+<div class="openblock text-center">
+<div class="content">
+<div class="paragraph">
+<p>\$ZZ^n -&gt; P(ZZ_n)\$</p>
+</div>
+<div class="paragraph">
+<p>\$"vectorToPcs(V)" := { bar i | V_i = 1 and 0 &lt;= i &lt; n} \$</p>
+</div>
+</div>
 </div>
 <div class="paragraph">
 <p>Example of reinterpretation of a vector representation</p>
@@ -1388,13 +1443,13 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0, 
 <div class="ulist">
 <ul>
 <li>
-<p>Transposition (<strong>T</strong>), which geometrically corresponds to a translation in the plane and musically to the transposition of a given step</p>
+<p><strong>Transposition</strong> (<strong>T</strong>), which geometrically corresponds to a translation in the plane and musically to the transposition of a given step</p>
 </li>
 <li>
-<p>Multiplication (<strong>M</strong>) by a prime number with cardinal of E, which geometrically corresponds to a half-rotation around an axis, and musically corresponds to a "symmetry".</p>
+<p><strong>Multiplication</strong> (<strong>M</strong>) by a prime number with cardinal of E, which geometrically corresponds to a half-rotation around an axis, and musically corresponds to a "symmetry".</p>
 </li>
 <li>
-<p>Complementation (<strong>C</strong>), which geometrically and musically corresponds to a complementarity.</p>
+<p><strong>Complementation</strong> (<strong>C</strong>), which geometrically and musically corresponds to a complementarity.</p>
 </li>
 </ul>
 </div>
@@ -1404,15 +1459,22 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0, 
 <div class="sect2">
 <h3 id="_transposition">Transposition</h3>
 <div class="paragraph">
-<p>Operation is &#160; \$T_k\$</p>
+<p>Operation name is &#160; \$T_k\$</p>
 </div>
+<div class="exampleblock">
+<div class="content">
 <div class="openblock text-center">
 <div class="content">
 <div class="paragraph">
-<p>\$T_k  :  P(E) xx N -&gt; P(E)\$</p>
+<p>Transposition</p>
 </div>
 <div class="paragraph">
-<p>&#160; \$T_k(A) = {\  (x + k) mod |E| \ },  forall   x in A\$</p>
+<p>\$T_k  :  P(E) xx NN -&gt; P(E)\$</p>
+</div>
+<div class="paragraph">
+<p>&#160; \$T_k(A) := {\  (x + k) mod |E| \ },  forall   x in A\$</p>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -1420,61 +1482,89 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0, 
 <p>Motivation: Allows us to establish an equivalence relationship "up to transposition" - an equivalence unanimously recognized in the musical field.</p>
 </div>
 <div class="paragraph">
+<p>Examples when \$E = {0, 1, ..., 11}\$  (cardinal of \$E\ is\ |E| = 12\$)</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
 <p>Example1 : &#160; \$T_1("["0, 4, 7]) -&gt;"["1, 5, 8]\$ &#160; (C Maj &#8594; C# Maj)</p>
-</div>
-<div class="paragraph">
+</li>
+<li>
 <p>Example2 : &#160; \$T_5("["0, 4, 7]) -&gt; "["0, 5, 9]\$ &#160; (C Maj &#8594; F Maj - [5, 9, 12] = [5, 9, 0] = [0, 5, 9])</p>
-</div>
-<div class="paragraph">
+</li>
+<li>
 <p>Example3 : &#160; \$T_0("["0, 4, 7]) -&gt;"["0, 4, 7]\$ &#160; (neutral operation)</p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_multiplication">Multiplication</h3>
 <div class="paragraph">
-<p>Operation is &#160; \$M_a\$</p>
+<p>Operation name is &#160; \$M_a\$</p>
 </div>
+<div class="exampleblock">
+<div class="content">
 <div class="openblock text-center">
 <div class="content">
 <div class="paragraph">
-<p>\$M_a  :  P(E) xx N -&gt; P(E)\$</p>
+<p>Multiplication</p>
 </div>
 <div class="paragraph">
-<p>\$M_a(A) = {\ (x * a) mod |E| \ },  forall   x in A\$</p>
-</div>
-</div>
+<p>\$M_a  :  P(E) xx NN -&gt; P(E)\$</p>
 </div>
 <div class="paragraph">
-<p>Where <em>a</em> is prime with |E|, and \$*\$ is multiplication operator.</p>
+<p>\$M_a(A) := {\ (x * a) mod |E| \ },  forall   x in A\$</p>
+</div>
+<div class="paragraph">
+<p><em>Where a is prime with |E|, and \$*\$ is multiplication operator</em>.</p>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div class="paragraph">
 <p>Motivation: allows to establish an equivalence relation "up to a symmetry"</p>
 </div>
 <div class="paragraph">
+<p>Examples when \$E = {0, 1, ..., 11}\$  (cardinal of \$E\ is\ |E| = 12\$)</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
 <p>Example M11 : &#160; \$M_11("["0, 4, 7]) -&gt;"["0, 5, 8]\$ &#160; (C Maj &#8594; Fm/5th - inversion)</p>
-</div>
-<div class="paragraph">
+</li>
+<li>
 <p>Example M5 : &#160; \$M_5("["0, 4, 7]) -&gt;"["0, 8, 11]\$ &#160;</p>
-</div>
-<div class="paragraph">
+</li>
+<li>
 <p>Example M7 : &#160; \$M_7("["0, 4, 7]) -&gt;"["0, 1, 4]\$ &#160;</p>
-</div>
-<div class="paragraph">
-<p>Example noop : &#160; \$M_1("["0, 4, 7]) -&gt;"["0, 4, 7]\$ &#160; (neutral operation)</p>
+</li>
+<li>
+<p>Example id : &#160; \$M_1("["0, 4, 7]) -&gt;"["0, 4, 7]\$ &#160; (neutral operation)</p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_complement">Complement</h3>
 <div class="paragraph">
-<p>Operation is &#160; \$C\$</p>
+<p>Operation name is &#160; \$C\$</p>
 </div>
+<div class="exampleblock">
+<div class="content">
 <div class="openblock text-center">
 <div class="content">
+<div class="paragraph">
+<p>Complement</p>
+</div>
 <div class="paragraph">
 <p>\$C : P(E) -&gt; P(E)\$</p>
 </div>
 <div class="paragraph">
-<p>\$C(A) = E\  – A\$</p>
+<p>\$C(A) := A^c = E\  \\ A = { x in E | x notin A }\$</p>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -1482,89 +1572,119 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0, 
 <p>Motivation: “up to the complement” equivalence</p>
 </div>
 <div class="paragraph">
-<p>Particularly because we have the equality : \$Stab(A) = Stab(E-A)\$ (Property studied later in this document)</p>
+<p>Particularly because we have the equality : \$Stab(A) = Stab(A^c)\$ (Property studied later in this document)</p>
 </div>
 <div class="paragraph">
-<p>Example : &#160;  \$C("["0, 2, 4, 5, 7, 9, 11]) -&gt;"["1, 3, 6, 8, 10 ]\$ &#160; Major scale to Pentatonic scale</p>
+<p>Examples when \$E = {0, 1, ..., 11}\$  (cardinal of \$E\ is\ |E| = 12\$)</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Example1 : &#160;  \$C("["0, 2, 4, 5, 7, 9, 11]) -&gt;"["1, 3, 6, 8, 10 ]\$ &#160; Major scale to Pentatonic scale</p>
+</li>
+<li>
+<p>Example2 : &#160;  \$C("["0, 2, 4, 6, 8, 10]) -&gt;"["1, 3, 5, 7, 9, 11 ]\$ &#160; Whole tone scale to Whole tone scale</p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_operations_implementation">Operations implementation</h3>
+<h3 id="_conclusion">Conclusion</h3>
 <div class="paragraph">
-<p><a href="https://88musaics.org/">88musaics project</a> presents these different operations as <strong>geometrical transformations by rotation of half a turn</strong>. M5 is left diagonal and M7 is right diagonal transformation, M11 (inversion) around central point, M1 is neutral operation anc C is a change of perspective of point of view.</p>
+<p>We have just defined 3 primitive operations which are <em>Transposition</em>, <em>Multiplication</em> and <em>Complementarity</em>.</p>
 </div>
 <div class="paragraph">
-<p>Into Musaicbox project, these operations are implemented by permutations, via the vector representation of PCS, i.e.   \$ N^n -&gt; N^n\$.</p>
+<p>Let&#8217;s see how to use them in a Group structure.</p>
 </div>
-<div class="imageblock">
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_group_operation">Group operation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>We will now combine our these three primitive operations (C, M and T)  into one single operation with the aim of creating a group.</p>
+</div>
+<div class="sect2">
+<h3 id="_special_affine_operation">Special Affine Operation</h3>
+<div class="paragraph">
+<p>Multiplication and Transposition may be grouped into one special affine operation \$ (ax + k)\$ that operates on \$P(E)\$.</p>
+</div>
+<div class="paragraph">
+<p>Operation name is &#160; \$M_aT_k\$</p>
+</div>
+<div class="exampleblock">
 <div class="content">
-<img src="./assets/images/diff-4operations.png" alt="diff-4operations">
-</div>
-<div class="title">Figure 10. Example of different points of view on transformation operations</div>
-</div>
-<div class="paragraph">
-<p>For these kind of transformations, see also : <a href="https://en.wikipedia.org/wiki/Multiplication_(music)">wikipedia multiplication and music</a></p>
-</div>
-<div class="paragraph">
-<p>The complementarity operation is also the object of great attention in musical set theory (<a href="#Forte">[Forte]</a>).</p>
-</div>
-<div class="paragraph">
-<p>These primitive operations can be combined. This is what we will see now.</p>
-</div>
-<div class="sect3">
-<h4 id="_affine_operation">Affine operation</h4>
-<div class="paragraph">
-<p>Multiplication and Transposition may be grouped into one affine operation.</p>
-</div>
-<div class="paragraph">
-<p>Operation is \$"Affine"\$</p>
-</div>
 <div class="openblock text-center">
 <div class="content">
 <div class="paragraph">
-<p>\$M_aT_k  :  P(E) xx N xx N -&gt; P(E)\$</p>
+<p>Special Affine Operation (SAO)</p>
 </div>
 <div class="paragraph">
-<p>\$M_aT_k(A) = {\ (ax + k) mod |E| \ },  forall  x in A\$</p>
+<p>\$M_aT_k  :  P(E) xx NN xx NN -&gt; P(E)\$</p>
+</div>
+<div class="paragraph">
+<p>\$M_aT_k(A) := {\ (ax + k) mod |E| \ },  forall  x in A\$</p>
+</div>
+<div class="paragraph">
+<p><em>Where <strong>a</strong> is prime with |E| (and <strong>k</strong> a step of transposition)</em></p>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div class="paragraph">
-<p>Where <em>k</em> is step of transposition and <em>a</em> is factor of multiplication prime with cardinal of E, denoted by |E|.</p>
+<p>Examples when \$E = {0, 1, ..., 11}\$  (cardinal of \$E\ is\ |E| = 12\$)</p>
 </div>
-<div class="paragraph">
-<p>Example M5-T5 : &#160; \$M_5T_5("["0, 4, 7]) -&gt;"["1, 4, 5]\$ &#160; M5 first then T5</p>
-</div>
-<div class="paragraph">
-<p>Example M11-T0 : &#160; \$M_11T_0("["0, 4, 7]) -&gt;"["0, 5, 8]\$ &#160; (C Maj &#8594; Fm/5th - simple inversion)</p>
-</div>
-<div class="paragraph">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Example M1-T5 : &#160; \$M_1T_5("["0, 4, 7]) -&gt; "["5, 9, 12]\$ so  \$"["0, 5, 9,]\$ Transposition of 5 halftones (T5)</p>
+</li>
+<li>
+<p>Example M11-T0 : &#160; \$M_11T_0("["0, 4, 7]) -&gt;"["0, 5, 8]\$ &#160; (C Maj &#8594; Fm/5th - Multiplication only - M11 is inversion)</p>
+</li>
+<li>
 <p>Example M1-T0 : &#160; \$M_1T_0("["0, 4, 7]) -&gt;"["0, 4, 7]\$ &#160; (neutral op)</p>
-</div>
+</li>
+<li>
+<p>Example M5-T5 : &#160; \$M_5T_5("["0, 4, 7]) -&gt;"["1, 4, 5]\$ &#160; Multiplication and Transposition</p>
+</li>
+</ol>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_general_operation_musaicop">General operation (musaicOp)</h3>
+<h3 id="_extended_sa_operation">Extended SA Operation</h3>
 <div class="paragraph">
-<p>If we add the complementarity operation to the affine function, we obtain the following operation: \$c * (ax + k)\$</p>
+<p>If we add the complementarity operation to the special affine function, we obtain the following operation: <strong>\$c * (ax + k)\$</strong> that operates on \$P(E)\$.</p>
+</div>
+<div class="paragraph">
+<p>Operation name is &#160; \$C_cM_aT_k\$</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="openblock text-center">
+<div class="content">
+<div class="paragraph">
+<p>Extended Special Affine Operation</p>
+</div>
+<div class="paragraph">
+<p>\$ "C"_cM_aT_k : P(E) xx {false, true} xx NN xx NN -&gt; P(E) \$</p>
+</div>
+<div class="paragraph">
+<p>\$"C"_cM_aT_k(A) := { ({\ (ax + k) mod |E| \ }  forall x in A \ \ \ \ \ \ \ \  if c = false), (E\ \\ \ {\ (ax + k) mod |E| \ }  forall x in A \  if c = true) :}\$</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>or, if we use the special affine operation seen previously :</p>
 </div>
 <div class="openblock text-center">
 <div class="content">
 <div class="paragraph">
-<p>\$ "C"_bM_aT_k : P(E) xx B xx N xx N -&gt; P(E)\$</p>
-</div>
-<div class="paragraph">
-<p>\$"C"_bM_aT_k(A) = { ({\ (x * a + k) mod |E| \ }  forall x in A "," if b = false), (E - {\ (x * a + k) mod |E| \ }  forall x in A "," if b = true) :}\$</p>
+<p>\$"C"_cM_aT_k(A) := { (M_aT_k(A) \ \ \ \ \ \ \ if c = false), (E\  \\ \ M_aT_k(A)  if c = true) :}\$</p>
 </div>
 </div>
-</div>
-<div class="paragraph">
-<p>or, if we use the affine operation seen previously :</p>
-</div>
-<div class="openblock text-center">
-<div class="content">
-<div class="paragraph">
-<p>\$"C"_bM_aT_k(A) = { (M_aT_k(A) "," if b = false), (E - M_aT_k(A) "," if b = true) :}\$</p>
 </div>
 </div>
 </div>
@@ -1576,20 +1696,20 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0, 
 </td>
 <td class="content">
 <div class="paragraph">
-<p>In practice, we will not mention C when its <em>b</em> value is false, so these writings are synonymous:</p>
+<p>In practice, we will not mention C when its value is \$false\$, so these writings are synonymous :</p>
 </div>
 <div class="paragraph">
-<p>\$C_"b=false"M_aT_k\$ , will be denoted by <mark>MA-TK</mark></p>
+<p>\$C_"c=false"M_aT_k\$ , will be denoted by <strong>MA-TK</strong></p>
 </div>
 <div class="paragraph">
-<p>\$C_"b=true"M_aT_k\$ , will be denoted by <mark>CMA-TK</mark></p>
+<p>\$C_"c=true"M_aT_k\$ , will be denoted by <strong>CMA-TK</strong></p>
 </div>
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>Examples :</p>
+<p>Examples when \$E = {0, 1, ..., 11}\$  (cardinal of \$E\ is\ |E| = 12\$) :</p>
 </div>
 <div class="ulist">
 <ul>
@@ -1606,10 +1726,10 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0, 
 <p><strong>M5-T0</strong> &#160;:&#160; \$C_"false"M_5T_0("["0, 4, 7]) -&gt;"["0, 8, 11]\$ &#160; (M5 only)</p>
 </li>
 <li>
-<p><strong>CM5-T4</strong> &#160;:&#160; \$C_"true"M_5T_4("["0, 4, 7]) -&gt;"["1,2,5,6,7,8,9,10,11]\$ &#160; (M5 then T4 then Complement)</p>
+<p><strong>CM5-T4</strong> &#160;:&#160; \$C_"true"M_5T_4("["0, 4, 7]) -&gt;"["1,2,5,6,7,8,9,10,11]\$ &#160; (M5,  T4 and Complement)</p>
 </li>
 <li>
-<p><strong>CM1-T1</strong> &#160;:&#160; \$C_"true"M_1T_1("["0, 2, 4, 6, 8, 10]) -&gt;"["0,2,4,6,8,10]\$ &#160; (T1 then Complement)</p>
+<p><strong>CM1-T1</strong> &#160;:&#160; \$C_"true"M_1T_1("["0, 2, 4, 6, 8, 10]) -&gt;"["0,2,4,6,8,10]\$ &#160; (T1 and Complement)</p>
 </li>
 </ul>
 </div>
@@ -1623,7 +1743,7 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0, 
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-General operation of transformation is called <em>MusaicOperation</em> (or simply <em>musaicOp</em>) into MusaicBox project, not knowing if such a function has already been studied, if so, please inform the author of this study !
+Extended Affine Operation is called <em>MusaicOperation</em> into MusaicBox project.
 </td>
 </tr>
 </table>
@@ -1635,45 +1755,38 @@ General operation of transformation is called <em>MusaicOperation</em> (or simpl
 <h2 id="_group">Group</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>To define a group, we need to have a transformation operation (we have it, it is <em>musaicOp</em>) and a composition operation \$@\$ that we will define now.</p>
-</div>
-<div class="paragraph">
-<p>This composition operation \$@\$, based on musaicOp, will allow us to define a set of <strong>all possible instances</strong> of musaicOperation  : \$c * (ax + k)\$</p>
-</div>
-<div class="paragraph">
-<p>For this, we extend the internal composition law of the affine group \$(ax + k)\$</p>
-</div>
-<div class="paragraph text-center">
-<p>\$(a,k) @ (a',k') = (aa', ak' + k)\$</p>
-</div>
-<div class="paragraph">
-<p>by this one :</p>
-</div>
-<div class="openblock text-center">
-<div class="content">
-<div class="paragraph">
-<p>\$@ : \ "musaicOp" xx "musaicOp" -&gt; "musaicOp"\$</p>
-</div>
-<div class="paragraph">
-<p>\$(c,a,k) @ (c',a',k') = ( c oplus c', aa', ak' + k)\$</p>
-</div>
-<div class="paragraph">
-<p>where \$aa'\$ and &#160; \$(ak' + k)\$ &#160; are values \$mod n\$ &#160; (<em>n</em> = |<em>E</em>|), and \$oplus\$ the logical operator XOR.</p>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p>Let us check that the law satisfies four expected properties (group axioms)</p>
+<p>To define a group, we need to have</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Law of composition</p>
+<p>a transformation operation (we have it, it is <em>MusaicOperation</em>) =  \$c * (ax + k)\$.</p>
+</li>
+<li>
+<p>a function composition \$@\$ that we define as : \$(c,a,k) @ (c',a',k') = \$ (  \$underbrace(bb "c ⊕ c'")_("part to check"), underbrace(aa', ak' + k)_(@ " Affine")\$)</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>\$forall (g, g') in G, (g @ g') in G \$</p>
+<p>This function composition \$@\$, extend function composition of Affine group, where \$aa'\$ is prime with \$n\$ and \$oplus\$ the logical operator XOR.</p>
+</div>
+<div class="sect2">
+<h3 id="_group_axioms">Group Axioms</h3>
+<div class="paragraph">
+<p>Let us check that the function composition \$@\$ satisfies four expected properties (group axioms)</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Law of composition</strong></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For all <em>g</em> and <em>g'</em> operations of <em>G</em>, the result g \$@\$ g' is also an operation in <em>G</em>.</p>
+</div>
+<div class="paragraph">
+<p>\$forall g, g' in G, (g @ g') in G\$</p>
 </div>
 <div class="paragraph">
 <p>Yes, by definition (see above)</p>
@@ -1681,7 +1794,7 @@ General operation of transformation is called <em>MusaicOperation</em> (or simpl
 <div class="ulist">
 <ul>
 <li>
-<p>Associative</p>
+<p><strong>Associative</strong></p>
 </li>
 </ul>
 </div>
@@ -1794,7 +1907,7 @@ General operation of transformation is called <em>MusaicOperation</em> (or simpl
 </tbody>
 </table>
 <div class="paragraph">
-<p>We have proven that the XOR operator is associative, because for all combinations of <em>a</em>, <em>b</em>, <em>c</em>, the two expressions \$(a oplus b) oplus c\$ and \$a oplus (b oplus c)\$ always give the same result.</p>
+<p>We have shown that the XOR operator is associative, because for all combinations of <em>a</em>, <em>b</em>, <em>c</em>, the two expressions \$(a oplus b) oplus c\$ and \$a oplus (b oplus c)\$ always give the same result.</p>
 </div>
 <div class="paragraph">
 <p>We can therefore say that \$( c oplus c', aa', ak' + k)\$ is <strong>associative</strong>.</p>
@@ -1802,18 +1915,27 @@ General operation of transformation is called <em>MusaicOperation</em> (or simpl
 <div class="ulist">
 <ul>
 <li>
-<p>Neutral element</p>
+<p><strong>Neutral element</strong></p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>There exists an element \$e in G\$&#160; such that, for every \$a\$ in \$G\$ one has \$e ⋅ a = a\$ and \$a ⋅ e = a\$.</p>
+<p>There exists an element \$e in G\$&#160; such that, for every \$g\$ in \$G\$ one has &#160; \$e @ g = g\$ &#160; and &#160; \$g @ e = g\$.</p>
 </div>
 <div class="paragraph">
-<p>It is <strong>M1-T0</strong> : &#160; \$C_"false"M_1T_0\$</p>
+<p>This neutral element is :  \$(c, a, k) |-&gt; (false, 1, 0) \$ &#160; denoted by &#160; <strong>M1-T0</strong></p>
 </div>
 <div class="paragraph">
-<p>In its affine part, M1-T0, neutral operation use neutral values (1 for multiplication and 0 for addition). Let&#8217;s see for \$oplus\$.</p>
+<p>\$e @ g = g\$ &#160; : &#160; \$(false, 1, 0) @ (c',a',k')  = ( false oplus c' ,a', k')\$</p>
+</div>
+<div class="paragraph">
+<p>and</p>
+</div>
+<div class="paragraph">
+<p>\$g ⋅ e = g\$ &#160; : &#160; \$(c,a,k) @ (false, 1, 0) = ( c oplus false, a, k)\$</p>
+</div>
+<div class="paragraph">
+<p>In its affine part, M1-T0, neutral operation use neutral values (1 for multiplication and 0 for addition). Let&#8217;s see for \$oplus\$ if \$ (false oplus x) = (x oplus false) = x\$, whatever \$x\$ ?</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -1823,9 +1945,9 @@ General operation of transformation is called <em>MusaicOperation</em> (or simpl
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">c</th>
-<th class="tableblock halign-left valign-top">c'</th>
-<th class="tableblock halign-left valign-top">\$(c oplus c') = c\$</th>
+<th class="tableblock halign-left valign-top">&#160;\$x\$</th>
+<th class="tableblock halign-left valign-top">\$false\$ (fixed)</th>
+<th class="tableblock halign-left valign-top">\$(x oplus false)\$ &#160; (or \$(false oplus x)\$ )</th>
 </tr>
 </thead>
 <tbody>
@@ -1842,26 +1964,32 @@ General operation of transformation is called <em>MusaicOperation</em> (or simpl
 </tbody>
 </table>
 <div class="paragraph">
-<p>Thus, by setting c' to false we ensure that c will stay the same.</p>
+<p>Thus, by setting c' to false we ensure that c will stay the same  (\$AA c in {true, false}, (c oplus false) = c\$).</p>
+</div>
+<div class="paragraph">
+<p>Therefore, we can say that \$(false, 1, 0)\$ is <strong>the neutral element</strong> of \$G\$.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Symmetry (or inverse) element</p>
+<p><strong>Symmetry element (inverse)</strong></p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>There exists an element \$e in G\$&#160; such that, \$ AA a in G, EE b in G -&gt;  a • b = b • a = e\$, where \$e\$ is neutral element (other name for <strong>identity element</strong>)</p>
+<p>There exists an element \$e in G\$&#160; such that, \$ AA a in G, EE b in G -&gt;  a @ b = b @ a = e\$, where \$e\$ is neutral element (other name for <strong>identity element</strong>)</p>
 </div>
 <div class="paragraph">
-<p>so \$( c oplus c', aa', ak' + k)\$ = M1-T0</p>
+<p>so \$AA (c,a,k),  EE (c',a',k') =&gt; ( c oplus c', aa', ak' + k) =  (false, 1, 0)\$</p>
 </div>
 <div class="paragraph">
-<p>so \$(c,a,k) @ (c',a',k') = (c oplus c', aa', ak' + k) = (false, 1, 0)\$</p>
+<p>We must therefore determine \$(c',a',k')\$ which satisfies the equation :</p>
+</div>
+<div class="paragraph text-center">
+<p>\$(c oplus c', aa', ak' + k) = (false, 1, 0)\$</p>
 </div>
 <div class="paragraph">
-<p>Solution : \$(c', a', k') = (c, a, -k * a^-1)\$</p>
+<p>Solution : \$(c', a', k') = (c , a , -k * a^-1)\$</p>
 </div>
 <div class="paragraph">
 <p>Because :</p>
@@ -1869,23 +1997,23 @@ General operation of transformation is called <em>MusaicOperation</em> (or simpl
 <div class="ulist">
 <ul>
 <li>
-<p>by definition \$ c oplus c = false, AA c in {true, false}\$</p>
+<p>\$ c oplus c = false, AA c in {true, false}\$</p>
 </li>
 <li>
 <p>\$aa = 1\$ because \$((a * a) mod n) = 1\$ where \$a\$ is prime with \$n\$</p>
 </li>
 <li>
-<p>\$ (-k * a^-1) (mod n)\$ &#160;  (<em>a</em><sup>-1</sup> is modular inverse of <em>a</em> modulo <em>n</em>) is the  solution (<em>k'</em>) of : \$ak' + k = 0\$,</p>
+<p>\$ (-k * a^-1) (mod n)\$ &#160; is value of \$k'\$ which solves the equation \$ak' + k = 0\$ &#160; ( <em>a</em><sup>-1</sup> is the modular inverse of <em>a</em>)</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>Examples :</p>
+<p>Examples with \$n = 12\$ : &#160; (reminder : M1-T0 is \$C_"c=false"M_"a=1"T_"k=0"\$)</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>M1-T0 \$@\$ <strong>M1-T0</strong> = M1-T0  &#160;&#160; (reminder : M1-T0 is \$C_"b=false"M_"a=1"T_"k=0"\$)</p>
+<p>M1-T0 \$@\$ <strong>M1-T0</strong> = M1-T0  &#160; (\$e . e = e\$)</p>
 </li>
 <li>
 <p><strong>M1-T7</strong> \$@\$ M1-T5 = M1-T0</p>
@@ -1905,12 +2033,67 @@ General operation of transformation is called <em>MusaicOperation</em> (or simpl
 <p>etc.</p>
 </div>
 <div class="paragraph">
-<p>The composition function \$@\$ allows us to determine all instances of musaicOp. For this we will use the algorithmic structure of the Cayley table.</p>
+<p>We can therefore say that \$(c , a , -k * a^-1)\$ is <strong>the symmetric element</strong> of any \$(c,a,k) in G\$.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_conclusion_2">Conclusion</h3>
+<div class="paragraph">
+<p>We have defined a group structure \$(G, @)\$ with</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Extend special affine operation :  \$c * (ax + k)\$ &#160; (<em>MusaicOperation</em>)</p>
+</li>
+<li>
+<p>Function composition (\$@\$)  : \$(c,a,k) @ (c',a',k') = (c oplus c', aa', ak' + k)\$</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
-<p>To begin with, we can focus on a few operations that will allow us to generate all possible transformation operations in T0. Several configurations are possible, all of which lead to the same result. For now, we will take :  {M1-T0, CM1-T0, M5-T0, M7-T0}, without transposition (step = 0).</p>
+<p>where \$n&gt;2\$, \$a\$ prime with \$n\$, &#160; \$k in ZZ_n\$ and \$c in {true, false}\$</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_group_action">Group Action</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Let us now consider the action of \$G\$ on set \$P(E)\$, with \$E = ZZ "/" 12ZZ = ZZ_12\$ and \$P(E)\$, a set of \$2^|E| = 2^12 = bb 4096\$ <strong>PCS elements</strong>.</p>
+</div>
+<div class="sect2">
+<h3 id="_context">Context</h3>
+<div class="paragraph">
+<p><a href="https://88musaics.org/">88musaics project</a> presents different operations, when n = 12, as <strong>geometrical transformations by rotation of half a turn</strong>. M5 is left diagonal and M7 is right diagonal transformation, M11 (inversion) around central point, M1 is neutral operation anc C is a change of perspective of point of view (or permutation of color).</p>
+</div>
+<div class="paragraph">
+<p>Into Musaicbox project (<a href="https://musaicbox.org/" class="bare">https://musaicbox.org/</a>) , primitives operations are implemented by permutations of values into vector representation of PCS, i.e. \$ NN^n -&gt; NN^n\$.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./assets/images/diff-4operations.png" alt="diff-4operations">
+</div>
+<div class="title">Figure 10. Example of different points of view on transformation operations</div>
+</div>
+<div class="paragraph">
+<p>For transformations by multiplication, see also : <a href="https://en.wikipedia.org/wiki/Multiplication_(music)">wikipedia multiplication and music</a></p>
+</div>
+<div class="paragraph">
+<p>The complementarity operation is also the object of great attention in musical set theory (<a href="#Forte">[Forte]</a>).</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_discovering_operations_of_g">Discovering operations of G</h3>
+<div class="paragraph">
+<p>The composition function \$@\$ allows us to determine all instances of MusaicOperation (\$C_cM_aT_k\$). For this we will use the algorithmic structure of Cayley table.</p>
+</div>
+<div class="paragraph">
+<p>To begin with, we can focus on a few operations that will allow us to generate all possible transformation operations in T0 (\$C_cM_aT_0\$). Several configurations of generating operations are possible, all of which lead to the same result. For now, we will arbitrarily take :  <strong>{M1-T0, CM1-T0, M5-T0, M7-T0}</strong>, without transposition (step = 0).</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. First step to discover operations</caption>
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 20%;">
@@ -1920,7 +2103,7 @@ General operation of transformation is called <em>MusaicOperation</em> (or simpl
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">&#160; &#160; \$@\$</th>
+<th class="tableblock halign-center valign-top">&#160; \$@\$</th>
 <th class="tableblock halign-left valign-top">M1-T0</th>
 <th class="tableblock halign-left valign-top">CM1-T0</th>
 <th class="tableblock halign-left valign-top">M5-T0</th>
@@ -1929,28 +2112,28 @@ General operation of transformation is called <em>MusaicOperation</em> (or simpl
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">M1-T0</p></td>
+<th class="tableblock halign-center valign-top"><p class="tableblock">M1-T0</p></th>
 <td class="tableblock halign-left valign-top"><p class="tableblock">M1-T0</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">CM1-T0</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">M5-T0</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">M7-T0</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CM1-T0</p></td>
+<th class="tableblock halign-center valign-top"><p class="tableblock">CM1-T0</p></th>
 <td class="tableblock halign-left valign-top"><p class="tableblock">CM1-T0</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">M1-T0</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><mark>CM5-T0</mark></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><mark>CM7-T0</mark></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">M5-T0</p></td>
+<th class="tableblock halign-center valign-top"><p class="tableblock">M5-T0</p></th>
 <td class="tableblock halign-left valign-top"><p class="tableblock">M5-T0</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><mark>CM5-T0</mark></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">M1-T0</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><mark>M11-T0</mark></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">M7-T0</p></td>
+<th class="tableblock halign-center valign-top"><p class="tableblock">M7-T0</p></th>
 <td class="tableblock halign-left valign-top"><p class="tableblock">M7-T0</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><mark>CM7-T0</mark></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><mark>M11-T0</mark></p></td>
@@ -1959,10 +2142,10 @@ General operation of transformation is called <em>MusaicOperation</em> (or simpl
 </tbody>
 </table>
 <div class="paragraph">
-<p>As we can see, three new operations are discovered (M11-T0, CM5-T0 and CM7-T0), we add them to the table structure (M11, CM5 and CM7), perform the calculations and repeat this process until no new operations are discovered, which gives, in fine:</p>
+<p>As we can see, three new operations are discovered (<strong>M11-T0</strong>, <strong>CM5-T0</strong> and <strong>CM7-T0</strong>), we add them to the table structure (M11, CM5 and CM7), perform the calculations and repeat this process until no new operations are discovered, which gives, in fine:</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 2. As all operations are in T-0, but suffix -T0 is omitted (id = M1-T0)</caption>
+<caption class="title">Table 3. All operations in T-0, but suffix -T0 is omitted (id = M1-T0)</caption>
 <colgroup>
 <col style="width: 11.1111%;">
 <col style="width: 11.1111%;">
@@ -2079,13 +2262,13 @@ General operation of transformation is called <em>MusaicOperation</em> (or simpl
 </tbody>
 </table>
 <div class="paragraph">
-<p>We note that no other element of the group is generated (no new transformation operation). So the first inventory, without the transposition, gives <strong>8 operations</strong> :</p>
+<p>We note that no other element of the group is generated (no new transformation operation). So the first inventory, without transposition, gives <strong>8 operations</strong> :</p>
 </div>
 <div class="paragraph text-center">
 <p>{ M1, M5, M7, M11, CM1, CM5, CM7, CM11 }</p>
 </div>
 <div class="paragraph">
-<p>By composing each of these operations with the 12 possible transposition steps, we obtain 96 operations in the group.</p>
+<p>By composing each of these operations with the 12 possible transposition steps, we obtain <strong>96</strong> operations in the group.</p>
 </div>
 <div class="paragraph text-center">
 <p>|{ T0, T1, &#8230;&#8203;, T11 }| x |{ M1, M5, M7, M11, CM1, CM5, CM7, CM11 }| = 12 x 8 = <strong>96 operations</strong></p>
@@ -2093,8 +2276,39 @@ General operation of transformation is called <em>MusaicOperation</em> (or simpl
 <div class="paragraph">
 <p>It is thanks to this group that we will be able to partition our 4096 PCS into remarkable subsets by action of this group on \$Z_12\$.</p>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_conclusion_3">Conclusion</h3>
 <div class="paragraph">
-<p>We now know that such a group action generates 88 orbits. However, we think it is more didactic to focus first on a smaller group, containing 12 operations (out of the 96 seen previously). This group, called the cyclic group, is a subgroup of G.</p>
+<p>When \$G\$ acting on \$P(Z_12)\$, \$G\$ is composed of &#160; <strong>96</strong> operations.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_orbit">Orbit</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The orbit of an element \$x\$ of \$P(E)\$ by \$G\$ is defined by :</p>
+</div>
+<div class="paragraph">
+<p>\$G.x = \${\$underbrace(g.x)_(in P(E)) : g in G\$ }, a subset of \$P(E)\$</p>
+</div>
+<div class="paragraph">
+<p>By example :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>\$G."[0,2,4,6,8,10]" = {"[0,2,4,6,8,10], [1,3,5,7,9,11]"}\$  (a set of 2 PCS - whole tone scales - musaic n°88)</p>
+</li>
+<li>
+<p>\$G."[0,2,4,5,7,9,11]" = {" [0,2,5,7,10\$, &#8230;&#8203;,  [0,2,4,5,7,9,11\]"}]  (a set of 48 PCS - musaic n°38)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>We now know (88musaics.org) that such a group action generates  <strong>88 orbits</strong>. However, we think it is more didactic to focus first on a smaller group, a subgroup of \$G\$.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -2110,12 +2324,6 @@ General operation of transformation is called <em>MusaicOperation</em> (or simpl
 </tr>
 </table>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_orbit">Orbit</h2>
-<div class="sectionbody">
-
 </div>
 </div>
 <div class="sect1">
@@ -2175,7 +2383,7 @@ General operation of transformation is called <em>MusaicOperation</em> (or simpl
 <p>Examples with some pairs of pcs (pcs1 and pcs2), let&#8217;s compare pid(pcs1) and pid(pcs2) to determine if pcs1 "is less than" pcs2 :</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 3. Example problem when compare identity with Polynomial Identifier</caption>
+<caption class="title">Table 4. Example problem when compare identity with Polynomial Identifier</caption>
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 20%;">
@@ -2237,7 +2445,7 @@ General operation of transformation is called <em>MusaicOperation</em> (or simpl
 <div class="sect3">
 <h4 id="_augmented_pid_id">Augmented pid : id()</h4>
 <div class="paragraph">
-<p>To take into account the cardinal in the general order relation that we are looking for, we introduce, independently of <em>pid</em> , a function \$w\$ : \$ P(Z_12) -&gt; N \$ &#160; defined by :</p>
+<p>To take into account the cardinal in the general order relation that we are looking for, we introduce, independently of <em>pid</em> , a function \$w\$ : \$ P(Z_12) -&gt; NN \$ &#160; defined by :</p>
 </div>
 <div class="paragraph">
 <p>\$w(A) = m cdot |A| \$</p>
@@ -2255,7 +2463,7 @@ General operation of transformation is called <em>MusaicOperation</em> (or simpl
 <p>\$id_A = "pid"_A + 2^n cdot |A| \$</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 4. Example Compare with Augmented Polynomial Identifier (id)</caption>
+<caption class="title">Table 5. Example Compare with Augmented Polynomial Identifier (id)</caption>
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 20%;">
@@ -2481,7 +2689,7 @@ In musical set theory, historically, the default context of Prime Form is the di
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-01-24 19:32:17 +0100
+Last updated 2025-01-31 19:01:49 +0100
 </div>
 </div>
 <script type="text/x-mathjax-config">

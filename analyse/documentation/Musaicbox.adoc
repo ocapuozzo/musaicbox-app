@@ -410,23 +410,29 @@ PCS are elements stem:[P(E)]. So writing stem:[P(E) -> P(E)] means that transfor
 
 We will retain the following operations:
 
-• Transposition (**T**), which geometrically corresponds to a translation in the plane and musically to the transposition of a given step
-• Multiplication (**M**) by a prime number with cardinal of E, which geometrically corresponds to a half-rotation around an axis, and musically corresponds to a "symmetry".
-• Complementation (**C**), which geometrically and musically corresponds to a complementarity.
+• *Transposition* (**T**), which geometrically corresponds to a translation in the plane and musically to the transposition of a given step
+• *Multiplication* (**M**) by a prime number with cardinal of E, which geometrically corresponds to a half-rotation around an axis, and musically corresponds to a "symmetry".
+• *Complementation* (**C**), which geometrically and musically corresponds to a complementarity.
 
 We present these transformation operations below.
 
 === Transposition
 
-Operation is {nbsp} stem:[T_k]
+Operation name is {nbsp} stem:[T_k]
+
+====
 
 [.text-center]
 --
+
+Transposition
+
 stem:[T_k  :  P(E) xx NN -> P(E)]
 
 {nbsp} stem:[T_k(A) := {\  (x + k) mod |E| \ },  forall   x in A]
 --
 
+====
 
 //Operation is {nbsp}   stem:[T_k  :  P(E) -> P(E)]
 
@@ -445,19 +451,28 @@ Examples when stem:[E = {0, 1, ..., 11}]  (cardinal of stem:[E\ is\ |E| = 12])
 
 === Multiplication
 
-Operation is {nbsp} stem:[M_a]
+Operation name is {nbsp} stem:[M_a]
+
+====
 
 [.text-center]
 --
+
+Multiplication
+
+// stem:[ul "Multiplication"]
+
 stem:[M_a  :  P(E) xx NN -> P(E)]
 
 stem:[M_a(A) := {\ (x * a) mod |E| \ },  forall   x in A]
---
 
+_Where a is prime with |E|, and stem:[*] is multiplication operator_.
+--
+====
 
 // defined by {nbsp} stem:[M_a(A) = {\ (x * a) mod |E| \ },  forall   x in A]
 
-Where _a_ is prime with |E|, and stem:[*] is multiplication operator.
+
 
 Motivation: allows to establish an equivalence relation "up to a symmetry"
 
@@ -469,59 +484,63 @@ Examples when stem:[E = {0, 1, ..., 11}]  (cardinal of stem:[E\ is\ |E| = 12])
 
 * Example M7 : {nbsp} stem:[M_7("["0, 4, 7\]) ->"["0, 1, 4\]] {nbsp}
 
-* Example noop : {nbsp} stem:[M_1("["0, 4, 7\]) ->"["0, 4, 7\]] {nbsp} (neutral operation)
+* Example id : {nbsp} stem:[M_1("["0, 4, 7\]) ->"["0, 4, 7\]] {nbsp} (neutral operation)
 
 === Complement
 
-Operation is {nbsp} stem:[C]
+Operation name is {nbsp} stem:[C]
+
+====
 
 [.text-center]
 --
+
+Complement
+
 stem:[C : P(E) -> P(E)]
 
-stem:[C(A) := E\  – A]
+stem:[C(A) := A^c = E\  \\ A = { x in E | x notin A }]
 --
+
+====
 
 Motivation: “up to the complement” equivalence
 
-Particularly because we have the equality : stem:[Stab(A) = Stab(E-A)] (Property studied later in this document)
+Particularly because we have the equality : stem:[Stab(A) = Stab(A^c)] (Property studied later in this document)
 
 Examples when stem:[E = {0, 1, ..., 11}]  (cardinal of stem:[E\ is\ |E| = 12])
 
 * Example1 : {nbsp}  stem:[C("["0, 2, 4, 5, 7, 9, 11\]) ->"["1, 3, 6, 8, 10 \]] {nbsp} Major scale to Pentatonic scale
+* Example2 : {nbsp}  stem:[C("["0, 2, 4, 6, 8, 10\]) ->"["1, 3, 5, 7, 9, 11 \]] {nbsp} Whole tone scale to Whole tone scale
 
-=== Operations implementation
+=== Conclusion
 
-=== Context
-https://88musaics.org/[88musaics project] presents different operations, when n = 12, as *geometrical transformations by rotation of half a turn*. M5 is left diagonal and M7 is right diagonal transformation, M11 (inversion) around central point, M1 is neutral operation anc C is a change of perspective of point of view.
+We have just defined 3 primitive operations which are _Transposition_, _Multiplication_ and _Complementarity_.
 
-Into Musaicbox project (https://musaicbox.org/) , these operations are implemented by permutations, via the vector representation of PCS, i.e.   stem:[ NN^n -> NN^n].
+Let's see how to use them in a Group structure.
 
+== Group operation
 
-.Example of different points of view on transformation operations
-image::diff-4operations.png[diff-4operations]
+We will now combine our these three primitive operations (C, M and T)  into one single operation with the aim of creating a group.
 
-For transformations by multiplication, see also : https://en.wikipedia.org/wiki/Multiplication_(music)[wikipedia multiplication and music]
+=== Special Affine Operation
 
-The complementarity operation is also the object of great attention in musical set theory (<<Forte>>).
+Multiplication and Transposition may be grouped into one special affine operation stem:[ (ax + k)] that operates on stem:[P(E)].
 
-These primitive operations can be combined. This is what we will see now.
+Operation name is {nbsp} stem:[M_aT_k]
 
-==== Affine operation
-
-Multiplication and Transposition may be grouped into one affine operation.
-
-Operation is stem:["Affine"]
-
-
+====
 [.text-center]
 --
+Special Affine Operation (SAO)
+
 stem:[M_aT_k  :  P(E) xx NN xx NN -> P(E)]
 
 stem:[M_aT_k(A) := {\ (ax + k) mod |E| \ },  forall  x in A]
---
 
-Where _k_ is step of transposition and _a_ is factor of multiplication prime with cardinal of E, denoted by |E|.
+_Where *a* is prime with |E| (and *k* a step of transposition)_
+--
+====
 
 Examples when stem:[E = {0, 1, ..., 11}]  (cardinal of stem:[E\ is\ |E| = 12])
 
@@ -532,31 +551,39 @@ Examples when stem:[E = {0, 1, ..., 11}]  (cardinal of stem:[E\ is\ |E| = 12])
 
 . Example M5-T5 : {nbsp} stem:[M_5T_5("["0, 4, 7\]) ->"["1, 4, 5\]] {nbsp} Multiplication and Transposition
 
+=== Extended SA Operation
 
-=== General operation (musaicOp)
+If we add the complementarity operation to the special affine function, we obtain the following operation: *stem:[c * (ax + k)]* that operates on stem:[P(E)].
 
-If we add the complementarity operation to the affine function, we obtain the following operation: stem:[c * (ax + k)]
+Operation name is {nbsp} stem:[C_cM_aT_k]
 
+
+====
 [.text-center]
 --
-stem:[ "C"_cM_aT_k : P(E) xx B xx NN xx NN -> P(E)] {nbsp} where stem:[B = {false, true}]
 
-stem:["C"_cM_aT_k(A) := { ({\ (x * a + k) mod |E| \ }  forall x in A \ \ \ \ \ \ \ \ \  if c = false), (E - {\ (x * a + k) mod |E| \ }  forall x in A \  if c = true) :}]
+Extended Special Affine Operation
+
+stem:[ "C"_cM_aT_k : P(E) xx {false, true} xx NN xx NN -> P(E) ]
+
+stem:["C"_cM_aT_k(A) := { ({\ (ax + k) mod |E| \ }  forall x in A \ \ \ \ \ \ \ \  if c = false), (E\ \\ \ {\ (ax + k) mod |E| \ }  forall x in A \  if c = true) :}]
 --
 
-or, if we use the affine operation seen previously :
+or, if we use the special affine operation seen previously :
 [.text-center]
 --
-stem:["C"_cM_aT_k(A) := { (M_aT_k(A) \ \ \ \ \ \ \ \ if c = false), (E - M_aT_k(A)  if c = true) :}]
+stem:["C"_cM_aT_k(A) := { (M_aT_k(A) \ \ \ \ \ \ \ if c = false), (E\  \\ \ M_aT_k(A)  if c = true) :}]
 --
+
+====
 
 [CAUTION]
 ====
-In practice, we will not mention C when its _b_ value is false, so these writings are synonymous:
+In practice, we will not mention C when its value is stem:[false], so these writings are synonymous :
 
-stem:[C_"c=false"M_aT_k] , will be denoted by #MA-TK#
+stem:[C_"c=false"M_aT_k] , will be denoted by *MA-TK*
 
-stem:[C_"c=true"M_aT_k] , will be denoted by #CMA-TK#
+stem:[C_"c=true"M_aT_k] , will be denoted by *CMA-TK*
 ====
 
 Examples when stem:[E = {0, 1, ..., 11}]  (cardinal of stem:[E\ is\ |E| = 12]) :
@@ -576,42 +603,27 @@ Examples when stem:[E = {0, 1, ..., 11}]  (cardinal of stem:[E\ is\ |E| = 12]) :
 
 etc.
 
-NOTE: General operation of transformation is called _MusaicOperation_ (or simply _musaicOp_) into MusaicBox project, not knowing if such a function has already been studied, if so, please inform the author of this study !
+NOTE: Extended Affine Operation is called _MusaicOperation_ into MusaicBox project.
 
 
 == Group
 
-To define a group, we need to have a transformation operation (we have it, it is _musaicOp_) and a composition operation stem:[@] that we will define now.
+To define a group, we need to have
 
-This composition operation stem:[@], based on musaicOp, will allow us to define a set of *all possible instances* of musaicOperation  : stem:[c * (ax + k)]
+* a transformation operation (we have it, it is _MusaicOperation_) =  stem:[c * (ax + k)].
 
-For this, we extend the internal composition law of the affine group stem:[(ax + k)]
+* a function composition stem:[@] that we define as : stem:[(c,a,k) @ (c',a',k') = ] (  stem:[underbrace(bb "c ⊕ c'")_("part to check"), underbrace(aa', ak' + k)_(@ " Affine")])
 
-[.text-center]
---
-stem:[@ : \ (NN,NN) xx (NN,NN) -> (NN,NN)]
-
-stem:[(a,k) @ (a',k') = (aa', ak' + k)]
---
-
-by this one :
-
-[.text-center]
---
-stem:[@ : \ (B,NN,NN) xx (B,NN,NN) -> (B,NN,NN)]
+This function composition stem:[@], extend function composition of Affine group, where stem:[aa'] is prime with stem:[n] and stem:[oplus] the logical operator XOR.
 
 
-stem:[(c,a,k) @ (c',a',k') = ( c oplus c', aa', ak' + k)]
+=== Group Axioms
 
-where stem:[aa'] and {nbsp} stem:[(ak' + k)] {nbsp} are values stem:[mod n] {nbsp} (_n_ = |_E_|), stem:[oplus] the logical operator XOR and stem:[B := {false, true}].
-
---
-
-Let us check that the law satisfies four expected properties (group axioms)
+Let us check that the function composition stem:[@] satisfies four expected properties (group axioms)
 
 * *Law of composition*
 
-For all _g_ and _g'_ elements of G, the result g stem:[@] g' is also in G.
+For all _g_ and _g'_ operations of _G_, the result g stem:[@] g' is also an operation in _G_.
 
 stem:[forall g, g' in G, (g @ g') in G]
 
@@ -703,21 +715,21 @@ We can therefore say that stem:[( c oplus c', aa', ak' + k)] is *associative*.
 
 * *Neutral element*
 
-There exists an element stem:[e in G]{nbsp} such that, for every stem:[a] in stem:[G] one has stem:[e @ a = a] and stem:[a @ e = a].
+There exists an element stem:[e in G]{nbsp} such that, for every stem:[g] in stem:[G] one has {nbsp} stem:[e @ g = g] {nbsp} and {nbsp} stem:[g @ e = g].
 
-This neutral element is :  stem:[(c, a, k) |-> (false, 1, 0) ] {nbsp} denoted by *M1-T0*
+This neutral element is :  stem:[(c, a, k) |-> (false, 1, 0) ] {nbsp} denoted by {nbsp} *M1-T0*
 
-stem:[e @ a = a] {nbsp} : {nbsp} stem:[(false, 1, 0) @ (c',a',k')  = ( false oplus c' ,a', k')]
+stem:[e @ g = g] {nbsp} : {nbsp} stem:[(false, 1, 0) @ (c',a',k')  = ( false oplus c' ,a', k')]
 
 and
 
-stem:[a ⋅ e = a] {nbsp} : {nbsp} stem:[(c,a,k) @ (false, 1, 0) = ( c oplus false, a, k)]
+stem:[g ⋅ e = g] {nbsp} : {nbsp} stem:[(c,a,k) @ (false, 1, 0) = ( c oplus false, a, k)]
 
 
 In its affine part, M1-T0, neutral operation use neutral values (1 for multiplication and 0 for addition). Let's see for stem:[oplus] if stem:[ (false oplus x) = (x oplus false) = x], whatever stem:[x] ?
 
 |===
-|{nbsp}stem:[x]|stem:[false] (fixed) |stem:[(x oplus false) = (false oplus x) = x ]
+|{nbsp}stem:[x]|stem:[false] (fixed) |stem:[(x oplus false)] {nbsp} (or stem:[(false oplus x)] )
 
 |#false#
 |false
@@ -731,26 +743,28 @@ In its affine part, M1-T0, neutral operation use neutral values (1 for multiplic
 
 Thus, by setting c' to false we ensure that c will stay the same  (stem:[AA c in {true, false}, (c oplus false) = c]).
 
+Therefore, we can say that stem:[(false, 1, 0)] is *the neutral element* of stem:[G].
+
 * *Symmetry element (inverse)*
 
 There exists an element stem:[e in G]{nbsp} such that, stem:[ AA a in G, EE b in G ->  a @ b = b @ a = e], where stem:[e] is neutral element (other name for *identity element*)
 
-so stem:[( c oplus c', aa', ak' + k)] = M1-T0
+so stem:[AA (c,a,k),  EE (c',a',k') => ( c oplus c', aa', ak' + k) =  (false, 1, 0)]
 
 We must therefore determine stem:[(c',a',k')] which satisfies the equation :
 
 [.text-center]
-stem:[(c,a,k) @ (c',a',k') = (c oplus c', aa', ak' + k) = (false, 1, 0)]
+stem:[(c oplus c', aa', ak' + k) = (false, 1, 0)]
 
 Solution : stem:[(c', a', k') = (c , a , -k * a^-1)]
 
 Because :
 
-* by definition stem:[ c oplus c = false, AA c in {true, false}]
+* stem:[ c oplus c = false, AA c in {true, false}]
 
 * stem:[aa = 1] because stem:[((a * a) mod n) = 1] where stem:[a] is prime with stem:[n]
 
-* The modular inverse of stem:[ (-k * a^-1) (mod n)] {nbsp} is value of stem:[k'] which solves the equation stem:[ak' + k = 0],
+* stem:[ (-k * a^-1) (mod n)] {nbsp} is value of stem:[k'] which solves the equation stem:[ak' + k = 0] {nbsp} ( _a_^-1^ is the modular inverse of _a_)
 
 Examples with stem:[n = 12] : {nbsp} (reminder : M1-T0 is stem:[C_"c=false"M_"a=1"T_"k=0"])
 
@@ -762,23 +776,52 @@ Examples with stem:[n = 12] : {nbsp} (reminder : M1-T0 is stem:[C_"c=false"M_"a=
 
 etc.
 
+We can therefore say that stem:[(c , a , -k * a^-1)] is *the symmetric element* of any stem:[(c,a,k) in G].
+
 === Conclusion
 
-We have defined a group structure stem:[(G, @)] where stem:[@] is {nbsp} stem:[(c oplus c', aa', ak' + k)], with stem:[n>2], stem:[a] and stem:[a'] primes with stem:[n], {nbsp} stem:[k in [0..n-1\]] and stem:[c in {true, false}]
+We have defined a group structure stem:[(G, @)] with
 
-Let us now consider the action of this group on a set E with 12 elements, stem:[E = ZZ "/" 12ZZ = ZZ_12] and more especially on stem:[P(E)], a set of stem:[2^|E| = 2^12 = 4096] PCS elements.
+* Extend special affine operation :  stem:[c * (ax + k)] {nbsp} (_MusaicOperation_)
+
+* Function composition (stem:[@])  : stem:[(c,a,k) @ (c',a',k') = (c oplus c', aa', ak' + k)]
+
+where stem:[n>2], stem:[a] prime with stem:[n], {nbsp} stem:[k in ZZ_n] and stem:[c in {true, false}]
+
 
 
 // https://fr.wikipedia.org/wiki/Action_de_groupe_(math%C3%A9matiques)[]
 
 
 == Group Action
-The composition function stem:[@] allows us to determine all instances of musaicOp. For this we will use the algorithmic structure of the Cayley table.
 
-To begin with, we can focus on a few operations that will allow us to generate all possible transformation operations in T0. Several configurations are possible, all of which lead to the same result. For now, we will take :  {M1-T0, CM1-T0, M5-T0, M7-T0}, without transposition (step = 0).
+Let us now consider the action of stem:[G] on set stem:[P(E)], with stem:[E = ZZ "/" 12ZZ = ZZ_12] and stem:[P(E)], a set of stem:[2^|E| = 2^12 = bb 4096] *PCS elements*.
 
+
+
+=== Context
+
+https://88musaics.org/[88musaics project] presents different operations, when n = 12, as *geometrical transformations by rotation of half a turn*. M5 is left diagonal and M7 is right diagonal transformation, M11 (inversion) around central point, M1 is neutral operation anc C is a change of perspective of point of view (or permutation of color).
+
+Into Musaicbox project (https://musaicbox.org/) , primitives operations are implemented by permutations of values into vector representation of PCS, i.e. stem:[ NN^n -> NN^n].
+
+.Example of different points of view on transformation operations
+image::diff-4operations.png[diff-4operations]
+
+For transformations by multiplication, see also : https://en.wikipedia.org/wiki/Multiplication_(music)[wikipedia multiplication and music]
+
+The complementarity operation is also the object of great attention in musical set theory (<<Forte>>).
+
+=== Discovering operations of G
+
+The composition function stem:[@] allows us to determine all instances of MusaicOperation (stem:[C_cM_aT_k]). For this we will use the algorithmic structure of Cayley table.
+
+To begin with, we can focus on a few operations that will allow us to generate all possible transformation operations in T0 (stem:[C_cM_aT_0]). Several configurations of generating operations are possible, all of which lead to the same result. For now, we will arbitrarily take :  *{M1-T0, CM1-T0, M5-T0, M7-T0}*, without transposition (step = 0).
+
+[cols="^h,,,,"]
+.First step to discover operations
 |===
-|{nbsp} {nbsp} stem:[@] |M1-T0 |CM1-T0 |M5-T0 |M7-T0
+|{nbsp} stem:[@] |M1-T0 |CM1-T0 |M5-T0 |M7-T0
 
 |M1-T0
 |M1-T0
@@ -806,10 +849,10 @@ To begin with, we can focus on a few operations that will allow us to generate a
 
 |===
 
-As we can see, three new operations are discovered (M11-T0, CM5-T0 and CM7-T0), we add them to the table structure (M11, CM5 and CM7), perform the calculations and repeat this process until no new operations are discovered, which gives, in fine:
+As we can see, three new operations are discovered (*M11-T0*, *CM5-T0* and *CM7-T0*), we add them to the table structure (M11, CM5 and CM7), perform the calculations and repeat this process until no new operations are discovered, which gives, in fine:
 
 [cols="^h,,,,,,,,"]
-.As all operations are in T-0, but suffix -T0 is omitted (id = M1-T0)
+.All operations in T-0, but suffix -T0 is omitted (id = M1-T0)
 |===
 |{nbsp} stem:[@]|Id|M5|M7|M11|CM1|CM5|CM7|CM11
 
@@ -895,26 +938,45 @@ As we can see, three new operations are discovered (M11-T0, CM5-T0 and CM7-T0), 
 
 |===
 
-We note that no other element of the group is generated (no new transformation operation). So the first inventory, without the transposition, gives *8 operations* :
+We note that no other element of the group is generated (no new transformation operation). So the first inventory, without transposition, gives *8 operations* :
 
 [.text-center]
 { M1, M5, M7, M11, CM1, CM5, CM7, CM11 }
 
-By composing each of these operations with the 12 possible transposition steps, we obtain 96 operations in the group.
+By composing each of these operations with the 12 possible transposition steps, we obtain *96* operations in the group.
 
 [.text-center]
 |{ T0, T1, ..., T11 }| x |{ M1, M5, M7, M11, CM1, CM5, CM7, CM11 }| = 12 x 8 = *96 operations*
 
 It is thanks to this group that we will be able to partition our 4096 PCS into remarkable subsets by action of this group on stem:[Z_12].
 
-We now know that such a group action generates 88 orbits. However, we think it is more didactic to focus first on a smaller group, containing 12 operations (out of the 96 seen previously). This group, called the cyclic group, is a subgroup of G.
+=== Conclusion
+
+When stem:[G] acting on stem:[P(Z_12)], stem:[G] is composed of {nbsp} *96* operations.
+
+
+== Orbit
+
+The orbit of an element stem:[x] of stem:[P(E)] by stem:[G] is defined by :
+
+stem:[G.x = ]{stem:[underbrace(g.x)_(in P(E)) : g in G] }, a subset of stem:[P(E)]
+
+Examples :
+
+* stem:[G."[0,2,4,6,8,10\]" = {"[0,2,4,6,8,10\], [1,3,5,7,9,11\]"}]  (a set of 2 PCS - whole tone scales - musaic n°88)
+* stem:[G."[0,2,4,5,7,9,11\]" = {"[0,2,5,7,10\], ...,  [0,2,4,5,7,9,11\]"}]  (a set of 48 PCS - musaic n°38)
+
+
+
+TODO Suite...
+
+We know (88musaics.org) that such a group action generates  *88 orbits*. However, we think it is more didactic to focus first on a smaller group, a subgroup of stem:[G].
 
 [NOTE]
 ====
 Later we will make an inventory of the possible subgroups of stem:[G] (we work with a finite set, which makes our work easier)
 ====
 
-== Orbit
 
 == Orbit and its stabilizers
 
