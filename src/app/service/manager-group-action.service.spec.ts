@@ -70,16 +70,16 @@ describe('ManagerGroupActionService', () => {
 
   })
 
-  it('Dihedral prime form (n=12)', () => {
+  it('Cyclic prime form (n=12)', () => {
+    const cyclicGroupAction = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")
     const dihedralGroupAction = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")
     const pcsDminor = new IPcs({strPcs: '2,5,9'})
     const pcsCMaj = new IPcs({strPcs: '0,4,7'})
     const pcsCminor = new IPcs({strPcs: '0,3,7'})
 
-    const primeFormFromGroupAction = dihedralGroupAction?.getOrbitOf(pcsDminor).getPcsMin()
-    expect(primeFormFromGroupAction).toBeTruthy()
+    const primeFormDihedralGroupAction = dihedralGroupAction?.getOrbitOf(pcsDminor).getPcsMin()
+    expect(primeFormDihedralGroupAction).toBeTruthy()
 
-    const cyclicGroupAction = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")
 
     const pcsCyclicPfOfDm = cyclicGroupAction?.getOrbitOf(pcsDminor).getPcsMin()
     const pcsPfInverseOfDmPf = pcsCyclicPfOfDm!.affineOp(11, 0).cyclicPrimeForm();
@@ -88,7 +88,7 @@ describe('ManagerGroupActionService', () => {
 
     expect(pcsPfInverseOfDmPf.id).toEqual(pcsCMaj.id)
     expect(smaller!.id).toEqual(pcsCminor.id)
-    expect(smaller!.id).toEqual(primeFormFromGroupAction!.id)
+    expect(smaller!.id).toEqual(primeFormDihedralGroupAction!.id)
     expect(smaller!.id).toEqual(pcsCMaj.dihedralPrimeForm().id)
     expect(smaller!.id).toEqual(pcsDminor.dihedralPrimeForm().id)
     expect(smaller!.id).toEqual(pcsCminor.dihedralPrimeForm().id)

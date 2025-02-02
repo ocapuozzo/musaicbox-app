@@ -447,28 +447,28 @@ export class IPcs {
     }
     // lazy compute
     const groupName = `n=${this.n} [M1]`
-    this._minCyclic = this.getMinFrom(groupName);
+    this._minCyclic = this.getMinFromGroupName(groupName);
     return this._minCyclic
   }
 
   dihedralPrimeForm() {
     // const groupName = `n=${this.n} [M1 M11]`
     const groupName = `n=${this.n} [M1 M${this.n - 1}]`
-    return this.getMinFrom(groupName);
+    return this.getMinFromGroupName(groupName);
   }
 
   affinePrimeForm() {
     // const groupName = `n=${this.n} [M1 M5 M7 M11]`
     const operations = IPcs.getStrAffineOpsOf(this.n)
     const groupName = `n=${this.n} ${operations}`
-    return this.getMinFrom(groupName);
+    return this.getMinFromGroupName(groupName);
   }
 
   musaicPrimeForm(): IPcs {
     // const groupName = `n=${this.n} [M1 M5 M7 M11 CM1 CM5 CM7 CM11]`
     const musaicOps: string = IPcs.getStrMusaicOpsOf(this.n)
     const groupName = `n=${this.n} ${musaicOps}`
-    return this.getMinFrom(groupName);
+    return this.getMinFromGroupName(groupName);
   }
 
   /**
@@ -477,7 +477,7 @@ export class IPcs {
    * @param groupName
    * @private
    */
-  private getMinFrom(groupName: string) {
+  private getMinFromGroupName(groupName: string) {
     if (this.orbit.groupAction && this.orbit.groupAction.group.name === groupName) {
       return this.orbit.getPcsMin()
     } else {

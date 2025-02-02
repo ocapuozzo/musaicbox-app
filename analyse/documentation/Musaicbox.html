@@ -1783,13 +1783,19 @@ Extended Affine Operation is called <em>MusaicOperation</em> into MusaicBox proj
 </ul>
 </div>
 <div class="paragraph">
-<p>For all <em>g</em> and <em>g'</em> operations of <em>G</em>, the result g \$@\$ g' is also an operation in <em>G</em>.</p>
+<p>For all <em>g</em> and <em>g'</em> operations of <em>G</em>, the result \$(g @ g')\$ is also an operation in <em>G</em>.</p>
 </div>
 <div class="paragraph">
 <p>\$forall g, g' in G, (g @ g') in G\$</p>
 </div>
 <div class="paragraph">
-<p>Yes, by definition (see above)</p>
+<p>If we take \$g = (c,a,k)\$ and \$g' = (c',a',k')\$ then \$g @ g' = \$ (  \$underbrace(bb "c ⊕ c'")_(in {true,false}), underbrace(aa', ak' + k)_("Special Affine Op")\$)</p>
+</div>
+<div class="paragraph">
+<p>Since \$a\$ and \$a'\$ are prime with \$n\$, \$(aa' mod n)\$ is also prime with n. (TODO add ref)</p>
+</div>
+<div class="paragraph">
+<p>Therefore \$(g∘g') in G\$</p>
 </div>
 <div class="ulist">
 <ul>
@@ -2052,7 +2058,7 @@ Extended Affine Operation is called <em>MusaicOperation</em> into MusaicBox proj
 </ul>
 </div>
 <div class="paragraph">
-<p>where \$n&gt;2\$, \$a\$ prime with \$n\$, &#160; \$k in ZZ_n\$ and \$c in {true, false}\$</p>
+<p>where \$n&gt;2\$, \$a\$ prime with \$n\$ and \$c in {true, false}\$</p>
 </div>
 </div>
 </div>
@@ -2265,7 +2271,7 @@ Extended Affine Operation is called <em>MusaicOperation</em> into MusaicBox proj
 <p>We note that no other element of the group is generated (no new transformation operation). So the first inventory, without transposition, gives <strong>8 operations</strong> :</p>
 </div>
 <div class="paragraph text-center">
-<p>{ M1, M5, M7, M11, CM1, CM5, CM7, CM11 }</p>
+<p>{ <strong>M1, M5, M7, M11, CM1, CM5, CM7, CM11</strong> }</p>
 </div>
 <div class="paragraph">
 <p>By composing each of these operations with the 12 possible transposition steps, we obtain <strong>96</strong> operations in the group.</p>
@@ -2280,7 +2286,7 @@ Extended Affine Operation is called <em>MusaicOperation</em> into MusaicBox proj
 <div class="sect2">
 <h3 id="_conclusion_3">Conclusion</h3>
 <div class="paragraph">
-<p>When \$G\$ acting on \$P(Z_12)\$, \$G\$ is composed of &#160; <strong>96</strong> operations.</p>
+<p>We have seen that when the group \$G\$ acts on \$P(Z_12)\$, this action instantiates \$G\$ with <strong>96</strong> elements (operations).</p>
 </div>
 </div>
 </div>
@@ -2289,26 +2295,44 @@ Extended Affine Operation is called <em>MusaicOperation</em> into MusaicBox proj
 <h2 id="_orbit">Orbit</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The orbit of an element \$x\$ of \$P(E)\$ by \$G\$ is defined by :</p>
+<p>The orbit of an element \$x\$ of \$P(E)\$ is a set that gathers all the possible images of \$x\$ under action of \$G\$. It is denoted \$G.x\$</p>
 </div>
 <div class="paragraph">
-<p>\$G.x = \${\$underbrace(g.x)_(in P(E)) : g in G\$ }, a subset of \$P(E)\$</p>
+<p>\$G.x = \${\$underbrace(g.x)_(in P(E)) : g in G\$ },  a subset of \$P(E)\$</p>
 </div>
 <div class="paragraph">
-<p>By example :</p>
+<p>Examples :</p>
 </div>
+<div class="exampleblock">
+<div class="content">
 <div class="ulist">
 <ul>
 <li>
-<p>\$G."[0,2,4,6,8,10]" = {"[0,2,4,6,8,10], [1,3,5,7,9,11]"}\$  (a set of 2 PCS - whole tone scales - musaic n°88)</p>
-</li>
-<li>
-<p>\$G."[0,2,4,5,7,9,11]" = {" [0,2,5,7,10\$, &#8230;&#8203;,  [0,2,4,5,7,9,11\]"}]  (a set of 48 PCS - musaic n°38)</p>
+<p>Orbite of [0,2,4,6,8,10] is a set of PCS denoted by \$G.x\$, where \$x\$ = [0,2,4,6,8,10].</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>We now know (88musaics.org) that such a group action generates  <strong>88 orbits</strong>. However, we think it is more didactic to focus first on a smaller group, a subgroup of \$G\$.</p>
+<p>\$G."[0,2,4,6,8,10]" = {"[0,2,4,6,8,10], [1,3,5,7,9,11]"}\$  (a set of 2 PCS - whole tone scales - musaic n°88)</p>
+</div>
+</div>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>\$G."[0,2,4,5,7,9,11]" = {"[0,2,5,7,10], ...,  [0,2,4,5,7,9,11]"}\$  (a set of 48 PCS - musaic n°38)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>TODO Suite&#8230;&#8203;</p>
+</div>
+<div class="paragraph">
+<p>We know (88musaics.org) that such a group action generates  <strong>88 orbits</strong>. However, we think it is more didactic to focus first on a smaller group, a subgroup of \$G\$.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -2689,7 +2713,7 @@ In musical set theory, historically, the default context of Prime Form is the di
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-01-31 19:01:49 +0100
+Last updated 2025-02-01 15:19:45 +0100
 </div>
 </div>
 <script type="text/x-mathjax-config">

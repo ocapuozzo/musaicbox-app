@@ -623,12 +623,15 @@ Let us check that the function composition stem:[@] satisfies four expected prop
 
 * *Law of composition*
 
-For all _g_ and _g'_ operations of _G_, the result g stem:[@] g' is also an operation in _G_.
+For all _g_ and _g'_ operations of _G_, the result stem:[(g @ g')] is also an operation in _G_.
 
 stem:[forall g, g' in G, (g @ g') in G]
 
-Yes, by definition (see above)
+If we take stem:[g = (c,a,k)] and stem:[g' = (c',a',k')] then stem:[g @ g' = ] (  stem:[underbrace(bb "c ⊕ c'")_(in {true,false}), underbrace(aa', ak' + k)_("Special Affine Op")])
 
+Since stem:[a] and stem:[a'] are prime with stem:[n], stem:[(aa' mod n)] is also prime with n. (TODO add ref)
+
+Therefore stem:[(g∘g') in G]
 
 * *Associative*
 
@@ -786,7 +789,7 @@ We have defined a group structure stem:[(G, @)] with
 
 * Function composition (stem:[@])  : stem:[(c,a,k) @ (c',a',k') = (c oplus c', aa', ak' + k)]
 
-where stem:[n>2], stem:[a] prime with stem:[n], {nbsp} stem:[k in ZZ_n] and stem:[c in {true, false}]
+where stem:[n>2], stem:[a] prime with stem:[n] and stem:[c in {true, false}]
 
 
 
@@ -941,7 +944,7 @@ As we can see, three new operations are discovered (*M11-T0*, *CM5-T0* and *CM7-
 We note that no other element of the group is generated (no new transformation operation). So the first inventory, without transposition, gives *8 operations* :
 
 [.text-center]
-{ M1, M5, M7, M11, CM1, CM5, CM7, CM11 }
+{ *M1, M5, M7, M11, CM1, CM5, CM7, CM11* }
 
 By composing each of these operations with the 12 possible transposition steps, we obtain *96* operations in the group.
 
@@ -952,33 +955,72 @@ It is thanks to this group that we will be able to partition our 4096 PCS into r
 
 === Conclusion
 
-When stem:[G] acting on stem:[P(Z_12)], stem:[G] is composed of {nbsp} *96* operations.
-
+We have seen that when the group stem:[G] acts on stem:[P(Z_12)], this action instantiates stem:[G] with *96* elements (operations).
 
 == Orbit
 
-The orbit of an element stem:[x] of stem:[P(E)] by stem:[G] is defined by :
+The orbit of an element stem:[A] of stem:[P(E)] is a set that gathers all the possible images of stem:[A] under action of stem:[G]. It is denoted stem:[G.A]
 
-stem:[G.x = ]{stem:[underbrace(g.x)_(in P(E)) : g in G] }, a subset of stem:[P(E)]
+stem:[G.A = ]{stem:[underbrace(g.A)_(in P(E)) : g in G] },  a subset of stem:[P(E)]
 
 Examples :
 
-* stem:[G."[0,2,4,6,8,10\]" = {"[0,2,4,6,8,10\], [1,3,5,7,9,11\]"}]  (a set of 2 PCS - whole tone scales - musaic n°88)
+[example]
+====
+* Orbite of [0,2,4,6,8,10] is a set of PCS denoted by stem:[G.A], where stem:[A] = [0,2,4,6,8,10].
+
+stem:[G."[0,2,4,6,8,10\]" = {"[0,2,4,6,8,10\], [1,3,5,7,9,11\]"}]  (a set of 2 PCS - whole tone scales - musaic n°88)
+
+====
+
+[example]
+====
 * stem:[G."[0,2,4,5,7,9,11\]" = {"[0,2,5,7,10\], ...,  [0,2,4,5,7,9,11\]"}]  (a set of 48 PCS - musaic n°38)
 
-
-
-TODO Suite...
-
-We know (88musaics.org) that such a group action generates  *88 orbits*. However, we think it is more didactic to focus first on a smaller group, a subgroup of stem:[G].
-
-[NOTE]
 ====
-Later we will make an inventory of the possible subgroups of stem:[G] (we work with a finite set, which makes our work easier)
+
+
+[example]
 ====
+* stem:[G."[0,3,6,9\]" = {"[0,3,6,9\], [1,4,7,10\], ...,  [0,1,3,4,6,7,9,10\]"}]  (a set of 6 PCS - diminished 7th and "Messiaen Mod 2" scales - musaic n°37)
+
+====
+
+
+
+
+//
+// We know (88musaics.org) that such a group action generates  *88 orbits*. However, we think it is more didactic to focus first on a smaller group, a subgroup of stem:[G].
+//
+// [NOTE]
+// ====
+// Later we will make an inventory of the possible subgroups of stem:[G] (we work with a finite set, which makes our work easier)
+// ====
 
 
 == Orbit and its stabilizers
+
+When an orbit has less than 96 elements (stem:[|G|]) , then exist some operations in G which do not transform some of its elements. We call _stabilizer_ such operation in _G_ and _fixed_ the concerned PCS in P(E)
+
+The set of stem:[g] of stem:[G] such that stem:[g⋅A = A] is called the stabilizer of A under stem:[G] and denoted stem:[Stab_A]
+
+stem:[Stab_A := {g in G | g.A = A}]
+
+Inversely, stem:[Fixed_g] is the set of elements  of stem:[P(E)] invariants under action of stem:[g]
+
+stem:[Fixed_g := {A in P(E) | g.A = A }]
+
+By correlation, the cardinality of an orbit is therefore linked to the number of its stabilizers. Indeed, the more stabilizers an orbit has, the fewer elements the orbit has. This is the subject of a theorem known as https://en.wikipedia.org/wiki/Group_action#Orbit-stabilizer_theorem[orbit-stabilizer] :
+
+Cardinal of orbite stem:[|G.A| = (|G|) / (|Stab_A|)]
+
+We can already calculate the number of stabilizers from the 3 examples given previously.
+
+* whole tone scales has 96/2 = 48 stabilizers
+* major diatonic scale has 96/48 = 2 stabilizers
+* diminished 7th has 96/6 = 16 stabilizers
+
+TODO Suite...
 
 == Orbit and its representative element
 

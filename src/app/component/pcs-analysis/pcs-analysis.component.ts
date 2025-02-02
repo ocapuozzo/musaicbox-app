@@ -157,10 +157,10 @@ export class PcsAnalysisComponent {
 
 
   doReplaceByPcsWithIS(numbers: number[]) {
-     const pcs = PcsSearch.searchPcsWithThisIS(numbers.toString())
-     if (pcs) {
-       this.managerPagePcsService.replaceBy(pcs)
-     }
+    const pcs = PcsSearch.searchPcsWithThisIS(numbers.toString())
+    if (pcs) {
+      this.managerPagePcsService.replaceBy(pcs)
+    }
   }
 
   doPushToPcsPage(pcs: IPcs) {
@@ -185,14 +185,32 @@ export class PcsAnalysisComponent {
   operationsStabilizerOf(pcs: IPcs) {
     if (pcs.n !== 12) throw Error("Waiting n = 12")
     let operationStab: MusaicOperation[] = []
-    const operations: MusaicOperation[] = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).operations
-    operations.forEach(operation => {
-      if (operation.actionOn(pcs).id === pcs.id) {
-        operationStab.push(operation)
-      }
-    })
+    const orbit = pcs.musaicPrimeForm().orbit
+
+    // pcs is into FixedPcs of this orbit
+    // We find it, and then get its stabilizers
+    const stabPcsIntoMusaic =
+      orbit.stabilizers.find(
+        (stab) => stab.fixedPcs.find(
+          (pcsInOrbit) => pcsInOrbit.id === pcs.id))
+    if (stabPcsIntoMusaic) {
+      // always true (test is to avoid use ! operator)
+      // now we have stabilizer, we get their operations
+      operationStab = stabPcsIntoMusaic.operations
+    }
+
+    // other algorithm that don't use group action in memory
+    // const operations: MusaicOperation[] = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).operations
+    // operations.forEach(operation => {
+    //   if (operation.actionOn(pcs).id === pcs.id) {
+    //     operationStab.push(operation)
+    //   }
+    // })
     operationStab.sort(MusaicOperation.compareStab)
-    return operationStab.map( (operationStab) => operationStab.toString()).join(" ");
+    return {
+      cardinal: operationStab.length,
+      names: operationStab.map((operationStab) => operationStab.toString()).join(" ")
+    }
   }
 
 }

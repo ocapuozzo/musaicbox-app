@@ -302,4 +302,7 @@ export class Orbit {
     return this.ipcsset.find( p => p.pid() === pid)
   }
 
+  getPcsWithThisId(id: number) {
+    return this.ipcsset.find( p => p.id === id)
+  }
 }
