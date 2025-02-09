@@ -425,7 +425,7 @@ Operation name is {nbsp} stem:[T_k]
 [.text-center]
 --
 
-Transposition
+*Transposition*
 
 stem:[T_k  :  P(E) xx NN -> P(E)]
 
@@ -458,7 +458,7 @@ Operation name is {nbsp} stem:[M_a]
 [.text-center]
 --
 
-Multiplication
+*Multiplication*
 
 // stem:[ul "Multiplication"]
 
@@ -495,7 +495,7 @@ Operation name is {nbsp} stem:[C]
 [.text-center]
 --
 
-Complement
+*Complement*
 
 stem:[C : P(E) -> P(E)]
 
@@ -532,7 +532,7 @@ Operation name is {nbsp} stem:[M_aT_k]
 ====
 [.text-center]
 --
-Special Affine Operation (SAO)
+*Special Affine Operation (SAO)*
 
 stem:[M_aT_k  :  P(E) xx NN xx NN -> P(E)]
 
@@ -562,7 +562,7 @@ Operation name is {nbsp} stem:[C_cM_aT_k]
 [.text-center]
 --
 
-Extended Special Affine Operation
+*Extended Special Affine Operation*
 
 stem:[ "C"_cM_aT_k : P(E) xx {false, true} xx NN xx NN -> P(E) ]
 
@@ -783,11 +783,11 @@ We can therefore say that stem:[(c , a , -k * a^-1)] is *the symmetric element* 
 
 === Conclusion
 
-We have defined a group structure stem:[(G, @)] with
+We have defined an extended special affine group with complementarity  stem:[c * (ax + k)] intended to act on stem:[P(ZZ_n)] defined by :
 
-* Extend special affine operation :  stem:[c * (ax + k)] {nbsp} (_MusaicOperation_)
+* Its elements are triplets stem:[(c, a, k)] , in reference to special operation :  stem:[c * (ax + k)]
 
-* Function composition (stem:[@])  : stem:[(c,a,k) @ (c',a',k') = (c oplus c', aa', ak' + k)]
+* Function composition (stem:[@])  is stem:[(c,a,k) @ (c',a',k') = (c oplus c', aa', ak' + k)]
 
 where stem:[n>2], stem:[a] prime with stem:[n] and stem:[c in {true, false}]
 
@@ -951,38 +951,59 @@ By composing each of these operations with the 12 possible transposition steps, 
 [.text-center]
 |{ T0, T1, ..., T11 }| x |{ M1, M5, M7, M11, CM1, CM5, CM7, CM11 }| = 12 x 8 = *96 operations*
 
-It is thanks to this group that we will be able to partition our 4096 PCS into remarkable subsets by action of this group on stem:[Z_12].
+
+In fact, number of operations in stem:[G] when it act on stem:[ZZ_n , n > 2], depends on stem:[n], and its formula is :
+
+[.text-center]
+====
+*Formula cardinal of G*
+
+stem:[ |G| = 2n * phi(n)].
+
+Where stem:[phi] is Euler's function.
+
+Example with n=12 => stem:[ |G| = 2 xx 12 xx 4 = 96]
+====
+
 
 === Conclusion
 
-We have seen that when the group stem:[G] acts on stem:[P(Z_12)], this action instantiates stem:[G] with *96* elements (operations).
+We have seen that when the group stem:[G] acts on stem:[P(ZZ_12)], stem:[G] is composed of  *96* elements (operations)
+
+stem:[G " acts on " ZZ_12 => G = { C_cM_a"-"T_k | a in { 1, 5, 7, 11 }, k in { 0, 1, ..., 11  }, c in {true, false}}]
+
+stem:[G = { "M1-T0", "CM1-T0", "M1-T1", "CM1-T0", ..., "CM11-T10", "CM11-T11"}]
+
+
+It is thanks to this group that we will be able to partition our 4096 PCS into remarkable subsets by action of this group on stem:[ZZ_12].
+
 
 == Orbit
 
-The orbit of an element stem:[A] of stem:[P(E)] is a set that gathers all the possible images of stem:[A] under action of stem:[G]. It is denoted stem:[G.A]
+The orbit of an element stem:[A] of stem:[P(E)] is a set that gathers all the possible images of stem:[A] under action of stem:[G]. It is denoted stem:[G"⋅"A]
 
-stem:[G.A = ]{stem:[underbrace(g.A)_(in P(E)) : g in G] },  a subset of stem:[P(E)]
+stem:[G"⋅"A = ]{stem:[underbrace(g cdot A)_(in P(E)) \  | g in G] },  a subset of stem:[P(E)]
 
 Examples :
 
 [example]
 ====
-* Orbite of [0,2,4,6,8,10] is a set of PCS denoted by stem:[G.A], where stem:[A] = [0,2,4,6,8,10].
+* Orbite of [0,2,4,6,8,10] is a set of PCS denoted by stem:[G cdot A], where stem:[A] = [0,2,4,6,8,10].
 
-stem:[G."[0,2,4,6,8,10\]" = {"[0,2,4,6,8,10\], [1,3,5,7,9,11\]"}]  (a set of 2 PCS - whole tone scales - musaic n°88)
+stem:[G cdot "[0,2,4,6,8,10\]" = {"[0,2,4,6,8,10\], [1,3,5,7,9,11\]"}]  (a set of 2 PCS - whole tone scales - musaic n°88)
 
 ====
 
 [example]
 ====
-* stem:[G."[0,2,4,5,7,9,11\]" = {"[0,2,5,7,10\], ...,  [0,2,4,5,7,9,11\]"}]  (a set of 48 PCS - musaic n°38)
+* stem:[G cdot "[0,2,4,5,7,9,11\]" = {"[0,2,5,7,10\], ...,  [0,2,4,5,7,9,11\]"}]  (a set of 48 PCS - musaic n°38)
 
 ====
 
 
 [example]
 ====
-* stem:[G."[0,3,6,9\]" = {"[0,3,6,9\], [1,4,7,10\], ...,  [0,1,3,4,6,7,9,10\]"}]  (a set of 6 PCS - diminished 7th and "Messiaen Mod 2" scales - musaic n°37)
+* stem:[G cdot "[0,3,6,9\]" = {"[0,3,6,9\], [1,4,7,10\], ...,  [0,1,3,4,6,7,9,10\]"}]  (a set of 6 PCS - diminished 7th and "Messiaen Mod 2" scales - musaic n°37)
 
 ====
 
@@ -998,38 +1019,308 @@ stem:[G."[0,2,4,6,8,10\]" = {"[0,2,4,6,8,10\], [1,3,5,7,9,11\]"}]  (a set of 2 P
 // ====
 
 
-== Orbit and its stabilizers
+=== Stabilizers and Fixed PCS
 
-When an orbit has less than 96 elements (stem:[|G|]) , then exist some operations in G which do not transform some of its elements. We call _stabilizer_ such operation in _G_ and _fixed_ the concerned PCS in P(E)
+When an orbit has less than 96 elements (stem:[|G|]) , then exist some operations in G which do not transform some of its elements (it fixes them). We call _stabilizer_ such operation in _G_ and _fixed_ the concerned PCS in P(E)
 
-The set of stem:[g] of stem:[G] such that stem:[g⋅A = A] is called the stabilizer of A under stem:[G] and denoted stem:[Stab_A]
+A stabilizer of stem:[A in P(E)] is a subset of stem:[G], denoted stem:[G_A], having all its elements fixing stem:[A]
 
-stem:[Stab_A := {g in G | g.A = A}]
+stem:[G_A := {g in G | g cdot A = A }]
 
-Inversely, stem:[Fixed_g] is the set of elements  of stem:[P(E)] invariants under action of stem:[g]
+Inversely, stem:[Fixed_H] is the set of elements  of stem:[P(E)] invariants under action of   stem:[H subseteq G]
 
-stem:[Fixed_g := {A in P(E) | g.A = A }]
+stem:[Fixed_H := {A in P(E) | g cdot A = A,  AA g in H}]
 
-By correlation, the cardinality of an orbit is therefore linked to the number of its stabilizers. Indeed, the more stabilizers an orbit has, the fewer elements the orbit has. This is the subject of a theorem known as https://en.wikipedia.org/wiki/Group_action#Orbit-stabilizer_theorem[orbit-stabilizer] :
+By correlation, the cardinality of an orbit is linked to the number of its stabilizers. Indeed, the more stabilizers an orbit has, the fewer elements the orbit has. This is the subject of a theorem known as https://en.wikipedia.org/wiki/Group_action#Orbit-stabilizer_theorem[orbit-stabilizer] :
 
-Cardinal of orbite stem:[|G.A| = (|G|) / (|Stab_A|)]
+Cardinality of an orbit stem:[G.A] is given by cardinality of group stem:[G] divided by cardinality of stabilizers of stem:[A] :
 
-We can already calculate the number of stabilizers from the 3 examples given previously.
+stem:[|G"⋅"A| = (|G|) / (|G_A|)]
+
+Knowing cardinality of one orbit (stem:[|G.A|]), we can calculate the number its stabilizers stem:[|G_A| = (|G|) / (|G"⋅"A|)].
+
+from the 3 examples given previously :
 
 * whole tone scales has 96/2 = 48 stabilizers
 * major diatonic scale has 96/48 = 2 stabilizers
 * diminished 7th has 96/6 = 16 stabilizers
 
+=== Equivalence relation
+
+The set of orbits of P(E) under the action of G form a partition of P(E).
+
+An equivalence relation is defined by saying stem:[x -= y] if and only if there exists a stem:[g in G] with stem:[g⋅x = y].
+
+The orbits are then the equivalence classes under this relation; two elements stem:[A] and stem:[B] of stem:[P(E)], are equivalent if and only if their orbits are the same, that is, stem:[G"⋅"A = G"⋅"B]
+
+== Case study (cyclic group)
+
+Before going further, let us study a subgroup of G.
+
+A subset of G has the status of a subgroup if its operations respect the group axioms.
+
+Let's take stem:[{"M1-T0", "M1-T1"}]
+
+[cols="^h,,"]
+.First step to discover operations (Cayley table)
+|===
+|{nbsp} stem:[@] |M1-T0 |M1-T1
+
+|M1-T0
+|M1-T0
+|M1-T1
+
+|M1-T1
+|M1-T1
+|#M1-T2#
+
+|===
+
+As one might expect, taking as an operation a transposition of 1 semitone, 1 being prime with n, the subgroup which emerges is composed of 12 operations, corresponding to the 12 possible transposition steps.
+
+[cols="^h,,,,,,,,,,,,"]
+.All operations in M1-Tk, but prefix M1-  is omitted (Rem : k + k' value is modulo n=12; Example : 4+9 = 1)
+|===
+|{nbsp} stem:[@] |T0|T1|T2|T3|T4|T5|T6|T7|T8|T9|T10|T11
+
+|T0|T0|T1|T2|T3|T4|T5|T6|T7|T8|T9|T10|T11
+|T1|T1|T2|T3|T4|T5|T6|T7|T8|T9|T10|T11|T0
+|T2|T2|T3|T4|T5|T6|T7|T8|T9|T10|T11|T0|T1
+|T3|T3|T4|T5|T6|T7|T8|T9|T10|T11|T0|T1|T2
+|T4|T4|T5|T6|T7|T8|T9|T10|T11|T0|T1|T2|T3
+|T5|T5|T6|T7|T8|T9|T10|T11|T0|T1|T2|T3|T4
+|T6|T6|T7|T8|T9|T10|T11|T0|T1|T2|T3|T4|T5
+|T7|T7|T8|T9|T10|T11|T0|T1|T2|T3|T4|T5|T6
+|T8|T8|T9|T10|T11|T0|T1|T2|T3|T4|T5|T6|T7
+|T9|T9|T10|T11|T0|T1|T2|T3|T4|T5|T6|T7|T8
+|T10|T10|T11|T0|T1|T2|T3|T4|T5|T6|T7|T8|T9
+|T11|T11|T0|T1|T2|T3|T4|T5|T6|T7|T8|T9|T10
+
+|===
+
+So, the group generate by stem:[{"M1-T0", "M1-T1"}] is
+
+stem:[ H = {"M1-T0", "M1-T1","M1-T2",..., "M1-T10","M1-T11"}]
+
+The sub-group stem:[H] has same neutral element, inverse element and composition function that stem:[G], and its cardinal is stem:[|H| = 12].
+
+This group is interesting because, applied to stem:[P(E)], it places in the orbit of a pcs, all its transposed.
+
+stem:[H cdot [0,4,7\] = {[0,4,7\], [1,5,8\], ..., [3,6,11\]}], so {DO MI SOL} and all this transposed (12 pcs). Example with triad Major.
+
+.H ⋅ [0,4,7] (orbit cyclic of major triad)
+image:_047-cyclicSimple.png[047-cyclic]
+
+Therefore, all pcs in orbit of stem:[H] are equivalent, _up to transposition_.
+
+A such group stem:[H] is called *Cyclic group*.
+
+When orbit cyclic actes under stem:[P(ZZ_12)], its generate *352 cyclic orbits*. Each of these orbits represents a unique harmonic structure. Example Major triad, Minor triad, Diatonic Major, etc.
+
+NOTE: We have thus reduced the field of study from 4096 to 352 elements !
+
+The question then is how to represent an orbit? Any of its elements (pcs) would do, but it is customary to select the *smallest element*.
+
+NOTE: The concept of the "smallest element" refers to the concept of "normal form" and "prime form" historically found in musical set theory.
+
+In our case, we need to establish an order relation between elements of an orbit, and therefore in stem:[P(E)]. That has been done in the project ; detail in appendix <<Order relation>>.
+
+The cyclic prime form of [0,4,7] is ... [0,4,7] itself, as well as cyclic prime form of [0,5,9] and 10 others PCS (major triads).
+
+image:_047_cyclic_motif.png[]
+
+Of the 352 orbits, 335 are composed of 12 elements, having only one stabilizer M1-T0, and 17 very particular ones represent the structures with "limited transpositions", having more than one stabilizer.
+
+TIP: You can already explore the cyclic group in the musaicbox application: go to the "Zn Explorer" tab and select M1 (meaning M1-T1) as operation and click on the "Show 352 orbits grouped by stabilizers" button.
+ +
+ +
+ .17 Cyclic orbits of Limited Transposition PCS
+ image:zn-explorer-cyclic-group.png[zn-explorer-cyclic-group]
+
+
+Example of PCS in Limited Transposition
+
+.[0 4 8] Augmented triad cyclic orbit (only 4 pcs)
+image:_048-cyclic-eatl.png[]
+
+Cyclic orbit of augmented triad is : { stem:[[0 4 8\], [1 5 9\],[2 6 10\],[3 7 11\]] }
+
+Stabilizers cyclic orbit of augmented triad are : stem:[{"M1-T0~4*"}] = stem:[{"M1-T0", "M1-T4", "M1-T8"}]
+
+Check this result by orbit-stabilizer theorem : stem:[|G"⋅"A| = (|G|) / (|G_A|)]
+
+- Cardinality of augmented triad cyclic orbit : 4 (number of PCS in orbit)
+- Cardinality of cyclic group : 12 (number of operations in group)
+- Cardinality of stabilizers : 3 (number of operations that fix pcs of the orbit)
+
+We have stem:[4 = 12/3], it's OK !
+
+It's time to take inventory of G subgroups.
+
+== inventory of subgroups
+
+We have seen that stem:[G] extend special affine group with complementarity : stem:[c * (ax + k)]
+
+Where stem:[G] actes on stem:[P(ZZ_12)], stem:[G] is composed of 96 operations :
+
+[.text-center]
+{ T0, T1, …​, T11 } x { M1, M5, M7, M11, CM1, CM5, CM7, CM11 }
+
+The smallest subgroup of G is `M1-T0`  and the largest is `G` itself.
+
+For generate stem:[G], a restricted set of *generator operations* is sufficient (ref. Caley table algorithm), the same goes for its subgroups.
+
+For example, cyclic sous-group of G can be denote by this *subgroup generator* `M1-T1`, because is one of the 4 generators of the cyclic group `{M1-T0, M1-T1, M1-T2, ..., M1-T11}`
+
+NOTE: The four generators are `M1-T1`, `M1-T5`, `M1-T7`, `M1-T11`, and by convention, it is "the smallest" that takes precedence, as for prime form of an orbit.
+
+Some common and remarkable subgroups and one subgroup generator selected:
+
+- Trivial  subgroup : `M1-T0` (4096 orbits)
+- Dihedral subgroup : `M11-T1` (224 orbits)
+- Affine subgroup : `M5-T1, M7-T1` (158 orbits)
+- G extended affine group : `M5-T1, M7-T1, CM1-T1` (88 orbits)
+
+TODO : donner ici un exemple d'inventaire avec ref (ircam)
+
+.From https://www.emis.de/journals/SLC/opapers/s26fripert.pdf (Andreatta ircam)
+image:_3-common-groups.png[common groups]
+
+
+.Enumeration (when transposition step = 1, suffixe "-T1" is omitted)
+[cols="2,0,1,1,1,4"]
+|===
+|Group |#Ops| #SubGen|#Orbit|Name|Enum by Card
+
+|[M1-T0]
+|1
+|1
+|4096
+|Trivial
+|1 12 66 220 495 792 924 792 495 220 66 12 1
+
+
+|[M1]
+|12
+|1
+|352
+|Cyclic
+|1 1 6 19 43 66 80 66 43 19 6 1 1
+
+|[M1 M7]
+|24
+|1
+|226
+|
+|1 1 5 13 28 40 50 40 28 13 5 1 1
+
+
+|[M1 M11]
+|24
+|1
+|224
+|Dihedral
+|1 1 6 12 29 38 50 38 29 12 6 1 1
+
+|[M1 M5]
+|24
+|1
+|218
+|
+|1 1 5 12 28 38 48 38 28 12 5 1 1
+
+|[M1 CM11]
+|24
+|1
+|192
+|
+|1 1 6 19 43 66 56
+
+|[M1 CM5]
+|24
+|1
+|186
+|
+|1 1 6 19 43 66 50
+
+|[M1 CM7]
+|24
+|1
+|182
+|
+|1 1 6 19 43 66 46
+
+|[M1 CM1]
+|24
+|1
+|180
+|
+|1 1 6 19 43 66 44
+
+|[M1 M5 M7 M11]
+|48
+|4
+|158
+|Affine
+|1 1 5 9 21 25 34 25 21 9 5 1 1
+
+|[M1 M7 CM5 CM11]
+|48
+|4
+|126
+|
+|1 1 5 13 28 40 38
+
+|[M1 M11 CM1 CM11]
+|48
+|4
+|122
+|
+|1 1 6 12 29 38 35
+
+|[M1 M11 CM5 CM7]
+|48
+|4
+|120
+|
+|1 1 6 12 29 38 33
+
+|[M1 M5 CM7 CM11]
+|48
+|4
+|120
+|
+|1 1 5 12 28 38 35
+
+|[M1 M7 CM1 CM7]
+|48
+|4
+|118
+|
+|1 1 5 13 28 40 30
+
+|[M1 M5 CM1 CM5]
+|48
+|4
+|116
+|
+|1 1 5 12 28 38 31
+
+|[M1 M5 M7 M11 CM1 CM5 CM7 CM11]
+|96
+|92
+|88
+|(G ext)
+|1 1 5 9 21 25 26
+
+|===
+
+
+
+
 TODO Suite...
 
-== Orbit and its representative element
-
-
-=== Looking for the minimum
-
-=== PCS Identity
-
-Any ordered PCS (in normal form) is unique, but it is not a sufficient quality to sort them.
+== Appendix
 
 === Order relation
 
@@ -1038,16 +1329,16 @@ It would be useful to be able to sort the pcs among themselves. To do this, we n
 // stem:[ ∀ x, y ∈ P(E), ( "id"(x) ≤ "id"(y) and "id"(y) ≤ "id"(x) ) => x = y ]
 
 //see syntax https://asciimath.org/
-stem:[ AA x, y in P(E), ( "id"(x) <= "id"(y) and "id"(y) <= "id"(x) ) => x = y ]
+stem:[ AA A, B in P(E), ( "id"(A) <= "id"(B) and "id"(B) <= "id"(A) ) => A = B ]
 
 In others all, if two PCS have same identity value, then we are dealing with the same PCS.
 
 Question is : How to represent the identity relationship (id function)?
 
-=== State
+==== State
 By definition, a PCS is a collection of PC. Type is not atomic, and may have some algorithmic efficiency problem, so we prefer a scalar identity.
 
-=== Integer
+==== Integer
 
 To implement order relation, we use integer representation, to go through the order of natural integer.
 
@@ -1067,6 +1358,7 @@ Examples with some pairs of pcs (pcs1 and pcs2), let's compare pid(pcs1) and pid
 |[0,4,7]| [1,5,8]| _145_ | _290_ | **_true_**
 |[0,3,7]| [2,6,11]| _137_ | _2116_ | **_true_**
 |[0,11] | [0,3,7] | _2049_ |_137_ | **_false_** (???)
+
 #_waiting true_#
 |===
 
@@ -1076,6 +1368,9 @@ We admit that when two PCS are compared, the one with the smaller cardinality wi
 
 stem:[forall (pcsA, pcsB) in P(Z_n)^2, |pcsA| < |pcsB| => pcsA  < pcsB]
 
+We have seen, on an example, that _pid_ does not respect this property : stem:["pid"_("[0, 11\]") >  "pid"_("[0, 3, 7\]")]
+
+We need to find another function.
 
 ==== Augmented pid : id()
 
@@ -1085,13 +1380,32 @@ stem:[w(A) = m cdot |A| ]
 
 In order to give significant weight to _w_ function, independently of _pid_, we take as the value of _m_ (the multiplicative coefficient of the cardinal of _A_) a value greater than the upper limit of the domain of _pid_ which is stem:[\[0..2^12[] {nbsp}, so the first next value outside _pid_ domain is  stem:[m=2^12].
 
-So, augmented polynomial function, which called _id_, taked into account the cardinal, is
+So,  stem:[w(A) = 2^n cdot |A| ]
 
-stem:[id_A = "pid"_A + w_A = "pid"_A + 2^n cdot |A| ]
+Augmented polynomial function, which called _id_, taked into account the cardinal, is :
 
-stem:[id_A = "pid"_A + 2^n cdot |A| ]
+// stem:[id_A = "pid"_A + w_A = "pid"_A + 2^n * |A| ]
 
+====
 
+[.text-center]
+--
+*id function*
+
+stem:["id" : {0,1}^12 -> N]  {nbsp} defined by :
+
+stem:["id("v")" = "pid"_A + w_A = sum_(i=0)^(n-1) v_i 2^i + 2^n * sum_(i=0)^(n-1) v_i   ]
+--
+====
+
+[NOTE]
+====
+Since there exists a function (toVector) which gives the vector image of any PCS, we can also define function _id_ with this domain of definition  stem:["id" : P(ZZ_12) -> N]
+
+Total order relation is definitely implemented by id function :
+stem:[forall (pcsA, pcsB) in P(Z_n)^2, id(pcsA) <= id(pcsB) and id(pcsB) <= id(pcsA) => pcsA = pcsB]
+
+====
 
 [%header]
 .Example Compare with Augmented Polynomial Identifier (id)
@@ -1105,6 +1419,30 @@ stem:[id_A = "pid"_A + 2^n cdot |A| ]
 
 NOTE: In MusaicBox code, Augmented Polynomial Identifier is called _id_, and _pid_ is kept because is commonly used.
 
+The lower bound is stem:[0] obtained for the vector stem:[(0, 0, ... ,0)]
+
+The upper bound is stem:[2^n -1 + n2^n = 2^n(n+1)-1], or stem:[53247], for stem:[n=12], obtained by the vector stem:[(1, 1, ... ,1)].
+
+An order relation on P(Zn) can be established, which is based on the order relation of natural numbers:
+
+stem:[AA (A, B) in P(ZZ_n)^2 \ \ A <= B <=> "id"(A) <= "id"(B)]
+
+This relation is total order, i.e. we have either stem:[A <= B] or stem:[A <= B], and, moreover stem:[AA (A, B) in P(ZZ_n)^2 \ \ A sube B => id(A) <= id(B) ] (note : inverse is not true).
+
+==== Application example
+
+Example of application of the id function on a finite set: stem:[E = { "do, "mi", sol" }]
+
+The set of subsets of E is :
+
+[.text-center]
+--
+stem:[P(E) = { O/, {do},{mi},{sol},{do,mi},{do,sol},{mi,sol}, E }]
+--
+
+The figure below, presents (thin black arrow) the set inclusion relation, for example stem:[{do} sube {do, mi}], in minimal coverage, that is to say without transitivities, (for example the relation stem:[{do} sube {do, mi, sol}] is not arrowed - it is a lattice). The total order relation is represented by the black arrow *and* the red arrow (thick), it is the minimal coverage of the relation defined by the id function. Example: stem:[{do} < {mi} < {sol}].
+
+image:relationOrdreTreilliV3.png[total order relation]
 
 ////
 == Orbit
@@ -1235,17 +1573,20 @@ In this group, any pcs of a given orbit are in affine equivalence with itself or
 Musaic group has *88* orbits.
 ////
 
-== Prime Form
+=== Prime Form
 
 A quality that allows, without ambiguity, to designate a representative among the elements of an orbit.
 
 To put it simply, it is the *smallest element of an orbit*.
 
+////
 TIP: Can be represented by a function PrimeForm : EquivalenceRelation x pcs -> pcs (from an equivalence relation and a pcs given we obtain one and oly one pcs representative of equivalence relation orbit.
  +
+ +
 Given R, an equivalence relation, and pcs1, pcs2 (two pcs), if PrimeForm(R, pcs1) == PrimeForm(R, pcs2), then pcs1 and pcs2 belong to the same R equivalence orbit.
+////
 
-=== What Prime Form is
+==== What Prime Form is
 
 Given an equivalence relation orbit (of pcs), there will always be a unique pcs _smaller_ than others into same orbit (thanks to the order relation).
 
@@ -1259,15 +1600,17 @@ So, we cannot talk about Prime Form without giving its context.
 
 NOTE: In musical set theory, historically, the default context of Prime Form is the dihedral group and prime form of the cyclic group is called Normal Form.
 
-=== What Prime Form is not
+==== What Prime Form is not
 
 Prime form is a "technical" characteristic of one element into an orbit, *without musical resonance*.
 
 In absolute terms, any pcs into an orbit can be a representative of their orbit. By convention, we select the _minimal element_
 
-=== Modal prime form
+==== Modal prime form
 
 It is a pcs of cyclic orbit that, if possible, highlights its symmetry (else is cyclic prime form).
+
+NOTE: Modal prime form concept is invented, specific to this project.
 
 Example on pcs : [2, 3, 5, 7, 8] :
 
@@ -1275,21 +1618,21 @@ Example on pcs : [2, 3, 5, 7, 8] :
 --
 [.left]
 .Modal and cyclic prime form
-image::pcs_2_3_5_7_8.png["Modal and cyclic prime form" float="left",align="center"]
+image::pcs_2_3_5_7_8_V2.png["Modal and cyclic prime form" float="left",align="center"]
 --
 
 [.float-group]
 --
 [.left]
 .Cyclic prime form
-image::pcs_2_3_5_7_8-PF.png["Cyclic prime form" float="left",align="center"]
+image::pcs_2_3_5_7_8-PF-V2.png["Cyclic prime form" float="left",align="center"]
 --
 
 [.float-group]
 --
 [.left]
 .Modal prime form
-image::pcs_2_3_5_7_8-MPF.png["Modal prime form" float="left",align="center"]
+image::pcs_2_3_5_7_8-MPF-V2.png["Modal prime form" float="left",align="center"]
 --
 
 
@@ -1309,6 +1652,7 @@ Same, in other views :
 .Cyclic orbit and his modal and prime form
 image::pcs_2_3_5_7_8-wb2.png["Modal and cyclic prime form" float="left",align="center"]
 --
+
 
 
 [bibliography]

@@ -613,27 +613,32 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_conclusion_3">Conclusion</a></li>
 </ul>
 </li>
-<li><a href="#_orbit">Orbit</a></li>
-<li><a href="#_orbit_and_its_stabilizers">Orbit and its stabilizers</a></li>
-<li><a href="#_orbit_and_its_representative_element">Orbit and its representative element</a>
+<li><a href="#_orbit">Orbit</a>
 <ul class="sectlevel2">
-<li><a href="#_looking_for_the_minimum">Looking for the minimum</a></li>
-<li><a href="#_pcs_identity">PCS Identity</a></li>
-<li><a href="#_order_relation">Order relation</a></li>
-<li><a href="#_state">State</a></li>
-<li><a href="#_integer_2">Integer</a>
-<ul class="sectlevel3">
-<li><a href="#_polynomial_function_pid">Polynomial function pid()</a></li>
-<li><a href="#_augmented_pid_id">Augmented pid : id()</a></li>
+<li><a href="#_stabilizers_and_fixed_pcs">Stabilizers and Fixed PCS</a></li>
+<li><a href="#_equivalence_relation">Equivalence relation</a></li>
 </ul>
 </li>
+<li><a href="#_case_study_cyclic_group">Case study (cyclic group)</a></li>
+<li><a href="#_inventory_of_subgroups">inventory of subgroups</a></li>
+<li><a href="#_appendix">Appendix</a>
+<ul class="sectlevel2">
+<li><a href="#_order_relation">Order relation</a>
+<ul class="sectlevel3">
+<li><a href="#_state">State</a></li>
+<li><a href="#_integer_2">Integer</a></li>
+<li><a href="#_polynomial_function_pid">Polynomial function pid()</a></li>
+<li><a href="#_augmented_pid_id">Augmented pid : id()</a></li>
+<li><a href="#_application_example">Application example</a></li>
 </ul>
 </li>
 <li><a href="#_prime_form">Prime Form</a>
-<ul class="sectlevel2">
+<ul class="sectlevel3">
 <li><a href="#_what_prime_form_is">What Prime Form is</a></li>
 <li><a href="#_what_prime_form_is_not">What Prime Form is not</a></li>
 <li><a href="#_modal_prime_form">Modal prime form</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#_references">References</a></li>
@@ -1466,7 +1471,7 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0, 
 <div class="openblock text-center">
 <div class="content">
 <div class="paragraph">
-<p>Transposition</p>
+<p><strong>Transposition</strong></p>
 </div>
 <div class="paragraph">
 <p>\$T_k  :  P(E) xx NN -&gt; P(E)\$</p>
@@ -1508,7 +1513,7 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0, 
 <div class="openblock text-center">
 <div class="content">
 <div class="paragraph">
-<p>Multiplication</p>
+<p><strong>Multiplication</strong></p>
 </div>
 <div class="paragraph">
 <p>\$M_a  :  P(E) xx NN -&gt; P(E)\$</p>
@@ -1556,7 +1561,7 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0, 
 <div class="openblock text-center">
 <div class="content">
 <div class="paragraph">
-<p>Complement</p>
+<p><strong>Complement</strong></p>
 </div>
 <div class="paragraph">
 <p>\$C : P(E) -&gt; P(E)\$</p>
@@ -1618,7 +1623,7 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0, 
 <div class="openblock text-center">
 <div class="content">
 <div class="paragraph">
-<p>Special Affine Operation (SAO)</p>
+<p><strong>Special Affine Operation (SAO)</strong></p>
 </div>
 <div class="paragraph">
 <p>\$M_aT_k  :  P(E) xx NN xx NN -&gt; P(E)\$</p>
@@ -1666,7 +1671,7 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0, 
 <div class="openblock text-center">
 <div class="content">
 <div class="paragraph">
-<p>Extended Special Affine Operation</p>
+<p><strong>Extended Special Affine Operation</strong></p>
 </div>
 <div class="paragraph">
 <p>\$ "C"_cM_aT_k : P(E) xx {false, true} xx NN xx NN -&gt; P(E) \$</p>
@@ -2045,15 +2050,15 @@ Extended Affine Operation is called <em>MusaicOperation</em> into MusaicBox proj
 <div class="sect2">
 <h3 id="_conclusion_2">Conclusion</h3>
 <div class="paragraph">
-<p>We have defined a group structure \$(G, @)\$ with</p>
+<p>We have defined an extended special affine group with complementarity  \$c * (ax + k)\$ intended to act on \$P(ZZ_n)\$ defined by :</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Extend special affine operation :  \$c * (ax + k)\$ &#160; (<em>MusaicOperation</em>)</p>
+<p>Its elements are triplets \$(c, a, k)\$ , in reference to special operation :  \$c * (ax + k)\$</p>
 </li>
 <li>
-<p>Function composition (\$@\$)  : \$(c,a,k) @ (c',a',k') = (c oplus c', aa', ak' + k)\$</p>
+<p>Function composition (\$@\$)  is \$(c,a,k) @ (c',a',k') = (c oplus c', aa', ak' + k)\$</p>
 </li>
 </ul>
 </div>
@@ -2280,13 +2285,38 @@ Extended Affine Operation is called <em>MusaicOperation</em> into MusaicBox proj
 <p>|{ T0, T1, &#8230;&#8203;, T11 }| x |{ M1, M5, M7, M11, CM1, CM5, CM7, CM11 }| = 12 x 8 = <strong>96 operations</strong></p>
 </div>
 <div class="paragraph">
-<p>It is thanks to this group that we will be able to partition our 4096 PCS into remarkable subsets by action of this group on \$Z_12\$.</p>
+<p>In fact, number of operations in \$G\$ when it act on \$ZZ_n , n &gt; 2\$, depends on \$n\$, and its formula is :</p>
+</div>
+<div class="exampleblock text-center">
+<div class="content">
+<div class="paragraph">
+<p><strong>Formula cardinal of G</strong></p>
+</div>
+<div class="paragraph">
+<p>\$ |G| = 2n * phi(n)\$.</p>
+</div>
+<div class="paragraph">
+<p>Where \$phi\$ is Euler&#8217;s function.</p>
+</div>
+<div class="paragraph">
+<p>Example with n=12 &#8658; \$ |G| = 2 xx 12 xx 4 = 96\$</p>
+</div>
+</div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_conclusion_3">Conclusion</h3>
 <div class="paragraph">
-<p>We have seen that when the group \$G\$ acts on \$P(Z_12)\$, this action instantiates \$G\$ with <strong>96</strong> elements (operations).</p>
+<p>We have seen that when the group \$G\$ acts on \$P(ZZ_12)\$, \$G\$ is composed of  <strong>96</strong> elements (operations)</p>
+</div>
+<div class="paragraph">
+<p>\$G " acts on " ZZ_12 =&gt; G = { C_cM_a"-"T_k | a in { 1, 5, 7, 11 }, k in { 0, 1, ..., 11  }, c in {true, false}}\$</p>
+</div>
+<div class="paragraph">
+<p>\$G = { "M1-T0", "CM1-T0", "M1-T1", "CM1-T0", ..., "CM11-T10", "CM11-T11"}\$</p>
+</div>
+<div class="paragraph">
+<p>It is thanks to this group that we will be able to partition our 4096 PCS into remarkable subsets by action of this group on \$ZZ_12\$.</p>
 </div>
 </div>
 </div>
@@ -2295,10 +2325,10 @@ Extended Affine Operation is called <em>MusaicOperation</em> into MusaicBox proj
 <h2 id="_orbit">Orbit</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The orbit of an element \$x\$ of \$P(E)\$ is a set that gathers all the possible images of \$x\$ under action of \$G\$. It is denoted \$G.x\$</p>
+<p>The orbit of an element \$A\$ of \$P(E)\$ is a set that gathers all the possible images of \$A\$ under action of \$G\$. It is denoted \$G"⋅"A\$</p>
 </div>
 <div class="paragraph">
-<p>\$G.x = \${\$underbrace(g.x)_(in P(E)) : g in G\$ },  a subset of \$P(E)\$</p>
+<p>\$G"⋅"A = \${\$underbrace(g cdot A)_(in P(E)) \  | g in G\$ },  a subset of \$P(E)\$</p>
 </div>
 <div class="paragraph">
 <p>Examples :</p>
@@ -2308,12 +2338,12 @@ Extended Affine Operation is called <em>MusaicOperation</em> into MusaicBox proj
 <div class="ulist">
 <ul>
 <li>
-<p>Orbite of [0,2,4,6,8,10] is a set of PCS denoted by \$G.x\$, where \$x\$ = [0,2,4,6,8,10].</p>
+<p>Orbite of [0,2,4,6,8,10] is a set of PCS denoted by \$G cdot A\$, where \$A\$ = [0,2,4,6,8,10].</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>\$G."[0,2,4,6,8,10]" = {"[0,2,4,6,8,10], [1,3,5,7,9,11]"}\$  (a set of 2 PCS - whole tone scales - musaic n°88)</p>
+<p>\$G cdot "[0,2,4,6,8,10]" = {"[0,2,4,6,8,10], [1,3,5,7,9,11]"}\$  (a set of 2 PCS - whole tone scales - musaic n°88)</p>
 </div>
 </div>
 </div>
@@ -2322,17 +2352,369 @@ Extended Affine Operation is called <em>MusaicOperation</em> into MusaicBox proj
 <div class="ulist">
 <ul>
 <li>
-<p>\$G."[0,2,4,5,7,9,11]" = {"[0,2,5,7,10], ...,  [0,2,4,5,7,9,11]"}\$  (a set of 48 PCS - musaic n°38)</p>
+<p>\$G cdot "[0,2,4,5,7,9,11]" = {"[0,2,5,7,10], ...,  [0,2,4,5,7,9,11]"}\$  (a set of 48 PCS - musaic n°38)</p>
 </li>
 </ul>
 </div>
 </div>
 </div>
+<div class="exampleblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>\$G cdot "[0,3,6,9]" = {"[0,3,6,9], [1,4,7,10], ...,  [0,1,3,4,6,7,9,10]"}\$  (a set of 6 PCS - diminished 7th and "Messiaen Mod 2" scales - musaic n°37)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_stabilizers_and_fixed_pcs">Stabilizers and Fixed PCS</h3>
 <div class="paragraph">
-<p>TODO Suite&#8230;&#8203;</p>
+<p>When an orbit has less than 96 elements (\$|G|\$) , then exist some operations in G which do not transform some of its elements (it fixes them). We call <em>stabilizer</em> such operation in <em>G</em> and <em>fixed</em> the concerned PCS in P(E)</p>
 </div>
 <div class="paragraph">
-<p>We know (88musaics.org) that such a group action generates  <strong>88 orbits</strong>. However, we think it is more didactic to focus first on a smaller group, a subgroup of \$G\$.</p>
+<p>A stabilizer of \$A in P(E)\$ is a subset of \$G\$, denoted \$G_A\$, having all its elements fixing \$A\$</p>
+</div>
+<div class="paragraph">
+<p>\$G_A := {g in G | g cdot A = A }\$</p>
+</div>
+<div class="paragraph">
+<p>Inversely, \$Fixed_H\$ is the set of elements  of \$P(E)\$ invariants under action of   \$H subseteq G\$</p>
+</div>
+<div class="paragraph">
+<p>\$Fixed_H := {A in P(E) | g cdot A = A,  AA g in H}\$</p>
+</div>
+<div class="paragraph">
+<p>By correlation, the cardinality of an orbit is linked to the number of its stabilizers. Indeed, the more stabilizers an orbit has, the fewer elements the orbit has. This is the subject of a theorem known as <a href="https://en.wikipedia.org/wiki/Group_action#Orbit-stabilizer_theorem">orbit-stabilizer</a> :</p>
+</div>
+<div class="paragraph">
+<p>Cardinality of an orbit \$G.A\$ is given by cardinality of group \$G\$ divided by cardinality of stabilizers of \$A\$ :</p>
+</div>
+<div class="paragraph">
+<p>\$|G"⋅"A| = (|G|) / (|G_A|)\$</p>
+</div>
+<div class="paragraph">
+<p>Knowing cardinality of one orbit (\$|G.A|\$), we can calculate the number its stabilizers \$|G_A| = (|G|) / (|G"⋅"A|)\$.</p>
+</div>
+<div class="paragraph">
+<p>from the 3 examples given previously :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>whole tone scales has 96/2 = 48 stabilizers</p>
+</li>
+<li>
+<p>major diatonic scale has 96/48 = 2 stabilizers</p>
+</li>
+<li>
+<p>diminished 7th has 96/6 = 16 stabilizers</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_equivalence_relation">Equivalence relation</h3>
+<div class="paragraph">
+<p>The set of orbits of P(E) under the action of G form a partition of P(E).</p>
+</div>
+<div class="paragraph">
+<p>An equivalence relation is defined by saying \$x -= y\$ if and only if there exists a \$g in G\$ with \$g⋅x = y\$.</p>
+</div>
+<div class="paragraph">
+<p>The orbits are then the equivalence classes under this relation; two elements \$A\$ and \$B\$ of \$P(E)\$, are equivalent if and only if their orbits are the same, that is, \$G"⋅"A = G"⋅"B\$</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_case_study_cyclic_group">Case study (cyclic group)</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Before going further, let us study a subgroup of G.</p>
+</div>
+<div class="paragraph">
+<p>A subset of G has the status of a subgroup if its operations respect the group axioms.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s take \${"M1-T0", "M1-T1"}\$</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 4. First step to discover operations (Cayley table)</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top">&#160; \$@\$</th>
+<th class="tableblock halign-left valign-top">M1-T0</th>
+<th class="tableblock halign-left valign-top">M1-T1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="tableblock halign-center valign-top"><p class="tableblock">M1-T0</p></th>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M1-T0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M1-T1</p></td>
+</tr>
+<tr>
+<th class="tableblock halign-center valign-top"><p class="tableblock">M1-T1</p></th>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M1-T1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><mark>M1-T2</mark></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>As one might expect, taking as an operation a transposition of 1 semitone, 1 being prime with n, the subgroup which emerges is composed of 12 operations, corresponding to the 12 possible transposition steps.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 5. All operations in M1-Tk, but prefix M1-  is omitted (Rem : k + k' value is modulo n=12; Example : 4+9 = 1)</caption>
+<colgroup>
+<col style="width: 7.6923%;">
+<col style="width: 7.6923%;">
+<col style="width: 7.6923%;">
+<col style="width: 7.6923%;">
+<col style="width: 7.6923%;">
+<col style="width: 7.6923%;">
+<col style="width: 7.6923%;">
+<col style="width: 7.6923%;">
+<col style="width: 7.6923%;">
+<col style="width: 7.6923%;">
+<col style="width: 7.6923%;">
+<col style="width: 7.6923%;">
+<col style="width: 7.6924%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top">&#160; \$@\$</th>
+<th class="tableblock halign-left valign-top">T0</th>
+<th class="tableblock halign-left valign-top">T1</th>
+<th class="tableblock halign-left valign-top">T2</th>
+<th class="tableblock halign-left valign-top">T3</th>
+<th class="tableblock halign-left valign-top">T4</th>
+<th class="tableblock halign-left valign-top">T5</th>
+<th class="tableblock halign-left valign-top">T6</th>
+<th class="tableblock halign-left valign-top">T7</th>
+<th class="tableblock halign-left valign-top">T8</th>
+<th class="tableblock halign-left valign-top">T9</th>
+<th class="tableblock halign-left valign-top">T10</th>
+<th class="tableblock halign-left valign-top">T11</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="tableblock halign-center valign-top"><p class="tableblock">T0</p></th>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T8</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T11</p></td>
+</tr>
+<tr>
+<th class="tableblock halign-center valign-top"><p class="tableblock">T1</p></th>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T8</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T0</p></td>
+</tr>
+<tr>
+<th class="tableblock halign-center valign-top"><p class="tableblock">T2</p></th>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T8</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T1</p></td>
+</tr>
+<tr>
+<th class="tableblock halign-center valign-top"><p class="tableblock">T3</p></th>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T8</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T2</p></td>
+</tr>
+<tr>
+<th class="tableblock halign-center valign-top"><p class="tableblock">T4</p></th>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T8</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T3</p></td>
+</tr>
+<tr>
+<th class="tableblock halign-center valign-top"><p class="tableblock">T5</p></th>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T8</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T4</p></td>
+</tr>
+<tr>
+<th class="tableblock halign-center valign-top"><p class="tableblock">T6</p></th>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T8</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T5</p></td>
+</tr>
+<tr>
+<th class="tableblock halign-center valign-top"><p class="tableblock">T7</p></th>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T8</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T6</p></td>
+</tr>
+<tr>
+<th class="tableblock halign-center valign-top"><p class="tableblock">T8</p></th>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T8</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T7</p></td>
+</tr>
+<tr>
+<th class="tableblock halign-center valign-top"><p class="tableblock">T9</p></th>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T8</p></td>
+</tr>
+<tr>
+<th class="tableblock halign-center valign-top"><p class="tableblock">T10</p></th>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T8</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T9</p></td>
+</tr>
+<tr>
+<th class="tableblock halign-center valign-top"><p class="tableblock">T11</p></th>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T8</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">T10</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>So, the group generate by \${"M1-T0", "M1-T1"}\$ is</p>
+</div>
+<div class="paragraph">
+<p>\$ H = {"M1-T0", "M1-T1","M1-T2",..., "M1-T10","M1-T11"}\$</p>
+</div>
+<div class="paragraph">
+<p>The sub-group \$H\$ has same neutral element, inverse element and composition function that \$G\$, and its cardinal is \$|H| = 12\$.</p>
+</div>
+<div class="paragraph">
+<p>This group is interesting because, applied to \$P(E)\$, it places in the orbit of a pcs, all its transposed.</p>
+</div>
+<div class="paragraph">
+<p>\$H cdot [0,4,7] = {[0,4,7], [1,5,8], ..., [3,6,11]}\$, so {DO MI SOL} and all this transposed (12 pcs). Example with triad Major.</p>
+</div>
+<div class="paragraph">
+<div class="title">H ⋅ [0,4,7] (orbit cyclic of major triad)</div>
+<p><span class="image"><img src="./assets/images/_047-cyclicSimple.png" alt="047-cyclic"></span></p>
+</div>
+<div class="paragraph">
+<p>Therefore, all pcs in orbit of \$H\$ are equivalent, <em>up to transposition</em>.</p>
+</div>
+<div class="paragraph">
+<p>A such group \$H\$ is called <strong>Cyclic group</strong>.</p>
+</div>
+<div class="paragraph">
+<p>When orbit cyclic actes under \$P(ZZ_12)\$, its generate <strong>352 cyclic orbits</strong>. Each of these orbits represents a unique harmonic structure. Example Major triad, Minor triad, Diatonic Major, etc.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -2341,41 +2723,324 @@ Extended Affine Operation is called <em>MusaicOperation</em> into MusaicBox proj
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<div class="paragraph">
-<p>Later we will make an inventory of the possible subgroups of \$G\$ (we work with a finite set, which makes our work easier)</p>
-</div>
+We have thus reduced the field of study from 4096 to 352 elements !
 </td>
 </tr>
 </table>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_orbit_and_its_stabilizers">Orbit and its stabilizers</h2>
-<div class="sectionbody">
-
-</div>
-</div>
-<div class="sect1">
-<h2 id="_orbit_and_its_representative_element">Orbit and its representative element</h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_looking_for_the_minimum">Looking for the minimum</h3>
-
-</div>
-<div class="sect2">
-<h3 id="_pcs_identity">PCS Identity</h3>
 <div class="paragraph">
-<p>Any ordered PCS (in normal form) is unique, but it is not a sufficient quality to sort them.</p>
+<p>The question then is how to represent an orbit? Any of its elements (pcs) would do, but it is customary to select the <strong>smallest element</strong>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The concept of the "smallest element" refers to the concept of "normal form" and "prime form" historically found in musical set theory.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>In our case, we need to establish an order relation between elements of an orbit, and therefore in \$P(E)\$. That has been done in the project ; detail in appendix <a href="#_order_relation">Order relation</a>.</p>
+</div>
+<div class="paragraph">
+<p>The cyclic prime form of [0,4,7] is &#8230;&#8203; [0,4,7] itself, as well as cyclic prime form of [0,5,9] and 10 others PCS (major triads).</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./assets/images/_047_cyclic_motif.png" alt=" 047 cyclic motif"></span></p>
+</div>
+<div class="paragraph">
+<p>Of the 352 orbits, 335 are composed of 12 elements, having only one stabilizer M1-T0, and 17 very particular ones represent the structures with "limited transpositions", having more than one stabilizer.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+You can already explore the cyclic group in the musaicbox application: go to the "Zn Explorer" tab and select M1 (meaning M1-T1) as operation and click on the "Show 352 orbits grouped by stabilizers" button.
+<br>
+<br>
+ .17 Cyclic orbits of Limited Transposition PCS
+ <span class="image"><img src="./assets/images/zn-explorer-cyclic-group.png" alt="zn-explorer-cyclic-group"></span>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Example of PCS in Limited Transposition</p>
+</div>
+<div class="paragraph">
+<div class="title">[0 4 8] Augmented triad cyclic orbit (only 4 pcs)</div>
+<p><span class="image"><img src="./assets/images/_048-cyclic-eatl.png" alt=" 048 cyclic eatl"></span></p>
+</div>
+<div class="paragraph">
+<p>Cyclic orbit of augmented triad is : { \$[0 4 8], [1 5 9],[2 6 10],[3 7 11]\$ }</p>
+</div>
+<div class="paragraph">
+<p>Stabilizers cyclic orbit of augmented triad are : \${"M1-T0~4*"}\$ = \${"M1-T0", "M1-T4", "M1-T8"}\$</p>
+</div>
+<div class="paragraph">
+<p>Check this result by orbit-stabilizer theorem : \$|G"⋅"A| = (|G|) / (|G_A|)\$</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Cardinality of augmented triad cyclic orbit : 4 (number of PCS in orbit)</p>
+</li>
+<li>
+<p>Cardinality of cyclic group : 12 (number of operations in group)</p>
+</li>
+<li>
+<p>Cardinality of stabilizers : 3 (number of operations that fix pcs of the orbit)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>We have \$4 = 12/3\$, it&#8217;s OK !</p>
+</div>
+<div class="paragraph">
+<p>It&#8217;s time to take inventory of G subgroups.</p>
 </div>
 </div>
+</div>
+<div class="sect1">
+<h2 id="_inventory_of_subgroups">inventory of subgroups</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>We have seen that \$G\$ extend special affine group with complementarity : \$c * (ax + k)\$</p>
+</div>
+<div class="paragraph">
+<p>Where \$G\$ actes on \$P(ZZ_12)\$, \$G\$ is composed of 96 operations :</p>
+</div>
+<div class="paragraph text-center">
+<p>{ T0, T1, …​, T11 } x { M1, M5, M7, M11, CM1, CM5, CM7, CM11 }</p>
+</div>
+<div class="paragraph">
+<p>The smallest subgroup of G is <code>M1-T0</code>  and the largest is <code>G</code> itself.</p>
+</div>
+<div class="paragraph">
+<p>For generate \$G\$, a restricted set of <strong>generator operations</strong> is sufficient (ref. Caley table algorithm), the same goes for its subgroups.</p>
+</div>
+<div class="paragraph">
+<p>For example, cyclic sous-group of G can be denote by this <strong>subgroup generator</strong> <code>M1-T1</code>, because is one of the 4 generators of the cyclic group <code>{M1-T0, M1-T1, M1-T2, &#8230;&#8203;, M1-T11}</code></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The four generators are <code>M1-T1</code>, <code>M1-T5</code>, <code>M1-T7</code>, <code>M1-T11</code>, and by convention, it is "the smallest" that takes precedence, as for prime form of an orbit.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Some common and remarkable subgroups and one subgroup generator selected:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Trivial  subgroup : <code>M1-T0</code> (4096 orbits)</p>
+</li>
+<li>
+<p>Dihedral subgroup : <code>M11-T1</code> (224 orbits)</p>
+</li>
+<li>
+<p>Affine subgroup : <code>M5-T1, M7-T1</code> (158 orbits)</p>
+</li>
+<li>
+<p>G extended affine group : <code>M5-T1, M7-T1, CM1-T1</code> (88 orbits)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>TODO : donner ici un exemple d&#8217;inventaire avec ref (ircam)</p>
+</div>
+<div class="paragraph">
+<div class="title">From <a href="https://www.emis.de/journals/SLC/opapers/s26fripert.pdf" class="bare">https://www.emis.de/journals/SLC/opapers/s26fripert.pdf</a> (Andreatta ircam)</div>
+<p><span class="image"><img src="./assets/images/_3-common-groups.png" alt="common groups"></span></p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 6. Enumeration (when transposition step = 1, suffixe "-T1" is omitted)</caption>
+<colgroup>
+<col style="width: 22.2222%;">
+<col style="width: 0%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 11.1111%;">
+<col style="width: 44.4445%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Group</th>
+<th class="tableblock halign-left valign-top">#Ops</th>
+<th class="tableblock halign-left valign-top">#SubGen</th>
+<th class="tableblock halign-left valign-top">#Orbit</th>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Enum by Card</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[M1-T0]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4096</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Trivial</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1 12 66 220 495 792 924 792 495 220 66 12 1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[M1]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">12</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">352</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cyclic</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1 1 6 19 43 66 80 66 43 19 6 1 1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[M1 M7]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">24</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">226</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1 1 5 13 28 40 50 40 28 13 5 1 1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[M1 M11]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">24</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">224</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Dihedral</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1 1 6 12 29 38 50 38 29 12 6 1 1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[M1 M5]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">24</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">218</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1 1 5 12 28 38 48 38 28 12 5 1 1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[M1 CM11]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">24</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">192</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1 1 6 19 43 66 56</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[M1 CM5]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">24</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">186</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1 1 6 19 43 66 50</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[M1 CM7]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">24</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">182</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1 1 6 19 43 66 46</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[M1 CM1]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">24</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">180</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1 1 6 19 43 66 44</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[M1 M5 M7 M11]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">48</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">158</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Affine</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1 1 5 9 21 25 34 25 21 9 5 1 1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[M1 M7 CM5 CM11]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">48</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">126</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1 1 5 13 28 40 38</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[M1 M11 CM1 CM11]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">48</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">122</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1 1 6 12 29 38 35</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[M1 M11 CM5 CM7]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">48</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">120</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1 1 6 12 29 38 33</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[M1 M5 CM7 CM11]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">48</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">120</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1 1 5 12 28 38 35</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[M1 M7 CM1 CM7]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">48</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">118</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1 1 5 13 28 40 30</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[M1 M5 CM1 CM5]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">48</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">116</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1 1 5 12 28 38 31</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[M1 M5 M7 M11 CM1 CM5 CM7 CM11]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">96</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">92</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">88</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Musaic (proposition)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1 1 5 9 21 25 26</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>TODO Suite&#8230;&#8203;</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_appendix">Appendix</h2>
+<div class="sectionbody">
 <div class="sect2">
 <h3 id="_order_relation">Order relation</h3>
 <div class="paragraph">
 <p>It would be useful to be able to sort the pcs among themselves. To do this, we need to define a total order relation that verifies:</p>
 </div>
 <div class="paragraph">
-<p>\$ AA x, y in P(E), ( "id"(x) &lt;= "id"(y) and "id"(y) &lt;= "id"(x) ) =&gt; x = y \$</p>
+<p>\$ AA A, B in P(E), ( "id"(A) &lt;= "id"(B) and "id"(B) &lt;= "id"(A) ) =&gt; A = B \$</p>
 </div>
 <div class="paragraph">
 <p>In others all, if two PCS have same identity value, then we are dealing with the same PCS.</p>
@@ -2383,17 +3048,17 @@ Extended Affine Operation is called <em>MusaicOperation</em> into MusaicBox proj
 <div class="paragraph">
 <p>Question is : How to represent the identity relationship (id function)?</p>
 </div>
-</div>
-<div class="sect2">
-<h3 id="_state">State</h3>
+<div class="sect3">
+<h4 id="_state">State</h4>
 <div class="paragraph">
 <p>By definition, a PCS is a collection of PC. Type is not atomic, and may have some algorithmic efficiency problem, so we prefer a scalar identity.</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_integer_2">Integer</h3>
+<div class="sect3">
+<h4 id="_integer_2">Integer</h4>
 <div class="paragraph">
 <p>To implement order relation, we use integer representation, to go through the order of natural integer.</p>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_polynomial_function_pid">Polynomial function pid()</h4>
@@ -2407,7 +3072,7 @@ Extended Affine Operation is called <em>MusaicOperation</em> into MusaicBox proj
 <p>Examples with some pairs of pcs (pcs1 and pcs2), let&#8217;s compare pid(pcs1) and pid(pcs2) to determine if pcs1 "is less than" pcs2 :</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 4. Example problem when compare identity with Polynomial Identifier</caption>
+<caption class="title">Table 7. Example problem when compare identity with Polynomial Identifier</caption>
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 20%;">
@@ -2451,8 +3116,8 @@ Extended Affine Operation is called <em>MusaicOperation</em> into MusaicBox proj
 <td class="tableblock halign-left valign-top"><p class="tableblock">[0,3,7]</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>2049</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>137</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>false</em></strong> (???)
-<mark><em>waiting true</em></mark></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>false</em></strong> (???)</p>
+<p class="tableblock"><mark><em>waiting true</em></mark></p></td>
 </tr>
 </tbody>
 </table>
@@ -2464,6 +3129,12 @@ Extended Affine Operation is called <em>MusaicOperation</em> into MusaicBox proj
 </div>
 <div class="paragraph">
 <p>\$forall (pcsA, pcsB) in P(Z_n)^2, |pcsA| &lt; |pcsB| =&gt; pcsA  &lt; pcsB\$</p>
+</div>
+<div class="paragraph">
+<p>We have seen, on an example, that <em>pid</em> does not respect this property : \$"pid"_("[0, 11]") &gt;  "pid"_("[0, 3, 7]")\$</p>
+</div>
+<div class="paragraph">
+<p>We need to find another function.</p>
 </div>
 </div>
 <div class="sect3">
@@ -2478,16 +3149,48 @@ Extended Affine Operation is called <em>MusaicOperation</em> into MusaicBox proj
 <p>In order to give significant weight to <em>w</em> function, independently of <em>pid</em>, we take as the value of <em>m</em> (the multiplicative coefficient of the cardinal of <em>A</em>) a value greater than the upper limit of the domain of <em>pid</em> which is \$\[0..2^12[\$ &#160;, so the first next value outside <em>pid</em> domain is  \$m=2^12\$.</p>
 </div>
 <div class="paragraph">
-<p>So, augmented polynomial function, which called <em>id</em>, taked into account the cardinal, is</p>
+<p>So,  \$w(A) = 2^n cdot |A| \$</p>
 </div>
 <div class="paragraph">
-<p>\$id_A = "pid"_A + w_A = "pid"_A + 2^n cdot |A| \$</p>
+<p>Augmented polynomial function, which called <em>id</em>, taked into account the cardinal, is :</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="openblock text-center">
+<div class="content">
+<div class="paragraph">
+<p><strong>id function</strong></p>
 </div>
 <div class="paragraph">
-<p>\$id_A = "pid"_A + 2^n cdot |A| \$</p>
+<p>\$"id" : {0,1}^12 -&gt; N\$  &#160; defined by :</p>
+</div>
+<div class="paragraph">
+<p>\$"id("v")" = "pid"_A + w_A = sum_(i=0)^(n-1) v_i 2^i + 2^n * sum_(i=0)^(n-1) v_i   \$</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Since there exists a function (toVector) which gives the vector image of any PCS, we can also define function <em>id</em> with this domain of definition  \$"id" : P(ZZ_12) -&gt; N\$</p>
+</div>
+<div class="paragraph">
+<p>Total order relation is definitely implemented by id function :
+\$forall (pcsA, pcsB) in P(Z_n)^2, id(pcsA) &lt;= id(pcsB) and id(pcsB) &lt;= id(pcsA) =&gt; pcsA = pcsB\$</p>
+</div>
+</td>
+</tr>
+</table>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 5. Example Compare with Augmented Polynomial Identifier (id)</caption>
+<caption class="title">Table 8. Example Compare with Augmented Polynomial Identifier (id)</caption>
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 20%;">
@@ -2547,35 +3250,55 @@ In MusaicBox code, Augmented Polynomial Identifier is called <em>id</em>, and <e
 </tr>
 </table>
 </div>
+<div class="paragraph">
+<p>The lower bound is \$0\$ obtained for the vector \$(0, 0, ... ,0)\$</p>
+</div>
+<div class="paragraph">
+<p>The upper bound is \$2^n -1 + n2^n = 2^n(n+1)-1\$, or \$53247\$, for \$n=12\$, obtained by the vector \$(1, 1, ... ,1)\$.</p>
+</div>
+<div class="paragraph">
+<p>An order relation on P(Zn) can be established, which is based on the order relation of natural numbers:</p>
+</div>
+<div class="paragraph">
+<p>\$AA (A, B) in P(ZZ_n)^2 \ \ A &lt;= B &lt;=&gt; "id"(A) &lt;= "id"(B)\$</p>
+</div>
+<div class="paragraph">
+<p>This relation is total order, i.e. we have either \$A &lt;= B\$ or \$A &lt;= B\$, and, moreover \$AA (A, B) in P(ZZ_n)^2 \ \ A sube B =&gt; id(A) &lt;= id(B) \$ (note : inverse is not true).</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_application_example">Application example</h4>
+<div class="paragraph">
+<p>Example of application of the id function on a finite set: \$E = { "do, "mi", sol" }\$</p>
+</div>
+<div class="paragraph">
+<p>The set of subsets of E is :</p>
+</div>
+<div class="openblock text-center">
+<div class="content">
+<div class="paragraph">
+<p>\$P(E) = { O/, {do},{mi},{sol},{do,mi},{do,sol},{mi,sol}, E }\$</p>
 </div>
 </div>
 </div>
+<div class="paragraph">
+<p>The figure below, presents (thin black arrow) the set inclusion relation, for example \${do} sube {do, mi}\$, in minimal coverage, that is to say without transitivities, (for example the relation \${do} sube {do, mi, sol}\$ is not arrowed - it is a lattice). The total order relation is represented by the black arrow <strong>and</strong> the red arrow (thick), it is the minimal coverage of the relation defined by the id function. Example: \${do} &lt; {mi} &lt; {sol}\$.</p>
 </div>
-<div class="sect1">
-<h2 id="_prime_form">Prime Form</h2>
-<div class="sectionbody">
+<div class="paragraph">
+<p><span class="image"><img src="./assets/images/relationOrdreTreilliV3.png" alt="total order relation"></span></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_prime_form">Prime Form</h3>
 <div class="paragraph">
 <p>A quality that allows, without ambiguity, to designate a representative among the elements of an orbit.</p>
 </div>
 <div class="paragraph">
 <p>To put it simply, it is the <strong>smallest element of an orbit</strong>.</p>
 </div>
-<div class="admonitionblock tip">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
-</td>
-<td class="content">
-Can be represented by a function PrimeForm : EquivalenceRelation x pcs &#8594; pcs (from an equivalence relation and a pcs given we obtain one and oly one pcs representative of equivalence relation orbit.
-<br>
-Given R, an equivalence relation, and pcs1, pcs2 (two pcs), if PrimeForm(R, pcs1) == PrimeForm(R, pcs2), then pcs1 and pcs2 belong to the same R equivalence orbit.
-</td>
-</tr>
-</table>
-</div>
-<div class="sect2">
-<h3 id="_what_prime_form_is">What Prime Form is</h3>
+<div class="sect3">
+<h4 id="_what_prime_form_is">What Prime Form is</h4>
 <div class="paragraph">
 <p>Given an equivalence relation orbit (of pcs), there will always be a unique pcs <em>smaller</em> than others into same orbit (thanks to the order relation).</p>
 </div>
@@ -2604,8 +3327,8 @@ In musical set theory, historically, the default context of Prime Form is the di
 </table>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_what_prime_form_is_not">What Prime Form is not</h3>
+<div class="sect3">
+<h4 id="_what_prime_form_is_not">What Prime Form is not</h4>
 <div class="paragraph">
 <p>Prime form is a "technical" characteristic of one element into an orbit, <strong>without musical resonance</strong>.</p>
 </div>
@@ -2613,10 +3336,22 @@ In musical set theory, historically, the default context of Prime Form is the di
 <p>In absolute terms, any pcs into an orbit can be a representative of their orbit. By convention, we select the <em>minimal element</em></p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_modal_prime_form">Modal prime form</h3>
+<div class="sect3">
+<h4 id="_modal_prime_form">Modal prime form</h4>
 <div class="paragraph">
 <p>It is a pcs of cyclic orbit that, if possible, highlights its symmetry (else is cyclic prime form).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Modal prime form concept is invented, specific to this project.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>Example on pcs : [2, 3, 5, 7, 8] :</p>
@@ -2625,7 +3360,7 @@ In musical set theory, historically, the default context of Prime Form is the di
 <div class="content">
 <div class="imageblock left text-center left">
 <div class="content">
-<img src="./assets/images/pcs_2_3_5_7_8.png" alt="Modal and cyclic prime form">
+<img src="./assets/images/pcs_2_3_5_7_8_V2.png" alt="Modal and cyclic prime form">
 </div>
 <div class="title">Figure 11. Modal and cyclic prime form</div>
 </div>
@@ -2635,7 +3370,7 @@ In musical set theory, historically, the default context of Prime Form is the di
 <div class="content">
 <div class="imageblock left text-center left">
 <div class="content">
-<img src="./assets/images/pcs_2_3_5_7_8-PF.png" alt="Cyclic prime form">
+<img src="./assets/images/pcs_2_3_5_7_8-PF-V2.png" alt="Cyclic prime form">
 </div>
 <div class="title">Figure 12. Cyclic prime form</div>
 </div>
@@ -2645,7 +3380,7 @@ In musical set theory, historically, the default context of Prime Form is the di
 <div class="content">
 <div class="imageblock left text-center left">
 <div class="content">
-<img src="./assets/images/pcs_2_3_5_7_8-MPF.png" alt="Modal prime form">
+<img src="./assets/images/pcs_2_3_5_7_8-MPF-V2.png" alt="Modal prime form">
 </div>
 <div class="title">Figure 13. Modal prime form</div>
 </div>
@@ -2671,6 +3406,7 @@ In musical set theory, historically, the default context of Prime Form is the di
 <img src="./assets/images/pcs_2_3_5_7_8-wb2.png" alt="Modal and cyclic prime form">
 </div>
 <div class="title">Figure 15. Cyclic orbit and his modal and prime form</div>
+</div>
 </div>
 </div>
 </div>
@@ -2713,7 +3449,7 @@ In musical set theory, historically, the default context of Prime Form is the di
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-02-01 15:19:45 +0100
+Last updated 2025-02-09 22:37:39 +0100
 </div>
 </div>
 <script type="text/x-mathjax-config">

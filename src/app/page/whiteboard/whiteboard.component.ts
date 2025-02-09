@@ -869,4 +869,17 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     this.managerPageWBService.doMakeSymmetricDifference()
   }
 
+  doToggleShowPivot(index: number) {
+    if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
+      throw new Error(`Invalid index : $ {index}`)
+    }
+    this.managerPageWBService.doToggleShowPivot(index)
+  }
+
+  isShowPivot(index: number) {
+    if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
+      throw new Error(`Invalid index : $ {index}`)
+    }
+    return this.pcsDtoList[index].uiClock.drawPivot;
+  }
 }

@@ -256,6 +256,10 @@
                (change)="colorPitchOFF($event, index)"
         >
       </label>
+      <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doToggleShowPivot(index)">
+        <mat-slide-toggle [checked]="isShowPivot(index)">Selected</mat-slide-toggle>
+      </button>
+
       <button class="contextual-menu-item" cdkMenuItem disabled>
         Polygon
       </button>

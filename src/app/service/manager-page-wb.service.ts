@@ -124,13 +124,15 @@ export class ManagerPageWBService {
     this.eventChangePcsPdoList.emit(this.uiPcsDtoList)
   }
 
-  addPcs({somePcs, circularAlign, indexCenterElement}: {
+  addPcs({somePcs, circularAlign, indexCenterElement, templateDto}: {
     somePcs: IPcs[],
     circularAlign?: boolean,
-    indexCenterElement?: number
+    indexCenterElement?: number,
+    templateDto ?: UIPcsDto
   }) {
     circularAlign = circularAlign ?? false
     indexCenterElement = indexCenterElement ?? undefined
+    templateDto = templateDto ?? undefined
     // console.log(`circular : ${circularAlign},  indexcenter : ${indexCenterElement}`)
     this.doUnselectAll(false)
     const selectedIndexPcs: number[] = []
@@ -140,16 +142,21 @@ export class ManagerPageWBService {
     // avoid put outside screen
     if (somePcs.length > 10 && !circularAlign) ManagerPageWBService.deltaPositionNewPcs = 0
 
-    if (indexCenterElement && !isNaN(indexCenterElement)) {
+    if (indexCenterElement && !isNaN(indexCenterElement) && !templateDto) {
       // use it for template ui
-      this.pcsDtoForTemplate = this.uiPcsDtoList[indexCenterElement]
+      // this.pcsDtoForTemplate = this.uiPcsDtoList[indexCenterElement]
+      templateDto = this.uiPcsDtoList[indexCenterElement]
+
       // console.log("clock width = ", this.pcsDtoForTemplate.uiClock.width)
+    }
+    if (!templateDto) {
+      templateDto = this.pcsDtoForTemplate
     }
     somePcs.forEach(pcs => {
       let pcsDto =
-        this.pcsDtoForTemplate !== undefined
+        templateDto !== undefined
           ? new UIPcsDto({
-            ...this.pcsDtoForTemplate,
+            ...templateDto,
             pcs: pcs,
 
             freeText: undefined,
@@ -162,12 +169,13 @@ export class ManagerPageWBService {
       if (!circularAlign) {
         ManagerPageWBService.deltaPositionNewPcs += this._GAP_BETWEEN
       }
+
       pcsDto.position = {
-        x: this.pcsDtoForTemplate
-          ? this.pcsDtoForTemplate.position.x + (circularAlign ? 0 : ManagerPageWBService.deltaPositionNewPcs)
+        x: templateDto
+          ? templateDto.position.x + (circularAlign ? 0 : ManagerPageWBService.deltaPositionNewPcs)
           : ManagerPageWBService.deltaPositionNewPcs += 10,
-        y: this.pcsDtoForTemplate
-          ? this.pcsDtoForTemplate.position.y + (circularAlign ? 0 : ManagerPageWBService.deltaPositionNewPcs)
+        y: templateDto
+          ? templateDto.position.y + (circularAlign ? 0 : ManagerPageWBService.deltaPositionNewPcs)
           : ManagerPageWBService.deltaPositionNewPcs += 10,
       }
 
@@ -444,18 +452,8 @@ export class ManagerPageWBService {
     const deltaPosition = 20
     this.uiPcsDtoList = [...this.uiPcsDtoList]
     let newPcsDtos: UIPcsDto[] = []
-    let indexes: number[] = []
 
-    if (this.isIndexInElementsSelected(index)) {
-      // do on all selected elements
-      indexes = [...this.orderedIndexesSelectedPcsDto]
-    } else {
-      if (index < 0 || index >= this.uiPcsDtoList.length) {
-        throw new Error("oops bad index : " + index)
-      }
-      // do only for this one
-      indexes = [index]
-    }
+    let indexes = this.getIndexesTarget(index);
 
     this.doUnselectAll(false)
 
@@ -480,18 +478,7 @@ export class ManagerPageWBService {
 
   doToggleShowName(index: number) {
     this.uiPcsDtoList = [...this.uiPcsDtoList]
-    let indexes: number[]
-
-    if (this.isIndexInElementsSelected(index)) {
-      // do on all selected elements
-      indexes = this.orderedIndexesSelectedPcsDto
-    } else {
-      if (index < 0 || index >= this.uiPcsDtoList.length) {
-        throw new Error("oops bad index : " + index)
-      }
-      // do only for this one
-      indexes = [index]
-    }
+    let indexes = this.getIndexesTarget(index);
 
     // work with value of element target event
     const valueShowNames = !this.uiPcsDtoList[index].showName
@@ -506,6 +493,38 @@ export class ManagerPageWBService {
 
     this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
     this.emit()
+  }
+
+  doToggleShowPivot(index: number) {
+    this.uiPcsDtoList = [...this.uiPcsDtoList]
+    let indexes = this.getIndexesTarget(index);
+    // work with value of element target event
+    const valueShowPivot = !this.uiPcsDtoList[index].uiClock.drawPivot
+
+    indexes.forEach(index => {
+      let pcsDto = this.uiPcsDtoList[index]
+      this.uiPcsDtoList[index] = new UIPcsDto({
+        ...pcsDto,
+        uiClock: {...pcsDto.uiClock, drawPivot: valueShowPivot}
+      })
+    })
+
+    this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
+    this.emit()
+  }
+
+
+  private getIndexesTarget(index: number) {
+    if (this.isIndexInElementsSelected(index)) {
+      // do on all selected elements
+      return this.orderedIndexesSelectedPcsDto
+    } else {
+      if (index < 0 || index >= this.uiPcsDtoList.length) {
+        throw new Error("oops bad index : " + index)
+      }
+      // do only for this one
+      return [index]
+    }
   }
 
   /**
@@ -1018,13 +1037,20 @@ export class ManagerPageWBService {
 
   doMakeCyclicOrbit(index: number) {
     const pcs = this.uiPcsDtoList[index].pcs
-    let pcsCyclicList = [pcs]
+    let pcsCyclicList = pcs.cyclicPrimeForm().orbit.ipcsset
+
+    // let pcsCyclicList = [pcs]
     // no get from orbit cyclic because no sorted, and pivot no logic
-    for (let i = 1; i < pcs.n; i++) {
-      pcsCyclicList.push(pcs.transposition(i))
-    }
-    this.pcsDtoForTemplate = this.uiPcsDtoList[index]
-    this.addPcs({somePcs: pcsCyclicList, circularAlign: true, indexCenterElement: index})
+    // for (let i = 1; i < pcs.n; i++) {
+    //   pcsCyclicList.push(pcs.transposition(i))
+    // }
+
+    let pcsDtoForTemplate =
+      new UIPcsDto({...this.uiPcsDtoList[index],
+        uiClock : {...this.uiPcsDtoList[index].uiClock, drawPivot: false}
+      })
+    pcsDtoForTemplate.uiClock.drawPivot = false
+    this.addPcs({somePcs: pcsCyclicList, circularAlign: true, indexCenterElement: index, templateDto:pcsDtoForTemplate})
   }
 
   doMakeModeOrbit(index: number) {
@@ -1087,4 +1113,6 @@ export class ManagerPageWBService {
       this.addPcs({somePcs: [newPcs]})
     }
   }
+
+
 }
