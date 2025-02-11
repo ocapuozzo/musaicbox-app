@@ -112,11 +112,16 @@ export class UIPcsDto {
   colorPitchOff: string = 'white'
   indexFormDrawer: number
   isSelected: boolean
+
+  // xor value when true
   showName: boolean
+  showPcs: boolean
+
   uiMusaic: UIMusaic
   uiClock: UIClock
   uiScore: UIScore
   octotrope: { size: number }
+
   // polymorphism width and height
   // in differance of extends class, here a component see all data
   // usefully, by example, to doZoom service
@@ -220,6 +225,7 @@ export class UIPcsDto {
       indexFormDrawer,
       isSelected,
       showName,
+      showPcs,
       octotrope,
       uiMusaic,
       uiClock,
@@ -235,6 +241,7 @@ export class UIPcsDto {
       indexFormDrawer?: number,
       isSelected?: boolean,
       showName?: boolean,
+      showPcs?: boolean,
       octotrope ?: { size: number },
       uiMusaic?: UIMusaic,
       uiClock?: UIClock,
@@ -277,6 +284,7 @@ export class UIPcsDto {
     this.indexFormDrawer = indexFormDrawer ?? 0
     this.isSelected = isSelected ?? false
     this.showName = showName ?? false
+    this.showPcs = showPcs ?? false
     this.octotrope = octotrope ? { ...octotrope} : { size: 50 }
     // construct 3 new objects (else they are shared)
     this.uiMusaic = uiMusaic ? {...uiMusaic} : new UIMusaic()

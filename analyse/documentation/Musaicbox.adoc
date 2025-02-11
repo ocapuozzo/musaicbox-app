@@ -306,10 +306,10 @@ Since there exists a function (toVector) which gives the vector image of any PCS
 ====
 Example for [0, 4, 7] :  `1 + 16 + 128` = `145`  (decimal value)
 
-[%header]
+[%header,cols="^h,,,,,,,,,,,,,"]
 .Examples of Polynomial Identifier (first row is power of 2)
 |===
-| PCS|1| 2| 4| 8| 16| 32| 64| 128| 252| 512| 1024| 2048| _pid_
+|PCS|1| 2| 4| 8| 16| 32| 64| 128| 252| 512| 1024| 2048| _pid_
 |[0,4,7]|*1*|0|0|0|*1*|0|0|*1*|0|0|0|0|
 |_pid_|*1*|0|0|0|*16*|0|0|*128*|0|0|0|0|*_145_*
 ||||||||||||||
@@ -1181,142 +1181,350 @@ Some common and remarkable subgroups and one subgroup generator selected:
 - Affine subgroup : `M5-T1, M7-T1` (158 orbits)
 - G extended affine group : `M5-T1, M7-T1, CM1-T1` (88 orbits)
 
-TODO : donner ici un exemple d'inventaire avec ref (ircam)
+La classification des pcs permet d'implémenter des relations d'équivalence, au-delà de la très connue "à une transposition près".
 
-.From https://www.emis.de/journals/SLC/opapers/s26fripert.pdf (Andreatta ircam)
-image:_3-common-groups.png[common groups]
+[#classification-table]
+=== A classification table of stem:[P(ZZ_12)]
+
+Voici un inventaire publié dans l'ouvrage collectif "Autour de la Set Theory". Luigi Verdi est l'auteur de cette présentation :
 
 
-.Enumeration (when transposition step = 1, suffixe "-T1" is omitted)
-[cols="2,0,1,1,1,4"]
+_The table [below] shows the 13 different classifications of sets determined by the different definitions of the term "equivalence". The list includes all sets, the empty set, and the so-called trivial cardinalities 1, 2 (and 10, 11), as well as the aggregate. The classification problem posed by trivial cardinalities was widely discussed in the 1950s <<PERLE>>._
+
+[#LVerdi-Table]
+.From "Autour de la Set Theory" (<<LVERDI>>), page 41 (author Luigi Verdi)
+image:tableau-sous-groupes-ircam.png[tableau-sous-groupes-ircam]
+
+//
+// .From https://www.emis.de/journals/SLC/opapers/s26fripert.pdf (Andreatta ircam)
+// image:_3-common-groups.png[common groups]
+
+=== 17 subgroups computed
+
+A calculation was carried out in order to inventory all possible subgroups of our reference group stem:[G] with its 96 operations. This results in 17 subgroups (or 16 + trivial group), listed below.
+
+NOTE: Subgroups naming : When transposition step = 1, suffixe "-T1" is omitted.
+ +
+Example : [M1-T1 M11-T1] => [M1 M11]
+
+
+.Enumeration by cardinality
+[%header,frame=ends,grid=rows, cols="8h,^1,^1,^1,^1,^1,^1,^1,^1,^1,^1,^1,^1,^1,^1s,^1e,^4"]
 |===
-|Group |#Ops| #SubGen|#Orbit|Name|Enum by Card
+.^|SubGroup/Card .^|0 .^|1 .^|2 .^|3 .^|4 .^|5 .^|6 .^|7 .^|8 .^|9 .^|10 .^|11 .^|12 .^|stem:[sum_("orbits")] .^|#Ops .^|name
 
 |[M1-T0]
 |1
-|1
-|4096
-|Trivial
-|1 12 66 220 495 792 924 792 495 220 66 12 1
-
-
-|[M1]
+|12
+|66
+|220
+|495
+|792
+|924
+|792
+|495
+|220
+|66
 |12
 |1
-|352
-|Cyclic
-|1 1 6 19 43 66 80 66 43 19 6 1 1
+|4096
+|1
+|Trivialstem:[""_(ZZ_12)]
+
+|[M1]
+|1
+|1
+|6
+|19
+|43
+|66
+|80
+|66
+|43
+|19
+|6
+|1
+|1
+|352 *
+|12
+|Cyclicstem:[""_(ZZ_12)]
 
 |[M1 M7]
-|24
+|1
+|1
+|5
+|13
+|28
+|40
+|50
+|40
+|28
+|13
+|5
+|1
 |1
 |226
+|24
 |
-|1 1 5 13 28 40 50 40 28 13 5 1 1
-
 
 |[M1 M11]
-|24
 |1
-|224
-|Dihedral
-|1 1 6 12 29 38 50 38 29 12 6 1 1
+|1
+|6
+|12
+|29
+|38
+|50
+|38
+|29
+|12
+|6
+|1
+|1
+|224 *
+|24
+|Dihedralstem:[""_(ZZ_12)]
 
 |[M1 M5]
-|24
+|1
+|1
+|5
+|12
+|28
+|38
+|48
+|38
+|28
+|12
+|5
+|1
 |1
 |218
+|24
 |
-|1 1 5 12 28 38 48 38 28 12 5 1 1
 
 |[M1 CM11]
-|24
 |1
+|1
+|6
+|19
+|43
+|66
+|56
+|(66)
+|(43)
+|(19)
+|(6)
+|(1)
+|(1)
 |192
+|24
 |
-|1 1 6 19 43 66 56
 
 |[M1 CM5]
-|24
 |1
+|1
+|6
+|19
+|43
+|66
+|50
+|(66)
+|(43)
+|(19)
+|(6)
+|(1)
+|(1)
 |186
+|24
 |
-|1 1 6 19 43 66 50
 
 |[M1 CM7]
-|24
 |1
+|1
+|6
+|19
+|43
+|66
+|46
+|(66)
+|(43)
+|(19)
+|(6)
+|(1)
+|(1)
 |182
+|24
 |
-|1 1 6 19 43 66 46
 
 |[M1 CM1]
-|24
 |1
-|180
+|1
+|6
+|19
+|43
+|66
+|44
+|(66)
+|(43)
+|(19)
+|(6)
+|(1)
+|(1)
+|180 *
+|24
 |
-|1 1 6 19 43 66 44
 
 |[M1 M5 M7 M11]
+|1
+|1
+|5
+|9
+|21
+|25
+|34
+|25
+|21
+|9
+|5
+|1
+|1
+|158 *
 |48
-|4
-|158
-|Affine
-|1 1 5 9 21 25 34 25 21 9 5 1 1
+|Affinestem:[""_(ZZ_12)]
 
 |[M1 M7 CM5 CM11]
-|48
-|4
+|1
+|1
+|5
+|13
+|28
+|40
+|38
+|(40)
+|(28)
+|(13)
+|(5)
+|(1)
+|(1)
 |126
+|48
 |
-|1 1 5 13 28 40 38
+
 
 |[M1 M11 CM1 CM11]
-|48
-|4
+|1
+|1
+|6
+|12
+|29
+|38
+|35
+|(38)
+|(29)
+|(12)
+|(6)
+|(1)
+|(1)
 |122
+|48
 |
-|1 1 6 12 29 38 35
 
 |[M1 M11 CM5 CM7]
-|48
-|4
+|1
+|1
+|6
+|12
+|29
+|38
+|33
+|(38)
+|(29)
+|(12)
+|(6)
+|(1)
+|(1)
 |120
+|48
 |
-|1 1 6 12 29 38 33
 
 |[M1 M5 CM7 CM11]
-|48
-|4
+|1
+|1
+|5
+|12
+|28
+|38
+|35
+|(38)
+|(28)
+|(12)
+|(5)
+|(1)
+|(1)
 |120
+|48
 |
-|1 1 5 12 28 38 35
 
 |[M1 M7 CM1 CM7]
-|48
-|4
+|1
+|1
+|5
+|13
+|28
+|40
+|30
+|(40)
+|(28)
+|(13)
+|(5)
+|(1)
+|(1)
 |118
+|48
 |
-|1 1 5 13 28 40 30
 
 |[M1 M5 CM1 CM5]
-|48
-|4
+|1
+|1
+|5
+|12
+|28
+|38
+|31
+|(38)
+|(28)
+|(12)
+|(5)
+|(1)
+|(1)
 |116
+|48
 |
-|1 1 5 12 28 38 31
 
 |[M1 M5 M7 M11 CM1 CM5 CM7 CM11]
+|1
+|1
+|5
+|9
+|21
+|25
+|26
+|(25)
+|(21)
+|(9)
+|(5)
+|(1)
+|(1)
+|88 *
 |96
-|92
-|88
-|(G ext)
-|1 1 5 9 21 25 26
-
+|G = stem:[Aff_cZZ_12]
 |===
 
+Of the 17 subgroups, only 5 are identified by  <<classification-table>>.
 
 
+TODO Lattice of subgroups
 
 TODO Suite...
 
@@ -1663,3 +1871,11 @@ image::pcs_2_3_5_7_8-wb2.png["Modal and cyclic prime form" float="left",align="c
 * [[[Rahn]]] Rahn, John. 1980. Basic Atonal Theory. New York: Longman.
 
 * [[[DIS]]] Stephen C.Brown. Dual Interval Space in Twentieth-Century Music,  Musaic in armature 1-5 is DIS(1,5).
+
+* [[[PERLE]]] Perle, G. 1954. The possible Chords in Twelve Tone Music
+
+* [[[LVERDI]]] Verdi, Luigi. In Autour de la Set Theory. Ircam / Delatour ed. 2003.
+
+* [[[TOPOS]]] Mazzola, Guerino. 2002. The Topos of Music. Birkhauser Verlag AG.
+
+

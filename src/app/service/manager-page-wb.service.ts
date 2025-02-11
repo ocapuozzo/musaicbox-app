@@ -476,6 +476,7 @@ export class ManagerPageWBService {
     this.emit()
   }
 
+
   doToggleShowName(index: number) {
     this.uiPcsDtoList = [...this.uiPcsDtoList]
     let indexes = this.getIndexesTarget(index);
@@ -485,9 +486,32 @@ export class ManagerPageWBService {
 
     indexes.forEach(index => {
       let pcsDto = this.uiPcsDtoList[index]
+      const currentShowPcs = this.uiPcsDtoList[index].showPcs
       this.uiPcsDtoList[index] = new UIPcsDto({
         ...pcsDto,
-        showName: valueShowNames
+        showName: valueShowNames,
+        showPcs: currentShowPcs && valueShowNames ? false : currentShowPcs
+      })
+    })
+
+    this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
+    this.emit()
+  }
+
+  doToggleShowPcs(index: any) {
+    this.uiPcsDtoList = [...this.uiPcsDtoList]
+    let indexes = this.getIndexesTarget(index);
+
+    // work with value of element target event
+    const valueShowPcs = !this.uiPcsDtoList[index].showPcs
+
+    indexes.forEach(index => {
+      let pcsDto = this.uiPcsDtoList[index]
+      const currentShowName = this.uiPcsDtoList[index].showName
+      this.uiPcsDtoList[index] = new UIPcsDto({
+        ...pcsDto,
+        showPcs: valueShowPcs,
+        showName : valueShowPcs && currentShowName ? false : currentShowName
       })
     })
 
@@ -1037,17 +1061,21 @@ export class ManagerPageWBService {
 
   doMakeCyclicOrbit(index: number) {
     const pcs = this.uiPcsDtoList[index].pcs
-    let pcsCyclicList = pcs.cyclicPrimeForm().orbit.ipcsset
+    // let pcsCyclicList = pcs.cyclicPrimeForm().orbit.ipcsset
 
-    // let pcsCyclicList = [pcs]
-    // no get from orbit cyclic because no sorted, and pivot no logic
-    // for (let i = 1; i < pcs.n; i++) {
-    //   pcsCyclicList.push(pcs.transposition(i))
-    // }
+    let pcsCyclicList = [pcs]
+    // no get from orbit cyclic because pivot not always logically set
+    for (let i = 1; i < pcs.n; i++) {
+      let nextPcs = pcs.transposition(i)
+      // be careful with limited transposition
+      if ( ! pcsCyclicList.find((pcs) => pcs.id === nextPcs.id )) {
+        pcsCyclicList.push(nextPcs)
+      }
+    }
 
     let pcsDtoForTemplate =
       new UIPcsDto({...this.uiPcsDtoList[index],
-        uiClock : {...this.uiPcsDtoList[index].uiClock, drawPivot: false}
+        uiClock : {...this.uiPcsDtoList[index].uiClock /*, drawPivot: false*/}
       })
     pcsDtoForTemplate.uiClock.drawPivot = false
     this.addPcs({somePcs: pcsCyclicList, circularAlign: true, indexCenterElement: index, templateDto:pcsDtoForTemplate})
@@ -1113,6 +1141,7 @@ export class ManagerPageWBService {
       this.addPcs({somePcs: [newPcs]})
     }
   }
+
 
 
 }

@@ -620,7 +620,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ul>
 </li>
 <li><a href="#_case_study_cyclic_group">Case study (cyclic group)</a></li>
-<li><a href="#_inventory_of_subgroups">inventory of subgroups</a></li>
+<li><a href="#_inventory_of_subgroups">inventory of subgroups</a>
+<ul class="sectlevel2">
+<li><a href="#classification-table">A classification table of \$P(ZZ_12)\$</a></li>
+<li><a href="#_17_subgroups_computed">17 subgroups computed</a></li>
+</ul>
+</li>
 <li><a href="#_appendix">Appendix</a>
 <ul class="sectlevel2">
 <li><a href="#_order_relation">Order relation</a>
@@ -1168,7 +1173,7 @@ We can clearly see the use of the name of Pitch Class \$bar i\$ as an index \$i\
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">PCS</th>
+<th class="tableblock halign-center valign-top">PCS</th>
 <th class="tableblock halign-left valign-top">1</th>
 <th class="tableblock halign-left valign-top">2</th>
 <th class="tableblock halign-left valign-top">4</th>
@@ -1186,7 +1191,7 @@ We can clearly see the use of the name of Pitch Class \$bar i\$ as an index \$i\
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[0,4,7]</p></td>
+<th class="tableblock halign-center valign-top"><p class="tableblock">[0,4,7]</p></th>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>1</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
@@ -1202,7 +1207,7 @@ We can clearly see the use of the name of Pitch Class \$bar i\$ as an index \$i\
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>pid</em></p></td>
+<th class="tableblock halign-center valign-top"><p class="tableblock"><em>pid</em></p></th>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>1</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
@@ -1218,7 +1223,7 @@ We can clearly see the use of the name of Pitch Class \$bar i\$ as an index \$i\
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>145</em></strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"></td>
+<th class="tableblock halign-center valign-top"></th>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"></td>
@@ -1234,7 +1239,7 @@ We can clearly see the use of the name of Pitch Class \$bar i\$ as an index \$i\
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[0,3,7]</p></td>
+<th class="tableblock halign-center valign-top"><p class="tableblock">[0,3,7]</p></th>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>1</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
@@ -1250,7 +1255,7 @@ We can clearly see the use of the name of Pitch Class \$bar i\$ as an index \$i\
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>pid</em></p></td>
+<th class="tableblock halign-center valign-top"><p class="tableblock"><em>pid</em></p></th>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>1</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
@@ -2861,173 +2866,417 @@ The four generators are <code>M1-T1</code>, <code>M1-T5</code>, <code>M1-T7</cod
 </ul>
 </div>
 <div class="paragraph">
-<p>TODO : donner ici un exemple d&#8217;inventaire avec ref (ircam)</p>
+<p>La classification des pcs permet d&#8217;implémenter des relations d&#8217;équivalence, au-delà de la très connue "à une transposition près".</p>
+</div>
+<div class="sect2">
+<h3 id="classification-table">A classification table of \$P(ZZ_12)\$</h3>
+<div class="paragraph">
+<p>Voici un inventaire publié dans l&#8217;ouvrage collectif "Autour de la Set Theory". Luigi Verdi est l&#8217;auteur de cette présentation :</p>
 </div>
 <div class="paragraph">
-<div class="title">From <a href="https://www.emis.de/journals/SLC/opapers/s26fripert.pdf" class="bare">https://www.emis.de/journals/SLC/opapers/s26fripert.pdf</a> (Andreatta ircam)</div>
-<p><span class="image"><img src="./assets/images/_3-common-groups.png" alt="common groups"></span></p>
+<p><em>The table [below] shows the 13 different classifications of sets determined by the different definitions of the term "equivalence". The list includes all sets, the empty set, and the so-called trivial cardinalities 1, 2 (and 10, 11), as well as the aggregate. The classification problem posed by trivial cardinalities was widely discussed in the 1950s <a href="#PERLE">[PERLE]</a>.</em></p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 6. Enumeration (when transposition step = 1, suffixe "-T1" is omitted)</caption>
+<div id="LVerdi-Table" class="paragraph">
+<div class="title">From "Autour de la Set Theory" (<a href="#LVERDI">[LVERDI]</a>), page 41 (author Luigi Verdi)</div>
+<p><span class="image"><img src="./assets/images/tableau-sous-groupes-ircam.png" alt="tableau-sous-groupes-ircam"></span></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_17_subgroups_computed">17 subgroups computed</h3>
+<div class="paragraph">
+<p>A calculation was carried out in order to inventory all possible subgroups of our reference group \$G\$ with its 96 operations. This results in 17 subgroups (or 16 + trivial group), listed below.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Subgroups naming : When transposition step = 1, suffixe "-T1" is omitted.
+<br>
+Example : [M1-T1 M11-T1] &#8658; [M1 M11]
+</td>
+</tr>
+</table>
+</div>
+<table class="tableblock frame-ends grid-rows stretch">
+<caption class="title">Table 6. Enumeration by cardinality</caption>
 <colgroup>
-<col style="width: 22.2222%;">
-<col style="width: 0%;">
-<col style="width: 11.1111%;">
-<col style="width: 11.1111%;">
-<col style="width: 11.1111%;">
-<col style="width: 44.4445%;">
+<col style="width: 29.6296%;">
+<col style="width: 3.7037%;">
+<col style="width: 3.7037%;">
+<col style="width: 3.7037%;">
+<col style="width: 3.7037%;">
+<col style="width: 3.7037%;">
+<col style="width: 3.7037%;">
+<col style="width: 3.7037%;">
+<col style="width: 3.7037%;">
+<col style="width: 3.7037%;">
+<col style="width: 3.7037%;">
+<col style="width: 3.7037%;">
+<col style="width: 3.7037%;">
+<col style="width: 3.7037%;">
+<col style="width: 3.7037%;">
+<col style="width: 3.7037%;">
+<col style="width: 14.8149%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Group</th>
-<th class="tableblock halign-left valign-top">#Ops</th>
-<th class="tableblock halign-left valign-top">#SubGen</th>
-<th class="tableblock halign-left valign-top">#Orbit</th>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Enum by Card</th>
+<th class="tableblock halign-left valign-middle">SubGroup/Card</th>
+<th class="tableblock halign-center valign-middle">0</th>
+<th class="tableblock halign-center valign-middle">1</th>
+<th class="tableblock halign-center valign-middle">2</th>
+<th class="tableblock halign-center valign-middle">3</th>
+<th class="tableblock halign-center valign-middle">4</th>
+<th class="tableblock halign-center valign-middle">5</th>
+<th class="tableblock halign-center valign-middle">6</th>
+<th class="tableblock halign-center valign-middle">7</th>
+<th class="tableblock halign-center valign-middle">8</th>
+<th class="tableblock halign-center valign-middle">9</th>
+<th class="tableblock halign-center valign-middle">10</th>
+<th class="tableblock halign-center valign-middle">11</th>
+<th class="tableblock halign-center valign-middle">12</th>
+<th class="tableblock halign-center valign-middle">\$sum_("orbits")\$</th>
+<th class="tableblock halign-center valign-middle">#Ops</th>
+<th class="tableblock halign-center valign-middle">name</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[M1-T0]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4096</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Trivial</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1 12 66 220 495 792 924 792 495 220 66 12 1</p></td>
+<th class="tableblock halign-left valign-top"><p class="tableblock">[M1-T0]</p></th>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">12</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">66</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">220</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">495</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">792</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">924</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">792</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">495</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">220</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">66</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">12</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>4096</strong></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><em>1</em></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Trivial\$""_(ZZ_12)\$</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[M1]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">12</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">352</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cyclic</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1 1 6 19 43 66 80 66 43 19 6 1 1</p></td>
+<th class="tableblock halign-left valign-top"><p class="tableblock">[M1]</p></th>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">19</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">43</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">66</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">80</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">66</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">43</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">19</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>352 *</strong></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><em>12</em></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Cyclic\$""_(ZZ_12)\$</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[M1 M7]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">24</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">226</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1 1 5 13 28 40 50 40 28 13 5 1 1</p></td>
+<th class="tableblock halign-left valign-top"><p class="tableblock">[M1 M7]</p></th>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">13</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">28</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">40</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">50</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">40</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">28</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">13</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>226</strong></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><em>24</em></p></td>
+<td class="tableblock halign-center valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[M1 M11]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">24</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">224</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Dihedral</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1 1 6 12 29 38 50 38 29 12 6 1 1</p></td>
+<th class="tableblock halign-left valign-top"><p class="tableblock">[M1 M11]</p></th>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">12</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">29</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">38</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">50</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">38</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">29</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">12</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>224 *</strong></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><em>24</em></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Dihedral\$""_(ZZ_12)\$</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[M1 M5]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">24</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">218</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1 1 5 12 28 38 48 38 28 12 5 1 1</p></td>
+<th class="tableblock halign-left valign-top"><p class="tableblock">[M1 M5]</p></th>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">12</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">28</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">38</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">48</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">38</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">28</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">12</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>218</strong></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><em>24</em></p></td>
+<td class="tableblock halign-center valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[M1 CM11]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">24</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">192</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1 1 6 19 43 66 56</p></td>
+<th class="tableblock halign-left valign-top"><p class="tableblock">[M1 CM11]</p></th>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">19</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">43</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">66</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">56</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(66)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(43)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(19)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(6)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(1)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(1)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>192</strong></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><em>24</em></p></td>
+<td class="tableblock halign-center valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[M1 CM5]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">24</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">186</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1 1 6 19 43 66 50</p></td>
+<th class="tableblock halign-left valign-top"><p class="tableblock">[M1 CM5]</p></th>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">19</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">43</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">66</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">50</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(66)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(43)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(19)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(6)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(1)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(1)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>186</strong></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><em>24</em></p></td>
+<td class="tableblock halign-center valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[M1 CM7]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">24</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">182</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1 1 6 19 43 66 46</p></td>
+<th class="tableblock halign-left valign-top"><p class="tableblock">[M1 CM7]</p></th>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">19</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">43</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">66</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">46</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(66)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(43)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(19)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(6)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(1)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(1)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>182</strong></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><em>24</em></p></td>
+<td class="tableblock halign-center valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[M1 CM1]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">24</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">180</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1 1 6 19 43 66 44</p></td>
+<th class="tableblock halign-left valign-top"><p class="tableblock">[M1 CM1]</p></th>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">19</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">43</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">66</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">44</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(66)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(43)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(19)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(6)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(1)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(1)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>180 *</strong></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><em>24</em></p></td>
+<td class="tableblock halign-center valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[M1 M5 M7 M11]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">48</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">158</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Affine</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1 1 5 9 21 25 34 25 21 9 5 1 1</p></td>
+<th class="tableblock halign-left valign-top"><p class="tableblock">[M1 M5 M7 M11]</p></th>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">9</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">21</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">25</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">34</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">25</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">21</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">9</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>158 *</strong></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><em>48</em></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Affine\$""_(ZZ_12)\$</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[M1 M7 CM5 CM11]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">48</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">126</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1 1 5 13 28 40 38</p></td>
+<th class="tableblock halign-left valign-top"><p class="tableblock">[M1 M7 CM5 CM11]</p></th>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">13</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">28</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">40</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">38</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(40)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(28)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(13)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(5)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(1)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(1)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>126</strong></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><em>48</em></p></td>
+<td class="tableblock halign-center valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[M1 M11 CM1 CM11]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">48</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">122</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1 1 6 12 29 38 35</p></td>
+<th class="tableblock halign-left valign-top"><p class="tableblock">[M1 M11 CM1 CM11]</p></th>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">12</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">29</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">38</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">35</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(38)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(29)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(12)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(6)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(1)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(1)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>122</strong></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><em>48</em></p></td>
+<td class="tableblock halign-center valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[M1 M11 CM5 CM7]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">48</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">120</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1 1 6 12 29 38 33</p></td>
+<th class="tableblock halign-left valign-top"><p class="tableblock">[M1 M11 CM5 CM7]</p></th>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">12</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">29</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">38</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">33</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(38)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(29)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(12)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(6)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(1)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(1)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>120</strong></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><em>48</em></p></td>
+<td class="tableblock halign-center valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[M1 M5 CM7 CM11]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">48</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">120</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1 1 5 12 28 38 35</p></td>
+<th class="tableblock halign-left valign-top"><p class="tableblock">[M1 M5 CM7 CM11]</p></th>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">12</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">28</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">38</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">35</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(38)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(28)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(12)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(5)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(1)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(1)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>120</strong></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><em>48</em></p></td>
+<td class="tableblock halign-center valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[M1 M7 CM1 CM7]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">48</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">118</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1 1 5 13 28 40 30</p></td>
+<th class="tableblock halign-left valign-top"><p class="tableblock">[M1 M7 CM1 CM7]</p></th>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">13</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">28</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">40</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">30</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(40)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(28)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(13)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(5)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(1)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(1)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>118</strong></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><em>48</em></p></td>
+<td class="tableblock halign-center valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[M1 M5 CM1 CM5]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">48</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">116</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1 1 5 12 28 38 31</p></td>
+<th class="tableblock halign-left valign-top"><p class="tableblock">[M1 M5 CM1 CM5]</p></th>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">12</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">28</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">38</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">31</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(38)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(28)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(12)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(5)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(1)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(1)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>116</strong></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><em>48</em></p></td>
+<td class="tableblock halign-center valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[M1 M5 M7 M11 CM1 CM5 CM7 CM11]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">96</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">92</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">88</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Musaic (proposition)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1 1 5 9 21 25 26</p></td>
+<th class="tableblock halign-left valign-top"><p class="tableblock">[M1 M5 M7 M11 CM1 CM5 CM7 CM11]</p></th>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">9</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">21</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">25</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">26</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(25)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(21)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(9)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(5)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(1)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">(1)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><strong>88 *</strong></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><em>96</em></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">G = \$Aff_cZZ_12\$</p></td>
 </tr>
 </tbody>
 </table>
 <div class="paragraph">
+<p>Of the 17 subgroups, only 5 are identified by  <a href="#classification-table">A classification table of \$P(ZZ_12)\$</a>.</p>
+</div>
+<div class="paragraph">
+<p>TODO Lattice of subgroups</p>
+</div>
+<div class="paragraph">
 <p>TODO Suite&#8230;&#8203;</p>
+</div>
 </div>
 </div>
 </div>
@@ -3427,6 +3676,15 @@ Modal prime form concept is invented, specific to this project.
 <li>
 <p><a id="DIS"></a>[DIS] Stephen C.Brown. Dual Interval Space in Twentieth-Century Music,  Musaic in armature 1-5 is DIS(1,5).</p>
 </li>
+<li>
+<p><a id="PERLE"></a>[PERLE] Perle, G. 1954. The possible Chords in Twelve Tone Music</p>
+</li>
+<li>
+<p><a id="LVERDI"></a>[LVERDI] Verdi, Luigi. In Autour de la Set Theory. Ircam / Delatour ed. 2003.</p>
+</li>
+<li>
+<p><a id="TOPOS"></a>[TOPOS] Mazzola, Guerino. 2002. The Topos of Music. Birkhauser Verlag AG.</p>
+</li>
 </ul>
 </div>
 </div>
@@ -3449,7 +3707,7 @@ Modal prime form concept is invented, specific to this project.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-02-09 22:37:39 +0100
+Last updated 2025-02-10 15:37:54 +0100
 </div>
 </div>
 <script type="text/x-mathjax-config">

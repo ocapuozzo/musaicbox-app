@@ -650,6 +650,14 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     return this.pcsDtoList[index].showName
   }
 
+  doToggleShowPcs(index: any) {
+    this.managerPageWBService.doToggleShowPcs(index)
+  }
+
+  isShowPcs(index: any) {
+    return this.pcsDtoList[index].showPcs;
+  }
+
   doDuplicateInAllViews(index: number) {
     this.managerPageWBService.doDuplicateInAllViews(index)
   }
@@ -882,4 +890,6 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     }
     return this.pcsDtoList[index].uiClock.drawPivot;
   }
+
+
 }
