@@ -1181,15 +1181,14 @@ Some common and remarkable subgroups and one subgroup generator selected:
 - Affine subgroup : `M5-T1, M7-T1` (158 orbits)
 - G extended affine group : `M5-T1, M7-T1, CM1-T1` (88 orbits)
 
-La classification des pcs permet d'implémenter des relations d'équivalence, au-delà de la très connue "à une transposition près".
+The classification of pcs allows the implementation multiple equivalence relations, beyond the well-known "up to one transposition".
 
 [#classification-table]
 === A classification table of stem:[P(ZZ_12)]
 
-Voici un inventaire publié dans l'ouvrage collectif "Autour de la Set Theory". Luigi Verdi est l'auteur de cette présentation :
+Here is an inventory published in the collective work "Autour de la Set Theory".
 
-
-_The table [below] shows the 13 different classifications of sets determined by the different definitions of the term "equivalence". The list includes all sets, the empty set, and the so-called trivial cardinalities 1, 2 (and 10, 11), as well as the aggregate. The classification problem posed by trivial cardinalities was widely discussed in the 1950s <<PERLE>>._
+_"The table [below] shows the 13 different classifications of sets determined by the different definitions of the term "equivalence". The list includes all sets, the empty set, and the so-called trivial cardinalities 1, 2 (and 10, 11), as well as the aggregate. The classification problem posed by trivial cardinalities was widely discussed in the 1950s <<PERLE>>" ( source : <<LVERDI>>)._
 
 [#LVerdi-Table]
 .From "Autour de la Set Theory" (<<LVERDI>>), page 41 (author Luigi Verdi)
@@ -1201,7 +1200,7 @@ image:tableau-sous-groupes-ircam.png[tableau-sous-groupes-ircam]
 
 === 17 subgroups computed
 
-A calculation was carried out in order to inventory all possible subgroups of our reference group stem:[G] with its 96 operations. This results in 17 subgroups (or 16 + trivial group), listed below.
+A calculation was carried out in order to inventory all possible subgroups of our reference group stem:[G] with its 96 operations. This results in 16+1 subgroups (+ 1 for trivial group), listed below.
 
 NOTE: Subgroups naming : When transposition step = 1, suffixe "-T1" is omitted.
  +
@@ -1521,10 +1520,14 @@ Example : [M1-T1 M11-T1] => [M1 M11]
 |G = stem:[Aff_cZZ_12]
 |===
 
-Of the 17 subgroups, only 5 are identified by  <<classification-table>>.
+Only 5 are identified out of the 13 classifications in the table : <<LVerdi-Table>>.
 
+Other view, the lattice of subgroups, identified by their cardinality.
 
-TODO Lattice of subgroups
+.Subgroups lattice - prefix "M" and "M1" are omitted (M1 CM11 => C11) (J-Y. Fusil - 2009)
+image::lattice-subgroups12.png[lattice-subgroups12]
+
+NOTE: Note the central vertical axis on which 4 of its 5 known subgroups are inscribed.
 
 TODO Suite...
 
@@ -1537,7 +1540,7 @@ It would be useful to be able to sort the pcs among themselves. To do this, we n
 // stem:[ ∀ x, y ∈ P(E), ( "id"(x) ≤ "id"(y) and "id"(y) ≤ "id"(x) ) => x = y ]
 
 //see syntax https://asciimath.org/
-stem:[ AA A, B in P(E), ( "id"(A) <= "id"(B) and "id"(B) <= "id"(A) ) => A = B ]
+stem:[ AA A, B in P(E)", " \   "id"(A) <= "id"(B) and "id"(B) <= "id"(A)  => A = B ]
 
 In others all, if two PCS have same identity value, then we are dealing with the same PCS.
 
@@ -1553,6 +1556,9 @@ To implement order relation, we use integer representation, to go through the or
 ==== Polynomial function pid()
 
 Polynomial function (_pid_) is a good candidate for sorting the PCS among themselves.
+
+stem:["pid("pcs")" = sum_(i=0)^(n-1) ""pcs""_"v[i\]" 2^i ] {nbsp} _(exploits the vector representation of a PCS - see PCS representation <<Integer>>)_
+
 
 However, there remains a bias.
 
@@ -1611,9 +1617,25 @@ stem:["id("v")" = "pid"_A + w_A = sum_(i=0)^(n-1) v_i 2^i + 2^n * sum_(i=0)^(n-1
 Since there exists a function (toVector) which gives the vector image of any PCS, we can also define function _id_ with this domain of definition  stem:["id" : P(ZZ_12) -> N]
 
 Total order relation is definitely implemented by id function :
-stem:[forall (pcsA, pcsB) in P(Z_n)^2, id(pcsA) <= id(pcsB) and id(pcsB) <= id(pcsA) => pcsA = pcsB]
+stem:[forall (pcsA, pcsB) in P(Z_n)^2, "id"(pcsA) <= "id"(pcsB) and "id"(pcsB) <= "id"(pcsA) => pcsA = pcsB]
 
 ====
+
+The lower bound is stem:[0] obtained for the vector stem:[[0, 0, ... ,0\]]
+
+The upper bound is stem:[2^n -1 + n2^n = 2^n(n+1)-1], for stem:[n=12], we obtain the vector stem:[[1, 1, ... ,1\]] and value stem:[53247].
+
+An order relation on P(Zn) can be established, which is based on the order relation of natural numbers:
+
+stem:[AA (A, B) in P(ZZ_n)^2 \ \ A <= B <=> "id"(A) <= "id"(B)]
+
+Some properties :
+
+stem:[AA (A, B) in P(ZZ_n)^2 \ \ A <= B and B <= A => "id"(A) = "id"(B)] {nbsp} so stem:[A = B] {nbsp} (_total order_)
+
+stem:[AA (A, B) in P(ZZ_n)^2 \ \ A sube B => id(A) <= id(B) ] {nbsp} (_inclusion compatible_, note : inverse is not true).
+
+stem:[forall (A, B) in P(ZZ_n)^2, |A| <= |B| <=> id(A) <= id(B)] {nbsp} (_cardinality compatible_)
 
 [%header]
 .Example Compare with Augmented Polynomial Identifier (id)
@@ -1627,16 +1649,6 @@ stem:[forall (pcsA, pcsB) in P(Z_n)^2, id(pcsA) <= id(pcsB) and id(pcsB) <= id(p
 
 NOTE: In MusaicBox code, Augmented Polynomial Identifier is called _id_, and _pid_ is kept because is commonly used.
 
-The lower bound is stem:[0] obtained for the vector stem:[(0, 0, ... ,0)]
-
-The upper bound is stem:[2^n -1 + n2^n = 2^n(n+1)-1], or stem:[53247], for stem:[n=12], obtained by the vector stem:[(1, 1, ... ,1)].
-
-An order relation on P(Zn) can be established, which is based on the order relation of natural numbers:
-
-stem:[AA (A, B) in P(ZZ_n)^2 \ \ A <= B <=> "id"(A) <= "id"(B)]
-
-This relation is total order, i.e. we have either stem:[A <= B] or stem:[A <= B], and, moreover stem:[AA (A, B) in P(ZZ_n)^2 \ \ A sube B => id(A) <= id(B) ] (note : inverse is not true).
-
 ==== Application example
 
 Example of application of the id function on a finite set: stem:[E = { "do, "mi", sol" }]
@@ -1648,8 +1660,13 @@ The set of subsets of E is :
 stem:[P(E) = { O/, {do},{mi},{sol},{do,mi},{do,sol},{mi,sol}, E }]
 --
 
-The figure below, presents (thin black arrow) the set inclusion relation, for example stem:[{do} sube {do, mi}], in minimal coverage, that is to say without transitivities, (for example the relation stem:[{do} sube {do, mi, sol}] is not arrowed - it is a lattice). The total order relation is represented by the black arrow *and* the red arrow (thick), it is the minimal coverage of the relation defined by the id function. Example: stem:[{do} < {mi} < {sol}].
+The figure below, presents (thin black arrow) the set inclusion relation, for example stem:[{do} sube {do, mi}], in minimal coverage, that is to say without transitivities, (for example the relation stem:[{do} sube {do, mi, sol}] is not arrowed - it is a lattice).
 
+The *total order relation* is represented by the black arrow *and* the red arrow.
+
+It is the minimal coverage of the relation defined by the _id_ function. Example: stem:[{do} < {mi} < {sol}].
+
+.Minimal coverage of the relation id in lattice
 image:relationOrdreTreilliV3.png[total order relation]
 
 ////

@@ -70,9 +70,14 @@ export class UiMusaicComponent {
   @HostListener('window:resize', ['event'])
   onResize(event : any) {
     // console.log("onResize = ", window.innerWidth)
-    if (this.containerCanvas) this.drawsMusaic(this.optionDrawPitchIndex)
+    if (this.containerCanvas) {
+      setTimeout(() =>
+          this.drawsMusaic(this.optionDrawPitchIndex),
+          100
+      )
+    }
   }
-
+  
 
   ngAfterViewInit() {
     // @ts-ignore

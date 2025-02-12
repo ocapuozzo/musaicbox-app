@@ -98,11 +98,16 @@ export class UiClockComponent {
   ngOnInit() {
   }
 
-  @HostListener('window:resize', ['$event.target.innerWidth'])
-  onResize(width: number) {
-    // console.log("resize")
-    this.doUpdateGraphics()
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    // console.log("onResize2")
+    setTimeout(() =>
+      this.drawClock(),
+      100
+    )
   }
+
 
   doUpdateGraphics() {
     this.updateGraphicContext()

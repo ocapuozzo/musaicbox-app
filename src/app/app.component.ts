@@ -7,7 +7,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {BooleanInput} from '@angular/cdk/coercion';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
-import {faCat, faCoffee, faGuitar, IconDefinition} from '@fortawesome/free-solid-svg-icons';
+import {faGuitar} from '@fortawesome/free-solid-svg-icons';
 import {faGithub} from '@fortawesome/free-brands-svg-icons';
 import {FormBuilder, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {IPcs} from "./core/IPcs";
@@ -35,8 +35,6 @@ export class AppComponent {
   title = 'MusaicApp';
   mdcBackdrop: BooleanInput = false;
   drawerMode: MatDrawerMode = "push";
-  faCoffee = faCoffee;
-  faCat: IconDefinition = faCat
   faGuitar = faGuitar
   faGithub = faGithub
 
