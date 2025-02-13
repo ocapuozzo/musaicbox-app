@@ -1189,7 +1189,7 @@ Some common and remarkable subgroups and one subgroup generator selected:
 The classification of pcs allows the implementation multiple equivalence relations, beyond the well-known "up to one transposition".
 
 [#classification-table]
-=== A classification table of stem:[P(ZZ_12)]
+=== A classification table of P(Z~12~)
 
 Here is an inventory published in the collective work "Autour de la Set Theory".
 
@@ -1528,7 +1528,7 @@ Example : [M1-T1 M11-T1] => [M1 M11]
 
 Only 5 are identified out of the 13 classifications in the table : <<LVerdi-Table>>.
 
-Other view, the lattice of subgroups, identified by their cardinality.
+Other view, the lattice of subgroups, without trivial group, identified by their cardinality.
 
 .Subgroups lattice - prefix "M" and "M1" are omitted (M1 CM11 => C11) (J-Y. Fusil - 2009)
 image::lattice-subgroups12.png[lattice-subgroups12]
@@ -1536,6 +1536,9 @@ image::lattice-subgroups12.png[lattice-subgroups12]
 NOTE: Note the central vertical axis on which 4 of its 5 known subgroups are inscribed.
 
 TODO Suite...
+
+== Meta-Stabilizer
+
 
 == Appendix
 

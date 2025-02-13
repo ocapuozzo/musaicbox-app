@@ -230,17 +230,29 @@ export class Orbit {
     for (let i = 0; i < nameOpsWithoutT.length; i++) {
       let nameOpWithoutT = nameOpsWithoutT[i]
       let shortName = ''
-      if (cmt.get(nameOpWithoutT)!.length > 1) {
-        cmt.get(nameOpWithoutT)?.sort((a, b) => a - b)
-        // cmt.get(nameOpWithoutT)?.forEach(a => console.log(a + ''))
-        let step = cmt.get(nameOpWithoutT)![1] - cmt.get(nameOpWithoutT)![0]
-        shortName = nameOpWithoutT + "-T" + cmt.get(nameOpWithoutT)![0] + "~" + step + "*";
-        // when shortName is defined, delete entry
-        cmt.delete(nameOpWithoutT)
 
-        res = (res.length > 1) ? res + ' ' + shortName : shortName
+      // Pcs [0,1,4,7,8] in orbit. Group : n=12 [M1 M11]  Orbit cardinal : 12
+      //  Orbit name (stabilizers signature) : M1-T0 M11-T0~4* M11-T6
+      //
+      // Pcs [0,2,4,6,8] in orbit. Group : n=12 [M1 M11]  Orbit cardinal : 12
+      // Orbit name (stabilizers signature) : M1-T0 M11-T0~4*
+      // Hence the loop... 
+      for (let loop = 0; loop < 2 ; loop++) {
+        if (cmt.get(nameOpWithoutT)!.length > 1) {
+          cmt.get(nameOpWithoutT)?.sort((a, b) => a - b)
+          // cmt.get(nameOpWithoutT)?.forEach(a => console.log(a + ''))
+          let step = cmt.get(nameOpWithoutT)![1] - cmt.get(nameOpWithoutT)![0]
+          shortName = nameOpWithoutT + "-T" + cmt.get(nameOpWithoutT)![0] + "~" + step + "*";
+          // when shortName is defined, delete entry
+          let firstStep = cmt.get(nameOpWithoutT)![0]
+          let steps = cmt.get(nameOpWithoutT)!
+          // "delete" multiple of step
+          steps = steps?.filter(k => (k-firstStep) % step !== 0)
+          cmt.set(nameOpWithoutT, steps)
+
+          res = (res.length > 1) ? res + ' ' + shortName : shortName
+        }
       }
-
       // 4: put -Tx only if a (mt is maybe reduce by preview phase 3)
       let the_as = cmt.get(nameOpWithoutT) ?? []
       for (let j = 0; j < the_as.length; j++) {
@@ -272,10 +284,11 @@ export class Orbit {
   buildNameAndMotifStabilizerName(): MotifStabilizer {
     const stabSignature = this.buildStabilizersSignatureName() // set this.name
     // take left part of "M1-T0 CM11-Tx~m" => "M1 CM11"
-    // note : there are no 2 CM11-Tx CM11-Ty in a same stabilizer
-    const signatureWithoutTranslation =
-      stabSignature.split(" ").map(op=> op.trim().split("-")[0]).join(" ");
-    return this.motifStabilizer = new MotifStabilizer(signatureWithoutTranslation)
+
+    const signatureWithoutTranslation =  stabSignature.split(" ").map(op=> op.trim().split("-")[0]);
+
+    // with delete duplicate values via Set
+    return this.motifStabilizer = new MotifStabilizer([... new Set(signatureWithoutTranslation)].join(" "))
   }
 
   /**
