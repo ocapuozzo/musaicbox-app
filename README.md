@@ -24,7 +24,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 Go to [this Github Page App from this project](https://ocapuozzo.github.io/musaicbox-app/)
 
-Analysis : [documentation](./analyse/documentation/Musaicbox.html)
+Analysis : [documentation](https://htmlpreview.github.io/?https://github.com/ocapuozzo/musaicbox-app/blob/main/analyse/documentation/Musaicbox.html)
 
 ## Development server
 
