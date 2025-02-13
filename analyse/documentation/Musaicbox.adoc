@@ -817,9 +817,9 @@ The complementarity operation is also the object of great attention in musical s
 
 === Discovering operations of G
 
-The composition function stem:[@] allows us to determine all instances of MusaicOperation (stem:[C_cM_aT_k]). For this we will use the algorithmic structure of Cayley table.
+The composition function stem:[@] allows us to determine all instances of MusaicOperation (stem:[C_cM_aT_k]) whe stem:[G] acts on stem:[P(ZZ_12)]. For this we will use the algorithmic structure of Cayley table.
 
-To begin with, we can focus on a few operations that will allow us to generate all possible transformation operations in T0 (stem:[C_cM_aT_0]). Several configurations of generating operations are possible, all of which lead to the same result. For now, we will arbitrarily take :  *{M1-T0, CM1-T0, M5-T0, M7-T0}*, without transposition (step = 0).
+To begin with, we can focus on a few operations that will allow us to generate all possible transformation operations in stem:["T0"], i.e. stem:[C_cM_aT_0]. Several configurations of generating operations are possible, all of which lead to the same result. For now, we will arbitrarily take :  *{M1-T0, CM1-T0, M5-T0, M7-T0}*.
 
 [cols="^h,,,,"]
 .First step to discover operations
@@ -1037,13 +1037,14 @@ Cardinality of an orbit stem:[G.A] is given by cardinality of group stem:[G] div
 
 stem:[|G"⋅"A| = (|G|) / (|G_A|)]
 
-Knowing cardinality of one orbit (stem:[|G.A|]), we can calculate the number its stabilizers stem:[|G_A| = (|G|) / (|G"⋅"A|)].
+Knowing cardinality of one orbit (stem:[|G"⋅"A|]), we can calculate the number of its stabilizers stem:[|G_A| = (|G|) / (|G"⋅"A|)].
 
 from the 3 examples given previously :
 
 * whole tone scales has 96/2 = 48 stabilizers
-* major diatonic scale has 96/48 = 2 stabilizers
+* major diatonic scale has 96/48 = 2 stabilizers :
 * diminished 7th has 96/6 = 16 stabilizers
+
 
 === Equivalence relation
 
@@ -1115,7 +1116,7 @@ Therefore, all pcs in orbit of stem:[H] are equivalent, _up to transposition_.
 
 A such group stem:[H] is called *Cyclic group*.
 
-When orbit cyclic actes under stem:[P(ZZ_12)], its generate *352 cyclic orbits*. Each of these orbits represents a unique harmonic structure. Example Major triad, Minor triad, Diatonic Major, etc.
+When orbit cyclic actes on stem:[P(ZZ_12)], its generate *352 orbits*. Each of these orbits represents a unique harmonic structure. Example Major triad, Minor triad, Diatonic Major, etc.
 
 NOTE: We have thus reduced the field of study from 4096 to 352 elements !
 
@@ -1129,7 +1130,11 @@ The cyclic prime form of [0,4,7] is ... [0,4,7] itself, as well as cyclic prime 
 
 image:_047_cyclic_motif.png[]
 
-Of the 352 orbits, 335 are composed of 12 elements, having only one stabilizer M1-T0, and 17 very particular ones represent the structures with "limited transpositions", having more than one stabilizer.
+
+Orbite stem:[H"⋅"[0 4 7\]] has 12 elements. Its number of stabilizers is stem:[|H_([0 4 7\])| = (|H|) / (|H"⋅"[0 4 7\]|)], so stem:[12/12 = 1]. It is stem:["M1-T0"]
+
+
+Of the 352 orbits, 335 are composed of 12 elements, having only one stabilizer, stem:["M1-T0"], and 17 very particular ones represent the structures with "limited transpositions", having more than one stabilizer.
 
 TIP: You can already explore the cyclic group in the musaicbox application: go to the "Zn Explorer" tab and select M1 (meaning M1-T1) as operation and click on the "Show 352 orbits grouped by stabilizers" button.
  +
@@ -1153,7 +1158,7 @@ Check this result by orbit-stabilizer theorem : stem:[|G"⋅"A| = (|G|) / (|G_A|
 - Cardinality of cyclic group : 12 (number of operations in group)
 - Cardinality of stabilizers : 3 (number of operations that fix pcs of the orbit)
 
-We have stem:[4 = 12/3], it's OK !
+We have stem:[|G"⋅"A| = (|G|) / (|G_A|) => 4 = 12/3], it's OK !
 
 It's time to take inventory of G subgroups.
 
@@ -1202,10 +1207,11 @@ image:tableau-sous-groupes-ircam.png[tableau-sous-groupes-ircam]
 
 A calculation was carried out in order to inventory all possible subgroups of our reference group stem:[G] with its 96 operations. This results in 16+1 subgroups (+ 1 for trivial group), listed below.
 
-NOTE: Subgroups naming : When transposition step = 1, suffixe "-T1" is omitted.
+NOTE: Suffixe -T1 is to be sure to inject the neutral operation (M1-T0) into the group.
+ +
+ As any subgroup includes the neutral operation in its elements, suffixe "-T1", being implied, is omitted.
  +
 Example : [M1-T1 M11-T1] => [M1 M11]
-
 
 .Enumeration by cardinality
 [%header,frame=ends,grid=rows, cols="8h,^1,^1,^1,^1,^1,^1,^1,^1,^1,^1,^1,^1,^1,^1s,^1e,^4"]

@@ -2103,10 +2103,10 @@ Extended Affine Operation is called <em>MusaicOperation</em> into MusaicBox proj
 <div class="sect2">
 <h3 id="_discovering_operations_of_g">Discovering operations of G</h3>
 <div class="paragraph">
-<p>The composition function \$@\$ allows us to determine all instances of MusaicOperation (\$C_cM_aT_k\$). For this we will use the algorithmic structure of Cayley table.</p>
+<p>The composition function \$@\$ allows us to determine all instances of MusaicOperation (\$C_cM_aT_k\$) whe \$G\$ acts on \$P(ZZ_12)\$. For this we will use the algorithmic structure of Cayley table.</p>
 </div>
 <div class="paragraph">
-<p>To begin with, we can focus on a few operations that will allow us to generate all possible transformation operations in T0 (\$C_cM_aT_0\$). Several configurations of generating operations are possible, all of which lead to the same result. For now, we will arbitrarily take :  <strong>{M1-T0, CM1-T0, M5-T0, M7-T0}</strong>, without transposition (step = 0).</p>
+<p>To begin with, we can focus on a few operations that will allow us to generate all possible transformation operations in \$"T0"\$, i.e. \$C_cM_aT_0\$. Several configurations of generating operations are possible, all of which lead to the same result. For now, we will arbitrarily take :  <strong>{M1-T0, CM1-T0, M5-T0, M7-T0}</strong>.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 2. First step to discover operations</caption>
@@ -2401,7 +2401,7 @@ Extended Affine Operation is called <em>MusaicOperation</em> into MusaicBox proj
 <p>\$|G"⋅"A| = (|G|) / (|G_A|)\$</p>
 </div>
 <div class="paragraph">
-<p>Knowing cardinality of one orbit (\$|G.A|\$), we can calculate the number its stabilizers \$|G_A| = (|G|) / (|G"⋅"A|)\$.</p>
+<p>Knowing cardinality of one orbit (\$|G"⋅"A|\$), we can calculate the number of its stabilizers \$|G_A| = (|G|) / (|G"⋅"A|)\$.</p>
 </div>
 <div class="paragraph">
 <p>from the 3 examples given previously :</p>
@@ -2412,7 +2412,7 @@ Extended Affine Operation is called <em>MusaicOperation</em> into MusaicBox proj
 <p>whole tone scales has 96/2 = 48 stabilizers</p>
 </li>
 <li>
-<p>major diatonic scale has 96/48 = 2 stabilizers</p>
+<p>major diatonic scale has 96/48 = 2 stabilizers :</p>
 </li>
 <li>
 <p>diminished 7th has 96/6 = 16 stabilizers</p>
@@ -2719,7 +2719,7 @@ Extended Affine Operation is called <em>MusaicOperation</em> into MusaicBox proj
 <p>A such group \$H\$ is called <strong>Cyclic group</strong>.</p>
 </div>
 <div class="paragraph">
-<p>When orbit cyclic actes under \$P(ZZ_12)\$, its generate <strong>352 cyclic orbits</strong>. Each of these orbits represents a unique harmonic structure. Example Major triad, Minor triad, Diatonic Major, etc.</p>
+<p>When orbit cyclic actes on \$P(ZZ_12)\$, its generate <strong>352 orbits</strong>. Each of these orbits represents a unique harmonic structure. Example Major triad, Minor triad, Diatonic Major, etc.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -2758,7 +2758,10 @@ The concept of the "smallest element" refers to the concept of "normal form" and
 <p><span class="image"><img src="./assets/images/_047_cyclic_motif.png" alt=" 047 cyclic motif"></span></p>
 </div>
 <div class="paragraph">
-<p>Of the 352 orbits, 335 are composed of 12 elements, having only one stabilizer M1-T0, and 17 very particular ones represent the structures with "limited transpositions", having more than one stabilizer.</p>
+<p>Orbite \$H"⋅"[0 4 7]\$ has 12 elements. Its number of stabilizers is \$|H_([0 4 7])| = (|H|) / (|H"⋅"[0 4 7]|)\$, so \$12/12 = 1\$. It is \$"M1-T0"\$</p>
+</div>
+<div class="paragraph">
+<p>Of the 352 orbits, 335 are composed of 12 elements, having only one stabilizer, \$"M1-T0"\$, and 17 very particular ones represent the structures with "limited transpositions", having more than one stabilizer.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -2806,7 +2809,7 @@ You can already explore the cyclic group in the musaicbox application: go to the
 </ul>
 </div>
 <div class="paragraph">
-<p>We have \$4 = 12/3\$, it&#8217;s OK !</p>
+<p>We have \$|G"⋅"A| = (|G|) / (|G_A|) =&gt; 4 = 12/3\$, it&#8217;s OK !</p>
 </div>
 <div class="paragraph">
 <p>It&#8217;s time to take inventory of G subgroups.</p>
@@ -2866,15 +2869,15 @@ The four generators are <code>M1-T1</code>, <code>M1-T5</code>, <code>M1-T7</cod
 </ul>
 </div>
 <div class="paragraph">
-<p>La classification des pcs permet d&#8217;implémenter des relations d&#8217;équivalence, au-delà de la très connue "à une transposition près".</p>
+<p>The classification of pcs allows the implementation multiple equivalence relations, beyond the well-known "up to one transposition".</p>
 </div>
 <div class="sect2">
 <h3 id="classification-table">A classification table of \$P(ZZ_12)\$</h3>
 <div class="paragraph">
-<p>Voici un inventaire publié dans l&#8217;ouvrage collectif "Autour de la Set Theory". Luigi Verdi est l&#8217;auteur de cette présentation :</p>
+<p>Here is an inventory published in the collective work "Autour de la Set Theory".</p>
 </div>
 <div class="paragraph">
-<p><em>The table [below] shows the 13 different classifications of sets determined by the different definitions of the term "equivalence". The list includes all sets, the empty set, and the so-called trivial cardinalities 1, 2 (and 10, 11), as well as the aggregate. The classification problem posed by trivial cardinalities was widely discussed in the 1950s <a href="#PERLE">[PERLE]</a>.</em></p>
+<p><em>"The table [below] shows the 13 different classifications of sets determined by the different definitions of the term "equivalence". The list includes all sets, the empty set, and the so-called trivial cardinalities 1, 2 (and 10, 11), as well as the aggregate. The classification problem posed by trivial cardinalities was widely discussed in the 1950s <a href="#PERLE">[PERLE]</a>" ( source : <a href="#LVERDI">[LVERDI]</a>).</em></p>
 </div>
 <div id="LVerdi-Table" class="paragraph">
 <div class="title">From "Autour de la Set Theory" (<a href="#LVERDI">[LVERDI]</a>), page 41 (author Luigi Verdi)</div>
@@ -2884,7 +2887,7 @@ The four generators are <code>M1-T1</code>, <code>M1-T5</code>, <code>M1-T7</cod
 <div class="sect2">
 <h3 id="_17_subgroups_computed">17 subgroups computed</h3>
 <div class="paragraph">
-<p>A calculation was carried out in order to inventory all possible subgroups of our reference group \$G\$ with its 96 operations. This results in 17 subgroups (or 16 + trivial group), listed below.</p>
+<p>A calculation was carried out in order to inventory all possible subgroups of our reference group \$G\$ with its 96 operations. This results in 16+1 subgroups (+ 1 for trivial group), listed below.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -2893,7 +2896,9 @@ The four generators are <code>M1-T1</code>, <code>M1-T5</code>, <code>M1-T7</cod
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Subgroups naming : When transposition step = 1, suffixe "-T1" is omitted.
+Suffixe -T1 is to be sure to inject the neutral operation (M1-T0) into the group.
+<br>
+ As any subgroup includes the neutral operation in its elements, suffixe "-T1", being implied, is omitted.
 <br>
 Example : [M1-T1 M11-T1] &#8658; [M1 M11]
 </td>
@@ -3269,10 +3274,28 @@ Example : [M1-T1 M11-T1] &#8658; [M1 M11]
 </tbody>
 </table>
 <div class="paragraph">
-<p>Of the 17 subgroups, only 5 are identified by  <a href="#classification-table">A classification table of \$P(ZZ_12)\$</a>.</p>
+<p>Only 5 are identified out of the 13 classifications in the table : <a href="#LVerdi-Table">From "Autour de la Set Theory" ([LVERDI]), page 41 (author Luigi Verdi)</a>.</p>
 </div>
 <div class="paragraph">
-<p>TODO Lattice of subgroups</p>
+<p>Other view, the lattice of subgroups, identified by their cardinality.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./assets/images/lattice-subgroups12.png" alt="lattice-subgroups12">
+</div>
+<div class="title">Figure 11. Subgroups lattice - prefix "M" and "M1" are omitted (M1 CM11 &#8658; C11) (J-Y. Fusil - 2009)</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Note the central vertical axis on which 4 of its 5 known subgroups are inscribed.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>TODO Suite&#8230;&#8203;</p>
@@ -3289,7 +3312,7 @@ Example : [M1-T1 M11-T1] &#8658; [M1 M11]
 <p>It would be useful to be able to sort the pcs among themselves. To do this, we need to define a total order relation that verifies:</p>
 </div>
 <div class="paragraph">
-<p>\$ AA A, B in P(E), ( "id"(A) &lt;= "id"(B) and "id"(B) &lt;= "id"(A) ) =&gt; A = B \$</p>
+<p>\$ AA A, B in P(E)", " \   "id"(A) &lt;= "id"(B) and "id"(B) &lt;= "id"(A)  =&gt; A = B \$</p>
 </div>
 <div class="paragraph">
 <p>In others all, if two PCS have same identity value, then we are dealing with the same PCS.</p>
@@ -3313,6 +3336,9 @@ Example : [M1-T1 M11-T1] &#8658; [M1 M11]
 <h4 id="_polynomial_function_pid">Polynomial function pid()</h4>
 <div class="paragraph">
 <p>Polynomial function (<em>pid</em>) is a good candidate for sorting the PCS among themselves.</p>
+</div>
+<div class="paragraph">
+<p>\$"pid("pcs")" = sum_(i=0)^(n-1) ""pcs""_"v[i]" 2^i \$ &#160; <em>(exploits the vector representation of a PCS - see PCS representation <a href="#_integer">Integer</a>)</em></p>
 </div>
 <div class="paragraph">
 <p>However, there remains a bias.</p>
@@ -3432,11 +3458,35 @@ Example : [M1-T1 M11-T1] &#8658; [M1 M11]
 </div>
 <div class="paragraph">
 <p>Total order relation is definitely implemented by id function :
-\$forall (pcsA, pcsB) in P(Z_n)^2, id(pcsA) &lt;= id(pcsB) and id(pcsB) &lt;= id(pcsA) =&gt; pcsA = pcsB\$</p>
+\$forall (pcsA, pcsB) in P(Z_n)^2, "id"(pcsA) &lt;= "id"(pcsB) and "id"(pcsB) &lt;= "id"(pcsA) =&gt; pcsA = pcsB\$</p>
 </div>
 </td>
 </tr>
 </table>
+</div>
+<div class="paragraph">
+<p>The lower bound is \$0\$ obtained for the vector \$[0, 0, ... ,0]\$</p>
+</div>
+<div class="paragraph">
+<p>The upper bound is \$2^n -1 + n2^n = 2^n(n+1)-1\$, for \$n=12\$, we obtain the vector \$[1, 1, ... ,1]\$ and value \$53247\$.</p>
+</div>
+<div class="paragraph">
+<p>An order relation on P(Zn) can be established, which is based on the order relation of natural numbers:</p>
+</div>
+<div class="paragraph">
+<p>\$AA (A, B) in P(ZZ_n)^2 \ \ A &lt;= B &lt;=&gt; "id"(A) &lt;= "id"(B)\$</p>
+</div>
+<div class="paragraph">
+<p>Some properties :</p>
+</div>
+<div class="paragraph">
+<p>\$AA (A, B) in P(ZZ_n)^2 \ \ A &lt;= B and B &lt;= A =&gt; "id"(A) = "id"(B)\$ &#160; so \$A = B\$ &#160; (<em>total order</em>)</p>
+</div>
+<div class="paragraph">
+<p>\$AA (A, B) in P(ZZ_n)^2 \ \ A sube B =&gt; id(A) &lt;= id(B) \$ &#160; (<em>inclusion compatible</em>, note : inverse is not true).</p>
+</div>
+<div class="paragraph">
+<p>\$forall (A, B) in P(ZZ_n)^2, |A| &lt;= |B| &lt;=&gt; id(A) &lt;= id(B)\$ &#160; (<em>cardinality compatible</em>)</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 8. Example Compare with Augmented Polynomial Identifier (id)</caption>
@@ -3499,21 +3549,6 @@ In MusaicBox code, Augmented Polynomial Identifier is called <em>id</em>, and <e
 </tr>
 </table>
 </div>
-<div class="paragraph">
-<p>The lower bound is \$0\$ obtained for the vector \$(0, 0, ... ,0)\$</p>
-</div>
-<div class="paragraph">
-<p>The upper bound is \$2^n -1 + n2^n = 2^n(n+1)-1\$, or \$53247\$, for \$n=12\$, obtained by the vector \$(1, 1, ... ,1)\$.</p>
-</div>
-<div class="paragraph">
-<p>An order relation on P(Zn) can be established, which is based on the order relation of natural numbers:</p>
-</div>
-<div class="paragraph">
-<p>\$AA (A, B) in P(ZZ_n)^2 \ \ A &lt;= B &lt;=&gt; "id"(A) &lt;= "id"(B)\$</p>
-</div>
-<div class="paragraph">
-<p>This relation is total order, i.e. we have either \$A &lt;= B\$ or \$A &lt;= B\$, and, moreover \$AA (A, B) in P(ZZ_n)^2 \ \ A sube B =&gt; id(A) &lt;= id(B) \$ (note : inverse is not true).</p>
-</div>
 </div>
 <div class="sect3">
 <h4 id="_application_example">Application example</h4>
@@ -3531,9 +3566,16 @@ In MusaicBox code, Augmented Polynomial Identifier is called <em>id</em>, and <e
 </div>
 </div>
 <div class="paragraph">
-<p>The figure below, presents (thin black arrow) the set inclusion relation, for example \${do} sube {do, mi}\$, in minimal coverage, that is to say without transitivities, (for example the relation \${do} sube {do, mi, sol}\$ is not arrowed - it is a lattice). The total order relation is represented by the black arrow <strong>and</strong> the red arrow (thick), it is the minimal coverage of the relation defined by the id function. Example: \${do} &lt; {mi} &lt; {sol}\$.</p>
+<p>The figure below, presents (thin black arrow) the set inclusion relation, for example \${do} sube {do, mi}\$, in minimal coverage, that is to say without transitivities, (for example the relation \${do} sube {do, mi, sol}\$ is not arrowed - it is a lattice).</p>
 </div>
 <div class="paragraph">
+<p>The <strong>total order relation</strong> is represented by the black arrow <strong>and</strong> the red arrow.</p>
+</div>
+<div class="paragraph">
+<p>It is the minimal coverage of the relation defined by the <em>id</em> function. Example: \${do} &lt; {mi} &lt; {sol}\$.</p>
+</div>
+<div class="paragraph">
+<div class="title">Minimal coverage of the relation id in lattice</div>
 <p><span class="image"><img src="./assets/images/relationOrdreTreilliV3.png" alt="total order relation"></span></p>
 </div>
 </div>
@@ -3611,7 +3653,7 @@ Modal prime form concept is invented, specific to this project.
 <div class="content">
 <img src="./assets/images/pcs_2_3_5_7_8_V2.png" alt="Modal and cyclic prime form">
 </div>
-<div class="title">Figure 11. Modal and cyclic prime form</div>
+<div class="title">Figure 12. Modal and cyclic prime form</div>
 </div>
 </div>
 </div>
@@ -3621,7 +3663,7 @@ Modal prime form concept is invented, specific to this project.
 <div class="content">
 <img src="./assets/images/pcs_2_3_5_7_8-PF-V2.png" alt="Cyclic prime form">
 </div>
-<div class="title">Figure 12. Cyclic prime form</div>
+<div class="title">Figure 13. Cyclic prime form</div>
 </div>
 </div>
 </div>
@@ -3631,7 +3673,7 @@ Modal prime form concept is invented, specific to this project.
 <div class="content">
 <img src="./assets/images/pcs_2_3_5_7_8-MPF-V2.png" alt="Modal prime form">
 </div>
-<div class="title">Figure 13. Modal prime form</div>
+<div class="title">Figure 14. Modal prime form</div>
 </div>
 </div>
 </div>
@@ -3641,7 +3683,7 @@ Modal prime form concept is invented, specific to this project.
 <div class="content">
 <img src="./assets/images/pcs_2_3_5_7_8-wb1.png" alt="Modal and cyclic prime form">
 </div>
-<div class="title">Figure 14. Cyclic orbit and his modal and prime form</div>
+<div class="title">Figure 15. Cyclic orbit and his modal and prime form</div>
 </div>
 </div>
 </div>
@@ -3654,7 +3696,7 @@ Modal prime form concept is invented, specific to this project.
 <div class="content">
 <img src="./assets/images/pcs_2_3_5_7_8-wb2.png" alt="Modal and cyclic prime form">
 </div>
-<div class="title">Figure 15. Cyclic orbit and his modal and prime form</div>
+<div class="title">Figure 16. Cyclic orbit and his modal and prime form</div>
 </div>
 </div>
 </div>
@@ -3707,7 +3749,7 @@ Modal prime form concept is invented, specific to this project.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-02-10 15:37:54 +0100
+Last updated 2025-02-13 18:08:32 +0100
 </div>
 </div>
 <script type="text/x-mathjax-config">
