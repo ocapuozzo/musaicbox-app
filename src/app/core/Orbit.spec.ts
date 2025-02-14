@@ -15,6 +15,7 @@ import {MusaicOperation} from "./MusaicOperation";
 import {GroupAction} from "./GroupAction";
 import {Group} from "./Group";
 import {IPcs} from "./IPcs";
+import {ManagerGroupActionService} from "../service/manager-group-action.service";
 
 describe('Orbit', () => {
   it("Constructor default", () => {
@@ -103,6 +104,13 @@ describe('Orbit', () => {
     // one stab, so, is hashcode
     expect(firstOrbit.hashCode()).toEqual(firstOrbit.stabilizers[0].hashCode())
   })
+
+  it("orbit stabilizer", () => {
+    const cyclicGroupAction = ManagerGroupActionService.getGroupActionFromGroupAliasName("Dihedral")
+    let pcs = cyclicGroupAction?.getPcsWithThisPid(1755)
+    expect(pcs).toBeTruthy()
+  })
+
 
   it("hashCode() on detached orbit", () => {
     let orbit = new Orbit();

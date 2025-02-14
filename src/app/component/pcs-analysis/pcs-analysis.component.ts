@@ -178,34 +178,26 @@ export class PcsAnalysisComponent {
   }
 
   /**
-   * Get string composed of operations name of musaic group action which stabilize pcs argument
+   * Get operations name of operations that stabilize the pcs given in argument
    * Example : "M1-T0 M11-T0"
    * @param pcs
    */
   operationsStabilizerOf(pcs: IPcs) {
     if (pcs.n !== 12) throw Error("Waiting n = 12")
     let operationStab: MusaicOperation[] = []
-    const orbit = pcs.musaicPrimeForm().orbit
 
-    // pcs is into FixedPcs of this orbit
-    // We find it, and then get its stabilizers
-    const stabPcsIntoMusaic =
-      orbit.stabilizers.find(
-        (stab) => stab.fixedPcs.find(
-          (pcsInOrbit) => pcsInOrbit.id === pcs.id))
-    if (stabPcsIntoMusaic) {
-      // always true (test is to avoid use ! operator)
-      // now we have stabilizer, we get their operations
-      operationStab = stabPcsIntoMusaic.operations
-    }
+    // if pcs is detached then get stabilizers from Musaic group
+    // else get stabilizers from its group
+    const operations: MusaicOperation[] =
+      pcs.isDetached()
+        ? GroupAction.predefinedGroupsActions(12, Group.MUSAIC).operations
+        : pcs.orbit.groupAction!.group.operations
 
-    // other algorithm that don't use group action in memory
-    // const operations: MusaicOperation[] = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).operations
-    // operations.forEach(operation => {
-    //   if (operation.actionOn(pcs).id === pcs.id) {
-    //     operationStab.push(operation)
-    //   }
-    // })
+    operations.forEach(operation => {
+      if (operation.actionOn(pcs).id === pcs.id) {
+        operationStab.push(operation)
+      }
+    })
     operationStab.sort(MusaicOperation.compareStabMajorTMinorA)
     return {
       cardinal: operationStab.length,

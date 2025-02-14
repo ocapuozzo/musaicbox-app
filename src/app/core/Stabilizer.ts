@@ -12,6 +12,7 @@ import {StringHash} from "../utils/StringHash";
 import {MotifStabilizer} from "./MotifStabilizer";
 import {IPcs} from "./IPcs";
 import {MusaicOperation} from "./MusaicOperation";
+import {PcsUtils} from "../utils/PcsUtils";
 
 export class Stabilizer {
   fixedPcs: IPcs[];
@@ -25,7 +26,7 @@ export class Stabilizer {
 
   constructor(
     {fixedPcs, operations}:
-      { fixedPcs?: IPcs[], operations?: MusaicOperation[] } = {}) {
+    { fixedPcs?: IPcs[], operations?: MusaicOperation[] } = {}) {
     this.fixedPcs = fixedPcs ?? []
     this.operations = operations ?? [];
     this.metaStabilizer = "";
@@ -225,7 +226,7 @@ export class Stabilizer {
   getShortName() {
     if (!this._shortName)
       this._shortName = this.makeShortName();
-   return this._shortName;
+    return this._shortName;
   }
 
 
@@ -240,7 +241,7 @@ export class Stabilizer {
    * M1-T0 M11-T1 => M1-T0 M11-T1
    * @return {string} short name if possible
    */
-  makeShortName(): string {
+  _makeShortName(): string {
     // key="CM5"=, values=[2,4,6] for value of transposition/transposition for CM5-T2, CM5-T4, etc.
     // Map<String, List<Integer>> mt = new HashMap<String, List<Integer>>();
     let mt = new Map<string, number[]>()
@@ -305,6 +306,80 @@ export class Stabilizer {
     return res;
   }
 
+  // source : in orbit buildStabilizersSignatureName TODO refactor
+  private makeShortName() {
+    let res = ""
+    // 1 get all operations
+    // key : "Ma" or "CMa" op name (Ex: M5, CM5) nameOpsWithoutT
+    // value : x of TX (Ex : 2, 3, 4) transposition value
+    let cmt = new Map<string, number[]>()
+    // assert in : operations is sorted
+    for (let i = 0; i < this.operations.length; i++) {
+      let op = this.operations[i]
+      let nameOpWithoutT = (op.complement ? "CM" : "M") + op.a;
+      if (!cmt.has(nameOpWithoutT)) {
+        cmt.set(nameOpWithoutT, []);
+      }
+      if (!cmt.get(nameOpWithoutT)?.includes(op.t)) {
+        cmt.get(nameOpWithoutT)!.push(op.t);
+      }
+    }
+
+
+    // 2: sort operations Mx < Mx+1 < CMx < CMx+1
+    let nameOpsWithoutT = Array.from(cmt.keys())
+    nameOpsWithoutT.sort(PcsUtils.compareOpName)
+
+    // 3: reducer name by extracting the transposition coefficient x, as ~x*
+    // CM5-T2 CM5-T6 CM5-T10 => CM5-T2~4*  (4 is transposition coefficient, equivalent 'up to 4-steps transposition')
+    // M11-T0 M11-T2 M11-T4 M11-T6 M11-T8 M11-T10 => M11-T0~2*
+    for (let i = 0; i < nameOpsWithoutT.length; i++) {
+      let nameOpWithoutT = nameOpsWithoutT[i]
+      let shortName = ''
+
+      // Pcs [0,2,4,6,8] in orbit. Group : n=12 [M1 M11]  Orbit cardinal : 12
+      // Orbit name (stabilizers signature) : M1-T0 M11-T0~4*
+      //
+      // Pcs [0,1,4,7,8] in orbit. Group : n=12 [M1 M11]  Orbit cardinal : 12
+      //  Orbit name (stabilizers signature) : M1-T0 M11-T0~4* M11-T6
+      //
+      // Hence the loop... otherwise we lose M11-T6
+      let prevNumberOfElts = cmt.get(nameOpWithoutT)?.length
+      let numberOfElts
+      do {
+        prevNumberOfElts = cmt.get(nameOpWithoutT)?.length
+        if (prevNumberOfElts && prevNumberOfElts > 1) {
+          // cmt.get(nameOpWithoutT)?.sort((a, b) => a - b)
+          // cmt.get(nameOpWithoutT)?.forEach(a => console.log(a + ''))
+          let step = cmt.get(nameOpWithoutT)![1] - cmt.get(nameOpWithoutT)![0]
+          shortName = nameOpWithoutT + "-T" + cmt.get(nameOpWithoutT)![0] + "~" + step + "*";
+          // when shortName is defined, delete entry
+          let firstStep = cmt.get(nameOpWithoutT)![0]
+          let steps = cmt.get(nameOpWithoutT)!
+          // "delete" multiple of step
+          steps = steps?.filter(k => (k - firstStep) % step !== 0)
+          cmt.set(nameOpWithoutT, steps)
+          res = (res.length > 1) ? res + ' ' + shortName : shortName
+        }
+        numberOfElts = cmt.get(nameOpWithoutT)?.length
+      } while (numberOfElts && prevNumberOfElts !== numberOfElts)
+
+      // 4: put -Tx only if a (mt is maybe reduce by preview phase 3)
+      let the_as = cmt.get(nameOpWithoutT) ?? []
+      for (let j = 0; j < the_as.length; j++) {
+        let a = the_as[j]
+        if (res.length > 0) {
+          res += " ";
+        }
+        res += nameOpWithoutT + "-T" + a;
+      } // loop a
+    } // loop for nameOpsWithoutT
+
+    // 5: add M1-T0 if not present (neutral operation)
+    return res.startsWith('M1-T0') ? res : 'M1-T0 ' + res
+  }
+
+
   /**
    * If recurrence transposition step, reduce this by "Ta~step*" Example : n=12
    * [0, 2, 4, 6, 8, 10] return "-T0~2*" and detached list Example : n=12 [0, 3]
@@ -329,8 +404,7 @@ export class Stabilizer {
           cpt++
         }
       }
-      if (cpt * step === n)
-      {
+      if (cpt * step === n) {
         shortName = "-T" + listOfa[0] + "~" + step + "*";
         // delete multiple of step element of the list
         let racineValue = listOfa[0];

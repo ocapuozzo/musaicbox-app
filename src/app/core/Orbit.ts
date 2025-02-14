@@ -12,25 +12,8 @@ import {IPcs} from "./IPcs";
 import {MotifStabilizer} from "./MotifStabilizer";
 import {Stabilizer} from "./Stabilizer";
 import {GroupAction} from "./GroupAction";
+import {PcsUtils} from "../utils/PcsUtils";
 
-// sort operations Mx < Mx+1 < CMx < CMx+1 (without -Tx)
-function compareOpName(o1:string, o2:string) {
-    let cplt1 = o1.charAt(0) === 'C';
-    let cplt2 = o2.charAt(0) === 'C';
-    let w1;
-    let w2;
-    if (cplt1)
-      w1 = 100 + parseInt(o1.substring(2));
-    else
-      w1 = parseInt(o1.substring(1));
-
-    if (cplt2)
-      w2 = 100 + parseInt(o2.substring(2));
-    else
-      w2 = parseInt(o2.substring(1));
-
-    return w1 - w2;
-}
 
 export class Orbit {
   /**
@@ -225,7 +208,7 @@ export class Orbit {
 
     // 2: sort operations Mx < Mx+1 < CMx < CMx+1
     let nameOpsWithoutT = Array.from(cmt.keys())
-    nameOpsWithoutT.sort(compareOpName)
+    nameOpsWithoutT.sort(PcsUtils.compareOpName)
 
     // 3: reducer name by extracting the transposition coefficient x, as ~x*
     // CM5-T2 CM5-T6 CM5-T10 => CM5-T2~4*  (4 is transposition coefficient, equivalent 'up to 4-steps transposition')
@@ -246,7 +229,7 @@ export class Orbit {
       do {
         prevNumberOfElts = cmt.get(nameOpWithoutT)?.length
         if (prevNumberOfElts && prevNumberOfElts > 1) {
-          cmt.get(nameOpWithoutT)?.sort((a, b) => a - b)
+         // cmt.get(nameOpWithoutT)?.sort((a, b) => a - b)
           // cmt.get(nameOpWithoutT)?.forEach(a => console.log(a + ''))
           let step = cmt.get(nameOpWithoutT)![1] - cmt.get(nameOpWithoutT)![0]
           shortName = nameOpWithoutT + "-T" + cmt.get(nameOpWithoutT)![0] + "~" + step + "*";
@@ -296,7 +279,7 @@ export class Orbit {
     const signatureWithoutTranslation = stabSignature.split(" ").map(op => op.trim().split("-")[0]);
 
     // with delete duplicate values via Set
-    return this.motifStabilizer = new MotifStabilizer([...new Set(signatureWithoutTranslation)].sort(compareOpName).join(" "))
+    return this.motifStabilizer = new MotifStabilizer([...new Set(signatureWithoutTranslation)].sort(PcsUtils.compareOpName).join(" "))
   }
 
   /**

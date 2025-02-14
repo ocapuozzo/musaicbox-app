@@ -87,4 +87,24 @@ export class PcsUtils{
      return new MusaicOperation(musOp.n, musOp.a, this.solveEquation(musOp.a, musOp.t, musOp.n), musOp.complement)
   }
 
+   // sort operations Mx < Mx+1 < CMx < CMx+1 (without -Tx)
+  static compareOpName(o1:string, o2:string) {
+    let complement1 = o1.charAt(0) === 'C';
+    let complement2 = o2.charAt(0) === 'C';
+    let w1;
+    let w2;
+    if (complement1)
+      w1 = 100 + parseInt(o1.substring(2));
+    else
+      w1 = parseInt(o1.substring(1));
+
+    if (complement2)
+      w2 = 100 + parseInt(o2.substring(2));
+    else
+      w2 = parseInt(o2.substring(1));
+
+    return w1 - w2;
+  }
+
+
 }
