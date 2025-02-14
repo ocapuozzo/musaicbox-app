@@ -132,9 +132,9 @@ export class MusaicOperation {
    * action on a IPcs is define by
    * <pre>
    *   is this action is complemented
-   *     return complement(affineOperation(pcsList))
+   *     return complement(affineOperation(pcs))
    *   else
-   *     return affineOperation(pcsList)
+   *     return affineOperation(pcs)
    * </pre>
    * @param ipcs IPcs
    * @return a new IPcs
@@ -182,8 +182,11 @@ export class MusaicOperation {
    *   M1-T1 M2-T2 ...
    * So:    M1-T3, M1-T0, CM1-T5, M5-T0, CM7-T8, CM7-T3
    * give : M1-T0, M5-T0, M1-T3, CM7-T3, CM1-T5, CM7-T8
+   *
+   * other : M1-T0 M7-T0 M5-T8 M11-T8
+   *       : M1-T0 M5-T0 M7-T6 M11-T6
    */
-  static compareStab(op1: MusaicOperation, op2: MusaicOperation) : number {
+  static compareStabMajorTMinorA(op1: MusaicOperation, op2: MusaicOperation) : number {
     let w1 = op1.t;
     let w2 = op2.t;
 

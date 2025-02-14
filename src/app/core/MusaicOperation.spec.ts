@@ -109,7 +109,7 @@ describe('MusaicPcsOperation', () => {
 
     expect(ops).not.toEqual(opsSortedWaiting)
 
-    ops.sort(MusaicOperation.compareStab)
+    ops.sort(MusaicOperation.compareStabMajorTMinorA)
 
     // ops.forEach( (op) => console.log(op._strRepr) )
 
@@ -207,7 +207,7 @@ describe('MusaicPcsOperation', () => {
     expect(op.toString()).toEqual('M1-T2')
     expect(op.getFixedPcs().length).toEqual(4)
 
-    // fixed pcsList :
+    // fixed pcs :
     // '[]'
     // '[0,2,4,6,8,10]'
     // '[1,3,5,7,9,11]'

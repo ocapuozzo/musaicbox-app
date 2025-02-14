@@ -44,7 +44,7 @@ export class PcsAnalysisComponent {
   constructor(private readonly managerPagePcsListService: ManagerPagePcsListService,
               private readonly managerPagePcsService: ManagerPagePcsService
   ) {
-    // this.pcsList = this.managerHomePcsService.pcsList
+
     this.managerPagePcsService.updatePcsEvent.subscribe((pcs: IPcs) => {
       this.pcs = pcs
       this.pcsMapped = this.pcs.unMap()
@@ -206,7 +206,7 @@ export class PcsAnalysisComponent {
     //     operationStab.push(operation)
     //   }
     // })
-    operationStab.sort(MusaicOperation.compareStab)
+    operationStab.sort(MusaicOperation.compareStabMajorTMinorA)
     return {
       cardinal: operationStab.length,
       names: operationStab.map((operationStab) => operationStab.toString()).join(" ")

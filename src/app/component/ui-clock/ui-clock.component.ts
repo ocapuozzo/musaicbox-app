@@ -45,7 +45,7 @@ export class UiClockComponent {
   }; // Function
 
   /**
-   * draw canvas when pcsList change
+   * draw canvas when pcs change
    *
    * @param value newPcs
    */
@@ -333,8 +333,7 @@ export class UiClockComponent {
     } else { // M
       this.managerPagePcsService.modulation($event == 'M-1' ? IPcs.PREV_DEGREE : IPcs.NEXT_DEGREE)
     }
-    // this.drawClock()
-    // this.changePcs.emit(this.pcsList)
+
   }
 
   autoMap() {

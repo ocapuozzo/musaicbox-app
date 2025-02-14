@@ -13,6 +13,25 @@ import {MotifStabilizer} from "./MotifStabilizer";
 import {Stabilizer} from "./Stabilizer";
 import {GroupAction} from "./GroupAction";
 
+// sort operations Mx < Mx+1 < CMx < CMx+1 (without -Tx)
+function compareOpName(o1:string, o2:string) {
+    let cplt1 = o1.charAt(0) === 'C';
+    let cplt2 = o2.charAt(0) === 'C';
+    let w1;
+    let w2;
+    if (cplt1)
+      w1 = 100 + parseInt(o1.substring(2));
+    else
+      w1 = parseInt(o1.substring(1));
+
+    if (cplt2)
+      w2 = 100 + parseInt(o2.substring(2));
+    else
+      w2 = parseInt(o2.substring(1));
+
+    return w1 - w2;
+}
+
 export class Orbit {
   /**
    * stabilizers of this orbit
@@ -41,11 +60,11 @@ export class Orbit {
 
   _hashcode ?: number
 
-  _name : string
+  _name: string
 
   constructor(
     {stabs, ipcsSet}:
-      { stabs?: Stabilizer[], ipcsSet?: IPcs[] } = {}) {
+    { stabs?: Stabilizer[], ipcsSet?: IPcs[] } = {}) {
     this.stabilizers = stabs ?? []
     this.ipcsset = ipcsSet ?? []
     this._hashcode = undefined
@@ -170,7 +189,7 @@ export class Orbit {
   /**
    * Create a name signature of this orbit based on his stabilizers
    * Example :
-   *   stabilizers of Musaic n° 84 (24 pcsList in orbit) :
+   *   stabilizers of Musaic n° 84 (24 pcs in orbit) :
    *     M1-T0 M7-T9 CM5-T10 CM11-T7 (4)
    *     M1-T0 M7-T3 CM5-T10 CM11-T1 (4)
    *     M1-T0 M7-T3 CM5-T6 CM11-T9 (3)
@@ -206,23 +225,7 @@ export class Orbit {
 
     // 2: sort operations Mx < Mx+1 < CMx < CMx+1
     let nameOpsWithoutT = Array.from(cmt.keys())
-    nameOpsWithoutT.sort((o1, o2) => {
-      let cplt1 = o1.charAt(0) === 'C';
-      let cplt2 = o2.charAt(0) === 'C';
-      let w1;
-      let w2;
-      if (cplt1)
-        w1 = 100 + parseInt(o1.substring(2));
-      else
-        w1 = parseInt(o1.substring(1));
-
-      if (cplt2)
-        w2 = 100 + parseInt(o2.substring(2));
-      else
-        w2 = parseInt(o2.substring(1));
-
-      return w1 - w2;
-    })
+    nameOpsWithoutT.sort(compareOpName)
 
     // 3: reducer name by extracting the transposition coefficient x, as ~x*
     // CM5-T2 CM5-T6 CM5-T10 => CM5-T2~4*  (4 is transposition coefficient, equivalent 'up to 4-steps transposition')
@@ -231,14 +234,18 @@ export class Orbit {
       let nameOpWithoutT = nameOpsWithoutT[i]
       let shortName = ''
 
+      // Pcs [0,2,4,6,8] in orbit. Group : n=12 [M1 M11]  Orbit cardinal : 12
+      // Orbit name (stabilizers signature) : M1-T0 M11-T0~4*
+      //
       // Pcs [0,1,4,7,8] in orbit. Group : n=12 [M1 M11]  Orbit cardinal : 12
       //  Orbit name (stabilizers signature) : M1-T0 M11-T0~4* M11-T6
       //
-      // Pcs [0,2,4,6,8] in orbit. Group : n=12 [M1 M11]  Orbit cardinal : 12
-      // Orbit name (stabilizers signature) : M1-T0 M11-T0~4*
-      // Hence the loop... 
-      for (let loop = 0; loop < 2 ; loop++) {
-        if (cmt.get(nameOpWithoutT)!.length > 1) {
+      // Hence the loop... otherwise we lose M11-T6
+      let prevNumberOfElts = cmt.get(nameOpWithoutT)?.length
+      let numberOfElts
+      do {
+        prevNumberOfElts = cmt.get(nameOpWithoutT)?.length
+        if (prevNumberOfElts && prevNumberOfElts > 1) {
           cmt.get(nameOpWithoutT)?.sort((a, b) => a - b)
           // cmt.get(nameOpWithoutT)?.forEach(a => console.log(a + ''))
           let step = cmt.get(nameOpWithoutT)![1] - cmt.get(nameOpWithoutT)![0]
@@ -247,12 +254,13 @@ export class Orbit {
           let firstStep = cmt.get(nameOpWithoutT)![0]
           let steps = cmt.get(nameOpWithoutT)!
           // "delete" multiple of step
-          steps = steps?.filter(k => (k-firstStep) % step !== 0)
+          steps = steps?.filter(k => (k - firstStep) % step !== 0)
           cmt.set(nameOpWithoutT, steps)
-
           res = (res.length > 1) ? res + ' ' + shortName : shortName
         }
-      }
+        numberOfElts = cmt.get(nameOpWithoutT)?.length
+      } while (numberOfElts && prevNumberOfElts !== numberOfElts)
+
       // 4: put -Tx only if a (mt is maybe reduce by preview phase 3)
       let the_as = cmt.get(nameOpWithoutT) ?? []
       for (let j = 0; j < the_as.length; j++) {
@@ -285,10 +293,10 @@ export class Orbit {
     const stabSignature = this.buildStabilizersSignatureName() // set this.name
     // take left part of "M1-T0 CM11-Tx~m" => "M1 CM11"
 
-    const signatureWithoutTranslation =  stabSignature.split(" ").map(op=> op.trim().split("-")[0]);
+    const signatureWithoutTranslation = stabSignature.split(" ").map(op => op.trim().split("-")[0]);
 
     // with delete duplicate values via Set
-    return this.motifStabilizer = new MotifStabilizer([... new Set(signatureWithoutTranslation)].join(" "))
+    return this.motifStabilizer = new MotifStabilizer([...new Set(signatureWithoutTranslation)].sort(compareOpName).join(" "))
   }
 
   /**
@@ -303,19 +311,19 @@ export class Orbit {
     return this.groupAction === undefined // or this.ipcsset.length == 0
   }
 
-  has(pcs: IPcs):boolean {
-    return this.ipcsset.find( p => p.id == pcs.id) !== undefined
+  has(pcs: IPcs): boolean {
+    return this.ipcsset.find(p => p.id == pcs.id) !== undefined
   }
 
-  getPcsWithThisIS(intervallicStructure: string):IPcs | undefined {
-    return this.ipcsset.find( p => p.is().toString() === intervallicStructure)
+  getPcsWithThisIS(intervallicStructure: string): IPcs | undefined {
+    return this.ipcsset.find(p => p.is().toString() === intervallicStructure)
   }
 
   getPcsWithThisPid(pid: number) {
-    return this.ipcsset.find( p => p.pid() === pid)
+    return this.ipcsset.find(p => p.pid() === pid)
   }
 
   getPcsWithThisId(id: number) {
-    return this.ipcsset.find( p => p.id === id)
+    return this.ipcsset.find(p => p.id === id)
   }
 }

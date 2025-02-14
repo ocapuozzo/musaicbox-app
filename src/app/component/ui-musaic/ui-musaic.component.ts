@@ -77,7 +77,7 @@ export class UiMusaicComponent {
       )
     }
   }
-  
+
 
   ngAfterViewInit() {
     // @ts-ignore
@@ -101,7 +101,7 @@ export class UiMusaicComponent {
       );
     });
 
-    // send by manager-home-pcsList.service
+    // send by manager-home-pcs.service
     this.managerHomePcsService.updatePcsEvent.subscribe((pcs: IPcs) => {
       this.pcs = pcs
       this.drawsMusaic(this.optionDrawPitchIndex)
@@ -112,7 +112,7 @@ export class UiMusaicComponent {
   }
 
   /**
-   * After geometrical transformation, set pcsList transformation
+   * After geometrical transformation, set pcs transformation
    * (algebra) and draw its musaic representation (geometric)
    * so, no change visually if ok !
    */
@@ -137,8 +137,8 @@ export class UiMusaicComponent {
     // loop n+1 for exact correlation between geometry ops and algebra ops
     // display *iPivot centered* for bijective relation geometry <-> algebra
     // Example.
-    //   pcsList : ({0, 3, 6, 9}, iPivot=0)
-    //   pcsList : ({1, 4, 7, 10}, iPivot=1)
+    //   pcs : ({0, 3, 6, 9}, iPivot=0)
+    //   pcs : ({1, 4, 7, 10}, iPivot=1)
     // are same IS, are same Musaic representation
     ctx.strokeStyle = 'black'
     const pivotMapped = this.pcs.templateMappingBinPcs[this.pcs.iPivot ?? 0]
@@ -221,8 +221,6 @@ export class UiMusaicComponent {
       if (this.canvas.nativeElement.style.cursor != 'not-allowed')
         this.canvas.nativeElement.style.cursor = 'not-allowed'
     }
-    // this.canvas.nativeElement.style.cursor =
-    //   this.pcsList.templateMappingBinPcs.includes(index) ? 'pointer' : 'not-allowed'
   }
 
   mouseup(e: any) {
@@ -321,7 +319,7 @@ export class UiMusaicComponent {
       // no transformation = id operation
       opTransf = 1;//this.opId;
     }
-    // send to listeners new pcsList (or not...)
+    // send to listeners new pcs (or not...)
     // clear css class
     this.clearRotateClasses();
 

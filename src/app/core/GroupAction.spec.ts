@@ -126,7 +126,7 @@ describe('GroupAction', () => {
   /**
    * TODO : (a first ?) comment to be checked in proofreading / code review !!
    * If group has a complemented operation then this group must have CM1-T1 op
-   * because pcsList complemented lost his iPivot... So equivalence relation must include
+   * because pcs complemented lost his iPivot... So equivalence relation must include
    * "to a near transposition"
    */
   it("group with complemented op and no T (n = 12)", () => {
@@ -277,7 +277,7 @@ describe('GroupAction', () => {
 
   })
 
-  it("getOrbitOf with bad pcsList", () => {
+  it("getOrbitOf with bad ", () => {
     const cyclicGroup12 = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
     const ipcs = new IPcs({strPcs: "0, 1, 2", n: 5})
 
