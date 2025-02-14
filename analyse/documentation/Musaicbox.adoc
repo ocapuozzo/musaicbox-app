@@ -418,6 +418,8 @@ We present these transformation operations below.
 
 === Transposition
 
+Inline: latexmath:[\sqrt{a}^{b} \&].
+
 Operation name is {nbsp} stem:[T_k]
 
 ====
