@@ -48,11 +48,13 @@
     </div>
   }
   <div class="toolBarMainHoriz">
-    <button
-      mat-button color="primary"
-      routerLinkActive="mat-accent"
-      routerLink="home">About
-    </button>
+    <a mat-button href="/Musaicbox.html" target="_blank">About</a>
+<!--    <button-->
+<!--      mat-button color="primary"-->
+<!--      routerLinkActive="mat-accent"-->
+<!--      routerLink="home"-->
+<!--    >About-->
+<!--    </button>-->
   </div>
   <span class="example-spacer"></span>
 
@@ -136,6 +138,7 @@
             </div>
       }
       <div class="drawerButton">
+
         <button
           (click)="drawer.toggle()"
           mat-button color="primary"
