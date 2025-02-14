@@ -62,7 +62,7 @@ export class UiMusaicComponent {
       '(orientation: landscape)',
     ]);
 
-    layoutChanges.subscribe(result => {
+    layoutChanges.subscribe(() => {
       if (this.containerCanvas) this.drawsMusaic(this.optionDrawPitchIndex)
     });
   }

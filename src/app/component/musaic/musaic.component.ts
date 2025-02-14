@@ -67,8 +67,9 @@ export class MusaicComponent {
 
     // adjust size from CEL_WIDTH
     this._widthInput = this.CEL_WIDTH * (n + 1)
+    let h = this._widthInput
     this.canvas.nativeElement.width = this._widthInput
-    this.canvas.nativeElement.height = this._widthInput  // square
+    this.canvas.nativeElement.height = h  // square
 
     // console.log("w = " + this.w)
     // console.log("cell w = " + this.CEL_WIDTH)

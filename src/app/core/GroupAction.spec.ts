@@ -283,7 +283,7 @@ describe('GroupAction', () => {
 
     try {
       // pcsList.n = 5 or group is n = 12 !
-      const orbit = cyclicGroup12.getOrbitOf(ipcs)
+      cyclicGroup12.getOrbitOf(ipcs)
       // waiting exception
       fail("Impossible operation !!")
     } catch (e: any) {
