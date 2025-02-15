@@ -1,16 +1,10 @@
-import { Routes } from '@angular/router';
-import { PcsPageComponent} from "./page/pcs/pcs-page.component";
+import {Routes} from '@angular/router';
+import {PcsPageComponent} from "./page/pcs/pcs-page.component";
 import {GroupExplorerComponent} from "./page/group-explorer/group-explorer.component";
-import {PageNotFoundComponent} from "./page/page-not-found/page-not-found.component";
 import {The88Component} from "./page/the88/the88.component";
 import {WhiteboardComponent} from "./page/whiteboard/whiteboard.component";
 
 export const routes: Routes = [
-  // {
-  //   path: '',
-  //   redirectTo: 'about',
-  //   pathMatch: 'full'
-  // }
   {path: '', component: PcsPageComponent},
   {path: 'pcs', component: PcsPageComponent},
   {path: 'pcs/pid/:pid', component: PcsPageComponent},

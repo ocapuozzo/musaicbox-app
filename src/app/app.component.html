@@ -1,5 +1,6 @@
 <mat-toolbar class="toolbar">
-  <span><img class="vertical-align" ngSrc="./assets/img/88musaics-logo-35x35.png" alt="logo88musaics" width="35" height="35"></span>
+  <span><img class="vertical-align" ngSrc="./assets/img/88musaics-logo-35x35.png" alt="logo88musaics" width="35"
+             height="35"></span>
   <button
     (click)="drawer.toggle()"
     mat-icon-button
@@ -48,13 +49,13 @@
     </div>
   }
   <div class="toolBarMainHoriz">
-    <a mat-button href="/Musaicbox.html" target="_blank">About</a>
-<!--    <button-->
-<!--      mat-button color="primary"-->
-<!--      routerLinkActive="mat-accent"-->
-<!--      routerLink="home"-->
-<!--    >About-->
-<!--    </button>-->
+    <a mat-button (click)="goToLink('/Musaicbox.html')">About</a>
+
+<!--    @if (shiftKey) {-->
+<!--      <a mat-button href="/Musaicbox.html" target="_blank">About</a>-->
+<!--    } @else {-->
+<!--      <button mat-button color="primary">About</button>-->
+<!--    }-->
   </div>
   <span class="example-spacer"></span>
 
@@ -68,11 +69,15 @@
            matTooltip="Search examples:&#13;&#10;{0,4,7}&#13;&#10;0 4 7&#13;&#10;iv:2,3,3,2,4,1&#13;&#10;is:3,3,3,3&#13;&#10;pid:585"
            matTooltipClass="line-broken-tooltip">
     <datalist id="template-options">
-      <option value=" "></option>"
-<!--      <option value="pcs:"></option>"-->
-      <option value="pid:"></option>"
-      <option value="iv:"></option>"
-      <option value="is:"></option>"
+      <option value=" "></option>
+      "
+      <!--      <option value="pcs:"></option>"-->
+      <option value="pid:"></option>
+      "
+      <option value="iv:"></option>
+      "
+      <option value="is:"></option>
+      "
     </datalist>
 
   </form>
@@ -126,25 +131,28 @@
         </button>
       </div>
       @if (p4GuitarPageActivate) {
-            <div class="drawerButton">
-              <button
-                (click)="drawer.toggle()"
-                mat-button color="primary"
-                class="example-icon favorite-icon"
-                aria-label="Guitar P4 Tuning"
-                routerLinkActive="mat-accent"
-                routerLink="pcs">GuitarP4<fa-icon [icon]="faGuitar"></fa-icon>
-              </button>
-            </div>
+        <div class="drawerButton">
+          <button
+            (click)="drawer.toggle()"
+            mat-button color="primary"
+            class="example-icon favorite-icon"
+            aria-label="Guitar P4 Tuning"
+            routerLinkActive="mat-accent"
+            routerLink="pcs">GuitarP4
+            <fa-icon [icon]="faGuitar"></fa-icon>
+          </button>
+        </div>
       }
       <div class="drawerButton">
-
-        <button
-          (click)="drawer.toggle()"
-          mat-button color="primary"
-          routerLinkActive="mat-accent"
-          routerLink="pcs">About
-        </button>
+          <a mat-button (click)="goToLink('/Musaicbox.html')">About</a>
+<!--        } @else {-->
+<!--          <button-->
+<!--            (click)="drawer.toggle()"-->
+<!--            mat-button color="primary"-->
+<!--            routerLinkActive="mat-accent"-->
+<!--            routerLink="pcs">About-->
+<!--          </button>-->
+<!--        }-->
       </div>
       <div class="drawerButton" (click)="drawer.toggle()">
         <a

@@ -39,6 +39,9 @@ export class AppComponent {
   faGithub = faGithub
 
   p4GuitarPageActivate: boolean = false
+  shiftKey: boolean = false
+
+  private lastDoubleClickTime: number = Date.now()
 
   readonly breakpoint$ = this.breakpointObserver
     .observe(['(max-width: 500px)']);
@@ -46,6 +49,7 @@ export class AppComponent {
   checkoutForm = this.formBuilder.group({
     pcsStr: ''
   });
+
 
   constructor(private formBuilder: FormBuilder,
               private readonly managerPagePcsService: ManagerPagePcsService,
@@ -83,8 +87,16 @@ export class AppComponent {
           this.p4GuitarPageActivate = !this.p4GuitarPageActivate
           break
       }
+    } else if (event.shiftKey) {
+
     }
   }
+
+  @HostListener('window:keydown', ['$event'])
+  keyDown(event: KeyboardEvent) {
+     this.shiftKey = event.shiftKey
+  }
+
 
   /**
    *
@@ -201,5 +213,36 @@ export class AppComponent {
        left:0,
        behavior:'smooth'
      })
+  }
+
+  ctrlKey() {
+
+  }
+
+  /**
+   * When called, do two things :
+   * - store time of call in this.lastDoubleClickTime, for next use
+   * - return true is time of call is in ]lastDoubleClickTime+delay/2...lastDoubleClickTime+delay[, false else
+   */
+  doubleClick(delay = 500) : boolean {
+    const now = Date.now()
+    const delta = delay/2
+    let lastDoubleClick = this.lastDoubleClickTime
+    this.lastDoubleClickTime = now
+
+    return now > lastDoubleClick+delta && now < lastDoubleClick+delay
+  }
+
+  /**
+   * Use for limited access to analyse/documentation when it is in progress...
+   * Only users (or almost) will have access to the docs in progress
+   *
+   * @param url
+   */
+  goToLink(url: string) {
+    if (this.doubleClick(1000)) {
+      // match if is a "long" double click
+      window.open(url, "_blank");
+    }
   }
 }
