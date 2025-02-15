@@ -223,6 +223,9 @@ export class AppComponent {
    * When called, do two things :
    * - store time of call in this.lastDoubleClickTime, for next use
    * - return true is time of call is in ]lastDoubleClickTime+delay/2...lastDoubleClickTime+delay[, false else
+   *
+   * Example : regarding the "long double click" after the first click on About, user wait 1/2 second
+   *           for the second click and then he has a period of 1/2 second to make the second click.
    */
   doubleClick(delay = 500) : boolean {
     const now = Date.now()
@@ -235,7 +238,7 @@ export class AppComponent {
 
   /**
    * Use for limited access to analyse/documentation when it is in progress...
-   * Only users (or almost) will have access to the docs in progress
+   * Only for users who know the trick will have access to the docs in progress
    *
    * @param url
    */

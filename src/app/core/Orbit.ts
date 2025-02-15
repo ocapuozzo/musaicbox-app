@@ -13,6 +13,7 @@ import {MotifStabilizer} from "./MotifStabilizer";
 import {Stabilizer} from "./Stabilizer";
 import {GroupAction} from "./GroupAction";
 import {PcsUtils} from "../utils/PcsUtils";
+import {MusaicOperation} from "./MusaicOperation";
 
 
 export class Orbit {
@@ -164,7 +165,9 @@ export class Orbit {
    */
   get name() {
     if (!this._name) {
-      return this.buildStabilizersSignatureName();
+       const ops = this.stabilizers.flatMap(stab => stab.operations)
+      return [...new Set(ops)].sort(MusaicOperation.compare).join(" ")
+      //  return this.buildStabilizersSignatureName();
     }
     return this._name
   }
@@ -202,8 +205,10 @@ export class Orbit {
         }
         if (!cmt.get(nameOpWithoutT)?.includes(op.t)) {
           cmt.get(nameOpWithoutT)!.push(op.t);
+          cmt.get(nameOpWithoutT)!.sort((a, b) => a - b)
         }
       }
+
     }
 
     // 2: sort operations Mx < Mx+1 < CMx < CMx+1
@@ -224,12 +229,17 @@ export class Orbit {
       //  Orbit name (stabilizers signature) : M1-T0 M11-T0~4* M11-T6
       //
       // Hence the loop... otherwise we lose M11-T6
+
+      // code for debug
+      const orbitSearching = this.ipcsset.find(pcs => pcs.pid() === 5) != undefined
+
       let prevNumberOfElts = cmt.get(nameOpWithoutT)?.length
       let numberOfElts
       do {
         prevNumberOfElts = cmt.get(nameOpWithoutT)?.length
-        if (prevNumberOfElts && prevNumberOfElts > 1) {
-         // cmt.get(nameOpWithoutT)?.sort((a, b) => a - b)
+        // if (prevNumberOfElts &&  prevNumberOfElts > 2) {
+        if (prevNumberOfElts && prevNumberOfElts > 1 && (this.groupAction!.n % prevNumberOfElts) === 0) {
+          cmt.get(nameOpWithoutT)?.sort((a, b) => a - b)
           // cmt.get(nameOpWithoutT)?.forEach(a => console.log(a + ''))
           let step = cmt.get(nameOpWithoutT)![1] - cmt.get(nameOpWithoutT)![0]
           shortName = nameOpWithoutT + "-T" + cmt.get(nameOpWithoutT)![0] + "~" + step + "*";
@@ -273,7 +283,7 @@ export class Orbit {
    *   @return {MotifStabilizer} the motifStabilizer of this orbit
    */
   buildNameAndMotifStabilizerName(): MotifStabilizer {
-    const stabSignature = this.buildStabilizersSignatureName() // set this.name
+    const stabSignature = this.name // buildStabilizersSignatureName() // set this.name
     // take left part of "M1-T0 CM11-Tx~m" => "M1 CM11"
 
     const signatureWithoutTranslation = stabSignature.split(" ").map(op => op.trim().split("-")[0]);
