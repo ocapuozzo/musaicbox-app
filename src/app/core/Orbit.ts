@@ -13,7 +13,6 @@ import {MotifStabilizer} from "./MotifStabilizer";
 import {Stabilizer} from "./Stabilizer";
 import {GroupAction} from "./GroupAction";
 import {PcsUtils} from "../utils/PcsUtils";
-import {MusaicOperation} from "./MusaicOperation";
 
 
 export class Orbit {
@@ -165,9 +164,9 @@ export class Orbit {
    */
   get name() {
     if (!this._name) {
-       const ops = this.stabilizers.flatMap(stab => stab.operations)
-      return this._name =  [...new Set(ops)].sort(MusaicOperation.compare).join(" ")
-      // return this.buildStabilizersSignatureName();
+      //  const ops = this.stabilizers.flatMap(stab => stab.operations)
+      // return this._name =  [...new Set(ops)].sort(MusaicOperation.compare).join(" ")
+      return this.buildStabilizersSignatureName();
     }
     return this._name
   }
@@ -205,6 +204,7 @@ export class Orbit {
         }
         if (!cmt.get(nameOpWithoutT)?.includes(op.t)) {
           cmt.get(nameOpWithoutT)!.push(op.t);
+          cmt.get(nameOpWithoutT)!.sort((a, b) => a - b)
         }
       }
     }
@@ -221,28 +221,39 @@ export class Orbit {
       let shortName = ''
 
       // Pcs [0,2,4,6,8] in orbit. Group : n=12 [M1 M11]  Orbit cardinal : 12
-      // Orbit name (stabilizers signature) : M1-T0 M11-T0~4*
+      //  Orbit name (stabilizers signature) : M1-T0 M11-T0~4*
       //
       // Pcs [0,1,4,7,8] in orbit. Group : n=12 [M1 M11]  Orbit cardinal : 12
-      //  Orbit name (stabilizers signature) : M1-T0 M11-T0~4* M11-T6
+      //  Orbit name (stabilizers signature) : M1-T0 M11-T0~6* M11-T4 M11-T8 (or M1-T0 M11-T0~4* M11-T6)
       //
       // Hence the loop... otherwise we lose M11-T6
+
+      // code for debug
+      // const orbitSearching = this.ipcsset.find(pcs => pcs.pid() === 5) != undefined
+
       let prevNumberOfElts = cmt.get(nameOpWithoutT)?.length
       let numberOfElts
       do {
         prevNumberOfElts = cmt.get(nameOpWithoutT)?.length
-        if (prevNumberOfElts && prevNumberOfElts > 1) {
-         // cmt.get(nameOpWithoutT)?.sort((a, b) => a - b)
+        // if (prevNumberOfElts &&  prevNumberOfElts > 2) {
+        // be careful :
+        //   M11-T1 M11-T2 M11-T4 M11-T5 M11-T7 M11-T8 M11-T10 M11-T11 => M11-T1~3* and M11-T2~3*
+        if (prevNumberOfElts && prevNumberOfElts > 2) {
+          // cmt.get(nameOpWithoutT) is sorted
           // cmt.get(nameOpWithoutT)?.forEach(a => console.log(a + ''))
-          let step = cmt.get(nameOpWithoutT)![1] - cmt.get(nameOpWithoutT)![0]
-          shortName = nameOpWithoutT + "-T" + cmt.get(nameOpWithoutT)![0] + "~" + step + "*";
-          // when shortName is defined, delete entry
-          let firstStep = cmt.get(nameOpWithoutT)![0]
-          let steps = cmt.get(nameOpWithoutT)!
-          // "delete" multiple of step
-          steps = steps?.filter(k => (k - firstStep) % step !== 0)
-          cmt.set(nameOpWithoutT, steps)
-          res = (res.length > 1) ? res + ' ' + shortName : shortName
+          let resultStep = this.getStep(cmt.get(nameOpWithoutT))
+          if (resultStep.step) {
+            shortName = nameOpWithoutT + "-T" + cmt.get(nameOpWithoutT)![0] + "~" + resultStep.step + "*";
+            // when shortName is defined, delete entry
+            let firstStep = cmt.get(nameOpWithoutT)![0]
+            let steps = cmt.get(nameOpWithoutT)!
+
+            //reduce steps 1,2,4,5,7,8,10,11 -> 2,5,8,11
+            steps = steps?.filter((k, index) => (index % resultStep.stepIndex !== 0))
+
+            cmt.set(nameOpWithoutT, steps)
+            res = (res.length > 1) ? res + ' ' + shortName : shortName
+          }
         }
         numberOfElts = cmt.get(nameOpWithoutT)?.length
       } while (numberOfElts && prevNumberOfElts !== numberOfElts)
@@ -276,7 +287,7 @@ export class Orbit {
    *   @return {MotifStabilizer} the motifStabilizer of this orbit
    */
   buildNameAndMotifStabilizerName(): MotifStabilizer {
-    const stabSignature = this.name 
+    const stabSignature = this.name
     // take left part of "M1-T0 CM11-Tx~m" => "M1 CM11"
 
     const signatureWithoutTranslation = stabSignature.split(" ").map(op => op.trim().split("-")[0]);
@@ -312,4 +323,43 @@ export class Orbit {
   getPcsWithThisId(id: number) {
     return this.ipcsset.find(p => p.id === id)
   }
+
+  //
+  // 0,2,10 => 0
+  // 2,5,8,11 => 3, stepIndex=1
+  // 1,2,4,5,7,8,10,11 => 3 (4-1, 7-4, 10-7) == 3 (5-2, 8-5, 11-8) == 3 , stepIndex=2
+  // 0,4,8 => 4, stepIndex=1
+  // 1,5,7,11 => ??? (7-1) == 6 (11-5) == 6 , stepIndex=2
+  // 1,3,5,7 => 0, stepIndex=0 // because :
+  //  stepIndex = 1 (3-1, 5-3, 7-5) => step=2
+  //   but nb comparaisons+1 => 4, and 2 <> 12/4 NO !
+  //  stepIndex = 2 (5-1) => step=4
+  //   but nb comparaisons+1 => 2, and 4 = 12/2 NO !
+  public getStep(steps ?: number[])  {
+    let stepResult = 0
+    let find = false
+    let i = 1
+    if (steps)
+      for (; i < steps.length - 1; i++) {
+        let step = steps[i] - steps[0]
+        find = true
+        let nComparaisons = 0
+        for (let k = i; k < steps.length; k += i) {
+          nComparaisons++
+          if (steps[k] - steps[k-i] !== step) {
+            find = false
+            break
+          }
+        }
+        // console.log(`with ${steps} : (${step} === 12/( ${nComparaisons}+1) ??`)
+        if (find && (step === 12/(nComparaisons+1))) {
+          stepResult = step
+          // console.log(`with ${steps} : (${step} === 12/( ${nComparaisons}+1) ??`)
+          break
+        }
+      }
+    return {step: stepResult, stepIndex : stepResult ? i : 0 }
+
+  }
+
 }

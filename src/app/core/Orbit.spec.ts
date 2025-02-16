@@ -106,10 +106,56 @@ describe('Orbit', () => {
   })
 
   it("orbit stabilizer", () => {
-    const cyclicGroupAction = ManagerGroupActionService.getGroupActionFromGroupAliasName("Dihedral")
-    let pcs = cyclicGroupAction?.getPcsWithThisPid(1755)
+    const dihedralGroupAction = ManagerGroupActionService.getGroupActionFromGroupAliasName("Dihedral")
+    let pcs = dihedralGroupAction?.getPcsWithThisPid(1755)
     expect(pcs).toBeTruthy()
   })
+
+   it("getStep" , () => {
+     const dihedralGroupAction = ManagerGroupActionService.getGroupActionFromGroupAliasName("Dihedral")
+     let pcs = dihedralGroupAction?.getPcsWithThisPid(1755)
+     const orbit = pcs!.orbit
+     //
+     // M11-T0 M11-T2 M11-T10 => 0
+     // M11-T0 M11-T2 M11-T4 M11-T6 M11-T8 M11-T10 => 2
+     // M11-T1 M11-T4 M11-T7 M11-T10 M11-T2 M11-T5 M11-T8 M11-T11 => sorted ??
+     // M11-T1 M11-T2 M11-T4 M11-T5 M11-T7 M11-T8 M11-T10 M11-T11 => 3
+     // M11-T1 M11-T4 M11-T7 M11-T10  => 3
+     // M11-T2 M11-T5 M11-T8 M11-T11  => 3
+
+     //
+     expect(orbit.getStep([0,2,10]).step).toEqual(0)
+     //
+     expect(orbit.getStep([1,4,7,10])).toEqual({step:3, stepIndex:1})
+     // 3 = 12/ (nb comparaisons + 1) stepIndex = 1
+     //
+     expect(orbit.getStep([1,4,7,10])).toEqual({step:3, stepIndex:1})
+     // 3 = 12/ (nb comparaisons + 1) stepIndex = 1
+     //
+     expect(orbit.getStep([2,5,8,11])).toEqual({step:3, stepIndex:1})
+     // 3 = 12/ (nb comparaisons + 1) stepIndex = 1
+     //
+     expect(orbit.getStep([1,2,4,5,7,8,10,11])).toEqual({step:3, stepIndex:2})
+     // 3 = 12/ (nb comparaisons + 1 ) stepIndex = 2
+     //
+     expect(orbit.getStep([1,5,7,11])).toEqual({step:6, stepIndex:2})
+     // 6 = 12/(nb comparaisons + 1) stepIndex = 2
+     //
+     expect(orbit.getStep([0,4,8])).toEqual({step:4, stepIndex:1})
+     // 4 = 12/(nb comparaisons + 1) stepIndex = 1
+     //
+     expect(orbit.getStep([1,3,5,7])).toEqual({step:0, stepIndex:0})
+         // stepIndex = 1 (3-1, 5-3, 7-5) => step=2
+         //   but nb comparaisons+1 => 4, and 2 <> 12/4 NO !
+         // stepIndex = 2 (5-1) => step=4
+         //    nb comparaisons+1 => 2, and 4 = 12/2 NO !
+
+     //reduce steps 1,2,4,5,7,8,10,11 -> 2,5,8,11
+     // let steps =  [1,2,4,5,7,8,10,11]
+     // steps = steps?.filter((k, index) => (index % 2 !== 0))
+     // console.log(steps)
+
+   })
 
 
   it("hashCode() on detached orbit", () => {
