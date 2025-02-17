@@ -4,13 +4,18 @@ From 88musaics.org project
 :description: Musaicbox frontend app
 :icons: font
 :listing-caption: Listing
-:toc-title: Table des matières
 :toc: left
 :toclevels: 4
 // :table-caption!:
 :stem:
+
 // :author: Olivier Capuozzo <olivier.capuozzo@gmail.com>
 // :url-quickref: https://docs.asciidoctor.org/asciidoc/latest/syntax-quick-reference/
+
+//  for custom css, edit docinfo.html and put,
+// into file.adoc, add [.new-class-name] before content asciidoc concerned
+// into terminal :
+//  asciidoctor -a docinfo=shared Musaicbox.adoc
 
 ifdef::backend-pdf[]
 :source-highlighter: rouge
@@ -860,44 +865,44 @@ As we can see, three new operations are discovered (*M11-T0*, *CM5-T0* and *CM7-
 |{nbsp} stem:[@]|Id|M5|M7|M11|CM1|CM5|CM7|CM11
 
 |Id
-|*Id*
-|M5
-|M7
-|M11
-|CM1
-|CM5
-|CM7
-|CM11
+|[.klein1]#*Id*#
+|[.klein1]#M5#
+|[.klein1]#M7#
+|[.klein1]#M11#
+|[.klein2]#CM1#
+|[.klein2]#CM5#
+|[.klein2]#CM7#
+|[.klein2]#CM11#
 
 |M5
-|M5
-|*Id*
-|M11
-|M7
-|CM5
-|CM1
-|CM11
-|CM7
+|[.klein1]#M5#
+|[.klein1]#*Id*#
+|[.klein1]#M11#
+|[.klein1]#M7#
+|[.klein2]#CM5#
+|[.klein2]#CM1#
+|[.klein2]#CM11#
+|[.klein2]#CM7#
 
 |M7
-|M7
-|M11
-|*Id*
-|M5
-|CM7
-|CM11
-|CM1
-|CM5
+|[.klein1]#M7#
+|[.klein1]#M11#
+|[.klein1]#*Id*#
+|[.klein1]#M5#
+|[.klein2]#CM7#
+|[.klein2]#CM11#
+|[.klein2]#CM1#
+|[.klein2]#CM5#
 
 |M11
-|M11
-|M7
-|M5
-|*Id*
-|CM11
-|CM7
-|CM5
-|CM1
+|[.klein1]#M11#
+|[.klein1]#M7#
+|[.klein1]#M5#
+|[.klein1]#*Id*#
+|[.klein2]#CM11#
+|[.klein2]#CM7#
+|[.klein2]#CM5#
+|[.klein2]#CM1#
 
 |CM1
 |CM1
@@ -945,6 +950,8 @@ We note that no other element of the group is generated (no new transformation o
 
 [.text-center]
 { *M1, M5, M7, M11, CM1, CM5, CM7, CM11* }
+
+TIP: We can observe the highlighting of 2 distinct https://en.wikipedia.org/wiki/Klein_four-group[klein four-groups].
 
 By composing each of these operations with the 12 possible transposition steps, we obtain *96* operations in the group.
 
@@ -1214,7 +1221,7 @@ NOTE: Suffixe -T1 is to be sure to inject the neutral operation (M1-T0) into the
 Example : [M1-T1 M11-T1] => [M1 M11]
 
 .Enumeration by cardinality
-[%header,frame=ends,grid=rows, cols="8h,^1,^1,^1,^1,^1,^1,^1,^1,^1,^1,^1,^1,^1,^1s,^1e,^4"]
+[%header,frame=ends,grid=rows, cols="8h,^1,^1,^1,^1,^1,^1,^1,^1,^1,^1,^1,^1,^1,>1s,^1e,^4"]
 |===
 .^|SubGroup/Card .^|0 .^|1 .^|2 .^|3 .^|4 .^|5 .^|6 .^|7 .^|8 .^|9 .^|10 .^|11 .^|12 .^|stem:[sum_("orbits")] .^|#Ops .^|name
 
@@ -1250,7 +1257,7 @@ Example : [M1-T1 M11-T1] => [M1 M11]
 |6
 |1
 |1
-|352 *
+|* 352
 |12
 |Cyclicstem:[""_(ZZ_12)]
 
@@ -1286,7 +1293,7 @@ Example : [M1-T1 M11-T1] => [M1 M11]
 |6
 |1
 |1
-|224 *
+|* 224
 |24
 |Dihedralstem:[""_(ZZ_12)]
 
@@ -1376,7 +1383,7 @@ Example : [M1-T1 M11-T1] => [M1 M11]
 |(6)
 |(1)
 |(1)
-|180 *
+|* 180
 |24
 |
 
@@ -1394,7 +1401,7 @@ Example : [M1-T1 M11-T1] => [M1 M11]
 |5
 |1
 |1
-|158 *
+|* 158
 |48
 |Affinestem:[""_(ZZ_12)]
 
@@ -1521,7 +1528,7 @@ Example : [M1-T1 M11-T1] => [M1 M11]
 |(5)
 |(1)
 |(1)
-|88 *
+|* 88
 |96
 |G = stem:[Aff_cZZ_12]
 |===
@@ -1533,7 +1540,7 @@ Other view, the lattice of subgroups, without trivial group, identified by their
 .Subgroups lattice - prefix "M" and "M1" are omitted (M1 CM11 => C11) (J-Y. Fusil - 2009)
 image::lattice-subgroups12.png[lattice-subgroups12]
 
-NOTE: Note the central vertical axis on which 4 of its 5 known subgroups are inscribed.
+NOTE: Note the central vertical axis on which 4 of its 5 known subgroups are located.
 
 TODO Suite...
 
