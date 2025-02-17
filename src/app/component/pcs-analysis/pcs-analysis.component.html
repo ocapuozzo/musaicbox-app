@@ -90,13 +90,13 @@
         }
       </p>
       <p>
-        Limited Transformation :
+        Musaic Limited Transformation :
         <span style="display: inline-flex; align-items: center;">
-        <span class="analyse-pcs" *ngIf="{ltf:pcsMapped.isLimitedTransformation()} as data">
-          @if (data.ltf) {
-            <b>{{ data.ltf }}</b>
+        <span class="analyse-pcs" *ngIf="{isLtf:pcsMapped.isLimitedTransformation()} as data">
+          @if (data.isLtf) {
+            <b>{{ data.isLtf }}</b>
           } @else {
-            {{ data.ltf }}
+            {{ data.isLtf }}
           }
 
         </span>&nbsp;&nbsp;
@@ -108,6 +108,7 @@
 
       </p>
       <p style="max-width: 400px">
+        @if (pcs.isDetached() || pcsInMusaic() ) {(Musaic)} @else { (in orbit) }
         Stabilizers ({{operationsStabilizerOf(pcsMapped).cardinal}}):
         <span
           class="analyse-pcs">{{ operationsStabilizerOf(pcsMapped).names //pcsMapped.musaicPrimeForm().orbit.motifStabilizer.name    }}</span>

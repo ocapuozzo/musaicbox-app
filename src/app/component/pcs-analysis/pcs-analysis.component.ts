@@ -14,6 +14,7 @@ import {MusaicComponent} from "../musaic/musaic.component";
 import {OctotropeComponent} from "../octotrope/octotrope.component";
 import {NgIf} from "@angular/common";
 import {HtmlUtil} from "../../utils/HtmlUtil";
+import {ManagerGroupActionService} from "../../service/manager-group-action.service";
 
 @Component({
   selector: 'app-pcs-analysis',
@@ -190,7 +191,8 @@ export class PcsAnalysisComponent {
     // else get stabilizers from its group
     const operations: MusaicOperation[] =
       pcs.isDetached()
-        ? GroupAction.predefinedGroupsActions(12, Group.MUSAIC).operations
+        ? ManagerGroupActionService.getGroupActionFromGroupAliasName("Musaic")?.operations ?? []
+        // ?  GroupAction.predefinedGroupsActions(12, Group.MUSAIC).operations
         : pcs.orbit.groupAction!.group.operations
 
     operations.forEach(operation => {
@@ -205,4 +207,7 @@ export class PcsAnalysisComponent {
     }
   }
 
+  pcsInMusaic() {
+    return !this.pcs.isDetached() ? this.pcs.orbit.groupAction?.group.operations.length===96 : false
+  }
 }

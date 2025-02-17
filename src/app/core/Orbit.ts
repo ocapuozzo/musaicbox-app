@@ -190,6 +190,7 @@ export class Orbit {
    */
   private buildStabilizersSignatureName() {
     let res = ""
+    const n = this.groupAction!.n
     // 1 get all operations
     // key : "Ma" or "CMa" op name (Ex: M5, CM5) nameOpsWithoutT
     // value : x of TX (Ex : 2, 3, 4) transposition value
@@ -224,31 +225,30 @@ export class Orbit {
       //  Orbit name (stabilizers signature) : M1-T0 M11-T0~4*
       //
       // Pcs [0,1,4,7,8] in orbit. Group : n=12 [M1 M11]  Orbit cardinal : 12
-      //  Orbit name (stabilizers signature) : M1-T0 M11-T0~6* M11-T4 M11-T8 (or M1-T0 M11-T0~4* M11-T6)
+      //  Orbit name (stabilizers signature) : M1-T0 M11-T0~6* M11-T4 M11-T8 (best if M1-T0 M11-T0~4* M11-T6 => TODO)
       //
       // Hence the loop... otherwise we lose M11-T6
 
-      // code for debug
-      // const orbitSearching = this.ipcsset.find(pcs => pcs.pid() === 5) != undefined
-
+      // code for debug with condition
+      const orbitSearching = this.ipcsset.find(pcs => pcs.pid() === 403) != undefined
       let prevNumberOfElts = cmt.get(nameOpWithoutT)?.length
       let numberOfElts
       do {
         prevNumberOfElts = cmt.get(nameOpWithoutT)?.length
-        // if (prevNumberOfElts &&  prevNumberOfElts > 2) {
-        // be careful :
+        // be careful ( pcs : 0,1,3,4,6,7,9,10 )
         //   M11-T1 M11-T2 M11-T4 M11-T5 M11-T7 M11-T8 M11-T10 M11-T11 => M11-T1~3* and M11-T2~3*
-        if (prevNumberOfElts && prevNumberOfElts > 2) {
-          // cmt.get(nameOpWithoutT) is sorted
+        if (prevNumberOfElts && prevNumberOfElts >= 2) {
+          // assert : cmt.get(nameOpWithoutT) is sorted
           // cmt.get(nameOpWithoutT)?.forEach(a => console.log(a + ''))
-          let resultStep = this.getStep(cmt.get(nameOpWithoutT))
+          const steps = cmt.get(nameOpWithoutT)
+          let resultStep = this.getCycleStep(cmt.get(nameOpWithoutT), n)
           if (resultStep.step) {
             shortName = nameOpWithoutT + "-T" + cmt.get(nameOpWithoutT)![0] + "~" + resultStep.step + "*";
             // when shortName is defined, delete entry
-            let firstStep = cmt.get(nameOpWithoutT)![0]
+            // let firstStep = cmt.get(nameOpWithoutT)![0]
             let steps = cmt.get(nameOpWithoutT)!
 
-            //reduce steps 1,2,4,5,7,8,10,11 -> 2,5,8,11
+            //example reduce : steps 1,2,4,5,7,8,10,11 -> 2,5,8,11
             steps = steps?.filter((k, index) => (index % resultStep.stepIndex !== 0))
 
             cmt.set(nameOpWithoutT, steps)
@@ -324,18 +324,30 @@ export class Orbit {
     return this.ipcsset.find(p => p.id === id)
   }
 
-  //
-  // 0,2,10 => 0
-  // 2,5,8,11 => 3, stepIndex=1
-  // 1,2,4,5,7,8,10,11 => 3 (4-1, 7-4, 10-7) == 3 (5-2, 8-5, 11-8) == 3 , stepIndex=2
-  // 0,4,8 => 4, stepIndex=1
-  // 1,5,7,11 => ??? (7-1) == 6 (11-5) == 6 , stepIndex=2
-  // 1,3,5,7 => 0, stepIndex=0 // because :
-  //  stepIndex = 1 (3-1, 5-3, 7-5) => step=2
-  //   but nb comparaisons+1 => 4, and 2 <> 12/4 NO !
-  //  stepIndex = 2 (5-1) => step=4
-  //   but nb comparaisons+1 => 2, and 4 = 12/2 NO !
-  public getStep(steps ?: number[])  {
+  /**
+   *
+   * search step cycle for reduce, or not :
+   *      Ex : 0,2,10   => (step = 0) => (by caller) T0, T2, T10
+   *      Ex : 2,5,8,11 => (step = 3, so reduce by caller) => T-2~3
+   *
+   *   0,2,10 => step=0, stepIndex=0
+   *   2,5,8,11 => step=3, stepIndex=1
+   *   1,2,4,5,7,8,10,11 => 3 (4-1, 7-4, 10-7) == 3 (5-2, 8-5, 11-8) ==> step=3 , stepIndex=2
+   *   0,4,8 => step=4, stepIndex=1
+   *   1,5,7,11 => ??? (7-1) == 6 (11-5) step=== 6 , stepIndex=2
+   *   1,3,5,7 => step=0, stepIndex=0 // because :
+   *    stepIndex = 1 (3-1, 5-3, 7-5) => step=2
+   *     but nb comparaisons+1 => 4, and 2 <> 12/4 NO !
+   *    stepIndex = 2 (5-1) => step=4
+   *     but nb comparaisons+1 => 2, and 4 = 12/2 NO !
+   *
+   *  stepIndex return if for caller, for delete sequence values of steps
+   *
+   * @param steps values of T
+   * @param n
+   * @return { step: number, stepIndex :number }
+   */
+  public getCycleStep(steps ?: number[], n = 12): { step: number; stepIndex: number } {
     let stepResult = 0
     let find = false
     let i = 1
@@ -352,7 +364,7 @@ export class Orbit {
           }
         }
         // console.log(`with ${steps} : (${step} === 12/( ${nComparaisons}+1) ??`)
-        if (find && (step === 12/(nComparaisons+1))) {
+        if (find && (step === n/(nComparaisons+1))) {
           stepResult = step
           // console.log(`with ${steps} : (${step} === 12/( ${nComparaisons}+1) ??`)
           break
