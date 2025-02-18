@@ -66,7 +66,7 @@ describe('IPcs unit tests', () => {
 
     expect(ipcsCMajor).toBeTruthy()
     expect(ipcsCMajor.n).toEqual(12)
-    expect(ipcsCMajor.getPcsStr()).toEqual("[0,4,7]")
+    expect(ipcsCMajor.getPcsStr()).toEqual("[0 4 7]")
     expect(ipcsCMajor.getMappedBinPcs().length).toEqual(12)
     expect(ipcsCMajor.templateMappingBinPcs.length).toEqual(12)
 
@@ -111,8 +111,8 @@ describe('IPcs unit tests', () => {
       nMapping: 12,
       templateMappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // mapped into [0,4,7] {C E G}
     })
-    expect(ipcsDiatMajMapped.getPcsStr()).toEqual('[0,2,4]')
-    expect(ipcsDiatMajMapped.unMap().getPcsStr()).toEqual('[0,4,7]')
+    expect(ipcsDiatMajMapped.getPcsStr()).toEqual('[0 2 4]')
+    expect(ipcsDiatMajMapped.unMap().getPcsStr()).toEqual('[0 4 7]')
   })
 
   it("toString", () => {
@@ -430,10 +430,10 @@ describe('IPcs unit tests', () => {
     expect(pivot).toEqual(1)
 
     const p3 = pcs.modalPrimeForm()
-    expect(p3.getPcsStr()).toEqual('[0,1,11]')
+    expect(p3.getPcsStr()).toEqual('[0 1 11]')
     expect(p3.getPivot()).toEqual(0)
 
-    pcs = new IPcs({strPcs: '[4,5,6,7,8]'})
+    pcs = new IPcs({strPcs: '[4 5 6 7 8]'})
     pivot = pcs.getPivotFromSymmetry()
     expect(pivot).toEqual(6)
 
@@ -769,12 +769,12 @@ describe('IPcs unit tests', () => {
       nMapping: 12,
       templateMappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // mapped into [0,4,7] {C E G}
     })
-    expect(ipcsDiatMajMapped.getPcsStr()).toEqual('[0,2,4]')
-    expect(ipcsDiatMajMapped.getMappedPcsStr()).toEqual('[0,4,7]')
+    expect(ipcsDiatMajMapped.getPcsStr()).toEqual('[0 2 4]')
+    expect(ipcsDiatMajMapped.getMappedPcsStr()).toEqual('[0 4 7]')
 
-    expect(ipcsDiatMajMapped.unMap().getPcsStr()).toEqual('[0,4,7]')
+    expect(ipcsDiatMajMapped.unMap().getPcsStr()).toEqual('[0 4 7]')
     // default auto-map on himself
-    expect(ipcsDiatMajMapped.unMap().getMappedPcsStr()).toEqual('[0,4,7]')
+    expect(ipcsDiatMajMapped.unMap().getMappedPcsStr()).toEqual('[0 4 7]')
 
   })
 
@@ -843,7 +843,7 @@ describe('IPcs unit tests', () => {
       nMapping: 12,
       templateMappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // pcs mapped into [0,4,7]
     })
-    expect(pcsDiatMajMapped.getMappedPcsStr()).toEqual('[0,4,7]')
+    expect(pcsDiatMajMapped.getMappedPcsStr()).toEqual('[0 4 7]')
     expect(pcsDiatMajMapped.is()).toEqual([4, 3, 5]);
 
     // Sum of elements of IS is n

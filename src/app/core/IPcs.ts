@@ -285,7 +285,7 @@ export class IPcs {
       }
     }
     if (strpcs) {
-      let pitches = strpcs.split(',');
+      let pitches = strpcs.split(/[ ,]+/);
       for (let i = 0; i < pitches.length; i++) {
         if (!pitches[i] || isNaN(Number(pitches[i])) || Number(pitches[i]) < 0 || Number(pitches[i]) > 12) {
           continue
@@ -604,59 +604,42 @@ export class IPcs {
     })
   }
 
+  static vector2pcsStr(previousValue : number[], currentValue : number, currentIndex: number)
+  {
+    if (currentValue === 1) {
+      previousValue.push(currentIndex)
+    }
+    return previousValue
+  }
+
   /**
    * Get textuel representation of this in n (notation bracket by default)
    * string image of PCS from bin array
-   * Example : [1,1,0,0,0,0,0,1,0,0,0,0] => "[0, 1, 7]"
+   * Example : [1,1,0,0,0,0,0,1,0,0,0,0] => "[0 1 7]"
    * @returns {string}
    */
   getPcsStr(withBracket: boolean = true): string {
-    let res = "";
-    for (let index = 0; index < this.abinPcs.length; index++) {
-      const element = this.abinPcs[index];
-      if (element)
-        res = (res) ? res + ',' + index.toString() : index.toString();
-    }
-    if (withBracket) {
-      return '[' + res + ']';
-    }
-    return res;
-  }
+    const pcs = this.abinPcs.reduce(IPcs.vector2pcsStr, [])
 
-  // experimental (use for tool tip that cannot be html code)
-  getPcsStrWithPivot(withBracket: boolean = true): string {
-    const pivotMarker = "*"
-    let res = "";
-    for (let index = 0; index < this.abinPcs.length; index++) {
-      const element = this.abinPcs[index];
-      if (element === 1) {
-        res = (res)
-          ? res + ',' + ((index === this.iPivot) ? pivotMarker + index + pivotMarker : index)
-          : index.toString()
-      }
+    if (withBracket) {
+       return `[${pcs.join(' ')}]`
     }
-    return withBracket ? '[' + res + ']' : res
+    return pcs.join(' ')
   }
 
 
   /**
    * Get textuel representation of this in nMapping (notation bracket)
    * string image of PCS from bin array
-   * Example : [1,1,0,0,0,0,0,1,0,0,0,0] => "[0, 1, 7]"
+   * Example : [1,1,0,0,0,0,0,1,0,0,0,0] => "[0 1 7]"
    * @returns {string}
    */
   getMappedPcsStr(withBracket: boolean = true): string {
-    let res = "";
-    const mappedBin = this.getMappedBinPcs()
-    for (let index = 0; index < mappedBin.length; index++) {
-      const element = mappedBin[index];
-      if (element)
-        res = (res) ? res + ',' + index.toString() : index.toString();
-    }
+    const pcs = this.getMappedBinPcs().reduce(IPcs.vector2pcsStr, [])
     if (withBracket) {
-      return '[' + res + ']';
+      return `[${pcs.join(' ')}]`
     }
-    return res
+    return pcs.join(' ')
   }
 
 

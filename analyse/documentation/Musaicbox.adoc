@@ -8,6 +8,9 @@ From 88musaics.org project
 :toclevels: 4
 // :table-caption!:
 :stem:
+:docinfo: shared
+// nice to extend default css, with docinfo.html file in same directory
+// see : https://docs.asciidoctor.org/asciidoctor/latest/html-backend/default-stylesheet/#customize-extend
 
 // :author: Olivier Capuozzo <olivier.capuozzo@gmail.com>
 // :url-quickref: https://docs.asciidoctor.org/asciidoc/latest/syntax-quick-reference/
@@ -225,13 +228,13 @@ Let's take the PCS [0, 4, 7], C, E and G. Formally the textual representations b
 
 image::_0_4_7_set_repr.png[_0_4_7_set_repr]
 
-Example for C,E,G :  `[0,4,7]`
+Example for C,E,G :  `[0,4,7]` or `[0 4 7]` (without comma)
 
 === Vector
 
 It is a binary representation of a pcs.
 
-Example for [0, 4, 7]  (C major):  `[*1*,0,0,0,*1*,0,0,*1*,0,0,0,0]`  (ordered list of binary values) :
+Example for [0 4 7]  (C major):  `[*1*,0,0,0,*1*,0,0,*1*,0,0,0,0]`  (ordered list of binary values) :
 
 image:047_vector.png[]
 
@@ -353,7 +356,7 @@ Other example, a minor 7 and its intervallic structure (3, 4, 3, 2) :
 
 image:minor7-circle-is.png[minor7-circle-is]
 
-TIP: Sum of intervals into intervallic structure is always _n_. For pcs : [0, 4, 7] this is (4, 3, 5)
+TIP: Sum of intervals into intervallic structure is always _n_. For pcs : [0 4 7] this is (4, 3, 5)
 
 ==== Musaic
 
@@ -378,7 +381,7 @@ Wy take prime form with n ?
 Because, each of them being generator of a generator step value of n, they guarantee to traverse the structure in its entirety, while preserving characteristics specific to _n_ (in particular the invariants).
 ====
 
-.Example of musaic representation of [0,4,7]
+.Example of musaic representation of [0 4 7]
 [.float-group]
 --
 image::_0_4_7_musaic-names.png["_0_4_7_musaic-names",float="left",align="center"]
@@ -447,11 +450,11 @@ Motivation: Allows us to establish an equivalence relationship "up to transposit
 
 Examples when stem:[E = {0, 1, ..., 11}]  (cardinal of stem:[E\ is\ |E| = 12])
 
-* Example1 : {nbsp} stem:[T_1("["0, 4, 7\]) ->"["1, 5, 8\]] {nbsp} (C Maj -> C# Maj)
+* Example1 : {nbsp} stem:[T_1("["0 4 7\]) ->"["1 5 8\]] {nbsp} (C Maj -> C# Maj)
 
-* Example2 : {nbsp} stem:[T_5("["0, 4, 7\]) -> "["0, 5, 9\]] {nbsp} (C Maj -> F Maj - [5, 9, 12] = [5, 9, 0] = [0, 5, 9])
+* Example2 : {nbsp} stem:[T_5("["0 4 7\]) -> "["0 5 9\]] {nbsp} (C Maj -> F Maj - [5 9 12] = [5 9 0] = [0 5 9])
 
-* Example3 : {nbsp} stem:[T_0("["0, 4, 7\]) ->"["0, 4, 7\]] {nbsp} (neutral operation)
+* Example3 : {nbsp} stem:[T_0("["0 4 7\]) ->"["0 4 7\]] {nbsp} (neutral operation)
 
 
 === Multiplication
@@ -483,13 +486,13 @@ Motivation: allows to establish an equivalence relation "up to a symmetry"
 
 Examples when stem:[E = {0, 1, ..., 11}]  (cardinal of stem:[E\ is\ |E| = 12])
 
-* Example M11 : {nbsp} stem:[M_11("["0, 4, 7\]) ->"["0, 5, 8\]] {nbsp} (C Maj -> Fm/5th - inversion)
+* Example M11 : {nbsp} stem:[M_11("[0 4 7\]") ->"[0 5 8\]"] {nbsp} (C Maj -> Fm/5th - inversion)
 
-* Example M5 : {nbsp} stem:[M_5("["0, 4, 7\]) ->"["0, 8, 11\]] {nbsp}
+* Example M5 : {nbsp} stem:[M_5("[0 4 7\]") ->"[0 8 11\]"] {nbsp}
 
-* Example M7 : {nbsp} stem:[M_7("["0, 4, 7\]) ->"["0, 1, 4\]] {nbsp}
+* Example M7 : {nbsp} stem:[M_7("[0 4 7\]") ->"[0 1 4\]"] {nbsp}
 
-* Example id : {nbsp} stem:[M_1("["0, 4, 7\]) ->"["0, 4, 7\]] {nbsp} (neutral operation)
+* Example id : {nbsp} stem:[M_1("[0 4 7\]") ->"[0 4 7\]"] {nbsp} (neutral operation)
 
 === Complement
 
@@ -515,8 +518,8 @@ Particularly because we have the equality : stem:[Stab(A) = Stab(A^c)] (Property
 
 Examples when stem:[E = {0, 1, ..., 11}]  (cardinal of stem:[E\ is\ |E| = 12])
 
-* Example1 : {nbsp}  stem:[C("["0, 2, 4, 5, 7, 9, 11\]) ->"["1, 3, 6, 8, 10 \]] {nbsp} Major scale to Pentatonic scale
-* Example2 : {nbsp}  stem:[C("["0, 2, 4, 6, 8, 10\]) ->"["1, 3, 5, 7, 9, 11 \]] {nbsp} Whole tone scale to Whole tone scale
+* Example1 : {nbsp}  stem:[C("[0 2 4 5 7 9 11\]") ->"[1 3 6 8 10 \]"] {nbsp} Major scale to Pentatonic scale
+* Example2 : {nbsp}  stem:[C("[0 2 4 6 8 10\]") ->"[1 3 5 7 9 11\]"] {nbsp} Whole tone scale to Whole tone scale
 
 === Conclusion
 
@@ -549,14 +552,14 @@ _Where *a* is prime with |E| (and *k* a step of transposition)_
 
 Examples when stem:[E = {0, 1, ..., 11}]  (cardinal of stem:[E\ is\ |E| = 12])
 
-. Example M1-T5 : {nbsp} stem:[M_1T_5("["0, 4, 7\]) -> "["5, 9, 12\]] so  stem:["["0, 5, 9,\]] Transposition of 5 halftones (T5)
-. Example M11-T0 : {nbsp} stem:[M_11T_0("["0, 4, 7\]) ->"["0, 5, 8\]] {nbsp} (C Maj -> Fm/5th - Multiplication only - M11 is inversion)
+. Example M1-T5 : {nbsp} stem:[M_1T_5("[0 4 7\]") -> "[5 9 12\]"] so  stem:["[0 5 9\]"] Transposition of 5 halftones (T5)
+. Example M11-T0 : {nbsp} stem:[M_11T_0("[0 4 7\]") ->"[0 5 8\]"] {nbsp} (C Maj -> Fm/5th - Multiplication only - M11 is inversion)
 
-. Example M1-T0 : {nbsp} stem:[M_1T_0("["0, 4, 7\]) ->"["0, 4, 7\]] {nbsp} (neutral op)
+. Example M1-T0 : {nbsp} stem:[M_1T_0("[0 4 7\]") -> "[0 4 7\]"] {nbsp} (neutral op)
 
-. Example M5-T5 : {nbsp} stem:[M_5T_5("["0, 4, 7\]) ->"["1, 4, 5\]] {nbsp} Multiplication and Transposition
+. Example M5-T5 : {nbsp} stem:[M_5T_5("[0 4 7\]") -> "[1 4 5\]"] {nbsp} Multiplication and Transposition
 
-=== Extended SA Operation
+=== Extended Aff Operation
 
 If we add the complementarity operation to the special affine function, we obtain the following operation: *stem:[c * (ax + k)]* that operates on stem:[P(E)].
 
@@ -593,17 +596,17 @@ stem:[C_"c=true"M_aT_k] , will be denoted by *CMA-TK*
 
 Examples when stem:[E = {0, 1, ..., 11}]  (cardinal of stem:[E\ is\ |E| = 12]) :
 
-* *M1-T0* {nbsp}:{nbsp}  stem:[C_"false"M_1T_0("["0, 4, 7\]) ->"["0, 4, 7\]] {nbsp} (neutral op)
+* *M1-T0* {nbsp}:{nbsp}  stem:[C_"false"M_1T_0("[0 4 7\]") -> "[0 4 7\]"] {nbsp} (neutral op)
 
-* *CM1-T0* {nbsp}:{nbsp} stem:[C_"true"M_1T_0("["0, 2, 4, 5, 7, 9, 11\]) ->"["1, 3, 6, 8, 10\]] {nbsp} (complement only)
+* *CM1-T0* {nbsp}:{nbsp} stem:[C_"true"M_1T_0("[0 2 4 5 7 9 11\]") -> "[1 3 6 8 10\]"] {nbsp} (complement only)
 
-* *M1-T1* {nbsp}:{nbsp} stem:[C_"false"M_1T_1("["0, 4, 7\]) ->"["1, 5, 8\]] {nbsp} (transposition of 1 halftone only)
+* *M1-T1* {nbsp}:{nbsp} stem:[C_"false"M_1T_1("[0 4 7\]) -> "[1 5 8\]"] {nbsp} (transposition of 1 halftone only)
 
-* *M5-T0* {nbsp}:{nbsp} stem:[C_"false"M_5T_0("["0, 4, 7\]) ->"["0, 8, 11\]] {nbsp} (M5 only)
+* *M5-T0* {nbsp}:{nbsp} stem:[C_"false"M_5T_0("[0 4 7\]") -> "[0 8 11\]"] {nbsp} (M5 only)
 
-* *CM5-T4* {nbsp}:{nbsp} stem:[C_"true"M_5T_4("["0, 4, 7\]) ->"["1,2,5,6,7,8,9,10,11\]] {nbsp} (M5,  T4 and Complement)
+* *CM5-T4* {nbsp}:{nbsp} stem:[C_"true"M_5T_4("[0 4 7\]") -> "[1 2 5 6 7 8 9 10 11\]"] {nbsp} (M5,  T4 and Complement)
 
-* *CM1-T1* {nbsp}:{nbsp} stem:[C_"true"M_1T_1("["0, 2, 4, 6, 8, 10\]) ->"["0,2,4,6,8,10\]] {nbsp} (T1 and Complement)
+* *CM1-T1* {nbsp}:{nbsp} stem:[C_"true"M_1T_1("[0 2 4 6 8 10\]") -> "[0 2 4 6 8 10\]"] {nbsp} (T1 and Complement)
 
 
 etc.
@@ -905,44 +908,45 @@ As we can see, three new operations are discovered (*M11-T0*, *CM5-T0* and *CM7-
 |[.klein2]#CM1#
 
 |CM1
-|CM1
-|CM5
-|CM7
-|CM11
-|*Id*
-|M5
-|M7
-|M11
+|[.klein2]#CM1#
+|[.klein2]#CM5#
+|[.klein2]#CM7#
+|[.klein2]#CM11#
+|[.klein1]#*Id*#
+|[.klein1]#M5#
+|[.klein1]#M7#
+|[.klein1]#M11#
 
 |CM5
-|CM5
-|CM1
-|CM11
-|CM7
-|M5
-|*Id*
-|M11
-|M7
+|[.klein2]#CM5#
+|[.klein2]#CM1#
+|[.klein2]#CM11#
+|[.klein2]#CM7#
+|[.klein1]#M5#
+|[.klein1]#*Id*#
+|[.klein1]#M11#
+|[.klein1]#M7#
 
 |CM7
-|CM7
-|CM11
-|CM1
-|CM5
-|M7
-|M11
-|*Id*
-|M5
+|[.klein2]#CM7#
+|[.klein2]#CM11#
+|[.klein2]#CM1#
+|[.klein2]#CM5#
+|[.klein1]#M7#
+|[.klein1]#M11#
+|[.klein1]#*Id*#
+|[.klein1]#M5#
+
 
 |CM11
-|CM11
-|CM7
-|CM5
-|CM1
-|M11
-|M7
-|M5
-|*Id*
+|[.klein2]#CM11#
+|[.klein2]#CM7#
+|[.klein2]#CM5#
+|[.klein2]#CM1#
+|[.klein1]#M11#
+|[.klein1]#M7#
+|[.klein1]#M5#
+|[.klein1]#*Id*#
 
 |===
 
@@ -951,7 +955,7 @@ We note that no other element of the group is generated (no new transformation o
 [.text-center]
 { *M1, M5, M7, M11, CM1, CM5, CM7, CM11* }
 
-TIP: We can observe the highlighting of 2 distinct https://en.wikipedia.org/wiki/Klein_four-group[klein four-groups].
+TIP: We can observe the highlighting of symmetries, and distinct https://en.wikipedia.org/wiki/Klein_four-group[klein four-groups] (first square).
 
 By composing each of these operations with the 12 possible transposition steps, we obtain *96* operations in the group.
 
@@ -977,9 +981,10 @@ Example with n=12 => stem:[ |G| = 2 xx 12 xx 4 = 96]
 
 We have seen that when the group stem:[G] acts on stem:[P(ZZ_12)], stem:[G] is composed of  *96* elements (operations)
 
-stem:[G " acts on " ZZ_12 => G = { C_cM_a"-"T_k | a in { 1, 5, 7, 11 }, k in { 0, 1, ..., 11  }, c in {true, false}}]
+stem:[G] acts on  stem:[ZZ_12]  stem:[G = { C_cM_a"-"T_k]
+where stem:[a in { 1, 5, 7, 11 }, k in { 0, 1, ..., 11  }, c in {true, false}}]
 
-stem:[G = { "M1-T0", "CM1-T0", "M1-T1", "CM1-T0", ..., "CM11-T10", "CM11-T11"}]
+stem:[G = { "M1-T0", "CM1-T0", ..., "CM11-T10", "CM11-T11"}]
 
 
 It is thanks to this group that we will be able to partition our 4096 PCS into remarkable subsets by action of this group on stem:[ZZ_12].
@@ -995,22 +1000,28 @@ Examples :
 
 [example]
 ====
-* Orbite of [0,2,4,6,8,10] is a set of PCS denoted by stem:[G cdot A], where stem:[A] = [0,2,4,6,8,10].
-
-stem:[G cdot "[0,2,4,6,8,10\]" = {"[0,2,4,6,8,10\], [1,3,5,7,9,11\]"}]  (a set of 2 PCS - whole tone scales - musaic n°88)
+* Orbit of [0 2 4 6 8 10] is a set of PCS denoted by stem:[G cdot A], where stem:[A] = [0 2 4 6 8 10].
+ +
+stem:[G cdot "[0 2 4 6 8 10\]"] = stem:[{"[0 2 4 6 8 10\], [1 3 5 7 9 11\]"}]
+ +
+(a set of 2 PCS - whole tone scales - musaic n°88)
 
 ====
 
 [example]
 ====
-* stem:[G cdot "[0,2,4,5,7,9,11\]" = {"[0,2,5,7,10\], ...,  [0,2,4,5,7,9,11\]"}]  (a set of 48 PCS - musaic n°38)
+* stem:[G cdot "[0 2 4 5 7 9 11\]"] = stem:[{"[0 2 5 7 10\], ...,  [0 2 4 5 7 9 11\]"}]
+ +
+(a set of 48 PCS - musaic n°38)
 
 ====
 
 
 [example]
 ====
-* stem:[G cdot "[0,3,6,9\]" = {"[0,3,6,9\], [1,4,7,10\], ...,  [0,1,3,4,6,7,9,10\]"}]  (a set of 6 PCS - diminished 7th and "Messiaen Mod 2" scales - musaic n°37)
+* stem:[G cdot "[0 3 6 9\]"] = stem:[{"[0 3 6 9\], [1 4 7 10\], ...,  [0 1 3 4 6 7 9 10\]"}]
+ +
+(a set of 6 PCS - diminished 7th and "Messiaen Mod 2" scales - musaic n°37)
 
 ====
 
@@ -1114,9 +1125,9 @@ The sub-group stem:[H] has same neutral element, inverse element and composition
 
 This group is interesting because, applied to stem:[P(E)], it places in the orbit of a pcs, all its transposed.
 
-stem:[H cdot [0,4,7\] = {[0,4,7\], [1,5,8\], ..., [3,6,11\]}], so {DO MI SOL} and all this transposed (12 pcs). Example with triad Major.
+stem:[H cdot "[0 4 7\]" = {"[0 4 7\]", "[1 5 8\]", ..., "[3 6 11\]"}], so {DO MI SOL} and all this transposed (12 pcs). Example with triad Major.
 
-.H ⋅ [0,4,7] (orbit cyclic of major triad)
+.H ⋅ [0 4 7] (orbit cyclic of major triad)
 image:_047-cyclicSimple.png[047-cyclic]
 
 Therefore, all pcs in orbit of stem:[H] are equivalent, _up to transposition_.
@@ -1133,7 +1144,7 @@ NOTE: The concept of the "smallest element" refers to the concept of "normal for
 
 In our case, we need to establish an order relation between elements of an orbit, and therefore in stem:[P(E)]. That has been done in the project ; detail in appendix <<Order relation>>.
 
-The cyclic prime form of [0,4,7] is ... [0,4,7] itself, as well as cyclic prime form of [0,5,9] and 10 others PCS (major triads).
+The cyclic prime form of [0 4 7] is ... [0 4 7] itself, as well as cyclic prime form of [0 5 9] and 10 others PCS (major triads).
 
 image:_047_cyclic_motif.png[]
 
@@ -1155,7 +1166,7 @@ Example of PCS in Limited Transposition
 .[0 4 8] Augmented triad cyclic orbit (only 4 pcs)
 image:_048-cyclic-eatl.png[]
 
-Cyclic orbit of augmented triad is : { stem:[[0 4 8\], [1 5 9\],[2 6 10\],[3 7 11\]] }
+Cyclic orbit of augmented triad is : { stem:["[0 4 8\]", "[1 5 9\]","[2 6 10\]","[3 7 11\]"] }
 
 Stabilizers cyclic orbit of augmented triad are : stem:[{"M1-T0~4*"}] = stem:[{"M1-T0", "M1-T4", "M1-T8"}]
 
@@ -1585,9 +1596,9 @@ Examples with some pairs of pcs (pcs1 and pcs2), let's compare pid(pcs1) and pid
 |===
 |pcs1| pcs2| pid(pcs1) | pid(pcs2)| pcs1 < pcs2
 | [ ]| [0]| _0_ | _1_ | **_true_**
-|[0,4,7]| [1,5,8]| _145_ | _290_ | **_true_**
-|[0,3,7]| [2,6,11]| _137_ | _2116_ | **_true_**
-|[0,11] | [0,3,7] | _2049_ |_137_ | **_false_** (???)
+|[0 4 7]| [1 5 8]| _145_ | _290_ | **_true_**
+|[0 3 7]| [2 6 11]| _137_ | _2116_ | **_true_**
+|[0 11] | [0 3 7] | _2049_ |_137_ | **_false_** (???)
 
 #_waiting true_#
 |===
@@ -1658,9 +1669,9 @@ stem:[forall (A, B) in P(ZZ_n)^2, |A| <= |B| <=> id(A) <= id(B)] {nbsp} (_cardin
 |===
 |pcs1| pcs2| id(pcs1) | id(pcs2)| pcs1 < pcs1
 | [ ]| [0]| _0_ | _4097_ | **_true_**
-|[0,4,7]| [1,5,8]| _12433_ | _12578_ | **_true_**
-|[0,3,7]| [2,6,11]| _12425_ | _14404_ | **_true_**
-|[0,11] | [0,3,7] | _10241_ |_12425_ | **_true_** (ok)
+|[0 4 7]| [1 5 8]| _12433_ | _12578_ | **_true_**
+|[0 3 7]| [2 6 11]| _12425_ | _14404_ | **_true_**
+|[0 11] | [0 3 7] | _10241_ |_12425_ | **_true_** (ok)
 |===
 
 NOTE: In MusaicBox code, Augmented Polynomial Identifier is called _id_, and _pid_ is kept because is commonly used.
@@ -1853,7 +1864,7 @@ It is a pcs of cyclic orbit that, if possible, highlights its symmetry (else is 
 
 NOTE: Modal prime form concept is invented, specific to this project.
 
-Example on pcs : [2, 3, 5, 7, 8] :
+Example on pcs : [2 3 5 7 8] :
 
 [.float-group]
 --

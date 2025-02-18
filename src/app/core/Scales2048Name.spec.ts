@@ -88,6 +88,15 @@ describe('test getFirstScaleName from 2048pcs.json', () => {
 
   // TODO : Unit Test for Scales2048Name.getLinksNameDefs()
 
+  // it("refactor pcs whithout comma", () => {
+  //   for (let i = 0; i < scales2048.length; i++) {
+  //     // console.log(newPcsWithoutComma)
+  //     scales2048[i].pcs = `[${JSON.parse(scales2048[i].pcs).join(' ')}]`
+  //     // if (i===42) break
+  //   }
+  //   console.log(JSON.stringify(scales2048))
+  //
+  // })
 
   // it("convert to new interface with INameDefLink", () => {
     // Example of update from existing data (set id88 value)

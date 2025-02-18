@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.20">
+<meta name="generator" content="Asciidoctor 2.0.23">
 <meta name="description" content="Musaicbox frontend app">
 <meta name="author" content="Another toolbox for musical composition">
 <title>MusaicBox</title>
@@ -142,7 +142,7 @@ p a>code:hover{color:rgba(0,0,0,.9)}
 #content::before{content:none}
 #header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
 #header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
-#header>h1:only-child,body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header>h1:only-child{border-bottom:1px solid #dddddf;padding-bottom:8px}
 #header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:flex;flex-flow:row wrap}
 #header .details span:first-child{margin-left:-.125em}
 #header .details span.email a{color:rgba(0,0,0,.85)}
@@ -164,6 +164,7 @@ p a>code:hover{color:rgba(0,0,0,.9)}
 #toctitle{color:#7a2518;font-size:1.2em}
 @media screen and (min-width:768px){#toctitle{font-size:1.375em}
 body.toc2{padding-left:15em;padding-right:0}
+body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
 #toc.toc2{margin-top:0!important;background:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
 #toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
 #toc.toc2>ul{font-size:.9em;margin-bottom:0}
@@ -329,7 +330,7 @@ a.image{text-decoration:none;display:inline-block}
 a.image object{pointer-events:none}
 sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
 sup.footnote a,sup.footnoteref a{text-decoration:none}
-sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
+sup.footnote a:active,sup.footnoteref a:active,#footnotes .footnote a:first-of-type:active{text-decoration:underline}
 #footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
 #footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
 #footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
@@ -436,20 +437,130 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
-.special {
-  /*background-color: lightgreen;*/
-}
+
+  /* https://docs.asciidoctor.org/asciidoctor/latest/html-backend/default-stylesheet/#customize-extend */
+  /* put ":docinfo: shared" in header of document.adoc */
 
 td:has(>p>span[class="klein1"]) {
   background-color: lightyellow;
 }
 
-
 td:has(>p>span[class="klein2"]) {
   background-color: lightblue;
 }
 
+</style>
+<style>
+/*! Asciidoctor Tabs | Copyright (c) 2018-present Dan Allen | MIT License */
+.tabs {
+    margin-bottom: 1.25em;
+}
 
+.tablist > ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.tablist > ul li {
+    align-items: center;
+    background-color: #fff;
+    cursor: pointer;
+    display: flex;
+    font-weight: bold;
+    line-height: 1.5;
+    padding: 0.25em 1em;
+    position: relative;
+}
+
+.tablist > ul li:focus-visible {
+    outline: none;
+}
+
+.tablist.ulist,
+.tablist.ulist > ul li {
+    margin: 0;
+}
+
+.tablist.ulist > ul li + li {
+    margin-left: 0.25em;
+}
+
+.tabs .tablist li::after {
+    content: "";
+    display: block;
+    height: 1px;
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+}
+
+.tabs.is-loading .tablist li:not(:first-child),
+.tabs:not(.is-loading) .tablist li:not(.is-selected) {
+    background-color: #f5f5f5;
+}
+
+.tabs.is-loading .tablist li:first-child::after,
+.tabs:not(.is-loading) .tablist li.is-selected::after {
+    background-color: #fff;
+}
+
+/*
+.tabs:not(.is-loading) .tablist li,
+.tabs:not(.is-loading) .tablist li::after {
+  transition: background-color 200ms ease-in-out;
+}
+*/
+
+.tablist > ul p {
+    line-height: inherit;
+    margin: 0;
+}
+
+.tabpanel {
+    background-color: #fff;
+    padding: 1.25em;
+}
+
+.tablist > ul li,
+.tabpanel {
+    border: 1px solid #dcdcdc;
+}
+
+.tablist > ul li {
+    border-bottom: 0;
+}
+
+.tabs.is-loading .tabpanel + .tabpanel,
+.tabs:not(.is-loading) .tabpanel.is-hidden {
+    display: none;
+}
+
+.tabpanel > :first-child {
+    margin-top: 0;
+}
+
+/* #content is a signature of the Asciidoctor standalone HTML output */
+#content .tabpanel > :last-child,
+#content .tabpanel > :last-child > :last-child,
+#content .tabpanel > :last-child > :last-child > li:last-child > :last-child {
+    margin-bottom: 0;
+}
+
+.tablecontainer {
+    overflow-x: auto;
+}
+
+#content .tablecontainer {
+    margin-bottom: 1.25em;
+}
+
+#content .tablecontainer > table.tableblock {
+    margin-bottom: 0;
+}
 </style>
 </head>
 <body class="article toc2 toc-left">
@@ -500,7 +611,7 @@ td:has(>p>span[class="klein2"]) {
 <li><a href="#_group_operation">Group operation</a>
 <ul class="sectlevel2">
 <li><a href="#_special_affine_operation">Special Affine Operation</a></li>
-<li><a href="#_extended_sa_operation">Extended SA Operation</a></li>
+<li><a href="#_extended_aff_operation">Extended Aff Operation</a></li>
 </ul>
 </li>
 <li><a href="#_group">Group</a>
@@ -912,7 +1023,7 @@ classifications.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>Example for C,E,G :  <code>[0,4,7]</code></p>
+<p>Example for C,E,G :  <code>[0,4,7]</code> or <code>[0 4 7]</code> (without comma)</p>
 </div>
 </div>
 <div class="sect2">
@@ -921,7 +1032,7 @@ classifications.</p>
 <p>It is a binary representation of a pcs.</p>
 </div>
 <div class="paragraph">
-<p>Example for [0, 4, 7]  (C major):  <code>[<strong>1</strong>,0,0,0,<strong>1</strong>,0,0,<strong>1</strong>,0,0,0,0]</code>  (ordered list of binary values) :</p>
+<p>Example for [0 4 7]  (C major):  <code>[<strong>1</strong>,0,0,0,<strong>1</strong>,0,0,<strong>1</strong>,0,0,0,0]</code>  (ordered list of binary values) :</p>
 </div>
 <div class="paragraph">
 <p><span class="image"><img src="./assets/images/047_vector.png" alt="047 vector"></span></p>
@@ -1245,7 +1356,7 @@ As each pcs into the 4096 is unique, each of these pcs has a unique integer valu
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0, 4, 7] this is (4, 3, 5)
+Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0 4 7] this is (4, 3, 5)
 </td>
 </tr>
 </table>
@@ -1280,7 +1391,7 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0, 
 </table>
 </div>
 <div class="openblock float-group">
-<div class="title">Example of musaic representation of [0,4,7]</div>
+<div class="title">Example of musaic representation of [0 4 7]</div>
 <div class="content">
 <div class="imageblock left text-center">
 <div class="content">
@@ -1401,13 +1512,13 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0, 
 <div class="ulist">
 <ul>
 <li>
-<p>Example1 : &#160; \$T_1("["0, 4, 7]) -&gt;"["1, 5, 8]\$ &#160; (C Maj &#8594; C# Maj)</p>
+<p>Example1 : &#160; \$T_1("["0 4 7]) -&gt;"["1 5 8]\$ &#160; (C Maj &#8594; C# Maj)</p>
 </li>
 <li>
-<p>Example2 : &#160; \$T_5("["0, 4, 7]) -&gt; "["0, 5, 9]\$ &#160; (C Maj &#8594; F Maj - [5, 9, 12] = [5, 9, 0] = [0, 5, 9])</p>
+<p>Example2 : &#160; \$T_5("["0 4 7]) -&gt; "["0 5 9]\$ &#160; (C Maj &#8594; F Maj - [5 9 12] = [5 9 0] = [0 5 9])</p>
 </li>
 <li>
-<p>Example3 : &#160; \$T_0("["0, 4, 7]) -&gt;"["0, 4, 7]\$ &#160; (neutral operation)</p>
+<p>Example3 : &#160; \$T_0("["0 4 7]) -&gt;"["0 4 7]\$ &#160; (neutral operation)</p>
 </li>
 </ul>
 </div>
@@ -1446,16 +1557,16 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0, 
 <div class="ulist">
 <ul>
 <li>
-<p>Example M11 : &#160; \$M_11("["0, 4, 7]) -&gt;"["0, 5, 8]\$ &#160; (C Maj &#8594; Fm/5th - inversion)</p>
+<p>Example M11 : &#160; \$M_11("[0 4 7]") -&gt;"[0 5 8]"\$ &#160; (C Maj &#8594; Fm/5th - inversion)</p>
 </li>
 <li>
-<p>Example M5 : &#160; \$M_5("["0, 4, 7]) -&gt;"["0, 8, 11]\$ &#160;</p>
+<p>Example M5 : &#160; \$M_5("[0 4 7]") -&gt;"[0 8 11]"\$ &#160;</p>
 </li>
 <li>
-<p>Example M7 : &#160; \$M_7("["0, 4, 7]) -&gt;"["0, 1, 4]\$ &#160;</p>
+<p>Example M7 : &#160; \$M_7("[0 4 7]") -&gt;"[0 1 4]"\$ &#160;</p>
 </li>
 <li>
-<p>Example id : &#160; \$M_1("["0, 4, 7]) -&gt;"["0, 4, 7]\$ &#160; (neutral operation)</p>
+<p>Example id : &#160; \$M_1("[0 4 7]") -&gt;"[0 4 7]"\$ &#160; (neutral operation)</p>
 </li>
 </ul>
 </div>
@@ -1494,10 +1605,10 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0, 
 <div class="ulist">
 <ul>
 <li>
-<p>Example1 : &#160;  \$C("["0, 2, 4, 5, 7, 9, 11]) -&gt;"["1, 3, 6, 8, 10 ]\$ &#160; Major scale to Pentatonic scale</p>
+<p>Example1 : &#160;  \$C("[0 2 4 5 7 9 11]") -&gt;"[1 3 6 8 10 ]"\$ &#160; Major scale to Pentatonic scale</p>
 </li>
 <li>
-<p>Example2 : &#160;  \$C("["0, 2, 4, 6, 8, 10]) -&gt;"["1, 3, 5, 7, 9, 11 ]\$ &#160; Whole tone scale to Whole tone scale</p>
+<p>Example2 : &#160;  \$C("[0 2 4 6 8 10]") -&gt;"[1 3 5 7 9 11]"\$ &#160; Whole tone scale to Whole tone scale</p>
 </li>
 </ul>
 </div>
@@ -1553,22 +1664,22 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0, 
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Example M1-T5 : &#160; \$M_1T_5("["0, 4, 7]) -&gt; "["5, 9, 12]\$ so  \$"["0, 5, 9,]\$ Transposition of 5 halftones (T5)</p>
+<p>Example M1-T5 : &#160; \$M_1T_5("[0 4 7]") -&gt; "[5 9 12]"\$ so  \$"[0 5 9]"\$ Transposition of 5 halftones (T5)</p>
 </li>
 <li>
-<p>Example M11-T0 : &#160; \$M_11T_0("["0, 4, 7]) -&gt;"["0, 5, 8]\$ &#160; (C Maj &#8594; Fm/5th - Multiplication only - M11 is inversion)</p>
+<p>Example M11-T0 : &#160; \$M_11T_0("[0 4 7]") -&gt;"[0 5 8]"\$ &#160; (C Maj &#8594; Fm/5th - Multiplication only - M11 is inversion)</p>
 </li>
 <li>
-<p>Example M1-T0 : &#160; \$M_1T_0("["0, 4, 7]) -&gt;"["0, 4, 7]\$ &#160; (neutral op)</p>
+<p>Example M1-T0 : &#160; \$M_1T_0("[0 4 7]") -&gt; "[0 4 7]"\$ &#160; (neutral op)</p>
 </li>
 <li>
-<p>Example M5-T5 : &#160; \$M_5T_5("["0, 4, 7]) -&gt;"["1, 4, 5]\$ &#160; Multiplication and Transposition</p>
+<p>Example M5-T5 : &#160; \$M_5T_5("[0 4 7]") -&gt; "[1 4 5]"\$ &#160; Multiplication and Transposition</p>
 </li>
 </ol>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_extended_sa_operation">Extended SA Operation</h3>
+<h3 id="_extended_aff_operation">Extended Aff Operation</h3>
 <div class="paragraph">
 <p>If we add the complementarity operation to the special affine function, we obtain the following operation: <strong>\$c * (ax + k)\$</strong> that operates on \$P(E)\$.</p>
 </div>
@@ -1628,22 +1739,22 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0, 
 <div class="ulist">
 <ul>
 <li>
-<p><strong>M1-T0</strong> &#160;:&#160;  \$C_"false"M_1T_0("["0, 4, 7]) -&gt;"["0, 4, 7]\$ &#160; (neutral op)</p>
+<p><strong>M1-T0</strong> &#160;:&#160;  \$C_"false"M_1T_0("[0 4 7]") -&gt; "[0 4 7]"\$ &#160; (neutral op)</p>
 </li>
 <li>
-<p><strong>CM1-T0</strong> &#160;:&#160; \$C_"true"M_1T_0("["0, 2, 4, 5, 7, 9, 11]) -&gt;"["1, 3, 6, 8, 10]\$ &#160; (complement only)</p>
+<p><strong>CM1-T0</strong> &#160;:&#160; \$C_"true"M_1T_0("[0 2 4 5 7 9 11]") -&gt; "[1 3 6 8 10]"\$ &#160; (complement only)</p>
 </li>
 <li>
-<p><strong>M1-T1</strong> &#160;:&#160; \$C_"false"M_1T_1("["0, 4, 7]) -&gt;"["1, 5, 8]\$ &#160; (transposition of 1 halftone only)</p>
+<p><strong>M1-T1</strong> &#160;:&#160; \$C_"false"M_1T_1("[0 4 7]) -&gt; "[1 5 8]"\$ &#160; (transposition of 1 halftone only)</p>
 </li>
 <li>
-<p><strong>M5-T0</strong> &#160;:&#160; \$C_"false"M_5T_0("["0, 4, 7]) -&gt;"["0, 8, 11]\$ &#160; (M5 only)</p>
+<p><strong>M5-T0</strong> &#160;:&#160; \$C_"false"M_5T_0("[0 4 7]") -&gt; "[0 8 11]"\$ &#160; (M5 only)</p>
 </li>
 <li>
-<p><strong>CM5-T4</strong> &#160;:&#160; \$C_"true"M_5T_4("["0, 4, 7]) -&gt;"["1,2,5,6,7,8,9,10,11]\$ &#160; (M5,  T4 and Complement)</p>
+<p><strong>CM5-T4</strong> &#160;:&#160; \$C_"true"M_5T_4("[0 4 7]") -&gt; "[1 2 5 6 7 8 9 10 11]"\$ &#160; (M5,  T4 and Complement)</p>
 </li>
 <li>
-<p><strong>CM1-T1</strong> &#160;:&#160; \$C_"true"M_1T_1("["0, 2, 4, 6, 8, 10]) -&gt;"["0,2,4,6,8,10]\$ &#160; (T1 and Complement)</p>
+<p><strong>CM1-T1</strong> &#160;:&#160; \$C_"true"M_1T_1("[0 2 4 6 8 10]") -&gt; "[0 2 4 6 8 10]"\$ &#160; (T1 and Complement)</p>
 </li>
 </ul>
 </div>
@@ -2137,47 +2248,47 @@ Extended Affine Operation is called <em>MusaicOperation</em> into MusaicBox proj
 </tr>
 <tr>
 <th class="tableblock halign-center valign-top"><p class="tableblock">CM1</p></th>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CM1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CM5</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CM7</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CM11</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Id</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">M5</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">M7</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">M11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="klein2">CM1</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="klein2">CM5</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="klein2">CM7</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="klein2">CM11</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="klein1"><strong>Id</strong></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="klein1">M5</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="klein1">M7</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="klein1">M11</span></p></td>
 </tr>
 <tr>
 <th class="tableblock halign-center valign-top"><p class="tableblock">CM5</p></th>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CM5</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CM1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CM11</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CM7</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">M5</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Id</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">M11</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">M7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="klein2">CM5</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="klein2">CM1</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="klein2">CM11</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="klein2">CM7</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="klein1">M5</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="klein1"><strong>Id</strong></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="klein1">M11</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="klein1">M7</span></p></td>
 </tr>
 <tr>
 <th class="tableblock halign-center valign-top"><p class="tableblock">CM7</p></th>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CM7</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CM11</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CM1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CM5</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">M7</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">M11</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Id</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">M5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="klein2">CM7</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="klein2">CM11</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="klein2">CM1</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="klein2">CM5</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="klein1">M7</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="klein1">M11</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="klein1"><strong>Id</strong></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="klein1">M5</span></p></td>
 </tr>
 <tr>
 <th class="tableblock halign-center valign-top"><p class="tableblock">CM11</p></th>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CM11</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CM7</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CM5</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CM1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">M11</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">M7</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">M5</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Id</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="klein2">CM11</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="klein2">CM7</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="klein2">CM5</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="klein2">CM1</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="klein1">M11</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="klein1">M7</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="klein1">M5</span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="klein1"><strong>Id</strong></span></p></td>
 </tr>
 </tbody>
 </table>
@@ -2194,7 +2305,7 @@ Extended Affine Operation is called <em>MusaicOperation</em> into MusaicBox proj
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-We can observe the highlighting of 2 distinct <a href="https://en.wikipedia.org/wiki/Klein_four-group">klein four-groups</a>.
+We can observe the highlighting of symmetries, and distinct <a href="https://en.wikipedia.org/wiki/Klein_four-group">klein four-groups</a> (first square).
 </td>
 </tr>
 </table>
@@ -2231,10 +2342,11 @@ We can observe the highlighting of 2 distinct <a href="https://en.wikipedia.org/
 <p>We have seen that when the group \$G\$ acts on \$P(ZZ_12)\$, \$G\$ is composed of  <strong>96</strong> elements (operations)</p>
 </div>
 <div class="paragraph">
-<p>\$G " acts on " ZZ_12 =&gt; G = { C_cM_a"-"T_k | a in { 1, 5, 7, 11 }, k in { 0, 1, ..., 11  }, c in {true, false}}\$</p>
+<p>\$G\$ acts on  \$ZZ_12\$  \$G = { C_cM_a"-"T_k\$
+where \$a in { 1, 5, 7, 11 }, k in { 0, 1, ..., 11  }, c in {true, false}}\$</p>
 </div>
 <div class="paragraph">
-<p>\$G = { "M1-T0", "CM1-T0", "M1-T1", "CM1-T0", ..., "CM11-T10", "CM11-T11"}\$</p>
+<p>\$G = { "M1-T0", "CM1-T0", ..., "CM11-T10", "CM11-T11"}\$</p>
 </div>
 <div class="paragraph">
 <p>It is thanks to this group that we will be able to partition our 4096 PCS into remarkable subsets by action of this group on \$ZZ_12\$.</p>
@@ -2259,21 +2371,11 @@ We can observe the highlighting of 2 distinct <a href="https://en.wikipedia.org/
 <div class="ulist">
 <ul>
 <li>
-<p>Orbite of [0,2,4,6,8,10] is a set of PCS denoted by \$G cdot A\$, where \$A\$ = [0,2,4,6,8,10].</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>\$G cdot "[0,2,4,6,8,10]" = {"[0,2,4,6,8,10], [1,3,5,7,9,11]"}\$  (a set of 2 PCS - whole tone scales - musaic n°88)</p>
-</div>
-</div>
-</div>
-<div class="exampleblock">
-<div class="content">
-<div class="ulist">
-<ul>
-<li>
-<p>\$G cdot "[0,2,4,5,7,9,11]" = {"[0,2,5,7,10], ...,  [0,2,4,5,7,9,11]"}\$  (a set of 48 PCS - musaic n°38)</p>
+<p>Orbit of [0 2 4 6 8 10] is a set of PCS denoted by \$G cdot A\$, where \$A\$ = [0 2 4 6 8 10].
+<br>
+\$G cdot "[0 2 4 6 8 10]"\$ = \${"[0 2 4 6 8 10], [1 3 5 7 9 11]"}\$
+<br>
+(a set of 2 PCS - whole tone scales - musaic n°88)</p>
 </li>
 </ul>
 </div>
@@ -2284,7 +2386,22 @@ We can observe the highlighting of 2 distinct <a href="https://en.wikipedia.org/
 <div class="ulist">
 <ul>
 <li>
-<p>\$G cdot "[0,3,6,9]" = {"[0,3,6,9], [1,4,7,10], ...,  [0,1,3,4,6,7,9,10]"}\$  (a set of 6 PCS - diminished 7th and "Messiaen Mod 2" scales - musaic n°37)</p>
+<p>\$G cdot "[0 2 4 5 7 9 11]"\$ = \${"[0 2 5 7 10], ...,  [0 2 4 5 7 9 11]"}\$
+<br>
+(a set of 48 PCS - musaic n°38)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>\$G cdot "[0 3 6 9]"\$ = \${"[0 3 6 9], [1 4 7 10], ...,  [0 1 3 4 6 7 9 10]"}\$
+<br>
+(a set of 6 PCS - diminished 7th and "Messiaen Mod 2" scales - musaic n°37)</p>
 </li>
 </ul>
 </div>
@@ -2622,10 +2739,10 @@ We can observe the highlighting of 2 distinct <a href="https://en.wikipedia.org/
 <p>This group is interesting because, applied to \$P(E)\$, it places in the orbit of a pcs, all its transposed.</p>
 </div>
 <div class="paragraph">
-<p>\$H cdot [0,4,7] = {[0,4,7], [1,5,8], ..., [3,6,11]}\$, so {DO MI SOL} and all this transposed (12 pcs). Example with triad Major.</p>
+<p>\$H cdot "[0 4 7]" = {"[0 4 7]", "[1 5 8]", ..., "[3 6 11]"}\$, so {DO MI SOL} and all this transposed (12 pcs). Example with triad Major.</p>
 </div>
 <div class="paragraph">
-<div class="title">H ⋅ [0,4,7] (orbit cyclic of major triad)</div>
+<div class="title">H ⋅ [0 4 7] (orbit cyclic of major triad)</div>
 <p><span class="image"><img src="./assets/images/_047-cyclicSimple.png" alt="047-cyclic"></span></p>
 </div>
 <div class="paragraph">
@@ -2668,7 +2785,7 @@ The concept of the "smallest element" refers to the concept of "normal form" and
 <p>In our case, we need to establish an order relation between elements of an orbit, and therefore in \$P(E)\$. That has been done in the project ; detail in appendix <a href="#_order_relation">Order relation</a>.</p>
 </div>
 <div class="paragraph">
-<p>The cyclic prime form of [0,4,7] is &#8230;&#8203; [0,4,7] itself, as well as cyclic prime form of [0,5,9] and 10 others PCS (major triads).</p>
+<p>The cyclic prime form of [0 4 7] is &#8230;&#8203; [0 4 7] itself, as well as cyclic prime form of [0 5 9] and 10 others PCS (major triads).</p>
 </div>
 <div class="paragraph">
 <p><span class="image"><img src="./assets/images/_047_cyclic_motif.png" alt=" 047 cyclic motif"></span></p>
@@ -2703,7 +2820,7 @@ You can already explore the cyclic group in the musaicbox application: go to the
 <p><span class="image"><img src="./assets/images/_048-cyclic-eatl.png" alt=" 048 cyclic eatl"></span></p>
 </div>
 <div class="paragraph">
-<p>Cyclic orbit of augmented triad is : { \$[0 4 8], [1 5 9],[2 6 10],[3 7 11]\$ }</p>
+<p>Cyclic orbit of augmented triad is : { \$"[0 4 8]", "[1 5 9]","[2 6 10]","[3 7 11]"\$ }</p>
 </div>
 <div class="paragraph">
 <p>Stabilizers cyclic orbit of augmented triad are : \${"M1-T0~4*"}\$ = \${"M1-T0", "M1-T4", "M1-T8"}\$</p>
@@ -3295,22 +3412,22 @@ Note the central vertical axis on which 4 of its 5 known subgroups are located.
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>true</em></strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[0,4,7]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[1,5,8]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[0 4 7]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[1 5 8]</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>145</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>290</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>true</em></strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[0,3,7]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[2,6,11]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[0 3 7]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[2 6 11]</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>137</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>2116</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>true</em></strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[0,11]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[0,3,7]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[0 11]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[0 3 7]</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>2049</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>137</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>false</em></strong> (???)</p>
@@ -3437,22 +3554,22 @@ Note the central vertical axis on which 4 of its 5 known subgroups are located.
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>true</em></strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[0,4,7]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[1,5,8]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[0 4 7]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[1 5 8]</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>12433</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>12578</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>true</em></strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[0,3,7]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[2,6,11]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[0 3 7]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[2 6 11]</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>12425</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>14404</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>true</em></strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[0,11]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[0,3,7]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[0 11]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[0 3 7]</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>10241</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>12425</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong><em>true</em></strong> (ok)</p></td>
@@ -3567,7 +3684,7 @@ Modal prime form concept is invented, specific to this project.
 </table>
 </div>
 <div class="paragraph">
-<p>Example on pcs : [2, 3, 5, 7, 8] :</p>
+<p>Example on pcs : [2 3 5 7 8] :</p>
 </div>
 <div class="openblock float-group">
 <div class="content">
@@ -3671,7 +3788,7 @@ Modal prime form concept is invented, specific to this project.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-02-17 22:20:17 +0100
+Last updated 2025-02-18 11:02:27 +0100
 </div>
 </div>
 <script type="text/x-mathjax-config">
@@ -3698,5 +3815,134 @@ MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
 })
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script>
+;(function () { /*! Asciidoctor Tabs | Copyright (c) 2018-present Dan Allen | MIT License */
+  'use strict'
+
+  var config = (document.currentScript || {}).dataset || {}
+  var forEach = Array.prototype.forEach
+
+  init(document.querySelectorAll('.tabs'))
+
+  function init (tabsBlocks) {
+    if (!tabsBlocks.length) return
+    forEach.call(tabsBlocks, function (tabs) {
+      var syncIds = tabs.classList.contains('is-sync') ? {} : undefined
+      var tablist = tabs.querySelector('.tablist ul')
+      tablist.setAttribute('role', 'tablist')
+      var start
+      forEach.call(tablist.querySelectorAll('li'), function (tab, idx) {
+        tab.tabIndex = -1
+        tab.setAttribute('role', tab.classList.add('tab') || 'tab')
+        var id, anchor, syncId
+        if (!(id = tab.id) && (anchor = tab.querySelector('a[id]'))) {
+          id = tab.id = anchor.parentNode.removeChild(anchor).id
+        }
+        var panel = id && tabs.querySelector('.tabpanel[aria-labelledby~="' + id + '"]')
+        if (!panel) return idx ? undefined : toggleSelected(tab, true) // invalid state
+        syncIds && (((syncId = tab.textContent.trim()) in syncIds) ? (syncId = undefined) : true) &&
+        (syncIds[(tab.dataset.syncId = syncId)] = tab)
+        idx || (syncIds && (start = { tab: tab, panel: panel })) ? toggleHidden(panel, true) : toggleSelected(tab, true)
+        tab.setAttribute('aria-controls', panel.id)
+        panel.setAttribute('role', 'tabpanel')
+        var onClick = syncId === undefined ? activateTab : activateTabSync
+        tab.addEventListener('click', onClick.bind({ tabs: tabs, tab: tab, panel: panel }))
+      })
+      if (!tabs.closest('.tabpanel')) {
+        forEach.call(tabs.querySelectorAll('.tabpanel table.tableblock'), function (table) {
+          var container = Object.assign(document.createElement('div'), { className: 'tablecontainer' })
+          table.parentNode.insertBefore(container, table).appendChild(table)
+        })
+      }
+      if (start) {
+        var syncGroupId
+        for (var i = 0, lst = tabs.classList, len = lst.length, className; i !== len; i++) {
+          if (!(className = lst.item(i)).startsWith('data-sync-group-id=')) continue
+          tabs.dataset.syncGroupId = syncGroupId = lst.remove(className) || className.slice(19).replace(/\u00a0/g, ' ')
+          break
+        }
+        if (syncGroupId === undefined) tabs.dataset.syncGroupId = syncGroupId = Object.keys(syncIds).sort().join('|')
+        var preferredSyncId = 'syncStorageKey' in config &&
+          window[(config.syncStorageScope || 'local') + 'Storage'].getItem(config.syncStorageKey + '-' + syncGroupId)
+        var tab = preferredSyncId && syncIds[preferredSyncId]
+        tab && Object.assign(start, { tab: tab, panel: document.getElementById(tab.getAttribute('aria-controls')) })
+        toggleSelected(start.tab, true) || toggleHidden(start.panel, false)
+      }
+    })
+    onHashChange()
+    toggleClassOnEach(tabsBlocks, 'is-loading', 'remove')
+    window.setTimeout(toggleClassOnEach.bind(null, tabsBlocks, 'is-loaded', 'add'), 0)
+    window.addEventListener('hashchange', onHashChange)
+  }
+
+  function activateTab (e) {
+    var tab = this.tab
+    var tabs = this.tabs || (this.tabs = tab.closest('.tabs'))
+    var panel = this.panel || (this.panel = document.getElementById(tab.getAttribute('aria-controls')))
+    querySelectorWithSiblings(tabs, '.tablist .tab', 'tab').forEach(function (el) {
+      toggleSelected(el, el === tab)
+    })
+    querySelectorWithSiblings(tabs, '.tabpanel', 'tabpanel').forEach(function (el) {
+      toggleHidden(el, el !== panel)
+    })
+    if (!this.isSync && 'syncStorageKey' in config && 'syncGroupId' in tabs.dataset) {
+      var storageKey = config.syncStorageKey + '-' + tabs.dataset.syncGroupId
+      window[(config.syncStorageScope || 'local') + 'Storage'].setItem(storageKey, tab.dataset.syncId)
+    }
+    if (!e) return
+    var loc = window.location
+    var hashIdx = loc.hash ? loc.href.indexOf('#') : -1
+    if (~hashIdx) window.history.replaceState(null, '', loc.href.slice(0, hashIdx))
+    e.preventDefault()
+  }
+
+  function activateTabSync (e) {
+    activateTab.call(this, e)
+    var thisTabs = this.tabs
+    var thisTab = this.tab
+    var initialY = thisTabs.getBoundingClientRect().y
+    forEach.call(document.querySelectorAll('.tabs'), function (tabs) {
+      if (tabs === thisTabs || tabs.dataset.syncGroupId !== thisTabs.dataset.syncGroupId) return
+      querySelectorWithSiblings(tabs, '.tablist .tab', 'tab').forEach(function (tab) {
+        if (tab.dataset.syncId === thisTab.dataset.syncId) activateTab.call({ tabs: tabs, tab: tab, isSync: true })
+      })
+    })
+    var shiftedBy = thisTabs.getBoundingClientRect().y - initialY
+    if (shiftedBy && (shiftedBy = Math.round(shiftedBy))) window.scrollBy({ top: shiftedBy, behavior: 'instant' })
+  }
+
+  function querySelectorWithSiblings (scope, selector, siblingClass) {
+    var el = scope.querySelector(selector)
+    if (!el) return []
+    var result = [el]
+    while ((el = el.nextElementSibling) && el.classList.contains(siblingClass)) result.push(el)
+    return result
+  }
+
+  function toggleClassOnEach (elements, className, method) {
+    forEach.call(elements, function (el) {
+      el.classList[method](className)
+    })
+  }
+
+  function toggleHidden (el, state) {
+    el.classList[(el.hidden = state) ? 'add' : 'remove']('is-hidden')
+  }
+
+  function toggleSelected (el, state) {
+    el.setAttribute('aria-selected', '' + state)
+    el.classList[state ? 'add' : 'remove']('is-selected')
+    el.tabIndex = state ? 0 : -1
+  }
+
+  function onHashChange () {
+    var id = window.location.hash.slice(1)
+    if (!id) return
+    var tab = document.getElementById(~id.indexOf('%') ? decodeURIComponent(id) : id)
+    if (!(tab && tab.classList.contains('tab'))) return
+    'syncId' in tab.dataset ? activateTabSync.call({ tab: tab }) : activateTab.call({ tab: tab })
+  }
+})()
+</script>
 </body>
 </html>

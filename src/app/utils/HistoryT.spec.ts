@@ -44,8 +44,8 @@ describe('HistoryT test', () => {
     const min = new IPcs({strPcs: "0,3,7"})
     h.pushIntoPresent([maj, min])
 
-    expect(h.getCurrent()![0].getPcsStr()).not.toEqual('[0,3,7]')
-    expect(h.getCurrent()![0].getPcsStr()).toEqual('[1,5,8]')
+    expect(h.getCurrent()![0].getPcsStr()).not.toEqual('[0 3 7]')
+    expect(h.getCurrent()![0].getPcsStr()).toEqual('[1 5 8]')
 
     // no go to past
     expect(h.canUndo()).toBe(false)

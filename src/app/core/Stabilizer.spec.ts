@@ -256,9 +256,9 @@ describe('Stabilizer', () => {
     expect(stabStr).toContain('Stab: M1-T0 #FixedPcs: 96')
 
     let pcs = group.orbitsSortedGroupedByStabilizers[0].orbits[0].stabilizers[0].fixedPcs[1].getPcsStr()
-    expect(pcs).toEqual('[0,2,3]') // 12 in orbit
+    expect(pcs).toEqual('[0 2 3]') // 12 in orbit
     pcs = group.orbitsSortedGroupedByStabilizers[0].orbits[0].stabilizers[0].fixedPcs[0].getPcsStr()
-    expect(pcs).toEqual('[0,1,3]') // idem
+    expect(pcs).toEqual('[0 1 3]') // idem
   })
 
   //
