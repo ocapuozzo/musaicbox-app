@@ -76,12 +76,12 @@
       <button class="contextual-menu-item"
               [cdkMenuTriggerData]="{
               index: index,
-              countMusaicMotifs: howManyDistinctMusaicMotifs(index),
-              countDistinctAffineMotifs: howManyDistinctAffineMotifs(index)
+              countMusaicPcs: howManyDistinctMusaicPcs(index),
+              countDistinctAffinePcs: howManyDistinctAffinePcs(index)
               }"
               cdkMenuItem
-              [cdkMenuTriggerFor]="menuMotifs">
-        Motifs <span>&#10148;</span>
+              [cdkMenuTriggerFor]="menuTransf">
+        Transf <span>&#10148;</span>
       </button>
 
       <button class="contextual-menu-item" [cdkMenuTriggerData]="{index: index}" cdkMenuItem
@@ -176,27 +176,27 @@
     </div>
   </ng-template>
 
-  <ng-template #menuMotifs let-index="index"
-               let-countMusaicMotifs="countMusaicMotifs"
-               let-countDistinctAffineMotifs="countDistinctAffineMotifs">
+  <ng-template #menuTransf let-index="index"
+               let-countMusaicPcs="countMusaicPcs"
+               let-countDistinctAffinePcs="countDistinctAffinePcs">
 
     <div class="contextual-menu" cdkMenu>
       <button class="contextual-menu-item" cdkMenuItem
-              (cdkMenuItemTriggered)="doGetPcsMotifs('Affine',index)">Affine Motifs (4)
+              (cdkMenuItemTriggered)="doGetTransformedPcs('Affine',index)">Affine pcs (4)
       </button>
       <button class="contextual-menu-item" cdkMenuItem
-              (cdkMenuItemTriggered)="doGetPcsMotifs('Musaic',index)">Musaic Motifs (8)
+              (cdkMenuItemTriggered)="doGetTransformedPcs('Musaic',index)">Musaic pcs (8)
       </button>
       <hr/>
       <button class="contextual-menu-item" cdkMenuItem
-              [disabled]="[1, 4].includes(countDistinctAffineMotifs)"
-              (cdkMenuItemTriggered)="doGetPcsMotifs('Affine',index, true)">
-        Distinct Affine Motifs ({{ countDistinctAffineMotifs }})
+              [disabled]="[1, 4].includes(countDistinctAffinePcs)"
+              (cdkMenuItemTriggered)="doGetTransformedPcs('Affine',index, true)">
+        Distinct Affine pcs ({{ countDistinctAffinePcs }})
       </button>
       <button class="contextual-menu-item" cdkMenuItem
-              [disabled]="countMusaicMotifs === 8"
-              (cdkMenuItemTriggered)="doGetPcsMotifs('Musaic',index, true)">
-        Distinct Musaic Motifs ({{ countMusaicMotifs }})
+              [disabled]="countMusaicPcs === 8"
+              (cdkMenuItemTriggered)="doGetTransformedPcs('Musaic',index, true)">
+        Distinct Musaic pcs ({{ countMusaicPcs }})
       </button>
     </div>
   </ng-template>

@@ -10,13 +10,13 @@
 
 import {StringHash} from "../utils/StringHash";
 
-export class MotifStabilizer {
+export class MetaStabilizer {
 
   name: string
-  motifStabOperations: string[]
+  metaStabOperations: string[]
   _hashCode : number
 
-  static manyMotifsStabilizer = new MotifStabilizer("*")
+  static manyMetaStabilizer = new MetaStabilizer("*")
   static MAXLENGTH = 12;
 
   /**
@@ -26,9 +26,9 @@ export class MotifStabilizer {
   constructor(name : string) {
     this.name = name;
     if (name.includes(","))
-      this.motifStabOperations = this.name.split(",").map(op=> op.trim());
+      this.metaStabOperations = this.name.split(",").map(op=> op.trim());
     else
-      this.motifStabOperations = this.name.split(" ").map(op=> op.trim());
+      this.metaStabOperations = this.name.split(" ").map(op=> op.trim());
 
     this._hashCode = StringHash.stringHashCode(this.name)
   }
@@ -38,13 +38,13 @@ export class MotifStabilizer {
   }
 
   getMiniName() {
-    if (this.name.length > MotifStabilizer.MAXLENGTH)
-      return this.name.substring(0, MotifStabilizer.MAXLENGTH).trim() + "...";
+    if (this.name.length > MetaStabilizer.MAXLENGTH)
+      return this.name.substring(0, MetaStabilizer.MAXLENGTH).trim() + "...";
     return this.name;
   }
 
   equals(obj: any) {
-    if (obj instanceof MotifStabilizer) {
+    if (obj instanceof MetaStabilizer) {
       if (obj === this)
         return true;
       return this.name === obj.name;
@@ -60,28 +60,28 @@ export class MotifStabilizer {
    * test on length then :
    * Ma < CMa
    */
-  static compare(o1 : MotifStabilizer, o2 : MotifStabilizer) : number {
-    let cmp = o1.motifStabOperations.length - o2.motifStabOperations.length;
+  static compare(o1 : MetaStabilizer, o2 : MetaStabilizer) : number {
+    let cmp = o1.metaStabOperations.length - o2.metaStabOperations.length;
     if (cmp === 0) {
-      for (let i = 0; i < o1.motifStabOperations.length; i++) {
-        if (o2.motifStabOperations[i].startsWith("C")) {
-          if (!o1.motifStabOperations[i].startsWith("C"))
+      for (let i = 0; i < o1.metaStabOperations.length; i++) {
+        if (o2.metaStabOperations[i].startsWith("C")) {
+          if (!o1.metaStabOperations[i].startsWith("C"))
             return -1;
         } else {
-          if (o1.motifStabOperations[i].startsWith("C"))
+          if (o1.metaStabOperations[i].startsWith("C"))
             return 1;
         }
 
-        let ia1 = o1.motifStabOperations[i].startsWith("C") ? 2 : 1;
-        let ia2 = o2.motifStabOperations[i].startsWith("C") ? 2 : 1;
+        let ia1 = o1.metaStabOperations[i].startsWith("C") ? 2 : 1;
+        let ia2 = o2.metaStabOperations[i].startsWith("C") ? 2 : 1;
         let a1;
         let a2;
-        a1 = parseInt(o1.motifStabOperations[i].substring(ia1));
+        a1 = parseInt(o1.metaStabOperations[i].substring(ia1));
         if (isNaN(a1)) {
           a1 = 0;
         }
 
-        a2 = parseInt(o2.motifStabOperations[i].substring(ia2));
+        a2 = parseInt(o2.metaStabOperations[i].substring(ia2));
         if (isNaN(a2)) {
           a2 = 0;
         }

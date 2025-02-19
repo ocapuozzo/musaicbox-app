@@ -887,7 +887,7 @@ export class ManagerPageWBService {
     this.emit()
   }
 
-  doGetMotifsPcsFromPcs(pcs: IPcs, groupName: string, distinct: boolean = false): IPcs[] {
+  doGetTransformedPcsFromPcs(pcs: IPcs, groupName: string, distinct: boolean = false): IPcs[] {
     const pcsList: IPcs[] = []
     if (['Affine', 'Musaic'].includes(groupName)) {
       // default Affine
@@ -907,17 +907,17 @@ export class ManagerPageWBService {
       }
     }
     if (distinct) {
-      return pcsList.reduce((unique: IPcs[], item) =>
-        unique.find(pcs => pcs.cyclicPrimeForm().pid() === item.cyclicPrimeForm().pid()) ? unique : [...unique, item], [])
+      return pcsList.reduce((unique: IPcs[], currentPcs) =>
+        unique.find(pcs => pcs.cyclicPrimeForm().pid() === currentPcs.cyclicPrimeForm().pid()) ? unique : [...unique, currentPcs], [])
     }
     return pcsList
   }
 
 
-  doPcsMotifs(groupName: string, index: number, distinct: boolean = false) {
-    const pcsMotifs = this.doGetMotifsPcsFromPcs(this.uiPcsDtoList[index].pcs, groupName, distinct)
+  doGetTransformedPcs(groupName: string, index: number, distinct: boolean = false) {
+    const transformedPcs = this.doGetTransformedPcsFromPcs(this.uiPcsDtoList[index].pcs, groupName, distinct)
     this.pcsDtoForTemplate = this.uiPcsDtoList[index]
-    this.addPcs({somePcs: pcsMotifs, circularAlign: true, indexCenterElement: index})
+    this.addPcs({somePcs: transformedPcs, circularAlign: true, indexCenterElement: index})
   }
 
   windowMaxWidth(): number {

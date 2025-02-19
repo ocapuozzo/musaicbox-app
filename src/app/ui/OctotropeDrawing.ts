@@ -18,7 +18,7 @@ import {UIPcsDto} from "./UIPcsDto";
 const ORDERED_OCTOTROPE_OPS = [['M1', 'CM1'], ['M7', 'CM7'], ['M11', 'CM11'], ['M5', 'CM5']]
 
 
-const COLOR_MOTIF_STABILIZER: Map<string, string> = new Map([
+const COLOR_META_STABILIZER: Map<string, string> = new Map([
   ['', 'lightgray'],
   ['M1', 'black'],
   ['CM1', 'black'],
@@ -50,7 +50,7 @@ export class OctotropeDrawing {
     // if pcs is detached, get pcs into musaic group, else leave pcs in his group
     const pcsInGroup = this.pcsDto.pcs.isDetached() ? this.pcsDto.pcs.musaicPrimeForm() : this.pcsDto.pcs
     // priority to operations list (opStabilizers)
-    this.opStabilizers = x.opStabilizers ?? pcsInGroup.stabilizer.motifStabilizer.motifStabOperations
+    this.opStabilizers = x.opStabilizers ?? pcsInGroup.stabilizer.metaStabilizer.metaStabOperations
   }
 
   drawOctotrope() {
@@ -134,7 +134,7 @@ export class OctotropeDrawing {
           this.ctx.fill()
 
           this.ctx.lineWidth = Math.round(size / 32);
-          this.ctx.strokeStyle = COLOR_MOTIF_STABILIZER.get(indexPearlColorCplt) ?? "yellow";
+          this.ctx.strokeStyle = COLOR_META_STABILIZER.get(indexPearlColorCplt) ?? "yellow";
           this.ctx.arc(x, y, size / RATIO_LARGE_CIRCLE, 0, 2 * Math.PI);
           this.ctx.stroke()
           this.ctx.closePath()
@@ -147,7 +147,7 @@ export class OctotropeDrawing {
           this.ctx.arc(x, y, size / RATIO_SMALL_CIRCLE, 0, 2 * Math.PI);
           this.ctx.stroke()
 
-          this.ctx.fillStyle = COLOR_MOTIF_STABILIZER.get(indexPearlColor) ?? "yellow";
+          this.ctx.fillStyle = COLOR_META_STABILIZER.get(indexPearlColor) ?? "yellow";
           this.ctx.fill()
 
           this.ctx.closePath()

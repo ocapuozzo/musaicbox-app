@@ -116,12 +116,12 @@
       }
     </button>
     <button mat-raised-button color="primary" class="m4"
-            (click)="showOrbits('MotifStabilizer')"
+            (click)="showOrbits('MetaStabilizer')"
            >
-      Show orbits ({{ preReactOrbits.length }}) grouped by Motif-Stabilizers
+      Show orbits ({{ preReactOrbits.length }}) grouped by Meta-Stabilizer
       @if (groupAction) {
         <span>
-          ({{ groupAction.orbitsSortedGroupedByMotifStabilizers.length }})
+          ({{ groupAction.orbitsSortedGroupedByMetaStabilizer.length }})
         </span>
       }
     </button>
@@ -185,7 +185,7 @@
         }
         @if (groupAction != null) {
           <div>
-            <span>nb Motif-Stabilizers : ({{ groupAction.orbitsSortedGroupedByMotifStabilizers.length }})</span>
+            <span>nb Meta-Stabilizers : ({{ groupAction.orbitsSortedGroupedByMetaStabilizer.length }})</span>
           </div>
         }
       </fieldset>

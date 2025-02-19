@@ -152,7 +152,7 @@ export class GroupExplorerComponent {
     this.toggleShowHide = 'hidden'
   }
 
-  showOrbits(byCriteria = "MotifStabilizer") {
+  showOrbits(byCriteria = "MetaStabilizer") {
     if (!this.groupAction) {
       this.buildAllOperationsOfGroup()
     } else {
@@ -164,8 +164,8 @@ export class GroupExplorerComponent {
         if (byCriteria === "Stabilizer") {
           this.orbitsPartitions = this.groupAction!.orbitsSortedGroupedByStabilizers
           this.criteriaEquiv = "set of stabilizers"
-        } else if (byCriteria === "MotifStabilizer") {
-          this.orbitsPartitions = this.groupAction!.orbitsSortedGroupedByMotifStabilizers
+        } else if (byCriteria === "MetaStabilizer") {
+          this.orbitsPartitions = this.groupAction!.orbitsSortedGroupedByMetaStabilizer
           this.criteriaEquiv = "set of meta-stabilizer"
         } else if (byCriteria === "Cardinal") {
           this.orbitsPartitions = this.groupAction!.orbitsSortedGroupedByCardinal

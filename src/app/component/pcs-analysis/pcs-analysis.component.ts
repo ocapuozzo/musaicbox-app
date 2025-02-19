@@ -170,12 +170,12 @@ export class PcsAnalysisComponent {
 
   protected readonly EightyEight = EightyEight;
 
-  primeFormOrbitWithSameMotifStabilizersOf(pcs: IPcs): IPcs[] {
-    return EightyEight.getPrimeFormMusaicsWithSameMotifStabilizersOf(pcs)
+  primeFormOrbitWithSameMetaStabilizersOf(pcs: IPcs): IPcs[] {
+    return EightyEight.getPrimeFormMusaicsWithSameMetaStabilizerOf(pcs)
   }
 
   colorOrbit(pcsRepr: IPcs) {
-    return PcsColor.getColor(pcsRepr.orbit.motifStabilizer.name);
+    return PcsColor.getColor(pcsRepr.orbit.metaStabilizer.name);
   }
 
   /**

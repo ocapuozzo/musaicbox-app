@@ -111,7 +111,7 @@
         @if (pcs.isDetached() || pcsInMusaic() ) {(Musaic)} @else { (in orbit) }
         Stabilizers ({{operationsStabilizerOf(pcsMapped).cardinal}}):
         <span
-          class="analyse-pcs">{{ operationsStabilizerOf(pcsMapped).names //pcsMapped.musaicPrimeForm().orbit.motifStabilizer.name    }}</span>
+          class="analyse-pcs">{{ operationsStabilizerOf(pcsMapped).names //pcsMapped.musaicPrimeForm().orbit.strMetaStabilizer.name    }}</span>
         &nbsp;&nbsp;
       </p>
     </div>
@@ -208,7 +208,7 @@
   </div>
   @if (pcsMapped.n === 12) {
     <div class="marge-5"
-         *ngIf="{primeFormWithSameMotifStabilizers : primeFormOrbitWithSameMotifStabilizersOf(pcsMapped)} as data">
+         *ngIf="{primeFormWithSameMetaStabilizer : primeFormOrbitWithSameMetaStabilizersOf(pcsMapped)} as data">
       <fieldset class="representation-border" style="max-width: 450px;">
         <legend class="representation-border">
       <span style="display: inline-flex; align-items: center;">
@@ -217,17 +217,17 @@
           <app-octotrope [w]="50" [pcs]="pcs"></app-octotrope>
         }
         <span style="padding-left: 8px">
-        {{ data.primeFormWithSameMotifStabilizers.length }}
-          &nbsp;Musaic{{ data.primeFormWithSameMotifStabilizers.length > 1 ? 's' : '' }} sharing
-      exactly same set of motif-stabilizers (up to transposition) :
-          {{ pcsMapped.musaicPrimeForm().orbit.motifStabilizer.name }}
+        {{ data.primeFormWithSameMetaStabilizer.length }}
+          &nbsp;Musaic{{ data.primeFormWithSameMetaStabilizer.length > 1 ? 's' : '' }} sharing
+      exactly same set of metaStabilizer (up to transposition) :
+          {{ pcsMapped.musaicPrimeForm().orbit.metaStabilizer.name }}
           </span>
       </span>
 
         </legend>
         <hr>
         <div class="row">
-          @for (pcsRepr of data.primeFormWithSameMotifStabilizers; track pcsRepr.id) {
+          @for (pcsRepr of data.primeFormWithSameMetaStabilizer; track pcsRepr.id) {
             <div class="boxPcs" style="max-width: 60px; margin-left: 10px; text-align: center;">
               <span class="text-center label-ipcs">N° {{ EightyEight.idNumberOf(pcsRepr) }}</span>
               <app-musaic

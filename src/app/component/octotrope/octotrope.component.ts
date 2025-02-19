@@ -4,7 +4,7 @@ import {OctotropeDrawing} from "../../ui/OctotropeDrawing";
 import {UIPcsDto} from "../../ui/UIPcsDto";
 
 
-const COLOR_MOTIF_STABILIZER: Map<string, string> = new Map([
+const COLOR_META_STABILIZER: Map<string, string> = new Map([
   ['', 'lightgray'],
   ['M1', 'black'],
   ['CM1', 'black'],
@@ -62,7 +62,7 @@ export class OctotropeComponent {
         return;
       }
       // if no opStabilizers then initialize here
-      this.opStabilizers = this.pcs.stabilizer.motifStabilizer.motifStabOperations
+      this.opStabilizers = this.pcs.stabilizer.metaStabilizer.metaStabOperations
     }
 
     this.ctx = this.canvas.nativeElement.getContext('2d');
@@ -81,7 +81,7 @@ export class OctotropeComponent {
   //        return;
   //      }
   //     // if no opStabilizers then initialize here
-  //     this.opStabilizers = this.pcs.stabilizer.motifStabilizer.motifStabOperations
+  //     this.opStabilizers = this.pcs.stabilizer.strMetaStabilizer.metaStabOperations
   //   }
   //
   //   this.ctx = this.canvas.nativeElement.getContext('2d');

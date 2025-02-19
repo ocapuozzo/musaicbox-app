@@ -1,6 +1,5 @@
 import {Component, Input} from '@angular/core';
 import {ISortedOrbits} from "../../core/ISortedOrbits";
-import {NgIf, NgStyle} from "@angular/common";
 import {IPcs} from "../../core/IPcs";
 import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
 import {Router} from "@angular/router";
@@ -17,8 +16,6 @@ import {OctotropeComponent} from "../octotrope/octotrope.component";
   selector: 'app-orbit',
   standalone: true,
   imports: [
-    NgIf,
-    NgStyle,
     MatTooltip,
     MusaicComponent,
     ClockComponent,
@@ -62,16 +59,19 @@ export class UiOrbitComponent {
   }
 
   colorOrbit(orbit: Orbit): string {
-    return PcsColor.getColor(orbit.motifStabilizer.name);
+    return PcsColor.getColor(orbit.metaStabilizer.name);
   }
 
   split(groupingCriterion: string) {
     return groupingCriterion.split(" ");
   }
 
-  isMotifStabilizer(groupingCriterion: string | undefined) {
+  /**
+   * return true if stabilizers are strMetaStabilizer (without -Tx)
+   * @param groupingCriterion
+   */
+  isMetaStabilizer(groupingCriterion: string | undefined) {
     return groupingCriterion !== undefined &&
-      (groupingCriterion.includes("M1 ") || (groupingCriterion.includes("M1") && groupingCriterion.length ==2))
-      // (groupingCriterion.includes("-T") || groupingCriterion.includes("card"))
+      (groupingCriterion.includes("M1 ") || (groupingCriterion.includes("M1") && groupingCriterion.length === 2))
   }
 }

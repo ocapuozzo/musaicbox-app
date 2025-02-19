@@ -154,11 +154,11 @@ describe('Stabilizer', () => {
       orbit.stabilizers.forEach(stab => setStabilizers.add(stab.hashCode()))
     })
     expect(setStabilizers.size).toEqual(111)
-    expect(musaicGroup.orbitsSortedGroupedByMotifStabilizers.length).toEqual(13)
+    expect(musaicGroup.orbitsSortedGroupedByMetaStabilizer.length).toEqual(13)
 
     // expect(musaicGroup.orbitsSortedGroupedByStabilizers.length).toEqual(111)
 
-//  musaicGroup.orbitsSortedGroupedByMotifStabilizers.forEach(motifSatb => console.log(motifSatb.toString()))
+//  musaicGroup.orbitsSortedGroupedByMetaStabilizer.forEach(motifSatb => console.log(motifSatb.toString()))
   })
 
   it("Stabilizer isMotifEquivalence", () => {
@@ -240,7 +240,7 @@ describe('Stabilizer', () => {
     expect(sumPcs).toEqual(group.powerset.size)
 
     let shortNames: string[] = []
-    group.orbitsSortedGroupedByMotifStabilizers.forEach(stab => shortNames.push(stab.groupingCriterion))
+    group.orbitsSortedGroupedByMetaStabilizer.forEach(stab => shortNames.push(stab.groupingCriterion))
     expect(shortNames).toEqual(["M1"])
 
     shortNames = []

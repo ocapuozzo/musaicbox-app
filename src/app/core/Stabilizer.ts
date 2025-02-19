@@ -9,7 +9,7 @@
  */
 
 import {StringHash} from "../utils/StringHash";
-import {MotifStabilizer} from "./MotifStabilizer";
+import {MetaStabilizer} from "./MetaStabilizer";
 import {IPcs} from "./IPcs";
 import {MusaicOperation} from "./MusaicOperation";
 import {PcsUtils} from "../utils/PcsUtils";
@@ -17,9 +17,9 @@ import {PcsUtils} from "../utils/PcsUtils";
 export class Stabilizer {
   fixedPcs: IPcs[];
   operations: MusaicOperation[];
-  metaStabilizer: string;
+  strMetaStabilizer: string;
   _shortName: string
-  _motifStabilizer ?: MotifStabilizer
+  _metaStabilizer ?: MetaStabilizer
   _hashCode ?: number
   sumT: number
   _fixedPcsInPrimeForm: IPcs[]
@@ -29,10 +29,10 @@ export class Stabilizer {
     { fixedPcs?: IPcs[], operations?: MusaicOperation[] } = {}) {
     this.fixedPcs = fixedPcs ?? []
     this.operations = operations ?? [];
-    this.metaStabilizer = "";
+    this.strMetaStabilizer = "";
     this._shortName = ""
     this._hashCode = undefined
-    this._motifStabilizer = undefined
+    this._metaStabilizer = undefined
     this.sumT = this.computeSumTNear0();
     this._fixedPcsInPrimeForm = []
   }
@@ -63,10 +63,10 @@ export class Stabilizer {
       this.operations.push(op);
       this.sumT = this.computeSumTNear0();
       this.operations.sort(MusaicOperation.compare);
-      this.metaStabilizer = "";
+      this.strMetaStabilizer = "";
       this._shortName = "";
       this._hashCode = undefined
-      this._motifStabilizer = undefined
+      this._metaStabilizer = undefined
       this._fixedPcsInPrimeForm = []
     }
   }
@@ -126,11 +126,11 @@ export class Stabilizer {
     return true;
   }
 
-  get motifStabilizer() {
-    if (!this._motifStabilizer) {
-      this._motifStabilizer = new MotifStabilizer(this.reduceNameByIgnoreTransp().trim())
+  get metaStabilizer() {
+    if (!this._metaStabilizer) {
+      this._metaStabilizer = new MetaStabilizer(this.reduceNameByIgnoreTransp().trim())
     }
-    return this._motifStabilizer
+    return this._metaStabilizer
   }
 
   /**
@@ -151,9 +151,9 @@ export class Stabilizer {
     let res = "";
     let prec: string | null = null
     this.operations.forEach(op => {
-      let motif = op.toStringWithoutTransp();
-      if (motif !== prec) {
-        prec = motif;
+      let metaOp = op.toStringWithoutTransp();
+      if (metaOp !== prec) {
+        prec = metaOp;
         if (res.length > 0)
           res += ",";
         res = res + op.toStringWithoutTransp();
@@ -169,7 +169,7 @@ export class Stabilizer {
 
     public void setOperations(List<MusaicOperation> operations) {
       this.operations = operations;
-      metaStabilizer = null;
+      strMetaStabilizer = null;
       _shortName = null;
     }
     */
@@ -206,9 +206,9 @@ export class Stabilizer {
 
   /*
   public MetaStabilizer getMetaStabilizer() {
-    if (metaStabilizer == null)
-      metaStabilizer = new MetaStabilizer(reduceByIgnoreTransp());
-    return metaStabilizer;
+    if (strMetaStabilizer == null)
+      strMetaStabilizer = new MetaStabilizer(reduceByIgnoreTransp());
+    return strMetaStabilizer;
   }
   */
 
@@ -434,6 +434,10 @@ export class Stabilizer {
   }
 
 
+  /**
+   * Return true if this is "up to transposition", false else.
+   * Waiting : always true
+   */
   get isMotifEquivalence() {
     return this.getName().includes("M1-T1")
   }

@@ -9,10 +9,11 @@
  */
 
 import {IPcs} from "./IPcs";
-import {MotifStabilizer} from "./MotifStabilizer";
+import {MetaStabilizer} from "./MetaStabilizer";
 import {Stabilizer} from "./Stabilizer";
 import {GroupAction} from "./GroupAction";
 import {PcsUtils} from "../utils/PcsUtils";
+import {MusaicOperation} from "./MusaicOperation";
 
 
 export class Orbit {
@@ -37,9 +38,9 @@ export class Orbit {
   groupAction ?: GroupAction = undefined
 
   /**
-   * @see buildNameAndMotifStabilizerName
+   * @see buildNameAndMetaStabilizerName
    */
-  motifStabilizer: MotifStabilizer  // stab without Tx
+  metaStabilizer: MetaStabilizer  // stab without Tx
 
   _hashcode ?: number
 
@@ -51,7 +52,7 @@ export class Orbit {
     this.stabilizers = stabs ?? []
     this.ipcsset = ipcsSet ?? []
     this._hashcode = undefined
-    this.motifStabilizer = MotifStabilizer.manyMotifsStabilizer
+    this.metaStabilizer = MetaStabilizer.manyMetaStabilizer
 
     // this.buildStabilizersSignatureName() no, do not !
 
@@ -156,20 +157,26 @@ export class Orbit {
    }
    return minSymmetric;
    }
+*/
 
-   /**
+  getAllSignatureStabilizers() : string {
+     const ops = this.stabilizers.flatMap(stab => stab.operations)
+    return [...new Set(ops)].sort(MusaicOperation.compare).join(" ")
+  }
+
+
+/**
    * Name based on stabilizers, by reduction
    * Example (Musaic n° 84) : M1-T0 M7-T3~6* CM5-T2~4* CM11-T1~2*
    * @return {string}
    */
-  get name() {
+  get name(): string {
     if (!this._name) {
-      //  const ops = this.stabilizers.flatMap(stab => stab.operations)
-      // return this._name =  [...new Set(ops)].sort(MusaicOperation.compare).join(" ")
       return this.buildStabilizersSignatureName();
     }
     return this._name
   }
+
 
   /**
    * Create a name signature of this orbit based on his stabilizers
@@ -284,16 +291,16 @@ export class Orbit {
    *
    * Only one call, by GroupAction constructor when this orbit is complete
    *
-   *   @return {MotifStabilizer} the motifStabilizer of this orbit
+   *   @return {MetaStabilizer} the strMetaStabilizer of this orbit
    */
-  buildNameAndMotifStabilizerName(): MotifStabilizer {
+  buildNameAndMetaStabilizerName(): MetaStabilizer {
     const stabSignature = this.name
     // take left part of "M1-T0 CM11-Tx~m" => "M1 CM11"
 
     const signatureWithoutTranslation = stabSignature.split(" ").map(op => op.trim().split("-")[0]);
 
     // with delete duplicate values via Set
-    return this.motifStabilizer = new MotifStabilizer([...new Set(signatureWithoutTranslation)].sort(PcsUtils.compareOpName).join(" "))
+    return this.metaStabilizer = new MetaStabilizer([...new Set(signatureWithoutTranslation)].sort(PcsUtils.compareOpName).join(" "))
   }
 
   /**

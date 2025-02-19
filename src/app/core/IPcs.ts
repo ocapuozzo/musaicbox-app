@@ -278,6 +278,7 @@ export class IPcs {
     //  if "[1,3,5]" => "1,3,5"
     //  if "{1,3,5}" => "1,3,5"
     if (strpcs.length > 0) {
+      // accept "bordered" pcs  "[0,4,7]" or "[0 4 7]" or "{0 4,  7}" "|0, 4 7" etc.
       if (isNaN(Number(strpcs[0]))) {
         // is framed by symbols, remove them
         strpcs = strpcs.substring(1, isNaN(Number(strpcs[strpcs.length - 1])) ? strpcs.length - 1 : undefined);
@@ -285,6 +286,7 @@ export class IPcs {
       }
     }
     if (strpcs) {
+      // accept "0,4,7" or "0 4 7" or "0 4, 7"...
       let pitches = strpcs.split(/[ ,]+/);
       for (let i = 0; i < pitches.length; i++) {
         if (!pitches[i] || isNaN(Number(pitches[i])) || Number(pitches[i]) < 0 || Number(pitches[i]) > 12) {
@@ -293,7 +295,7 @@ export class IPcs {
         bin[Number(pitches[i])] = 1;
       }
     }
-    return bin;
+    return bin
   }
 
   /**

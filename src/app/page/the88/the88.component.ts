@@ -5,20 +5,14 @@ import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
 import {IPcs} from "../../core/IPcs";
 import {Router} from "@angular/router";
 import {PcsColor} from "../../color/PcsColor";
-import {MatDivider} from "@angular/material/divider";
-import {MatButton} from "@angular/material/button";
-import {MatButtonToggle, MatButtonToggleGroup} from "@angular/material/button-toggle";
-import {MatCheckbox} from "@angular/material/checkbox";
 import {FormsModule} from "@angular/forms";
 import {NgClass, NgForOf, NgTemplateOutlet} from "@angular/common";
 import {ManagerLocalStorageService} from "../../service/manager-local-storage.service";
 import {EightyEight} from "../../utils/EightyEight";
-import {MusaicComponent} from "../../component/musaic/musaic.component";
 import {PcsComponent} from "../../component/pcs/pcs.component";
 import {UIMusaic, UIPcsDto} from "../../ui/UIPcsDto";
 import {CdkContextMenuTrigger, CdkMenu, CdkMenuItem} from "@angular/cdk/menu";
 import {MatMenuContent} from "@angular/material/menu";
-import {MatSlideToggle} from "@angular/material/slide-toggle";
 import {ManagerPageWBService} from "../../service/manager-page-wb.service";
 import {OctotropeComponent} from "../../component/octotrope/octotrope.component";
 import {ArrayUtil} from "../../utils/ArrayUtil";
@@ -29,7 +23,7 @@ import {Orbit} from "../../core/Orbit";
 
 export interface IOrbitMusaic {
   pcsDto: UIPcsDto  // a representative of orbit (prime forme in modalPF)
-  motifStabilizerNames: string[] // of orbit
+  metaStabilizerNames: string[] // of orbit
   color: string
   cardinal: number
 }
@@ -48,19 +42,12 @@ export interface IOctotrope {
   selector: 'app-page-the88',
   standalone: true,
   imports: [
-    MatDivider,
-    MatButton,
-    MatButtonToggle,
-    MatButtonToggleGroup,
-    MatCheckbox,
     FormsModule,
     NgForOf,
-    MusaicComponent,
     PcsComponent,
     CdkMenu,
     CdkMenuItem,
     MatMenuContent,
-    MatSlideToggle,
     CdkContextMenuTrigger,
     OctotropeComponent,
     NgClass,
@@ -82,7 +69,7 @@ export class The88Component implements OnInit {
 
   currentSelectedOps: string[] = ["M1"]
   searchPcsInput: ISearchPcs = {somePcs: [], searchInput: ''}
-  
+
   private indexSelectedOctotrope: number;
 
   pcs: IPcs = new IPcs({strPcs: "0,3,4,5"}); // updated into constructor
@@ -111,16 +98,16 @@ export class The88Component implements OnInit {
     this.listOrbits = this.groupMusaic.orbits.map(orbit => (
       {
         pcsDto: makePcsDto(orbit.getPcsMin().modalPrimeForm()),
-        motifStabilizerNames: orbit.motifStabilizer.name.split(' '),
-        color: PcsColor.getColor(orbit.motifStabilizer.name),
+        metaStabilizerNames: orbit.metaStabilizer.name.split(' '),
+        color: PcsColor.getColor(orbit.metaStabilizer.name),
         cardinal: orbit.cardinal
       }))
 
     this.pcs = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).getIPcsInOrbit(this.pcs)
-    // console.log("this.pcs", this.pcs.stabilizer.motifStabilizer.motifStabOperations)
+    // console.log("this.pcs", this.pcs.stabilizer.strMetaStabilizer.metaStabOperations)
 
     // initialize 13 octotropes data
-    this.octotropes = this.groupMusaic.orbitsSortedGroupedByMotifStabilizers.map(orbit => ({
+    this.octotropes = this.groupMusaic.orbitsSortedGroupedByMetaStabilizer.map(orbit => ({
       pcs: orbit.orbits[0].getPcsMin(), // get any pcs in any orbit... min by default
       numberOfMusaics: orbit.orbits.length,
       numberOfPcs: orbit.orbits.reduce((numberPcs, orbit) =>
@@ -187,7 +174,7 @@ export class The88Component implements OnInit {
       // select this group of orbits shearing same stabilizer
       if (ArrayUtil.isIncludeIn(
         this.currentSelectedOps,
-        this.octotropes[i].pcs.stabilizer.motifStabilizer.motifStabOperations))
+        this.octotropes[i].pcs.stabilizer.metaStabilizer.metaStabOperations))
       {
         newOctotropes[i] = {...this.octotropes[i], selected: true, active: true}
       } else if (this.octotropes[i].selected) {
@@ -209,7 +196,7 @@ export class The88Component implements OnInit {
       color = "black"
       // search if current musaic match
       for (let i = 0; i < this.octotropes.length; i++) {
-        if (this.octotropes[i].pcs.stabilizer.motifStabilizer.hashCode() === musaic.pcsDto.pcs.stabilizer.motifStabilizer.hashCode()
+        if (this.octotropes[i].pcs.stabilizer.metaStabilizer.hashCode() === musaic.pcsDto.pcs.stabilizer.metaStabilizer.hashCode()
           && this.octotropes[i].selected
           && this.octotropes[i].active) {
           this.nbMusaicsMatch++
@@ -253,7 +240,7 @@ export class The88Component implements OnInit {
       orbit.pcsDto.colorPitchOn === color ? countSameColor + 1 : countSameColor, 0);
   }
 
-  doSelectOrbitsHavingSameMotifStabilizerThan(index: number) {
+  doSelectOrbitsHavingSameMetaStabilizerThan(index: number) {
     if (! this.octotropes[index].selected) { return }
     // toggle active octotrope if octotrope active > 1 (avoid empty selection)
     if (index > -1) {
@@ -267,11 +254,11 @@ export class The88Component implements OnInit {
   }
 
   pcsMatchOperationStabilizersSelected(pcsRepresentative: IPcs): boolean {
-    const motifStabilizerOps = pcsRepresentative.stabilizer.motifStabilizer.motifStabOperations
+    const metaStabilizerOps = pcsRepresentative.stabilizer.metaStabilizer.metaStabOperations
     let match = true
     for (let i = 1; i < this.currentSelectedOps.length; i++) {
       const operation = this.currentSelectedOps[i]
-      if (!motifStabilizerOps.includes(operation)) {
+      if (!metaStabilizerOps.includes(operation)) {
         match = false
       }
     }

@@ -16,29 +16,29 @@ describe('ManagerPageWBService', () => {
   });
 
 
-  it ('doGetMotifsPcsFromPcs Affine', () => {
+  it ('doGetTransformedPcsFromPcs Affine', () => {
     const pcs = new IPcs({strPcs:"0, 4, 7"})
     let distinct = true
-    expect(service.doGetMotifsPcsFromPcs(pcs, 'Affine', distinct).length).toEqual(4)
+    expect(service.doGetTransformedPcsFromPcs(pcs, 'Affine', distinct).length).toEqual(4)
 
     const pcsLimitedTransposition = new IPcs({strPcs:"0, 3, 6, 9"})
-    expect(service.doGetMotifsPcsFromPcs(pcsLimitedTransposition, 'Affine', distinct).length).toEqual(1)
-    expect(service.doGetMotifsPcsFromPcs(pcsLimitedTransposition, 'Affine', !distinct).length).toEqual(4)
+    expect(service.doGetTransformedPcsFromPcs(pcsLimitedTransposition, 'Affine', distinct).length).toEqual(1)
+    expect(service.doGetTransformedPcsFromPcs(pcsLimitedTransposition, 'Affine', !distinct).length).toEqual(4)
   })
 
   it ('doGetPcsMotifsFromPcs Musaic', () => {
     const pcs = new IPcs({strPcs:"0, 4, 7"})
     let distinct = true
 
-    expect(service.doGetMotifsPcsFromPcs(pcs, 'Musaic', distinct).length).toEqual(8)
-    expect(service.doGetMotifsPcsFromPcs(pcs, 'Musaic', !distinct).length).toEqual(8)
+    expect(service.doGetTransformedPcsFromPcs(pcs, 'Musaic', distinct).length).toEqual(8)
+    expect(service.doGetTransformedPcsFromPcs(pcs, 'Musaic', !distinct).length).toEqual(8)
 
     const pcsLimitedTransposition = new IPcs({strPcs:"0, 3, 6, 9"})
 
     // 2 motifs expected, this and this complement (1,2,4,5,7,8,10,11)
-    expect(service.doGetMotifsPcsFromPcs(pcsLimitedTransposition, 'Musaic', distinct).length).toEqual(2)
+    expect(service.doGetTransformedPcsFromPcs(pcsLimitedTransposition, 'Musaic', distinct).length).toEqual(2)
 
-    expect(service.doGetMotifsPcsFromPcs(pcsLimitedTransposition, 'Musaic', !distinct).length).toEqual(8)
+    expect(service.doGetTransformedPcsFromPcs(pcsLimitedTransposition, 'Musaic', !distinct).length).toEqual(8)
   })
 
 });

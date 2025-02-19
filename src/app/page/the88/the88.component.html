@@ -82,7 +82,7 @@
       'octotrope-selected': octotrope.selected,
       'octotrope-active': octotrope.selected && octotrope.active}">
         <span [ngClass]="{'octotrope-not-selected': !octotrope.selected}"
-              (click)="doSelectOrbitsHavingSameMotifStabilizerThan(idx)">
+              (click)="doSelectOrbitsHavingSameMetaStabilizerThan(idx)">
           <app-octotrope
             [w]="85"
             [pcs]="octotrope.pcs"
@@ -103,7 +103,7 @@
   <div style="margin: auto; text-align: center; width: 100%">
 
     @if (getOnlyOctotropeTabSelectedActive()) {
-      <h3 style="margin-top: 10px"> Your selection : {{getOnlyOctotropeTabSelectedActive().pcs.orbit.motifStabilizer.name}}
+      <h3 style="margin-top: 10px"> Your selection : {{getOnlyOctotropeTabSelectedActive().pcs.orbit.metaStabilizer.name}}
         -> {{ nbMusaicsMatch ? nbMusaicsMatch : 'All' }} exclusively stabilized musaic{{ nbMusaicsMatch > 1 ? 's' : '' }}
       </h3>
 

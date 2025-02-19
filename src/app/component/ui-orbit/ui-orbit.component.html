@@ -3,7 +3,7 @@
 
     <span style="display: inline-flex; align-items: center;">
        @if (orbitsGroup ? orbitsGroup.orbits[0].getPcsMin().n === 12 : false) {
-         @if (isMotifStabilizer(orbitsGroup?.groupingCriterion)) {
+         @if (isMetaStabilizer(orbitsGroup?.groupingCriterion)) {
            <app-octotrope [w]="50" [opStabilizers]="split(orbitsGroup!.groupingCriterion)"></app-octotrope>
          }
        }

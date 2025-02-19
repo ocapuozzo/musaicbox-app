@@ -24,7 +24,7 @@ import {Orbit} from "./Orbit";
 import {Group} from "./Group";
 import {Stabilizer} from "./Stabilizer";
 import {MusaicOperation} from "./MusaicOperation";
-import {MotifStabilizer} from "./MotifStabilizer";
+import {MetaStabilizer} from "./MetaStabilizer";
 import {StringHash} from "../utils/StringHash";
 import {ISortedOrbits} from "./ISortedOrbits";
 
@@ -41,7 +41,7 @@ export class GroupAction {
   operationsNameWithoutTxStr: string
 
   private _orbitsSortedGroupedByStabilizers ?: ISortedOrbits[];
-  private _orbitsSortedGroupedByMotifStabilizers ?: ISortedOrbits[];
+  private _orbitsSortedGroupedByMetaStabilizer ?: ISortedOrbits[];
   private _orbitsSortedGroupedByCardinal ?: ISortedOrbits[];
 
   private static _predefinedGroupsActions: Map<number, GroupAction[]>
@@ -64,10 +64,10 @@ export class GroupAction {
     this.orbits = this.buildOrbitsByActionOnPowerset();
 
     this._orbitsSortedGroupedByStabilizers = undefined
-    this._orbitsSortedGroupedByMotifStabilizers = undefined
+    this._orbitsSortedGroupedByMetaStabilizer = undefined
     this._orbitsSortedGroupedByCardinal = undefined
 
-    this.buildOrbitMotifStabilizers()
+    this.buildOrbitMetaStabilizers()
     // build operations name without Tx
     this.operationsNameWithoutTxStr = this.buildOpNameWithoutTxToString()
   }
@@ -135,7 +135,7 @@ export class GroupAction {
    *
    * Build stabilizers of orbit for all orbits (therefore all powerset because orbits is partition of powerset)
    */
-  private buildOrbitMotifStabilizers() {
+  private buildOrbitMetaStabilizers() {
     this.orbits.forEach(orbit => {
       orbit.ipcsset.forEach(pcs => {
         let newStab = new Stabilizer();
@@ -170,28 +170,28 @@ export class GroupAction {
       // order collection stabilizers in current orbit
       orbit.stabilizers.sort(Stabilizer.compareShortName)
 
-      // orbit is complete, we can set his name and motif stabilizer property (orbit.motifStabilizer)
-      orbit.buildNameAndMotifStabilizerName()
+      // orbit is complete, we can set his name and motif stabilizer property (orbit.strMetaStabilizer)
+      orbit.buildNameAndMetaStabilizerName()
     }) // end loop orbits
   }
 
-  get orbitsSortedGroupedByMotifStabilizers(): ISortedOrbits[] {
-    if (!this._orbitsSortedGroupedByMotifStabilizers)
-      this._orbitsSortedGroupedByMotifStabilizers = this.computeOrbitSortedByMotifStabilizers()
+  get orbitsSortedGroupedByMetaStabilizer(): ISortedOrbits[] {
+    if (!this._orbitsSortedGroupedByMetaStabilizer)
+      this._orbitsSortedGroupedByMetaStabilizer = this.computeOrbitSortedGroupedByMetaStabilizer()
 
-    return this._orbitsSortedGroupedByMotifStabilizers
+    return this._orbitsSortedGroupedByMetaStabilizer
   }
 
   get orbitsSortedGroupedByStabilizers() {
     if (!this._orbitsSortedGroupedByStabilizers)
-      this._orbitsSortedGroupedByStabilizers = this.computeOrbitSortedByStabilizers()
+      this._orbitsSortedGroupedByStabilizers = this.computeOrbitSortedGroupedByStabilizers()
 
     return this._orbitsSortedGroupedByStabilizers
   }
 
   get orbitsSortedGroupedByCardinal(): ISortedOrbits[] {
     if (!this._orbitsSortedGroupedByCardinal)
-      this._orbitsSortedGroupedByCardinal = this.computeOrbitSortedByCardinal()
+      this._orbitsSortedGroupedByCardinal = this.computeOrbitSortedGroupedByCardinal()
 
     return this._orbitsSortedGroupedByCardinal
   }
@@ -201,10 +201,13 @@ export class GroupAction {
    * equivalence relation "have same stabilizer set"
    * @return {ISortedOrbits[]} array of ISortedOrbits
    */
-  private computeOrbitSortedByStabilizers(): ISortedOrbits[] {
-    let orbitsSortedByStabilizers = new Map<string, Orbit[]>() // k=name orbit based on his stabs, v=array of orbits
+   computeOrbitSortedGroupedByStabilizers(byShortSignatureName : boolean = true ): ISortedOrbits[] {
+    let orbitsSortedByStabilizers = new Map<string, Orbit[]>()
+    // key=name orbit based on his stabs, value=array of orbits
+
     this.orbits.forEach(orbit => {
-      const orbitName = orbit.name  // stabilizer based
+      // stabilizer based name (orbit.name is in short name format stabilizers ex: M1-T0~1)
+      const orbitName = byShortSignatureName ? orbit.name : orbit.getAllSignatureStabilizers()
       if (!orbitsSortedByStabilizers.has(orbitName)) {
         orbitsSortedByStabilizers.set(orbitName, [orbit])
       } else {
@@ -228,75 +231,42 @@ export class GroupAction {
     return resultOrbitsSortedByStabilizers
   }
 
-  //
-  // private _computeOrbitSortedByStabilizers(): ISortedOrbits[] {
-  //   let orbitsSortedGroupedByStabilizers = new Map<string, Orbit[]>() // k=name orbit based on his stabs, v=array of orbits
-  //   this.orbits.forEach(orbit => {
-  //     orbit.stabilizers.forEach(stab => {
-  //       // make an subOrbit based on stabilizer : subOrbits partitioning orbit
-  //       let subOrbit = new Orbit({stabs: [stab], ipcsSet: stab.fixedPcs})
-  //
-  //       let nameStab = stab.getShortName()
-  //       if (!orbitsSortedGroupedByStabilizers.has(nameStab)) {
-  //         orbitsSortedGroupedByStabilizers.set(nameStab, [subOrbit])
-  //       } else {
-  //         // @ts-ignore undefined get element
-  //         orbitsSortedGroupedByStabilizers.get(nameStab).push(subOrbit)
-  //       }
-  //     }) // end loop all stab of current orbit
-  //   }) // end loop orbits
-  //
-  //   // sort map on keys (lexical order)
-  //   // make a "view adapter" for v-for
-  //   let resultOrbitsSortedByStabilizers: ISortedOrbits[] = []
-  //   Array.from(orbitsSortedGroupedByStabilizers.keys()).sort().forEach((name) => {
-  //     const obj: ISortedOrbits =
-  //       {
-  //         groupingCriterion: name,
-  //         // to avoid duplicate keys in vue
-  //         hashcode: StringHash.stringHashCode(name) + Date.now(),
-  //         orbits: orbitsSortedGroupedByStabilizers.get(name) ?? [] //  always set
-  //       }
-  //     resultOrbitsSortedByStabilizers.push(obj)
-  //   })
-  //
-  //   return resultOrbitsSortedByStabilizers
-  // }
 
   /**
    * @return {ISortedOrbits[]} array of ISortedOrbits
    */
-  private computeOrbitSortedByMotifStabilizers(): ISortedOrbits[] {
-    let orbitsSortedByMotifStabilizer = new Map() // k=MotifStabilizer orbit based on his stabs, v=array of orbits
+  private computeOrbitSortedGroupedByMetaStabilizer(): ISortedOrbits[] {
+    let orbitsSortedGroupedByMetaStabilizer = new Map()
+    // key=MetaStabilizer orbit based on his stabs, value=array of  having same MetaStabilizer
     this.orbits.forEach(orbit => {
-      let kNameMotifStab = Array.from(orbitsSortedByMotifStabilizer.keys())
-        .find(ms => ms.hashCode() === orbit.motifStabilizer.hashCode())
-      if (!kNameMotifStab) {
-        orbitsSortedByMotifStabilizer.set(orbit.motifStabilizer, [orbit])
+      let kNameMetaStab = Array.from(orbitsSortedGroupedByMetaStabilizer.keys())
+        .find(ms => ms.hashCode() === orbit.metaStabilizer.hashCode())
+      if (!kNameMetaStab) {
+        orbitsSortedGroupedByMetaStabilizer.set(orbit.metaStabilizer, [orbit])
       } else {
-        orbitsSortedByMotifStabilizer.get(kNameMotifStab).push(orbit)
+        orbitsSortedGroupedByMetaStabilizer.get(kNameMetaStab).push(orbit)
       }
     })
     // sort operations
     // make a "view adapter" (initially for Vue v-for and cache)
-    let resultOrbitsSortedByMotifStabilizer: ISortedOrbits[] = []
-    Array.from(orbitsSortedByMotifStabilizer.keys()).sort(MotifStabilizer.compare).forEach(motifStab => {
+    let resultOrbitsSortedGroupedByMetaStabilizer: ISortedOrbits[] = []
+    Array.from(orbitsSortedGroupedByMetaStabilizer.keys()).sort(MetaStabilizer.compare).forEach(metaStab => {
       const obj: ISortedOrbits =
         {
-          groupingCriterion: motifStab.name,
+          groupingCriterion: metaStab.name,
           // to avoid duplicate keys in vue
-          hashcode: StringHash.stringHashCode(motifStab.name) + Date.now(),
-          orbits: orbitsSortedByMotifStabilizer.get(motifStab).sort(Orbit.comparePcsMin)
+          hashcode: StringHash.stringHashCode(metaStab.name) + Date.now(),
+          orbits: orbitsSortedGroupedByMetaStabilizer.get(metaStab).sort(Orbit.comparePcsMin)
         }
-      resultOrbitsSortedByMotifStabilizer.push(obj)
+      resultOrbitsSortedGroupedByMetaStabilizer.push(obj)
     })
-    return resultOrbitsSortedByMotifStabilizer
+    return resultOrbitsSortedGroupedByMetaStabilizer
   }
 
   /**
    * @return {ISortedOrbits[]} array of ISortedOrbits
    */
-  private computeOrbitSortedByCardinal(): ISortedOrbits[] {
+  private computeOrbitSortedGroupedByCardinal(): ISortedOrbits[] {
     let orbitsSortedByCardinal = new Map() // k=name orbit based on his stabs, v=array of orbits
     this.orbits.forEach(orbit => {
       let card = Array.from(orbitsSortedByCardinal.keys()).find(card => card === orbit.getPcsMin().cardinal)
