@@ -171,27 +171,56 @@ describe('Orbit', () => {
     expect(secondOrbit.toString()).toContain('Orbit (12) stabilizers.length:1')
   })
 
-
   it("toString() on detached orbit", () => {
     let orbit = new Orbit();
     expect(orbit.toString()).toContain('Orbit (0) stabilizers.length:0')
   })
 
+  it("partition and orbits", () => {
+    let groupAction = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
 
-  it("pcsList only in one stabilizer in this orbit", () => {
-    let group = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
-
-    group.orbits.forEach((orbit) => {
+    groupAction.orbits.forEach((orbit) => {
       expect(orbit.stabilizers.length).toEqual(1)
     })
+    detectDuplicatePcs(groupAction)
 
-    group = GroupAction.predefinedGroupsActions(12, Group.DIHEDRAL)
-    detectDuplicatePcs(group)
+    groupAction = GroupAction.predefinedGroupsActions(12, Group.DIHEDRAL)
+    detectDuplicatePcs(groupAction)
 
-    group = GroupAction.predefinedGroupsActions(12, Group.MUSAIC)
-    detectDuplicatePcs(group)
+    groupAction = GroupAction.predefinedGroupsActions(12, Group.MUSAIC)
+    detectDuplicatePcs(groupAction)
 
   })
+
+  it('test if orbit.name (short stabilizer name based) is ok', () => {
+     const GROUP_NAMES = [
+       {name:'Cyclic', card:6},
+       {name:'Dihedral', card:35},
+       {name:'Affine', card:52},
+       {name:'Musaic', card:27}]
+
+    GROUP_NAMES.forEach(group => {
+      const groupAction = ManagerGroupActionService.getGroupActionFromGroupAliasName(group.name)
+      if (groupAction) {
+        testOrbitNameFromShortStabilizer(groupAction, group.card)
+      } else {
+        fail(`${group.name} fail from ManagerGroupActionService`)
+      }
+    })
+
+  })
+
+  /**
+   * test if orbit.name (short stabilizer name based) is ok from a groupAction
+   * @param groupAction
+   * @param waitingCardinal
+   */
+  function testOrbitNameFromShortStabilizer(groupAction : GroupAction, waitingCardinal : number){
+      const nOrbits1 = groupAction.computeOrbitSortedGroupedByStabilizers(false).length
+      const nOrbits2 = groupAction.computeOrbitSortedGroupedByStabilizers(true).length
+      expect(nOrbits1).toEqual(waitingCardinal)
+      expect(nOrbits1).toEqual(nOrbits2)
+  }
 
   // test partition
   function detectDuplicatePcs(group : GroupAction) {

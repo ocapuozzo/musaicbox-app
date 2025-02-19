@@ -103,7 +103,6 @@ describe('GroupAction', () => {
 
     // test orbit short name or not : same cardinal when grouped by stab
 
-
     expect(dihedralGroup12.computeOrbitSortedGroupedByStabilizers(false).length).toEqual(35)
     expect(dihedralGroup12.computeOrbitSortedGroupedByStabilizers(true).length).toEqual(35)
     expect(dihedralGroup12.orbitsSortedGroupedByStabilizers.length).toEqual(35)
