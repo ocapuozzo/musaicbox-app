@@ -38,7 +38,7 @@ describe('GroupAction', () => {
     expect(musaicGroup12.powerset.size).toEqual(Math.pow(2, 12))
     expect(musaicGroup12.orbits.length).toEqual(Math.pow(2, 12))
     // only one stabilizer
-    expect(musaicGroup12.orbitsSortedGroupedByStabilizers.length).toEqual(1)
+    expect(musaicGroup12.orbitsSortedGroupedByStabilizer.length).toEqual(1)
   });
 
   it("Action cyclic group n = 12 ", () => {
@@ -50,8 +50,8 @@ describe('GroupAction', () => {
     expect(cyclicGroup12.powerset.size).toEqual(Math.pow(2, 12))
     expect(cyclicGroup12.orbits.length).toEqual(352)
 
-    // console.log("first stab : " + cyclicGroup12.orbitsSortedGroupedByStabilizers[0].groupingCriterion)
-    expect(cyclicGroup12.orbitsSortedGroupedByStabilizers.length).toEqual(6)
+    // console.log("first stab : " + cyclicGroup12.orbitsSortedGroupedByStabilizer[0].groupingCriterion)
+    expect(cyclicGroup12.orbitsSortedGroupedByStabilizer.length).toEqual(6)
 
     let nbPcs = 0
     let nLimitedTransposition = 0
@@ -76,11 +76,11 @@ describe('GroupAction', () => {
     // 5 classes of limited transposition plus identity stab ([M1-T0]), so 6 waiting
     // expected 6 stabilizer names (2/1 , 54/6 , 12/4 , 6/3 , 2/2 and 4020/12)
     // (sorted by name) M1-T0 M1-T0~1* M1-T0~2* M1-T0~3* M1-T0~4* M1-T0~6*
-    expect(cyclicGroup12.orbitsSortedGroupedByStabilizers.length).toEqual(6)
+    expect(cyclicGroup12.orbitsSortedGroupedByStabilizer.length).toEqual(6)
 
     // There are 335 orbits transposable 12 times and 17 in limited transposition
     // When filter all orbits with cardinal < 335, we should get 17 orbits
-    let sumLTs = cyclicGroup12.orbitsSortedGroupedByStabilizers
+    let sumLTs = cyclicGroup12.orbitsSortedGroupedByStabilizer
       .filter(sortedOrbit => sortedOrbit.orbits.length < 335)
       .reduce((sum, current) => sum + current.orbits.length, 0)
     expect(sumLTs).toEqual(17)
@@ -103,9 +103,9 @@ describe('GroupAction', () => {
 
     // test orbit short name or not : same cardinal when grouped by stab
 
-    expect(dihedralGroup12.computeOrbitSortedGroupedByStabilizers(false).length).toEqual(35)
-    expect(dihedralGroup12.computeOrbitSortedGroupedByStabilizers(true).length).toEqual(35)
-    expect(dihedralGroup12.orbitsSortedGroupedByStabilizers.length).toEqual(35)
+    expect(dihedralGroup12.computeOrbitSortedGroupedByStabilizer(false).length).toEqual(35)
+    expect(dihedralGroup12.computeOrbitSortedGroupedByStabilizer(true).length).toEqual(35)
+    expect(dihedralGroup12.orbitsSortedGroupedByStabilizer.length).toEqual(35)
 
   });
 
@@ -187,7 +187,7 @@ describe('GroupAction', () => {
     expect(musaicGroup12.orbitsSortedGroupedByMetaStabilizer.length).toEqual(13)
 
     // TODO to demonstrate mathematically
-    expect(musaicGroup12.orbitsSortedGroupedByStabilizers.length).toEqual(27)
+    expect(musaicGroup12.orbitsSortedGroupedByStabilizer.length).toEqual(27)
 
     let lastPF = new IPcs({pidVal: 1365, n: 12}) // whole tone scale
     // test equality of PCS
@@ -211,7 +211,7 @@ describe('GroupAction', () => {
     expect(cyclicGroup12.orbitsSortedGroupedByMetaStabilizer.length).toEqual(1)
 
     // M1-T0 (335), M1-T0~1* (2), M1-T0~2* (1), M1-T0~3* (2), M1-T0~4* (3), M1-T0~6* (9)
-    expect(cyclicGroup12.orbitsSortedGroupedByStabilizers.length).toEqual(6)
+    expect(cyclicGroup12.orbitsSortedGroupedByStabilizer.length).toEqual(6)
   })
 
   it("Predefined Dihedral Group Action n=12", () => {
@@ -224,7 +224,7 @@ describe('GroupAction', () => {
     expect(dihedralGroup12.orbitsSortedGroupedByMetaStabilizer.length).toEqual(2)
 
     // TODO to demonstrate mathematically
-    expect(dihedralGroup12.orbitsSortedGroupedByStabilizers.length).toEqual(35)
+    expect(dihedralGroup12.orbitsSortedGroupedByStabilizer.length).toEqual(35)
   })
 
 
@@ -238,7 +238,7 @@ describe('GroupAction', () => {
     expect(affineGroup12.orbitsSortedGroupedByMetaStabilizer.length).toEqual(5)
 
     // TODO to demonstrate mathematically
-    expect(affineGroup12.orbitsSortedGroupedByStabilizers.length).toEqual(52)
+    expect(affineGroup12.orbitsSortedGroupedByStabilizer.length).toEqual(52)
   })
 
 
@@ -315,7 +315,7 @@ describe('GroupAction', () => {
     expect(trivialGroup.orbits.length).toEqual(Math.pow(2, 12))
     // only one stabilizer
 
-    expect(trivialGroup.orbitsSortedGroupedByStabilizers.length).toEqual(1)
+    expect(trivialGroup.orbitsSortedGroupedByStabilizer.length).toEqual(1)
     expect(trivialGroup.orbitsSortedGroupedByMetaStabilizer.length).toEqual(1)
 
     // n+1 because detached set count for one
@@ -328,7 +328,7 @@ describe('GroupAction', () => {
     expect(cyclicGroup.powerset.size).toEqual(Math.pow(2, 12))
     expect(cyclicGroup.orbits.length).toEqual(352)
     // only 12 stabilizer
-    expect(cyclicGroup.orbitsSortedGroupedByStabilizers.length).toEqual(6)
+    expect(cyclicGroup.orbitsSortedGroupedByStabilizer.length).toEqual(6)
 
     // M1 because MetaStabilizers does not have Tx operations, and M1 is alone
     expect(cyclicGroup.orbitsSortedGroupedByMetaStabilizer.length).toEqual(1)

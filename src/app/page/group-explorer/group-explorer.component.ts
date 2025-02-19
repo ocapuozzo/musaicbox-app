@@ -162,7 +162,7 @@ export class GroupExplorerComponent {
         //this.stabilizers = this.groupAction.stabilizers
         //this.fixedPcsInPrimeForms = this.groupAction.stabilizers.fixedPcsInPrimeForm()
         if (byCriteria === "Stabilizer") {
-          this.orbitsPartitions = this.groupAction!.orbitsSortedGroupedByStabilizers
+          this.orbitsPartitions = this.groupAction!.orbitsSortedGroupedByStabilizer
           this.criteriaEquiv = "set of stabilizers"
         } else if (byCriteria === "MetaStabilizer") {
           this.orbitsPartitions = this.groupAction!.orbitsSortedGroupedByMetaStabilizer

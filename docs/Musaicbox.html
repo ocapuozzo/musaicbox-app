@@ -640,7 +640,12 @@ td:has(>p>span[class="klein2"]) {
 <li><a href="#_17_subgroups_computed">17 subgroups computed</a></li>
 </ul>
 </li>
+<li><a href="#_stabilizer">Stabilizer</a>
+<ul class="sectlevel2">
 <li><a href="#_meta_stabilizer">Meta-Stabilizer</a></li>
+</ul>
+</li>
+<li><a href="#_shorty_stabilizer">Shorty-Stabilizer</a></li>
 <li><a href="#_appendix">Appendix</a>
 <ul class="sectlevel2">
 <li><a href="#_order_relation">Order relation</a>
@@ -659,6 +664,7 @@ td:has(>p>span[class="klein2"]) {
 <li><a href="#_modal_prime_form">Modal prime form</a></li>
 </ul>
 </li>
+<li><a href="#_subgroups_and_their_generators">Subgroups and their generators</a></li>
 </ul>
 </li>
 <li><a href="#_references">References</a></li>
@@ -2305,7 +2311,7 @@ Extended Affine Operation is called <em>MusaicOperation</em> into MusaicBox proj
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-We can observe the highlighting of symmetries, and distinct <a href="https://en.wikipedia.org/wiki/Klein_four-group">klein four-groups</a> (first square).
+We can observe the highlighting of symmetries, and a <a href="https://en.wikipedia.org/wiki/Klein_four-group">klein four-groups</a> (first square).
 </td>
 </tr>
 </table>
@@ -2920,7 +2926,7 @@ The four generators are <code>M1-T1</code>, <code>M1-T5</code>, <code>M1-T7</cod
 <div class="sect2">
 <h3 id="_17_subgroups_computed">17 subgroups computed</h3>
 <div class="paragraph">
-<p>A calculation was carried out in order to inventory all possible subgroups of our reference group \$G\$ with its 96 operations. This results in 16+1 subgroups (+ 1 for trivial group), listed below.</p>
+<p>A calculation was carried out in order to inventory all possible subgroups of our reference group \$G\$ with its 96 operations. This results in 16+1 subgroups (+ 1 for trivial group), visible in the appendix (<a href="#_subgroups_and_their_generators">Subgroups and their generators</a>) and listed below.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -2929,7 +2935,7 @@ The four generators are <code>M1-T1</code>, <code>M1-T5</code>, <code>M1-T7</cod
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Suffixe -T1 is to be sure to inject the neutral operation (M1-T0) into the group.
+All operation are with suffixe -T1, for include all steps of transposition and to be sure to inject the neutral operation (M1-T0) into the group.
 <br>
  As any subgroup includes the neutral operation in its elements, suffixe "-T1", being implied, is omitted.
 <br>
@@ -2939,7 +2945,7 @@ Example : [M1-T1 M11-T1] &#8658; [M1 M11]
 </table>
 </div>
 <table class="tableblock frame-ends grid-rows stretch">
-<caption class="title">Table 6. Enumeration by cardinality</caption>
+<caption class="title">Table 6. Enumeration of subgroups, by cardinality</caption>
 <colgroup>
 <col style="width: 29.6296%;">
 <col style="width: 3.7037%;">
@@ -3337,7 +3343,16 @@ Note the central vertical axis on which 4 of its 5 known subgroups are located.
 </div>
 </div>
 <div class="sect1">
-<h2 id="_meta_stabilizer">Meta-Stabilizer</h2>
+<h2 id="_stabilizer">Stabilizer</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_meta_stabilizer">Meta-Stabilizer</h3>
+
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_shorty_stabilizer">Shorty-Stabilizer</h2>
 <div class="sectionbody">
 
 </div>
@@ -3741,6 +3756,196 @@ Modal prime form concept is invented, specific to this project.
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_subgroups_and_their_generators">Subgroups and their generators</h3>
+<div class="paragraph">
+<p>From folder <code>src/app/laboratory</code> folder, unit test : <em>it('n=12 - Explore all sub-groups of musaic group - up to transposition'</em></p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>'== Generators family (subgroups) ==================================='
+'n=12 [M1-T0] card = 1'
+' generators (1) ='
+['M1-T0']
+'====================================='
+'n=12 [M1] card = 12'
+' generators (1) ='
+['M1-T1']
+'====================================='
+'n=12 [M1 M7] card = 24'
+' generators (1) ='
+['M1-T1', 'M7-T1']
+'====================================='
+'n=12 [M1 M11] card = 24'
+' generators (1) ='
+['M1-T1', 'M11-T1']
+'====================================='
+'n=12 [M1 M5] card = 24'
+' generators (1) ='
+['M1-T1', 'M5-T1']
+'====================================='
+'n=12 [M1 CM11] card = 24'
+' generators (1) ='
+['M1-T1', 'CM11-T1']
+'====================================='
+'n=12 [M1 CM5] card = 24'
+' generators (1) ='
+['M1-T1', 'CM5-T1']
+'====================================='
+'n=12 [M1 CM7] card = 24'
+' generators (1) ='
+['M1-T1', 'CM7-T1']
+'====================================='
+'n=12 [M1 CM1] card = 24'
+' generators (1) ='
+['M1-T1', 'CM1-T1']
+'====================================='
+'n=12 [M1 M5 M7 M11] card = 48'
+' generators (4) ='
+['M1-T1', 'M5-T1', 'M7-T1']
+['M1-T1', 'M5-T1', 'M11-T1']
+['M1-T1', 'M7-T1', 'M11-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1']
+'====================================='
+'n=12 [M1 M7 CM5 CM11] card = 48'
+' generators (4) ='
+['M1-T1', 'M7-T1', 'CM11-T1']
+['M1-T1', 'M7-T1', 'CM5-T1']
+['M1-T1', 'CM5-T1', 'CM11-T1']
+['M1-T1', 'M7-T1', 'CM5-T1', 'CM11-T1']
+'====================================='
+'n=12 [M1 M11 CM1 CM11] card = 48'
+' generators (4) ='
+['M1-T1', 'CM1-T1', 'CM11-T1']
+['M1-T1', 'M11-T1', 'CM11-T1']
+['M1-T1', 'M11-T1', 'CM1-T1']
+['M1-T1', 'M11-T1', 'CM1-T1', 'CM11-T1']
+'====================================='
+'n=12 [M1 M11 CM5 CM7] card = 48'
+' generators (4) ='
+['M1-T1', 'CM5-T1', 'CM7-T1']
+['M1-T1', 'M11-T1', 'CM5-T1']
+['M1-T1', 'M11-T1', 'CM7-T1']
+['M1-T1', 'M11-T1', 'CM5-T1', 'CM7-T1']
+'====================================='
+'n=12 [M1 M5 CM7 CM11] card = 48'
+' generators (4) ='
+['M1-T1', 'M5-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'CM7-T1']
+['M1-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'CM7-T1', 'CM11-T1']
+'====================================='
+'n=12 [M1 M7 CM1 CM7] card = 48'
+' generators (4) ='
+['M1-T1', 'M7-T1', 'CM1-T1']
+['M1-T1', 'M7-T1', 'CM7-T1']
+['M1-T1', 'CM1-T1', 'CM7-T1']
+['M1-T1', 'M7-T1', 'CM1-T1', 'CM7-T1']
+'====================================='
+'n=12 [M1 M5 CM1 CM5] card = 48'
+' generators (4) ='
+['M1-T1', 'M5-T1', 'CM1-T1']
+['M1-T1', 'M5-T1', 'CM5-T1']
+['M1-T1', 'CM1-T1', 'CM5-T1']
+['M1-T1', 'M5-T1', 'CM1-T1', 'CM5-T1']
+'====================================='
+'n=12 [M1 M5 M7 M11 CM1 CM5 CM7 CM11] card = 96'
+' generators (92) ='
+['M1-T1', 'M5-T1', 'M7-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'CM1-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'CM5-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'CM7-T1']
+['M1-T1', 'M5-T1', 'CM1-T1', 'CM11-T1']
+['M1-T1', 'M7-T1', 'CM1-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'CM5-T1', 'CM11-T1']
+['M1-T1', 'M7-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M11-T1', 'CM11-T1']
+['M1-T1', 'M7-T1', 'M11-T1', 'CM11-T1']
+['M1-T1', 'M7-T1', 'CM1-T1', 'CM5-T1']
+['M1-T1', 'M5-T1', 'CM1-T1', 'CM7-T1']
+['M1-T1', 'M5-T1', 'CM5-T1', 'CM7-T1']
+['M1-T1', 'M7-T1', 'CM5-T1', 'CM7-T1']
+['M1-T1', 'M5-T1', 'M11-T1', 'CM1-T1']
+['M1-T1', 'M7-T1', 'M11-T1', 'CM1-T1']
+['M1-T1', 'M5-T1', 'M11-T1', 'CM5-T1']
+['M1-T1', 'M7-T1', 'M11-T1', 'CM5-T1']
+['M1-T1', 'M5-T1', 'M11-T1', 'CM7-T1']
+['M1-T1', 'M7-T1', 'M11-T1', 'CM7-T1']
+['M1-T1', 'CM1-T1', 'CM5-T1', 'CM11-T1']
+['M1-T1', 'CM1-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M11-T1', 'CM5-T1', 'CM11-T1']
+['M1-T1', 'M11-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1']
+['M1-T1', 'M11-T1', 'CM1-T1', 'CM5-T1']
+['M1-T1', 'M11-T1', 'CM1-T1', 'CM7-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'CM1-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'CM5-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'CM1-T1', 'CM5-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'CM1-T1', 'CM7-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'CM5-T1', 'CM7-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM1-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM5-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM7-T1']
+['M1-T1', 'M5-T1', 'CM1-T1', 'CM5-T1', 'CM11-T1']
+['M1-T1', 'M7-T1', 'CM1-T1', 'CM5-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'CM1-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M7-T1', 'CM1-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M7-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M11-T1', 'CM1-T1', 'CM11-T1']
+['M1-T1', 'M7-T1', 'M11-T1', 'CM1-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M11-T1', 'CM5-T1', 'CM11-T1']
+['M1-T1', 'M7-T1', 'M11-T1', 'CM5-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M11-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M7-T1', 'M11-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1']
+['M1-T1', 'M7-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1']
+['M1-T1', 'M5-T1', 'M11-T1', 'CM1-T1', 'CM5-T1']
+['M1-T1', 'M7-T1', 'M11-T1', 'CM1-T1', 'CM5-T1']
+['M1-T1', 'M5-T1', 'M11-T1', 'CM1-T1', 'CM7-T1']
+['M1-T1', 'M7-T1', 'M11-T1', 'CM1-T1', 'CM7-T1']
+['M1-T1', 'M5-T1', 'M11-T1', 'CM5-T1', 'CM7-T1']
+['M1-T1', 'M7-T1', 'M11-T1', 'CM5-T1', 'CM7-T1']
+['M1-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M11-T1', 'CM1-T1', 'CM5-T1', 'CM11-T1']
+['M1-T1', 'M11-T1', 'CM1-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M11-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M11-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'CM1-T1', 'CM5-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'CM1-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM1-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM5-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM1-T1', 'CM5-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM1-T1', 'CM7-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM5-T1', 'CM7-T1']
+['M1-T1', 'M5-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M7-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M11-T1', 'CM1-T1', 'CM5-T1', 'CM11-T1']
+['M1-T1', 'M7-T1', 'M11-T1', 'CM1-T1', 'CM5-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M11-T1', 'CM1-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M7-T1', 'M11-T1', 'CM1-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M11-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M7-T1', 'M11-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M11-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1']
+['M1-T1', 'M7-T1', 'M11-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1']
+['M1-T1', 'M11-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM1-T1', 'CM5-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM1-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1']
+['M1-T1', 'M5-T1', 'M11-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M7-T1', 'M11-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']</pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -3788,7 +3993,7 @@ Modal prime form concept is invented, specific to this project.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-02-18 11:02:27 +0100
+Last updated 2025-02-19 18:46:09 +0100
 </div>
 </div>
 <script type="text/x-mathjax-config">

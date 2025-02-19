@@ -40,7 +40,7 @@ export class GroupAction {
 
   operationsNameWithoutTxStr: string
 
-  private _orbitsSortedGroupedByStabilizers ?: ISortedOrbits[];
+  private _orbitsSortedGroupedByStabilizer ?: ISortedOrbits[];
   private _orbitsSortedGroupedByMetaStabilizer ?: ISortedOrbits[];
   private _orbitsSortedGroupedByCardinal ?: ISortedOrbits[];
 
@@ -63,7 +63,7 @@ export class GroupAction {
     this.powerset = GroupAction.buildPowerSetOfIPcs(this.n);
     this.orbits = this.buildOrbitsByActionOnPowerset();
 
-    this._orbitsSortedGroupedByStabilizers = undefined
+    this._orbitsSortedGroupedByStabilizer = undefined
     this._orbitsSortedGroupedByMetaStabilizer = undefined
     this._orbitsSortedGroupedByCardinal = undefined
 
@@ -182,11 +182,11 @@ export class GroupAction {
     return this._orbitsSortedGroupedByMetaStabilizer
   }
 
-  get orbitsSortedGroupedByStabilizers() {
-    if (!this._orbitsSortedGroupedByStabilizers)
-      this._orbitsSortedGroupedByStabilizers = this.computeOrbitSortedGroupedByStabilizers()
+  get orbitsSortedGroupedByStabilizer() {
+    if (!this._orbitsSortedGroupedByStabilizer)
+      this._orbitsSortedGroupedByStabilizer = this.computeOrbitSortedGroupedByStabilizer()
 
-    return this._orbitsSortedGroupedByStabilizers
+    return this._orbitsSortedGroupedByStabilizer
   }
 
   get orbitsSortedGroupedByCardinal(): ISortedOrbits[] {
@@ -201,7 +201,7 @@ export class GroupAction {
    * equivalence relation "have same stabilizer set"
    * @return {ISortedOrbits[]} array of ISortedOrbits
    */
-   computeOrbitSortedGroupedByStabilizers(byShortSignatureName : boolean = true ): ISortedOrbits[] {
+   computeOrbitSortedGroupedByStabilizer(byShortSignatureName : boolean = true ): ISortedOrbits[] {
     let orbitsSortedByStabilizers = new Map<string, Orbit[]>()
     // key=name orbit based on his stabs, value=array of orbits
 
@@ -299,7 +299,7 @@ export class GroupAction {
   }
 
   cardinalOfOrbitStabilized() {
-    return this.orbitsSortedGroupedByStabilizers.reduce((sum, sortedOrbits) => sum + sortedOrbits.orbits.length, 0)
+    return this.orbitsSortedGroupedByStabilizer.reduce((sum, sortedOrbits) => sum + sortedOrbits.orbits.length, 0)
   }
 
 

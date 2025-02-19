@@ -124,8 +124,8 @@ describe('Stabilizer', () => {
     // 5 classes of limited transposition plus identity stab ([M1-T0]), so 6 waiting
     // expected 6 stabilizers (2/1 , 54/6 , 12/4 , 6/3 , 2/2 and 4020/12)
     expect(setStabilizers.size).toEqual(6) // = 6
-    expect(cyclicGroup.orbitsSortedGroupedByStabilizers.length).toEqual(6)
-    // cyclicGroup.orbitsSortedGroupedByStabilizers.forEach(stab=> console.log("stab name : "+ stab.stabilizerName))
+    expect(cyclicGroup.orbitsSortedGroupedByStabilizer.length).toEqual(6)
+    // cyclicGroup.orbitsSortedGroupedByStabilizer.forEach(stab=> console.log("stab name : "+ stab.stabilizerName))
   })
 
   it("Musaic Group Explore n=12", () => {
@@ -156,7 +156,7 @@ describe('Stabilizer', () => {
     expect(setStabilizers.size).toEqual(111)
     expect(musaicGroup.orbitsSortedGroupedByMetaStabilizer.length).toEqual(13)
 
-    // expect(musaicGroup.orbitsSortedGroupedByStabilizers.length).toEqual(111)
+    // expect(musaicGroup.orbitsSortedGroupedByStabilizer.length).toEqual(111)
 
 //  musaicGroup.orbitsSortedGroupedByMetaStabilizer.forEach(motifSatb => console.log(motifSatb.toString()))
   })
@@ -223,7 +223,7 @@ describe('Stabilizer', () => {
     //  console.log("mapPcs size : " + mapPcs.size)
     expect(sumPcs).toEqual(group.powerset.size)
     let names = ""
-    group.orbitsSortedGroupedByStabilizers.forEach(stab => names += stab.groupingCriterion) //console.log("stab name : "+ stab.stabilizerName))
+    group.orbitsSortedGroupedByStabilizer.forEach(stab => names += stab.groupingCriterion) //console.log("stab name : "+ stab.stabilizerName))
   })
 
   it("Group Explore n=7 cyclic shortname", () => {
@@ -244,29 +244,29 @@ describe('Stabilizer', () => {
     expect(shortNames).toEqual(["M1"])
 
     shortNames = []
-    group.orbitsSortedGroupedByStabilizers.forEach(stab => shortNames.push(stab.groupingCriterion))
+    group.orbitsSortedGroupedByStabilizer.forEach(stab => shortNames.push(stab.groupingCriterion))
     // neutral op and detached and full IPcs (2 pcsList) transposables 7 times in same state by step 1
     expect(shortNames).toEqual(["M1-T0", "M1-T0~1*"])
   })
 
   it("toString", () => {
     const group = GroupAction.predefinedGroupsActions(12, Group.MUSAIC)
-    const stabStr = group.orbitsSortedGroupedByStabilizers[0].orbits[0].stabilizers[0].toString()
+    const stabStr = group.orbitsSortedGroupedByStabilizer[0].orbits[0].stabilizers[0].toString()
 
     expect(stabStr).toContain('Stab: M1-T0 #FixedPcs: 96')
 
-    let pcs = group.orbitsSortedGroupedByStabilizers[0].orbits[0].stabilizers[0].fixedPcs[1].getPcsStr()
+    let pcs = group.orbitsSortedGroupedByStabilizer[0].orbits[0].stabilizers[0].fixedPcs[1].getPcsStr()
     expect(pcs).toEqual('[0 2 3]') // 12 in orbit
-    pcs = group.orbitsSortedGroupedByStabilizers[0].orbits[0].stabilizers[0].fixedPcs[0].getPcsStr()
+    pcs = group.orbitsSortedGroupedByStabilizer[0].orbits[0].stabilizers[0].fixedPcs[0].getPcsStr()
     expect(pcs).toEqual('[0 1 3]') // idem
   })
 
   //
   // it("isInclude", () => {
   //   const group = GroupAction.predefinedGroupsActions(12, Group.MUSAIC)
-  //   const stab = group.orbitsSortedGroupedByStabilizers[2].orbits[2].stabilizers[0]
+  //   const stab = group.orbitsSortedGroupedByStabilizer[2].orbits[2].stabilizers[0]
   //
-  //   const stabStr = group.orbitsSortedGroupedByStabilizers[2].orbits[2].stabilizers[0].toString()
+  //   const stabStr = group.orbitsSortedGroupedByStabilizer[2].orbits[2].stabilizers[0].toString()
   //
   //   expect(stabStr).toEqual('Stab: M1-T0,CM11-T11 #FixedPcs: 12')
   //

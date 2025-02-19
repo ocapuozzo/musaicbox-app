@@ -108,10 +108,10 @@
   </div>
   <div class="p-2" [hidden]="preReactOrbits.length > 1000">
     <button mat-raised-button color="primary" class="m4" (click)="showOrbits('Stabilizer')">
-      Show orbits ({{ preReactOrbits.length }}) grouped by Stabilizers
+      Show orbits ({{ preReactOrbits.length }}) grouped by Stabilizer
       @if (groupAction) {
         <span>
-          ({{ groupAction.orbitsSortedGroupedByStabilizers.length }})
+          ({{ groupAction.orbitsSortedGroupedByStabilizer.length }})
         </span>
       }
     </button>
@@ -180,7 +180,7 @@
         <div><span>nb Orbits : {{ preReactOrbits.length }} </span></div>
         @if (groupAction != null) {
           <div>
-            <span>nb Stabilizers class : ({{ groupAction.orbitsSortedGroupedByStabilizers.length }})</span>
+            <span>nb Stabilizers class : ({{ groupAction.orbitsSortedGroupedByStabilizer.length }})</span>
           </div>
         }
         @if (groupAction != null) {

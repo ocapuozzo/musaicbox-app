@@ -216,8 +216,8 @@ describe('Orbit', () => {
    * @param waitingCardinal
    */
   function testOrbitNameFromShortStabilizer(groupAction : GroupAction, waitingCardinal : number){
-      const nOrbits1 = groupAction.computeOrbitSortedGroupedByStabilizers(false).length
-      const nOrbits2 = groupAction.computeOrbitSortedGroupedByStabilizers(true).length
+      const nOrbits1 = groupAction.computeOrbitSortedGroupedByStabilizer(false).length
+      const nOrbits2 = groupAction.computeOrbitSortedGroupedByStabilizer(true).length
       expect(nOrbits1).toEqual(waitingCardinal)
       expect(nOrbits1).toEqual(nOrbits2)
   }
