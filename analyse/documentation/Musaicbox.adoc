@@ -1149,12 +1149,11 @@ The cyclic prime form of [0 4 7] is ... [0 4 7] itself, as well as cyclic prime 
 image:_047_cyclic_motif.png[]
 
 
-Orbite stem:[H"⋅"[0 4 7\]] has 12 elements. Its number of stabilizers is stem:[|H_([0 4 7\])| = (|H|) / (|H"⋅"[0 4 7\]|)], so stem:[12/12 = 1]. It is stem:["M1-T0"]
-
+Orbite stem:[H"⋅[0 4 7\]"] has 12 elements. Its number of stabilizers is stem:[|H_("[0 4 7\]")| = (|H|) / (|H"⋅[0 4 7\]"|)], so stem:[12/12 = 1]. It is stem:["M1-T0"] (neutral operation)
 
 Of the 352 orbits, 335 are composed of 12 elements, having only one stabilizer, stem:["M1-T0"], and 17 very particular ones represent the structures with "limited transpositions", having more than one stabilizer.
 
-TIP: You can already explore the cyclic group in the musaicbox application: go to the "Zn Explorer" tab and select M1 (meaning M1-T1) as operation and click on the "Show 352 orbits grouped by stabilizers" button.
+TIP: You can already explore the cyclic group in the musaicbox application: go to the "Z~n~ Explorer" tab and select M1 (meaning M1-T1) as operation and click on the "Show 352 orbits grouped by stabilizer" button.
  +
  +
  .17 Cyclic orbits of Limited Transposition PCS
@@ -1557,9 +1556,9 @@ TODO Suite...
 
 == Stabilizer
 
-=== Meta-Stabilizer
+=== Orbit signature
 
-== Shorty-Stabilizer
+=== Meta-Stabilizer
 
 
 == Appendix
