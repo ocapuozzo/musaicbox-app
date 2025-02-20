@@ -44,7 +44,7 @@ export class Orbit {
 
   _hashcode ?: number
 
-  _name: string
+  _reducedStabilizersName: string
 
   constructor(
     {stabs, ipcsSet}:
@@ -159,27 +159,27 @@ export class Orbit {
    }
 */
 
-  getAllSignatureStabilizers() : string {
+  getAllStabilizersName() : string {
      const ops = this.stabilizers.flatMap(stab => stab.operations)
     return [...new Set(ops)].sort(MusaicOperation.compare).join(" ")
   }
 
 
 /**
-   * Name based on stabilizers, by reduction
+   * Stabilizer name, by reduction
    * Example (Musaic n° 84) : M1-T0 M7-T3~6* CM5-T2~4* CM11-T1~2*
    * @return {string}
    */
-  get name(): string {
-    if (!this._name) {
-      return this.buildStabilizersSignatureName();
+  get reducedStabilizersName(): string {
+    if (!this._reducedStabilizersName) {
+      return this.buildReducedStabilizersName();
     }
-    return this._name
+    return this._reducedStabilizersName
   }
 
 
   /**
-   * Create a name signature of this orbit based on his stabilizers
+   * Create a reduced stabilizer name of this orbit
    * Example :
    *   stabilizers of Musaic n° 84 (24 pcs in orbit) :
    *     M1-T0 M7-T9 CM5-T10 CM11-T7 (4)
@@ -189,13 +189,13 @@ export class Orbit {
    *     M1-T0 M7-T9 CM5-T2 CM11-T11 (5)
    *     M1-T0 M7-T3 CM5-T2 CM11-T5 (5
    *
-   *  signature orbit, stabilizers based is : M1-T0 M7-T3~6* CM5-T2~4* CM11-T1~2*
+   *  reduced stabilizer name is : M1-T0 M7-T3~6* CM5-T2~4* CM11-T1~2*
    *
-   *  TODO : refactor because too long !
+   *  TODO : refactor because too long !?
    *
    * @private
    */
-  private buildStabilizersSignatureName() {
+  private buildReducedStabilizersName() {
     let res = ""
     const n = this.groupAction!.n
     // 1 get all operations
@@ -237,7 +237,7 @@ export class Orbit {
       // Hence the loop... otherwise we lose M11-T6
 
       // code for debug with condition
-      const orbitSearching = this.ipcsset.find(pcs => pcs.pid() === 403) != undefined
+      // const orbitSearching = this.ipcsset.find(pcs => pcs.pid() === 67) != undefined
       let prevNumberOfElts = cmt.get(nameOpWithoutT)?.length
       let numberOfElts
       do {
@@ -277,7 +277,7 @@ export class Orbit {
     } // loop for nameOpsWithoutT
 
     // 5: add M1-T0 if not present (neutral operation)
-    return this._name = res.startsWith('M1-T0') ? res : 'M1-T0 ' + res
+    return this._reducedStabilizersName = res.startsWith('M1-T0') ? res : 'M1-T0 ' + res
   }
 
   /**
@@ -294,7 +294,7 @@ export class Orbit {
    *   @return {MetaStabilizer} the strMetaStabilizer of this orbit
    */
   buildNameAndMetaStabilizerName(): MetaStabilizer {
-    const stabSignature = this.name
+    const stabSignature = this.reducedStabilizersName
     // take left part of "M1-T0 CM11-Tx~m" => "M1 CM11"
 
     const signatureWithoutTranslation = stabSignature.split(" ").map(op => op.trim().split("-")[0]);
@@ -359,7 +359,7 @@ export class Orbit {
     let find = false
     let i = 1
     if (steps)
-      for (; i < steps.length - 1; i++) {
+      for (; i < steps.length; i++) {
         let step = steps[i] - steps[0]
         find = true
         let nComparaisons = 0

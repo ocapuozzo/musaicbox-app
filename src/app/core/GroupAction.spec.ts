@@ -58,7 +58,7 @@ describe('GroupAction', () => {
     let orbitByStabShortName = new Set()
     cyclicGroup12.orbits.forEach(
       orbit => {
-        orbitByStabShortName.add(orbit.name)
+        orbitByStabShortName.add(orbit.reducedStabilizersName)
         orbit.stabilizers.forEach((stab => {
           nbPcs += stab.fixedPcs.length
           // skip trivial stab
@@ -98,8 +98,8 @@ describe('GroupAction', () => {
 
     // test orbit short name or not
     const allOpsDihedral = 'M1-T0 M1-T1 M1-T2 M1-T3 M1-T4 M1-T5 M1-T6 M1-T7 M1-T8 M1-T9 M1-T10 M1-T11 M11-T0 M11-T1 M11-T2 M11-T3 M11-T4 M11-T5 M11-T6 M11-T7 M11-T8 M11-T9 M11-T10 M11-T11'
-    expect(dihedralGroup12.orbits[0].getAllSignatureStabilizers()).toEqual(allOpsDihedral)
-    expect(dihedralGroup12.orbits[0].name).toEqual("M1-T0~1* M11-T0~1*")
+    expect(dihedralGroup12.orbits[0].getAllStabilizersName()).toEqual(allOpsDihedral)
+    expect(dihedralGroup12.orbits[0].reducedStabilizersName).toEqual("M1-T0~1* M11-T0~1*")
 
     // test orbit short name or not : same cardinal when grouped by stab
 
@@ -361,7 +361,7 @@ describe('GroupAction', () => {
     // group.operations.forEach(operation => {console.log(operation.toString())})
 
     expect(group.orbits.length).toEqual(919) // from musaicboxapp
-    const orbit = group.orbits.find((orbit) => orbit.name === "M1-T0 M11-T0");
+    const orbit = group.orbits.find((orbit) => orbit.reducedStabilizersName === "M1-T0 M11-T0");
 
     expect(orbit).toBeTruthy()
 

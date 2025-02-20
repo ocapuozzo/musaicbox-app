@@ -125,7 +125,7 @@ describe('Stabilizer', () => {
     // expected 6 stabilizers (2/1 , 54/6 , 12/4 , 6/3 , 2/2 and 4020/12)
     expect(setStabilizers.size).toEqual(6) // = 6
     expect(cyclicGroup.orbitsSortedGroupedByStabilizer.length).toEqual(6)
-    // cyclicGroup.orbitsSortedGroupedByStabilizer.forEach(stab=> console.log("stab name : "+ stab.stabilizerName))
+    // cyclicGroup.orbitsSortedGroupedByStabilizer.forEach(stab=> console.log("stab name : "+ stab.reducedStabilizersName))
   })
 
   it("Musaic Group Explore n=12", () => {
@@ -223,7 +223,7 @@ describe('Stabilizer', () => {
     //  console.log("mapPcs size : " + mapPcs.size)
     expect(sumPcs).toEqual(group.powerset.size)
     let names = ""
-    group.orbitsSortedGroupedByStabilizer.forEach(stab => names += stab.groupingCriterion) //console.log("stab name : "+ stab.stabilizerName))
+    group.orbitsSortedGroupedByStabilizer.forEach(stab => names += stab.groupingCriterion) //console.log("stab name : "+ stab.reducedStabilizersName))
   })
 
   it("Group Explore n=7 cyclic shortname", () => {
@@ -246,19 +246,16 @@ describe('Stabilizer', () => {
     shortNames = []
     group.orbitsSortedGroupedByStabilizer.forEach(stab => shortNames.push(stab.groupingCriterion))
     // neutral op and detached and full IPcs (2 pcsList) transposables 7 times in same state by step 1
-    expect(shortNames).toEqual(["M1-T0", "M1-T0~1*"])
+    expect(shortNames).toEqual(["M1-T0~1*", "M1-T0"])
   })
 
   it("toString", () => {
     const group = GroupAction.predefinedGroupsActions(12, Group.MUSAIC)
     const stabStr = group.orbitsSortedGroupedByStabilizer[0].orbits[0].stabilizers[0].toString()
 
-    expect(stabStr).toContain('Stab: M1-T0 #FixedPcs: 96')
+    expect(stabStr).toContain('Stab: M1-T0,M1-T1,M1-T2,M1-T3,M1-T4,M1-T5,M1-T6,M1-T7,M1-T8,M1-T9,M1-T10,M1-T11,M5-T0,M5-T1,M5-T2,M5-T3,M5-T4,M5-T5,M5-T6,M5-T7,M5-T8,M5-T9,M5-T10,M5-T11,M7-T0,M7-T1,M7-T2,M7-T3,M7-T4,M7-T5,M7-T6,M7-T7,M7-T8,M7-T9,M7-T10,M7-T11,M11-T0,M11-T1,M11-T2,M11-T3,M11-T4,M11-T5,M11-T6,M11-T7,M11-T8,M11-T9,M11-T10,M11-T11 #FixedPcs: 2')
 
-    let pcs = group.orbitsSortedGroupedByStabilizer[0].orbits[0].stabilizers[0].fixedPcs[1].getPcsStr()
-    expect(pcs).toEqual('[0 2 3]') // 12 in orbit
-    pcs = group.orbitsSortedGroupedByStabilizer[0].orbits[0].stabilizers[0].fixedPcs[0].getPcsStr()
-    expect(pcs).toEqual('[0 1 3]') // idem
+
   })
 
   //

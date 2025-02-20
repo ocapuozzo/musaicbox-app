@@ -24,9 +24,9 @@ import {Orbit} from "./Orbit";
 import {Group} from "./Group";
 import {Stabilizer} from "./Stabilizer";
 import {MusaicOperation} from "./MusaicOperation";
-import {MetaStabilizer} from "./MetaStabilizer";
 import {StringHash} from "../utils/StringHash";
 import {ISortedOrbits} from "./ISortedOrbits";
+import {MetaStabilizer} from "./MetaStabilizer";
 
 export class GroupAction {
   n: number = -1;
@@ -207,7 +207,7 @@ export class GroupAction {
 
     this.orbits.forEach(orbit => {
       // stabilizer based name (orbit.name is in short name format stabilizers ex: M1-T0~1)
-      const orbitName = byShortSignatureName ? orbit.name : orbit.getAllSignatureStabilizers()
+      const orbitName = byShortSignatureName ? orbit.reducedStabilizersName : orbit.getAllStabilizersName()
       if (!orbitsSortedByStabilizers.has(orbitName)) {
         orbitsSortedByStabilizers.set(orbitName, [orbit])
       } else {
@@ -217,7 +217,11 @@ export class GroupAction {
     }) // end loop orbits
 
     let resultOrbitsSortedByStabilizers: ISortedOrbits[] = []
-    Array.from(orbitsSortedByStabilizers.keys()).sort().forEach((name) => {
+    // Array.from(orbitsSortedByStabilizers.keys()).sort().forEach((name) => {
+    Array.from(orbitsSortedByStabilizers.keys()).sort(
+      (a, b) => {
+        return orbitsSortedByStabilizers.get(a)!.length - orbitsSortedByStabilizers.get(b)!.length
+      }).forEach((name) => {
       const obj: ISortedOrbits =
         {
           groupingCriterion: name,
@@ -236,27 +240,30 @@ export class GroupAction {
    * @return {ISortedOrbits[]} array of ISortedOrbits
    */
   private computeOrbitSortedGroupedByMetaStabilizer(): ISortedOrbits[] {
-    let orbitsSortedGroupedByMetaStabilizer = new Map()
-    // key=MetaStabilizer orbit based on his stabs, value=array of  having same MetaStabilizer
+    let orbitsSortedGroupedByMetaStabilizer = new Map<MetaStabilizer, Orbit[]>()
+    // key=MetaStabilizer orbit based on his stabs, value=array of Orbit having same MetaStabilizer
     this.orbits.forEach(orbit => {
-      let kNameMetaStab = Array.from(orbitsSortedGroupedByMetaStabilizer.keys())
+      let kMetaStab = Array.from(orbitsSortedGroupedByMetaStabilizer.keys())
         .find(ms => ms.hashCode() === orbit.metaStabilizer.hashCode())
-      if (!kNameMetaStab) {
-        orbitsSortedGroupedByMetaStabilizer.set(orbit.metaStabilizer, [orbit])
+      if (kMetaStab !== undefined) {
+        orbitsSortedGroupedByMetaStabilizer.get(kMetaStab)!.push(orbit)
       } else {
-        orbitsSortedGroupedByMetaStabilizer.get(kNameMetaStab).push(orbit)
+        orbitsSortedGroupedByMetaStabilizer.set(orbit.metaStabilizer, [orbit])
       }
     })
     // sort operations
     // make a "view adapter" (initially for Vue v-for and cache)
     let resultOrbitsSortedGroupedByMetaStabilizer: ISortedOrbits[] = []
-    Array.from(orbitsSortedGroupedByMetaStabilizer.keys()).sort(MetaStabilizer.compare).forEach(metaStab => {
+    Array.from(orbitsSortedGroupedByMetaStabilizer.keys()).sort(
+      (a, b) => {
+        return orbitsSortedGroupedByMetaStabilizer.get(a)!.length - orbitsSortedGroupedByMetaStabilizer.get(b)!.length
+      }).forEach(metaStab => {
       const obj: ISortedOrbits =
         {
           groupingCriterion: metaStab.name,
           // to avoid duplicate keys in vue
           hashcode: StringHash.stringHashCode(metaStab.name) + Date.now(),
-          orbits: orbitsSortedGroupedByMetaStabilizer.get(metaStab).sort(Orbit.comparePcsMin)
+          orbits: orbitsSortedGroupedByMetaStabilizer.get(metaStab)!.sort(Orbit.comparePcsMin)
         }
       resultOrbitsSortedGroupedByMetaStabilizer.push(obj)
     })

@@ -1554,7 +1554,19 @@ NOTE: Note the central vertical axis on which 4 of its 5 known subgroups are loc
 
 TODO Suite...
 
-== Stabilizer
+== Stabilizer representation
+
+Comme spécifié dans le chapitre XY, un stabilisateur est indissociable d'une orbite, c'est même une de ses composantes.
+
+Il se trouve que plusieurs orbites se partagent le même stabilisateur. Le plus connu d'entre eux est le seul a n'être composé que d'une seule opération de transformation :  stem:["M1-T0"], l'opération "identité", appelée également opération neutre.
+
+Par exemple, concernant le groupe cyclic, composé des 12 opérations de transposition (M1-T0, M1-T1, ... M1-T11), 335 de ses orbites partages ce même stabilisateur.
+
+Du coup, le regroupement des orbites en fonction des leur stabilisateur peut être très pertinent. En effet, un tel critère de regroupement permet d'identifier rapidement les gammes à transposition limitées.
+
+Dans la page "Zn explorer", le regroupement par stabilisateur est déclenché par le bouton :  image:button-show-orbits-grouped-by-stabilizer.png[Show orbits grouped by stabilizer].
+
+
 
 === Orbit signature
 

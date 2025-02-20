@@ -82,7 +82,7 @@
         @if (data.ltp) {
           <span class="analyse-pcs">
           <b>{{ data.ltp }}</b>
-          </span> (<span>{{ pcs.cyclicPrimeForm().orbit.name }}</span>)
+          </span> (<span>{{ pcs.cyclicPrimeForm().orbit.reducedStabilizersName }}</span>)
         } @else {
           <span class="analyse-pcs">
           {{ data.ltp }}
@@ -260,7 +260,7 @@
         </p>
         <p>
           Orbit name (stabilizers signature) :
-          <span class="analyse-pcs"> {{ pcs.orbit.name }}</span>
+          <span class="analyse-pcs"> {{ pcs.orbit.reducedStabilizersName }}</span>
         </p>
         <p>
           {{ pcs.orbit.stabilizers.length }} Stabilizers :
