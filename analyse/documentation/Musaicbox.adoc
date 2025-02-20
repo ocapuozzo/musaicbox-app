@@ -1564,7 +1564,11 @@ NOTE: Note the central vertical axis on which 4 of its 5 known subgroups are loc
 
 TODO Suite...
 
-== Stabilizer representation
+
+== Appendix
+
+
+=== Stabilizer naming
 
 As specified in the chapter <<_stabilizers_and_fixed_pcs>>, a stabilizer is inseparable from an orbit, it is even one of its components.
 
@@ -1578,7 +1582,7 @@ In the "Z~n~ explorer" page, grouping by stabilizer is triggered by the button: 
 
 These stabilizers are: `M1-T0~2*, M1-T0~1*, M1-T0~3*, M1-T0~4*, M1-T0~6*` and `M1-T0`.
 
-=== Reduced Stabilizer Name
+==== Reduced Name
 
 `M1-T0~1*` is a reduced (compressed) version of : `M1-T0 M1-T1 M1-T2 ... M1-T10 M1-T11`
 
@@ -1586,10 +1590,9 @@ These stabilizers are: `M1-T0~2*, M1-T0~1*, M1-T0~3*, M1-T0~4*, M1-T0~6*` and `M
 [.text-center]
 --
 
-*Reduced Stabilizer Name*
+*Understand Reduced Stabilizer Name*
 
 stem:[ "string" -> Stabilizer"*"]
-
 
 stem:["[C\]M"_a"-T"_"i""~step*" :=  uuu_(k=0)^(n/"step") "[C\]M"_a"-T"_(i+(k cdot "step"))]
 
@@ -1607,10 +1610,27 @@ Examples :
 This type of representation increases the readability of the stabilizers. Empty pcs is the best case, because the set of stabilizers of G~[∅]~ is composed of 48 operations, and denoted M1-T0~1* M5-T0~1* M7-T0~1* M11-T0~1*, only 5 reduced names vs 48, a nice saving!
 
 
-=== Meta-Stabilizer
+==== Meta-Stabilizer
 
+A "meta-stabilizer" is a stabilizer "up to transposition", so, suffix `-Tk` is omitted.
 
-== Appendix
+.Meta-Stabilizer naming examples
+|===
+|Stabilizer|Meta-Stabilizer
+
+|M1-T0, CM11-T6
+|*M1 CM11*
+
+|M1-T0, M5-T0, M5-T6, M5-T1~4*
+|*M1 M5*
+
+|M1-T0
+|*M1*
+
+|M1-T0~1*
+|*M1*
+
+|===
 
 === Order relation
 
