@@ -46,6 +46,18 @@ export class Orbit {
 
   _reducedStabilizersName: string
 
+  /**
+   * Stabilizer name, by reduction
+   * Example (Musaic n° 84) : M1-T0 M7-T3~6* CM5-T2~4* CM11-T1~2*
+   * @return {string}
+   */
+  get reducedStabilizersName(): string {
+    if (!this._reducedStabilizersName) {
+      return this.buildReducedStabilizersName();
+    }
+    return this._reducedStabilizersName
+  }
+
   constructor(
     {stabs, ipcsSet}:
     { stabs?: Stabilizer[], ipcsSet?: IPcs[] } = {}) {
@@ -165,18 +177,6 @@ export class Orbit {
   }
 
 
-/**
-   * Stabilizer name, by reduction
-   * Example (Musaic n° 84) : M1-T0 M7-T3~6* CM5-T2~4* CM11-T1~2*
-   * @return {string}
-   */
-  get reducedStabilizersName(): string {
-    if (!this._reducedStabilizersName) {
-      return this.buildReducedStabilizersName();
-    }
-    return this._reducedStabilizersName
-  }
-
 
   /**
    * Create a reduced stabilizer name of this orbit
@@ -187,7 +187,7 @@ export class Orbit {
    *     M1-T0 M7-T3 CM5-T6 CM11-T9 (3)
    *     M1-T0 M7-T9 CM5-T6 CM11-T3 (3)
    *     M1-T0 M7-T9 CM5-T2 CM11-T11 (5)
-   *     M1-T0 M7-T3 CM5-T2 CM11-T5 (5
+   *     M1-T0 M7-T3 CM5-T2 CM11-T5 (5)
    *
    *  reduced stabilizer name is : M1-T0 M7-T3~6* CM5-T2~4* CM11-T1~2*
    *
@@ -196,7 +196,7 @@ export class Orbit {
    * @private
    */
   private buildReducedStabilizersName() {
-    let res = ""
+    let reducedStabName = ""
     const n = this.groupAction!.n
     // 1 get all operations
     // key : "Ma" or "CMa" op name (Ex: M5, CM5) nameOpsWithoutT
@@ -259,25 +259,25 @@ export class Orbit {
             steps = steps?.filter((k, index) => (index % resultStep.stepIndex !== 0))
 
             cmt.set(nameOpWithoutT, steps)
-            res = (res.length > 1) ? res + ' ' + shortName : shortName
+            reducedStabName = (reducedStabName.length > 1) ? reducedStabName + ' ' + shortName : shortName
           }
         }
         numberOfElts = cmt.get(nameOpWithoutT)?.length
       } while (numberOfElts && prevNumberOfElts !== numberOfElts)
 
-      // 4: put -Tx only if a (mt is maybe reduce by preview phase 3)
+      // 4: put -Tx only if a (some stabilizers that cannot be reduced by preview phase 3)
       let the_as = cmt.get(nameOpWithoutT) ?? []
       for (let j = 0; j < the_as.length; j++) {
         let a = the_as[j]
-        if (res.length > 0) {
-          res += " ";
+        if (reducedStabName.length > 0) {
+          reducedStabName += " ";
         }
-        res += nameOpWithoutT + "-T" + a;
+        reducedStabName += nameOpWithoutT + "-T" + a;
       } // loop a
     } // loop for nameOpsWithoutT
 
-    // 5: add M1-T0 if not present (neutral operation)
-    return this._reducedStabilizersName = res.startsWith('M1-T0') ? res : 'M1-T0 ' + res
+    return reducedStabName
+
   }
 
   /**

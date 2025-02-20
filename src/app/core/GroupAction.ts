@@ -111,7 +111,7 @@ export class GroupAction {
       for (let i = 0; i < this.operations.length; i++) {
         let op = this.operations[i]
         let pcs_other = this.powerset.get(op.actionOn(pcs).id);
-        // when op is <M1-T0, false> (neutral operation) pcs_other.id == pcs.id, but
+        // when op is M1-T0 (neutral operation) pcs_other.id === pcs.id, but
         // pcs is no longer into tmpPowerset (see just before this loop)
         if (pcs_other && tmpPowerset.has(pcs_other.id)) {
           // pcs_other is new image pcs by op

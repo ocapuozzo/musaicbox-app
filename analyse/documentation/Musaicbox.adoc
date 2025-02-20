@@ -1037,17 +1037,18 @@ stem:[G cdot "[0 2 4 6 8 10\]"] = stem:[{"[0 2 4 6 8 10\], [1 3 5 7 9 11\]"}]
 // ====
 
 
+[#_stabilizers_and_fixed_pcs]
 === Stabilizers and Fixed PCS
 
-When an orbit has less than 96 elements (stem:[|G|]) , then exist some operations in G which do not transform some of its elements (it fixes them). We call _stabilizer_ such operation in _G_ and _fixed_ the concerned PCS in P(E)
+When an orbit has less than 96 elements (stem:[|G|]) , then exist some operations in G which do not transform some of its elements (it fixes them).We call _stabilizer_ such operation in _G_ and _fixed_ the concerned PCS in P(E)
 
 A stabilizer of stem:[A in P(E)] is a subset of stem:[G], denoted stem:[G_A], having all its elements fixing stem:[A]
 
 stem:[G_A := {g in G | g cdot A = A }]
 
-Inversely, stem:[Fixed_H] is the set of elements  of stem:[P(E)] invariants under action of   stem:[H subseteq G]
+Inversely, stem:[Fixed_H] is the set of elements of stem:[P(E)] invariants under action of   stem:[H subseteq G]
 
-stem:[Fixed_H := {A in P(E) | g cdot A = A,  AA g in H}]
+stem:[Fixed_H := {A in P(E) | g cdot A = A, AA g in H}]
 
 By correlation, the cardinality of an orbit is linked to the number of its stabilizers. Indeed, the more stabilizers an orbit has, the fewer elements the orbit has. This is the subject of a theorem known as https://en.wikipedia.org/wiki/Group_action#Orbit-stabilizer_theorem[orbit-stabilizer] :
 
@@ -1125,12 +1126,21 @@ The sub-group stem:[H] has same neutral element, inverse element and composition
 
 This group is interesting because, applied to stem:[P(E)], it places in the orbit of a pcs, all its transposed.
 
-stem:[H cdot "[0 4 7\]" = {"[0 4 7\]", "[1 5 8\]", ..., "[3 6 11\]"}], so {DO MI SOL} and all this transposed (12 pcs). Example with triad Major.
+image::usecase-cyclic.svg[]
 
-.H ⋅ [0 4 7] (orbit cyclic of major triad)
+Orbit stem:[H cdot "[0 4 7\]" = {"[0 4 7\]", "[1 5 8\]", ..., "[3 6 11\]"}], so {DO MI SOL} and all this transposed (12 pcs).
+
+Stabilizer stem:[H_"[0 4 7\]" = {"M1-T0"}] (only neutral operation : major triad is not in limited transposition)
+
+.An other view on H ⋅ [0 4 7] (orbit cyclic of major triad)
 image:_047-cyclicSimple.png[047-cyclic]
 
 Therefore, all pcs in orbit of stem:[H] are equivalent, _up to transposition_.
+
+- Example1 : [0 4 7] ~ [2 6 9] ~ [0 3 8] because exists an operation g into H, that g . [0{nbsp}4{nbsp}7] = [2{nbsp}6{nbsp}9], it is M1-T2, and g . [0{nbsp}4{nbsp}7] = [0{nbsp}3{nbsp}8], it is M1-T8.
+ +
+ +
+stem:[H "⋅ [0 4 7\]"] = stem:[H "⋅ [2 6 9\]"] = stem:[H "⋅ [0 3 8\]"] (same orbit).
 
 A such group stem:[H] is called *Cyclic group*.
 
@@ -1556,19 +1566,46 @@ TODO Suite...
 
 == Stabilizer representation
 
-Comme spécifié dans le chapitre XY, un stabilisateur est indissociable d'une orbite, c'est même une de ses composantes.
+As specified in the chapter <<_stabilizers_and_fixed_pcs>>, a stabilizer is inseparable from an orbit, it is even one of its components.
 
-Il se trouve que plusieurs orbites se partagent le même stabilisateur. Le plus connu d'entre eux est le seul a n'être composé que d'une seule opération de transformation :  stem:["M1-T0"], l'opération "identité", appelée également opération neutre.
+It turns out that possible several orbits share the same stabilizer. The best known of them is the only one to be composed of only one transformation operation is stem:["M1-T0"], the _identity operation_, also called _neutral operation_.
 
-Par exemple, concernant le groupe cyclic, composé des 12 opérations de transposition (M1-T0, M1-T1, ... M1-T11), 335 de ses orbites partages ce même stabilisateur.
+For example, concerning the cyclic group, composed of the 12 transposition operations (M1-T0, M1-T1, ... M1-T11), 335 of its orbits share this same stabilizer M1-T0.
 
-Du coup, le regroupement des orbites en fonction des leur stabilisateur peut être très pertinent. En effet, un tel critère de regroupement permet d'identifier rapidement les gammes à transposition limitées.
+As a result, grouping the orbits according to their stabilizer can be very relevant. Indeed, such a grouping criterion allows to quickly identify the scales with limited transposition.
 
-Dans la page "Zn explorer", le regroupement par stabilisateur est déclenché par le bouton :  image:button-show-orbits-grouped-by-stabilizer.png[Show orbits grouped by stabilizer].
+In the "Z~n~ explorer" page, grouping by stabilizer is triggered by the button: image:button-show-orbits-grouped-by-stabilizer.png[Show orbits grouped by stabilizer]
+
+These stabilizers are: `M1-T0~2*, M1-T0~1*, M1-T0~3*, M1-T0~4*, M1-T0~6*` and `M1-T0`.
+
+=== Reduced Stabilizer Name
+
+`M1-T0~1*` is a reduced (compressed) version of : `M1-T0 M1-T1 M1-T2 ... M1-T10 M1-T11`
 
 
+[.text-center]
+--
 
-=== Orbit signature
+*Reduced Stabilizer Name*
+
+stem:[ "string" -> Stabilizer"*"]
+
+
+stem:["[C\]M"_a"-T"_"i""~step*" :=  uuu_(k=0)^(n/"step") "[C\]M"_a"-T"_(i+(k cdot "step"))]
+
+where _step_ is a divisor of _n_
+
+--
+
+Examples :
+
+- CM11-T0~6* = { CM11-T0, CM11-T6 }
+- CM11-T1~6* = { CM11-T1, CM11-T7 }
+- M1-T0~1* = { M1-T0, M1-T2, M1-T3, ..., M1-T10, M1-T11 }
+- M5-T1~4* = { M5-T1, M5-T5, M5-T9 }
+
+This type of representation increases the readability of the stabilizers. Empty pcs is the best case, because the set of stabilizers of G~[∅]~ is composed of 48 operations, and denoted M1-T0~1* M5-T0~1* M7-T0~1* M11-T0~1*, only 5 reduced names vs 48, a nice saving!
+
 
 === Meta-Stabilizer
 
