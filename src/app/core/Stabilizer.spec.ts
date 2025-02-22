@@ -254,8 +254,8 @@ describe('Stabilizer', () => {
     const stabStr = group.orbitsSortedGroupedByStabilizer[0].orbits[0].stabilizers[0].toString()
     expect(stabStr).toContain('Stab: M1-T0,M1-T1,M1-T2,M1-T3,M1-T4,M1-T5,M1-T6,M1-T7,M1-T8,M1-T9,M1-T10,M1-T11,M5-T0,M5-T1,M5-T2,M5-T3,M5-T4,M5-T5,M5-T6,M5-T7,M5-T8,M5-T9,M5-T10,M5-T11,M7-T0,M7-T1,M7-T2,M7-T3,M7-T4,M7-T5,M7-T6,M7-T7,M7-T8,M7-T9,M7-T10,M7-T11,M11-T0,M11-T1,M11-T2,M11-T3,M11-T4,M11-T5,M11-T6,M11-T7,M11-T8,M11-T9,M11-T10,M11-T11 #FixedPcs: 2')
   })
-  
-  it('makeShortNameIfPossible', () =>{
+
+  it('getShortName -> makeShortNameIfPossible', () =>{
     const opM1T0 = new MusaicOperation(12,1,0)
     const opM1T4 = new MusaicOperation(12,1,4)
     const opCM1T8 = new MusaicOperation(12,1,8,true)
@@ -287,8 +287,63 @@ describe('Stabilizer', () => {
     const waiting5 = "CM1-T1~6* CM1-T3 CM1-T5 CM1-T11"
     expect(Stabilizer.makeShortNameIfPossible([opCM1T1, opCM1T3, opCM1T5, opCM1T7, /*opCM1T9,*/ opCM1T11])).toEqual(waiting5)
 
+    // M11-T1 M11-T2 M11-T4 M11-T5 M11-T7 M11-T8 M11-T10 M11-T11 => M11-T1~3* and M11-T2~3*
+    const waiting6 = "M11-T1~3* M11-T2~3*"
+    expect(Stabilizer.makeShortNameIfPossible([
+      new MusaicOperation(12,11,1),
+      new MusaicOperation(12,11,2),
+      new MusaicOperation(12,11,4),
+      new MusaicOperation(12,11,5),
+      new MusaicOperation(12,11,7),
+      new MusaicOperation(12,11,8),
+      new MusaicOperation(12,11,10),
+      new MusaicOperation(12,11,11)
+    ])).toEqual(waiting6)
+
   })
 
+  it('getCycleStep', () => {
+    //
+    expect(Stabilizer.getCycleStep([0,2,10]).step).toEqual(0)
+    //
+    expect(Stabilizer.getCycleStep([1,4,7,10])).toEqual({step:3, stepIndex:1})
+    // 3 = 12/ (nb comparaisons + 1) stepIndex = 1
+    //
+    expect(Stabilizer.getCycleStep([1,4,7,10])).toEqual({step:3, stepIndex:1})
+    // 3 = 12/ (nb comparaisons + 1) stepIndex = 1
+    //
+    expect(Stabilizer.getCycleStep([2,5,8,11])).toEqual({step:3, stepIndex:1})
+    // 3 = 12/ (nb comparaisons + 1) stepIndex = 1
+    //
+    expect(Stabilizer.getCycleStep([1,2,4,5,7,8,10,11])).toEqual({step:3, stepIndex:2})
+    // 3 = 12/ (nb comparaisons + 1 ) stepIndex = 2
+    //
+    expect(Stabilizer.getCycleStep([1,5,7,11])).toEqual({step:6, stepIndex:2})
+    // 6 = 12/(nb comparaisons + 1) stepIndex = 2
+    //
+    expect(Stabilizer.getCycleStep([0,4,8])).toEqual({step:4, stepIndex:1})
+    // 4 = 12/(nb comparaisons + 1) stepIndex = 1
+    //
+    expect(Stabilizer.getCycleStep([0,4,6,8])).toEqual({step:6, stepIndex:2})
+    // 6 = 12/(nb comparaisons + 1) stepIndex = 2
+
+    expect(Stabilizer.getCycleStep([0,6])).toEqual({step:6, stepIndex:1})
+    // 6 = 12/(nb comparaisons + 1) stepIndex = 1
+
+
+    expect(Stabilizer.getCycleStep([1,3,5,7])).toEqual({step:6, stepIndex:3})
+    // stepIndex = 1 (3-1, 5-3, 7-5) => step=2
+    //   but nb comparaisons+1 => 4, and 2 <> 12/4 NO !
+    // stepIndex = 2 (5-1) => step=4
+    //    nb comparaisons+1 => 2, and 4 = 12/2 NO !
+    // stepIndex = 3 (7-1) => step=6
+    //    nb comparaisons+1 => 2, and 6 = 12/2 YES !
+
+    //reduce steps 1,2,4,5,7,8,10,11 -> 2,5,8,11
+    // steps = steps?.filter((k, index) => (index % 2 !== 0))
+    // console.log(steps)
+
+  })
 
   //
   // it("isInclude", () => {

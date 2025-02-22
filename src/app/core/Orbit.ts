@@ -200,15 +200,17 @@ export class Orbit {
     let firstReducedNameOps = firstTryReducedStabName.filter(op => op.indexOf("*") > 6)
 
     // get only remaining operation that have not been reduced yet
-    let notReduceNameOps = firstTryReducedStabName.filter(op => firstReducedNameOps.indexOf(op) === -1)
+    let remainingOpsNotReduce = firstTryReducedStabName.filter(op => firstReducedNameOps.indexOf(op) === -1)
 
     // no duplication and sorted
-    notReduceNameOps  = [...new Set([...notReduceNameOps])].sort(PcsUtils.compareOpCMaTkReducedOrNot)
+    remainingOpsNotReduce  = [...new Set([...remainingOpsNotReduce])].sort(PcsUtils.compareOpCMaTkReducedOrNot)
 
-    // try to get reduced naming of operations list
-
+    // === try to reduce renaming operations list ===
     // for make instance of Stabilizer we must have instances of MusaicOperation
-    const operationsRemaining = MusaicOperation.convertArrayStringsToArrayOfMusaicOperations(this.groupAction ? this.groupAction.n : 12, notReduceNameOps)
+    const operationsRemaining =
+      MusaicOperation.convertArrayStringsToArrayOfMusaicOperations(
+        this.groupAction ? this.groupAction.n : 12, remainingOpsNotReduce)
+
     // now make instance of Stabilize, and put it into an array (length = 1)
     let newStabilizers = [new Stabilizer({operations: operationsRemaining})]
 
@@ -221,6 +223,7 @@ export class Orbit {
     if (lastTryReducedStabName.length === 1 && lastTryReducedStabName[0].length === 0) {
       result  = [...new Set([...firstReducedNameOps])]
     } else {
+      // lastTryReducedStabName.length > 1
       result  = [...new Set([...firstReducedNameOps,...lastTryReducedStabName])]
     }
 
@@ -278,58 +281,6 @@ export class Orbit {
 
   getPcsWithThisId(id: number) {
     return this.ipcsset.find(p => p.id === id)
-  }
-
-  /**
-   *
-   * search step cycle for reduce, or not :
-   *      Ex : 0,2,10   => (step = 0) => (by caller) T0, T2, T10
-   *      Ex : 2,5,8,11 => (step = 3, so reduce by caller) => T-2~3
-   *
-   *   0,2,10 => step=0, stepIndex=0
-   *   2,5,8,11 => step=3, stepIndex=1
-   *   1,2,4,5,7,8,10,11 => 3 (4-1, 7-4, 10-7) == 3 (5-2, 8-5, 11-8) ==> step=3 , stepIndex=2
-   *   0,4,8 => step=4, stepIndex=1
-   *   1,5,7,11 => ??? (7-1) == 6 (11-5) step=== 6 , stepIndex=2
-   *   1,3,5,7 => step=0, stepIndex=0 // because :
-   *    stepIndex = 1 (3-1, 5-3, 7-5) => step=2
-   *     but nb comparaisons+1 => 4, and 2 <> 12/4 NO !
-   *    stepIndex = 2 (5-1) => step=4
-   *     but nb comparaisons+1 => 2, and 4 = 12/2 NO !
-   *    stepIndex = 3 (7-1) => step=6
-   *     nb comparaisons+1 => 2, and 6 = 12/2 YES !
-   *
-   *  stepIndex return if for caller, for delete sequence values of steps
-   *
-   * @param steps values of T
-   * @param n
-   * @return { step: number, stepIndex :number }
-   */
-  public getCycleStep(steps ?: number[], n = 12): { step: number; stepIndex: number } {
-    let stepResult = 0
-    let find = false
-    let i = 1
-    if (steps)
-      for (; i < steps.length; i++) {
-        let step = steps[i] - steps[0]
-        find = true
-        let nComparaisons = 0
-        for (let k = i; k < steps.length; k += i) {
-          nComparaisons++
-          if (steps[k] - steps[k-i] !== step) {
-            find = false
-            break
-          }
-        }
-        // console.log(`with ${steps} : (${step} === 12/( ${nComparaisons}+1) ??`)
-        if (find && (step === n/(nComparaisons+1))) {
-          stepResult = step
-          // console.log(`with ${steps} : (${step} === 12/( ${nComparaisons}+1) ??`)
-          break
-        }
-      }
-    return {step: stepResult, stepIndex : stepResult ? i : 0 }
-
   }
 
 }

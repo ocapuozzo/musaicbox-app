@@ -89,11 +89,9 @@ image::page88musaics.png["page 88 musaics" float="left",align="center"]
 [.float-group]
 --
 [.left]
-.Octotrope, a geometry figure for is-stabilizers classes
+.Octotrope, a geometric figure for meta-stabilizer classes
 image::octotrope.png["Octotrope def" float="left",align="center"]
 --
-
-
 
 Example : There is 6 musaics which are invariant by complement operation (a stabilizer) : Select only `CM1` operation (C for _complement_ M1 for _neutral multiplication operation_). Set of these 6 musaics is partitioned by 3 octotropes (is-stabilizers classes) : `M1,M5,CM1,CM5`, `M1,M11,CM1,CM11` and `M1,M5,M7,M11,CM1,CM5,CM7,CM11`
 
@@ -1580,12 +1578,17 @@ As a result, grouping the orbits according to their stabilizer can be very relev
 
 In the "Z~n~ explorer" page, grouping by stabilizer is triggered by the button: image:button-show-orbits-grouped-by-stabilizer.png[Show orbits grouped by stabilizer]
 
-These stabilizers are: `M1-T0~2*, M1-T0~1*, M1-T0~3*, M1-T0~4*, M1-T0~6*` and `M1-T0`.
+Stabilizers of cyclic group are : `M1-T0~2*, M1-T0~1*, M1-T0~3*, M1-T0~4*, M1-T0~6*` and `M1-T0`.
+
+Operations of stabilizer are here represented in a _reduced name format_.
 
 ==== Reduced Name
 
-`M1-T0~1*` is a reduced (compressed) version of : `M1-T0 M1-T1 M1-T2 ... M1-T10 M1-T11`
+`M1-T0~1*` : Here represents the different transposed versions of the operation `M1`. `T0~1*` means that all transpositions of step of `1` are concerned, starting from `T0`.
 
+Thus, `M1-T0~1*` is a reduced (compressed) version of : `M1-T0 M1-T1 M1-T2 ... M1-T10 M1-T11`
+
+More formally :
 
 [.text-center]
 --
@@ -1607,7 +1610,7 @@ Examples :
 - M1-T0~1* = { M1-T0, M1-T2, M1-T3, ..., M1-T10, M1-T11 }
 - M5-T1~4* = { M5-T1, M5-T5, M5-T9 }
 
-This type of representation increases the readability of the stabilizers. Empty pcs is the best case, because the set of stabilizers of G~[∅]~ is composed of 48 operations, and denoted M1-T0~1* M5-T0~1* M7-T0~1* M11-T0~1*, only 5 reduced names vs 48, a nice saving!
+This type of representation increases the readability of the stabilizers. Empty pcs is the best case, because the set of stabilizers of G~[∅]~ is composed of 48 operations, and denoted M1-T0~1* M5-T0~1* M7-T0~1* M11-T0~1*, only 4 reduced names vs 48, a nice saving!
 
 
 ==== Meta-Stabilizer
@@ -1618,19 +1621,56 @@ A "meta-stabilizer" is a stabilizer "up to transposition", so, suffix `-Tk` is o
 |===
 |Stabilizer|Meta-Stabilizer
 
-|M1-T0, CM11-T6
+|`M1-T0 CM11-T6`
 |*M1 CM11*
 
-|M1-T0, M5-T0, M5-T6, M5-T1~4*
+|`M1-T0 M1-T6 M5-T0 M5-T6 M5-T1~4*`
 |*M1 M5*
 
-|M1-T0
+|`M1-T0`
 |*M1*
 
-|M1-T0~1*
+|`M1-T0~1*`
 |*M1*
 
+|`M1-T0~1* M5-T0~1* M7-T0~1* M11-T0~1*`
+|*M1 M5 M7 M11*
 |===
+
+With stem:[n=12], there are 8 meta-stabilizers : M1, M5, M7, M11, CM1, CM5, CM7, CM11.
+A meta-stabilizer can be represented by a geometric figure, a polytrope :
+
+==== Octotrope
+Octotrope, a geometric figure for a combination of meta-stabilizers.
+
+--
+[.left]
+image::octotrope.png["Octotrope def" float="left",align="center"]
+--
+
+An orbit can be fixed by one or more meta-stabilizer. Example, Diatonic major scale is fixed by M1 and M11 (i.e. inverse of diatonic scale is also a diatonic structure) See Musaic n° 38.
+
+Set of meta-stabilizers linked to a musaic (an orbit) is represented by a octotrope. Examples :
+
+- Major scale [0 2 4 5 7 9 11] has octotrope : image:octotropes/m1-m11.png[m1-m11] - invariant structure by M1 and M11
+- Diminished scale [0 3 6 9] has octotrope : image:octotropes/m1-m5-m7-m11.png[m1-m5-m7-m11] - invariant structure by M1, M5, M5 and M11
+
+With stem:[n=12], there are 13 octotrope classes :
+
+image:octotropes/m1.png[] image:octotropes/m1-m5.png[] image:octotropes/m1-m7.png[] image:octotropes/m1-m11.png[]
+image:octotropes/m1-cm5.png[]
+image:octotropes/m1-cm11.png[]
+image:octotropes/m1-m5-m7-m11.png[]
+image:octotropes/m1-cm1-m5-cm5.png[]
+image:octotropes/m1-cm7-cm11-m5.png[]
+image:octotropes/m1-m7-cm11-cm5.png[]
+image:octotropes/m1-cm1-m11-cm11.png[]
+image:octotropes/m1-cm7-m11-cm5.png[]
+image:octotropes/m1-cm1-m7-cm7-m11-cm11-m5-cm5.png[]
+
+TIP: On the MusaicBox app, go to page `88 Musaics` to see the different musaics related to their octotrope.
+
+'''
 
 === Orbit & Stabilizer
 

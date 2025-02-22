@@ -300,18 +300,13 @@ export class Stabilizer {
       // Pcs [0,2,4,6,8] in orbit. Group : n=12 [M1 M11]  Orbit cardinal : 12
       //  Orbit name (stabilizers signature) : M1-T0 M11-T0~4*
       //
-      // Pcs [0,1,4,7,8] in orbit. Group : n=12 [M1 M11]  Orbit cardinal : 12
-      //  Orbit name (stabilizers signature) : M1-T0 M11-T0~6* M11-T4 M11-T8 (best if M1-T0 M11-T0~4* M11-T6 => TODO)
-      //
-      // Hence the loop... otherwise we lose M11-T6
-
-      // code for debug with condition
+      // code for debug, with condition
       // const orbitSearching = this.ipcsset.find(pcs => pcs.pid() === 67) != undefined
       let prevNumberOfElts = cmt.get(nameOpWithoutT)?.length
       let numberOfElts
       do {
         prevNumberOfElts = cmt.get(nameOpWithoutT)?.length
-        // be careful ( pcs : 0,1,3,4,6,7,9,10 )
+        // be careful ( pcs : 0,1,3,4,6,7,9,10 ) in M1,M11
         //   M11-T1 M11-T2 M11-T4 M11-T5 M11-T7 M11-T8 M11-T10 M11-T11 => M11-T1~3* and M11-T2~3*
         if (prevNumberOfElts && prevNumberOfElts >= 2) {
           // assert : cmt.get(nameOpWithoutT) is sorted

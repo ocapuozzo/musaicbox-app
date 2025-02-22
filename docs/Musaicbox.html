@@ -651,8 +651,10 @@ p>span[class="note"] {
 <ul class="sectlevel3">
 <li><a href="#_reduced_name">Reduced Name</a></li>
 <li><a href="#_meta_stabilizer">Meta-Stabilizer</a></li>
+<li><a href="#_octotrope">Octotrope</a></li>
 </ul>
 </li>
+<li><a href="#_orbit_stabilizer">Orbit &amp; Stabilizer</a></li>
 <li><a href="#_order_relation">Order relation</a>
 <ul class="sectlevel3">
 <li><a href="#_state">State</a></li>
@@ -786,7 +788,7 @@ p>span[class="note"] {
 <div class="content">
 <img src="./assets/images/octotrope.png" alt="Octotrope def">
 </div>
-<div class="title">Figure 4. Octotrope, a geometry figure for is-stabilizers classes</div>
+<div class="title">Figure 4. Octotrope, a geometric figure for meta-stabilizer classes</div>
 </div>
 </div>
 </div>
@@ -2470,7 +2472,7 @@ where \$a in { 1, 5, 7, 11 }, k in { 0, 1, ..., 11  }, c in {true, false}}\$</p>
 <p>The set of orbits of P(E) under the action of G form a partition of P(E).</p>
 </div>
 <div class="paragraph">
-<p>An equivalence relation is defined by saying \$x -= y\$ if and only if there exists a \$g in G\$ with \$g⋅x = y\$.</p>
+<p>An equivalence relation is defined by saying \$x "~" y\$ if and only if there exists a \$g in G\$ with \$g⋅x = y\$.</p>
 </div>
 <div class="paragraph">
 <p>The orbits are then the equivalence classes under this relation; two elements \$A\$ and \$B\$ of \$P(E)\$, are equivalent if and only if their orbits are the same, that is, \$G"⋅"A = G"⋅"B\$</p>
@@ -3386,12 +3388,21 @@ Note the central vertical axis on which 4 of its 5 known subgroups are located.
 <p>In the "Z<sub>n</sub> explorer" page, grouping by stabilizer is triggered by the button: <span class="image"><img src="./assets/images/button-show-orbits-grouped-by-stabilizer.png" alt="Show orbits grouped by stabilizer"></span></p>
 </div>
 <div class="paragraph">
-<p>These stabilizers are: <code>M1-T0~2*, M1-T0~1*, M1-T0~3*, M1-T0~4*, M1-T0~6*</code> and <code>M1-T0</code>.</p>
+<p>Stabilizers of cyclic group are : <code>M1-T0~2*, M1-T0~1*, M1-T0~3*, M1-T0~4*, M1-T0~6*</code> and <code>M1-T0</code>.</p>
+</div>
+<div class="paragraph">
+<p>Operations of stabilizer are here represented in a <em>reduced name format</em>.</p>
 </div>
 <div class="sect3">
 <h4 id="_reduced_name">Reduced Name</h4>
 <div class="paragraph">
-<p><code>M1-T0~1*</code> is a reduced (compressed) version of : <code>M1-T0 M1-T1 M1-T2 &#8230;&#8203; M1-T10 M1-T11</code></p>
+<p><code>M1-T0~1*</code> : Here represents the different transposed versions of the operation <code>M1</code>. <code>T0~1*</code> means that all transpositions of step of <code>1</code> are concerned, starting from <code>T0</code>.</p>
+</div>
+<div class="paragraph">
+<p>Thus, <code>M1-T0~1*</code> is a reduced (compressed) version of : <code>M1-T0 M1-T1 M1-T2 &#8230;&#8203; M1-T10 M1-T11</code></p>
+</div>
+<div class="paragraph">
+<p>More formally :</p>
 </div>
 <div class="openblock text-center">
 <div class="content">
@@ -3429,7 +3440,7 @@ Note the central vertical axis on which 4 of its 5 known subgroups are located.
 </ul>
 </div>
 <div class="paragraph">
-<p>This type of representation increases the readability of the stabilizers. Empty pcs is the best case, because the set of stabilizers of G<sub>[∅]</sub> is composed of 48 operations, and denoted M1-T0~1* M5-T0~1* M7-T0~1* M11-T0~1*, only 5 reduced names vs 48, a nice saving!</p>
+<p>This type of representation increases the readability of the stabilizers. Empty pcs is the best case, because the set of stabilizers of G<sub>[∅]</sub> is composed of 48 operations, and denoted M1-T0~1* M5-T0~1* M7-T0~1* M11-T0~1*, only 4 reduced names vs 48, a nice saving!</p>
 </div>
 </div>
 <div class="sect3">
@@ -3451,23 +3462,117 @@ Note the central vertical axis on which 4 of its 5 known subgroups are located.
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">M1-T0, CM11-T6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>M1-T0 CM11-T6</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>M1 CM11</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">M1-T0, M5-T0, M5-T6, M5-T1~4*</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>M1-T0 M1-T6 M5-T0 M5-T6 M5-T1~4*</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>M1 M5</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">M1-T0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>M1-T0</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>M1</strong></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">M1-T0~1*</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>M1-T0~1*</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>M1</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>M1-T0~1* M5-T0~1* M7-T0~1* M11-T0~1*</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>M1 M5 M7 M11</strong></p></td>
 </tr>
 </tbody>
 </table>
+<div class="paragraph">
+<p>With \$n=12\$, there are 8 meta-stabilizers : M1, M5, M7, M11, CM1, CM5, CM7, CM11.
+A meta-stabilizer can be represented by a geometric figure, a polytrope :</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_octotrope">Octotrope</h4>
+<div class="paragraph">
+<p>Octotrope, a geometric figure for a combination of meta-stabilizers.</p>
+</div>
+<div class="openblock">
+<div class="content">
+<div class="imageblock left text-center left">
+<div class="content">
+<img src="./assets/images/octotrope.png" alt="Octotrope def">
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>An orbit can be fixed by one or more meta-stabilizer. Example, Diatonic major scale is fixed by M1 and M11 (i.e. inverse of diatonic scale is also a diatonic structure) See Musaic n° 38.</p>
+</div>
+<div class="paragraph">
+<p>Set of meta-stabilizers linked to a musaic (an orbit) is represented by a octotrope. Examples :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Major scale [0 2 4 5 7 9 11] has octotrope : <span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1-m11"></span> - invariant structure by M1 and M11</p>
+</li>
+<li>
+<p>Diminished scale [0 3 6 9] has octotrope : <span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1-m5-m7-m11"></span> - invariant structure by M1, M5, M5 and M11</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>With \$n=12\$, there are 13 octotrope classes :</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1"></span> <span class="image"><img src="./assets/images/octotropes/m1-m5.png" alt="m1 m5"></span> <span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7"></span> <span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11"></span>
+<span class="image"><img src="./assets/images/octotropes/m1-cm5.png" alt="m1 cm5"></span>
+<span class="image"><img src="./assets/images/octotropes/m1-cm11.png" alt="m1 cm11"></span>
+<span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11"></span>
+<span class="image"><img src="./assets/images/octotropes/m1-cm1-m5-cm5.png" alt="m1 cm1 m5 cm5"></span>
+<span class="image"><img src="./assets/images/octotropes/m1-cm7-cm11-m5.png" alt="m1 cm7 cm11 m5"></span>
+<span class="image"><img src="./assets/images/octotropes/m1-m7-cm11-cm5.png" alt="m1 m7 cm11 cm5"></span>
+<span class="image"><img src="./assets/images/octotropes/m1-cm1-m11-cm11.png" alt="m1 cm1 m11 cm11"></span>
+<span class="image"><img src="./assets/images/octotropes/m1-cm7-m11-cm5.png" alt="m1 cm7 m11 cm5"></span>
+<span class="image"><img src="./assets/images/octotropes/m1-cm1-m7-cm7-m11-cm11-m5-cm5.png" alt="m1 cm1 m7 cm7 m11 cm11 m5 cm5"></span></p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+On the MusaicBox app, go to page <code>88 Musaics</code> to see the different musaics related to their octotrope.
+</td>
+</tr>
+</table>
+</div>
+<hr>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_orbit_stabilizer">Orbit &amp; Stabilizer</h3>
+<div class="paragraph">
+<p>Orbit is a set of elements (PCS) linked by a <a href="#_equivalence_relation">Equivalence relation</a>.</p>
+</div>
+<div class="paragraph">
+<p>Among operation of G, exists certain operations that fix pcs of orbit. The most known is \$"M1-T0"\$, the neutral operation.</p>
+</div>
+<div class="paragraph">
+<div class="title">Example : Orbit of Major Triads</div>
+<p><span class="image"><img src="./assets/images/orbit-stab-fix.svg" alt="Orbit of Major Triads and Stab"></span></p>
+</div>
+<div class="paragraph">
+<p>From this example, we can see that \$"M1-T0"\$ is the <strong>stabilizer of orbit</strong> \$"H" cdot "[0 4 7]"\$ (\$"H"\$ is cyclic group)</p>
+</div>
+<div class="paragraph">
+<div class="title">An other example with 4Chord diminished</div>
+<p><span class="image"><img src="./assets/images/orbit-stab-fix-dim7th.svg" alt="orbit stab fix dim7th"></span></p>
+</div>
+<div class="paragraph">
+<p>[0 3 6 9] is pcs in limited transposition. This orbit cyclic is : { [0 3 6 9], [1 4 7 10], [2 5 7 11] }</p>
+</div>
+<div class="paragraph">
+<div class="title">Cyclic orbit of dim7th</div>
+<p><span class="image"><img src="./assets/images/cyclic-dim7th.png" alt="cyclic dim7th"></span> Its stabilizer is { M1-T0, M1-T3, M1-T6, M1-T9 }  or <strong>M1-T0~3</strong>*.</p>
 </div>
 </div>
 <div class="sect2">
@@ -4103,7 +4208,7 @@ Modal prime form concept is invented, specific to this project.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-02-20 22:53:48 +0100
+Last updated 2025-02-22 19:23:55 +0100
 </div>
 </div>
 <script type="text/x-mathjax-config">
