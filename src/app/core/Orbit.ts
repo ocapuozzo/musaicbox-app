@@ -53,7 +53,7 @@ export class Orbit {
    */
   get reducedStabilizersName(): string {
     if (!this._reducedStabilizersName) {
-      return this.buildReducedStabilizersName();
+      return this.buildReducedStabilizersName(this.stabilizers);
     }
     return this._reducedStabilizersName
   }
@@ -173,10 +173,8 @@ export class Orbit {
 
   getAllStabilizersName() : string {
      const ops = this.stabilizers.flatMap(stab => stab.operations)
-    return [...new Set(ops)].sort(MusaicOperation.compare).join(" ")
+     return [...new Set(ops)].sort(MusaicOperation.compare).join(" ")
   }
-
-
 
   /**
    * Create a reduced stabilizer name of this orbit
@@ -191,94 +189,45 @@ export class Orbit {
    *
    *  reduced stabilizer name is : M1-T0 M7-T3~6* CM5-T2~4* CM11-T1~2*
    *
-   *  TODO : refactor because too long !?
-   *
    * @private
    */
-  private buildReducedStabilizersName() {
-    let reducedStabName = ""
-    const n = this.groupAction!.n
-    // 1 get all operations
-    // key : "Ma" or "CMa" op name (Ex: M5, CM5) nameOpsWithoutT
-    // value : x of TX (Ex : 2, 3, 4) transposition value
-    let cmt = new Map<string, number[]>()
-    for (const stab of this.stabilizers) {
-      // assert in : operations is sorted
-      for (let i = 0; i < stab.operations.length; i++) {
-        let op = stab.operations[i]
-        let nameOpWithoutT = (op.complement ? "CM" : "M") + op.a;
-        if (!cmt.has(nameOpWithoutT)) {
-          cmt.set(nameOpWithoutT, []);
-        }
-        if (!cmt.get(nameOpWithoutT)?.includes(op.t)) {
-          cmt.get(nameOpWithoutT)!.push(op.t);
-          cmt.get(nameOpWithoutT)!.sort((a, b) => a - b)
-        }
-      }
+  private buildReducedStabilizersName(stabilizers : Stabilizer[]) {
+
+    // get in one list (flatmap) all operations in string representation, reduced name by stabilizer if possible.
+    let firstTryReducedStabName = Array.from(stabilizers.flatMap(stab => stab.getShortName().split(' ')))
+
+    // get all reduced name, as M1-T0~1* (first index of * is 7)
+    let firstReducedNameOps = firstTryReducedStabName.filter(op => op.indexOf("*") > 6)
+
+    // get only remaining operation that have not been reduced yet
+    let notReduceNameOps = firstTryReducedStabName.filter(op => firstReducedNameOps.indexOf(op) === -1)
+
+    // no duplication and sorted
+    notReduceNameOps  = [...new Set([...notReduceNameOps])].sort(PcsUtils.compareOpCMaTkReducedOrNot)
+
+    // try to get reduced naming of operations list
+
+    // for make instance of Stabilizer we must have instances of MusaicOperation
+    const operationsRemaining = MusaicOperation.convertArrayStringsToArrayOfMusaicOperations(this.groupAction ? this.groupAction.n : 12, notReduceNameOps)
+    // now make instance of Stabilize, and put it into an array (length = 1)
+    let newStabilizers = [new Stabilizer({operations: operationsRemaining})]
+
+    // Let's try a second time to call stab.getShortName()
+    let lastTryReducedStabName = Array.from(newStabilizers.flatMap(stab => stab.getShortName().split(' ')))
+
+    // now merge the two lists (and remove duplications if they exist, via Set structure)
+    let result : string[]
+    // if lastTryReducedStabName === [''], then ignore it
+    if (lastTryReducedStabName.length === 1 && lastTryReducedStabName[0].length === 0) {
+      result  = [...new Set([...firstReducedNameOps])]
+    } else {
+      result  = [...new Set([...firstReducedNameOps,...lastTryReducedStabName])]
     }
 
-    // 2: sort operations Mx < Mx+1 < CMx < CMx+1
-    let nameOpsWithoutT = Array.from(cmt.keys())
-    nameOpsWithoutT.sort(PcsUtils.compareOpName)
-
-    // 3: reducer name by extracting the transposition coefficient x, as ~x*
-    // CM5-T2 CM5-T6 CM5-T10 => CM5-T2~4*  (4 is transposition coefficient, equivalent 'up to 4-steps transposition')
-    // M11-T0 M11-T2 M11-T4 M11-T6 M11-T8 M11-T10 => M11-T0~2*
-    for (let i = 0; i < nameOpsWithoutT.length; i++) {
-      let nameOpWithoutT = nameOpsWithoutT[i]
-      let shortName = ''
-
-      // Pcs [0,2,4,6,8] in orbit. Group : n=12 [M1 M11]  Orbit cardinal : 12
-      //  Orbit name (stabilizers signature) : M1-T0 M11-T0~4*
-      //
-      // Pcs [0,1,4,7,8] in orbit. Group : n=12 [M1 M11]  Orbit cardinal : 12
-      //  Orbit name (stabilizers signature) : M1-T0 M11-T0~6* M11-T4 M11-T8 (best if M1-T0 M11-T0~4* M11-T6 => TODO)
-      //
-      // Hence the loop... otherwise we lose M11-T6
-
-      // code for debug with condition
-      // const orbitSearching = this.ipcsset.find(pcs => pcs.pid() === 67) != undefined
-      let prevNumberOfElts = cmt.get(nameOpWithoutT)?.length
-      let numberOfElts
-      do {
-        prevNumberOfElts = cmt.get(nameOpWithoutT)?.length
-        // be careful ( pcs : 0,1,3,4,6,7,9,10 )
-        //   M11-T1 M11-T2 M11-T4 M11-T5 M11-T7 M11-T8 M11-T10 M11-T11 => M11-T1~3* and M11-T2~3*
-        if (prevNumberOfElts && prevNumberOfElts >= 2) {
-          // assert : cmt.get(nameOpWithoutT) is sorted
-          // cmt.get(nameOpWithoutT)?.forEach(a => console.log(a + ''))
-          const steps = cmt.get(nameOpWithoutT)
-          let resultStep = this.getCycleStep(cmt.get(nameOpWithoutT), n)
-          if (resultStep.step) {
-            shortName = nameOpWithoutT + "-T" + cmt.get(nameOpWithoutT)![0] + "~" + resultStep.step + "*";
-            // when shortName is defined, delete entry
-            // let firstStep = cmt.get(nameOpWithoutT)![0]
-            let steps = cmt.get(nameOpWithoutT)!
-
-            //example reduce : steps 1,2,4,5,7,8,10,11 -> 2,5,8,11
-            steps = steps?.filter((k, index) => (index % resultStep.stepIndex !== 0))
-
-            cmt.set(nameOpWithoutT, steps)
-            reducedStabName = (reducedStabName.length > 1) ? reducedStabName + ' ' + shortName : shortName
-          }
-        }
-        numberOfElts = cmt.get(nameOpWithoutT)?.length
-      } while (numberOfElts && prevNumberOfElts !== numberOfElts)
-
-      // 4: put -Tx only if a (some stabilizers that cannot be reduced by preview phase 3)
-      let the_as = cmt.get(nameOpWithoutT) ?? []
-      for (let j = 0; j < the_as.length; j++) {
-        let a = the_as[j]
-        if (reducedStabName.length > 0) {
-          reducedStabName += " ";
-        }
-        reducedStabName += nameOpWithoutT + "-T" + a;
-      } // loop a
-    } // loop for nameOpsWithoutT
-
-    return reducedStabName
-
+    // All that remains is to sort the list and transform it into a string
+    return result.sort(PcsUtils.compareOpCMaTkReducedOrNot).join(' ')
   }
+
 
   /**
    * compute ISMotif stabilizer from orbit's stabilizers
@@ -300,7 +249,7 @@ export class Orbit {
     const signatureWithoutTranslation = stabSignature.split(" ").map(op => op.trim().split("-")[0]);
 
     // with delete duplicate values via Set
-    return this.metaStabilizer = new MetaStabilizer([...new Set(signatureWithoutTranslation)].sort(PcsUtils.compareOpName).join(" "))
+    return this.metaStabilizer = new MetaStabilizer([...new Set(signatureWithoutTranslation)].sort(PcsUtils.compareOpCMaWithoutTk).join(" "))
   }
 
   /**
@@ -347,6 +296,8 @@ export class Orbit {
    *     but nb comparaisons+1 => 4, and 2 <> 12/4 NO !
    *    stepIndex = 2 (5-1) => step=4
    *     but nb comparaisons+1 => 2, and 4 = 12/2 NO !
+   *    stepIndex = 3 (7-1) => step=6
+   *     nb comparaisons+1 => 2, and 6 = 12/2 YES !
    *
    *  stepIndex return if for caller, for delete sequence values of steps
    *

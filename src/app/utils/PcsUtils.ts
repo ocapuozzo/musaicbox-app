@@ -88,7 +88,7 @@ export class PcsUtils{
   }
 
    // sort operations Mx < Mx+1 < CMx < CMx+1 (without -Tx)
-  static compareOpName(o1:string, o2:string) {
+  static compareOpCMaWithoutTk(o1:string, o2:string) {
     let complement1 = o1.charAt(0) === 'C';
     let complement2 = o2.charAt(0) === 'C';
     let w1;
@@ -105,6 +105,36 @@ export class PcsUtils{
 
     return w1 - w2;
   }
+
+  static compareOpCMaTkReducedOrNot(o1:string, o2:string) {
+    const complement1 = o1.charAt(0) === 'C';
+    const complement2 = o2.charAt(0) === 'C';
+    let w1;
+    let w2;
+    const indexCareto1 = o1.indexOf("-")
+    const indexCareto2 = o2.indexOf("-")
+    if (complement1)
+      w1 = 100 + parseInt(o1.substring(2, indexCareto1));
+    else
+      w1 = parseInt(o1.substring(1, indexCareto1));
+
+    if (complement2)
+      w2 = 100 + parseInt(o2.substring(2, indexCareto2));
+    else
+      w2 = parseInt(o2.substring(1,indexCareto2));
+
+    if (w1 !== w2) {
+      return w1 - w2;
+    }
+    const indexTildeo1 = o1.indexOf("~")
+    const indexTildeo2 = o2.indexOf("~")
+    // -Tk
+    const k1 = (indexTildeo1 === -1) ? parseInt(o1.substring(indexCareto1+2)) : parseInt(o1.substring(indexCareto1+2, indexTildeo1))
+    const k2 = (indexTildeo2 === -1) ? parseInt(o2.substring(indexCareto2+2)) : parseInt(o2.substring(indexCareto2+2, indexTildeo2))
+
+    return k1 - k2
+  }
+
 
 
 }

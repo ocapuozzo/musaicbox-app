@@ -1069,7 +1069,7 @@ from the 3 examples given previously :
 
 The set of orbits of P(E) under the action of G form a partition of P(E).
 
-An equivalence relation is defined by saying stem:[x -= y] if and only if there exists a stem:[g in G] with stem:[g⋅x = y].
+An equivalence relation is defined by saying stem:[x "~" y] if and only if there exists a stem:[g in G] with stem:[g⋅x = y].
 
 The orbits are then the equivalence classes under this relation; two elements stem:[A] and stem:[B] of stem:[P(E)], are equivalent if and only if their orbits are the same, that is, stem:[G"⋅"A = G"⋅"B]
 
@@ -1631,6 +1631,26 @@ A "meta-stabilizer" is a stabilizer "up to transposition", so, suffix `-Tk` is o
 |*M1*
 
 |===
+
+=== Orbit & Stabilizer
+
+Orbit is a set of elements (PCS) linked by a <<_equivalence_relation>>.
+
+Among operation of G, exists certain operations that fix pcs of orbit. The most known is stem:["M1-T0"], the neutral operation.
+
+.Example : Orbit of Major Triads
+image:orbit-stab-fix.svg[Orbit of Major Triads and Stab]
+
+From this example, we can see that stem:["M1-T0"] is the *stabilizer of orbit* stem:["H" cdot "[0 4 7\]"] (stem:["H"] is cyclic group)
+
+.An other example with 4Chord diminished
+image:orbit-stab-fix-dim7th.svg[]
+
+[0 3 6 9] is pcs in limited transposition. This orbit cyclic is : { [0 3 6 9], [1 4 7 10], [2 5 7 11] }
+
+.Cyclic orbit of dim7th
+image:cyclic-dim7th.png[] Its stabilizer is { M1-T0, M1-T3, M1-T6, M1-T9 }  or *M1-T0~3**.
+
 
 === Order relation
 

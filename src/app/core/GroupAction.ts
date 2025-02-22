@@ -199,15 +199,16 @@ export class GroupAction {
   /**
    * Partitionne orbits list in "sets" of orbit. Each set is grouped by
    * equivalence relation "have same stabilizer set"
+   * @param byReduceStabilizerName as grouping criteria
    * @return {ISortedOrbits[]} array of ISortedOrbits
    */
-   computeOrbitSortedGroupedByStabilizer(byShortSignatureName : boolean = true ): ISortedOrbits[] {
+   computeOrbitSortedGroupedByStabilizer(byReduceStabilizerName : boolean = true ): ISortedOrbits[] {
     let orbitsSortedByStabilizers = new Map<string, Orbit[]>()
     // key=name orbit based on his stabs, value=array of orbits
 
     this.orbits.forEach(orbit => {
       // stabilizer based name (orbit.name is in short name format stabilizers ex: M1-T0~1)
-      const orbitName = byShortSignatureName ? orbit.reducedStabilizersName : orbit.getAllStabilizersName()
+      const orbitName = byReduceStabilizerName ? orbit.reducedStabilizersName : orbit.getAllStabilizersName()
       if (!orbitsSortedByStabilizers.has(orbitName)) {
         orbitsSortedByStabilizers.set(orbitName, [orbit])
       } else {

@@ -252,11 +252,43 @@ describe('Stabilizer', () => {
   it("toString", () => {
     const group = GroupAction.predefinedGroupsActions(12, Group.MUSAIC)
     const stabStr = group.orbitsSortedGroupedByStabilizer[0].orbits[0].stabilizers[0].toString()
-
     expect(stabStr).toContain('Stab: M1-T0,M1-T1,M1-T2,M1-T3,M1-T4,M1-T5,M1-T6,M1-T7,M1-T8,M1-T9,M1-T10,M1-T11,M5-T0,M5-T1,M5-T2,M5-T3,M5-T4,M5-T5,M5-T6,M5-T7,M5-T8,M5-T9,M5-T10,M5-T11,M7-T0,M7-T1,M7-T2,M7-T3,M7-T4,M7-T5,M7-T6,M7-T7,M7-T8,M7-T9,M7-T10,M7-T11,M11-T0,M11-T1,M11-T2,M11-T3,M11-T4,M11-T5,M11-T6,M11-T7,M11-T8,M11-T9,M11-T10,M11-T11 #FixedPcs: 2')
+  })
+  
+  it('makeShortNameIfPossible', () =>{
+    const opM1T0 = new MusaicOperation(12,1,0)
+    const opM1T4 = new MusaicOperation(12,1,4)
+    const opCM1T8 = new MusaicOperation(12,1,8,true)
+    const opCM1T0 = new MusaicOperation(12,1,0,true)
+    const opCM1T1 = new MusaicOperation(12,1,1,true)
+    const opCM1T9 = new MusaicOperation(12,1,9,true)
+    const opCM1T3 = new MusaicOperation(12,1,3,true)
+    const opCM1T4 = new MusaicOperation(12,1,4,true)
+    const opCM1T5 = new MusaicOperation(12,1,5,true)
+    const opCM1T7 = new MusaicOperation(12,1,7,true)
+    const opCM1T11 = new MusaicOperation(12,1,11,true)
+    const opM11T1 = new MusaicOperation(12,11,1,false)
 
+    const waiting1 = "CM1-T0~4*"
+    const waiting2 = "CM1-T3~6*"
+    const waiting3 = "CM1-T1~2*"
+    const waiting4 = "M1-T0 M11-T1"
+
+    // CM1-T0 CM1-T4 CM1-T8 => "CM1-T0~4*"
+    expect(Stabilizer.makeShortNameIfPossible([opCM1T0, opCM1T4, opCM1T8])).toEqual(waiting1)
+    // CM1-T3 CM1-T9 => "CM1-T3~6*"
+    expect(Stabilizer.makeShortNameIfPossible([opCM1T3, opCM1T9])).toEqual(waiting2)
+    // CM1-T1 CM1-T3 CM1-T5 CM1-T7 CM1-T9 CM1-T11 => "CM1-T1~2*"
+    expect(Stabilizer.makeShortNameIfPossible([opCM1T1, opCM1T3, opCM1T5, opCM1T7, opCM1T9, opCM1T11])).toEqual(waiting3)
+    //M1-T0 M11-T1 => "M1-T0 M11-T1"
+    expect(Stabilizer.makeShortNameIfPossible([opM1T0, opM11T1])).toEqual(waiting4)
+
+    // CM1-T1 CM1-T3 CM1-T5 CM1-T7 /*CM1-T9*/ CM1-T11 => "CM1-T1 CM1-T3 CM1-T5 CM1-T7 CM1-T11" => "CM1-T1~6* CM1-T3 CM1-T5 CM1-T11"
+    const waiting5 = "CM1-T1~6* CM1-T3 CM1-T5 CM1-T11"
+    expect(Stabilizer.makeShortNameIfPossible([opCM1T1, opCM1T3, opCM1T5, opCM1T7, /*opCM1T9,*/ opCM1T11])).toEqual(waiting5)
 
   })
+
 
   //
   // it("isInclude", () => {

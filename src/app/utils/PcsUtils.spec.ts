@@ -1,5 +1,6 @@
 import {PcsUtils} from "./PcsUtils";
 import {MusaicOperation} from "../core/MusaicOperation";
+import {ManagerGroupActionService} from "../service/manager-group-action.service";
 
 describe('PcsUtils test', () => {
 
@@ -56,6 +57,24 @@ describe('PcsUtils test', () => {
     expect(PcsUtils.getInverse(opCM5T5).equals(opCM5T11)).toBeTrue()
     // associative
     expect(PcsUtils.getInverse(opCM5T11).equals(opCM5T5)).toBeTrue()
+  })
+
+
+  it('compare with Tk', () => {
+    let array = ["M1-T0", "M11-T1", "M11-T11",  "M11-T3",  "M11-T5"]
+    array.sort(PcsUtils.compareOpCMaTkReducedOrNot)
+    expect(array).toEqual(["M1-T0", "M11-T1", "M11-T3",  "M11-T5",  "M11-T11"])
+  })
+
+  it('compare without Tk', () => {
+    let array = ["M1", "M11", "CM11",  "M5",  "CM7"]
+    array.sort(PcsUtils.compareOpCMaWithoutTk)
+    expect(array).toEqual(["M1", "M5", "M11",  "CM7",  "CM11"])
+  })
+
+  it('musaic group', () => {
+    const g = ManagerGroupActionService.getGroupActionFromGroupAliasName('Musaic')
+
   })
 
 })

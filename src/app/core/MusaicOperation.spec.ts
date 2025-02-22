@@ -218,4 +218,22 @@ describe('MusaicPcsOperation', () => {
     expect(ipcs.getPcsStr()).toEqual('[0 1 2 3 4 5 6 7 8 9 10 11]')
   })
 
+  it('convertReprStringOfMusaicOperationsToArrayOfMusaicOperations', () =>{
+    //["M1-T0", "CM5-T5"]
+    const opM1T0 = new MusaicOperation(12,1,0,false)
+    const opM11T9 = new MusaicOperation(12,11,9,false)
+    const opCM5T5 = new MusaicOperation(12,5,5,true)
+    let names = ["M1-T0", "M11-T9"]
+    let opsWaiting = [opM1T0, opM11T9]
+    let ops = MusaicOperation.convertArrayStringsToArrayOfMusaicOperations(12,names)
+
+    expect(opsWaiting).toEqual(ops)
+
+    names = ["M1-T0", "CM5-T5"]
+    opsWaiting = [opM1T0, opCM5T5]
+    ops = MusaicOperation.convertArrayStringsToArrayOfMusaicOperations(12,names)
+    expect(opsWaiting).toEqual(ops)
+
+  })
+
 })

@@ -111,7 +111,7 @@ describe('Orbit', () => {
     expect(pcs).toBeTruthy()
   })
 
-   it("getStep" , () => {
+   it("getCycleStep" , () => {
      const dihedralGroupAction = ManagerGroupActionService.getGroupActionFromGroupAliasName("Dihedral")
      let pcs = dihedralGroupAction?.getPcsWithThisPid(1755)
      const orbit = pcs!.orbit

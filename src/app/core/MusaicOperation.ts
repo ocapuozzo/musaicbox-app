@@ -229,6 +229,41 @@ export class MusaicOperation {
     return this.complement
   }
 
+  /**
+   * Convert name of MusaicOperation in instance of MusaicOperation
+   * ex: "M1-T0" => instance of MusaicOperation
+   * @param opName string representation of MusaicOperation
+   * @param n
+   * @return instance of MusaicOperation
+   */
+  static stringOpToMusaicOperation(opName: string, n=12) {
+    const complement = opName.charAt(0) === 'C';
+    const indexCaret = opName.indexOf("-")
+
+    const a = (complement)
+      ? parseInt(opName.substring(2, indexCaret))
+      : parseInt(opName.substring(1, indexCaret))
+
+    const k = parseInt(opName.substring(indexCaret+2))
+    return new MusaicOperation(n, a, k, complement)
+  }
+
+  /**
+   * Convert names of MusaicOperation in array of MusaicOperation
+   * ex: ["M1-T0", "CM5-T5"] => array of 2 instances of MusaicOperation
+   * @param n
+   * @param stringMusaicOperations array of stringRepresentation of MusaicOperation
+   * @return {MusaicOperation[]} array of instances of MusaicOperation
+   */
+ static convertArrayStringsToArrayOfMusaicOperations(n: number, stringMusaicOperations: string[]): MusaicOperation[] {
+    let resultOperations : MusaicOperation[] = []
+    stringMusaicOperations.forEach(opName => {
+      resultOperations.push(this.stringOpToMusaicOperation(opName, n))
+    })
+    return resultOperations
+  }
+
+
 // // test en vue de supprimer  la coll fixedPcs
 // // qui est gourmande en mémoire inutule
 // // pour que ça marche il faut ajouter une liaison
