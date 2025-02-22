@@ -635,7 +635,7 @@ stem:[forall g, g' in G, (g @ g') in G]
 
 If we take stem:[g = (c,a,k)] and stem:[g' = (c',a',k')] then stem:[g @ g' = ] (  stem:[underbrace(bb "c ⊕ c'")_(in {true,false}), underbrace(aa', ak' + k)_("Special Affine Op")])
 
-Since stem:[a] and stem:[a'] are prime with stem:[n], stem:[(aa' mod n)] is also prime with n. (TODO add ref)
+Since stem:[a] and stem:[a'] are prime with stem:[n], stem:[(aa' mod n) = 1] which is also prime with n.
 
 Therefore stem:[(g∘g') in G]
 
@@ -1688,9 +1688,17 @@ image:orbit-stab-fix-dim7th.svg[]
 
 [0 3 6 9] is pcs in limited transposition. This orbit cyclic is : { [0 3 6 9], [1 4 7 10], [2 5 7 11] }
 
-.Cyclic orbit of dim7th
+.Cyclic orbit of diminished scale
 image:cyclic-dim7th.png[] Its stabilizer is { M1-T0, M1-T3, M1-T6, M1-T9 }  or *M1-T0~3**.
 
+
+==== Stabilizer of orbit
+
+Stabilizer of PCS vs stabilizer of orbit
+
+Stabilizer of orbit is union of stabilizer of its PCS
+
+TODO suite....
 
 === Order relation
 
