@@ -2427,34 +2427,66 @@ where \$a in { 1, 5, 7, 11 }, k in { 0, 1, ..., 11  }, c in {true, false}}\$</p>
 <div class="sect2">
 <h3 id="_stabilizers_and_fixed_pcs">Stabilizers and Fixed PCS</h3>
 <div class="paragraph">
-<p>When an orbit has less than 96 elements (\$|G|\$) , then exist some operations in G which do not transform some of its elements (it fixes them).We call <em>stabilizer</em> such operation in <em>G</em> and <em>fixed</em> the concerned PCS in P(E)</p>
+<p>PCS are fixed (i.e. not changed) by one or more transformation operations of \$G\$, which contains 96.</p>
 </div>
 <div class="paragraph">
-<p>A stabilizer of \$A in P(E)\$ is a subset of \$G\$, denoted \$G_A\$, having all its elements fixing \$A\$</p>
+<p>For examples :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Any pcs is fixed (stabilized) by <code>M0-T1</code> (id operation)</p>
+</li>
+<li>
+<p>Pcs [0 2 3 5 7 9 10] (dorian mode) is fixed by <code>M1-T0 M11-T0</code> (id and inverse)</p>
+</li>
+<li>
+<p>Pcs [0 4 8] (Augmented Triad) is fixed :</p>
+<div class="ulist">
+<ul>
+<li>
+<p>in cyclic group, by <code>M1-T0 M1-T4 M1-T8</code> (limited transposition)</p>
+</li>
+<li>
+<p>in dihedral group by <code>M1-T0 M11-T0 M1-T4 M11-T4 M1-T8 M11-T8</code></p>
+</li>
+<li>
+<p>in affine group by <code>M1-T0 M5-T0 M7-T0 M11-T0 M1-T4 M5-T4 M7-T4 M11-T4 M1-T8 M5-T8 M7-T8 M11-T8</code></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
 </div>
 <div class="paragraph">
-<p>\$G_A := {g in G | g cdot A = A }\$</p>
+<p>Operations in \$G\$ which do not transform some of its elements (it fixes them) are called <em>stabilizer</em>. Such operation in <em>G</em> fix the concerned PCS in P(E)</p>
+</div>
+<div class="paragraph">
+<p>A <strong>stabilizer</strong> of \$ "pcs" in P(E)\$ is a <strong>subset</strong> of \$G\$, denoted \$G_"pcs"\$, having all its elements fixing \$"pcs"\$</p>
+</div>
+<div class="paragraph">
+<p>\$G_"pcs" := {g in G | g cdot "pcs" = "pcs" }\$</p>
 </div>
 <div class="paragraph">
 <p>Inversely, \$Fixed_H\$ is the set of elements of \$P(E)\$ invariants under action of   \$H subseteq G\$</p>
 </div>
 <div class="paragraph">
-<p>\$Fixed_H := {A in P(E) | g cdot A = A, AA g in H}\$</p>
+<p>\$Fixed_H := {"pcs" in P(E) | g cdot "pcs" = "pcs", AA g in H}\$</p>
 </div>
 <div class="paragraph">
 <p>By correlation, the cardinality of an orbit is linked to the number of its stabilizers. Indeed, the more stabilizers an orbit has, the fewer elements the orbit has. This is the subject of a theorem known as <a href="https://en.wikipedia.org/wiki/Group_action#Orbit-stabilizer_theorem">orbit-stabilizer</a> :</p>
 </div>
 <div class="paragraph">
-<p>Cardinality of an orbit \$G.A\$ is given by cardinality of group \$G\$ divided by cardinality of stabilizers of \$A\$ :</p>
+<p>Cardinality of an orbit \$G"⋅"pcs\$, is given by cardinality of group \$G\$ divided by number of stabilizers of \$pcs\$ :</p>
 </div>
 <div class="paragraph">
-<p>\$|G"⋅"A| = (|G|) / (|G_A|)\$</p>
+<p>\$|G"⋅"pcs| = (|G|) / (|G_(pcs)|)\$</p>
 </div>
 <div class="paragraph">
-<p>Knowing cardinality of one orbit (\$|G"⋅"A|\$), we can calculate the number of its stabilizers \$|G_A| = (|G|) / (|G"⋅"A|)\$.</p>
+<p>Knowing cardinality of one  orbit (\$|G"⋅"pcs|\$), we can calculate the number of its stabilizers \$|G_(pcs)| = (|G|) / (|G"⋅"pcs|)\$.</p>
 </div>
 <div class="paragraph">
-<p>from the 3 examples given previously :</p>
+<p>From the 3 examples given previously :</p>
 </div>
 <div class="ulist">
 <ul>
@@ -2468,6 +2500,18 @@ where \$a in { 1, 5, 7, 11 }, k in { 0, 1, ..., 11  }, c in {true, false}}\$</p>
 <p>diminished 7th has 96/6 = 16 stabilizers</p>
 </li>
 </ul>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+All these properties, and more, can be viewed on page : <a href="https://musaicbox.org/pcs" class="bare">https://musaicbox.org/pcs</a>
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect2">
@@ -3507,35 +3551,77 @@ A meta-stabilizer can be represented by a geometric figure, a polytrope :</p>
 </div>
 </div>
 <div class="paragraph">
-<p>An orbit can be fixed by one or more meta-stabilizer. Example, Diatonic major scale is fixed by M1 and M11 (i.e. inverse of diatonic scale is also a diatonic structure) See Musaic n° 38.</p>
-</div>
-<div class="paragraph">
-<p>Set of meta-stabilizers linked to a musaic (an orbit) is represented by a octotrope. Examples :</p>
+<p>An orbit can be fixed by one or more meta-stabilizer. Example, Diatonic major scale is meta-fixed by M1 and M11 (i.e. inverse of diatonic scale is also a diatonic structure) See Musaic n° 38. Set of meta-stabilizers linked to a musaic (an orbit) is represented by a octotrope. Examples :</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Major scale [0 2 4 5 7 9 11] has octotrope : <span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1-m11"></span> - invariant structure by M1 and M11</p>
+<p>Major scale [0 2 4 5 7 9 11]  is meta-invariant by M1 and M11, represented by octotrope : <span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1-m11"></span></p>
 </li>
 <li>
-<p>Diminished scale [0 3 6 9] has octotrope : <span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1-m5-m7-m11"></span> - invariant structure by M1, M5, M5 and M11</p>
+<p>Diminished scale [0 3 6 9] is meta-invariant by M1, M5, M5 and M11 : <span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1-m5-m7-m11"></span></p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>With \$n=12\$, there are 13 octotrope classes :</p>
+<p>With \$n=12\$, 88 orbits may be partitioned in 13 octotrope classes :</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 7.6923%;">
+<col style="width: 7.6923%;">
+<col style="width: 7.6923%;">
+<col style="width: 7.6923%;">
+<col style="width: 7.6923%;">
+<col style="width: 7.6923%;">
+<col style="width: 7.6923%;">
+<col style="width: 7.6923%;">
+<col style="width: 7.6923%;">
+<col style="width: 7.6923%;">
+<col style="width: 7.6923%;">
+<col style="width: 7.6923%;">
+<col style="width: 7.6924%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">M1</th>
+<th class="tableblock halign-left valign-top">M1 M5</th>
+<th class="tableblock halign-left valign-top">M1 M7</th>
+<th class="tableblock halign-left valign-top">M1 M11</th>
+<th class="tableblock halign-left valign-top">M1 CM5</th>
+<th class="tableblock halign-left valign-top">M1 CM11</th>
+<th class="tableblock halign-left valign-top">M1 M5 M7 M11</th>
+<th class="tableblock halign-left valign-top">M1 M5 CM1 CM5</th>
+<th class="tableblock halign-left valign-top">M1 M5 CM7 CM11</th>
+<th class="tableblock halign-left valign-top">M1 M7 CM5 CM11</th>
+<th class="tableblock halign-left valign-top">M1 M11 CM1 CM11</th>
+<th class="tableblock halign-left valign-top">M1 M11 CM5 CM7</th>
+<th class="tableblock halign-left valign-top">M1 M5 M7 M11 CM1 CM5 CM7 CM11</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5.png" alt="m1 m5"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm5.png" alt="m1 cm5"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm11.png" alt="m1 cm11"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm1-m5-cm5.png" alt="m1 cm1 m5 cm5"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm7-cm11-m5.png" alt="m1 cm7 cm11 m5"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7-cm11-cm5.png" alt="m1 m7 cm11 cm5"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm1-m11-cm11.png" alt="m1 cm1 m11 cm11"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm7-m11-cm5.png" alt="m1 cm7 m11 cm5"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm1-m7-cm7-m11-cm11-m5-cm5.png" alt="m1 cm1 m7 cm7 m11 cm11 m5 cm5"></span></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Un octotrope permet d&#8217;identifier rapidement la classe des invariants d&#8217;une gamme.</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1"></span> <span class="image"><img src="./assets/images/octotropes/m1-m5.png" alt="m1 m5"></span> <span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7"></span> <span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11"></span>
-<span class="image"><img src="./assets/images/octotropes/m1-cm5.png" alt="m1 cm5"></span>
-<span class="image"><img src="./assets/images/octotropes/m1-cm11.png" alt="m1 cm11"></span>
-<span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11"></span>
-<span class="image"><img src="./assets/images/octotropes/m1-cm1-m5-cm5.png" alt="m1 cm1 m5 cm5"></span>
-<span class="image"><img src="./assets/images/octotropes/m1-cm7-cm11-m5.png" alt="m1 cm7 cm11 m5"></span>
-<span class="image"><img src="./assets/images/octotropes/m1-m7-cm11-cm5.png" alt="m1 m7 cm11 cm5"></span>
-<span class="image"><img src="./assets/images/octotropes/m1-cm1-m11-cm11.png" alt="m1 cm1 m11 cm11"></span>
-<span class="image"><img src="./assets/images/octotropes/m1-cm7-m11-cm5.png" alt="m1 cm7 m11 cm5"></span>
-<span class="image"><img src="./assets/images/octotropes/m1-cm1-m7-cm7-m11-cm11-m5-cm5.png" alt="m1 cm1 m7 cm7 m11 cm11 m5 cm5"></span></p>
+<p>Example (PCS page <a href="https://musaicbox.org/pcs/pid/1613">0 2 3 6 9 10</a> ) : <span class="image"><img src="./assets/images/limited-transf-octotrope.png" alt="limited transf octotrope"></span></p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -3544,7 +3630,7 @@ A meta-stabilizer can be represented by a geometric figure, a polytrope :</p>
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-On the MusaicBox app, go to page <code>88 Musaics</code> to see the different musaics related to their octotrope.
+On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaics</a> to see the different musaics related to their octotrope.
 </td>
 </tr>
 </table>
@@ -4224,7 +4310,7 @@ Modal prime form concept is invented, specific to this project.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-02-22 19:42:13 +0100
+Last updated 2025-02-24 17:20:31 +0100
 </div>
 </div>
 <script type="text/x-mathjax-config">
