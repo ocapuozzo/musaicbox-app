@@ -265,7 +265,8 @@ export class Stabilizer {
   static makeShortNameIfPossible(operations : MusaicOperation[]) {
     if (operations.length === 0) return ''
 
-    let reducedStabName = ""
+    let reducedStabName : string[] = []
+
     const n = operations[0].n
     // 1 get all operations
     // key : "Ma" or "CMa" op name (Ex: M5, CM5) nameOpsWithoutT
@@ -319,11 +320,37 @@ export class Stabilizer {
             // let firstStep = cmt.get(nameOpWithoutT)![0]
             let steps = cmt.get(nameOpWithoutT)!
 
-            //example reduce : steps 1,2,4,5,7,8,10,11 -> 2,5,8,11
-            steps = steps?.filter((k, index) => (index % resultStep.stepIndex !== 0))
+            //example exclude all elements where index match resultStep.stepIndex
+            // reduce steps 0,1,2,4,5,7,8,10,11 -> 1,4,7,10 (indexStep = 2)
+            // reduce steps 0,1,2,4,5,7,8,10,11 -> 1,2,5,7,10,11 (indexStep = 3)
+            let remainingSteps =
+              steps?.filter((k, index) => (index % resultStep.stepIndex !== 0))
 
-            cmt.set(nameOpWithoutT, steps)
-            reducedStabName = (reducedStabName.length > 1) ? reducedStabName + ' ' + shortName : shortName
+            cmt.set(nameOpWithoutT, remainingSteps)
+            reducedStabName.push(shortName)
+          } else {
+            // second try, but inverse search, and accept all elements do not match
+            let stepsReverse = [...cmt.get(nameOpWithoutT)!].reverse()
+            resultStep = this.getCycleStep(stepsReverse, n)
+            if (resultStep.step) {
+              shortName = nameOpWithoutT + "-T" + stepsReverse[0] + "~" + resultStep.step + "*";
+
+              let remainingSteps = []
+              for (let j = 0; j < stepsReverse.length; j++) {
+
+                if (j+resultStep.stepIndex < stepsReverse.length
+                    && stepsReverse[j] === stepsReverse[j+resultStep.stepIndex] + resultStep.step) {
+                  // pass
+                  // and also other element (delete from list)
+                  stepsReverse.splice(j+resultStep.stepIndex,1)
+                } else {
+                  remainingSteps.push(stepsReverse[j])
+                }
+              }
+
+              cmt.set(nameOpWithoutT, remainingSteps.reverse())
+              reducedStabName.push(shortName)
+            }
           }
         }
         numberOfElts = cmt.get(nameOpWithoutT)?.length
@@ -333,14 +360,11 @@ export class Stabilizer {
       let the_as = cmt.get(nameOpWithoutT) ?? []
       for (let j = 0; j < the_as.length; j++) {
         let a = the_as[j]
-        if (reducedStabName.length > 0) {
-          reducedStabName += " ";
-        }
-        reducedStabName += nameOpWithoutT + "-T" + a;
+        reducedStabName.push(nameOpWithoutT + "-T" + a);
       } // loop a
     } // loop for nameOpsWithoutT
 
-    return reducedStabName
+    return reducedStabName.sort(PcsUtils.compareOpCMaTkReducedOrNot).join(' ')
 
   }
 
@@ -348,19 +372,19 @@ export class Stabilizer {
   /**
    *
    * search step cycle for reduce, or not :
-   *      Ex : 0,2,10   => (step = 0) => (by caller) T0, T2, T10
-   *      Ex : 2,5,8,11 => (step = 3, so reduce by caller) => T-2~3
    *
    *   0,2,10 => step=0, stepIndex=0
    *   2,5,8,11 => step=3, stepIndex=1
    *   1,2,4,5,7,8,10,11 => 3 (4-1, 7-4, 10-7) == 3 (5-2, 8-5, 11-8) ==> step=3 , stepIndex=2
    *   0,4,8 => step=4, stepIndex=1
    *   1,5,7,11 => ??? (7-1) == 6 (11-5) step=== 6 , stepIndex=2
-   *   1,3,5,7 => step=0, stepIndex=0 // because :
+   *   1,3,5,7 => step=6, stepIndex=3 // because :
    *    stepIndex = 1 (3-1, 5-3, 7-5) => step=2
    *     but nb comparaisons+1 => 4, and 2 <> 12/4 NO !
    *    stepIndex = 2 (5-1) => step=4
-   *     but nb comparaisons+1 => 2, and 4 = 12/2 NO !
+   *     but nb comparaisons+1 => 2, and 4 <> 12/2 NO !
+   *    stepIndex = 3 (7-1) => step=6
+   *     nb comparaisons+1 => 2, and 6 = 12/2 YES !
    *
    *  stepIndex return if for caller, for delete sequence values of steps
    *
@@ -370,16 +394,20 @@ export class Stabilizer {
    */
   static getCycleStep(steps ?: number[], n = 12): { step: number; stepIndex: number } {
     let stepResult = 0
+    const inverse = steps !== undefined && steps.length > 1 && steps[0] > steps[1]
+    const diff = (a: number, b: number): number => inverse ? b-a : a-b
     let find = false
     let i = 1
     if (steps)
-      for (; i < steps.length; i++) {
-        let step = steps[i] - steps[0]
+      for (; i < steps.length && diff(steps[i],steps[0]) <= n/2; i++) {
+        // let step = steps[i] - steps[0]
+        let step = diff(steps[i],steps[0])
         find = true
         let nComparaisons = 0
-        for (let k = i; k < steps.length; k += i) {
+        for (let k = i; k < steps.length  && step * (nComparaisons+1) < n; k += i) {
           nComparaisons++
-          if (steps[k] - steps[k-i] !== step) {
+          // if (steps[k] - steps[k-i] !== step) {
+          if (diff(steps[k],steps[k-i]) !== step) {
             find = false
             break
           }
@@ -391,6 +419,7 @@ export class Stabilizer {
           break
         }
       }
+
     return {step: stepResult, stepIndex : stepResult ? i : 0 }
 
   }

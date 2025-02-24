@@ -283,9 +283,12 @@ describe('Stabilizer', () => {
     //M1-T0 M11-T1 => "M1-T0 M11-T1"
     expect(Stabilizer.makeShortNameIfPossible([opM1T0, opM11T1])).toEqual(waiting4)
 
-    // CM1-T1 CM1-T3 CM1-T5 CM1-T7 /*CM1-T9*/ CM1-T11 => "CM1-T1 CM1-T3 CM1-T5 CM1-T7 CM1-T11" => "CM1-T1~6* CM1-T3 CM1-T5 CM1-T11"
-    const waiting5 = "CM1-T1~6* CM1-T3 CM1-T5 CM1-T11"
-    expect(Stabilizer.makeShortNameIfPossible([opCM1T1, opCM1T3, opCM1T5, opCM1T7, /*opCM1T9,*/ opCM1T11])).toEqual(waiting5)
+    //   CM1-T1 CM1-T3 CM1-T5 CM1-T7 /*CM1-T9*/ CM1-T11 =
+    // "CM1-T1 CM1-T3 CM1-T5 CM1-T7 CM1-T11"
+    // const waiting5 = "CM1-T1~6* CM1-T3 CM1-T5 CM1-T11"
+    const waiting5Better = "CM1-T1~6* CM1-T3 CM1-T11~6*" // "CM1-T1~6* CM1-T3 CM1-T5~6*"
+    expect(Stabilizer.makeShortNameIfPossible([opCM1T1, opCM1T3, opCM1T5, opCM1T7, /*opCM1T9,*/ opCM1T11])).toEqual(waiting5Better)
+
 
     // M11-T1 M11-T2 M11-T4 M11-T5 M11-T7 M11-T8 M11-T10 M11-T11 => M11-T1~3* and M11-T2~3*
     const waiting6 = "M11-T1~3* M11-T2~3*"
@@ -335,13 +338,25 @@ describe('Stabilizer', () => {
     // stepIndex = 1 (3-1, 5-3, 7-5) => step=2
     //   but nb comparaisons+1 => 4, and 2 <> 12/4 NO !
     // stepIndex = 2 (5-1) => step=4
-    //    nb comparaisons+1 => 2, and 4 = 12/2 NO !
+    //    nb comparaisons+1 => 2, and 4 <> 12/2 NO !
     // stepIndex = 3 (7-1) => step=6
     //    nb comparaisons+1 => 2, and 6 = 12/2 YES !
 
-    //reduce steps 1,2,4,5,7,8,10,11 -> 2,5,8,11
-    // steps = steps?.filter((k, index) => (index % 2 !== 0))
-    // console.log(steps)
+    expect(Stabilizer.getCycleStep([3,5,11])).toEqual({step:0, stepIndex:0})
+    // if right to left (11-5) = 6 Match !
+
+    // so inverse argument, then the logic of getCycleStep works differently,
+    // accept that only somme first elements match (from left to right on elements inverse sorted)
+    expect(Stabilizer.getCycleStep([11,5,3])).toEqual({step:6, stepIndex:1})
+
+    // with "CM1-T1~6* CM1-T3 CM1-T5 CM1-T11"
+    // const waiting5       = "CM1-T1~6* CM1-T3 CM1-T5 CM1-T11"
+    // const waiting5Better = "CM1-T1~6* CM1-T3 CM1-T5~6*"  <===== YES
+
+    //reduce steps 0,1,2,4,5,7,8,10,11 -> 1,4,7,10 (indexStep = 2)
+    //reduce steps 0,1,2,4,5,7,8,10,11 -> 1,2,5,7,10,11 (indexStep = 3)
+    // const steps = [0,1,2,4,5,7,8,10,11]
+    // console.log(steps.filter((k, index) => (index % 3 !== 0)))
 
   })
 
