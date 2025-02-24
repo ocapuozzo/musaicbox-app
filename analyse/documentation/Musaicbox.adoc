@@ -1052,19 +1052,19 @@ For examples :
 
 Operations in stem:[G] which do not transform some of its elements (it fixes them) are called _stabilizer_. Such operation in _G_ fix the concerned PCS in P(E)
 
-A *stabilizer* of stem:[ "pcs" in P(E)] is a *subset* of stem:[G], denoted stem:[G_"pcs"], having all its elements fixing stem:["pcs"]
+A *stabilizer* of stem:[ "pcs" in P(E)] is a *subset* of stem:[G], denoted *_G~pcs~_*, having all its elements fixing stem:[pcs]
 
-stem:[G_"pcs" := {g in G | g cdot "pcs" = "pcs" }]
+stem:[G_bb"pcs" := {g in G | g cdot pcs = pcs }]
 
 Inversely, stem:[Fixed_H] is the set of elements of stem:[P(E)] invariants under action of   stem:[H subseteq G]
 
-stem:[Fixed_H := {"pcs" in P(E) | g cdot "pcs" = "pcs", AA g in H}]
+stem:[Fixed_H := {pcs in P(E) | g cdot pcs = pcs, AA g in H}]
 
 // stem:[Fixed_H := {A in P(E) | g cdot A = A, AA g in H}]
 
 By correlation, the cardinality of an orbit is linked to the number of its stabilizers. Indeed, the more stabilizers an orbit has, the fewer elements the orbit has. This is the subject of a theorem known as https://en.wikipedia.org/wiki/Group_action#Orbit-stabilizer_theorem[orbit-stabilizer] :
 
-Cardinality of an orbit stem:[G"⋅"pcs], is given by cardinality of group stem:[G] divided by number of stabilizers of stem:[pcs] :
+Cardinality of an orbit stem:[G cdot pcs], is given by cardinality of group stem:[G] divided by number of stabilizers of stem:[pcs] :
 
 stem:[|G"⋅"pcs| = (|G|) / (|G_(pcs)|)]
 
@@ -1091,7 +1091,7 @@ The orbits are then the equivalence classes under this relation; two elements st
 
 == Case study (cyclic group)
 
-Before going further, let us study a subgroup of G.
+Before going further, let us study a subgroup of stem:[G].
 
 A subset of G has the status of a subgroup if its operations respect the group axioms.
 
