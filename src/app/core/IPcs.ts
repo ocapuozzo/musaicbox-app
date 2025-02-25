@@ -48,6 +48,7 @@ import {Scales2048Name} from "./Scales2048Name";
 import {MusaicOperation} from "./MusaicOperation";
 import {ArrayUtil} from "../utils/ArrayUtil";
 import {ManagerGroupActionService} from "../service/manager-group-action.service";
+import {PcsUtils} from "../utils/PcsUtils";
 
 const NEXT_MODULATION = 1
 const PREV_MODULATION = 2
@@ -286,6 +287,8 @@ export class IPcs {
       }
     }
     if (strpcs) {
+      // pre-process string : "0369" => "0 3 6 9", "1110" => "11 10", "10110" => "10 11 0", ...
+      strpcs = PcsUtils.pcsStringToStringSpaced(strpcs)
       // accept "0,4,7" or "0 4 7" or "0 4, 7"...
       let pitches = strpcs.split(/[ ,]+/);
       for (let i = 0; i < pitches.length; i++) {

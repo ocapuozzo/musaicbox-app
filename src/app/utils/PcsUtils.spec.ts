@@ -1,6 +1,5 @@
 import {PcsUtils} from "./PcsUtils";
 import {MusaicOperation} from "../core/MusaicOperation";
-import {ManagerGroupActionService} from "../service/manager-group-action.service";
 
 describe('PcsUtils test', () => {
 
@@ -72,9 +71,23 @@ describe('PcsUtils test', () => {
     expect(array).toEqual(["M1", "M5", "M11",  "CM7",  "CM11"])
   })
 
-  it('musaic group', () => {
-    const g = ManagerGroupActionService.getGroupActionFromGroupAliasName('Musaic')
+  it('pcsStringToStringSpaced unit tests', () => {
+    const string1 =  "0369"  //=> "0 3 6 9"
+    const string2 = "1110" //  => "11 10"
+    const string3 = "10110" // => "10 11 0",
+    const string4 = "0 4 8" // => "10 11 0",
+    expect(PcsUtils.pcsStringToStringSpaced(string1)).toEqual("0 3 6 9")
+    expect(PcsUtils.pcsStringToStringSpaced(string2)).toEqual("11 10")
+    expect(PcsUtils.pcsStringToStringSpaced(string3)).toEqual("10 11 0")
+    expect(PcsUtils.pcsStringToStringSpaced(string3, ',')).toEqual("10,11,0")
+    expect(PcsUtils.pcsStringToStringSpaced(string4)).toEqual(string4)
+    expect(PcsUtils.pcsStringToStringSpaced("047")).toEqual("0 4 7")
+    expect(PcsUtils.pcsStringToStringSpaced("101")).toEqual("10 1")
+    expect(PcsUtils.pcsStringToStringSpaced("101", ',')).toEqual("10,1")
+    expect(PcsUtils.pcsStringToStringSpaced("0 4 7", ',')).toEqual("0 4 7") // no change
+    expect(PcsUtils.pcsStringToStringSpaced("047", ',')).toEqual("0,4,7")
 
   })
+
 
 })

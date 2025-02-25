@@ -18,6 +18,7 @@ import {PcsSearch} from "./utils/PcsSearch";
 import {ManagerPageWBService} from "./service/manager-page-wb.service";
 import {ManagerPageEightyHeightService} from "./service/manager-page-eighty-height.service";
 import {NgOptimizedImage} from "@angular/common";
+import {PcsUtils} from "./utils/PcsUtils";
 
 
 @Component({
@@ -107,6 +108,7 @@ export class AppComponent {
 
       let pcsString = this.checkoutForm.value.pcsStr.trim() ?? ''
       // accept separators : comma space underscore
+
       pcsString = pcsString.replace(/\s\s+/g, ',')
       // replace sep _ or space by comma
       pcsString = pcsString.replace(/[ _]/g, ",").trim();
@@ -115,14 +117,16 @@ export class AppComponent {
 
       if (pcsString) {
         if (pcsString.startsWith('iv:')) {
-          this.searchPcsWithThisIV(pcsString.substring(3), pcsString)
+          this.searchPcsWithThisIV(PcsUtils.pcsStringToStringSpaced(pcsString.substring(3), ','), pcsString)
+          // this.searchPcsWithThisIV(pcsString.substring(3), pcsString)
         } else if (pcsString.startsWith('is:')) {
-          this.searchPcsWithThisIS(pcsString.substring(3), pcsString)
+          this.searchPcsWithThisIS(PcsUtils.pcsStringToStringSpaced(pcsString.substring(3), ','), pcsString)
         } else if (pcsString.startsWith('pid:')) {
           this.searchPcsWithThisPid(pcsString.substring(4), pcsString)
         } else {
           // search pcs
           try {
+            pcsString = PcsUtils.pcsStringToStringSpaced(pcsString)
             let pcs = new IPcs({strPcs: pcsString})
             //console.log(" pcs = ", pcs)
             if (pcs.cardinal > 0) {
@@ -159,6 +163,7 @@ export class AppComponent {
           // select the first of list as current pcs
           this.managerPagePcsService.replaceBy(pcsWithSameIV[0])
           // push all pcs having same IV into list pcs of pcs page
+          this.managerPagePcsListService.clearLists()
           for (const pcs of pcsWithSameIV) {
             this.managerPagePcsListService.addPcs('iv:' + searchIV, pcs)
           }

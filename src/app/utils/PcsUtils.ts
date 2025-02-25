@@ -1,6 +1,6 @@
 import {MusaicOperation} from "../core/MusaicOperation";
 
-export class PcsUtils{
+export class PcsUtils {
 
   /**
    * Solves the equation ak' + k ≡ 0 (mod n) for k', where:
@@ -14,7 +14,7 @@ export class PcsUtils{
    * @returns The value of k' in the range [0, n-1] that solves the equation.
    * @throws Will throw an error if `a` is not coprime with `n`.
    */
-   static solveEquationV1(a: number, k: number, n: number): number {
+  static solveEquationV1(a: number, k: number, n: number): number {
     /**
      * Computes the greatest common divisor (gcd) of two integers `a` and `b`
      * using the extended Euclidean algorithm. Returns the gcd along with
@@ -30,15 +30,15 @@ export class PcsUtils{
      */
     function extendedGCD(a: number, b: number): { gcd: number, x: number, y: number } {
       if (b === 0) {
-        return { gcd: a, x: 1, y: 0 }; // Base case: gcd(a, 0) = a
+        return {gcd: a, x: 1, y: 0}; // Base case: gcd(a, 0) = a
       }
-      const { gcd, x: x1, y: y1 } = extendedGCD(b, a % b);
+      const {gcd, x: x1, y: y1} = extendedGCD(b, a % b);
 
-      return { gcd, x: y1, y: x1 - Math.floor(a / b) * y1 };
+      return {gcd, x: y1, y: x1 - Math.floor(a / b) * y1};
     }
 
     // Step 1: Compute the modular inverse of `a` modulo `n`
-    const { gcd, x: aInverse } = extendedGCD(a, n);
+    const {gcd, x: aInverse} = extendedGCD(a, n);
     if (gcd !== 1) {
       throw new Error(`'a' must be coprime with 'n'. gcd(${a}, ${n}) = ${gcd}`);
     }
@@ -75,20 +75,20 @@ export class PcsUtils{
 
   // curiosity discovered in January 2025...
   static solveEquationV2(a: number, k: number, n: number): number {
-      // works only if n in [2, 3, 4, 6, 8, 12]
-      return n * Math.ceil(k * a / n) - (k * a)
+    // works only if n in [2, 3, 4, 6, 8, 12]
+    return n * Math.ceil(k * a / n) - (k * a)
   }
 
   /**
    * return inverse of this argument  (c,a,t) |-> (c,a,−t⋅a^(−1))
    * @param musOp - A musaic operation
    */
-  static getInverse(musOp : MusaicOperation ) : MusaicOperation {
-     return new MusaicOperation(musOp.n, musOp.a, this.solveEquation(musOp.a, musOp.t, musOp.n), musOp.complement)
+  static getInverse(musOp: MusaicOperation): MusaicOperation {
+    return new MusaicOperation(musOp.n, musOp.a, this.solveEquation(musOp.a, musOp.t, musOp.n), musOp.complement)
   }
 
-   // sort operations Mx < Mx+1 < CMx < CMx+1 (without -Tx)
-  static compareOpCMaWithoutTk(o1:string, o2:string) {
+  // sort operations Mx < Mx+1 < CMx < CMx+1 (without -Tx)
+  static compareOpCMaWithoutTk(o1: string, o2: string) {
     let complement1 = o1.charAt(0) === 'C';
     let complement2 = o2.charAt(0) === 'C';
     let w1;
@@ -106,7 +106,7 @@ export class PcsUtils{
     return w1 - w2;
   }
 
-  static compareOpCMaTkReducedOrNot(o1:string, o2:string) {
+  static compareOpCMaTkReducedOrNot(o1: string, o2: string) {
     const complement1 = o1.charAt(0) === 'C';
     const complement2 = o2.charAt(0) === 'C';
     let w1;
@@ -121,7 +121,7 @@ export class PcsUtils{
     if (complement2)
       w2 = 100 + parseInt(o2.substring(2, indexCareto2));
     else
-      w2 = parseInt(o2.substring(1,indexCareto2));
+      w2 = parseInt(o2.substring(1, indexCareto2));
 
     if (w1 !== w2) {
       return w1 - w2;
@@ -129,12 +129,56 @@ export class PcsUtils{
     const indexTildeo1 = o1.indexOf("~")
     const indexTildeo2 = o2.indexOf("~")
     // -Tk
-    const k1 = (indexTildeo1 === -1) ? parseInt(o1.substring(indexCareto1+2)) : parseInt(o1.substring(indexCareto1+2, indexTildeo1))
-    const k2 = (indexTildeo2 === -1) ? parseInt(o2.substring(indexCareto2+2)) : parseInt(o2.substring(indexCareto2+2, indexTildeo2))
+    const k1 = (indexTildeo1 === -1) ? parseInt(o1.substring(indexCareto1 + 2)) : parseInt(o1.substring(indexCareto1 + 2, indexTildeo1))
+    const k2 = (indexTildeo2 === -1) ? parseInt(o2.substring(indexCareto2 + 2)) : parseInt(o2.substring(indexCareto2 + 2, indexTildeo2))
 
     return k1 - k2
   }
 
-
+  /**
+   * When strpcs has no space, add spaces between pitch classes
+   * pre-process string :
+   * - "0369" => "0 3 6 9"
+   * - "1110" => "11 10"
+   * - "10110" => "10 11 0"
+   * - "101" => "10 1"
+   * - "0 4 7" => "0 4 7"
+   * - "101" & ',' => "10,1"
+   * ...
+   * Main difficulty if for 2 digits pitch class... (10 or 11)
+   * @param strPcs
+   * @param separator default space
+   */
+  static pcsStringToStringSpaced(strPcs: string, separator: string = ' ') {
+    strPcs = strPcs.trim()
+    if (strPcs.indexOf(separator) === -1) {
+      let resultPcs = ''
+      let ignoreCar = false
+      for (let i = 0; i < strPcs.length; i++) {
+        if (strPcs.at(i) === "1") {
+          if (ignoreCar) {
+            // already 1
+            resultPcs = resultPcs ? `${resultPcs}${separator}11` : '11'
+            ignoreCar = false
+          } else {
+            // pass (do not consume "1")
+            ignoreCar = true
+          }
+        } else {
+          if (ignoreCar) {
+            // "1" waiting to be consumed
+            resultPcs = resultPcs ? `${resultPcs}${separator}1${strPcs.at(i)}` : `1${strPcs.at(i)}`
+            ignoreCar = false // we have consumed 1
+          } else {
+            // default
+            resultPcs = resultPcs ? `${resultPcs}${separator}${strPcs.at(i)}` : `${strPcs.at(i)}`
+          }
+        }
+      }
+      return ignoreCar ? `${resultPcs}${separator}1` : resultPcs
+    }
+    // no change
+    return strPcs
+  }
 
 }
