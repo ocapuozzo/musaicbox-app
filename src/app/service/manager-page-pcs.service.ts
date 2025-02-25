@@ -10,7 +10,7 @@ import {HistoryT} from "../utils/HistoryT";
 export class ManagerPagePcsService {
 
   @Output() updatePcsEvent = new EventEmitter<IPcs>();
-  
+
   pcs: IPcs = new IPcs({strPcs: '0,2,4,5,7,9,11'})
 
   historyPcs: HistoryT<IPcs>
@@ -82,7 +82,7 @@ export class ManagerPagePcsService {
   }
 
   unDoPcs() {
-    // save also actual pcsList (parameter to unDoToPresent)
+    // save also actual pcs (parameter to unDoToPresent)
     let pcs = this.historyPcs.unDoToPresent()
     if (pcs != undefined) {
       this.pcs = pcs

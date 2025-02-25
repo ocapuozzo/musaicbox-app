@@ -44,8 +44,8 @@ export class GroupAction {
   private _orbitsSortedGroupedByMetaStabilizer ?: ISortedOrbits[];
   private _orbitsSortedGroupedByCardinal ?: ISortedOrbits[];
 
-  private static _predefinedGroupsActions: Map<number, GroupAction[]>
-  private static GENERATED_GROUPS: Map<string, GroupAction>;
+ // private static _predefinedGroupsActions: Map<number, GroupAction[]>
+  // private static GENERATED_GROUPS: Map<string, GroupAction>;
 
   constructor(
     {n, someMusaicOperations, group}:
@@ -336,72 +336,8 @@ export class GroupAction {
     return pcsInOrbit
   }
 
-  // initialize some predefined Groups Actions
-  // static _predefinedGroupsActions(n: number, index: number): GroupAction {
-  //
-  // }
-  //
-  // initialize some predefined Groups Actions
-  static predefinedGroupsActions(n: number, index: number): GroupAction {
-    if (!GroupAction._predefinedGroupsActions) {
-      GroupAction.createPredefinedGroupAction()
-    }
-    // if not exist, create only Cyclic group action
-    if (!GroupAction._predefinedGroupsActions.has(n)) {
-      const opM1T1 = new MusaicOperation(n, 1, 1, false)
-      const groupAction = new GroupAction({someMusaicOperations: [opM1T1]})
-      // add Cyclic group action (Group.CYCLIC is 0, match index first element of array)
-      GroupAction._predefinedGroupsActions.set(n, [groupAction])
-    }
-
-    if (index < 0 && index >= GroupAction._predefinedGroupsActions.get(n)?.length!) {
-      throw new Error('No predefined group action for n=' + n + ' and index=' + index + ' ! ')
-      // return GroupAction._predefinedGroupsActions.get(n)![Group.CYCLIC]
-    } else {
-      return GroupAction._predefinedGroupsActions.get(n)![index]
-    }
-
-  }
-
   get cardinal() {
     return this.operations.length
-  }
-
-  private static createPredefinedGroupAction(): void {
-    GroupAction._predefinedGroupsActions = new Map<number, GroupAction[]>
-    let groupsActions: GroupAction[] = new Array<GroupAction>()
-    // index == 0 == Group.CYCLIC
-    groupsActions.push(new GroupAction({group: Group.predefinedGroups12[Group.CYCLIC]}))
-
-    // index == 1 == Group.DIHEDRAL
-    groupsActions.push(new GroupAction({group: Group.predefinedGroups12[Group.DIHEDRAL]}))
-
-    // index == 2 == Group.AFFINE
-    groupsActions.push(new GroupAction({group: Group.predefinedGroups12[Group.AFFINE]}))
-
-    // index == 3 == Group.MUSAIC
-    groupsActions.push(new GroupAction({group: Group.predefinedGroups12[Group.MUSAIC]}))
-
-    GroupAction._predefinedGroupsActions.set(12, groupsActions)
-
-    groupsActions = new Array<GroupAction>()
-    //Cyclic
-    let opM1_T1 = new MusaicOperation(7, 1, 1, false);
-    let group7Cyclic = new GroupAction({n: 7, someMusaicOperations: [opM1_T1]})
-    groupsActions.push(group7Cyclic)
-
-    //Dihedral
-    let opM6_T1 = new MusaicOperation(7, 6, 1, false);
-    groupsActions.push(new GroupAction({n: 7, someMusaicOperations: [opM1_T1, opM6_T1]}))
-
-    // bad Affine (Dihedral again, temporary for test)
-    groupsActions.push(new GroupAction({n: 7, someMusaicOperations: [opM1_T1, opM6_T1]}))
-
-    // bad musaic
-    let opM6_T1C = new MusaicOperation(7, 6, 1, true);
-    groupsActions.push(new GroupAction({n: 7, someMusaicOperations: [opM1_T1, opM6_T1, opM6_T1C]}))
-
-    GroupAction._predefinedGroupsActions.set(7, groupsActions)
   }
 
   getPcsWithThisIS(intervallicStructure: string): IPcs | undefined {
@@ -451,4 +387,5 @@ export class GroupAction {
     const a = parseInt(opNameWithoutTx.substring(complement ? 2 : 1))
     return new MusaicOperation(n, a, 1, complement); // T=1
   }
+
 }

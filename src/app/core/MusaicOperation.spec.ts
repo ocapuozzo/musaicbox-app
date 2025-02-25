@@ -1,7 +1,6 @@
 import {MusaicOperation} from "./MusaicOperation";
 import {IPcs} from "./IPcs";
-import {GroupAction} from "./GroupAction";
-import {Group} from "./Group";
+import {ManagerGroupActionService} from "../service/manager-group-action.service";
 
 describe('MusaicPcsOperation', () => {
 
@@ -201,7 +200,7 @@ describe('MusaicPcsOperation', () => {
   })
 
   it('getFixedPcs', () => {
-    const groupCyclic = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
+    const groupCyclic = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!
     const op = groupCyclic.operations[2]
 
     expect(op.toString()).toEqual('M1-T2')

@@ -1,6 +1,7 @@
 import {IPcs} from './IPcs'
 import {GroupAction} from "./GroupAction";
 import {Group} from "./Group";
+import {ManagerGroupActionService} from "../service/manager-group-action.service";
 
 describe('IPcs unit tests', () => {
 
@@ -296,7 +297,7 @@ describe('IPcs unit tests', () => {
   it("IPcs cyclicPrimeForm from pcs with orbit set", () => {
     let ipcsNotPF = new IPcs({strPcs: "1, 4, 7, 10"})
     expect(ipcsNotPF.isDetached()).toBeTruthy()
-    const groupAction: GroupAction = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
+    const groupAction: GroupAction = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!
     let ipcsFromGroupActionNotPF: IPcs = groupAction.getIPcsInOrbit(ipcsNotPF)
     expect(ipcsFromGroupActionNotPF.isDetached()).not.toBeTruthy()
     let ipcsPF = new IPcs({strPcs: "0, 3, 6, 9", iPivot: 0})
@@ -605,27 +606,11 @@ describe('IPcs unit tests', () => {
     }
   })
 
-  it("get complement() with, or not, this orbit", () => {
-    let cyclicGroup12 = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
-
-    let ipcsWithoutOrbit = new IPcs({strPcs: "0, 4, 8", iPivot: 0})
-    let ipcsWithOrbit: IPcs = cyclicGroup12.getIPcsInOrbit(ipcsWithoutOrbit)
-
-    expect(ipcsWithoutOrbit.isDetached()).toBeTruthy()
-    expect(ipcsWithOrbit.isDetached()).not.toBeTruthy()
-
-    expect(ipcsWithoutOrbit.complement().isDetached()).toBeTruthy()
-
-    // only ManagerPcsService manage state orbit
-    expect(ipcsWithOrbit.complement().isDetached()).toBeTruthy()
-  })
-
   it("get new Pivot", () => {
     let ipcsMaj = new IPcs({strPcs: "0, 4, 7", iPivot: 0})
     let ipcsMajPivotThird = new IPcs({strPcs: "0, 4, 7", iPivot: 4})
     expect(ipcsMaj.getWithNewPivot(4)).toEqual(ipcsMajPivotThird)
   })
-
 
   it("get new bad Pivot", () => {
     let ipcsMaj = new IPcs({strPcs: "0, 4, 7", iPivot: 0})
@@ -637,6 +622,22 @@ describe('IPcs unit tests', () => {
       // good
       expect().nothing()
     }
+  })
+
+
+  it("get complement() with, or not, this orbit", () => {
+    let cyclicGroup12 = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!
+
+    let ipcsWithoutOrbit = new IPcs({strPcs: "0, 4, 8", iPivot: 0})
+    let ipcsWithOrbit: IPcs = cyclicGroup12.getIPcsInOrbit(ipcsWithoutOrbit)
+
+    expect(ipcsWithoutOrbit.isDetached()).toBeTruthy()
+    expect(ipcsWithOrbit.isDetached()).not.toBeTruthy()
+
+    expect(ipcsWithoutOrbit.complement().isDetached()).toBeTruthy()
+
+    // only ManagerPcsService manage state orbit
+    expect(ipcsWithOrbit.complement().isDetached()).toBeTruthy()
   })
 
   it("equals with same pivot", () => {
@@ -866,7 +867,7 @@ describe('IPcs unit tests', () => {
   it("get stabilizer", () => {
     const detachedMaj7 =
       new IPcs({strPcs: '0,4,7,10'})
-    const groupMusaic = GroupAction.predefinedGroupsActions(12, Group.MUSAIC)
+    const groupMusaic = ManagerGroupActionService.getGroupActionFromGroupAliasName("Musaic")!
 
     const attachedMaj7 = groupMusaic.getIPcsInOrbit(new IPcs({strPcs: '0,4,7,10'}))
 

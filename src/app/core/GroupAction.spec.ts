@@ -5,9 +5,9 @@
 import {GroupAction} from "./GroupAction"
 import {IPcs} from "./IPcs";
 import {MusaicOperation} from "./MusaicOperation";
-import {Group} from "./Group";
+import {ManagerGroupActionService} from "../service/manager-group-action.service";
 
-describe('GroupAction', () => {
+describe('GroupAction unit tests', () => {
 
   it("Default constructor ", () => {
     let trivialGroupAction = new GroupAction()
@@ -178,133 +178,154 @@ describe('GroupAction', () => {
 
 
   it("Predefined Musaic Group Action n=12", () => {
-    let musaicGroup12
-      = new GroupAction({group: Group.predefinedGroups12[Group.MUSAIC]})
+    const musaicGroup12
+      = ManagerGroupActionService.getGroupActionFromGroupName("n=12 [M1 M5 M7 M11 CM1 CM5 CM7 CM11]")
+    expect(musaicGroup12).toBeTruthy()
+    if (musaicGroup12) {
+      expect(musaicGroup12.operations.length).toEqual(96)
+      expect(musaicGroup12.powerset.size).toEqual(Math.pow(2, 12))
+      expect(musaicGroup12.orbits.length).toEqual(88)
+      expect(musaicGroup12.orbitsSortedGroupedByMetaStabilizer.length).toEqual(13)
 
-    expect(musaicGroup12.operations.length).toEqual(96)
-    expect(musaicGroup12.powerset.size).toEqual(Math.pow(2, 12))
-    expect(musaicGroup12.orbits.length).toEqual(88)
-    expect(musaicGroup12.orbitsSortedGroupedByMetaStabilizer.length).toEqual(13)
+      // TODO to demonstrate mathematically
+      expect(musaicGroup12.orbitsSortedGroupedByStabilizer.length).toEqual(27)
 
-    // TODO to demonstrate mathematically
-    expect(musaicGroup12.orbitsSortedGroupedByStabilizer.length).toEqual(27)
+      let lastPF = new IPcs({pidVal: 1365, n: 12}) // whole tone scale
+      // test equality of PCS
+      expect(musaicGroup12.orbits[musaicGroup12.orbits.length - 1].getPcsMin().equalsPcs(lastPF)).toBeTruthy()
+      // whole tone scale : 2 in orbit
+      expect(musaicGroup12.orbits[musaicGroup12.orbits.length - 1].ipcsset.length).toEqual(2)
 
-    let lastPF = new IPcs({pidVal: 1365, n: 12}) // whole tone scale
-    // test equality of PCS
-    expect(musaicGroup12.orbits[musaicGroup12.orbits.length - 1].getPcsMin().equalsPcs(lastPF)).toBeTruthy()
-    // whole tone scale : 2 in orbit
-    expect(musaicGroup12.orbits[musaicGroup12.orbits.length - 1].ipcsset.length).toEqual(2)
-
-    expect(musaicGroup12.cardinalOfOrbitStabilized()).toEqual(88)
+      expect(musaicGroup12.cardinalOfOrbitStabilized()).toEqual(88)
+    }
   })
 
 
   it("Predefined Cyclic Group Action n=12", () => {
-    let cyclicGroup12
-      = new GroupAction({group: Group.predefinedGroups12[Group.CYCLIC]})
+    const cyclicGroup12
+      = ManagerGroupActionService.getGroupActionFromGroupName("n=12 [M1]")
+    expect(cyclicGroup12).toBeTruthy()
+    if (cyclicGroup12) {
 
-    expect(cyclicGroup12.operations.length).toEqual(12)
-    expect(cyclicGroup12.cardinal).toEqual(12)
+      expect(cyclicGroup12.operations.length).toEqual(12)
+      expect(cyclicGroup12.cardinal).toEqual(12)
 
-    expect(cyclicGroup12.powerset.size).toEqual(Math.pow(2, 12))
-    expect(cyclicGroup12.orbits.length).toEqual(352)
-    expect(cyclicGroup12.orbitsSortedGroupedByMetaStabilizer.length).toEqual(1)
+      expect(cyclicGroup12.powerset.size).toEqual(Math.pow(2, 12))
+      expect(cyclicGroup12.orbits.length).toEqual(352)
+      expect(cyclicGroup12.orbitsSortedGroupedByMetaStabilizer.length).toEqual(1)
 
-    // M1-T0 (335), M1-T0~1* (2), M1-T0~2* (1), M1-T0~3* (2), M1-T0~4* (3), M1-T0~6* (9)
-    expect(cyclicGroup12.orbitsSortedGroupedByStabilizer.length).toEqual(6)
+      // M1-T0 (335), M1-T0~1* (2), M1-T0~2* (1), M1-T0~3* (2), M1-T0~4* (3), M1-T0~6* (9)
+      expect(cyclicGroup12.orbitsSortedGroupedByStabilizer.length).toEqual(6)
+    }
   })
 
   it("Predefined Dihedral Group Action n=12", () => {
-    let dihedralGroup12
-      = new GroupAction({group: Group.predefinedGroups12[Group.DIHEDRAL]})
+    const dihedralGroup12
+      = ManagerGroupActionService.getGroupActionFromGroupName("n=12 [M1 M11]")
+    expect(dihedralGroup12).toBeTruthy()
 
-    expect(dihedralGroup12.operations.length).toEqual(24)
-    expect(dihedralGroup12.powerset.size).toEqual(Math.pow(2, 12))
-    expect(dihedralGroup12.orbits.length).toEqual(224)
-    expect(dihedralGroup12.orbitsSortedGroupedByMetaStabilizer.length).toEqual(2)
+    if (dihedralGroup12) {
+      expect(dihedralGroup12.operations.length).toEqual(24)
+      expect(dihedralGroup12.powerset.size).toEqual(Math.pow(2, 12))
+      expect(dihedralGroup12.orbits.length).toEqual(224)
+      expect(dihedralGroup12.orbitsSortedGroupedByMetaStabilizer.length).toEqual(2)
 
-    // TODO to demonstrate mathematically
-    expect(dihedralGroup12.orbitsSortedGroupedByStabilizer.length).toEqual(35)
+      // TODO to demonstrate mathematically
+      expect(dihedralGroup12.orbitsSortedGroupedByStabilizer.length).toEqual(35)
+    }
   })
 
-
   it("Predefined Affine Group Action n=12", () => {
-    let affineGroup12
-      = new GroupAction({group: Group.predefinedGroups12[Group.AFFINE]})
+    const affineGroup12
+      = ManagerGroupActionService.getGroupActionFromGroupName("n=12 [M1 M5 M7 M11]")
+    expect(affineGroup12).toBeTruthy()
 
-    expect(affineGroup12.operations.length).toEqual(48)
-    expect(affineGroup12.powerset.size).toEqual(Math.pow(2, 12))
-    expect(affineGroup12.orbits.length).toEqual(158)
-    expect(affineGroup12.orbitsSortedGroupedByMetaStabilizer.length).toEqual(5)
+    if (affineGroup12) {
+      expect(affineGroup12.operations.length).toEqual(48)
+      expect(affineGroup12.powerset.size).toEqual(Math.pow(2, 12))
+      expect(affineGroup12.orbits.length).toEqual(158)
+      expect(affineGroup12.orbitsSortedGroupedByMetaStabilizer.length).toEqual(5)
 
-    // TODO to demonstrate mathematically
-    expect(affineGroup12.orbitsSortedGroupedByStabilizer.length).toEqual(52)
+      // TODO to demonstrate mathematically
+      expect(affineGroup12.orbitsSortedGroupedByStabilizer.length).toEqual(52)
+    }
   })
 
 
   it("Predefined Group Action n=7", () => {
-    const group7Cyclic = GroupAction.predefinedGroupsActions(7, Group.CYCLIC)
+    const group7Cyclic = ManagerGroupActionService.getGroupActionFromGroupName("n=7 [M1]")
+    expect(group7Cyclic).toBeTruthy()
+    if (group7Cyclic) {
     expect(group7Cyclic.cardinal).toEqual(7)
     expect(group7Cyclic.powerset.size).toEqual(Math.pow(2, 7))
-
+}
   })
 
 
   it("getOrbitOf cyclic12", () => {
     let cyclicGroup12
-      = new GroupAction({group: Group.predefinedGroups12[Group.CYCLIC]})
+      = ManagerGroupActionService.getGroupActionFromGroupName("n=12 [M1]")
+    expect(cyclicGroup12).toBeTruthy()
+    if (cyclicGroup12) {
+      let ipcs = new IPcs({strPcs: "0, 4, 8", iPivot: 0})
+      let orbit = cyclicGroup12.getOrbitOf(ipcs)
+      expect(orbit.cardinal).toEqual(4)
 
-    let ipcs = new IPcs({strPcs: "0, 4, 8", iPivot: 0})
-    let orbit = cyclicGroup12.getOrbitOf(ipcs)
-    expect(orbit.cardinal).toEqual(4)
+      ipcs = new IPcs({strPcs: "0, 1, 6, 7", iPivot: 0})
+      orbit = cyclicGroup12.getOrbitOf(ipcs)
+      expect(orbit.cardinal).toEqual(6)
 
-    ipcs = new IPcs({strPcs: "0, 1, 6, 7", iPivot: 0})
-    orbit = cyclicGroup12.getOrbitOf(ipcs)
-    expect(orbit.cardinal).toEqual(6)
+      ipcs = new IPcs({strPcs: "0, 1, 2, 3", iPivot: 0})
+      expect(cyclicGroup12.getOrbitOf(ipcs).cardinal).toEqual(12)
 
-    ipcs = new IPcs({strPcs: "0, 1, 2, 3", iPivot: 0})
-    expect(cyclicGroup12.getOrbitOf(ipcs).cardinal).toEqual(12)
+      ipcs = new IPcs({strPcs: "0, 2, 4, 5, 7, 9, 11", iPivot: 0})
+      expect(cyclicGroup12.getOrbitOf(ipcs).cardinal).toEqual(12)
 
-    ipcs = new IPcs({strPcs: "0, 2, 4, 5, 7, 9, 11", iPivot: 0})
-    expect(cyclicGroup12.getOrbitOf(ipcs).cardinal).toEqual(12)
+      ipcs = new IPcs({strPcs: "0, 1, 3, 5, 6, 8, 10", iPivot: 0})
+      expect(cyclicGroup12.getOrbitOf(ipcs).cardinal).toEqual(12)
 
-    ipcs = new IPcs({strPcs: "0, 1, 3, 5, 6, 8, 10", iPivot: 0})
-    expect(cyclicGroup12.getOrbitOf(ipcs).cardinal).toEqual(12)
-
-    ipcs = new IPcs({strPcs: "0, 3, 6, 9", iPivot: 0})
-    orbit = cyclicGroup12.getOrbitOf(ipcs)
-    expect(orbit.cardinal).toEqual(3)
-
-  })
-
-  it("getOrbitOf with bad ", () => {
-    const cyclicGroup12 = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
-    const ipcs = new IPcs({strPcs: "0, 1, 2", n: 5})
-
-    try {
-      // pcsList.n = 5 or group is n = 12 !
-      cyclicGroup12.getOrbitOf(ipcs)
-      // waiting exception
-      fail("Impossible operation !!")
-    } catch (e: any) {
-      expect(e.message).toContain('Invalid dimension')
+      ipcs = new IPcs({strPcs: "0, 3, 6, 9", iPivot: 0})
+      orbit = cyclicGroup12.getOrbitOf(ipcs)
+      expect(orbit.cardinal).toEqual(3)
     }
   })
 
-  it("getIPcsInOrbit with bad pcsList", () => {
-    const cyclicGroup12 = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
-    let badIpcs = new IPcs({strPcs: "0, 1, 2", n: 5})
-    const ipcs = new IPcs({strPcs: "0, 6", n: 12})
+  it("getOrbitOf with bad ", () => {
+    const cyclicGroup12
+       = ManagerGroupActionService.getGroupActionFromGroupName("n=12 [M1]")
+    expect(cyclicGroup12).toBeTruthy()
+    if (cyclicGroup12) {
+      const ipcs = new IPcs({strPcs: "0, 1, 2", n: 5})
 
-    try {
-      const ipcsWithOrbit = cyclicGroup12.getIPcsInOrbit(ipcs)
-      expect(ipcsWithOrbit.orbit.cardinal).toEqual(6)
+      try {
+        // pcs.n = 5 or group is n = 12 !
+        cyclicGroup12.getOrbitOf(ipcs)
+        // waiting exception
+        fail("Impossible operation !!")
+      } catch (e: any) {
+        expect(e.message).toContain('Invalid dimension')
+      }
+    }
+  })
 
-      cyclicGroup12.getIPcsInOrbit(badIpcs)
-      // waiting exception
-      fail("Impossible operation !!")
-    } catch (e: any) {
-      expect(e.message).toContain('Invalid')
+  it("getIPcsInOrbit with bad pcs", () => {
+    const cyclicGroup12
+      = ManagerGroupActionService.getGroupActionFromGroupName("n=12 [M1]")
+    expect(cyclicGroup12).toBeTruthy()
+    if (cyclicGroup12) {
+      let badIpcs = new IPcs({strPcs: "0, 1, 2", n: 5})
+      const ipcs = new IPcs({strPcs: "0, 6", n: 12})
+
+      try {
+        const ipcsWithOrbit = cyclicGroup12.getIPcsInOrbit(ipcs)
+        expect(ipcsWithOrbit.orbit.cardinal).toEqual(6)
+
+        cyclicGroup12.getIPcsInOrbit(badIpcs)
+        // waiting exception
+        fail("Impossible operation !!")
+      } catch (e: any) {
+        expect(e.message).toContain('Invalid')
+      }
     }
   })
 
@@ -323,28 +344,22 @@ describe('GroupAction', () => {
   });
 
   it("Orbits sorted cyclic group", () => {
-
-    const cyclicGroup = GroupAction.predefinedGroupsActions(12, Group.CYCLIC);
-    expect(cyclicGroup.powerset.size).toEqual(Math.pow(2, 12))
-    expect(cyclicGroup.orbits.length).toEqual(352)
-    // only 12 stabilizer
-    expect(cyclicGroup.orbitsSortedGroupedByStabilizer.length).toEqual(6)
-
-    // M1 because MetaStabilizers does not have Tx operations, and M1 is alone
-    expect(cyclicGroup.orbitsSortedGroupedByMetaStabilizer.length).toEqual(1)
-    expect(cyclicGroup.orbitsSortedGroupedByMetaStabilizer[0].groupingCriterion).toEqual('M1')
-
-    // n+1 because detached set count for one
-    expect(cyclicGroup.orbitsSortedGroupedByCardinal.length).toEqual(cyclicGroup.n + 1)
-  });
-
-  it("get predefined action group", () => {
-    const cyclicGroup = GroupAction.predefinedGroupsActions(12, Group.CYCLIC);
+    const cyclicGroup
+      = ManagerGroupActionService.getGroupActionFromGroupName("n=12 [M1]")
     expect(cyclicGroup).toBeTruthy()
-    try {
-      const badGroup = GroupAction.predefinedGroupsActions(10, Group.CYCLIC);
-    } catch (e: any) {
-      fail("Cyclic group not construct !")
+    if (cyclicGroup) {
+
+      expect(cyclicGroup.powerset.size).toEqual(Math.pow(2, 12))
+      expect(cyclicGroup.orbits.length).toEqual(352)
+      // only 12 stabilizer
+      expect(cyclicGroup.orbitsSortedGroupedByStabilizer.length).toEqual(6)
+
+      // M1 because MetaStabilizers does not have Tx operations, and M1 is alone
+      expect(cyclicGroup.orbitsSortedGroupedByMetaStabilizer.length).toEqual(1)
+      expect(cyclicGroup.orbitsSortedGroupedByMetaStabilizer[0].groupingCriterion).toEqual('M1')
+
+      // n+1 because detached set count for one
+      expect(cyclicGroup.orbitsSortedGroupedByCardinal.length).toEqual(cyclicGroup.n + 1)
     }
   });
 

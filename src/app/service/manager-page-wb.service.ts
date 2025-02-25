@@ -1,8 +1,6 @@
 import {EventEmitter, Injectable, Output, SecurityContext} from '@angular/core';
 import {UIMusaic, UIPcsDto} from "../ui/UIPcsDto";
 import {ManagerLocalStorageService} from "./manager-local-storage.service";
-import {GroupAction} from "../core/GroupAction";
-import {Group} from "../core/Group";
 import {Point} from "../utils/Point";
 import {IPcs} from "../core/IPcs";
 import {HistoryT} from "../utils/HistoryT";
@@ -12,6 +10,7 @@ import {DomSanitizer} from "@angular/platform-browser";
 import {DialogUpdateFreeTextService} from "./dialog-update-free-text.service";
 import {IDialogDataSaveFreeText} from "../component/dialog-free-text/IDialogDataSaveFreeText";
 import {ManagerPcsService} from "./manager-pcs.service";
+import {ManagerGroupActionService} from "./manager-group-action.service";
 
 export interface FinalElementMove {
   index: number,
@@ -100,10 +99,11 @@ export class ManagerPageWBService {
   }
 
   private makeInitialPcsDtoList() {
-    let pcs1 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[58].getPcsMin()
-    let pcs2 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[61].getPcsMin().complement().modalPrimeForm()
-    let pcs3 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[55].getPcsMin().modalPrimeForm()
-    let pcs4 = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).orbits[26].getPcsMin().complement().modalPrimeForm()
+    const musaicGroup = ManagerGroupActionService.getGroupActionFromGroupAliasName("Musaic")!
+    let pcs1 = musaicGroup.orbits[58].getPcsMin()
+    let pcs2 = musaicGroup.orbits[61].getPcsMin().complement().modalPrimeForm()
+    let pcs3 = musaicGroup.orbits[55].getPcsMin().modalPrimeForm()
+    let pcs4 = musaicGroup.orbits[26].getPcsMin().complement().modalPrimeForm()
     let uiMus = new UIMusaic({rounded: true})
 
     return [
@@ -572,7 +572,7 @@ export class ManagerPageWBService {
 
   unDoPcsDtoList() {
     if (this.canUndo()) {
-      // save also actual pcsList (parameter to unDoToPresent)
+      // save also actual pcs (parameter to unDoToPresent)
       let pcsDtoList = this.history.unDoToPresent()
       if (pcsDtoList != undefined) {
         this.uiPcsDtoList = pcsDtoList

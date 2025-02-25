@@ -13,7 +13,7 @@ export class Mapping {
    *   if this.abinPcs = [1,0,0,1,0,0,0,1,0,0,1,0] // cm7 = [0,3,7,10]
    *   then this.templateMappingBinPcs will be : [0,1,2,3,4,5,6,7,8,9,10,11]
    *  </pre>
-   * @param {number[]} binPcs a array bin pcsList
+   * @param {number[]} binPcs a array bin pcs
    * @return {number[]} result.length == binPcs.length and elements of result are array index of binPcs
    */
   static mapToHimSelf = (binPcs: number[]): number[] => {

@@ -49,10 +49,10 @@ export class MusaicDrawing {
     // loop n+1 for exact correlation between geometry ops and algebra ops
     // display *iPivot centered* for bijective relation geometry <-> algebra
     // Example.
-    //   pcsList : ({0, 3, 6, 9}, iPivot=0)
-    //   pcsList : ({1, 4, 7, 10}, iPivot=1)
+    //   pcs : ({0, 3, 6, 9}, iPivot=0)
+    //   pcs : ({1, 4, 7, 10}, iPivot=1)
     // are same IS, are same Musaic representation
-    // let iPivot = this.pcsList.iPivot ?? 0
+    // let iPivot = this.pcs.iPivot ?? 0
 
 
     const pivotMapped = this.pcsDto.pcs.templateMappingBinPcs[this.pcsDto.pcs.iPivot ?? 0]

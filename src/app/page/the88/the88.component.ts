@@ -1,6 +1,4 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {GroupAction} from "../../core/GroupAction";
-import {Group} from "../../core/Group";
 import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
 import {IPcs} from "../../core/IPcs";
 import {Router} from "@angular/router";
@@ -19,6 +17,7 @@ import {ArrayUtil} from "../../utils/ArrayUtil";
 import {ISearchPcs, ManagerPageEightyHeightService} from "../../service/manager-page-eighty-height.service";
 import {MatTab, MatTabChangeEvent, MatTabGroup} from "@angular/material/tabs";
 import {Orbit} from "../../core/Orbit";
+import {ManagerGroupActionService} from "../../service/manager-group-action.service";
 
 
 export interface IOrbitMusaic {
@@ -60,7 +59,7 @@ export interface IOctotrope {
 })
 export class The88Component implements OnInit {
   @ViewChild("matTabGroup", {static: false}) matTabGroup: MatTabGroup;
-  groupMusaic = GroupAction.predefinedGroupsActions(12, Group.MUSAIC)
+  groupMusaic = ManagerGroupActionService.getGroupActionFromGroupAliasName("Musaic")!
   octotropes: IOctotrope[]
 
   musaicDrawGrid: boolean = false
@@ -103,7 +102,7 @@ export class The88Component implements OnInit {
         cardinal: orbit.cardinal
       }))
 
-    this.pcs = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).getIPcsInOrbit(this.pcs)
+    this.pcs = ManagerGroupActionService.getGroupActionFromGroupAliasName("Musaic")!.getIPcsInOrbit(this.pcs)
     // console.log("this.pcs", this.pcs.stabilizer.strMetaStabilizer.metaStabOperations)
 
     // initialize 13 octotropes data

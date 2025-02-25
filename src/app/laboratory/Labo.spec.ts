@@ -4,6 +4,7 @@ import {Group} from "../core/Group";
 import {MusaicOperation} from "../core/MusaicOperation";
 import {EightyEight} from "../utils/EightyEight";
 import {Orbit} from "../core/Orbit";
+import {ManagerGroupActionService} from "../service/manager-group-action.service";
 
 describe('Laboratory explorer', () => {
 
@@ -20,7 +21,7 @@ describe('Laboratory explorer', () => {
    * @see https://en.wikipedia.org/wiki/Group_action#Orbit-stabilizer_theorem_and_Burnside.27s_lemma
    */
   it('test_Orbit_Stabilizer_Theorem', () => {
-    const groupMusaic = GroupAction.predefinedGroupsActions(12, Group.MUSAIC)
+    const groupMusaic = ManagerGroupActionService.getGroupActionFromGroupAliasName("Musaic")!
     groupMusaic.orbits.forEach((orbit) => {
       const min: IPcs = orbit.getPcsMin()
       expect(orbit.cardinal).toEqual(groupMusaic.cardinal / min.stabilizer.cardinal)
@@ -40,7 +41,7 @@ describe('Laboratory explorer', () => {
    * @see https://en.wikipedia.org/wiki/Burnside%27s_lemma
    */
   it('test_Orbit_Counting_Theorem_Burnside', () => {
-    const groupMusaic = GroupAction.predefinedGroupsActions(12, Group.MUSAIC)
+    const groupMusaic = ManagerGroupActionService.getGroupActionFromGroupAliasName("Musaic")!
     expect(groupMusaic.operations.length).toEqual(96)
 
     const totalCardFixedPcs = groupMusaic.operations.reduce(
@@ -68,7 +69,7 @@ describe('Laboratory explorer', () => {
 
 
   it('List of scales grouped by same IV', () => {
-    const groupCyclic = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
+    const groupCyclic = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!
     expect(groupCyclic.operations.length).toEqual(12)
     expect(groupCyclic.orbits.length).toEqual(352)
 
@@ -121,7 +122,7 @@ describe('Laboratory explorer', () => {
 
 
   it('Test powerset grouped by is() Pascal Triangle', () => {
-    const groupCyclic = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
+    const groupCyclic =ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!
     const mapIs = new Map<string, IPcs[]>()
     for (const pcs of groupCyclic.powerset.values()) {
       let pcsIs = pcs.is().toString()
@@ -279,7 +280,7 @@ describe('Laboratory explorer', () => {
    * Intervallic structure major scale : 2,2,1,2,2,2,1
    */
   it("Get scales composed only by intervals 1 and 2, with no more two 1 consecutive", () => {
-    const groupCyclic = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
+    const groupCyclic = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!
     const scalesWithOnly_1_2_intervals =
       groupCyclic.orbits
         .filter(orbit => orbit.getPcsMin().is().every(bit => [1, 2].includes(bit)))

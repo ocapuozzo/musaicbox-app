@@ -2,8 +2,6 @@ import {Component} from '@angular/core';
 import {IPcs} from "../../core/IPcs";
 import {ManagerPagePcsListService} from "../../service/manager-page-pcs-list.service";
 import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
-import {GroupAction} from "../../core/GroupAction";
-import {Group} from "../../core/Group";
 import {MatButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {PcsSearch} from "../../utils/PcsSearch";
@@ -73,28 +71,28 @@ export class PcsAnalysisComponent {
 
   doPushOrbitCyclicPF(pcs: IPcs) {
     if (pcs.n == 12) {
-      const cyclicGroup = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
-      this.managerPagePcsService.replaceBy(cyclicGroup.getIPcsInOrbit(pcs))
+      const cyclicGroup = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")
+      this.managerPagePcsService.replaceBy(cyclicGroup!.getIPcsInOrbit(pcs))
     }
   }
 
   doPushOrbitDihedralPF(pcs: IPcs) {
     if (pcs.n == 12) {
-      const dGroup = GroupAction.predefinedGroupsActions(12, Group.DIHEDRAL)
-      this.managerPagePcsService.replaceBy(dGroup.getIPcsInOrbit(pcs))
+      const dGroup = ManagerGroupActionService.getGroupActionFromGroupAliasName("Dihedral")
+      this.managerPagePcsService.replaceBy(dGroup!.getIPcsInOrbit(pcs))
     }
   }
 
   doPushOrbitAffinePF(pcs: IPcs) {
     if (pcs.n == 12) {
-      const afGroup = GroupAction.predefinedGroupsActions(12, Group.AFFINE)
-      this.managerPagePcsService.replaceBy(afGroup.getIPcsInOrbit(pcs))
+      const afGroup = ManagerGroupActionService.getGroupActionFromGroupAliasName("Affine")
+      this.managerPagePcsService.replaceBy(afGroup!.getIPcsInOrbit(pcs))
     }
   }
 
   doPushOrbitMusaicPF(pcs: IPcs) {
     if (pcs.n == 12) {
-      const musGroup = GroupAction.predefinedGroupsActions(12, Group.MUSAIC)
+      const musGroup = ManagerGroupActionService.getGroupActionFromGroupAliasName("Musaic")!
       this.managerPagePcsService.replaceBy(musGroup.getIPcsInOrbit(pcs))
     }
   }

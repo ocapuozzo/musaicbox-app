@@ -1,7 +1,6 @@
 import {Forte} from "./Forte";
 import {IPcs} from "./IPcs";
-import {GroupAction} from "./GroupAction";
-import {Group} from "./Group";
+import {ManagerGroupActionService} from "../service/manager-group-action.service";
 
 /**
  * @link https://en.wikipedia.org/wiki/List_of_set_classes
@@ -29,7 +28,7 @@ describe('Forte num', () => {
   });
 
   it("all 352 PCS has Forte Number", () => {
-    const cyclicGroupPcs = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
+    const cyclicGroupPcs = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!
     const orbits352PcsRepr = cyclicGroupPcs.orbits.map(orbit => orbit.getPcsMin())
 
     orbits352PcsRepr.forEach(pcs  => {

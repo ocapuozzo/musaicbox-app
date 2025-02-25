@@ -13,7 +13,6 @@ import {Orbit} from "./Orbit";
 import {Stabilizer} from "./Stabilizer";
 import {MusaicOperation} from "./MusaicOperation";
 import {GroupAction} from "./GroupAction";
-import {Group} from "./Group";
 import {IPcs} from "./IPcs";
 import {ManagerGroupActionService} from "../service/manager-group-action.service";
 
@@ -38,7 +37,7 @@ describe('Orbit', () => {
     let orbit = new Orbit();
     expect(orbit.isDetached()).toBe(true)
 
-    let groupAction = GroupAction.predefinedGroupsActions(12, Group.DIHEDRAL)
+    let groupAction = ManagerGroupActionService.getGroupActionFromGroupAliasName("Dihedral")!
     expect(groupAction.orbits[0].isDetached()).toBe(false)
   });
 
@@ -76,7 +75,7 @@ describe('Orbit', () => {
   })
 
   it("Possible getMin() on attached orbit", () => {
-    let secondOrbit = GroupAction.predefinedGroupsActions(12, Group.DIHEDRAL).orbits[1]
+    let secondOrbit = ManagerGroupActionService.getGroupActionFromGroupAliasName("Dihedral")!.orbits[1]
     try {
       let ipcs: IPcs = secondOrbit.getPcsMin()
       expect(ipcs.getPcsStr()).toEqual('[0]')
@@ -96,7 +95,7 @@ describe('Orbit', () => {
   })
 
   it("hashCode() on attached orbit", () => {
-    let firstOrbit = GroupAction.predefinedGroupsActions(12, Group.CYCLIC).orbits[0]
+    let firstOrbit = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!.orbits[0]
     let ipcs: IPcs = firstOrbit.getPcsMin()
 
     expect(ipcs.getPcsStr()).toEqual('[]')
@@ -106,7 +105,7 @@ describe('Orbit', () => {
   })
 
   it("orbit stabilizer", () => {
-    const dihedralGroupAction = ManagerGroupActionService.getGroupActionFromGroupAliasName("Dihedral")
+    const dihedralGroupAction = ManagerGroupActionService.getGroupActionFromGroupAliasName("Dihedral")!
     let pcs = dihedralGroupAction?.getPcsWithThisPid(1755)
     expect(pcs).toBeTruthy()
   })
@@ -122,10 +121,10 @@ describe('Orbit', () => {
   })
 
   it("toString() on attached orbit", () => {
-    let firstOrbit = GroupAction.predefinedGroupsActions(12, Group.CYCLIC).orbits[0]
+    let firstOrbit = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!.orbits[0]
     // console.log(firstOrbit.toString())
     expect(firstOrbit.toString()).toContain('Orbit (1) stabilizers.length:1')
-    let secondOrbit = GroupAction.predefinedGroupsActions(12, Group.CYCLIC).orbits[1]
+    let secondOrbit = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!.orbits[1]
     // console.log(secondOrbit.toString())
     expect(secondOrbit.toString()).toContain('Orbit (12) stabilizers.length:1')
   })
@@ -136,38 +135,21 @@ describe('Orbit', () => {
   })
 
   it("partition and orbits", () => {
-    let groupAction = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
+    let groupAction = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!
 
     groupAction.orbits.forEach((orbit) => {
       expect(orbit.stabilizers.length).toEqual(1)
     })
     detectDuplicatePcs(groupAction)
 
-    groupAction = GroupAction.predefinedGroupsActions(12, Group.DIHEDRAL)
+    groupAction = ManagerGroupActionService.getGroupActionFromGroupAliasName("Dihedral")!
     detectDuplicatePcs(groupAction)
 
-    groupAction = GroupAction.predefinedGroupsActions(12, Group.MUSAIC)
+    groupAction = ManagerGroupActionService.getGroupActionFromGroupAliasName("Musaic")!
     detectDuplicatePcs(groupAction)
 
   })
 
-  it('test if orbit.name (short stabilizer name based) is ok', () => {
-     const GROUP_NAMES = [
-       {name:'Cyclic', card:6},
-       {name:'Dihedral', card:35},
-       {name:'Affine', card:52},
-       {name:'Musaic', card:27}]
-
-    GROUP_NAMES.forEach(group => {
-      const groupAction = ManagerGroupActionService.getGroupActionFromGroupAliasName(group.name)
-      if (groupAction) {
-        testOrbitNameFromShortStabilizer(groupAction, group.card)
-      } else {
-        fail(`${group.name} fail from ManagerGroupActionService`)
-      }
-    })
-
-  })
 
   /**
    * test if orbit.name (short stabilizer name based) is ok from a groupAction

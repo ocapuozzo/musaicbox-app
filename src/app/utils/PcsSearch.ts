@@ -1,6 +1,5 @@
 import {IPcs} from "../core/IPcs";
-import {GroupAction} from "../core/GroupAction";
-import {Group} from "../core/Group";
+import {ManagerGroupActionService} from "../service/manager-group-action.service";
 
 export class PcsSearch {
 
@@ -11,7 +10,7 @@ export class PcsSearch {
    */
   static searchPcsWithThisIV(searchIV:string): IPcs[] {
     const pcsWithSameIV: IPcs[] = []
-    const cyclicGroup = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
+    const cyclicGroup = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!
     for (const orbit of cyclicGroup.orbits) {
       const pcsPF = orbit.getPcsMin()
       if (pcsPF.iv().toString() === searchIV) {
@@ -29,7 +28,7 @@ export class PcsSearch {
    * @return IPcs or undefined
    */
   static searchPcsWithThisIS(searchIS : string) : IPcs  | undefined{
-    const groupCyclic = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
+    const groupCyclic = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!
     return groupCyclic.getPcsWithThisIS(searchIS)
   }
 
@@ -40,7 +39,7 @@ export class PcsSearch {
    * @return IPcs or undefined
    */
   static searchPcsWithThisPid(pid: number) {
-    const groupCyclic = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
+    const groupCyclic = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!
     return groupCyclic.getPcsWithThisPid(pid)
   }
 }

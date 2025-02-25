@@ -10,8 +10,7 @@
 
 import {MetaStabilizer} from "./MetaStabilizer";
 import {IPcs} from "./IPcs";
-import {GroupAction} from "./GroupAction";
-import {Group} from "./Group";
+import {ManagerGroupActionService} from "../service/manager-group-action.service";
 
 describe('MetaStabilizer', () => {
   it("MetaStabilizer Constructor", () => {
@@ -99,7 +98,7 @@ describe('MetaStabilizer', () => {
 
   it("MetaStabilizer of pcs", () => {
     const pcsSource = new IPcs({strPcs:"[0,1,3,5,8,10]"})
-    const pcs = GroupAction.predefinedGroupsActions(12, Group.MUSAIC).getIPcsInOrbit(pcsSource)
+    const pcs = ManagerGroupActionService.getGroupActionFromGroupAliasName("Musaic")!.getIPcsInOrbit(pcsSource)
     let metaStabWaiting = new MetaStabilizer("M1,M11,CM1,CM11");
 
     expect(metaStabWaiting.toString()).toEqual(pcs!.stabilizer!.metaStabilizer!.toString())

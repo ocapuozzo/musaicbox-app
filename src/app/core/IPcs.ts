@@ -844,10 +844,11 @@ export class IPcs {
    * @return {number}
    */
   cardOrbitCyclic(): number {
-    if (this.orbit?.groupAction == GroupAction.predefinedGroupsActions(this.n, Group.CYCLIC))
+    if (this.orbit?.groupAction === ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!)
       return this.orbit.cardinal
 
-    let ipcsInCyclicGroup: IPcs = GroupAction.predefinedGroupsActions(this.n, Group.CYCLIC).getIPcsInOrbit(this)
+    let ipcsInCyclicGroup: IPcs =
+      ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!.getIPcsInOrbit(this)
 
     // @ts-ignore we are sure that orbit is defined in this context (primeForme)
     return ipcsInCyclicGroup.orbit.cardinal
@@ -1398,7 +1399,7 @@ export class IPcs {
    * Get array of pcs having same intervals type of this
    */
   getPcsSameFeatureIS() {
-    const groupCyclic = GroupAction.predefinedGroupsActions(this.n, Group.CYCLIC)
+    const groupCyclic = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!
     let pcsSameFeatureIS: IPcs[] = []
     const featureIS = this.getFeatureIS()
     groupCyclic.orbits.forEach(orbit => {

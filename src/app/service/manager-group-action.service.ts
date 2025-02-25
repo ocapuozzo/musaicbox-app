@@ -1,6 +1,9 @@
 import {GroupAction} from "../core/GroupAction";
 import {MusaicOperation} from "../core/MusaicOperation";
 
+export const GROUP_NAMES = ['Trivial', 'Cyclic', 'Dihedral', 'Affine', 'Musaic'] as const;
+export type TGroupeName = typeof GROUP_NAMES[number];
+
 /**
  * with n = 12, there are 17 (16+1) possibles groups
  * (see Labo.spec.ts - 'Explore all sub-group of musaic group - up to transposition')
@@ -90,7 +93,7 @@ export class ManagerGroupActionService {
   }
 
   /**
-   * Get GroupAction instance from a groupName (as Group.name)
+   * Get GroupAction instance from a groupName (as Group.name) i.e. "n=12 [M1]"
    * if GroupAction instance exists into ManagerGroupActionService.GROUP_ACTION_INSTANCES, then return it
    * else create new instance and put it into ManagerGroupActionService.GROUP_ACTION_INSTANCES
    * @param groupName
@@ -98,13 +101,14 @@ export class ManagerGroupActionService {
   static getGroupActionFromGroupName(groupName: string): GroupAction | undefined {
     if (!ManagerGroupActionService.GROUP_ACTION_INSTANCES.has(groupName)) {
       // in static context, 'this' refer to class, not instance
-      const groupAction: GroupAction = this.buildGroupActionFromGroupName(groupName)
+      const newGroupName = '' + groupName
+      const groupAction: GroupAction = this.buildGroupActionFromGroupName(newGroupName)
       ManagerGroupActionService.GROUP_ACTION_INSTANCES.set(groupName, groupAction)
     }
     return ManagerGroupActionService.GROUP_ACTION_INSTANCES.get(groupName)
   }
 
-  static getGroupActionFromGroupAliasName(aliasName: string) {
+  static getGroupActionFromGroupAliasName(aliasName: TGroupeName) {
     const groupNameTuple = this.findGroupName(aliasName)
     if (groupNameTuple) {
       return this.getGroupActionFromGroupName(groupNameTuple.groupName)

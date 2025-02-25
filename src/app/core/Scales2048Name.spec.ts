@@ -3,9 +3,8 @@ import scales2048 from '../data/2048scales.json';
 import {IPcs} from "./IPcs";
 // import {INameDefLink, IScaleName, IScaleNameNew} from "./IScaleName";
 import {EightyEight} from "../utils/EightyEight";
-import {GroupAction} from "./GroupAction";
-import {Group} from "./Group";
 import {IScaleName} from "./IScaleName";
+import {ManagerGroupActionService} from "../service/manager-group-action.service";
 // import {Ianring} from "../data/ianringScaleNames";
 
 describe('test getFirstScaleName from 2048pcs.json', () => {
@@ -18,7 +17,7 @@ describe('test getFirstScaleName from 2048pcs.json', () => {
 
 
   it('Skeleton for initiate list of 2048 modes/scales ', () => {
-    const groupCyclic = GroupAction.predefinedGroupsActions(12, Group.CYCLIC)
+    const groupCyclic = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!
     let nbModes = 0
     for (const orbit of groupCyclic.orbits) {
       nbModes += orbit.getPcsMin().cardOrbitMode()
@@ -37,7 +36,7 @@ describe('test getFirstScaleName from 2048pcs.json', () => {
         }
     }
 
-    expect(isDict.size).toEqual(2048) // +1 for empty pcsList
+    expect(isDict.size).toEqual(2048) // +1 for empty pcs
 
     // from 4096 no cyclic equiv : 24318 (some says 24576 but is not because Limited Transposition)
     // expect(allDict.size).toEqual(24318)

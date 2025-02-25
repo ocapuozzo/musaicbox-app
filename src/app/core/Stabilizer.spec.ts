@@ -11,7 +11,7 @@
 import {MusaicOperation} from "./MusaicOperation";
 import {Stabilizer} from "./Stabilizer";
 import {GroupAction} from "./GroupAction";
-import {Group} from "./Group";
+import {ManagerGroupActionService} from "../service/manager-group-action.service";
 
 describe('Stabilizer', () => {
   it("Stabilizer addOperation and compare", () => {
@@ -245,12 +245,12 @@ describe('Stabilizer', () => {
 
     shortNames = []
     group.orbitsSortedGroupedByStabilizer.forEach(stab => shortNames.push(stab.groupingCriterion))
-    // neutral op and detached and full IPcs (2 pcsList) transposables 7 times in same state by step 1
+    // neutral op and detached and full IPcs (2 pcs) transposables 7 times in same state by step 1
     expect(shortNames).toEqual(["M1-T0~1*", "M1-T0"])
   })
 
   it("toString", () => {
-    const group = GroupAction.predefinedGroupsActions(12, Group.MUSAIC)
+    const group = ManagerGroupActionService.getGroupActionFromGroupAliasName("Musaic")!
     const stabStr = group.orbitsSortedGroupedByStabilizer[0].orbits[0].stabilizers[0].toString()
     expect(stabStr).toContain('Stab: M1-T0,M1-T1,M1-T2,M1-T3,M1-T4,M1-T5,M1-T6,M1-T7,M1-T8,M1-T9,M1-T10,M1-T11,M5-T0,M5-T1,M5-T2,M5-T3,M5-T4,M5-T5,M5-T6,M5-T7,M5-T8,M5-T9,M5-T10,M5-T11,M7-T0,M7-T1,M7-T2,M7-T3,M7-T4,M7-T5,M7-T6,M7-T7,M7-T8,M7-T9,M7-T10,M7-T11,M11-T0,M11-T1,M11-T2,M11-T3,M11-T4,M11-T5,M11-T6,M11-T7,M11-T8,M11-T9,M11-T10,M11-T11 #FixedPcs: 2')
   })
