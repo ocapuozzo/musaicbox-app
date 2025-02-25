@@ -44,9 +44,6 @@ export class GroupAction {
   private _orbitsSortedGroupedByMetaStabilizer ?: ISortedOrbits[];
   private _orbitsSortedGroupedByCardinal ?: ISortedOrbits[];
 
- // private static _predefinedGroupsActions: Map<number, GroupAction[]>
-  // private static GENERATED_GROUPS: Map<string, GroupAction>;
-
   constructor(
     {n, someMusaicOperations, group}:
       { n?: number, someMusaicOperations?: MusaicOperation[], group?: Group } = {}) {
