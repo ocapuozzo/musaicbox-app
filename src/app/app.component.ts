@@ -126,7 +126,7 @@ export class AppComponent {
         } else {
           // search pcs
           try {
-            pcsString = PcsUtils.pcsStringToStringSpaced(pcsString)
+            // pcsString = PcsUtils.pcsStringToStringSpaced(pcsString)
             let pcs = new IPcs({strPcs: pcsString})
             //console.log(" pcs = ", pcs)
             if (pcs.cardinal > 0) {
