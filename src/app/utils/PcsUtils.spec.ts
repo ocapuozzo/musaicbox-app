@@ -79,26 +79,30 @@ describe('PcsUtils test', () => {
     expect(PcsUtils.pcsStringToStringPreFormated(string1)).toEqual("0 3 6 9")
     expect(PcsUtils.pcsStringToStringPreFormated(string2)).toEqual("11 10")
     expect(PcsUtils.pcsStringToStringPreFormated(string3)).toEqual("10 11 0")
-    expect(PcsUtils.pcsStringToStringPreFormated(string3, ',')).toEqual("10,11,0")
+    expect(PcsUtils.pcsStringToStringPreFormated(string3, {separator:','})).toEqual("10,11,0")
     expect(PcsUtils.pcsStringToStringPreFormated(string4)).toEqual(string4)
     expect(PcsUtils.pcsStringToStringPreFormated("047")).toEqual("0 4 7")
     expect(PcsUtils.pcsStringToStringPreFormated("101")).toEqual("10 1")
-    expect(PcsUtils.pcsStringToStringPreFormated("101", ',')).toEqual("10,1")
-    expect(PcsUtils.pcsStringToStringPreFormated("0 4 7", ',')).toEqual("0,4,7") // no change
+    expect(PcsUtils.pcsStringToStringPreFormated("101", {separator:','})).toEqual("10,1")
+    expect(PcsUtils.pcsStringToStringPreFormated("0 4 7", {separator:','})).toEqual("0,4,7") // no change
     expect(PcsUtils.pcsStringToStringPreFormated("0 4 7")).toEqual("0 4 7") // no change
     expect(PcsUtils.pcsStringToStringPreFormated("0 4 7A")).toEqual("0 4 7 10") // A => 10
 
-    expect(PcsUtils.pcsStringToStringPreFormated("047", ',')).toEqual("0,4,7")
+    expect(PcsUtils.pcsStringToStringPreFormated("047", {separator:','})).toEqual("0,4,7")
 
     expect(PcsUtils.pcsStringToStringPreFormated("123")).toEqual("1 2 3")
     expect(PcsUtils.pcsStringToStringPreFormated("1234")).toEqual("1 2 3 4")
 
-    expect(PcsUtils.pcsStringToStringPreFormated("11112")).toEqual("11 2")
+    expect(PcsUtils.pcsStringToStringPreFormated("11112")).toEqual("11 11 2")
+    expect(PcsUtils.pcsStringToStringPreFormated("11112", {duplicationValues:false})).toEqual("11 2")
     expect(PcsUtils.pcsStringToStringPreFormated("1AB")).toEqual("1 10 11")
-    expect(PcsUtils.pcsStringToStringPreFormated("047AB311")).toEqual("0 4 7 10 11 3")
-    expect(PcsUtils.pcsStringToStringPreFormated("04 7A B,311")).toEqual("0 4 7 10 11 3")
-    expect(PcsUtils.pcsStringToStringPreFormated("12d - 6610B")).toEqual("1 2 6 10 11")
-    expect(PcsUtils.pcsStringToStringPreFormated("12d - 6610B11", ',')).toEqual("1,2,6,10,11")
+    expect(PcsUtils.pcsStringToStringPreFormated("047AB311",{duplicationValues:false})).toEqual("0 4 7 10 11 3")
+    expect(PcsUtils.pcsStringToStringPreFormated("04 7A B,311", {duplicationValues: false})).toEqual("0 4 7 10 11 3")
+    expect(PcsUtils.pcsStringToStringPreFormated("12d - 6610B", {duplicationValues: false})).toEqual("1 2 6 10 11")
+    expect(PcsUtils.pcsStringToStringPreFormated("12d - 6610B11", {separator:',', duplicationValues: false})).toEqual("1,2,6,10,11")
+    expect(PcsUtils.pcsStringToStringPreFormated("12d - 6610B11", {separator:',', duplicationValues: false})).toEqual("1,2,6,10,11")
+
+    expect(PcsUtils.pcsStringToStringPreFormated("3333", {separator:',', duplicationValues:true})).toEqual("3,3,3,3")
 
   })
 

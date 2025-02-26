@@ -106,32 +106,32 @@ export class AppComponent {
     // console.log('pscStr = ', this.checkoutForm.value.pcsStr?.trim());
     if (this.checkoutForm.value.pcsStr) {
 
-      let pcsString = this.checkoutForm.value.pcsStr.trim() ?? ''
+      let inputString = this.checkoutForm.value.pcsStr.trim() ?? ''
       // accept separators : comma space underscore
 
-      pcsString = pcsString.replace(/\s\s+/g, ',')
+      inputString = inputString.replace(/\s\s+/g, ',')
       // replace sep _ or space by comma
-      pcsString = pcsString.replace(/[ _]/g, ",").trim();
+      inputString = inputString.replace(/[ _]/g, ",").trim();
       // replace double comma by single comma
-      pcsString = pcsString.replace(/,,/g, ",").trim();
+      inputString = inputString.replace(/,,/g, ",").trim();
 
-      if (pcsString) {
-        if (pcsString.startsWith('iv:')) {
-          this.searchPcsWithThisIV(PcsUtils.pcsStringToStringPreFormated(pcsString.substring(3), ','), pcsString)
+      if (inputString) {
+        if (inputString.startsWith('iv:')) {
+          this.searchPcsWithThisIV(PcsUtils.pcsStringToStringPreFormated(inputString.substring(3), {separator:','}), inputString)
           // this.searchPcsWithThisIV(pcsString.substring(3), pcsString)
-        } else if (pcsString.startsWith('is:')) {
-          this.searchPcsWithThisIS(PcsUtils.pcsStringToStringPreFormated(pcsString.substring(3), ','), pcsString)
-        } else if (pcsString.startsWith('pid:')) {
-          this.searchPcsWithThisPid(pcsString.substring(4), pcsString)
+        } else if (inputString.startsWith('is:')) {
+          this.searchPcsWithThisIS(PcsUtils.pcsStringToStringPreFormated(inputString.substring(3), {separator:','}), inputString)
+        } else if (inputString.startsWith('pid:')) {
+          this.searchPcsWithThisPid(inputString.substring(4), inputString)
         } else {
           // search pcs
           try {
-            pcsString = PcsUtils.pcsStringToStringPreFormated(pcsString)
-            let pcs = new IPcs({strPcs: pcsString})
+            inputString = PcsUtils.pcsStringToStringPreFormated(inputString, {duplicationValues : false})
+            let pcs = new IPcs({strPcs: inputString})
             //console.log(" pcs = ", pcs)
             if (pcs.cardinal > 0) {
               // this.checkoutForm.reset();
-              this.gotoCurrentPage(pcs, pcsString)
+              this.gotoCurrentPage(pcs, inputString)
             }
           } catch (e: any) {
           }

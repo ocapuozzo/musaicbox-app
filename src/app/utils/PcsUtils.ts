@@ -149,12 +149,14 @@ export class PcsUtils {
    * Main difficulty if for 2 digits pitch class... (10 or 11)
    *
    * @param strPcs
-   * @param separator default space
+   * @param config  {separator ?: string, duplicationValues ?: boolean }
    * @return string with values are "numeric string", without duplicate values
    */
-  static pcsStringToStringPreFormated(strPcs: string, separator: string = ' ') {
+  static pcsStringToStringPreFormated(strPcs: string, config : {separator ?: string, duplicationValues ?: boolean }={}) {
     // delete spaces and commas
     strPcs = strPcs.split(/[ ,]+/).join('');
+    let separator = config.separator ?? ' '
+    let withDuplicationValues = config.duplicationValues ?? true
 
     let resultPcs = ''
     let ignoreCar = false
@@ -217,7 +219,7 @@ export class PcsUtils {
 
     let res = ignoreCar ? `${resultPcs}${separator}1` : resultPcs
 
-    if (res.length > 0) {
+    if (res.length > 0 && !withDuplicationValues) {
       // // delete duplicate values
       const tempArr = res.split(separator)
       res = tempArr.filter((item, pos, self) => {
