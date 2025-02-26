@@ -49,13 +49,13 @@
     </div>
   }
   <div class="toolBarMainHoriz">
-    <a mat-button (click)="goToLink('/Musaicbox.html')">About</a>
-
-<!--    @if (shiftKey) {-->
-<!--      <a mat-button href="/Musaicbox.html" target="_blank">About</a>-->
-<!--    } @else {-->
-<!--      <button mat-button color="primary">About</button>-->
-<!--    }-->
+<!--    <a mat-button (click)="goToLink('/Musaicbox.html')">About</a>-->
+<!-- while waiting for end of the analysis and documentation  -->
+    @if (shiftKey) {
+      <a mat-button href="/Musaicbox.html" target="_blank">About</a>
+    } @else {
+      <button mat-button color="primary">About</button>
+    }
   </div>
   <span class="example-spacer"></span>
 
@@ -63,10 +63,10 @@
     <i class="bi bi-search">
     </i>
 
-    <input class="vertical-align" style="margin-left: 4px" type="search" list="template-options"
+    <input [ngClass]="{'vertical-align':true, 'error-input': !matchInput, 'no-error-input':matchInput }" type="search" list="template-options"
            formControlName="pcsStr" placeholder="Search PCS ex: 0,4,7"
            aria-label="Search"
-           matTooltip="Search examples:&#13;&#10;04710 or 047A&#13;&#10;[0 4 7 A]&#13;&#10;iv:233241&#13;&#10;is:3333&#13;&#10;pid:585"
+           matTooltip="Search examples:&#13;&#10;04710 or 047A&#13;&#10;[0 4 7 A]&#13;&#10;iv:233241&#13;&#10;is:3 3 3 3&#13;&#10;pid:585"
            matTooltipClass="line-broken-tooltip">
     <datalist id="template-options">
       <option value=" "></option>

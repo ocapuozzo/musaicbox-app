@@ -17,7 +17,7 @@ import {MatTooltip} from "@angular/material/tooltip";
 import {PcsSearch} from "./utils/PcsSearch";
 import {ManagerPageWBService} from "./service/manager-page-wb.service";
 import {ManagerPageEightyHeightService} from "./service/manager-page-eighty-height.service";
-import {NgOptimizedImage} from "@angular/common";
+import {NgClass, NgOptimizedImage} from "@angular/common";
 import {PcsUtils} from "./utils/PcsUtils";
 
 
@@ -26,7 +26,7 @@ import {PcsUtils} from "./utils/PcsUtils";
   standalone: true,
   imports: [RouterOutlet, RouterLink, RouterLinkActive,
     MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, FontAwesomeModule,
-    FormsModule, ReactiveFormsModule, MatTooltip, NgOptimizedImage
+    FormsModule, ReactiveFormsModule, MatTooltip, NgOptimizedImage, NgClass
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './app.component.html',
@@ -51,6 +51,7 @@ export class AppComponent {
     pcsStr: ''
   });
 
+  matchInput: boolean = true;
 
   constructor(private formBuilder: FormBuilder,
               private readonly managerPagePcsService: ManagerPagePcsService,
@@ -117,12 +118,13 @@ export class AppComponent {
 
       if (inputString) {
         if (inputString.startsWith('iv:')) {
-          this.searchPcsWithThisIV(PcsUtils.pcsStringToStringPreFormated(inputString.substring(3), {separator:','}), inputString)
+          this.matchInput = this.searchPcsWithThisIV(PcsUtils.pcsStringToStringPreFormated(inputString.substring(3), {separator:','}), inputString)
           // this.searchPcsWithThisIV(pcsString.substring(3), pcsString)
         } else if (inputString.startsWith('is:')) {
-          this.searchPcsWithThisIS(PcsUtils.pcsStringToStringPreFormated(inputString.substring(3), {separator:','}), inputString)
+          // this.matchInput = this.searchPcsWithThisIS(PcsUtils.pcsStringToStringPreFormated(inputString.substring(3), {separator:','}), inputString)
+          this.matchInput = this.searchPcsWithThisIS(inputString.substring(3), inputString)
         } else if (inputString.startsWith('pid:')) {
-          this.searchPcsWithThisPid(inputString.substring(4), inputString)
+          this.matchInput = this.searchPcsWithThisPid(inputString.substring(4), inputString)
         } else {
           // search pcs
           try {
@@ -131,7 +133,8 @@ export class AppComponent {
             //console.log(" pcs = ", pcs)
             if (pcs.cardinal > 0) {
               // this.checkoutForm.reset();
-              this.gotoCurrentPage(pcs, inputString)
+              this.matchInput = true
+                this.gotoCurrentPage(pcs, inputString)
             }
           } catch (e: any) {
           }
@@ -148,10 +151,12 @@ export class AppComponent {
    * @param inputSearch original user input search
    * @private
    */
-  private searchPcsWithThisIV(searchIV: string, inputSearch : string) {
+  private searchPcsWithThisIV(searchIV: string, inputSearch : string): boolean {
     const pcsWithSameIV: IPcs[] = PcsSearch.searchPcsWithThisIV(searchIV)
     // console.log("pcsWithSameIV : " + pcsWithSameIV)
+    let matchInput = false
     if (pcsWithSameIV.length > 0) {
+      matchInput = true
       switch (this.router.url) {
         case '/w-board' :
           this.managerPageWBService.addPcs({somePcs: pcsWithSameIV})
@@ -170,6 +175,7 @@ export class AppComponent {
           this.router.navigateByUrl('/pcs');
       }
     }
+    return matchInput
   }
 
   /**
@@ -180,21 +186,27 @@ export class AppComponent {
    * @param searchInput original user input search
    * @private
    */
-  private searchPcsWithThisIS(searchIS: string, searchInput : string) {
+  private searchPcsWithThisIS(searchIS: string, searchInput : string) : boolean {
     const pcs = PcsSearch.searchPcsWithThisIS(searchIS)
+    let matchInput = false
     if (pcs) {
+      matchInput = true
       this.gotoCurrentPage(pcs, searchInput)
     }
+    return matchInput
   }
 
-  private searchPcsWithThisPid(pid: string, searchInput : string) {
+  private searchPcsWithThisPid(pid: string, searchInput : string) : boolean {
     const integerPid = parseInt(pid)
+    let matchInput = false
     if (!isNaN(integerPid)) {
       const pcs = PcsSearch.searchPcsWithThisPid(integerPid)
       if (pcs) {
+        matchInput = true
         this.gotoCurrentPage(pcs, searchInput)
       }
     }
+    return matchInput
   }
 
   private gotoCurrentPage(pcs: IPcs, searchInput : string) {
