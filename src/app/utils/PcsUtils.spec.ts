@@ -71,21 +71,34 @@ describe('PcsUtils test', () => {
     expect(array).toEqual(["M1", "M5", "M11",  "CM7",  "CM11"])
   })
 
-  it('pcsStringToStringSpaced unit tests', () => {
+  it('pcsStringToStringPreFormated unit tests', () => {
     const string1 =  "0369"  //=> "0 3 6 9"
     const string2 = "1110" //  => "11 10"
     const string3 = "10110" // => "10 11 0",
-    const string4 = "0 4 8" // => "10 11 0",
-    expect(PcsUtils.pcsStringToStringSpaced(string1)).toEqual("0 3 6 9")
-    expect(PcsUtils.pcsStringToStringSpaced(string2)).toEqual("11 10")
-    expect(PcsUtils.pcsStringToStringSpaced(string3)).toEqual("10 11 0")
-    expect(PcsUtils.pcsStringToStringSpaced(string3, ',')).toEqual("10,11,0")
-    expect(PcsUtils.pcsStringToStringSpaced(string4)).toEqual(string4)
-    expect(PcsUtils.pcsStringToStringSpaced("047")).toEqual("0 4 7")
-    expect(PcsUtils.pcsStringToStringSpaced("101")).toEqual("10 1")
-    expect(PcsUtils.pcsStringToStringSpaced("101", ',')).toEqual("10,1")
-    expect(PcsUtils.pcsStringToStringSpaced("0 4 7", ',')).toEqual("0 4 7") // no change
-    expect(PcsUtils.pcsStringToStringSpaced("047", ',')).toEqual("0,4,7")
+    const string4 = "0 4 8" // => "0 4 8",
+    expect(PcsUtils.pcsStringToStringPreFormated(string1)).toEqual("0 3 6 9")
+    expect(PcsUtils.pcsStringToStringPreFormated(string2)).toEqual("11 10")
+    expect(PcsUtils.pcsStringToStringPreFormated(string3)).toEqual("10 11 0")
+    expect(PcsUtils.pcsStringToStringPreFormated(string3, ',')).toEqual("10,11,0")
+    expect(PcsUtils.pcsStringToStringPreFormated(string4)).toEqual(string4)
+    expect(PcsUtils.pcsStringToStringPreFormated("047")).toEqual("0 4 7")
+    expect(PcsUtils.pcsStringToStringPreFormated("101")).toEqual("10 1")
+    expect(PcsUtils.pcsStringToStringPreFormated("101", ',')).toEqual("10,1")
+    expect(PcsUtils.pcsStringToStringPreFormated("0 4 7", ',')).toEqual("0,4,7") // no change
+    expect(PcsUtils.pcsStringToStringPreFormated("0 4 7")).toEqual("0 4 7") // no change
+    expect(PcsUtils.pcsStringToStringPreFormated("0 4 7A")).toEqual("0 4 7 10") // A => 10
+
+    expect(PcsUtils.pcsStringToStringPreFormated("047", ',')).toEqual("0,4,7")
+
+    expect(PcsUtils.pcsStringToStringPreFormated("123")).toEqual("1 2 3")
+    expect(PcsUtils.pcsStringToStringPreFormated("1234")).toEqual("1 2 3 4")
+
+    expect(PcsUtils.pcsStringToStringPreFormated("11112")).toEqual("11 2")
+    expect(PcsUtils.pcsStringToStringPreFormated("1AB")).toEqual("1 10 11")
+    expect(PcsUtils.pcsStringToStringPreFormated("047AB311")).toEqual("0 4 7 10 11 3")
+    expect(PcsUtils.pcsStringToStringPreFormated("04 7A B,311")).toEqual("0 4 7 10 11 3")
+    expect(PcsUtils.pcsStringToStringPreFormated("12d - 6610B")).toEqual("1 2 6 10 11")
+    expect(PcsUtils.pcsStringToStringPreFormated("12d - 6610B11", ',')).toEqual("1,2,6,10,11")
 
   })
 

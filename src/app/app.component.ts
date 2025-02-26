@@ -117,16 +117,16 @@ export class AppComponent {
 
       if (pcsString) {
         if (pcsString.startsWith('iv:')) {
-          this.searchPcsWithThisIV(PcsUtils.pcsStringToStringSpaced(pcsString.substring(3), ','), pcsString)
+          this.searchPcsWithThisIV(PcsUtils.pcsStringToStringPreFormated(pcsString.substring(3), ','), pcsString)
           // this.searchPcsWithThisIV(pcsString.substring(3), pcsString)
         } else if (pcsString.startsWith('is:')) {
-          this.searchPcsWithThisIS(PcsUtils.pcsStringToStringSpaced(pcsString.substring(3), ','), pcsString)
+          this.searchPcsWithThisIS(PcsUtils.pcsStringToStringPreFormated(pcsString.substring(3), ','), pcsString)
         } else if (pcsString.startsWith('pid:')) {
           this.searchPcsWithThisPid(pcsString.substring(4), pcsString)
         } else {
           // search pcs
           try {
-            // pcsString = PcsUtils.pcsStringToStringSpaced(pcsString)
+            pcsString = PcsUtils.pcsStringToStringPreFormated(pcsString)
             let pcs = new IPcs({strPcs: pcsString})
             //console.log(" pcs = ", pcs)
             if (pcs.cardinal > 0) {

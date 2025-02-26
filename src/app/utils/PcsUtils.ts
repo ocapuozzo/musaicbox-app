@@ -136,7 +136,7 @@ export class PcsUtils {
   }
 
   /**
-   * When strpcs has no space, add spaces between pitch classes
+   * Filter pitch classes and has separator between pitch classes and convert A B in 10 11
    * pre-process string :
    * - "0369" => "0 3 6 9"
    * - "1110" => "11 10"
@@ -144,41 +144,86 @@ export class PcsUtils {
    * - "101" => "10 1"
    * - "0 4 7" => "0 4 7"
    * - "101" & ',' => "10,1"
+   * - 12d - 6610B11", ',' => "1,2,6,10,11"
    * ...
    * Main difficulty if for 2 digits pitch class... (10 or 11)
+   *
    * @param strPcs
    * @param separator default space
+   * @return string with values are "numeric string", without duplicate values
    */
-  static pcsStringToStringSpaced(strPcs: string, separator: string = ' ') {
-    strPcs = strPcs.trim()
-    if (strPcs.indexOf(separator) === -1) {
-      let resultPcs = ''
-      let ignoreCar = false
-      for (let i = 0; i < strPcs.length; i++) {
-        if (strPcs.at(i) === "1") {
-          if (ignoreCar) {
-            // already 1
-            resultPcs = resultPcs ? `${resultPcs}${separator}11` : '11'
-            ignoreCar = false
+  static pcsStringToStringPreFormated(strPcs: string, separator: string = ' ') {
+    // delete spaces and commas
+    strPcs = strPcs.split(/[ ,]+/).join('');
+
+    let resultPcs = ''
+    let ignoreCar = false
+    for (let i = 0; i < strPcs.length; i++) {
+      if (strPcs.at(i) === "1") {
+        if (ignoreCar) {
+          // already 1
+          resultPcs = resultPcs ? `${resultPcs}${separator}11` : '11'
+          ignoreCar = false
+        } else {
+          // pass (do not consume "1")
+          ignoreCar = true
+        }
+      } else {
+        if (ignoreCar) {
+          let car = strPcs.at(i)!
+          if ("AB".includes(strPcs.at(i)!.toUpperCase())) {
+            switch (strPcs.at(i)!.toUpperCase()) {
+              case "A" :
+                car = "10"
+                break
+              default :
+                car = "11"
+            }
+          }
+          // "1" waiting to be consumed
+          if (isNaN(Number(car))) {
+            // pass
           } else {
-            // pass (do not consume "1")
-            ignoreCar = true
+            switch (car) {
+              case "0":
+              case "1":
+                resultPcs = resultPcs ? `${resultPcs}${separator}1${car}` : `1${car}`
+                break
+              default:
+                resultPcs = resultPcs ? `${resultPcs}${separator}1${separator}${car}` : `1${separator}${car}`
+            }
+            ignoreCar = false // we have consumed 1
           }
         } else {
-          if (ignoreCar) {
-            // "1" waiting to be consumed
-            resultPcs = resultPcs ? `${resultPcs}${separator}1${strPcs.at(i)}` : `1${strPcs.at(i)}`
-            ignoreCar = false // we have consumed 1
+          // default
+          let car = strPcs.at(i)!.toUpperCase()
+          if ("AB".includes(strPcs.at(i)!.toUpperCase())) {
+            switch (strPcs.at(i)!.toUpperCase()) {
+              case "A" :
+                car = "10"
+                break
+              default :
+                car = "11"
+            }
+          }
+          if (isNaN(Number(car))) {
+            // pass
           } else {
-            // default
-            resultPcs = resultPcs ? `${resultPcs}${separator}${strPcs.at(i)}` : `${strPcs.at(i)}`
+            resultPcs = resultPcs ? `${resultPcs}${separator}${car}` : `${car}`
           }
         }
       }
-      return ignoreCar ? `${resultPcs}${separator}1` : resultPcs
     }
-    // no change
-    return strPcs
+
+    let res = ignoreCar ? `${resultPcs}${separator}1` : resultPcs
+
+    if (res.length > 0) {
+      // // delete duplicate values
+      const tempArr = res.split(separator)
+      res = tempArr.filter((item, pos, self) => {
+        return self.indexOf(item) === pos }).join(separator)
+    }
+    return res
   }
 
 }

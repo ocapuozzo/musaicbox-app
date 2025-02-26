@@ -288,8 +288,8 @@ export class IPcs {
     }
     if (strpcs) {
       // pre-process string : "0369" => "0 3 6 9", "1110" => "11 10", "10110" => "10 11 0", ...
-      strpcs = PcsUtils.pcsStringToStringSpaced(strpcs)
-      // accept "0,4,7" or "0 4 7" or "0 4, 7"...
+      strpcs = PcsUtils.pcsStringToStringPreFormated(strpcs)
+      // accept "047", "0,4,7" or "0 4 7" or "0 4, 7"... "0AB" ...
       let pitches = strpcs.split(/[ ,]+/);
       for (let i = 0; i < pitches.length; i++) {
         if (!pitches[i] || isNaN(Number(pitches[i])) || Number(pitches[i]) < 0 || Number(pitches[i]) > 12) {
