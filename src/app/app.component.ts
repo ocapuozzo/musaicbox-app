@@ -40,7 +40,7 @@ export class AppComponent {
   faGithub = faGithub
 
   p4GuitarPageActivate: boolean = false
-  shiftKey: boolean = false
+  ctrlKey: boolean = false
 
   private lastDoubleClickTime: number = Date.now()
 
@@ -96,7 +96,7 @@ export class AppComponent {
 
   @HostListener('window:keydown', ['$event'])
   keyDown(event: KeyboardEvent) {
-     this.shiftKey = event.shiftKey
+     this.ctrlKey = event.ctrlKey
   }
 
 
@@ -235,9 +235,6 @@ export class AppComponent {
      })
   }
 
-  ctrlKey() {
-
-  }
 
   /**
    * When called, do two things :
