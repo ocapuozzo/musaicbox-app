@@ -636,10 +636,12 @@ p>span[class="note"] {
 <ul class="sectlevel2">
 <li><a href="#_stabilizers_and_fixed_pcs">Stabilizers and Fixed PCS</a></li>
 <li><a href="#_equivalence_relation">Equivalence relation</a></li>
+<li><a href="#_case_study_cyclic_group">Case study (cyclic group)</a></li>
+<li><a href="#_orbit_stabilizer">Orbit stabilizer</a></li>
+<li><a href="#_conclusion_4">Conclusion</a></li>
 </ul>
 </li>
-<li><a href="#_case_study_cyclic_group">Case study (cyclic group)</a></li>
-<li><a href="#_inventory_of_subgroups">inventory of subgroups</a>
+<li><a href="#_inventory_of_subgroups">Inventory of subgroups</a>
 <ul class="sectlevel2">
 <li><a href="#classification-table">A classification table of P(Z<sub>12</sub>)</a></li>
 <li><a href="#_17_subgroups_computed">17 subgroups computed</a></li>
@@ -654,7 +656,7 @@ p>span[class="note"] {
 <li><a href="#_octotrope">Octotrope</a></li>
 </ul>
 </li>
-<li><a href="#_orbit_stabilizer">Orbit &amp; Stabilizer</a>
+<li><a href="#_orbit_stabilizer_2">Orbit &amp; Stabilizer</a>
 <ul class="sectlevel3">
 <li><a href="#_stabilizer_of_orbit">Stabilizer of orbit</a></li>
 </ul>
@@ -2375,10 +2377,10 @@ where \$a in { 1, 5, 7, 11 }, k in { 0, 1, ..., 11  }, c in {true, false}}\$</p>
 <h2 id="_orbit">Orbit</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The orbit of an element \$A\$ of \$P(E)\$ is a set that gathers all the possible images of \$A\$ under action of \$G\$. It is denoted \$G"⋅"A\$</p>
+<p>The orbit of an element \$pcs\$ of \$P(E)\$ is a set that gathers all the possible images of \$pcs\$ under action of \$G\$. It is denoted \$G"⋅"pcs\$</p>
 </div>
 <div class="paragraph">
-<p>\$G"⋅"A = \${\$underbrace(g cdot A)_(in P(E)) \  | g in G\$ },  a subset of \$P(E)\$</p>
+<p>\$G"⋅"pcs = \${\$underbrace(g cdot pcs)_(in P(E)) \  | g in G\$ },  a subset of \$P(E)\$</p>
 </div>
 <div class="paragraph">
 <p>Examples :</p>
@@ -2427,7 +2429,7 @@ where \$a in { 1, 5, 7, 11 }, k in { 0, 1, ..., 11  }, c in {true, false}}\$</p>
 <div class="sect2">
 <h3 id="_stabilizers_and_fixed_pcs">Stabilizers and Fixed PCS</h3>
 <div class="paragraph">
-<p>PCS are fixed (i.e. not changed) by one or more transformation operations of \$G\$, which contains 96.</p>
+<p>PCS are fixed (i.e. unmodified, invariant) under action of one or more transformation operations of \$G\$, which contains 96.</p>
 </div>
 <div class="paragraph">
 <p>For examples :</p>
@@ -2520,19 +2522,19 @@ All these properties, and more, can be viewed on page : <a href="https://musaicb
 <p>The set of orbits of P(E) under the action of G form a partition of P(E).</p>
 </div>
 <div class="paragraph">
-<p>An equivalence relation is defined by saying \$x "~" y\$ if and only if there exists a \$g in G\$ with \$g⋅x = y\$.</p>
+<p>An equivalence relation, or more precisely a \$G"-equivalence"\$, is defined by saying \$x "~" y\$ if and only if there exists a \$g in G\$ with \$g⋅x = y\$.</p>
 </div>
 <div class="paragraph">
 <p>The orbits are then the equivalence classes under this relation; two elements \$A\$ and \$B\$ of \$P(E)\$, are equivalent if and only if their orbits are the same, that is, \$G"⋅"A = G"⋅"B\$</p>
 </div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_case_study_cyclic_group">Case study (cyclic group)</h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p>Before going further, let us study a subgroup of \$G\$.</p>
+<p>Example of \$Cyclic\$<em>-equivalence</em> : <code>CMajor triad</code> and <code>DMajor triad</code> are in  \$Cyclic\$<em>-equivalence</em> relationship, because they both belong to the same cyclic orbit. This is what we are going to see now.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_case_study_cyclic_group">Case study (cyclic group)</h3>
+<div class="paragraph">
+<p>Before going further, Let us be interested in a subgroup of \$G\$, called the Cyclic group.</p>
 </div>
 <div class="paragraph">
 <p>A subset of G has the status of a subgroup if its operations respect the group axioms.</p>
@@ -2568,10 +2570,13 @@ All these properties, and more, can be viewed on page : <a href="https://musaicb
 </tbody>
 </table>
 <div class="paragraph">
-<p>As one might expect, taking as an operation a transposition of 1 semitone, 1 being prime with n, the subgroup which emerges is composed of 12 operations, corresponding to the 12 possible transposition steps.</p>
+<p>As expected, a new operation has been generated, <code>M1-T2</code>, which we need to re-inject into the table. Continuing this process, we obtain the stable array of 12x12.</p>
+</div>
+<div class="paragraph">
+<p>This is because the basic operation we selected (<code>M1-T1</code>), with a step of 1, generates 12. We could have chosen <code>M1-T5</code>, <code>M1-T7</code> or <code>M1-T11</code>, since 1, 5, 7, and 11 are prime with 12, we would arrive at the same result.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 5. All operations in M1-Tk, but prefix M1-  is omitted (Rem : k + k' value is modulo n=12; Example : 4+9 = 1)</caption>
+<caption class="title">Table 5. All operations in M1-Tk, but prefix M1-  is omitted (Rem : k + k' value is modulo n=12; Example : 4+9 = 1 modulo 12)</caption>
 <colgroup>
 <col style="width: 7.6923%;">
 <col style="width: 7.6923%;">
@@ -2815,7 +2820,7 @@ All these properties, and more, can be viewed on page : <a href="https://musaicb
 <p><span class="image"><img src="./assets/images/_047-cyclicSimple.png" alt="047-cyclic"></span></p>
 </div>
 <div class="paragraph">
-<p>Therefore, all pcs in orbit of \$H\$ are equivalent, <em>up to transposition</em>.</p>
+<p>Therefore, all pcs in orbit of \$H\$ are equivalent, <strong><em>up to transposition</em></strong>.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -2873,7 +2878,17 @@ The concept of the "smallest element" refers to the concept of "normal form" and
 <p>Orbite \$H"⋅[0 4 7]"\$ has 12 elements. Its number of stabilizers is \$|H_("[0 4 7]")| = (|H|) / (|H"⋅[0 4 7]"|)\$, so \$12/12 = 1\$. It is \$"M1-T0"\$ (neutral operation)</p>
 </div>
 <div class="paragraph">
-<p>Of the 352 orbits, 335 are composed of 12 elements, having only one stabilizer, \$"M1-T0"\$, and 17 very particular ones represent the structures with "limited transpositions", having more than one stabilizer.</p>
+<p>Of the 352 orbits,</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>335 orbits are composed of 12 elements, having exactly one stabilizer, \$"M1-T0"\$, and their cardinal is equal to the number of operations in the group, i.e. 12.</p>
+</li>
+<li>
+<p>17 very special orbits, which represent the structures with <strong>"limited transpositions"</strong>, have more than one stabilizer. Therefore, their cardinality is less than 12.</p>
+</li>
+</ul>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -2892,10 +2907,13 @@ You can already explore the cyclic group in the musaicbox application: go to the
 </table>
 </div>
 <div class="paragraph">
-<p>Example of PCS in Limited Transposition</p>
+<p>For understand reduced notation of stabilizer like <code>MI-T0~4*</code>, see in appendix <a href="#_reduced_name">Reduced Name</a>.</p>
 </div>
 <div class="paragraph">
-<div class="title">[0 4 8] Augmented triad cyclic orbit (only 4 pcs)</div>
+<p>Example of PCS in Limited Transposition : Augmented triad (4 PCS into cyclic orbit)</p>
+</div>
+<div class="paragraph">
+<div class="title">[0 4 8] Augmented triad cyclic orbit</div>
 <p><span class="image"><img src="./assets/images/_048-cyclic-eatl.png" alt=" 048 cyclic eatl"></span></p>
 </div>
 <div class="paragraph">
@@ -2924,12 +2942,102 @@ You can already explore the cyclic group in the musaicbox application: go to the
 <p>We have \$|G"⋅"A| = (|G|) / (|G_A|) =&gt; 4 = 12/3\$, it&#8217;s OK !</p>
 </div>
 <div class="paragraph">
+<p>Seventh Diminished is an other example of PCS in limited transpositions :  : <span class="image"><img src="./assets/images/dim7th-clock.png" alt="50" width="50"></span> There are 3 into orbit.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./assets/images/orbit-stab-fix-dim7thV2.svg" alt="orbit stab fix dim7thV2">
+</div>
+</div>
+<div class="paragraph">
+<p>We can introduce a new property: The stabilizer of an orbit.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_orbit_stabilizer">Orbit stabilizer</h3>
+<div class="paragraph">
+<p>The stabilizer of the orbit is the union of the stabilizers present in its orbit.</p>
+</div>
+<div class="paragraph">
+<p>More formally :</p>
+</div>
+<div class="paragraph">
+<p>A <strong>orbit stabilizer</strong>, of an orbit \$O\$, is set of all stabilizers of \$pcs in O\$</p>
+</div>
+<div class="openblock text-center">
+<div class="content">
+<div class="paragraph">
+<p><strong>Orbit Stabilizer</strong></p>
+</div>
+<div class="paragraph">
+<p>\$ "Orbit" -&gt; Stabilizer^+\$</p>
+</div>
+<div class="paragraph">
+<p>\$"Stab(O)" := { G_"pcs" }, AA \ pcs in O \$</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Examples, with <em>H</em> = Cyclic group :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Stab( <em>H</em> ⋅[0 3 6 9] ) = <code>{ M1-T0,M1-T3,M1-T6,M1-T9 }</code></p>
+</li>
+<li>
+<p>Stab( <em>H</em> ⋅[2 5 8 11] ) = <code>{ M1-T0,M1-T3,M1-T6,M1-T9 }</code></p>
+</li>
+<li>
+<p>Stab( <em>H</em> ⋅[3 7 11] ) = <code>{ M1-T0,M1-T4,M1-T8 }</code></p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Into an orbit of cyclic group, all pcs share the same stabilizer. This is generally not the case for other groups.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_conclusion_4">Conclusion</h3>
+<div class="paragraph">
+<p>Nous avons vu que les opérations du groupe cyclic n&#8217;effectuent que des transpositions.</p>
+</div>
+<div class="paragraph">
+<p>Une action du groupe cyclic sur Z12 génère un groupe à 12 opérations de transpositions et 352 orbits. Cette action a permis de mettre en évidence les ensembles de PCS à transpositions limitées.</p>
+</div>
+<div class="paragraph">
+<p>On peut en déduire qu&#8217;un PCS, issu d&#8217;une action du group cyclic, a les propriétés suivante :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Il appartient à une et une seule orbite.</p>
+</li>
+<li>
+<p>Il est stabilisé par <strong>au moins</strong> une opération de transformation (<code>M1-T0</code>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Une orbit peut-être caractérisée par les stabilisateurs des PCS qui la compose.</p>
+</div>
+<div class="paragraph">
 <p>It&#8217;s time to take inventory of G subgroups.</p>
 </div>
 </div>
 </div>
+</div>
 <div class="sect1">
-<h2 id="_inventory_of_subgroups">inventory of subgroups</h2>
+<h2 id="_inventory_of_subgroups">Inventory of subgroups</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>We have seen that \$G\$ extend special affine group with complementarity : \$c * (ax + k)\$</p>
@@ -3444,7 +3552,10 @@ Note the central vertical axis on which 4 of its 5 known subgroups are located.
 <div class="sect3">
 <h4 id="_reduced_name">Reduced Name</h4>
 <div class="paragraph">
-<p><code>M1-T0~1*</code> : Here represents the different transposed versions of the operation <code>M1</code>. <code>T0~1*</code> means that all transpositions of step of <code>1</code> are concerned, starting from <code>T0</code>.</p>
+<p><code>M1-T0~1*</code> : Here represents the different transposed versions of the operation <code>M1</code>.</p>
+</div>
+<div class="paragraph">
+<p>Suffix <code>T0~1*</code> means that all transpositions of step <code>1</code> are concerned, starting from <code>T0</code>.</p>
 </div>
 <div class="paragraph">
 <p>Thus, <code>M1-T0~1*</code> is a reduced (compressed) version of : <code>M1-T0 M1-T1 M1-T2 &#8230;&#8203; M1-T10 M1-T11</code></p>
@@ -3458,10 +3569,10 @@ Note the central vertical axis on which 4 of its 5 known subgroups are located.
 <p><strong>Understand Reduced Stabilizer Name</strong></p>
 </div>
 <div class="paragraph">
-<p>\$ "string" -&gt; Stabilizer"*"\$</p>
+<p>\$ "string -&gt; Set of Operations"\$</p>
 </div>
 <div class="paragraph">
-<p>\$"[C]M"_a"-T"_"i""~step*" :=  uuu_(k=0)^(n/"step") "[C]M"_a"-T"_(i+(k cdot "step"))\$</p>
+<p>\$"C"_b"M"_a"-T"_"i""~step*" :=  uuu_(k=0)^(n/"step") "C"_b"M"_a"-T"_(i+(k cdot "step"))\$</p>
 </div>
 <div class="paragraph">
 <p>where <em>step</em> is a divisor of <em>n</em></p>
@@ -3639,7 +3750,7 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 </div>
 </div>
 <div class="sect2">
-<h3 id="_orbit_stabilizer">Orbit &amp; Stabilizer</h3>
+<h3 id="_orbit_stabilizer_2">Orbit &amp; Stabilizer</h3>
 <div class="paragraph">
 <p>Orbit is a set of elements (PCS) linked by a <a href="#_equivalence_relation">Equivalence relation</a>.</p>
 </div>
@@ -4310,7 +4421,7 @@ Modal prime form concept is invented, specific to this project.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-02-24 19:26:01 +0100
+Last updated 2025-02-27 10:37:48 +0100
 </div>
 </div>
 <script type="text/x-mathjax-config">
