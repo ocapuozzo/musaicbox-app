@@ -117,13 +117,16 @@ export class AppComponent {
       inputString = inputString.replace(/,,/g, ",").trim();
 
       if (inputString) {
-        if (inputString.startsWith('iv:')) {
-          this.matchInput = this.searchPcsWithThisIV(PcsUtils.pcsStringToStringPreFormated(inputString.substring(3), {separator:','}), inputString)
-          // this.searchPcsWithThisIV(pcsString.substring(3), pcsString)
-        } else if (inputString.startsWith('is:')) {
-          // this.matchInput = this.searchPcsWithThisIS(PcsUtils.pcsStringToStringPreFormated(inputString.substring(3), {separator:','}), inputString)
+        if (inputString.toUpperCase().startsWith('IV:')) {
+          let inStr = PcsUtils.pcsStringToStringPreFormated(inputString.substring(3), {separator:','})
+          if (inStr === "1,2,1,2,1,2,1,2,1,2,6") {
+            inStr = "12,12,12,12,12,6" // only special case for IV value that does not match !
+          }
+          this.matchInput = this.searchPcsWithThisIV(inStr, inputString)
+        } else if (inputString.toUpperCase().startsWith('IS:')) {
+          // no use pcsStringToStringPreFormated, because 1 1 1 1 => 11 11, not 1 1 1 1
           this.matchInput = this.searchPcsWithThisIS(inputString.substring(3), inputString)
-        } else if (inputString.startsWith('pid:')) {
+        } else if (inputString.toUpperCase().startsWith('PID:')) {
           this.matchInput = this.searchPcsWithThisPid(inputString.substring(4), inputString)
         } else {
           // search pcs
