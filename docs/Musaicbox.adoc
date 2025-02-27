@@ -990,9 +990,10 @@ It is thanks to this group that we will be able to partition our 4096 PCS into r
 
 == Orbit
 
-The orbit of an element stem:[A] of stem:[P(E)] is a set that gathers all the possible images of stem:[A] under action of stem:[G]. It is denoted stem:[G"⋅"A]
+The orbit of an element stem:[pcs] of stem:[P(E)] is a set that gathers all the possible images of stem:[pcs] under action of stem:[G]. It is denoted stem:[G"⋅"pcs]
 
-stem:[G"⋅"A = ]{stem:[underbrace(g cdot A)_(in P(E)) \  | g in G] },  a subset of stem:[P(E)]
+
+stem:[G"⋅"pcs = ]{stem:[underbrace(g cdot pcs)_(in P(E)) \  | g in G] },  a subset of stem:[P(E)]
 
 Examples :
 
@@ -1038,7 +1039,7 @@ stem:[G cdot "[0 2 4 6 8 10\]"] = stem:[{"[0 2 4 6 8 10\], [1 3 5 7 9 11\]"}]
 [#_stabilizers_and_fixed_pcs]
 === Stabilizers and Fixed PCS
 
-PCS are fixed (i.e. not changed) by one or more transformation operations of stem:[G], which contains 96.
+PCS are fixed (i.e. unmodified, invariant) under action of one or more transformation operations of stem:[G], which contains 96.
 
 For examples :
 
@@ -1085,13 +1086,15 @@ TIP: All these properties, and more, can be viewed on page : https://musaicbox.o
 
 The set of orbits of P(E) under the action of G form a partition of P(E).
 
-An equivalence relation is defined by saying stem:[x "~" y] if and only if there exists a stem:[g in G] with stem:[g⋅x = y].
+An equivalence relation, or more precisely a stem:[G"-equivalence"], is defined by saying stem:[x "~" y] if and only if there exists a stem:[g in G] with stem:[g⋅x = y].
 
 The orbits are then the equivalence classes under this relation; two elements stem:[A] and stem:[B] of stem:[P(E)], are equivalent if and only if their orbits are the same, that is, stem:[G"⋅"A = G"⋅"B]
 
-== Case study (cyclic group)
+Example of stem:[Cyclic]_-equivalence_ : `CMajor triad` and `DMajor triad` are in  stem:[Cyclic]_-equivalence_ relationship, because they both belong to the same cyclic orbit. This is what we are going to see now.
 
-Before going further, let us study a subgroup of stem:[G].
+=== Case study (cyclic group)
+
+Before going further, Let us be interested in a subgroup of stem:[G], called the Cyclic group.
 
 A subset of G has the status of a subgroup if its operations respect the group axioms.
 
@@ -1112,10 +1115,12 @@ Let's take stem:[{"M1-T0", "M1-T1"}]
 
 |===
 
-As one might expect, taking as an operation a transposition of 1 semitone, 1 being prime with n, the subgroup which emerges is composed of 12 operations, corresponding to the 12 possible transposition steps.
+As expected, a new operation has been generated, `M1-T2`, which we need to re-inject into the table. Continuing this process, we obtain the stable array of 12x12.
+
+This is because the basic operation we selected (`M1-T1`), with a step of 1, generates 12. We could have chosen `M1-T5`, `M1-T7` or `M1-T11`, since 1, 5, 7, and 11 are prime with 12, we would arrive at the same result.
 
 [cols="^h,,,,,,,,,,,,"]
-.All operations in M1-Tk, but prefix M1-  is omitted (Rem : k + k' value is modulo n=12; Example : 4+9 = 1)
+.All operations in M1-Tk, but prefix M1-  is omitted (Rem : k + k' value is modulo n=12; Example : 4+9 = 1 modulo 12)
 |===
 |{nbsp} stem:[@] |T0|T1|T2|T3|T4|T5|T6|T7|T8|T9|T10|T11
 
@@ -1151,7 +1156,7 @@ Stabilizer stem:[H_"[0 4 7\]" = {"M1-T0"}] (only neutral operation : major triad
 .An other view on H ⋅ [0 4 7] (orbit cyclic of major triad)
 image:_047-cyclicSimple.png[047-cyclic]
 
-Therefore, all pcs in orbit of stem:[H] are equivalent, _up to transposition_.
+Therefore, all pcs in orbit of stem:[H] are equivalent, *_up to transposition_*.
 
 - Example1 : [0 4 7] ~ [2 6 9] ~ [0 3 8] because exists an operation g into H, that g . [0{nbsp}4{nbsp}7] = [2{nbsp}6{nbsp}9], it is M1-T2, and g . [0{nbsp}4{nbsp}7] = [0{nbsp}3{nbsp}8], it is M1-T8.
  +
@@ -1177,7 +1182,12 @@ image:_047_cyclic_motif.png[]
 
 Orbite stem:[H"⋅[0 4 7\]"] has 12 elements. Its number of stabilizers is stem:[|H_("[0 4 7\]")| = (|H|) / (|H"⋅[0 4 7\]"|)], so stem:[12/12 = 1]. It is stem:["M1-T0"] (neutral operation)
 
-Of the 352 orbits, 335 are composed of 12 elements, having only one stabilizer, stem:["M1-T0"], and 17 very particular ones represent the structures with "limited transpositions", having more than one stabilizer.
+Of the 352 orbits,
+
+* 335 orbits are composed of 12 elements, having exactly one stabilizer, stem:["M1-T0"], and their cardinal is equal to the number of operations in the group, i.e. 12.
+
+* 17 very special orbits, which represent the structures with *"limited transpositions"*, have more than one stabilizer. Therefore, their cardinality is less than 12.
+
 
 TIP: You can already explore the cyclic group in the musaicbox application: go to the "Z~n~ Explorer" tab and select M1 (meaning M1-T1) as operation and click on the "Show 352 orbits grouped by stabilizer" button.
  +
@@ -1185,10 +1195,11 @@ TIP: You can already explore the cyclic group in the musaicbox application: go t
  .17 Cyclic orbits of Limited Transposition PCS
  image:zn-explorer-cyclic-group.png[zn-explorer-cyclic-group]
 
+For understand reduced notation of stabilizer like `MI-T0~4*`, see in appendix <<Reduced Name>>.
 
-Example of PCS in Limited Transposition
+Example of PCS in Limited Transposition : Augmented triad (4 PCS into cyclic orbit)
 
-.[0 4 8] Augmented triad cyclic orbit (only 4 pcs)
+.[0 4 8] Augmented triad cyclic orbit
 image:_048-cyclic-eatl.png[]
 
 Cyclic orbit of augmented triad is : { stem:["[0 4 8\]", "[1 5 9\]","[2 6 10\]","[3 7 11\]"] }
@@ -1203,9 +1214,56 @@ Check this result by orbit-stabilizer theorem : stem:[|G"⋅"A| = (|G|) / (|G_A|
 
 We have stem:[|G"⋅"A| = (|G|) / (|G_A|) => 4 = 12/3], it's OK !
 
-It's time to take inventory of G subgroups.
 
-== inventory of subgroups
+Seventh Diminished is an other example of PCS in limited transpositions :  : image:dim7th-clock.png[50,50] There are 3 into orbit.
+
+image::orbit-stab-fix-dim7thV2.svg[]
+
+We can introduce a new property: Orbit stabilizer.
+
+=== Orbit stabilizer
+
+Orbit stabilizer is the union of the stabilizers of its elements (PCS).
+
+More formally :
+
+[.text-center]
+--
+
+*Orbit Stabilizer*
+
+stem:[ "Orbit" -> Stabilizer^+]
+
+stem:["Stab(O)" := { G_"pcs" }, AA \ pcs in O ]
+
+--
+
+Examples, with _H_ = Cyclic group :
+
+- Stab( _H_ ⋅[0 3 6 9] ) = `{ M1-T0,M1-T3,M1-T6,M1-T9 }`
+- Stab( _H_ ⋅[2 5 8 11] ) = `{ M1-T0,M1-T3,M1-T6,M1-T9 }`
+- Stab( _H_ ⋅[3 7 11] ) = `{ M1-T0,M1-T4,M1-T8 }`
+- Stab( _H_ ⋅[0 4 7] ) = `{ M1-T0 }`
+
+NOTE: Into an orbit of cyclic group, all pcs share the same stabilizer. This is generally not the case for other groups.
+
+=== Conclusion
+
+We have seen that the operations of the cyclic group only perform transpositions.
+
+An action of the cyclic group on stem:[ZZ_12] generates a group with 12 transposition operations and 352 orbits. This action has made it possible to highlight the sets of PCS with limited transpositions.
+
+A PCS, resulting from an action of the cyclic group, has the following properties:
+
+* It belongs to one and only one orbit.
+
+* It is stabilized by at least one transformation operation (M1-T0)
+
+An orbit can be characterized by the set of stabilizers of its PCS.
+
+The cyclic group is not the only possible subgroup of G. It's time to take inventory of G subgroups.
+
+== Inventory of subgroups
 
 We have seen that stem:[G] extend special affine group with complementarity : stem:[c * (ax + k)]
 
@@ -1602,7 +1660,9 @@ Operations of stabilizer are here represented in a _reduced name format_.
 
 ==== Reduced Name
 
-`M1-T0~1*` : Here represents the different transposed versions of the operation `M1`. `T0~1*` means that all transpositions of step of `1` are concerned, starting from `T0`.
+`M1-T0~1*` : Here represents the different transposed versions of the operation `M1`.
+
+Suffix `T0~1*` means that all transpositions of step `1` are concerned, starting from `T0`.
 
 Thus, `M1-T0~1*` is a reduced (compressed) version of : `M1-T0 M1-T1 M1-T2 ... M1-T10 M1-T11`
 
@@ -1613,9 +1673,9 @@ More formally :
 
 *Understand Reduced Stabilizer Name*
 
-stem:[ "string" -> Stabilizer"*"]
+stem:[ "string -> Set of Operations"]
 
-stem:["[C\]M"_a"-T"_"i""~step*" :=  uuu_(k=0)^(n/"step") "[C\]M"_a"-T"_(i+(k cdot "step"))]
+stem:["C"_b"M"_a"-T"_"i""~step*" :=  uuu_(k=0)^(n/"step") "C"_b"M"_a"-T"_(i+(k cdot "step"))]
 
 where _step_ is a divisor of _n_
 
@@ -1720,34 +1780,6 @@ Example (PCS page https://musaicbox.org/pcs/pid/1613[0 2 3 6 9 10] ) : image:lim
 TIP: On the MusaicBox app, go to page https://musaicbox.org/the88[88 Musaics] to see the different musaics related to their octotrope.
 
 '''
-
-=== Orbit & Stabilizer
-
-Orbit is a set of elements (PCS) linked by a <<_equivalence_relation>>.
-
-Among operation of G, exists certain operations that fix pcs of orbit. The most known is stem:["M1-T0"], the neutral operation.
-
-.Example : Orbit of Major Triads
-image:orbit-stab-fix.svg[Orbit of Major Triads and Stab]
-
-From this example, we can see that stem:["M1-T0"] is the *stabilizer of orbit* stem:["H" cdot "[0 4 7\]"] (stem:["H"] is cyclic group)
-
-.An other example with 4Chord diminished
-image:orbit-stab-fix-dim7th.svg[]
-
-[0 3 6 9] is pcs in limited transposition. This orbit cyclic is : { [0 3 6 9], [1 4 7 10], [2 5 7 11] }
-
-.Cyclic orbit of diminished scale
-image:cyclic-dim7th.png[] Its stabilizer is { M1-T0, M1-T3, M1-T6, M1-T9 }  or *M1-T0~3**.
-
-
-==== Stabilizer of orbit
-
-Stabilizer of PCS vs stabilizer of orbit
-
-Stabilizer of orbit is union of stabilizer of its PCS
-
-TODO suite....
 
 === Order relation
 

@@ -1219,20 +1219,13 @@ Seventh Diminished is an other example of PCS in limited transpositions :  : ima
 
 image::orbit-stab-fix-dim7thV2.svg[]
 
-We can introduce a new property: The stabilizer of an orbit.
+We can introduce a new property: Orbit stabilizer.
 
 === Orbit stabilizer
 
-The stabilizer of the orbit is the union of the stabilizers present in its orbit.
-
+Orbit stabilizer is the union of the stabilizers of its elements (PCS).
 
 More formally :
-
-
-
-A *orbit stabilizer*, of an orbit stem:[O], is set of all stabilizers of stem:[pcs in O]
-
-
 
 [.text-center]
 --
@@ -1250,23 +1243,25 @@ Examples, with _H_ = Cyclic group :
 - Stab( _H_ ⋅[0 3 6 9] ) = `{ M1-T0,M1-T3,M1-T6,M1-T9 }`
 - Stab( _H_ ⋅[2 5 8 11] ) = `{ M1-T0,M1-T3,M1-T6,M1-T9 }`
 - Stab( _H_ ⋅[3 7 11] ) = `{ M1-T0,M1-T4,M1-T8 }`
+- Stab( _H_ ⋅[0 4 7] ) = `{ M1-T0 }`
 
 NOTE: Into an orbit of cyclic group, all pcs share the same stabilizer. This is generally not the case for other groups.
 
 === Conclusion
 
-Nous avons vu que les opérations du groupe cyclic n'effectuent que des transpositions.
+We have seen that the operations of the cyclic group only perform transpositions.
 
-Une action du groupe cyclic sur Z12 génère un groupe à 12 opérations de transpositions et 352 orbits. Cette action a permis de mettre en évidence les ensembles de PCS à transpositions limitées.
+An action of the cyclic group on stem:[ZZ_12] generates a group with 12 transposition operations and 352 orbits. This action has made it possible to highlight the sets of PCS with limited transpositions.
 
-On peut en déduire qu'un PCS, issu d'une action du group cyclic, a les propriétés suivante :
+A PCS, resulting from an action of the cyclic group, has the following properties:
 
-* Il appartient à une et une seule orbite.
-* Il est stabilisé par *au moins* une opération de transformation (`M1-T0`)
+* It belongs to one and only one orbit.
 
-Une orbit peut-être caractérisée par les stabilisateurs des PCS qui la compose.
+* It is stabilized by at least one transformation operation (M1-T0)
 
-It's time to take inventory of G subgroups.
+An orbit can be characterized by the set of stabilizers of its PCS.
+
+The cyclic group is not the only possible subgroup of G. It's time to take inventory of G subgroups.
 
 == Inventory of subgroups
 
@@ -1785,34 +1780,6 @@ Example (PCS page https://musaicbox.org/pcs/pid/1613[0 2 3 6 9 10] ) : image:lim
 TIP: On the MusaicBox app, go to page https://musaicbox.org/the88[88 Musaics] to see the different musaics related to their octotrope.
 
 '''
-
-=== Orbit & Stabilizer
-
-Orbit is a set of elements (PCS) linked by a <<_equivalence_relation>>.
-
-Among operation of G, exists certain operations that fix pcs of orbit. The most known is stem:["M1-T0"], the neutral operation.
-
-.Example : Orbit of Major Triads
-image:orbit-stab-fix.svg[Orbit of Major Triads and Stab]
-
-From this example, we can see that stem:["M1-T0"] is the *stabilizer of orbit* stem:["H" cdot "[0 4 7\]"] (stem:["H"] is cyclic group)
-
-.An other example with 4Chord diminished
-image:orbit-stab-fix-dim7th.svg[]
-
-[0 3 6 9] is pcs in limited transposition. This orbit cyclic is : { [0 3 6 9], [1 4 7 10], [2 5 7 11] }
-
-.Cyclic orbit of diminished scale
-image:cyclic-dim7th.png[] Its stabilizer is { M1-T0, M1-T3, M1-T6, M1-T9 }  or *M1-T0~3**.
-
-
-==== Stabilizer of orbit
-
-Stabilizer of PCS vs stabilizer of orbit
-
-Stabilizer of orbit is union of stabilizer of its PCS
-
-TODO suite....
 
 === Order relation
 

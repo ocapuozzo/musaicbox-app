@@ -656,11 +656,6 @@ p>span[class="note"] {
 <li><a href="#_octotrope">Octotrope</a></li>
 </ul>
 </li>
-<li><a href="#_orbit_stabilizer_2">Orbit &amp; Stabilizer</a>
-<ul class="sectlevel3">
-<li><a href="#_stabilizer_of_orbit">Stabilizer of orbit</a></li>
-</ul>
-</li>
 <li><a href="#_order_relation">Order relation</a>
 <ul class="sectlevel3">
 <li><a href="#_state">State</a></li>
@@ -2950,19 +2945,16 @@ You can already explore the cyclic group in the musaicbox application: go to the
 </div>
 </div>
 <div class="paragraph">
-<p>We can introduce a new property: The stabilizer of an orbit.</p>
+<p>We can introduce a new property: Orbit stabilizer.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_orbit_stabilizer">Orbit stabilizer</h3>
 <div class="paragraph">
-<p>The stabilizer of the orbit is the union of the stabilizers present in its orbit.</p>
+<p>Orbit stabilizer is the union of the stabilizers of its elements (PCS).</p>
 </div>
 <div class="paragraph">
 <p>More formally :</p>
-</div>
-<div class="paragraph">
-<p>A <strong>orbit stabilizer</strong>, of an orbit \$O\$, is set of all stabilizers of \$pcs in O\$</p>
 </div>
 <div class="openblock text-center">
 <div class="content">
@@ -2991,6 +2983,9 @@ You can already explore the cyclic group in the musaicbox application: go to the
 <li>
 <p>Stab( <em>H</em> ⋅[3 7 11] ) = <code>{ M1-T0,M1-T4,M1-T8 }</code></p>
 </li>
+<li>
+<p>Stab( <em>H</em> ⋅[0 4 7] ) = <code>{ M1-T0 }</code></p>
+</li>
 </ul>
 </div>
 <div class="admonitionblock note">
@@ -3009,29 +3004,29 @@ Into an orbit of cyclic group, all pcs share the same stabilizer. This is genera
 <div class="sect2">
 <h3 id="_conclusion_4">Conclusion</h3>
 <div class="paragraph">
-<p>Nous avons vu que les opérations du groupe cyclic n&#8217;effectuent que des transpositions.</p>
+<p>We have seen that the operations of the cyclic group only perform transpositions.</p>
 </div>
 <div class="paragraph">
-<p>Une action du groupe cyclic sur Z12 génère un groupe à 12 opérations de transpositions et 352 orbits. Cette action a permis de mettre en évidence les ensembles de PCS à transpositions limitées.</p>
+<p>An action of the cyclic group on \$ZZ_12\$ generates a group with 12 transposition operations and 352 orbits. This action has made it possible to highlight the sets of PCS with limited transpositions.</p>
 </div>
 <div class="paragraph">
-<p>On peut en déduire qu&#8217;un PCS, issu d&#8217;une action du group cyclic, a les propriétés suivante :</p>
+<p>A PCS, resulting from an action of the cyclic group, has the following properties:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Il appartient à une et une seule orbite.</p>
+<p>It belongs to one and only one orbit.</p>
 </li>
 <li>
-<p>Il est stabilisé par <strong>au moins</strong> une opération de transformation (<code>M1-T0</code>)</p>
+<p>It is stabilized by at least one transformation operation (M1-T0)</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>Une orbit peut-être caractérisée par les stabilisateurs des PCS qui la compose.</p>
+<p>An orbit can be characterized by the set of stabilizers of its PCS.</p>
 </div>
 <div class="paragraph">
-<p>It&#8217;s time to take inventory of G subgroups.</p>
+<p>The cyclic group is not the only possible subgroup of G. It&#8217;s time to take inventory of G subgroups.</p>
 </div>
 </div>
 </div>
@@ -3750,45 +3745,6 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 </div>
 </div>
 <div class="sect2">
-<h3 id="_orbit_stabilizer_2">Orbit &amp; Stabilizer</h3>
-<div class="paragraph">
-<p>Orbit is a set of elements (PCS) linked by a <a href="#_equivalence_relation">Equivalence relation</a>.</p>
-</div>
-<div class="paragraph">
-<p>Among operation of G, exists certain operations that fix pcs of orbit. The most known is \$"M1-T0"\$, the neutral operation.</p>
-</div>
-<div class="paragraph">
-<div class="title">Example : Orbit of Major Triads</div>
-<p><span class="image"><img src="./assets/images/orbit-stab-fix.svg" alt="Orbit of Major Triads and Stab"></span></p>
-</div>
-<div class="paragraph">
-<p>From this example, we can see that \$"M1-T0"\$ is the <strong>stabilizer of orbit</strong> \$"H" cdot "[0 4 7]"\$ (\$"H"\$ is cyclic group)</p>
-</div>
-<div class="paragraph">
-<div class="title">An other example with 4Chord diminished</div>
-<p><span class="image"><img src="./assets/images/orbit-stab-fix-dim7th.svg" alt="orbit stab fix dim7th"></span></p>
-</div>
-<div class="paragraph">
-<p>[0 3 6 9] is pcs in limited transposition. This orbit cyclic is : { [0 3 6 9], [1 4 7 10], [2 5 7 11] }</p>
-</div>
-<div class="paragraph">
-<div class="title">Cyclic orbit of diminished scale</div>
-<p><span class="image"><img src="./assets/images/cyclic-dim7th.png" alt="cyclic dim7th"></span> Its stabilizer is { M1-T0, M1-T3, M1-T6, M1-T9 }  or <strong>M1-T0~3</strong>*.</p>
-</div>
-<div class="sect3">
-<h4 id="_stabilizer_of_orbit">Stabilizer of orbit</h4>
-<div class="paragraph">
-<p>Stabilizer of PCS vs stabilizer of orbit</p>
-</div>
-<div class="paragraph">
-<p>Stabilizer of orbit is union of stabilizer of its PCS</p>
-</div>
-<div class="paragraph">
-<p>TODO suite&#8230;&#8203;.</p>
-</div>
-</div>
-</div>
-<div class="sect2">
 <h3 id="_order_relation">Order relation</h3>
 <div class="paragraph">
 <p>It would be useful to be able to sort the pcs among themselves. To do this, we need to define a total order relation that verifies:</p>
@@ -4421,7 +4377,7 @@ Modal prime form concept is invented, specific to this project.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-02-27 10:37:48 +0100
+Last updated 2025-02-27 12:06:45 +0100
 </div>
 </div>
 <script type="text/x-mathjax-config">
