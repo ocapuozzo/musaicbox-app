@@ -21,7 +21,16 @@ export class ManagerPcsService {
       // set pivot from pivot obtained by transposition
       // rem: pivot is not signifiant for pcs identity
       if (newPcs.iPivot !== undefined && newPcs.iPivot !== newPcsInOrbit.iPivot) {
-        newPcsInOrbit.setPivot(newPcs.iPivot)
+        // change pivot, so as immutable, make a new instance
+        // newPcsInOrbit.setPivot(newPcs.iPivot) <== BAD idea, side effect !!
+        newPcsInOrbit =  new IPcs({
+          binPcs: newPcsInOrbit.abinPcs,
+          iPivot: newPcs.iPivot,
+          orbit: newPcsInOrbit.orbit,
+          templateMappingBinPcs: newPcsInOrbit.templateMappingBinPcs,
+          nMapping: newPcsInOrbit.nMapping
+        })
+
       }
       return newPcsInOrbit
     }
@@ -46,6 +55,7 @@ export class ManagerPcsService {
         orbit: newPcs.orbit,
         templateMappingBinPcs: newPcs.templateMappingBinPcs,
         nMapping: newPcs.nMapping
+        // TODO countStabilizers
       })
     }
      return newPcs
@@ -135,14 +145,16 @@ export class ManagerPcsService {
       // change pivot
       let clonePcs = new IPcs({
         binPcs: newPcsInOrbit.abinPcs,
-        iPivot: newPivot,
+        iPivot: newPivot,  // <= changed
         orbit: newPcsInOrbit.orbit,
-
         templateMappingBinPcs: newPcsInOrbit.templateMappingBinPcs,
         nMapping: newPcsInOrbit.nMapping
       })
-
-      clonePcs.stabilizer = newPcsInOrbit.stabilizer
+      // change pivot impact stabilizer !!??!!!
+      // TODO Big Problem here, maybe make this property as computed (see PCS page)
+      // same count stab.operations
+      //clonePcs.stabilizer = newPcsInOrbit.stabilizer  // TODO check with unit test !
+      clonePcs.countStabilizers = newPcsInOrbit.countStabilizers
       return clonePcs
     }
     return newPcsInOrbit // readonly by default, so can be shared

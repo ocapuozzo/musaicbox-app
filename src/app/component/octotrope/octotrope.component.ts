@@ -62,7 +62,8 @@ export class OctotropeComponent {
         return;
       }
       // if no opStabilizers then initialize here
-      this.opStabilizers = this.pcs.stabilizer.metaStabilizer.metaStabOperations
+      // this.opStabilizers = this.pcs.stabilizer.metaStabilizer.metaStabOperations
+      this.opStabilizers = this.pcs.orbit.metaStabilizer.metaStabOperations
     }
 
     this.ctx = this.canvas.nativeElement.getContext('2d');

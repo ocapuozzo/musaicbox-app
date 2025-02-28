@@ -22,6 +22,19 @@ h5 {
   background-color: blanchedalmond;
 }
 
+.text-op-pcs {
+  text-decoration-color: brown;
+  font-size: 1rem;
+  background-color: blanchedalmond;
+}
+
+.text-op-stabiliser-pcs {
+  /*text-decoration-color: brown;*/
+  font-size: 1rem;
+  background-color: lightyellow;
+}
+
+
 .id-pcs {
   text-decoration-color: brown;
   background-color: blanchedalmond;

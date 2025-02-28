@@ -10,7 +10,7 @@ import {PcsColor} from "../../color/PcsColor";
 import {MusaicOperation} from "../../core/MusaicOperation";
 import {MusaicComponent} from "../musaic/musaic.component";
 import {OctotropeComponent} from "../octotrope/octotrope.component";
-import {NgIf} from "@angular/common";
+import {NgClass, NgIf} from "@angular/common";
 import {HtmlUtil} from "../../utils/HtmlUtil";
 import {ManagerGroupActionService} from "../../service/manager-group-action.service";
 
@@ -22,7 +22,8 @@ import {ManagerGroupActionService} from "../../service/manager-group-action.serv
     MatIcon,
     MusaicComponent,
     OctotropeComponent,
-    NgIf
+    NgIf,
+    NgClass
   ],
   templateUrl: './pcs-analysis.component.html',
   styleUrl: './pcs-analysis.component.css'
@@ -112,7 +113,7 @@ export class PcsAnalysisComponent {
 
   doPushModalPF(pcs: IPcs) {
     if (pcs.n == 12) {
-      this.managerPagePcsService.replaceBy(pcs.modalPrimeForm())
+      this.managerPagePcsService.replaceBy(pcs.symPrimeForm())
     }
   }
 
@@ -195,13 +196,14 @@ export class PcsAnalysisComponent {
 
     operations.forEach(operation => {
       if (operation.actionOn(pcs).id === pcs.id) {
+        // pcs is fixed by operation
         operationStab.push(operation)
       }
     })
-    operationStab.sort(MusaicOperation.compareStabMajorTMinorA)
+    // operationStab.sort(MusaicOperation.compareStabMajorTMinorA)
     return {
       cardinal: operationStab.length,
-      names: operationStab.map((operationStab) => operationStab.toString()).join(" ")
+      names: operationStab.map((operationStab) => operationStab.toString()) //.join(" ")
     }
   }
 

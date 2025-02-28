@@ -16,7 +16,7 @@ export class MetaStabilizer {
   metaStabOperations: string[]
   _hashCode : number
 
-  static manyMetaStabilizer = new MetaStabilizer("*")
+  static nullMetaStabilizer = new MetaStabilizer("")
   static MAXLENGTH = 12;
 
   /**

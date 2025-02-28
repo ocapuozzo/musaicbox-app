@@ -96,7 +96,7 @@ export class The88Component implements OnInit {
 
     this.listOrbits = this.groupMusaic.orbits.map(orbit => (
       {
-        pcsDto: makePcsDto(orbit.getPcsMin().modalPrimeForm()),
+        pcsDto: makePcsDto(orbit.getPcsMin().symPrimeForm()),
         metaStabilizerNames: orbit.metaStabilizer.name.split(' '),
         color: PcsColor.getColor(orbit.metaStabilizer.name),
         cardinal: orbit.cardinal
@@ -173,7 +173,7 @@ export class The88Component implements OnInit {
       // select this group of orbits shearing same stabilizer
       if (ArrayUtil.isIncludeIn(
         this.currentSelectedOps,
-        this.octotropes[i].pcs.stabilizer.metaStabilizer.metaStabOperations))
+        this.octotropes[i].pcs.orbit.metaStabilizer.metaStabOperations))
       {
         newOctotropes[i] = {...this.octotropes[i], selected: true, active: true}
       } else if (this.octotropes[i].selected) {
@@ -195,7 +195,7 @@ export class The88Component implements OnInit {
       color = "black"
       // search if current musaic match
       for (let i = 0; i < this.octotropes.length; i++) {
-        if (this.octotropes[i].pcs.stabilizer.metaStabilizer.hashCode() === musaic.pcsDto.pcs.stabilizer.metaStabilizer.hashCode()
+        if (this.octotropes[i].pcs.orbit.metaStabilizer.hashCode() === musaic.pcsDto.pcs.orbit.metaStabilizer.hashCode()
           && this.octotropes[i].selected
           && this.octotropes[i].active) {
           this.nbMusaicsMatch++
@@ -253,7 +253,7 @@ export class The88Component implements OnInit {
   }
 
   pcsMatchOperationStabilizersSelected(pcsRepresentative: IPcs): boolean {
-    const metaStabilizerOps = pcsRepresentative.stabilizer.metaStabilizer.metaStabOperations
+    const metaStabilizerOps = pcsRepresentative.orbit.metaStabilizer.metaStabOperations
     let match = true
     for (let i = 1; i < this.currentSelectedOps.length; i++) {
       const operation = this.currentSelectedOps[i]

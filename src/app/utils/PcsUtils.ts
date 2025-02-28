@@ -1,5 +1,7 @@
 import {MusaicOperation} from "../core/MusaicOperation";
 
+//TODO rename or put in MusaicOperationUtils ?
+
 export class PcsUtils {
 
   /**

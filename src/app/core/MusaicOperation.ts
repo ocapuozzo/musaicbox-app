@@ -240,11 +240,16 @@ export class MusaicOperation {
     const complement = opName.charAt(0) === 'C';
     const indexCaret = opName.indexOf("-")
 
+    if (indexCaret === -1 ) throw Error(`Convert ${opName} to MusaicOperation impossible`)
+
     const a = (complement)
       ? parseInt(opName.substring(2, indexCaret))
       : parseInt(opName.substring(1, indexCaret))
 
     const k = parseInt(opName.substring(indexCaret+2))
+
+    if (Number.isNaN(k) || Number.isNaN(a)) throw Error(`Convert ${opName} to MusaicOperation impossible`)
+
     return new MusaicOperation(n, a, k, complement)
   }
 

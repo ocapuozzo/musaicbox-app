@@ -22,7 +22,7 @@ export class Stabilizer {
   _metaStabilizer ?: MetaStabilizer
   _hashCode ?: number
   // sumT: number
-  _fixedPcsInPrimeForm: IPcs[]
+  // _fixedPcsInPrimeForm: IPcs[]
 
   constructor(
     {fixedPcs, operations}:
@@ -34,7 +34,7 @@ export class Stabilizer {
     this._hashCode = undefined
     this._metaStabilizer = undefined
     // this.sumT = this.computeSumTNear0();
-    this._fixedPcsInPrimeForm = []
+    // this._fixedPcsInPrimeForm = []
   }
 
   /**
@@ -67,14 +67,14 @@ export class Stabilizer {
       this._shortName = "";
       this._hashCode = undefined
       this._metaStabilizer = undefined
-      this._fixedPcsInPrimeForm = []
+      // this._fixedPcsInPrimeForm = []
     }
   }
 
   addFixedPcs(ipcs: IPcs) {
     if (!this.fixedPcs.find(p => p.id === ipcs.id)) {
       this.fixedPcs.push(ipcs)
-      this._fixedPcsInPrimeForm = []
+      // this._fixedPcsInPrimeForm = []
       // this._hashCode = null
     }
   }

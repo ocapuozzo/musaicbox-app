@@ -151,7 +151,7 @@ export class PcsPageComponent {
   }
 
   changeByMusaic() {
-    this.managerPagePcsService.replaceBy(EightyEight.getMusaic(this.pcs).modalPrimeForm())
+    this.managerPagePcsService.replaceBy(EightyEight.getMusaic(this.pcs).symPrimeForm())
   }
 
   doUnDo() {

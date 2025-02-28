@@ -151,11 +151,13 @@ export class GroupAction {
         if (!findStab) {
           orbit.stabilizers.push(newStab)
           // bi-directional link
-          pcs.stabilizer = newStab
+          // pcs.stabilizer = newStab
+          pcs.countStabilizers = newStab.cardinal
         } else {
           findStab.addFixedPcs(pcs)
           // bi-directional link
-          pcs.stabilizer = findStab
+          // pcs.stabilizer = findStab
+          pcs.countStabilizers = findStab.cardinal
         }
       }) // en loop all pcs in current orbit
       // order operations and fixedPcs for each stabilizer in current orbit.
@@ -318,7 +320,9 @@ export class GroupAction {
   }
 
   /**
-   * From free IPcs (with no orbit) get a represented IPcs held by a group action
+   * Get pcs into orbit from a pcs given. If not same pivot, then create new instance
+   * TODO verify post process because in first version, iPivot was directly modified (side effect)
+   *   and somme works were perhaps no more necessary
    * @param {IPcs} pcs
    * @return {IPcs}
    * @throws Error if not find pcs in this group action
@@ -328,7 +332,16 @@ export class GroupAction {
     if (!pcsInOrbit)
       throw new Error("Invalid pcs (is not in this group action)  ??? : " + pcs)
 
-    if (pcs.iPivot) pcsInOrbit.setPivot(pcs.iPivot)
+    if (pcs.iPivot) {
+      //pcsInOrbit.setPivot(pcs.iPivot)
+      return new IPcs({
+        binPcs: pcsInOrbit.abinPcs,
+        iPivot: pcs.iPivot,  // <= updated
+        orbit: pcsInOrbit.orbit,
+        templateMappingBinPcs: pcsInOrbit.templateMappingBinPcs,
+        nMapping: pcsInOrbit.nMapping
+      })
+    }
 
     return pcsInOrbit
   }

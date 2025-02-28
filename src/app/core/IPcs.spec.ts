@@ -174,6 +174,12 @@ describe('IPcs unit tests', () => {
     expect(ipcs_other2.modulation(IPcs.NEXT_DEGREE)).toEqual(ipcs_other1);
     ipcs_other2 = new IPcs({strPcs: "0,4,11", iPivot: 0})
     expect(ipcs_other1.modulation(IPcs.NEXT_DEGREE)).toEqual(ipcs_other2);
+
+
+    let diatMaj = new IPcs({strPcs: "0 2 4 5 7 9 11", iPivot: 0})
+    const pcsInMusicGroup = ManagerGroupActionService.getGroupActionFromGroupAliasName('Musaic')?.getIPcsInOrbit(diatMaj)!
+    expect(pcsInMusicGroup.isDetached()).toBeFalse()
+    expect(pcsInMusicGroup.modulation(IPcs.NEXT_DEGREE).isDetached()).toBeFalse()
   });
 
   it("IPcs cardinal PREVIOUS", () => {
@@ -205,8 +211,17 @@ describe('IPcs unit tests', () => {
 
     const cpltcplt = complement.complement()
 
-    expect(complement.equals(ipcs_complement)).toBeTruthy();
-    expect(cpltcplt.equals(ipcs)).toBeTruthy();
+    expect(complement.equals(ipcs_complement)).toBeTrue()
+    expect(cpltcplt.equals(ipcs)).toBeTrue()
+
+    let pcsTest = new IPcs({strPcs:"0 4 5"})
+    expect(pcsTest.iPivot).toEqual(0)
+    expect(pcsTest.complement().iPivot).toEqual(2)
+
+    let pcsTestCplt = pcsTest.complement()
+    expect(pcsTestCplt.iPivot).toEqual(6)
+
+
   });
 
   it("IPcs complement max/detached", () => {
@@ -413,13 +428,33 @@ describe('IPcs unit tests', () => {
     let ipcs2 = new IPcs({strPcs: "0"})
     let ipcs3 = new IPcs({strPcs: "0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11", iPivot: 4})
     let ipcs4 = new IPcs({strPcs: "0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11", iPivot: 0})
-    expect(ipcs3.modalPrimeForm().id).toEqual(ipcs4.id)
-    expect(ipcs2.modalPrimeForm().id).toEqual(ipcs2.id)
-    expect(ipcs1.modalPrimeForm().id).toEqual(ipcs1.id)
+
+    expect(ipcs3.symPrimeForm().id).toEqual(ipcs4.id)
+    expect(ipcs3.symPrimeForm().id).toEqual(ipcs4.id) // no side effect
+
+    expect(ipcs2.symPrimeForm().id).toEqual(ipcs2.id)
+    expect(ipcs1.symPrimeForm().id).toEqual(ipcs1.id)
 
     let Emin_5plus = new IPcs({strPcs: "0, 4, 7", iPivot: 4})
     let CMaj = new IPcs({strPcs: "0, 4, 7", iPivot: 0})
-    expect(Emin_5plus.modalPrimeForm().id).toEqual(CMaj.id)
+
+    expect(Emin_5plus.symPrimeForm().id).toEqual(CMaj.id)
+    expect(Emin_5plus.symPrimeForm().iPivot).toEqual(4) // no change ??
+
+    let diatMaj = new IPcs({strPcs: "0 2 4 5 7 9 11", iPivot: 0})
+    let dorianFromPc0 = new IPcs({strPcs: "0 2 3 5 7 9 10", iPivot: 0})
+    expect(diatMaj.symPrimeForm().iPivot).toEqual(0)
+    expect(diatMaj.symPrimeForm()).toEqual(dorianFromPc0)
+
+    let empty = new IPcs({strPcs: ""})
+    expect(empty.iPivot).toEqual(undefined)
+    expect(empty.symPrimeForm().iPivot).toEqual(undefined)
+    expect(empty.symPrimeForm()).toEqual(empty)
+
+    const pcsInMusicGroup = ManagerGroupActionService.getGroupActionFromGroupAliasName('Musaic')?.getIPcsInOrbit(diatMaj)!
+    expect(pcsInMusicGroup.isDetached()).toBeFalse()
+    expect(pcsInMusicGroup.symPrimeForm().isDetached()).toBeFalse()
+
   })
 
 
@@ -430,7 +465,7 @@ describe('IPcs unit tests', () => {
     let pivot = pcs.getPivotFromSymmetry()
     expect(pivot).toEqual(1)
 
-    const p3 = pcs.modalPrimeForm()
+    const p3 = pcs.symPrimeForm()
     expect(p3.getPcsStr()).toEqual('[0 1 11]')
     expect(p3.getPivot()).toEqual(0)
 
@@ -458,16 +493,24 @@ describe('IPcs unit tests', () => {
     pivot = pcs.getPivotFromSymmetry()
     expect(pivot).toEqual(0) // invariant by CM11-T11
 
+    pcs = new IPcs({strPcs: '[0 4 5]'})
+    pivot = pcs.getPivotFromSymmetry()
+
+    // TODO pcs.getPivotFromSymmetry() used by complement
+    expect(pivot).toEqual(0)
+
   })
 
-  it("modalPrimeForm with symmetry if not possible", () => {
+  it("symPrimeForm with symmetry if not possible", () => {
     let pcs = new IPcs({strPcs: '[1,2,6,7,8,9]'})
-    let pcsMPF = pcs.modalPrimeForm()
+    let pcsMPF = pcs.symPrimeForm()
 
     // cyclic modal PF waiting (No Mx-T0 op, but M11-T1, one step for symmetry)
-    let pcsModalPFWaiting = new IPcs({strPcs: '[0,1,2,6,7,11]'})
 
-    expect(pcsMPF.id).toEqual(pcsModalPFWaiting.id)
+    // ??? same pcsMPF if min with M11-T1
+    // let pcsModalPFWaiting = new IPcs({strPcs: '[0,1,2,6,7,11]'})
+    // expect(pcsMPF.id).toEqual(pcsModalPFWaiting.id)
+    expect(pcsMPF).toEqual(pcs)
   })
 
 
@@ -864,21 +907,14 @@ describe('IPcs unit tests', () => {
   });
 
 
-  it("get stabilizer", () => {
-    const detachedMaj7 =
-      new IPcs({strPcs: '0,4,7,10'})
+  it("get metaStabilizer", () => {
+    const detachedMaj7 = new IPcs({strPcs: '0,4,7,10'})
     const groupMusaic = ManagerGroupActionService.getGroupActionFromGroupAliasName("Musaic")!
 
     const attachedMaj7 = groupMusaic.getIPcsInOrbit(new IPcs({strPcs: '0,4,7,10'}))
 
-    try {
-      expect(attachedMaj7.stabilizer).toBeTruthy()
-
-      expect(detachedMaj7.stabilizer).not.toBeTruthy()
-      fail('A detached PCS must not have Stabilizer !?!')
-    } catch (e: any) {
-      expect(e.message).toContain('A detached PCS has no Stabilizer')
-    }
+    expect(attachedMaj7.orbit.metaStabilizer).toBeTruthy()
+    expect(detachedMaj7.orbit.metaStabilizer.name).not.toBeTruthy()
   })
 
   it("isLimitedTransposition", () => {
@@ -931,6 +967,27 @@ describe('IPcs unit tests', () => {
     expect(pcs1.getVectorIndexOfPitchOrder(3)).toEqual(0)
     expect(pcs1.getVectorIndexOfPitchOrder(1)).toEqual(4)
 
+  })
+
+  it('getAllCyclicPcsPivotVersion()', () => {
+    let pcs = new IPcs({strPcs: '[0,4,7]'})
+    let allPcsInCyclicGroup = pcs.getAllCyclicPcsPivotVersion()
+    expect(allPcsInCyclicGroup.length).toEqual(12)
+    for (let i = 0; i < allPcsInCyclicGroup.length ; i++) {
+      expect(allPcsInCyclicGroup[i].iPivot).toEqual(i)
+    }
+
+    pcs = new IPcs({strPcs: '[0,4,8]'})
+    allPcsInCyclicGroup = pcs.getAllCyclicPcsPivotVersion()
+    expect(allPcsInCyclicGroup.length).toEqual(4)
+    for (let i = 0; i < allPcsInCyclicGroup.length ; i++) {
+      expect(allPcsInCyclicGroup[i].iPivot).toEqual(i)
+    }
+
+  })
+
+  it('getOthersChordNames()', () =>{
+    fail("TOTO getOthersChordNames()")
 
   })
 

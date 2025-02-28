@@ -41,7 +41,6 @@ import {Forte} from './Forte';
 import {Orbit} from "./Orbit";
 import {GroupAction} from "./GroupAction";
 import {Group} from "./Group";
-import {Stabilizer} from "./Stabilizer";
 import {Mapping} from "../utils/Mapping";
 import {ChordNaming} from "./ChordNaming";
 import {Scales2048Name} from "./Scales2048Name";
@@ -49,6 +48,7 @@ import {MusaicOperation} from "./MusaicOperation";
 import {ArrayUtil} from "../utils/ArrayUtil";
 import {ManagerGroupActionService} from "../service/manager-group-action.service";
 import {PcsUtils} from "../utils/PcsUtils";
+import {ManagerPcsService} from "../service/manager-pcs.service";
 
 const NEXT_MODULATION = 1
 const PREV_MODULATION = 2
@@ -139,27 +139,30 @@ export class IPcs {
    * is set by a group action @link GroupAction
    * (also - and same - into this.orbit)
    */
-  _stabilizer: Stabilizer
+  //_stabilizer: Stabilizer
 
+  countStabilizers: number = 0
 
-  set stabilizer(stab) {
-    this._stabilizer = stab
-  }
-
-  get stabilizer(): Stabilizer {
-    if (this.isDetached()) {
-      throw new Error('A detached PCS has no Stabilizer !')
-    }
-    // already defined by GroupAction constructor, so no need to search in this.orbit
-    // for (let i = 0; i < this.orbit.stabilizers.length; i++) {
-    //   let stab: Stabilizer = this.orbit.stabilizers[i]
-    //   if (stab.fixedPcs.some(pcs => pcs.id == this.id)) {
-    //     return stab
-    //   }
-    // }
-    return this._stabilizer
-    // attached PCS MUST have a Stabilizer !
-  }
+  //
+  // set stabilizer(stab) {
+  //   this._stabilizer = stab
+  // }
+  //
+  // get stabilizer(): Stabilizer {
+  //   if (this.isDetached()) {
+  //     throw new Error('A detached PCS has no Stabilizer !')
+  //   }
+  //   // already defined by GroupAction constructor, so no need to search in this.orbit
+  //   // for (let i = 0; i < this.orbit.stabilizers.length; i++) {
+  //   //   let stab: Stabilizer = this.orbit.stabilizers[i]
+  //   //   if (stab.fixedPcs.some(pcs => pcs.id == this.id)) {
+  //   //     return stab
+  //   //   }
+  //   // }
+  //   // TODO make computed because pivot can change without changing id...
+  //   return this._stabilizer
+  //   // attached PCS MUST have a Stabilizer !
+  // }
 
   constructor(
     {pidVal, strPcs, binPcs, n, iPivot, orbit, templateMappingBinPcs, nMapping}:
@@ -401,10 +404,116 @@ export class IPcs {
   }
 
   /**
+   *  Get all pcs in cyclic group, with iPivot translated
+   */
+  getAllCyclicPcsPivotVersion(): IPcs[] {
+    let pcsCyclicList: IPcs[] = [this]
+    // no get from orbit cyclic because pivot not always logically set
+    for (let i = 1; i < this.n; i++) {
+      let nextPcs = this.transposition(i)
+      // be careful with limited transposition
+      if (!pcsCyclicList.find((pcs) => pcs.id === nextPcs.id)) {
+        pcsCyclicList.push(nextPcs)
+      }
+    }
+    return pcsCyclicList
+  }
+
+  symPrimeForm(): IPcs {
+    let pcs: IPcs = this
+    let allModulations: IPcs[] = [this]
+    let cardinal = this.cardOrbitMode()
+
+    for (let degree = 1; degree < cardinal; degree++) {
+      pcs = pcs.modulation(IPcs.NEXT_DEGREE)
+      allModulations.push(pcs)
+    }
+    //
+    // M11-T0 because visible symmetry is on clock representation
+    // const operations = [new MusaicOperation(12,11,0)]
+    const operations = [MusaicOperation.stringOpToMusaicOperation("M11-T0")]
+
+    let pcsStabOps = new Map<IPcs, MusaicOperation[]>
+    allModulations.forEach(pcs => {
+      operations.forEach(operation => {
+        if (operation.actionOn(pcs).id === pcs.id) {
+          // pcs is fixed by operation
+          const stabOps = pcsStabOps.get(pcs) ?? []
+          stabOps.push(operation)
+          pcsStabOps.set(pcs, stabOps)
+        }
+      })
+    })
+
+    if (pcsStabOps.size > 0) {
+      const somePcs = Array.from(pcsStabOps.keys()).sort(IPcs.compare)
+      let resultPcs = somePcs[0].transposition(-(somePcs[0].iPivot ?? 0))
+      if (this.orbit?.groupAction) {
+        return ManagerPcsService.makeNewInstanceOf(resultPcs, this.orbit?.groupAction, resultPcs.iPivot)
+      } else {
+        return resultPcs
+      }
+    }
+    return this
+  }
+
+  ___modalPrimeForm(): IPcs {
+
+
+    const allPcsInCyclicGroup = this.getAllCyclicPcsPivotVersion()
+    // const operations = (this.isDetached())
+    //   ? ManagerGroupActionService.getGroupActionFromGroupAliasName('Cyclic')!.operations
+    //   : this.orbit.groupAction!.operations
+
+    const operations = ManagerGroupActionService.getGroupActionFromGroupAliasName('Cyclic')!.operations
+
+    let pcsStabOps = new Map<IPcs, MusaicOperation[]>
+    allPcsInCyclicGroup.forEach(pcs => {
+      operations.forEach(operation => {
+        if (operation.actionOn(pcs).id === pcs.id) {
+          // pcs is fixed by operation
+          const stabOps = pcsStabOps.get(pcs) ?? []
+          stabOps.push(operation)
+          pcsStabOps.set(pcs, stabOps)
+        }
+      })
+    })
+    const pcsMaxStabs = ((prev: IPcs, curr: IPcs) => {
+      return (pcsStabOps.get(prev)!.length > pcsStabOps.get(curr)!.length) ? prev : curr
+    })
+
+    return Array.from(pcsStabOps.keys()).reduce(pcsMaxStabs)
+
+  }
+  //
+  // __modalPrimeForm(): IPcs {
+  //   const minStab = ((previousValue: number, currentValue: MusaicOperation) => previousValue += currentValue.t)
+  //   // const allPcsCyclic =
+  //   if (this.isDetached()) {
+  //     return this.cyclicPrimeForm().orbit.ipcsset.reduce((prev, curr) => {
+  //       // if(curr.iPivot === 0)
+  //       return prev.stabilizer.operations.reduce(minStab, 0) < curr.stabilizer.operations.reduce(minStab, 0) ? prev : curr
+  //       // else
+  //       //   return prev
+  //     })
+  //   } else {
+  //     return this.orbit.ipcsset.reduce((prev, curr) => prev.stabilizer.operations.reduce(minStab, 0) < curr.stabilizer.operations.reduce(minStab, 0) ? prev : curr);
+  //   }
+  // }
+
+  /**
+   * What is modal ??? rename by symmetryPrimeForm ?
+   * TODO In this case, where find a such pcs ? in its orbit ?  yes, certainly
+   *      it is pcs has "minimal stabilizer" where sum of Tk of all op in stabs is minimal
+   *   Mais c'est sans compter le changement de pivot, c'est à dire ces "modes".
+   *   Changer de pivot, c'est une autre façon de s'intéresser à d'autres PCS de son orbite (mais seulement ceux
+   *   dans son "sous-orbite" cyclic.  à éclaircir d'urgence.... !!!
+   *
+   *
    * return this by transposition iPivot to zero, useful for analyse (musical mode)
    * @return {IPcs}
    */
-  modalPrimeForm(): IPcs {
+  _modalPrimeForm(): IPcs {
     // if iPivot is undefined, return this
     if (!this.iPivot === undefined) {
       return this
@@ -609,8 +718,7 @@ export class IPcs {
     })
   }
 
-  static vector2pcsStr(previousValue : number[], currentValue : number, currentIndex: number)
-  {
+  static vector2pcsStr(previousValue: number[], currentValue: number, currentIndex: number) {
     if (currentValue === 1) {
       previousValue.push(currentIndex)
     }
@@ -627,7 +735,7 @@ export class IPcs {
     const pcs = this.abinPcs.reduce(IPcs.vector2pcsStr, [])
 
     if (withBracket) {
-       return `[${pcs.join(' ')}]`
+      return `[${pcs.join(' ')}]`
     }
     return pcs.join(' ')
   }
@@ -864,7 +972,7 @@ export class IPcs {
    *
    */
   complement(): IPcs {
-    let binCplt = this.abinPcs.map(pc => (pc === 1 ? 0 : 1)) //;slice() and inverse 0/1
+    let binCplt: number[] = this.abinPcs.map(pc => (pc === 1 ? 0 : 1)) //;slice() and inverse 0/1
     let new_iPivot = undefined
     let actual_iPivot = this.iPivot ?? 0
     let n = binCplt.length
@@ -873,14 +981,19 @@ export class IPcs {
     if (/*actualiPivot === undefined &&*/ binCplt[0] === 1) {
       new_iPivot = 0
     } else if ((n % 2) === 0 && binCplt[(actual_iPivot + n / 2) % n] === 1) {
+      // on symmetry axe
       new_iPivot = (actual_iPivot + n / 2) % n
     } else {
       // TODO best strategy to find new iPivot
       // here the first in right circular search
-      for (let i = actual_iPivot + 1; i < actual_iPivot + n; i++) {
-        if (binCplt[i % n] === 1) {
-          new_iPivot = i % n
-          break
+      if (binCplt[0] === 1) {
+        new_iPivot = 0
+      } else {
+        for (let i = actual_iPivot + 1; i < actual_iPivot + n; i++) {
+          if (binCplt[i % n] === 1) {
+            new_iPivot = i % n
+            break
+          }
         }
       }
     }
@@ -1227,12 +1340,12 @@ export class IPcs {
     let names: string[] = []
 
     let pcs = pcsMap12.modulation(IPcs.NEXT_DEGREE)
-    for (let i = 1; i < this.cardinal - 1; i++) {
+    for (let i = 1; i < this.cardOrbitMode() - 1; i++) {
       const chordName = pcs.getChordName()
       if (chordName && !names.includes(chordName)) {
         names.push(chordName)
       }
-      pcs = pcsMap12.modulation(IPcs.NEXT_DEGREE)
+      pcs = pcs.modulation(IPcs.NEXT_DEGREE)
     }
     return names.join("\n")
   }
@@ -1289,9 +1402,8 @@ export class IPcs {
 
   /**
    * Try to define iPivot from symmetries of pcs, if possible
-   * Begin first with M11, M5 then M7, and their complement, in this order,
-   * The first closest to zero win (exclus M1-Tx) !
-   * Example of winners : M5-T0, CM5-T11 or CM5-T1 (same distance to zero)
+   *
+   *
    * @return pivot value or -1 if not found (Not sure this case could exist)
    */
   public getPivotFromSymmetry(): number {
@@ -1299,6 +1411,10 @@ export class IPcs {
   }
 
   /**
+   *
+   * TODO  to fix [1 2 10 11] pivot 11  => *mini stabilizer* = [M1-T0 M11-T2]
+   *        actually [1 2 10 11] pivot 1 = [M1-T0 M11-T10]
+   *
    * Try to define iPivot from symmetries of pcs, if possible
    * Begin first with M11, M5 then M7, and their complement, in this order,
    * The first closest to zero win (excludes M1-Tx) !

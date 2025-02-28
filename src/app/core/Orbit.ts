@@ -64,7 +64,7 @@ export class Orbit {
     this.stabilizers = stabs ?? []
     this.ipcsset = ipcsSet ?? []
     this._hashcode = undefined
-    this.metaStabilizer = MetaStabilizer.manyMetaStabilizer
+    this.metaStabilizer = MetaStabilizer.nullMetaStabilizer
 
     // this.buildStabilizersSignatureName() no, do not !
 
@@ -247,12 +247,14 @@ export class Orbit {
    */
   buildNameAndMetaStabilizerName(): MetaStabilizer {
     const stabSignature = this.reducedStabilizersName
-    // take left part of "M1-T0 CM11-Tx~m" => "M1 CM11"
 
+    // take left part of "M1-T0 CM11-Tk~step" => "M1 CM11"
     const signatureWithoutTranslation = stabSignature.split(" ").map(op => op.trim().split("-")[0]);
 
     // with delete duplicate values via Set
-    return this.metaStabilizer = new MetaStabilizer([...new Set(signatureWithoutTranslation)].sort(PcsUtils.compareOpCMaWithoutTk).join(" "))
+    this.metaStabilizer = new MetaStabilizer([...new Set(signatureWithoutTranslation)].sort(PcsUtils.compareOpCMaWithoutTk).join(" "))
+
+    return this.metaStabilizer
   }
 
   /**

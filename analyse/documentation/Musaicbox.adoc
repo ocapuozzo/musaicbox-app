@@ -1673,7 +1673,7 @@ More formally :
 
 *Understand Reduced Stabilizer Name*
 
-stem:[ "string -> Set of Operations"]
+stem:[ "string " -> " Set of Operations"]
 
 stem:["C"_b"M"_a"-T"_"i""~step*" :=  uuu_(k=0)^(n/"step") "C"_b"M"_a"-T"_(i+(k cdot "step"))]
 

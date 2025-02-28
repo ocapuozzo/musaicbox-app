@@ -50,7 +50,7 @@ export class OctotropeDrawing {
     // if pcs is detached, get pcs into musaic group, else leave pcs in his group
     const pcsInGroup = this.pcsDto.pcs.isDetached() ? this.pcsDto.pcs.musaicPrimeForm() : this.pcsDto.pcs
     // priority to operations list (opStabilizers)
-    this.opStabilizers = x.opStabilizers ?? pcsInGroup.stabilizer.metaStabilizer.metaStabOperations
+    this.opStabilizers = x.opStabilizers ?? pcsInGroup.orbit.metaStabilizer.metaStabOperations
   }
 
   drawOctotrope() {

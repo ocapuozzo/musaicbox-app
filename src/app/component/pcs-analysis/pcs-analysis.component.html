@@ -108,10 +108,18 @@
 
       </p>
       <p style="max-width: 400px">
-        @if (pcs.isDetached() || pcsInMusaic() ) {(Musaic)} @else { (in orbit) }
+        @if (pcs.isDetached() || pcsInMusaic() ) { (Musaic) } @else { (in orbit) }
         Stabilizers ({{operationsStabilizerOf(pcsMapped).cardinal}}):
-        <span
-          class="analyse-pcs">{{ operationsStabilizerOf(pcsMapped).names //pcsMapped.musaicPrimeForm().orbit.strMetaStabilizer.name    }}</span>
+<!--        <span-->
+<!--          class="analyse-pcs">{{ operationsStabilizerOf(pcsMapped).names //pcsMapped.musaicPrimeForm().orbit.strMetaStabilizer.name    }}-->
+<!--        </span>-->
+
+        @for (name of operationsStabilizerOf(pcsMapped).names; track name) {
+          <span  [ngClass]="{'text-op-stabiliser-pcs': name.includes('-T0'),'text-op-pcs': !name.includes('-T0')}">
+            {{ name }}
+          </span>
+        }
+
         &nbsp;&nbsp;
       </p>
     </div>
@@ -164,10 +172,10 @@
       <legend class="representation-border">Prime Form</legend>
       <hr>
       <p style="margin: 1px">
-        <button mat-button (click)="doPushModalPF(pcsMapped)">Modal :
-          <span class="analyse-pcs"> {{ pcsMapped.modalPrimeForm().getPcsStr() }}
-            <sub> {{ pcsMapped.modalPrimeForm().iPivot }} </sub>
-            @if (pcsMapped.modalPrimeForm().pid() === pcsMapped.pid()) {
+        <button mat-button (click)="doPushModalPF(pcsMapped)">Symmetry :
+          <span class="analyse-pcs"> {{ pcsMapped.symPrimeForm().getPcsStr() }}
+            <sub> {{ pcsMapped.symPrimeForm().iPivot }} </sub>
+            @if (pcsMapped.symPrimeForm().pid() === pcsMapped.pid()) {
               *
             }</span>
         </button>
@@ -235,7 +243,7 @@
                 [ipcs]="pcsRepr"
                 [opaque]="false"
                 [pcColorSet]="colorOrbit(pcsRepr)"
-                (click)="doPushToPcsPage(pcsRepr.modalPrimeForm())"
+                (click)="doPushToPcsPage(pcsRepr.symPrimeForm())"
                 class="ms-1"
                 style="cursor: pointer"
               >
