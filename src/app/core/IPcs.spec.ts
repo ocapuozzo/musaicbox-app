@@ -221,7 +221,6 @@ describe('IPcs unit tests', () => {
     let pcsTestCplt = pcsTest.complement()
     expect(pcsTestCplt.iPivot).toEqual(6)
 
-
   });
 
   it("IPcs complement max/detached", () => {
@@ -423,38 +422,56 @@ describe('IPcs unit tests', () => {
     expect(ipcs3.pid()).toEqual(Math.pow(2, 12) - 1)
   })
 
-  it("IPcs modal prime form", () => {
+  it("IPcs symmetry prime form", () => {
     let ipcs1 = new IPcs({strPcs: ""})
     let ipcs2 = new IPcs({strPcs: "0"})
     let ipcs3 = new IPcs({strPcs: "0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11", iPivot: 4})
     let ipcs4 = new IPcs({strPcs: "0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11", iPivot: 0})
 
-    expect(ipcs3.symPrimeForm().id).toEqual(ipcs4.id)
-    expect(ipcs3.symPrimeForm().id).toEqual(ipcs4.id) // no side effect
+    expect(ipcs3.symmetryPrimeForm().id).toEqual(ipcs4.id)
+    expect(ipcs3.symmetryPrimeForm().id).toEqual(ipcs4.id) // no side effect
 
-    expect(ipcs2.symPrimeForm().id).toEqual(ipcs2.id)
-    expect(ipcs1.symPrimeForm().id).toEqual(ipcs1.id)
+    expect(ipcs2.symmetryPrimeForm().id).toEqual(ipcs2.id)
+    expect(ipcs1.symmetryPrimeForm().id).toEqual(ipcs1.id)
 
     let Emin_5plus = new IPcs({strPcs: "0, 4, 7", iPivot: 4})
     let CMaj = new IPcs({strPcs: "0, 4, 7", iPivot: 0})
 
-    expect(Emin_5plus.symPrimeForm().id).toEqual(CMaj.id)
-    expect(Emin_5plus.symPrimeForm().iPivot).toEqual(4) // no change ??
+    expect(Emin_5plus.symmetryPrimeForm().id).toEqual(CMaj.id)
+    expect(Emin_5plus.symmetryPrimeForm().iPivot).toEqual(0) // cyclic prime for ??
 
     let diatMaj = new IPcs({strPcs: "0 2 4 5 7 9 11", iPivot: 0})
     let dorianFromPc0 = new IPcs({strPcs: "0 2 3 5 7 9 10", iPivot: 0})
-    expect(diatMaj.symPrimeForm().iPivot).toEqual(0)
-    expect(diatMaj.symPrimeForm()).toEqual(dorianFromPc0)
+    expect(diatMaj.symmetryPrimeForm().iPivot).toEqual(0)
+    expect(diatMaj.symmetryPrimeForm().iPivot).toEqual(0)
+    expect(diatMaj.symmetryPrimeForm().equals(dorianFromPc0)).toBeTrue()
+
+
+    // let pcs  = new IPcs({strPcs:"0 1 2 4 5 6"})
+    // expect(pcs.symmetryPrimeForm())
+
+    let pcs  = new IPcs({strPcs:"1 2 6 7"})
+    let pcsSym  = new IPcs({strPcs:"10 2 3 9"})
+
+    expect(pcs.symmetryPrimeForm().equals(pcsSym)).toBeTrue()
+    expect(pcs.symmetryPrimeForm().iPivot).toEqual(10)
 
     let empty = new IPcs({strPcs: ""})
     expect(empty.iPivot).toEqual(undefined)
-    expect(empty.symPrimeForm().iPivot).toEqual(undefined)
-    expect(empty.symPrimeForm()).toEqual(empty)
+    expect(empty.symmetryPrimeForm().iPivot).toEqual(undefined)
+    expect(empty.symmetryPrimeForm()).toEqual(empty)
 
     const pcsInMusicGroup = ManagerGroupActionService.getGroupActionFromGroupAliasName('Musaic')?.getIPcsInOrbit(diatMaj)!
     expect(pcsInMusicGroup.isDetached()).toBeFalse()
-    expect(pcsInMusicGroup.symPrimeForm().isDetached()).toBeFalse()
+    expect(pcsInMusicGroup.symmetryPrimeForm().isDetached()).toBeFalse()
 
+    // difficult case :  1 3 6 7 9 10, pass by CM11 and all others steps
+    let kothimic = new IPcs({strPcs:"1 3 6 7 9 10"})
+    let kothimicSymPF = new IPcs({strPcs:"11 4 5 7 8 1"})
+    expect(kothimic.symmetryPrimeForm().equals(kothimicSymPF)).toBeTrue()
+    expect(kothimic.iPivot).toEqual(1)
+    expect(kothimicSymPF.iPivot).toEqual(11)
+    expect(kothimic.symmetryPrimeForm().iPivot).toEqual(11)
   })
 
 
@@ -462,48 +479,50 @@ describe('IPcs unit tests', () => {
     let pcs = new IPcs({strPcs: '[0,1,2]'})
     expect(pcs.getPivot()).toEqual(0)
 
-    let pivot = pcs.getPivotFromSymmetry()
+    let pivot = pcs.getPivotFromSymmetryForComplement()
     expect(pivot).toEqual(1)
 
-    const p3 = pcs.symPrimeForm()
+    const p3 = pcs.symmetryPrimeForm()
     expect(p3.getPcsStr()).toEqual('[0 1 11]')
     expect(p3.getPivot()).toEqual(0)
 
     pcs = new IPcs({strPcs: '[4 5 6 7 8]'})
-    pivot = pcs.getPivotFromSymmetry()
+    pivot = pcs.getPivotFromSymmetryForComplement()
     expect(pivot).toEqual(6)
 
     // musaic n° 80
     pcs = new IPcs({strPcs: '[0,2,3,5,6,8]'})
-    pivot = pcs.getPivotFromSymmetry()
+    pivot = pcs.getPivotFromSymmetryForComplement()
     expect(pivot).toEqual(3) // invariant by M7-T0
 
     // musaic n° 32
     pcs = new IPcs({strPcs: '[0,3,4,7]'})
-    pivot = pcs.getPivotFromSymmetry()
+    pivot = pcs.getPivotFromSymmetryForComplement()
     expect(pivot).toEqual(3) // no invariant by Mx-T0 but M11-T1
 
     // musaic n° 35
     pcs = new IPcs({strPcs: '[0,2,4,8]'})
-    pivot = pcs.getPivotFromSymmetry()
+    pivot = pcs.getPivotFromSymmetryForComplement()
     expect(pivot).toEqual(2) // invariant by M11-T0, M7-T0
 
     // musaic n° 64
     pcs = new IPcs({strPcs: '[0,1,2,3,4,6]'})
-    pivot = pcs.getPivotFromSymmetry()
+    pivot = pcs.getPivotFromSymmetryForComplement()
     expect(pivot).toEqual(0) // invariant by CM11-T11
 
     pcs = new IPcs({strPcs: '[0 4 5]'})
-    pivot = pcs.getPivotFromSymmetry()
+    pivot = pcs.getPivotFromSymmetryForComplement()
 
-    // TODO pcs.getPivotFromSymmetry() used by complement
+    // TODO pcs.getPivotFromSymmetryForComplement() used by complement
     expect(pivot).toEqual(0)
 
   })
 
-  it("symPrimeForm with symmetry if not possible", () => {
+  it("symmetryPrimeForm with symmetry if not possible", () => {
     let pcs = new IPcs({strPcs: '[1,2,6,7,8,9]'})
-    let pcsMPF = pcs.symPrimeForm()
+    let pcsMPF = pcs.symmetryPrimeForm()
+
+    // TODO fix logic of symmetryPrimeForm
 
     // cyclic modal PF waiting (No Mx-T0 op, but M11-T1, one step for symmetry)
 

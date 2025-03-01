@@ -173,9 +173,9 @@
       <hr>
       <p style="margin: 1px">
         <button mat-button (click)="doPushModalPF(pcsMapped)">Symmetry :
-          <span class="analyse-pcs"> {{ pcsMapped.symPrimeForm().getPcsStr() }}
-            <sub> {{ pcsMapped.symPrimeForm().iPivot }} </sub>
-            @if (pcsMapped.symPrimeForm().pid() === pcsMapped.pid()) {
+          <span class="analyse-pcs"> {{ pcsMapped.symmetryPrimeForm().getPcsStr() }}
+            <sub> {{ pcsMapped.symmetryPrimeForm().iPivot }} </sub>
+            @if (pcsMapped.symmetryPrimeForm().pid() === pcsMapped.pid()) {
               *
             }</span>
         </button>
@@ -243,7 +243,7 @@
                 [ipcs]="pcsRepr"
                 [opaque]="false"
                 [pcColorSet]="colorOrbit(pcsRepr)"
-                (click)="doPushToPcsPage(pcsRepr.symPrimeForm())"
+                (click)="doPushToPcsPage(pcsRepr.symmetryPrimeForm())"
                 class="ms-1"
                 style="cursor: pointer"
               >

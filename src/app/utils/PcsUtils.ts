@@ -1,4 +1,5 @@
 import {MusaicOperation} from "../core/MusaicOperation";
+import {IPcs} from "../core/IPcs";
 
 //TODO rename or put in MusaicOperationUtils ?
 
@@ -230,4 +231,49 @@ export class PcsUtils {
     return res
   }
 
+  static getPcsMinValueOfTkForStabM11(pcs: IPcs): IPcs {
+   let pcsWithMinPivot: IPcs
+
+    let cardinal = pcs.cardOrbitMode()
+
+    let pcsK = new Map<IPcs, number>()
+
+    let pcsMod = pcs
+
+    let allModulations = [pcs]
+    for (let degree = 1; degree < cardinal; degree++) {
+      pcsMod = pcsMod.modulation(IPcs.NEXT_DEGREE)
+      // allModulations.push(pcsMod)
+      pcsK.set(pcsMod, this.kValueThatStabByM11_Tk(pcsMod))
+    }
+    let minK = pcs.n
+
+    let minPcsList : IPcs[] = []
+    pcsK.forEach((value, key) => {
+      if (minK > value) {
+        minK = value
+        minPcsList = [key]
+      } else if (minK === value) {
+        minPcsList.push(key)
+      }
+    })
+    // sort ne marche aps car ce sont tous les meme pcs (à un pivot près !!)
+
+    // return minPcsList.sort(IPcs.compare)[0]
+
+    return minPcsList.sort((pcs1, pcs2) => {
+       return pcs1.transposition(pcs1.iPivot ?? 0).compareTo(pcs2.transposition(pcs2.iPivot ?? 0))
+    })[0]
+}
+
+  private static kValueThatStabByM11_Tk(pcs: IPcs) {
+    let minK = pcs.n
+    for (let i = 0; i < pcs.n ; i++) {
+      let operation = MusaicOperation.stringOpToMusaicOperation(`M${pcs.n - 1}-T${i}`) // M11-Tk
+      if (operation.actionOn(pcs).id === pcs.id) {
+        if (minK > i) minK = i
+      }
+    }
+    return minK;
+  }
 }

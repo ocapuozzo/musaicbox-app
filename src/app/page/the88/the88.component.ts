@@ -96,7 +96,7 @@ export class The88Component implements OnInit {
 
     this.listOrbits = this.groupMusaic.orbits.map(orbit => (
       {
-        pcsDto: makePcsDto(orbit.getPcsMin().symPrimeForm()),
+        pcsDto: makePcsDto(orbit.getPcsMin().symmetryPrimeForm()),
         metaStabilizerNames: orbit.metaStabilizer.name.split(' '),
         color: PcsColor.getColor(orbit.metaStabilizer.name),
         cardinal: orbit.cardinal

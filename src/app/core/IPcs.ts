@@ -139,9 +139,9 @@ export class IPcs {
    * is set by a group action @link GroupAction
    * (also - and same - into this.orbit)
    */
-  //_stabilizer: Stabilizer
+    //_stabilizer: Stabilizer
 
-  countStabilizers: number = 0
+  stabilizerCardinal: number = 0
 
   //
   // set stabilizer(stab) {
@@ -319,7 +319,7 @@ export class IPcs {
       }
     }
     if (strpcs) {
-      let pitches = strpcs.split(',');
+      let pitches = strpcs.split(/[ ,]+/);
       for (let i = 0; i < pitches.length; i++) {
         if (isNaN(Number(pitches[i]))) continue;
         return Number(pitches[i])
@@ -419,19 +419,250 @@ export class IPcs {
     return pcsCyclicList
   }
 
-  symPrimeForm(): IPcs {
+
+  symmetryPrimeForm(): IPcs {
+
+    let cyclePF = this.cyclicPrimeForm()
+
+    // M11-T0 because visible symmetry is on clock representation
+    // const operations = [new MusaicOperation(12,11,0)]
+    let operations = [MusaicOperation.stringOpToMusaicOperation("M11-T0")]
+
+    let allModulations: IPcs[] = [cyclePF]
+    let cardinal = cyclePF.cardOrbitMode()
+
+    let pcsMod = cyclePF
+    for (let degree = 1; degree < cardinal; degree++) {
+      pcsMod = pcsMod.modulation(IPcs.NEXT_DEGREE)
+      allModulations.push(pcsMod)
+    }
+
+    let minimalStabilizerOperation: MusaicOperation | undefined = undefined
+    let minimalStabPcsModal: IPcs | undefined = undefined
+    let stabPcsModal: IPcs[] = []
+    const n = cyclePF.n
+    // for one loop (M11-T0)
+    for (let i = 0; i < 1; i++) {
+      for (let j = 0; j < allModulations.length; j++) {
+        let pcs = allModulations[j]
+        // search first stabilizer op M11-Ti
+        let operation = MusaicOperation.stringOpToMusaicOperation(`M${pcs.n - 1}-T${i}`) // M11-Tk
+        if (operation.actionOn(pcs).id === pcs.id) {
+          // pcs is fixed by operation, with -Tk minimal
+          minimalStabilizerOperation = operation
+          minimalStabPcsModal = pcs
+          stabPcsModal.push(pcs.transposition(-(pcs!.iPivot ?? 0)))
+        }
+      }
+    }
+
+    let resultPcs: IPcs | undefined = undefined
+
+    if (stabPcsModal.length > 0) {
+      resultPcs = stabPcsModal.sort(IPcs.compare)[0]
+    } else {
+      if (stabPcsModal.length === 0) {
+        // search with complement
+        let cpltOfCyclicPF = cyclePF.affineOp(1, 0).complement()
+
+        allModulations = [cpltOfCyclicPF]
+        let cardinal = cpltOfCyclicPF.cardOrbitMode()
+
+        let pcsMod = cpltOfCyclicPF
+        for (let degree = 1; degree < cardinal; degree++) {
+          pcsMod = pcsMod.modulation(IPcs.NEXT_DEGREE)
+          allModulations.push(pcsMod)
+        }
+
+        const n = cpltOfCyclicPF.n
+        for (let i = 0; i < n && stabPcsModal.length === 0; i++) {
+          for (let j = 0; j < allModulations.length; j++) {
+            let pcs = allModulations[j]
+            // search first stabilizer op M11-Ti
+            let operation = MusaicOperation.stringOpToMusaicOperation(`M${pcs.n - 1}-T${i}`) // M11-Tk
+            if (operation.actionOn(pcs).id === pcs.id) {
+              // pcs is fixed by operation, with -Tk minimal
+              minimalStabilizerOperation = operation
+              minimalStabPcsModal = pcs
+              stabPcsModal.push(pcs) //.transposition(-(pcs!.iPivot ?? 0)))
+            }
+          }
+        }
+        if (stabPcsModal.length > 1) {
+          const pcsRes = stabPcsModal.sort(IPcs.compare)[0]
+          // const pcsRes = stabPcsModal.sort((a, b) => (a.iPivot ?? 0) - (b.iPivot ?? 0))[0]
+          resultPcs = cyclePF.transposition(-(pcsRes!.iPivot ?? 0))
+        } else if (stabPcsModal.length > 0 ) { // === 1
+          resultPcs = cyclePF.transposition(-(stabPcsModal[0]!.iPivot ?? 0))
+        }
+        if (resultPcs) {
+          // now get good pcs with k "minimal" for M11-Tk stab
+          resultPcs = PcsUtils.getPcsMinValueOfTkForStabM11(resultPcs)
+
+        }
+      }
+    }
+    if (!resultPcs) {
+      // nothing match
+      resultPcs = cyclePF
+    }
+    // no match, test with CM1
+
+    if (this.isDetached()) {
+      // detach resultPcs
+      // TODO make a method to do that (detachMe() unLinkMe()...), an other for clone() ....
+      resultPcs = resultPcs.permute(1, 0)
+    } else {
+      // clone
+      resultPcs = ManagerPcsService.makeNewInstanceOf(resultPcs, this.orbit.groupAction!, resultPcs.iPivot)
+    }
+    return resultPcs
+  }
+
+  symmetryPrimeFormV1(): IPcs {
+
+    let cyclePF = this.cyclicPrimeForm()
+
+    // M11-T0 because visible symmetry is on clock representation
+    // const operations = [new MusaicOperation(12,11,0)]
+    let operations = [MusaicOperation.stringOpToMusaicOperation("M11-T0")]
+
+    let allModulations: IPcs[] = [cyclePF]
+    let cardinal = cyclePF.cardOrbitMode()
+
+    let pcsMod = cyclePF
+    for (let degree = 1; degree < cardinal; degree++) {
+      pcsMod = pcsMod.modulation(IPcs.NEXT_DEGREE)
+      allModulations.push(pcsMod)
+    }
+
+    let minimalStabilizerOperation: MusaicOperation | undefined = undefined
+    let minimalStabPcsModal: IPcs | undefined = undefined
+    let stabPcsModal: IPcs[] = []
+    const n = cyclePF.n
+    for (let i = 0; i < n && !minimalStabilizerOperation; i++) {
+      for (let j = 0; j < allModulations.length; j++) {
+        let pcs = allModulations[j]
+        // search first stabilizer op M11-Ti
+        let operation = MusaicOperation.stringOpToMusaicOperation(`M${pcs.n - 1}-T${i}`) // M11-Tk
+        if (operation.actionOn(pcs).id === pcs.id) {
+          // pcs is fixed by operation, with -Tk minimal
+          minimalStabilizerOperation = operation
+          minimalStabPcsModal = pcs
+          stabPcsModal.push(pcs.transposition(-(pcs!.iPivot ?? 0)))
+          // break
+        }
+      }
+    }
+    let resultPcs: IPcs
+    if (stabPcsModal.length > 0) {
+      resultPcs = stabPcsModal.sort(IPcs.compare)[0]
+    } else {
+      resultPcs = cyclePF
+    }
+
+    if (this.isDetached()) {
+      // detach resultPcs
+      // TODO make a method to do that (detachMe() unLinkMe()...), an other for clone() ....
+      resultPcs = resultPcs.permute(1, 0)
+    } else {
+      // clone
+      resultPcs = ManagerPcsService.makeNewInstanceOf(resultPcs, this.orbit.groupAction!, resultPcs.iPivot)
+    }
+    return resultPcs
+  }
+
+
+  // symmetryPrimeForm(): IPcs {
+  //
+  // M11-T0 because visible symmetry is on clock representation
+  // const operations = [new MusaicOperation(12,11,0)]
+  // let operations = [MusaicOperation.stringOpToMusaicOperation("M11-T0")]
+  //
+  // let pcsStabOps = new Map<IPcs, MusaicOperation[]>
+  // allModulations.forEach(pcs => {
+  //   operations.forEach(operation => {
+  //     if (operation.actionOn(pcs).id === pcs.id) {
+  //       // pcs is fixed by operation
+  //       const stabOps = pcsStabOps.get(pcs) ?? []
+  //       stabOps.push(operation)
+  //       pcsStabOps.set(pcs, stabOps)
+  //     }
+  //   })
+  // })
+
+  // 0 1 2 4 5 6
+  //
+  // let minimalStabilizerOperation : MusaicOperation = MusaicOperation.stringOpToMusaicOperation("M11-T0")
+  // if (minimalStabilizerOperation.actionOn(this).id !== this.id) {
+  //   minimalStabilizerOperation  = MusaicOperation.stringOpToMusaicOperation("CM1-T0")
+  //   const pcsCM1 = minimalStabilizerOperation.actionOn(this)
+  //   minimalStabilizerOperation  = MusaicOperation.stringOpToMusaicOperation("CM1-T" + pcsCM1.iPivot)
+  // }
+  //
+  // if (minimalStabilizerOperation.actionOn(this).id !== this.id) {
+  //   // find on its complement
+  //   const opCM1 = MusaicOperation.stringOpToMusaicOperation("CM1-T0")
+  //   let thisCM1 = opCM1.actionOn(this)
+  //   let pcs: IPcs = thisCM1
+  //   let allModulations: IPcs[] = [thisCM1]
+  //   let cardinal = thisCM1.cardOrbitMode()
+  //
+  //   for (let degree = 1; degree < cardinal; degree++) {
+  //     pcs = pcs.modulation(IPcs.NEXT_DEGREE)
+  //     allModulations.push(pcs)
+  //   }
+  //
+  //   let findMinimal = false
+  //   for (let i = 1; i < this.n && !findMinimal; i++) {
+  //     for (pcs of allModulations) {
+  //       let operation = MusaicOperation.stringOpToMusaicOperation("M11-T" + i)
+  //       if (operation.actionOn(pcs).id === pcs.id) {
+  //         // pcs is fixed by operation, with -Tk minimal
+  //         minimalStabilizerOperation = operation
+  //         findMinimal = true
+  //         break
+  //       }
+  //     }
+  //   }
+  // }
+  //
+  // let resultPcs = this.transposition(-minimalStabilizerOperation.t)
+  //   if (this.orbit?.groupAction) {
+  //     return ManagerPcsService.makeNewInstanceOf(resultPcs, this.orbit?.groupAction, resultPcs.iPivot)
+  //   } else {
+  //     return resultPcs
+  //   }
+  // }
+
+  //
+  // if (pcsStabOps.size > 0) {
+  //   const somePcs = Array.from(pcsStabOps.keys()).sort(IPcs.compare)
+  //   let resultPcs = somePcs[0].transposition(-(somePcs[0].iPivot ?? 0))
+  //   if (this.orbit?.groupAction) {
+  //     return ManagerPcsService.makeNewInstanceOf(resultPcs, this.orbit?.groupAction, resultPcs.iPivot)
+  //   } else {
+  //     return resultPcs
+  //   }
+  // }
+  // return this
+  // }
+
+  old_symmetryPrimeForm()
+    :
+    IPcs {
+
+    // M11-T0 because visible symmetry is on clock representation
+    // const operations = [new MusaicOperation(12,11,0)]
+    let operations = [MusaicOperation.stringOpToMusaicOperation("M11-T0")]
     let pcs: IPcs = this
-    let allModulations: IPcs[] = [this]
-    let cardinal = this.cardOrbitMode()
+    let allModulations: IPcs[] = [pcs]
+    let cardinal = pcs.cardOrbitMode()
 
     for (let degree = 1; degree < cardinal; degree++) {
       pcs = pcs.modulation(IPcs.NEXT_DEGREE)
       allModulations.push(pcs)
     }
-    //
-    // M11-T0 because visible symmetry is on clock representation
-    // const operations = [new MusaicOperation(12,11,0)]
-    const operations = [MusaicOperation.stringOpToMusaicOperation("M11-T0")]
 
     let pcsStabOps = new Map<IPcs, MusaicOperation[]>
     allModulations.forEach(pcs => {
@@ -445,9 +676,68 @@ export class IPcs {
       })
     })
 
+    /*
+
+
+    // 0 1 2 4 5 6
+    if (pcsStabOps.size === 0) {
+      operations = [MusaicOperation.stringOpToMusaicOperation("M11-T0")]
+
+      pcs = this.complement()
+
+      let allModulationsCM1 = [pcs]
+      cardinal = pcs.cardOrbitMode()
+
+      for (let degree = 1; degree < cardinal; degree++) {
+        pcs = pcs.modulation(IPcs.NEXT_DEGREE)
+        allModulationsCM1.push(pcs)
+      }
+
+      // pcsStabOps = new Map<IPcs, MusaicOperation[]>
+      allModulationsCM1.forEach(pcs => {
+        operations.forEach(operation => {
+          if (operation.actionOn(pcs).id === pcs.id) {
+            // pcs is fixed by operation
+            const stabOps = pcsStabOps.get(pcs) ?? []
+            stabOps.push(operation)
+            pcsStabOps.set(pcs, stabOps)
+          }
+        })
+      })
+    }
+*/
     if (pcsStabOps.size > 0) {
-      const somePcs = Array.from(pcsStabOps.keys()).sort(IPcs.compare)
-      let resultPcs = somePcs[0].transposition(-(somePcs[0].iPivot ?? 0))
+
+      const somePcs = Array.from(pcsStabOps.keys()).sort((a, b) => (a.iPivot ?? 0) - (b.iPivot ?? 0))
+      const pcsMin = somePcs[0]
+      const somePcsFiltered = somePcs.filter(value => value.iPivot ?? 0 <= (pcsMin.iPivot ?? 0))
+
+      let resultPcsTemp = (pcsStabOps.size > 1)
+        ? somePcsFiltered.sort(IPcs.compare)[0]
+        : somePcs[0]
+
+      // let resultPcs = somePcs[0].transposition(-(somePcs[0].iPivot ?? 0))
+      // use iPivot of pcs symmetry ref
+      let resultPcs = this.transposition(-(resultPcsTemp.iPivot ?? 0))
+      // clone
+      resultPcs = new IPcs({
+        binPcs: resultPcs.abinPcs,
+        iPivot: 0,
+        orbit: resultPcs.orbit,
+        templateMappingBinPcs: this.templateMappingBinPcs,
+        nMapping: this.nMapping
+      })
+
+      allModulations = [resultPcs]
+      cardinal = resultPcs.cardOrbitMode()
+
+      for (let degree = 1; degree < cardinal; degree++) {
+        pcs = pcs.modulation(IPcs.NEXT_DEGREE)
+        allModulations.push(pcs)
+      }
+
+      // resultPcs = allModulations.sort((a, b) => (a.iPivot ?? 0) - (b.iPivot ?? 0) )[0]
+
       if (this.orbit?.groupAction) {
         return ManagerPcsService.makeNewInstanceOf(resultPcs, this.orbit?.groupAction, resultPcs.iPivot)
       } else {
@@ -457,34 +747,36 @@ export class IPcs {
     return this
   }
 
-  ___modalPrimeForm(): IPcs {
 
-
-    const allPcsInCyclicGroup = this.getAllCyclicPcsPivotVersion()
-    // const operations = (this.isDetached())
-    //   ? ManagerGroupActionService.getGroupActionFromGroupAliasName('Cyclic')!.operations
-    //   : this.orbit.groupAction!.operations
-
-    const operations = ManagerGroupActionService.getGroupActionFromGroupAliasName('Cyclic')!.operations
-
-    let pcsStabOps = new Map<IPcs, MusaicOperation[]>
-    allPcsInCyclicGroup.forEach(pcs => {
-      operations.forEach(operation => {
-        if (operation.actionOn(pcs).id === pcs.id) {
-          // pcs is fixed by operation
-          const stabOps = pcsStabOps.get(pcs) ?? []
-          stabOps.push(operation)
-          pcsStabOps.set(pcs, stabOps)
-        }
-      })
-    })
-    const pcsMaxStabs = ((prev: IPcs, curr: IPcs) => {
-      return (pcsStabOps.get(prev)!.length > pcsStabOps.get(curr)!.length) ? prev : curr
-    })
-
-    return Array.from(pcsStabOps.keys()).reduce(pcsMaxStabs)
-
-  }
+  //
+  // ___modalPrimeForm(): IPcs {
+  //
+  //
+  //   const allPcsInCyclicGroup = this.getAllCyclicPcsPivotVersion()
+  //   // const operations = (this.isDetached())
+  //   //   ? ManagerGroupActionService.getGroupActionFromGroupAliasName('Cyclic')!.operations
+  //   //   : this.orbit.groupAction!.operations
+  //
+  //   const operations = ManagerGroupActionService.getGroupActionFromGroupAliasName('Cyclic')!.operations
+  //
+  //   let pcsStabOps = new Map<IPcs, MusaicOperation[]>
+  //   allPcsInCyclicGroup.forEach(pcs => {
+  //     operations.forEach(operation => {
+  //       if (operation.actionOn(pcs).id === pcs.id) {
+  //         // pcs is fixed by operation
+  //         const stabOps = pcsStabOps.get(pcs) ?? []
+  //         stabOps.push(operation)
+  //         pcsStabOps.set(pcs, stabOps)
+  //       }
+  //     })
+  //   })
+  //   const pcsMaxStabs = ((prev: IPcs, curr: IPcs) => {
+  //     return (pcsStabOps.get(prev)!.length > pcsStabOps.get(curr)!.length) ? prev : curr
+  //   })
+  //
+  //   return Array.from(pcsStabOps.keys()).reduce(pcsMaxStabs)
+  //
+  // }
   //
   // __modalPrimeForm(): IPcs {
   //   const minStab = ((previousValue: number, currentValue: MusaicOperation) => previousValue += currentValue.t)
@@ -513,7 +805,9 @@ export class IPcs {
    * return this by transposition iPivot to zero, useful for analyse (musical mode)
    * @return {IPcs}
    */
-  _modalPrimeForm(): IPcs {
+  _modalPrimeForm()
+    :
+    IPcs {
     // if iPivot is undefined, return this
     if (!this.iPivot === undefined) {
       return this
@@ -526,7 +820,7 @@ export class IPcs {
     // try get better iPivot (if possible)
     // when, or if, done, center pcs on this pivot
     // work with a copy (no side effect)
-    let newPivot = newIPcs.getPivotFromSymmetry()
+    let newPivot = newIPcs.getPivotFromSymmetryForComplement()
     if (newPivot >= 0) {
       const newIPcs2 = newIPcs.transposition(newIPcs.n - newPivot)
       // newIPcs2 is in orbit (cyclic is base default)
@@ -552,7 +846,9 @@ export class IPcs {
    *
    * @return IPcs
    */
-  cyclicPrimeForm(): IPcs {
+  cyclicPrimeForm()
+    :
+    IPcs {
     if (this.cardinal === 0) {
       return this
     }
@@ -578,7 +874,9 @@ export class IPcs {
     return this.getMinFromGroupName(groupName);
   }
 
-  musaicPrimeForm(): IPcs {
+  musaicPrimeForm()
+    :
+    IPcs {
     // const groupName = `n=${this.n} [M1 M5 M7 M11 CM1 CM5 CM7 CM11]`
     const musaicOps: string = IPcs.getStrMusaicOpsOf(this.n)
     const groupName = `n=${this.n} ${musaicOps}`
@@ -612,7 +910,19 @@ export class IPcs {
    * @param binPcs : number[] array of int
    * @return {number[]}
    */
-  static getBinPcsPermute(a: number, t: number, iPivot: number, binPcs: number[]): number[] {
+  static
+
+  getBinPcsPermute(a
+                   :
+                   number, t
+                   :
+                   number, iPivot
+                   :
+                   number, binPcs
+                   :
+                   number[]
+  ):
+    number[] {
     let binPcsPermuted = binPcs.slice()
     let n = binPcs.length
     let j
@@ -639,7 +949,13 @@ export class IPcs {
    * @param  t : number   [0..11]
    * @return IPcs
    */
-  permute(a: number, t: number): IPcs {
+  permute(a
+          :
+          number, t
+          :
+          number
+  ):
+    IPcs {
     if (this.cardinal === 0) {
       // detached pcs no change
       return this
@@ -661,7 +977,13 @@ export class IPcs {
    * @param t
    * @returns {IPcs}
    */
-  affineOp(a: number, t: number): IPcs {
+  affineOp(a
+           :
+           number, t
+           :
+           number
+  ):
+    IPcs {
     return this.permute(a, t)
   }
 
@@ -670,7 +992,11 @@ export class IPcs {
    * @param t step
    * @returns {IPcs}
    */
-  transposition(t: number): IPcs {
+  transposition(t
+                :
+                number
+  ):
+    IPcs {
     return this.affineOp(1, t)
   }
 
@@ -681,7 +1007,11 @@ export class IPcs {
    * @returns {IPcs} a new object, but same pcs (just pivot change)
    *
    */
-  modulation(direction: number): IPcs {
+  modulation(direction
+             :
+             number
+  ):
+    IPcs {
     let newPivot = this.iPivot
     let pivot: number = this.iPivot ?? 0
     if (direction === IPcs.NEXT_DEGREE) {
@@ -718,7 +1048,16 @@ export class IPcs {
     })
   }
 
-  static vector2pcsStr(previousValue: number[], currentValue: number, currentIndex: number) {
+  static
+
+  vector2pcsStr(previousValue
+                :
+                number[], currentValue
+                :
+                number, currentIndex
+                :
+                number
+  ) {
     if (currentValue === 1) {
       previousValue.push(currentIndex)
     }
@@ -731,7 +1070,11 @@ export class IPcs {
    * Example : [1,1,0,0,0,0,0,1,0,0,0,0] => "[0 1 7]"
    * @returns {string}
    */
-  getPcsStr(withBracket: boolean = true): string {
+  getPcsStr(withBracket
+            :
+            boolean = true
+  ):
+    string {
     const pcs = this.abinPcs.reduce(IPcs.vector2pcsStr, [])
 
     if (withBracket) {
@@ -747,7 +1090,11 @@ export class IPcs {
    * Example : [1,1,0,0,0,0,0,1,0,0,0,0] => "[0 1 7]"
    * @returns {string}
    */
-  getMappedPcsStr(withBracket: boolean = true): string {
+  getMappedPcsStr(withBracket
+                  :
+                  boolean = true
+  ):
+    string {
     const pcs = this.getMappedBinPcs().reduce(IPcs.vector2pcsStr, [])
     if (withBracket) {
       return `[${pcs.join(' ')}]`
@@ -759,7 +1106,9 @@ export class IPcs {
   /**
    * Get Forte Num of this or empty string
    */
-  forteNum(): string {
+  forteNum()
+    :
+    string {
     if (this.n !== 12) return ""
 
     let forteNum = Forte.forteNum(this);
@@ -796,7 +1145,9 @@ export class IPcs {
    *
    * @return new instance, but same orbit because same pcs is returned (just pivot change)
    */
-  getWithDefaultPivot(): IPcs {
+  getWithDefaultPivot()
+    :
+    IPcs {
     const defaultPivot = this.getMappedBinPcs().findIndex(value => value === 1)
     return this.getWithNewPivot(defaultPivot)
   }
@@ -809,7 +1160,9 @@ export class IPcs {
    *
    * @return new instance, but same orbit because same pcs is returned (just pivot change)
    */
-  getWithNewPivot(iPivot ?: number): IPcs {
+  getWithNewPivot(iPivot ?: number)
+    :
+    IPcs {
     // exception is catch when bad iPivot (in constructor logic)
     let newBinPcs = this.abinPcs.slice()
     return new IPcs({
@@ -834,7 +1187,9 @@ export class IPcs {
    *
    * This function work on MappedBinPcs, because this is interface of inner abinPcs
    */
-  is(): number[] {
+  is()
+    :
+    number[] {
     const res: number[] = []
     const binPcsMapped = this.getMappedBinPcs()
     const nMapped = this.nMapping
@@ -884,7 +1239,9 @@ export class IPcs {
    *
    * Example : iv("0,3,7") => [0,0,1,1,1,0]
    */
-  iv(): number[] {
+  iv()
+    :
+    number[] {
     const nMapped = this.nMapping// getMappedBinPcs().length;
     const binPcsMapped = this.getMappedBinPcs()
 
@@ -912,7 +1269,9 @@ export class IPcs {
    * get number of pitches of this
    * @return number
    */
-  get cardinal(): number {
+  get cardinal()
+    :
+    number {
     return this.abinPcs.filter(i => i === 1).length
   }
 
@@ -932,7 +1291,9 @@ export class IPcs {
    * </pre>
    * @return {number}
    */
-  cardOrbitMode(): number {
+  cardOrbitMode()
+    :
+    number {
     if (this._cardModesOrbits) {
       return this._cardModesOrbits //
     }
@@ -954,7 +1315,9 @@ export class IPcs {
    *
    * @return {number}
    */
-  cardOrbitCyclic(): number {
+  cardOrbitCyclic()
+    :
+    number {
     if (this.orbit?.groupAction === ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!)
       return this.orbit.cardinal
 
@@ -971,7 +1334,9 @@ export class IPcs {
    * @return {IPcs} a new instance (free, not attached to an orbit).
    *
    */
-  complement(): IPcs {
+  complement()
+    :
+    IPcs {
     let binCplt: number[] = this.abinPcs.map(pc => (pc === 1 ? 0 : 1)) //;slice() and inverse 0/1
     let new_iPivot = undefined
     let actual_iPivot = this.iPivot ?? 0
@@ -1021,11 +1386,17 @@ export class IPcs {
     //	return JSON.stringify(this);
   }
 
-  equals(other: any) {
+  equals(other
+         :
+         any
+  ) {
     return this.equalsPcs(other)
   }
 
-  equalsPcs(other: any) {
+  equalsPcs(other
+            :
+            any
+  ) {
     if (other instanceof IPcs) {
       return this.id === other.id
       // return this.abinPcs.every((v, i) => v === other.abinPcs[i])
@@ -1039,7 +1410,15 @@ export class IPcs {
    * @param ipcs2
    * @return {number} as waiting by Array sort
    */
-  static compare(ipcs1: IPcs, ipcs2: IPcs): number {
+  static
+
+  compare(ipcs1
+          :
+          IPcs, ipcs2
+          :
+          IPcs
+  ):
+    number {
     return ipcs1.id - ipcs2.id
   }
 
@@ -1048,7 +1427,11 @@ export class IPcs {
    * @param {IPcs} ipcs2 to compareTo
    * @return {number} as waiting by Array sort
    */
-  compareTo(ipcs2: IPcs): number {
+  compareTo(ipcs2
+            :
+            IPcs
+  ):
+    number {
     return IPcs.compare(this, ipcs2)
   }
 
@@ -1057,7 +1440,10 @@ export class IPcs {
    *
    * @param newIPcs
    */
-  addInOrbit(newIPcs: IPcs) {
+  addInOrbit(newIPcs
+             :
+             IPcs
+  ) {
     if (!this.orbit) {
       this.orbit = new Orbit()
     }
@@ -1070,7 +1456,15 @@ export class IPcs {
    * @param {array} arrResearchA (to optimise - avoid create local array)
    * @param {array} arrResearchB (to optimise - avoid create local array)
    */
-  axeSymmetry(ipitch: number, arrResearchA: number[], arrResearchB: number[]): number {
+  axeSymmetry(ipitch
+              :
+              number, arrResearchA
+              :
+              number[], arrResearchB
+              :
+              number[]
+  ):
+    number {
     let iAxe
     let symmetryMedian = 1;
     let nEven = this.nMapping % 2 === 0;
@@ -1110,7 +1504,13 @@ export class IPcs {
    *       symInter: number[]
    *     }
    */
-  getAxialSymmetries(): { symMedian: number[], symInter: number[] } {
+  getAxialSymmetries()
+    :
+    {
+      symMedian: number[], symInter
+        :
+        number[]
+    } {
     let symMedian: number[] = Array(this.nMapping)
     let symInter: number[] = Array(this.nMapping)
     symMedian.fill(0)
@@ -1152,7 +1552,11 @@ export class IPcs {
    * @param {number} ipc
    * @return {IPcs} a new instance (free, not attached to an orbit)
    */
-  toggleIndexPC(ipc: number): IPcs {
+  toggleIndexPC(ipc
+                :
+                number
+  ):
+    IPcs {
     if (ipc < 0 || ipc >= this.abinPcs.length)
       throw new Error("Invalid index pitch class ! (" + ipc + ")")
 
@@ -1224,7 +1628,9 @@ export class IPcs {
    * mapping will be in n binPcs intra will be "0,1,2,3", with n = 4 mapping in
    * n=12 into "0,4,7,10"
    */
-  autoMap(): IPcs {
+  autoMap()
+    :
+    IPcs {
     let newBinPcs = new Array(this.cardinal).fill(1);
     let templateMappingBinPcs = new Array<number>(this.cardinal);
 
@@ -1250,7 +1656,9 @@ export class IPcs {
    * If this is mapped (this.nMapping > this.n) then
    * create new instance with n === this.nMapping
    */
-  unMap(): IPcs {
+  unMap()
+    :
+    IPcs {
     if (this.n === 12) {
       return this
     }
@@ -1270,7 +1678,9 @@ export class IPcs {
    *
    * @return : number[]
    */
-  getMappedBinPcs(): number[] {
+  getMappedBinPcs()
+    :
+    number[] {
     // this._mappedBinPcs is constructed into constructor
     return (this._mappedBinPcs.length > 0)
       ? this._mappedBinPcs
@@ -1283,7 +1693,9 @@ export class IPcs {
   }
 
 
-  isDetached(): boolean {
+  isDetached()
+    :
+    boolean {
     return this.orbit.isDetached()
   }
 
@@ -1303,20 +1715,32 @@ export class IPcs {
    * @return index for inner binary vector (abinPcs)
    *         or -1 if indexMapped is not mapped
    */
-  indexMappedToIndexInner(indexMapped: number): number {
+  indexMappedToIndexInner(indexMapped
+                          :
+                          number
+  ):
+    number {
     return this.templateMappingBinPcs.findIndex(value => indexMapped == value) ?? -1
   }
 
-  getChordName(): string {
+  getChordName()
+    :
+    string {
     return ([3, 4].includes(this.cardinal)) ? ChordNaming.getFirstChordName(this, this.cardinal) : '' // (this.getFirstScaleNameOrDerived().name ?? '') // or empty ??
   }
 
-  getFirstNameDetail(): string {
+  getFirstNameDetail()
+    :
+    string {
     return this.getNamesDetails(true)
   }
 
 
-  getNamesDetails(onlyOneName: boolean = false): string {
+  getNamesDetails(onlyOneName
+                  :
+                  boolean = false
+  ):
+    string {
     const pcsMap12 = this.unMap()
     const pcsNames =
       onlyOneName
@@ -1335,7 +1759,9 @@ export class IPcs {
   /**
    * Get some others mode name, if exist
    */
-  getOthersChordNames(): string {
+  getOthersChordNames()
+    :
+    string {
     const pcsMap12 = this.unMap()
     let names: string[] = []
 
@@ -1370,7 +1796,9 @@ export class IPcs {
     return this.n === 12 && this.musaicPrimeForm().orbit.cardinal < this.n * 8;
   }
 
-  getPivot(): number | undefined {
+  getPivot()
+    :
+    number | undefined {
     return this.iPivot;
   }
 
@@ -1379,8 +1807,13 @@ export class IPcs {
    * @param newPivot
    * @throws Error is newPivot is not valid
    */
-  setPivot(newPivot: number): void {
-    if (newPivot < 0 || newPivot >= this.n) {
+  setPivot(newPivot
+           :
+           number
+  ):
+    void {
+    if (newPivot < 0 || newPivot >= this.n
+    ) {
       throw new Error(`Invalid Pivot ! ( ${newPivot} with n = ${this.n} )`)
     }
     if (this.abinPcs[newPivot] == 0) {
@@ -1406,8 +1839,8 @@ export class IPcs {
    *
    * @return pivot value or -1 if not found (Not sure this case could exist)
    */
-  public getPivotFromSymmetry(): number {
-    return this.getPivotFromSymmetryByBruteForce()
+  public getPivotFromSymmetryForComplement(): number {
+    return this.getPivotFromSymmetryForComplementByBruteForce()
   }
 
   /**
@@ -1421,7 +1854,7 @@ export class IPcs {
    * Example of winners : M5-T0, CM5-T11 or CM5-T1 (same distance to zero)
    * @return pivot value or -1 if not found (Not sure this case could exist)
    */
-  public getPivotFromSymmetryByBruteForce(): number {
+  public getPivotFromSymmetryForComplementByBruteForce(): number {
     // create new instance for test
     let pcsForTest = new IPcs({
       binPcs: this.abinPcs,
@@ -1505,7 +1938,9 @@ export class IPcs {
    * Get intervals type of intervallic structure
    * Example : is:[2,2,1,2,2,2,1] => [1,2]
    */
-  getFeatureIS(): number[] {
+  getFeatureIS()
+    :
+    number[] {
     const is = this.is()
     let feature: number[] = [...new Set(is)]
     // for (let i = 0; i < is.length; i++) {
@@ -1529,7 +1964,9 @@ export class IPcs {
     return pcsSameFeatureIS;
   }
 
-  isInWellKnowPrimeForm(): boolean {
+  isInWellKnowPrimeForm()
+    :
+    boolean {
     const idsInPrimeForm = [this.cyclicPrimeForm().id, this.dihedralPrimeForm().id, this.affinePrimeForm().id, this.musaicPrimeForm().id]
     return idsInPrimeForm.includes(this.id)
   }
@@ -1553,7 +1990,11 @@ export class IPcs {
    * @param pitchOrder : number [1..this.cardinal]
    * @return index of pitchOrder into aBinPcs having bit to 1
    */
-  getVectorIndexOfPitchOrder(pitchOrder: number): number {
+  getVectorIndexOfPitchOrder(pitchOrder
+                             :
+                             number
+  ):
+    number {
     if (!pitchOrder || pitchOrder > this.cardinal) {
       return -1
       // throw new Error(`Invalid pitch order ${pitchOrder} `)
@@ -1572,7 +2013,12 @@ export class IPcs {
     return -1
   }
 
-  private static getStrMusaicOpsOf(n: number) {
+  private static
+
+  getStrMusaicOpsOf(n
+                    :
+                    number
+  ) {
     const nPrimeWithN = Group.phiEulerElements(n)
     let res = ''
     // affine op
@@ -1586,7 +2032,12 @@ export class IPcs {
     return `[${res}]`;
   }
 
-  private static getStrAffineOpsOf(n: number) {
+  private static
+
+  getStrAffineOpsOf(n
+                    :
+                    number
+  ) {
     const nPrimeWithN = Group.phiEulerElements(n)
     let res = ''
     // affine op

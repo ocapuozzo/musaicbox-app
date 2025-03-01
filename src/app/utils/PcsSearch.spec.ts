@@ -20,10 +20,10 @@ describe('PcsSearch test', () => {
   })
 
   it("searchPcsWithThisIV pcs same IV of MajorDiato", () => {
-    const pcsDiatoMaj = new IPcs({strPcs:"0,2,4,5,7,9,11"}).symPrimeForm()
+    const pcsDiatoMaj = new IPcs({strPcs:"0,2,4,5,7,9,11"}).symmetryPrimeForm()
     const pcsSameIV = PcsSearch.searchPcsWithThisIV(pcsDiatoMaj.iv().toString())
     expect(pcsSameIV.length).toEqual(1)
-    expect(pcsSameIV[0].symPrimeForm().id).toEqual(pcsDiatoMaj.id)
+    expect(pcsSameIV[0].symmetryPrimeForm().id).toEqual(pcsDiatoMaj.id)
   })
 
 })

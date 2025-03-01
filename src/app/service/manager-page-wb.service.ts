@@ -101,9 +101,9 @@ export class ManagerPageWBService {
   private makeInitialPcsDtoList() {
     const musaicGroup = ManagerGroupActionService.getGroupActionFromGroupAliasName("Musaic")!
     let pcs1 = musaicGroup.orbits[58].getPcsMin()
-    let pcs2 = musaicGroup.orbits[61].getPcsMin().complement().symPrimeForm()
-    let pcs3 = musaicGroup.orbits[55].getPcsMin().symPrimeForm()
-    let pcs4 = musaicGroup.orbits[26].getPcsMin().complement().symPrimeForm()
+    let pcs2 = musaicGroup.orbits[61].getPcsMin().complement().symmetryPrimeForm()
+    let pcs3 = musaicGroup.orbits[55].getPcsMin().symmetryPrimeForm()
+    let pcs4 = musaicGroup.orbits[26].getPcsMin().complement().symmetryPrimeForm()
     let uiMus = new UIMusaic({rounded: true})
 
     return [
@@ -866,7 +866,7 @@ export class ManagerPageWBService {
     const pcs = this.uiPcsDtoList[index].pcs
     switch (whichPrime) {
       case 'Modal' :
-        return pcs.symPrimeForm()
+        return pcs.symmetryPrimeForm()
       case 'Cyclic' :
         return pcs.cyclicPrimeForm()
       case 'Dihedral' :

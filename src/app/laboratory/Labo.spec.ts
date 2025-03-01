@@ -24,7 +24,7 @@ describe('Laboratory explorer', () => {
     const groupMusaic = ManagerGroupActionService.getGroupActionFromGroupAliasName("Musaic")!
     groupMusaic.orbits.forEach((orbit) => {
       const min: IPcs = orbit.getPcsMin()
-      expect(orbit.cardinal).toEqual(groupMusaic.cardinal / min.countStabilizers)
+      expect(orbit.cardinal).toEqual(groupMusaic.cardinal / min.stabilizerCardinal)
     })
   })
 

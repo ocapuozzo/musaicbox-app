@@ -113,7 +113,7 @@ export class PcsAnalysisComponent {
 
   doPushModalPF(pcs: IPcs) {
     if (pcs.n == 12) {
-      this.managerPagePcsService.replaceBy(pcs.symPrimeForm())
+      this.managerPagePcsService.replaceBy(pcs.symmetryPrimeForm())
     }
   }
 

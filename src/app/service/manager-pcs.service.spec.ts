@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { ManagerPcsService } from './manager-pcs.service';
+import {ManagerPcsService} from './manager-pcs.service';
 import {IPcs} from "../core/IPcs";
 
 describe('ManagerPcsService', () => {
@@ -61,6 +61,5 @@ describe('ManagerPcsService', () => {
   it('doDetach', () => {
 
   });
-
 
 });

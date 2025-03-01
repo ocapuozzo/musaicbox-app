@@ -152,12 +152,12 @@ export class GroupAction {
           orbit.stabilizers.push(newStab)
           // bi-directional link
           // pcs.stabilizer = newStab
-          pcs.countStabilizers = newStab.cardinal
+          pcs.stabilizerCardinal = newStab.cardinal
         } else {
           findStab.addFixedPcs(pcs)
           // bi-directional link
           // pcs.stabilizer = findStab
-          pcs.countStabilizers = findStab.cardinal
+          pcs.stabilizerCardinal = findStab.cardinal
         }
       }) // en loop all pcs in current orbit
       // order operations and fixedPcs for each stabilizer in current orbit.
