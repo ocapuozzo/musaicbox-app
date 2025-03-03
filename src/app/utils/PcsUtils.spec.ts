@@ -1,5 +1,6 @@
 import {PcsUtils} from "./PcsUtils";
 import {MusaicOperation} from "../core/MusaicOperation";
+import {IPcs} from "../core/IPcs";
 
 describe('PcsUtils test', () => {
 
@@ -108,6 +109,58 @@ describe('PcsUtils test', () => {
     expect(PcsUtils.pcsStringToStringPreFormated("12, 12,,12,12,12,6", {separator:',', duplicationValues:true})).toEqual("1,2,1,2,1,2,1,2,1,2,6")
     expect(PcsUtils.pcsStringToStringPreFormated("10,10,10,10,10,5", {separator:',', duplicationValues:true})).toEqual("10,10,10,10,10,5")
 
+  })
+
+  it('getPcsHavingMinimalPivotAndMinimalValueOfTkForStabM11_Tk', () =>{
+    let ipcs1 = new IPcs({strPcs: ""})
+    let ipcs2 = new IPcs({strPcs: "0"})
+    let ipcs3 = new IPcs({strPcs: "0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11", iPivot: 4})
+    let ipcs4 = new IPcs({strPcs: "0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11", iPivot: 0})
+
+    let pcsSym = PcsUtils.getPcsHavingMinimalPivotAndMinimalValueOfTkForStabM11_Tk(ipcs1)
+    expect(pcsSym.k).not.toBeDefined()
+    expect(pcsSym.pcs.id).toEqual(ipcs1.id)
+
+    pcsSym = PcsUtils.getPcsHavingMinimalPivotAndMinimalValueOfTkForStabM11_Tk(ipcs2)
+    expect(pcsSym.k).toBeDefined()
+    expect(pcsSym.k).toEqual(0)
+    expect(pcsSym.pcs.id).toEqual(ipcs2.id)
+
+    pcsSym = PcsUtils.getPcsHavingMinimalPivotAndMinimalValueOfTkForStabM11_Tk(ipcs3)
+    expect(pcsSym.k).toBeDefined()
+    expect(pcsSym.k).toEqual(0)
+    expect(pcsSym.pcs.id).toEqual(ipcs3.id)
+
+    pcsSym = PcsUtils.getPcsHavingMinimalPivotAndMinimalValueOfTkForStabM11_Tk(ipcs4)
+    expect(pcsSym.k).toBeDefined()
+    expect(pcsSym.k).toEqual(0)
+    expect(pcsSym.pcs.id).toEqual(ipcs3.id)
+
+    let diatMaj = new IPcs({strPcs: "0, 2, 4, 5, 7, 9, 11", iPivot: 0})
+    pcsSym = PcsUtils.getPcsHavingMinimalPivotAndMinimalValueOfTkForStabM11_Tk(diatMaj)
+    expect(pcsSym.k).toBeDefined()
+    expect(pcsSym.k).toEqual(0) // diatonic major is naturally symmetric
+  })
+
+  it('static minkValueThatStabByM11_Tk(pcs: IPcs) ', () =>  {
+    let ipcs1 = new IPcs({strPcs: ""})
+    let ipcs2 = new IPcs({strPcs: "0"})
+    let ipcs3 = new IPcs({strPcs: "0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11", iPivot: 4})
+    let ipcs4 = new IPcs({strPcs: "0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11", iPivot: 0})
+    let diatMaj = new IPcs({strPcs: "0, 2, 4, 5, 7, 9, 11", iPivot: 0})
+
+    let kMin = PcsUtils.minkValueThatStabByM11_Tk(ipcs1)
+    expect(kMin).toEqual(0)
+    kMin = PcsUtils.minkValueThatStabByM11_Tk(ipcs2)
+    expect(kMin).toEqual(0)
+    kMin = PcsUtils.minkValueThatStabByM11_Tk(ipcs3)
+    expect(kMin).toEqual(0)
+    kMin = PcsUtils.minkValueThatStabByM11_Tk(ipcs4)
+    expect(kMin).toEqual(0)
+    kMin = PcsUtils.minkValueThatStabByM11_Tk(diatMaj.cyclicPrimeForm())
+    expect(kMin).toEqual(6)
+    kMin = PcsUtils.minkValueThatStabByM11_Tk(diatMaj.cyclicPrimeForm().cloneWithNewPivot(3))
+    expect(kMin).toEqual(0)
   })
 
 })

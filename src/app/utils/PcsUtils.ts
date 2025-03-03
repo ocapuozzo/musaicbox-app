@@ -155,7 +155,10 @@ export class PcsUtils {
    * @param config  {separator ?: string, duplicationValues ?: boolean }
    * @return string with values are "numeric string", without duplicate values
    */
-  static pcsStringToStringPreFormated(strPcs: string, config : {separator ?: string, duplicationValues ?: boolean }={}) {
+  static pcsStringToStringPreFormated(strPcs: string, config: {
+    separator?: string,
+    duplicationValues?: boolean
+  } = {}) {
     // delete spaces and commas
     strPcs = strPcs.split(/[ ,]+/).join('');
     let separator = config.separator ?? ' '
@@ -226,54 +229,56 @@ export class PcsUtils {
       // // delete duplicate values
       const tempArr = res.split(separator)
       res = tempArr.filter((item, pos, self) => {
-        return self.indexOf(item) === pos }).join(separator)
+        return self.indexOf(item) === pos
+      }).join(separator)
     }
     return res
   }
 
-  static getPcsMinValueOfTkForStabM11(pcs: IPcs): IPcs {
-   let pcsWithMinPivot: IPcs
+  static getPcsHavingMinimalPivotAndMinimalValueOfTkForStabM11_Tk(pcs: IPcs) {
 
-    let cardinal = pcs.cardOrbitMode()
+    let cardinalMode = pcs.cardOrbitMode()
 
-    let pcsK = new Map<IPcs, number>()
+    // empty pcs ?
+    if (cardinalMode === 0) {
+      return {k: undefined, pcs: pcs}
+    }
+
+    let pcsMinK = new Map<IPcs, number>()
 
     let pcsMod = pcs
-
-    let allModulations = [pcs]
-    for (let degree = 1; degree < cardinal; degree++) {
+    for (let degree = 0; degree < cardinalMode; degree++) {
+      // be careful all pcsMod are same id... just pivot change, so modulation make a new instance
+      pcsMinK.set(pcsMod, this.minkValueThatStabByM11_Tk(pcsMod))
       pcsMod = pcsMod.modulation(IPcs.NEXT_DEGREE)
-      // allModulations.push(pcsMod)
-      pcsK.set(pcsMod, this.kValueThatStabByM11_Tk(pcsMod))
     }
+
+    let minK = Math.min(...pcsMinK.values())
+
+    if (minK === -1) {
+      // no symmetry, return same
+      return {k: undefined, pcs: pcs}
+    }
+
+    // let minK = pcs.n
+    let allPcsHavingMinimumK = Array.from(pcsMinK.keys()).filter(pcs => pcsMinK.get(pcs) === minK)
+
+    // sort with IPcs.compare do not work, because all pcs in collection are same id,
+    // so transpose if necessary (change id).
+    // There is here we select pcs minimal (not responsibility of caller)
+    const transposedPcs = allPcsHavingMinimumK.map(pcs => pcs.iPivot ? pcs.transposition(-pcs.iPivot) : pcs)
+
+    return {k: minK, pcs: transposedPcs.sort(IPcs.compare)[0]}
+  }
+
+  static minkValueThatStabByM11_Tk(pcs: IPcs) {
     let minK = pcs.n
-
-    let minPcsList : IPcs[] = []
-    pcsK.forEach((value, key) => {
-      if (minK > value) {
-        minK = value
-        minPcsList = [key]
-      } else if (minK === value) {
-        minPcsList.push(key)
-      }
-    })
-    // sort ne marche aps car ce sont tous les meme pcs (à un pivot près !!)
-
-    // return minPcsList.sort(IPcs.compare)[0]
-
-    return minPcsList.sort((pcs1, pcs2) => {
-       return pcs1.transposition(pcs1.iPivot ?? 0).compareTo(pcs2.transposition(pcs2.iPivot ?? 0))
-    })[0]
-}
-
-  private static kValueThatStabByM11_Tk(pcs: IPcs) {
-    let minK = pcs.n
-    for (let i = 0; i < pcs.n ; i++) {
+    for (let i = 0; i < pcs.n; i++) {
       let operation = MusaicOperation.stringOpToMusaicOperation(`M${pcs.n - 1}-T${i}`) // M11-Tk
       if (operation.actionOn(pcs).id === pcs.id) {
         if (minK > i) minK = i
       }
     }
-    return minK;
+    return minK === pcs.n ? -1 : minK;
   }
 }

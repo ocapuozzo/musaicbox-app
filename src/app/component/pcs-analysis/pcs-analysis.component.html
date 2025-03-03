@@ -45,7 +45,7 @@
       </p>
       <p>
         Intervallic Structure :
-        <span class="analyse-pcs">({{ pcsMapped.getWithDefaultPivot().is() }})</span>
+        <span class="analyse-pcs">({{ pcsMapped.cloneWithDefaultPivot().is() }})</span>
 
         @if (!pcsMapped.isPivotFirstPosition()) {
           circular-shift to
@@ -110,16 +110,12 @@
       <p style="max-width: 400px">
         @if (pcs.isDetached() || pcsInMusaic() ) { (Musaic) } @else { (in orbit) }
         Stabilizers ({{operationsStabilizerOf(pcsMapped).cardinal}}):
-<!--        <span-->
-<!--          class="analyse-pcs">{{ operationsStabilizerOf(pcsMapped).names //pcsMapped.musaicPrimeForm().orbit.strMetaStabilizer.name    }}-->
-<!--        </span>-->
 
         @for (name of operationsStabilizerOf(pcsMapped).names; track name) {
-          <span  [ngClass]="{'text-op-stabiliser-pcs': name.includes('-T0'),'text-op-pcs': !name.includes('-T0')}">
+          <span style="padding:1px" [ngClass]="{'text-op-stabiliser-pcs': name.includes('-T0'),'text-op-pcs': !name.includes('-T0')}">
             {{ name }}
           </span>
         }
-
         &nbsp;&nbsp;
       </p>
     </div>
@@ -171,7 +167,7 @@
     <fieldset class="representation-border">
       <legend class="representation-border">Prime Form</legend>
       <hr>
-      <p style="margin: 1px">
+      <p style="margin: 1px; border-bottom: dashed 1px;">
         <button mat-button (click)="doPushModalPF(pcsMapped)">Symmetry :
           <span class="analyse-pcs"> {{ pcsMapped.symmetryPrimeForm().getPcsStr() }}
             <sub> {{ pcsMapped.symmetryPrimeForm().iPivot }} </sub>

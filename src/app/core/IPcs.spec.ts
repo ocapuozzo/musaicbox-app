@@ -5,7 +5,7 @@ import {ManagerGroupActionService} from "../service/manager-group-action.service
 
 describe('IPcs unit tests', () => {
 
-  it("IPcs constructor with no iPivot = 0", () => {
+  it("IPcs constructor with iPivot = 0", () => {
     const ipcs = new IPcs({strPcs: "0,4,7"});
     expect(ipcs.iPivot).toEqual(0);
   });
@@ -14,6 +14,26 @@ describe('IPcs unit tests', () => {
     const ipcs = new IPcs({strPcs: "3,4,7"})
     expect(ipcs.iPivot).toEqual(3);
   });
+
+
+  it("IPcs constructor with iPivot > 0", () => {
+    const pcs1 = new IPcs({strPcs: "4,0,7"})
+    expect(pcs1.iPivot).toEqual(4);
+
+    const pcs2 = new IPcs({strPcs: "407"})
+    expect(pcs2.iPivot).toEqual(4);
+
+    let pcs = new IPcs({strPcs: "470"})
+    expect(pcs.iPivot).toEqual(4);
+
+    pcs = new IPcs({strPcs: "740"})
+    expect(pcs.iPivot).toEqual(7);
+
+    const pcs3 = new IPcs({strPcs: "11407"})
+    expect(pcs3.iPivot).toEqual(11);
+
+  });
+
 
   it("IPcs bad constructor with bad n ", () => {
     try {
@@ -443,8 +463,11 @@ describe('IPcs unit tests', () => {
     let diatMaj = new IPcs({strPcs: "0 2 4 5 7 9 11", iPivot: 0})
     let dorianFromPc0 = new IPcs({strPcs: "0 2 3 5 7 9 10", iPivot: 0})
     expect(diatMaj.symmetryPrimeForm().iPivot).toEqual(0)
-    expect(diatMaj.symmetryPrimeForm().iPivot).toEqual(0)
+
+    console.log(diatMaj.symmetryPrimeForm().getPcsStr())
+
     expect(diatMaj.symmetryPrimeForm().equals(dorianFromPc0)).toBeTrue()
+
 
 
     // let pcs  = new IPcs({strPcs:"0 1 2 4 5 6"})
@@ -518,18 +541,12 @@ describe('IPcs unit tests', () => {
 
   })
 
-  it("symmetryPrimeForm with symmetry if not possible", () => {
+  it("symmetryPrimeForm where symmetry if not possible", () => {
     let pcs = new IPcs({strPcs: '[1,2,6,7,8,9]'})
-    let pcsMPF = pcs.symmetryPrimeForm()
+    let pcsMinSymTk = new IPcs({strPcs: '[0 1 5 6 7 8]'})
 
-    // TODO fix logic of symmetryPrimeForm
-
-    // cyclic modal PF waiting (No Mx-T0 op, but M11-T1, one step for symmetry)
-
-    // ??? same pcsMPF if min with M11-T1
-    // let pcsModalPFWaiting = new IPcs({strPcs: '[0,1,2,6,7,11]'})
-    // expect(pcsMPF.id).toEqual(pcsModalPFWaiting.id)
-    expect(pcsMPF).toEqual(pcs)
+    expect(pcsMinSymTk.unMap().equals(pcs.symmetryPrimeForm())).toBeTrue()
+    expect(pcsMinSymTk.equals(pcs.symmetryPrimeForm())).toBeTrue()
   })
 
 
@@ -671,14 +688,14 @@ describe('IPcs unit tests', () => {
   it("get new Pivot", () => {
     let ipcsMaj = new IPcs({strPcs: "0, 4, 7", iPivot: 0})
     let ipcsMajPivotThird = new IPcs({strPcs: "0, 4, 7", iPivot: 4})
-    expect(ipcsMaj.getWithNewPivot(4)).toEqual(ipcsMajPivotThird)
+    expect(ipcsMaj.cloneWithNewPivot(4)).toEqual(ipcsMajPivotThird)
   })
 
   it("get new bad Pivot", () => {
     let ipcsMaj = new IPcs({strPcs: "0, 4, 7", iPivot: 0})
     let ipcsMajPivotThird = new IPcs({strPcs: "0, 4, 7", iPivot: 4})
     try {
-      expect(ipcsMaj.getWithNewPivot(6)).toEqual(ipcsMajPivotThird)
+      expect(ipcsMaj.cloneWithNewPivot(6)).toEqual(ipcsMajPivotThird)
       fail("Error waiting, because bad new pivot")
     } catch (e: any) {
       // good
@@ -959,17 +976,17 @@ describe('IPcs unit tests', () => {
   it("getWithDefaultPivot", () => {
     let pcs1 = new IPcs({strPcs: '[0,4,7]'})
     expect(pcs1.getPivot()).toEqual(0)
-    let pcs2 = pcs1.getWithDefaultPivot()
+    let pcs2 = pcs1.cloneWithDefaultPivot()
     expect(pcs2.getPivot()).toEqual(0)
 
     pcs1 = new IPcs({strPcs: '[4,0,7]'})
     expect(pcs1.getPivot()).toEqual(4)
-    pcs2 = pcs1.getWithDefaultPivot()
+    pcs2 = pcs1.cloneWithDefaultPivot()
     expect(pcs2.getPivot()).toEqual(0)
 
     pcs1 = new IPcs({strPcs: '[5,1,8]'})
     expect(pcs1.getPivot()).toEqual(5)
-    pcs2 = pcs1.getWithDefaultPivot()
+    pcs2 = pcs1.cloneWithDefaultPivot()
     // waiting "leftmost" (or min) pivot
     expect(pcs2.getPivot()).toEqual(1)
 

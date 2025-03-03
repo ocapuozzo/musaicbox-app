@@ -121,7 +121,7 @@ export class ManagerPcsService {
    * @param pcs a detached PCS
    */
   doDetach(pcs: IPcs): IPcs {
-    return pcs.detach()
+    return pcs.cloneDetached()
   }
 
   doTransformAffine(pcs: IPcs, a: number, t: number): IPcs {

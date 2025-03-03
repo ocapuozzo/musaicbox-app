@@ -71,21 +71,21 @@ export class PcsAnalysisComponent {
   }
 
   doPushOrbitCyclicPF(pcs: IPcs) {
-    if (pcs.n == 12) {
+    if (pcs.n === 12) {
       const cyclicGroup = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")
       this.managerPagePcsService.replaceBy(cyclicGroup!.getIPcsInOrbit(pcs))
     }
   }
 
   doPushOrbitDihedralPF(pcs: IPcs) {
-    if (pcs.n == 12) {
+    if (pcs.n === 12) {
       const dGroup = ManagerGroupActionService.getGroupActionFromGroupAliasName("Dihedral")
       this.managerPagePcsService.replaceBy(dGroup!.getIPcsInOrbit(pcs))
     }
   }
 
   doPushOrbitAffinePF(pcs: IPcs) {
-    if (pcs.n == 12) {
+    if (pcs.n === 12) {
       const afGroup = ManagerGroupActionService.getGroupActionFromGroupAliasName("Affine")
       this.managerPagePcsService.replaceBy(afGroup!.getIPcsInOrbit(pcs))
     }
@@ -112,31 +112,31 @@ export class PcsAnalysisComponent {
   }
 
   doPushModalPF(pcs: IPcs) {
-    if (pcs.n == 12) {
+    if (pcs.n === 12) {
       this.managerPagePcsService.replaceBy(pcs.symmetryPrimeForm())
     }
   }
 
   doPushCyclicPF(pcs: IPcs) {
-    if (pcs.n == 12) {
+    if (pcs.n === 12) {
       this.managerPagePcsService.replaceBy(pcs.cyclicPrimeForm())
     }
   }
 
   doPushDihedralPF(pcs: IPcs) {
-    if (pcs.n == 12) {
+    if (pcs.n === 12) {
       this.managerPagePcsService.replaceBy(pcs.dihedralPrimeForm())
     }
   }
 
   doPushAffinePF(pcs: IPcs) {
-    if (pcs.n == 12) {
+    if (pcs.n === 12) {
       this.managerPagePcsService.replaceBy(pcs.affinePrimeForm())
     }
   }
 
   doPushMusaicPF(pcs: IPcs) {
-    if (pcs.n == 12) {
+    if (pcs.n === 12) {
       this.managerPagePcsService.replaceBy(pcs.musaicPrimeForm())
     }
   }
@@ -146,7 +146,7 @@ export class PcsAnalysisComponent {
     if (pcs.orbit?.groupAction) {
       pcsHavingSameIV = pcsHavingSameIV.map((pcsSameIV) => pcs.orbit!.groupAction!.getIPcsInOrbit(pcsSameIV))
     } else {
-      pcsHavingSameIV = pcsHavingSameIV.map((pcsSameIV) => pcsSameIV.detach())
+      pcsHavingSameIV = pcsHavingSameIV.map((pcsSameIV) => pcsSameIV.cloneDetached())
     }
     return pcsHavingSameIV
   }
