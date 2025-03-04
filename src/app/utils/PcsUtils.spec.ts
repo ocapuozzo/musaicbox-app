@@ -105,9 +105,14 @@ describe('PcsUtils test', () => {
 
     expect(PcsUtils.pcsStringToStringPreFormated("3333", {separator:',', duplicationValues:true})).toEqual("3,3,3,3")
     expect(PcsUtils.pcsStringToStringPreFormated("11111", {separator:',', duplicationValues:true})).toEqual("11,11,1")
-    expect(PcsUtils.pcsStringToStringPreFormated("1,,1,,,1,,,,,1,1", {separator:',', duplicationValues:true})).toEqual("11,11,1")
+    // expect(PcsUtils.pcsStringToStringPreFormated("1,,1,,,1,,,,,1,1", {separator:',', duplicationValues:true})).toEqual("11,11,1")
+    expect(PcsUtils.pcsStringToStringPreFormated("1 1 1 1 1", {separator:',', duplicationValues:true})).toEqual("1,1,1,1,1")
+    expect(PcsUtils.pcsStringToStringPreFormated("11 1 1 1", {separator:',', duplicationValues:true})).toEqual("11,1,1,1")
     expect(PcsUtils.pcsStringToStringPreFormated("12, 12,,12,12,12,6", {separator:',', duplicationValues:true})).toEqual("1,2,1,2,1,2,1,2,1,2,6")
     expect(PcsUtils.pcsStringToStringPreFormated("10,10,10,10,10,5", {separator:',', duplicationValues:true})).toEqual("10,10,10,10,10,5")
+
+    expect(PcsUtils.pcsStringToStringPreFormated("1 1 07A B", {duplicationValues:false})).toEqual("1 0 7 10 11")
+    expect(PcsUtils.pcsStringToStringPreFormated("1 07A B", {separator:',', duplicationValues:false})).toEqual("1,0,7,10,11")
 
   })
 

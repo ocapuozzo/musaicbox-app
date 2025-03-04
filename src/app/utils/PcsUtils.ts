@@ -160,7 +160,82 @@ export class PcsUtils {
     duplicationValues?: boolean
   } = {}) {
     // delete spaces and commas
-    strPcs = strPcs.split(/[ ,]+/).join('');
+    strPcs = strPcs.split(/[ ,]+/).join(' '); // preserve values as 10 in "10 07" by example
+    let separator = config.separator ?? ' '
+    let withDuplicationValues = config.duplicationValues ?? true
+
+    let resultPcs = ''
+    let ignoreCar = false
+    for (let i = 0; i < strPcs.length; i++) {
+      if (strPcs.at(i) === "1") {
+        if (ignoreCar) {
+          // already 1
+          resultPcs = resultPcs ? `${resultPcs}${separator}11` : '11'
+          ignoreCar = false
+        } else {
+          // pass (do not consume "1")
+          ignoreCar = true
+        }
+      } else {
+        let car = strPcs.at(i)!
+        if ("ABET".includes(strPcs.at(i)!.toUpperCase())) {
+          switch (strPcs.at(i)!.toUpperCase()) {
+            case "A" :
+            case "T" :  // T for Ten
+              car = "10"
+              break
+            default : // B or E, see condition
+              car = "11"
+          }
+        }
+        if (ignoreCar) {
+          // "1" waiting to be consumed
+          if (' ' === car || isNaN(Number(car))) {
+            // pass
+            if (' ' === car) {
+              resultPcs = resultPcs ? `${resultPcs}${separator}1` : `1`
+              ignoreCar = false
+            }
+          } else {
+            switch (car) {
+              case "0":
+              case "1":
+                resultPcs = resultPcs ? `${resultPcs}${separator}1${car}` : `1${car}`
+                break
+              default:
+                resultPcs = resultPcs ? `${resultPcs}${separator}1${separator}${car}` : `1${separator}${car}`
+            }
+            ignoreCar = false // we have consumed 1
+          }
+        } else {
+          if (' ' === car || isNaN(Number(car))) {
+            // pass
+          } else {
+            resultPcs = resultPcs ? `${resultPcs}${separator}${car}` : `${car}`
+          }
+        }
+      }
+    }
+
+    let res = ignoreCar ? `${resultPcs}${separator}1` : resultPcs
+
+    if (res.length > 0 && !withDuplicationValues) {
+      // delete duplicate values
+      const tempArr = res.split(separator)
+      res = tempArr.filter((item, pos, self) => {
+        return self.indexOf(item) === pos
+      }).join(separator)
+    }
+    return res
+  }
+
+
+  static sav_pcsStringToStringPreFormated(strPcs: string, config: {
+    separator?: string,
+    duplicationValues?: boolean
+  } = {}) {
+    // delete spaces and commas
+    strPcs = strPcs.split(/[ ,]+/).join(' '); // preserve values as 10 in "10 07" by example
     let separator = config.separator ?? ' '
     let withDuplicationValues = config.duplicationValues ?? true
 
@@ -179,17 +254,18 @@ export class PcsUtils {
       } else {
         if (ignoreCar) {
           let car = strPcs.at(i)!
-          if ("AB".includes(strPcs.at(i)!.toUpperCase())) {
+          if ("ABET".includes(strPcs.at(i)!.toUpperCase())) {
             switch (strPcs.at(i)!.toUpperCase()) {
               case "A" :
+              case "T" :  // T for Ten
                 car = "10"
                 break
-              default :
+              default : // B or E, see condition
                 car = "11"
             }
           }
           // "1" waiting to be consumed
-          if (isNaN(Number(car))) {
+          if (' ' === car || isNaN(Number(car))) {
             // pass
           } else {
             switch (car) {
@@ -205,16 +281,17 @@ export class PcsUtils {
         } else {
           // default
           let car = strPcs.at(i)!.toUpperCase()
-          if ("AB".includes(strPcs.at(i)!.toUpperCase())) {
+          if ("ABET".includes(strPcs.at(i)!.toUpperCase())) {
             switch (strPcs.at(i)!.toUpperCase()) {
               case "A" :
+              case "T" :  // T for Ten
                 car = "10"
                 break
-              default :
+              default : // B or E, see condition
                 car = "11"
             }
           }
-          if (isNaN(Number(car))) {
+          if (' ' === car || isNaN(Number(car))) {
             // pass
           } else {
             resultPcs = resultPcs ? `${resultPcs}${separator}${car}` : `${car}`
@@ -234,6 +311,7 @@ export class PcsUtils {
     }
     return res
   }
+
 
   static getPcsHavingMinimalPivotAndMinimalValueOfTkForStabM11_Tk(pcs: IPcs) {
 

@@ -219,9 +219,6 @@ export class ManagerPcsService {
         templateMappingBinPcs: newPcsInOrbit.templateMappingBinPcs,
         nMapping: newPcsInOrbit.nMapping
       })
-      // change pivot impact stabilizer but not its stab cardinal
-      // same count stab.operations.length
-      clonePcs.stabilizerCardinal = newPcsInOrbit.stabilizerCardinal
       return clonePcs
     }
     return newPcsInOrbit // readonly by default, so can be shared

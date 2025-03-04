@@ -58,13 +58,20 @@ export class ManagerGroupActionService {
   constructor() {
   }
 
+  /**
+   * From group name as "n=12 [M1 M5]"
+   * build instance of GroupAction
+   * @param groupName
+   */
   static buildGroupActionFromGroupName(groupName: string) {
-    const someOperations: MusaicOperation[] = this._buildOperationsFromGroupName(groupName)
-    if (someOperations.length === 0) {
-      console.error(`buildGroupActionFromGroupName Impossible : ${groupName}`)
-      someOperations.push(new MusaicOperation(12, 1, 0, false)) // M1-T0, trivial group
 
-       // throw new Error(`buildGroupActionFromGroupName Impossible : ${groupName}`)
+    const someOperations: MusaicOperation[] =  (groupName === "n=12 []")
+      ?  [new MusaicOperation(12, 1, 0, false)] // M1-T0, trivial group
+      :  this._buildOperationsFromGroupName(groupName)
+    if (someOperations.length === 0) {
+      // console.error(`buildGroupActionFromGroupName Impossible : ${groupName}`)
+      // someOperations.push(new MusaicOperation(12, 1, 0, false)) // M1-T0, trivial group
+      throw new Error(`buildGroupActionFromGroupName Impossible : ${groupName}`)
     }
     return new GroupAction({n: someOperations[0].n, someMusaicOperations: someOperations});
   }

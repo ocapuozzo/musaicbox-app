@@ -134,36 +134,6 @@ export class IPcs {
    */
   orbit: Orbit;
 
-  /**
-   * stabilizer of this (getter/setter)
-   * is set by a group action @link GroupAction
-   * (also - and same - into this.orbit)
-   */
-    //_stabilizer: Stabilizer
-
-  stabilizerCardinal: number = 0
-
-  //
-  // set stabilizer(stab) {
-  //   this._stabilizer = stab
-  // }
-  //
-  // get stabilizer(): Stabilizer {
-  //   if (this.isDetached()) {
-  //     throw new Error('A detached PCS has no Stabilizer !')
-  //   }
-  //   // already defined by GroupAction constructor, so no need to search in this.orbit
-  //   // for (let i = 0; i < this.orbit.stabilizers.length; i++) {
-  //   //   let stab: Stabilizer = this.orbit.stabilizers[i]
-  //   //   if (stab.fixedPcs.some(pcs => pcs.id == this.id)) {
-  //   //     return stab
-  //   //   }
-  //   // }
-  //   // TODO make computed because pivot can change without changing id...
-  //   return this._stabilizer
-  //   // attached PCS MUST have a Stabilizer !
-  // }
-
   constructor(
     {pidVal, strPcs, binPcs, n, iPivot, orbit, templateMappingBinPcs, nMapping}:
     {
@@ -176,44 +146,69 @@ export class IPcs {
       templateMappingBinPcs?: number[],
       nMapping?: number
     } = {}) {
+    if (n !== undefined && (n < 3 || n > 13)) {
+      throw Error(`Bad n = ${n} waiting in [3...13]`)
+    }
+    // case integer given
     if (pidVal !== undefined && pidVal >= 0) {
+      if (pidVal >= Math.pow(2, 13)) {
+        throw Error(`Bad pidVal = ${pidVal} waiting in [0...2^13]`)
+      }
       this.abinPcs = IPcs.intToBinArray(pidVal, n ?? 12)
       // first index to 1 is iPivot
-      this.iPivot = this.abinPcs.findIndex((pc => pc === 1))
-    } else if (strPcs !== undefined) {
-      this.abinPcs = this._fromStringTobinArray(strPcs, n)
-      if (iPivot === undefined) {
-        this.iPivot = IPcs.defaultPivotFromStrBin(strPcs)
-        // set param iPivot
-        iPivot = this.iPivot
-      }
-    } else if (Array.isArray(binPcs)) {
+      const tempPivot = this.abinPcs.findIndex((pc => pc === 1))
+      // case of pcs = empty set
+      this.iPivot = tempPivot === -1 ? undefined : tempPivot
+    }
+    // case vector given
+    else if (Array.isArray(binPcs)) {
       // assume pcs bin vector [1,0,1, ... ]
       this.abinPcs = binPcs.slice()
+      if (! this.abinPcs.every(pc => pc >= 0 && pc <= 1)) {
+        throw Error(`Bad vector given = ${binPcs} waiting [0|1]*`)
+      }
+      if (this.abinPcs.length < 3 || this.abinPcs.length > 13) {
+        throw Error(`Bad vector size = ${this.abinPcs.length} waiting in [3...13]`)
+      }
+    }
+    // case string given
+    else if (strPcs !== undefined) {
+      let vectorAndPivot  = IPcs._fromStringTobinArray(strPcs, n)
+      this.iPivot = vectorAndPivot.defaultPivot
+      this.abinPcs = vectorAndPivot.vector
     } else {
       throw new Error("Can't create IPcs instance (bad args = " + strPcs + ")")
     }
-    // detached set as valid pcs
-    if (this.cardinal === 0) {
-      this.iPivot = undefined
-    } else if (iPivot === undefined  && iPivot !== 0) {
-      // iPivot is min pc
-      this.iPivot = this.abinPcs.findIndex((pc => pc === 1))
-    } else {
-      // check iPivot in pcs
-      if (this.abinPcs[iPivot] === 1) {
-        this.iPivot = iPivot
+
+    // check iPivot
+    if (iPivot !== undefined) {
+      if (iPivot < 0 || iPivot >= this.abinPcs.length ) {
+        throw new Error(`Can't create IPcs instance (bad iPivot = "  ${iPivot})`)
       } else {
-        throw new Error("Can't create IPcs instance (bad iPivot = " + iPivot + " for pcs " + this.abinPcs + ")")
+        if (this.abinPcs[iPivot] === 1) {
+          this.iPivot = iPivot
+        } else {
+          throw new Error(`Can't create IPcs instance (bad iPivot = ${iPivot} for pcs ${this.abinPcs})`)
+        }
       }
     }
+
+    // check a logic of this.iPivot
+    if (this.cardinal === 0 && this.iPivot !== undefined) {
+      // this.iPivot = undefined
+      throw Error(`Something wrong with iPivot  = ${this.iPivot} and ${this.abinPcs}`)
+    }
+
+    // check n
     if (n && n !== this.abinPcs.length) {
       throw new Error("Can't create IPcs instance (bad n = " + n + " for pcs " + this.abinPcs + ")")
     }
-    this.n = this.abinPcs.length
-    this.orbit = orbit ?? new Orbit()
 
+    this.n = this.abinPcs.length // normally, param n synchronized
+    this.orbit = orbit ?? new Orbit()
     this.id = IPcs.id(this.abinPcs)
+
+    // this.stabilizerCardinal ???
 
     // default mapping on himself
     if (!templateMappingBinPcs || templateMappingBinPcs.length != this.n) {
@@ -267,41 +262,43 @@ export class IPcs {
    * Example : "0, 1, 7" => [1,1,0,0,0,0,0,1,0,0,0,0] (default n = 12)
    * Example : "0, 1, 3", 5 => [1,1,0,1,0] (n = 5)
    *
-   * @param {string} strpcs
+   * @param {string} strPcs
    * @param {number} n vector dimension
    * @returns {int[]} vector (length == n)
    */
-  _fromStringTobinArray(strpcs: string, n: number = 12): Array<number> {
+  static _fromStringTobinArray(strPcs: string, n: number = 12): {vector: number[], defaultPivot: number | undefined} {
 
-    // assume length = 12
-    // this.chekStrpcs(strpcs.trim())
+    let defaultPivot: number | undefined = undefined
 
     let bin = new Array(n).fill(0);
 
-    strpcs = strpcs.trim()
+    strPcs = strPcs.trim()
     //  if "[1,3,5]" => "1,3,5"
     //  if "{1,3,5}" => "1,3,5"
-    if (strpcs.length > 0) {
+    if (strPcs.length > 0) {
       // accept "bordered" pcs  "[0,4,7]" or "[0 4 7]" or "{0 4,  7}" "|0, 4 7" etc.
-      if (isNaN(Number(strpcs[0]))) {
+      if (isNaN(Number(strPcs[0]))) {
         // is framed by symbols, remove them
-        strpcs = strpcs.substring(1, isNaN(Number(strpcs[strpcs.length - 1])) ? strpcs.length - 1 : undefined);
-        strpcs = strpcs.trim()
+        strPcs = strPcs.substring(1, isNaN(Number(strPcs[strPcs.length - 1])) ? strPcs.length - 1 : undefined);
+        strPcs = strPcs.trim()
       }
     }
-    if (strpcs) {
+    if (strPcs) {
       // pre-process string : "0369" => "0 3 6 9", "1110" => "11 10", "10110" => "10 11 0", ...
-      strpcs = PcsUtils.pcsStringToStringPreFormated(strpcs)
+      const strPcsBis = PcsUtils.pcsStringToStringPreFormated(strPcs)
       // accept "047", "0,4,7" or "0 4 7" or "0 4, 7"... "0AB" ...
-      let pitches = strpcs.split(/[ ,]+/);
+      let pitches = strPcsBis.split(/[ ,]+/);
       for (let i = 0; i < pitches.length; i++) {
         if (!pitches[i] || isNaN(Number(pitches[i])) || Number(pitches[i]) < 0 || Number(pitches[i]) > 12) {
           continue
         }
-        bin[Number(pitches[i])] = 1;
+        if (defaultPivot === undefined) {
+          defaultPivot = Number(pitches[i])
+        }
+        bin[Number(pitches[i]) % n] = 1;
       }
     }
-    return bin
+    return { vector:bin, defaultPivot: defaultPivot === undefined ? undefined : defaultPivot % n }
   }
 
   /**
@@ -310,7 +307,7 @@ export class IPcs {
    * Example : [11, 4, 5] => 11 is iPivot
    * @param strpcs a str Pcs
    */
-  static defaultPivotFromStrBin(strpcs: string): number | undefined {
+  static defaultPivotFromStr(strpcs: string): number | undefined {
     strpcs = strpcs.trim()
     if (strpcs.length > 0) {
       if (isNaN(Number(strpcs[0]))) {
@@ -330,7 +327,7 @@ export class IPcs {
 
 
   /**
-   * Convert integer in binary pitches class set
+   * Convert integer in binary vector, binary pitches class set
    *
    * @param intpcs
    *           integer value to convert
@@ -340,13 +337,13 @@ export class IPcs {
    * @return {Array} (binary pitches class set)
    */
   static intToBinArray(intpcs: number, dim: number): number[] {
-    let pitchesArray: number[] = []
-    pitchesArray.length = dim;
-    pitchesArray.fill(0);
+    let pitchClassArray: number[] = []
+    pitchClassArray.length = dim;
+    pitchClassArray.fill(0);
     for (let i = 0; i < dim && intpcs > 0; i++, intpcs = Math.floor(intpcs / 2)) {
-      pitchesArray[i] = intpcs % 2;
+      pitchClassArray[i] = intpcs % 2;
     }
-    return pitchesArray;
+    return pitchClassArray;
   }
 
   static get NEXT_DEGREE() {
@@ -540,14 +537,13 @@ export class IPcs {
    * @param  t : number   [0..11]
    * @return IPcs
    */
-  permute(a: number, t: number):
-    IPcs {
+  permute(a: number, t: number): IPcs {
     if (this.cardinal === 0) {
       // detached pcs no change
       return this
     }
-    // @ts-ignore
-    let newPivot = negativeToPositiveModulo((this.iPivot + t), this.abinPcs.length)
+
+    let newPivot = negativeToPositiveModulo(((this.iPivot ?? 0) + t), this.abinPcs.length)
     return new IPcs({
       binPcs: IPcs.getBinPcsPermute(a, t, newPivot, this.abinPcs),
       iPivot: newPivot,
@@ -1388,9 +1384,7 @@ export class IPcs {
    * Get intervals type of intervallic structure
    * Example : is:[2,2,1,2,2,2,1] => [1,2]
    */
-  getFeatureIS()
-    :
-    number[] {
+  getFeatureIS(): number[] {
     const is = this.is()
     let feature: number[] = [...new Set(is)]
     // for (let i = 0; i < is.length; i++) {
@@ -1414,9 +1408,7 @@ export class IPcs {
     return pcsSameFeatureIS;
   }
 
-  isInWellKnowPrimeForm()
-    :
-    boolean {
+  isInWellKnowPrimeForm(): boolean {
     const idsInPrimeForm = [this.cyclicPrimeForm().id, this.dihedralPrimeForm().id, this.affinePrimeForm().id, this.musaicPrimeForm().id]
     return idsInPrimeForm.includes(this.id)
   }
@@ -1440,11 +1432,7 @@ export class IPcs {
    * @param pitchOrder : number [1..this.cardinal]
    * @return index of pitchOrder into aBinPcs having bit to 1
    */
-  getVectorIndexOfPitchOrder(pitchOrder
-                             :
-                             number
-  ):
-    number {
+  getVectorIndexOfPitchOrder(pitchOrder: number): number {
     if (!pitchOrder || pitchOrder > this.cardinal) {
       return -1
       // throw new Error(`Invalid pitch order ${pitchOrder} `)
@@ -1463,12 +1451,7 @@ export class IPcs {
     return -1
   }
 
-  private static
-
-  getStrMusaicOpsOf(n
-                    :
-                    number
-  ) {
+  private static getStrMusaicOpsOf(n: number) {
     const nPrimeWithN = Group.phiEulerElements(n)
     let res = ''
     // affine op
@@ -1482,12 +1465,7 @@ export class IPcs {
     return `[${res}]`;
   }
 
-  private static
-
-  getStrAffineOpsOf(n
-                    :
-                    number
-  ) {
+  private static getStrAffineOpsOf(n: number) {
     const nPrimeWithN = Group.phiEulerElements(n)
     let res = ''
     // affine op
@@ -1502,5 +1480,17 @@ export class IPcs {
     // set "empty" ( x.orbit = new Orbit() is done by transposition op )
     // transposition of zero step (kind of clone)
     return this.transposition(0);
+  }
+
+  /**
+   * If this is detached, get stabilizer operations from musaic group
+   * else get stabilizer operations from operations of group where come from its orbit
+   */
+  getStabilizerOperations() {
+    if (this.isDetached()) {
+      return [MusaicOperation.stringOpToMusaicOperation("M1-T0", this.n)]
+    }
+    //return stab operations
+    return this.orbit!.groupAction!.operations.filter(op => op.actionOn(this).id === this.id)
   }
 }

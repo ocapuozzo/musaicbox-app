@@ -151,13 +151,14 @@ export class GroupAction {
         if (!findStab) {
           orbit.stabilizers.push(newStab)
           // bi-directional link
-          // pcs.stabilizer = newStab
-          pcs.stabilizerCardinal = newStab.cardinal
+          // pcs.stabilizer = newStab ?? see response in comment below
         } else {
           findStab.addFixedPcs(pcs)
-          // bi-directional link
+          // bi-directional link ?
           // pcs.stabilizer = findStab
-          pcs.stabilizerCardinal = findStab.cardinal
+          // pcs.stabilizerCardinal = findStab.cardinal
+          // hum... no because stabilizer depends on its IPivot...
+          // so its dynamic (method getStabilizerOperations())
         }
       }) // en loop all pcs in current orbit
       // order operations and fixedPcs for each stabilizer in current orbit.

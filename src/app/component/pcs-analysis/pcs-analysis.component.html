@@ -55,14 +55,12 @@
         }
       </p>
 
-      <p>
+      <p *ngIf="{pcsList:pcsWithSameIVas(pcsMapped)} as pcsWithSameIVas">
         Interval Vector :
         <span class="analyse-pcs" style="margin-right: 10px">&lt;{{ pcsMapped.iv() }}&gt;</span>
-<!-- TODO add @let-->
-
-        @if (pcsWithSameIVas(pcsMapped).length > 1) {
+        @if (pcsWithSameIVas.pcsList.length > 1) {
           shared by :
-          @for (pcs of pcsWithSameIVas(pcsMapped); track pcs.id) {
+          @for (pcs of pcsWithSameIVas.pcsList; track pcs.id) {
             <button mat-button (click)="doReplaceBy(pcs)">
           <span class="other-pcs-same-iv">
             {{ pcs.getPcsStr() }} @if (pcs.cyclicPrimeForm().id == pcsMapped.cyclicPrimeForm().id) {
@@ -100,7 +98,7 @@
           }
 
         </span>&nbsp;&nbsp;
-          {{ '' // tips @for for refresh octotrope component !! ???   }}
+          {{ '' // tips @for for refresh octotrope component !! ???    }}
           @for (pcs of [pcsMapped.musaicPrimeForm()]; track pcs.id) {
             <app-octotrope [w]="30" [pcs]="pcs"></app-octotrope>
           }
@@ -108,11 +106,16 @@
 
       </p>
       <p style="max-width: 400px">
-        @if (pcs.isDetached() || pcsInMusaic() ) { (Musaic) } @else { (in orbit) }
-        Stabilizers ({{operationsStabilizerOf(pcsMapped).cardinal}}):
+        @if (pcs.isDetached() || pcsInMusaicGroup()) {
+          (Musaic)
+        } @else {
+          (in orbit)
+        }
+        Stabilizers ({{ operationsStabilizerOf(pcsMapped).cardinal }}):
 
         @for (name of operationsStabilizerOf(pcsMapped).names; track name) {
-          <span style="padding:1px" [ngClass]="{'text-op-stabiliser-pcs': name.includes('-T0'),'text-op-pcs': !name.includes('-T0')}">
+          <span style="padding:1px"
+                [ngClass]="{'text-op-stabiliser-pcs': name.includes('-T0'),'text-op-pcs': !name.includes('-T0')}">
             {{ name }}
           </span>
         }
@@ -129,7 +132,7 @@
           <mat-icon>filter_tilt_shift</mat-icon>
           <i class="bi bi-chevron-double-down"> Modes : </i>
         </button>
-        {{ ''// sub sub below => to have same height that next fieldset      }}
+        {{ ''// sub sub below => to have same height that next fieldset       }}
         <span class="analyse-pcs">#{{ pcsMapped.cardOrbitMode() }} <sub></sub></span>
       </p>
 
@@ -167,11 +170,14 @@
     <fieldset class="representation-border">
       <legend class="representation-border">Prime Form</legend>
       <hr>
-      <p style="margin: 1px; border-bottom: dashed 1px;">
-        <button mat-button (click)="doPushModalPF(pcsMapped)">Symmetry :
-          <span class="analyse-pcs"> {{ pcsMapped.symmetryPrimeForm().getPcsStr() }}
-            <sub> {{ pcsMapped.symmetryPrimeForm().iPivot }} </sub>
-            @if (pcsMapped.symmetryPrimeForm().pid() === pcsMapped.pid()) {
+
+      <p *ngIf="{pcs:pcsMapped.symmetryPrimeForm()} as symmetric"
+         style="margin: 1px; border-bottom: dashed 1px;">
+        <button [disabled]="symmetric.pcs.id === pcsMapped.id" mat-button (click)="doPushSymmetryPF(pcsMapped)">Symmetry
+          :
+          <span class="analyse-pcs"> {{ symmetric.pcs.getPcsStr() }}
+            <sub> {{ symmetric.pcs.iPivot }} </sub>
+            @if (symmetric.pcs.pid() === pcsMapped.pid()) {
               *
             }</span>
         </button>
@@ -216,7 +222,7 @@
       <fieldset class="representation-border" style="max-width: 450px;">
         <legend class="representation-border">
       <span style="display: inline-flex; align-items: center;">
-        {{ '' // tips @for for refresh octotrope component !! ???   }}
+        {{ '' // tips @for for refresh octotrope component !! ???    }}
         @for (pcs of [pcsMapped.musaicPrimeForm()]; track pcs.id) {
           <app-octotrope [w]="50" [pcs]="pcs"></app-octotrope>
         }

@@ -7,7 +7,6 @@ import {MatIcon} from "@angular/material/icon";
 import {PcsSearch} from "../../utils/PcsSearch";
 import {EightyEight} from "../../utils/EightyEight";
 import {PcsColor} from "../../color/PcsColor";
-import {MusaicOperation} from "../../core/MusaicOperation";
 import {MusaicComponent} from "../musaic/musaic.component";
 import {OctotropeComponent} from "../octotrope/octotrope.component";
 import {NgClass, NgIf} from "@angular/common";
@@ -111,7 +110,7 @@ export class PcsAnalysisComponent {
     HtmlUtil.gotoAnchor("idListPcs")
   }
 
-  doPushModalPF(pcs: IPcs) {
+  doPushSymmetryPF(pcs: IPcs) {
     if (pcs.n === 12) {
       this.managerPagePcsService.replaceBy(pcs.symmetryPrimeForm())
     }
@@ -179,35 +178,27 @@ export class PcsAnalysisComponent {
 
   /**
    * Get operations name of operations that stabilize the pcs given in argument
-   * Example : "M1-T0 M11-T0"
+   * Example : ["M1-T0", "M11-T0"]
    * @param pcs
    */
   operationsStabilizerOf(pcs: IPcs) {
     if (pcs.n !== 12) throw Error("Waiting n = 12")
-    let operationStab: MusaicOperation[] = []
 
-    // if pcs is detached then get stabilizers from Musaic group
-    // else get stabilizers from its group
-    const operations: MusaicOperation[] =
-      pcs.isDetached()
-        ? ManagerGroupActionService.getGroupActionFromGroupAliasName("Musaic")?.operations ?? []
-        // ?  GroupAction.predefinedGroupsActions(12, Group.MUSAIC).operations
-        : pcs.orbit.groupAction!.group.operations
+    let pcsToCompute: IPcs = pcs
 
-    operations.forEach(operation => {
-      if (operation.actionOn(pcs).id === pcs.id) {
-        // pcs is fixed by operation
-        operationStab.push(operation)
-      }
-    })
-    // operationStab.sort(MusaicOperation.compareStabMajorTMinorA)
-    return {
-      cardinal: operationStab.length,
-      names: operationStab.map((operationStab) => operationStab.toString()) //.join(" ")
+    if (pcs.isDetached()) {
+      const groupMusaic = ManagerGroupActionService.getGroupActionFromGroupAliasName('Musaic')
+      pcsToCompute = groupMusaic!.getIPcsInOrbit(pcs)
     }
+    const stabOperations = pcsToCompute.getStabilizerOperations()
+    return {
+      cardinal: stabOperations.length,
+      names: stabOperations.map((op) => op.toString()) //.join(" ")
+    }
+
   }
 
-  pcsInMusaic() {
-    return !this.pcs.isDetached() ? this.pcs.orbit.groupAction?.group.operations.length===96 : false
+  pcsInMusaicGroup() {
+    return !this.pcs.isDetached() ? this.pcs.n === 12 && this.pcs.orbit.groupAction?.group.operations.length===96 : false
   }
 }

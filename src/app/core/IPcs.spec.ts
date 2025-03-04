@@ -38,13 +38,13 @@ describe('IPcs unit tests', () => {
   it("IPcs bad constructor with bad n ", () => {
     try {
       const ipcsDiatMajMapped = new IPcs({
-        strPcs: "[0, 2, 7]",  // 7 not in [0..7[
+        strPcs: "[0, 2, 7]",  // 7 not in [0..7[ but 7 Modulo 7 => 0
         n: 7,
         nMapping: 12,
         templateMappingBinPcs: [0, 2, 4, 5, 7, 9, 11]
       })
-      expect(ipcsDiatMajMapped).not.toBeTruthy()
-      expect(ipcsDiatMajMapped.n).not.toEqual(8)
+      expect(ipcsDiatMajMapped.n).toEqual(7)
+      expect(ipcsDiatMajMapped.abinPcs).toEqual([1,0,1,0,0,0,0])
     } catch (e: any) {
       expect().nothing()
     }
@@ -1024,6 +1024,51 @@ describe('IPcs unit tests', () => {
 
   it('getOthersChordNames()', () =>{
     fail("TOTO getOthersChordNames()")
+
+  })
+
+  it ('getStabilizerOperations()', () => {
+
+    const groupMusaic = ManagerGroupActionService.getGroupActionFromGroupAliasName("Musaic")!
+    const attachedMaj7 = groupMusaic.getIPcsInOrbit(new IPcs({strPcs: '0,4,7,10'}))
+
+    expect(attachedMaj7.getStabilizerOperations().length).toEqual(1)
+
+    let attachedMelodicMinor = groupMusaic.getIPcsInOrbit(new IPcs({strPcs: '0 2 3 5 7 9 11'}))
+    expect(attachedMelodicMinor.getStabilizerOperations().length).toEqual(2)
+    attachedMelodicMinor = attachedMelodicMinor.cloneWithNewPivot(0) // to be sure
+    expect(attachedMelodicMinor.getStabilizerOperations()[0].toString()).toEqual("M1-T0")
+    expect(attachedMelodicMinor.getStabilizerOperations()[1].toString()).toEqual("M11-T2")
+  })
+
+  it('_fromStringTobinArray', () => {
+    expect(IPcs._fromStringTobinArray("0, 1, 7").vector).toEqual([1,1,0,0,0,0,0,1,0,0,0,0])
+    expect(IPcs._fromStringTobinArray("0, 1, 7").vector.length).toEqual(12)
+    expect(IPcs._fromStringTobinArray("0, 1, 7").defaultPivot).toEqual(0)
+
+    expect(IPcs._fromStringTobinArray("017").vector).toEqual([1,1,0,0,0,0,0,1,0,0,0,0])
+
+    expect(IPcs._fromStringTobinArray("04710").vector).toEqual([1,0,0,0,1,0,0,1,0,0,1,0])
+    expect(IPcs._fromStringTobinArray("047A").vector).toEqual([1,0,0,0,1,0,0,1,0,0,1,0])
+    expect(IPcs._fromStringTobinArray("047TE").vector).toEqual([1,0,0,0,1,0,0,1,0,0,1,1])
+
+    expect(IPcs._fromStringTobinArray("017").vector.length).toEqual(12)
+    expect(IPcs._fromStringTobinArray("017").defaultPivot).toEqual(0)
+    expect(IPcs._fromStringTobinArray("701").defaultPivot).toEqual(7)
+
+    expect(IPcs._fromStringTobinArray("0, 1, 3", 5).vector).toEqual([1,1,0,1,0])
+    expect(IPcs._fromStringTobinArray("013", 5).vector.length).toEqual(5)
+    expect(IPcs._fromStringTobinArray("107", 5).defaultPivot).toEqual(0)
+    expect(IPcs._fromStringTobinArray("1 07", 5).defaultPivot).toEqual(1)
+    expect(IPcs._fromStringTobinArray("10 7", 5).defaultPivot).toEqual(0)
+    expect(IPcs._fromStringTobinArray("710", 5).defaultPivot).toEqual(2)
+
+    expect(IPcs._fromStringTobinArray("1 07A B", 5).defaultPivot).toEqual(1)
+    expect(IPcs._fromStringTobinArray("1 07A B", 5).vector).toEqual([1,1,1,0,0])
+    expect(IPcs._fromStringTobinArray("10 T7", 5).defaultPivot).toEqual(0)
+    expect(IPcs._fromStringTobinArray("10 T7", 5).vector).toEqual([1,0,1,0,0])
+    expect(IPcs._fromStringTobinArray("710E", 5).defaultPivot).toEqual(2)
+    expect(IPcs._fromStringTobinArray("710E", 5).vector).toEqual([1,1,1,0,0])
 
   })
 
