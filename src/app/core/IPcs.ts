@@ -164,7 +164,7 @@ export class IPcs {
     else if (Array.isArray(binPcs)) {
       // assume pcs bin vector [1,0,1, ... ]
       this.abinPcs = binPcs.slice()
-      if (! this.abinPcs.every(pc => pc >= 0 && pc <= 1)) {
+      if (!this.abinPcs.every(pc => pc >= 0 && pc <= 1)) {
         throw Error(`Bad vector given = ${binPcs} waiting [0|1]*`)
       }
       if (this.abinPcs.length < 3 || this.abinPcs.length > 13) {
@@ -173,7 +173,7 @@ export class IPcs {
     }
     // case string given
     else if (strPcs !== undefined) {
-      let vectorAndPivot  = IPcs._fromStringTobinArray(strPcs, n)
+      let vectorAndPivot = IPcs._fromStringTobinArray(strPcs, n)
       this.iPivot = vectorAndPivot.defaultPivot
       this.abinPcs = vectorAndPivot.vector
     } else {
@@ -182,7 +182,7 @@ export class IPcs {
 
     // check iPivot
     if (iPivot !== undefined) {
-      if (iPivot < 0 || iPivot >= this.abinPcs.length ) {
+      if (iPivot < 0 || iPivot >= this.abinPcs.length) {
         throw new Error(`Can't create IPcs instance (bad iPivot = "  ${iPivot})`)
       } else {
         if (this.abinPcs[iPivot] === 1) {
@@ -266,7 +266,7 @@ export class IPcs {
    * @param {number} n vector dimension
    * @returns {int[]} vector (length == n)
    */
-  static _fromStringTobinArray(strPcs: string, n: number = 12): {vector: number[], defaultPivot: number | undefined} {
+  static _fromStringTobinArray(strPcs: string, n: number = 12): { vector: number[], defaultPivot: number | undefined } {
 
     let defaultPivot: number | undefined = undefined
 
@@ -298,7 +298,7 @@ export class IPcs {
         bin[Number(pitches[i]) % n] = 1;
       }
     }
-    return { vector:bin, defaultPivot: defaultPivot === undefined ? undefined : defaultPivot % n }
+    return {vector: bin, defaultPivot: defaultPivot === undefined ? undefined : defaultPivot % n}
   }
 
   /**
@@ -423,10 +423,10 @@ export class IPcs {
     // console.log(` k = ${pcsSym.k} pcs = ${pcsSym.pcs.getPcsStr()}`)
 
     // default value, when no symmetry
-    let pcsSymmetry : IPcs = cyclicPF
+    let pcsSymmetry: IPcs = cyclicPF
 
     // if (0 2 4 5 7 9 11)
-    if ( pcsSym.k !== undefined) {
+    if (pcsSym.k !== undefined) {
       // ok symmetry exist
       const delta = Math.floor(pcsSym.k / 2) // pcsSym.pcs.iPivot ?? 0
 
@@ -434,12 +434,12 @@ export class IPcs {
       // console.log(`when pivot > 0, k = ${pcsSym.k} pcs = ${pcsSym.pcs.getPcsStr()}`)
       pcsSymmetry = pcsSym.pcs.transposition(-delta)
     }
-    if ( !this.isDetached()) {
+    if (!this.isDetached()) {
       pcsSymmetry = ManagerPcsService.makeNewInstanceOf(pcsSymmetry, this.orbit.groupAction!, pcsSymmetry.iPivot)
     } else {
       pcsSymmetry = pcsSymmetry.cloneDetached()
     }
-    return  pcsSymmetry
+    return pcsSymmetry
   }
 
   /// For understand prime form logic, see ManagerGroupActionService utility class
@@ -616,7 +616,7 @@ export class IPcs {
     })
   }
 
-  static vector2pcsStr(previousValue: number[], currentValue : number, currentIndex:number) {
+  static vector2pcsStr(previousValue: number[], currentValue: number, currentIndex: number) {
     if (currentValue === 1) {
       previousValue.push(currentIndex)
     }
@@ -660,13 +660,13 @@ export class IPcs {
   forteNum(): string {
     if (this.n !== 12) return ""
 
-    let forteNum = Forte.forteNum( this );
+    let forteNum = Forte.forteNum(this);
 
     if (forteNum) {
       return forteNum;
     }
     // not found ? get with dihedralPrimeForm
-    return Forte.forteNum( this.dihedralPrimeForm() );
+    return Forte.forteNum(this.dihedralPrimeForm());
   }
 
 
@@ -905,7 +905,8 @@ export class IPcs {
     return this.equalsPcs(other)
   }
 
-  equalsPcs(other: any) {if (other instanceof IPcs) {
+  equalsPcs(other: any) {
+    if (other instanceof IPcs) {
       return this.id === other.id
       // return this.abinPcs.every((v, i) => v === other.abinPcs[i])
     }

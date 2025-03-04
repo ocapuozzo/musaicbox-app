@@ -6,7 +6,7 @@ import {WhiteboardComponent} from "./page/whiteboard/whiteboard.component";
 
 export const routes: Routes = [
   {path: '', component: PcsPageComponent},
-  {path: 'pcs', component: PcsPageComponent},
+  {path: 'pcs', component: PcsPageComponent  },
   {path: 'pcs/pid/:pid', component: PcsPageComponent},
   {path: 'group-explorer', component: GroupExplorerComponent},
   {path: 'the88', component: The88Component},
