@@ -221,7 +221,7 @@ describe('IPcs unit tests', () => {
     const ipcs_other = new IPcs({strPcs: "0,4,11", iPivot: 11})
 
     expect(ipcs.equals(ipcs_other)).toBeTruthy();
-    expect(ipcs.equalsPcs(ipcs_other)).toBeTruthy();
+    expect(ipcs.equalsPcsById(ipcs_other)).toBeTruthy();
   });
 
   it("IPcs complement ", () => {
@@ -464,11 +464,9 @@ describe('IPcs unit tests', () => {
     let dorianFromPc0 = new IPcs({strPcs: "0 2 3 5 7 9 10", iPivot: 0})
     expect(diatMaj.symmetryPrimeForm().iPivot).toEqual(0)
 
-    console.log(diatMaj.symmetryPrimeForm().getPcsStr())
+    // console.log(diatMaj.symmetryPrimeForm().getPcsStr())
 
     expect(diatMaj.symmetryPrimeForm().equals(dorianFromPc0)).toBeTrue()
-
-
 
     // let pcs  = new IPcs({strPcs:"0 1 2 4 5 6"})
     // expect(pcs.symmetryPrimeForm())
@@ -494,7 +492,33 @@ describe('IPcs unit tests', () => {
     expect(kothimic.symmetryPrimeForm().equals(kothimicSymPF)).toBeTrue()
     expect(kothimic.iPivot).toEqual(1)
     expect(kothimicSymPF.iPivot).toEqual(11)
-    expect(kothimic.symmetryPrimeForm().iPivot).toEqual(11)
+    // check good pivot = 4, it is not with Tk minimal (pivot 11 => M11-T2)
+    // because pcs in symmetry 1 4 5 7 8 11 has 2 stab in T0 : M1-T0 and M7-T0 with M11-T4
+    expect(kothimic.symmetryPrimeForm().iPivot).toEqual(4)
+
+    // 0 1 3 4 7 9
+    // Cd eE  G A  https://www.daqarta.com/dw_ss0a.htm
+    let bluesDorianHex = new IPcs({strPcs:"0 1 3 4 7 9"})
+    let bluesDorianHexSymmetric = new IPcs({strPcs:"1 4 5 7 8 11"})
+    expect(bluesDorianHexSymmetric.equals(bluesDorianHex.symmetryPrimeForm())).toBeTrue()
+    expect(bluesDorianHex.symmetryPrimeForm().iPivot).toEqual(4)
+    //   if pivot = 11 stab =  M1-T0 M5-T8 M7-T6 M11-T2  (1 sym in -T0  min M11-T2)
+    //   if pivot = 4 stab =  M1-T0 M5-T4 M7-T0 M11-T4   (2 sym in -T0  and M11-T4) <= good solution !!!
+    //      see musaic 85
+    //   if symmetricPF is  "1 2 5 7 10 11" pivot = 4 also, but not minimal pcs
+
+    const pcs5 = new  IPcs({strPcs:"[2 3 7 8 9]"})
+    const pcs5SPF = new  IPcs({strPcs:"[0 1 5 6 7]"})
+    expect(pcs5.symmetryPrimeForm().equals(pcs5SPF)).toBeTrue()
+    expect(pcs5.symmetryPrimeForm().iPivot).toEqual(1) // // M7-T0 stab
+
+    const pcs5Mus = ManagerGroupActionService.getGroupActionFromGroupAliasName('Musaic')?.getIPcsInOrbit(pcs5)!
+    expect(pcs5Mus.symmetryPrimeForm().equals(pcs5SPF)).toBeTrue()
+    expect(pcs5Mus.symmetryPrimeForm().iPivot).toEqual(1) // // M7-T0 stab
+
+    const pcs5Cyclic = ManagerGroupActionService.getGroupActionFromGroupAliasName('Cyclic')?.getIPcsInOrbit(pcs5)!
+    expect(pcs5Cyclic.symmetryPrimeForm().equals(pcs5SPF)).toBeTrue()
+    expect(pcs5Cyclic.symmetryPrimeForm().iPivot).toEqual(1) // // M7-T0 stab
   })
 
 

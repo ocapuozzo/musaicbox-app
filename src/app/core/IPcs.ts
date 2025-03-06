@@ -427,17 +427,30 @@ export class IPcs {
 
     // if (0 2 4 5 7 9 11)
     if (pcsSym.k !== undefined) {
-      // ok symmetry exist
+      // ok axial symmetry exists, to be balanced relative to the vertical axis passing through 0
+      // as needed. So, if k <> zero, divide k by 2
       const delta = Math.floor(pcsSym.k / 2) // pcsSym.pcs.iPivot ?? 0
 
-      // transpose
-      // console.log(`when pivot > 0, k = ${pcsSym.k} pcs = ${pcsSym.pcs.getPcsStr()}`)
+
+      // Get new version of pcsSymmetry
+      // note : id delta > 0, the elected pcs must be transposed, for set vertical axe
+      //        else get simple clone
       pcsSymmetry = pcsSym.pcs.transposition(-delta)
+
     }
+
+    // Now we have best pcsSymmetryAxial, search for a pivot having best symmetry in -T0
+    // get pivot that max symmetry -T0 for pcsSymmetry, from ops M5-T0, M7-T0, M11-T0 and cplt
+    const pivotBestSymmetry = PcsUtils.getPivotBestSymmetryInT0(pcsSymmetry) ?? pcsSymmetry.iPivot
+
     if (!this.isDetached()) {
-      pcsSymmetry = ManagerPcsService.makeNewInstanceOf(pcsSymmetry, this.orbit.groupAction!, pcsSymmetry.iPivot)
+      pcsSymmetry = ManagerPcsService.makeNewInstanceOf(pcsSymmetry, this.orbit.groupAction!, pivotBestSymmetry === undefined ?  pcsSymmetry.iPivot : pivotBestSymmetry)
+      // pcsSymmetry = ManagerPcsService.makeNewInstanceOf(pcsSymmetry, this.orbit.groupAction!, pcsSymmetry.iPivot)
     } else {
       pcsSymmetry = pcsSymmetry.cloneDetached()
+      if (pivotBestSymmetry) {
+        pcsSymmetry = pcsSymmetry.cloneWithNewPivot(pivotBestSymmetry)
+      }
     }
     return pcsSymmetry
   }
@@ -671,38 +684,6 @@ export class IPcs {
 
 
   /**
-   * Change iPivot by default pivot ("leftmost")
-   *
-   *
-   * @return new instance, but same orbit because same pcs is returned (just pivot change)
-   */
-  cloneWithDefaultPivot(): IPcs {
-    const defaultPivot = this.getMappedBinPcs().findIndex(value => value === 1)
-    return this.cloneWithNewPivot(defaultPivot)
-  }
-
-
-  /**
-   * Change iPivot
-   *
-   * @param iPivot
-   *
-   * @return new instance, but same orbit because same pcs is returned (just pivot change)
-   */
-  cloneWithNewPivot(iPivot ?: number): IPcs {
-    // exception is catch when bad iPivot (in constructor logic)
-    let newBinPcs = this.abinPcs.slice() // if readonly, it is no necessary
-    return new IPcs({
-      binPcs: newBinPcs,
-      n: newBinPcs.length,
-      iPivot: iPivot, // if undefined set default pivot
-      orbit: this.orbit, // same orbit because same pcs, just pivot change
-      templateMappingBinPcs: this.templateMappingBinPcs,
-      nMapping: this.nMapping
-    })
-  }
-
-  /**
    * intervallic structure, useful to identify scales and modes from cyclic group
    * @see http://architexte.ircam.fr/textes/Andreatta03e/index.pdf : Structure Intervallique page 4
    * @see https://sites.google.com/view/88musaics/88musaicsexplained
@@ -902,16 +883,23 @@ export class IPcs {
   }
 
   equals(other: any) {
-    return this.equalsPcs(other)
+    return this.equalsPcsById(other)
   }
 
-  equalsPcs(other: any) {
+  equalsPcsById(other: any) {
     if (other instanceof IPcs) {
       return this.id === other.id
-      // return this.abinPcs.every((v, i) => v === other.abinPcs[i])
     }
     return false
   }
+
+  equalsPcsByIdAndPivot(other: any) {
+    if (other instanceof IPcs) {
+      return this.id === other.id && this.iPivot === other.iPivot
+    }
+    return false
+  }
+
 
   /**
    *
@@ -1162,9 +1150,13 @@ export class IPcs {
     return this.templateMappingBinPcs[this.iPivot ?? 0]
   }
 
-
+ // TODO isDetachedOfGroupAction() refactor by isComingFromAnOrbit() ???
   isDetached(): boolean {
-    return this.orbit.isDetached()
+    return this.orbit.isDetachedOfGroupAction()
+  }
+
+  isComingFromAnOrbit(): boolean {
+    return this.orbit.isDetachedOfGroupAction()
   }
 
 
@@ -1476,6 +1468,40 @@ export class IPcs {
     return `[${res}]`;
   }
 
+
+  /**
+   * Change iPivot by default pivot ("leftmost")
+   *
+   *
+   * @return new instance, but same orbit because same pcs is returned (just pivot change)
+   */
+  cloneWithDefaultPivot(): IPcs {
+    const defaultPivot = this.getMappedBinPcs().findIndex(value => value === 1)
+    return this.cloneWithNewPivot(defaultPivot)
+  }
+
+
+  /**
+   * Change iPivot
+   *
+   * @param iPivot
+   *
+   * @return new instance, but same orbit because same pcs is returned (just pivot change)
+   */
+  cloneWithNewPivot(iPivot ?: number): IPcs {
+    // exception is catch when bad iPivot (in constructor logic)
+    let newBinPcs = this.abinPcs.slice() // if readonly, it is no necessary
+    return new IPcs({
+      binPcs: newBinPcs,
+      n: newBinPcs.length,
+      iPivot: iPivot, // if undefined set default pivot
+      orbit: this.orbit, // same orbit because same pcs, just pivot change
+      templateMappingBinPcs: this.templateMappingBinPcs,
+      nMapping: this.nMapping
+    })
+  }
+
+
   // TODO best logic
   cloneDetached() {
     // set "empty" ( x.orbit = new Orbit() is done by transposition op )
@@ -1494,4 +1520,5 @@ export class IPcs {
     //return stab operations
     return this.orbit!.groupAction!.operations.filter(op => op.actionOn(this).id === this.id)
   }
+
 }

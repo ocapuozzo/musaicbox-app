@@ -20,5 +20,17 @@ describe('Test for ArrayUtil', () => {
     expect(ArrayUtil.isIncludeIn(arr1,arr4)).toBeTrue()
   })
 
+ it('shift' , () => {
+   let arr1 = [1, 3, 5]
+   expect(ArrayUtil.shift(arr1, false, 1)).toEqual([3,5,1])
+   arr1 = [1, 3, 5]
+   expect(ArrayUtil.shift(arr1, false, 2)).toEqual([5,1,3])
+   arr1 = [1, 3, 5]
+   expect(ArrayUtil.shift(arr1, true, 3)).toEqual([1,3,5])
+   arr1 = [1, 3, 5]
+   expect(ArrayUtil.shift(arr1, false, 3)).toEqual([1,3,5])
+   arr1 = [1, 3, 5]
+   expect(ArrayUtil.shift(arr1, true, 1)).toEqual([5,1,3])
+ })
 
 })

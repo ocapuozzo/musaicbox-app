@@ -5,6 +5,16 @@ import {IPcs} from "../core/IPcs";
 
 export class PcsUtils {
 
+  static  OPERATIONS_IN_T0 = [
+    MusaicOperation.stringOpToMusaicOperation("M5-T0"),
+    MusaicOperation.stringOpToMusaicOperation("M7-T0"),
+    MusaicOperation.stringOpToMusaicOperation("M11-T0"),
+    MusaicOperation.stringOpToMusaicOperation("CM1-T0"),
+    MusaicOperation.stringOpToMusaicOperation("CM5-T0"),
+    MusaicOperation.stringOpToMusaicOperation("CM7-T0"),
+    MusaicOperation.stringOpToMusaicOperation("CM11-T0")
+  ]
+
   /**
    * Solves the equation ak' + k ≡ 0 (mod n) for k', where:
    * - `a` is an integer coprime with `n` (gcd(a, n) = 1),
@@ -326,8 +336,8 @@ export class PcsUtils {
 
     let pcsMod = pcs
     for (let degree = 0; degree < cardinalMode; degree++) {
-      // be careful all pcsMod are same id... just pivot change, so modulation make a new instance
-      pcsMinK.set(pcsMod, this.minkValueThatStabByM11_Tk(pcsMod))
+      // be careful all pcsMod are same id... just pivot change
+      pcsMinK.set(pcsMod, this.minkValueThatStabByMInverseOp_Tk(pcsMod))
       pcsMod = pcsMod.modulation(IPcs.NEXT_DEGREE)
     }
 
@@ -349,7 +359,7 @@ export class PcsUtils {
     return {k: minK, pcs: transposedPcs.sort(IPcs.compare)[0]}
   }
 
-  static minkValueThatStabByM11_Tk(pcs: IPcs) {
+  static minkValueThatStabByMInverseOp_Tk(pcs: IPcs) {
     let minK = pcs.n
     for (let i = 0; i < pcs.n; i++) {
       let operation = MusaicOperation.stringOpToMusaicOperation(`M${pcs.n - 1}-T${i}`) // M11-Tk
@@ -358,5 +368,59 @@ export class PcsUtils {
       }
     }
     return minK === pcs.n ? -1 : minK;
+  }
+
+
+  /**
+   * get pivot that max symmetry -T0 for pcsSymmetry, from ops M5-T0, M7-T0, M11-T0 and cplt
+   * @param pcs
+   */
+  static getPivotBestSymmetryInT0(pcs: IPcs) : number | undefined {
+    let pivotInBestSymmetry = undefined
+    let cardinalMode = pcs.cardOrbitMode()
+
+    // empty pcs ?
+    if (cardinalMode === 0) {
+      return pivotInBestSymmetry
+    }
+    const getPivots = (previousValue: number[], currentValue:number, currentIndex:number) =>
+    {
+     return  (currentValue === 1) ? [...previousValue, currentIndex] : previousValue
+    }
+
+    const possiblePivots = pcs.abinPcs.reduce(getPivots, [])
+
+    let pivotNumberStabInT0 = new Map<number, number>()
+
+    let temPcs = pcs.cloneDetached()
+    possiblePivots.forEach(pivot => {
+      temPcs.setPivot(pivot) // controlled side effect (tempPcs is local)
+      pivotNumberStabInT0.set(pivot, this.numberOfStabOperationInT0(temPcs))
+    })
+
+    // sort pivot on their number of stab pos in T0
+    const sortedMap = new Map([...pivotNumberStabInT0.entries()].sort(
+      (a, b) => b[1] - a[1]));
+
+    const firstPivot = sortedMap.keys().next().value
+
+    // when choice, pcs.iPivot is preferred
+    if (pcs.iPivot && sortedMap.has(pcs.iPivot) && sortedMap.get(pcs.iPivot) === sortedMap.get(firstPivot)) {
+      return pcs.iPivot
+    }
+
+    // get first possible pivots having max stabilizer operations
+    return firstPivot
+  }
+
+  private static numberOfStabOperationInT0(pcs: IPcs) {
+
+    let sumStabInT0 = 0
+    for (let i = 0; i < this.OPERATIONS_IN_T0.length; i++) {
+      if (this.OPERATIONS_IN_T0[i].actionOn(pcs).id === pcs.id) {
+        sumStabInT0++
+      }
+    }
+    return sumStabInT0;
   }
 }

@@ -23,8 +23,8 @@ describe('GroupAction unit tests', () => {
     expect(powerset5.length).toEqual(Math.pow(2, 5))
     let minPcs = new IPcs({strPcs: "", n: 5})
     let maxPcs = new IPcs({strPcs: "0,1,2,3,4", n: 5})
-    expect(minPcs.equalsPcs(powerset5[0])).toBeTruthy()
-    expect(maxPcs.equalsPcs(powerset5[31])).toBeTruthy()
+    expect(minPcs.equalsPcsById(powerset5[0])).toBeTruthy()
+    expect(maxPcs.equalsPcsById(powerset5[31])).toBeTruthy()
   });
 
   it("Powerset n = 12", () => {
@@ -192,7 +192,7 @@ describe('GroupAction unit tests', () => {
 
       let lastPF = new IPcs({pidVal: 1365, n: 12}) // whole tone scale
       // test equality of PCS
-      expect(musaicGroup12.orbits[musaicGroup12.orbits.length - 1].getPcsMin().equalsPcs(lastPF)).toBeTruthy()
+      expect(musaicGroup12.orbits[musaicGroup12.orbits.length - 1].getPcsMin().equalsPcsById(lastPF)).toBeTruthy()
       // whole tone scale : 2 in orbit
       expect(musaicGroup12.orbits[musaicGroup12.orbits.length - 1].ipcsset.length).toEqual(2)
 

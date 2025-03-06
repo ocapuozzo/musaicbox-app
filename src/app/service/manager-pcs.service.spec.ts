@@ -2,6 +2,7 @@ import {TestBed} from '@angular/core/testing';
 
 import {ManagerPcsService} from './manager-pcs.service';
 import {IPcs} from "../core/IPcs";
+import {ManagerGroupActionService} from "./manager-group-action.service";
 
 describe('ManagerPcsService', () => {
   let managerPcsService: ManagerPcsService;
@@ -61,5 +62,22 @@ describe('ManagerPcsService', () => {
   it('doDetach', () => {
 
   });
+
+  it('makeNewInstanceOf', ()=>{
+    const pcs5 = new  IPcs({strPcs:"[2 3 7 8 9]"})
+    expect(pcs5.iPivot).toEqual(2)
+
+    const pcs5Mus = ManagerGroupActionService.getGroupActionFromGroupAliasName('Musaic')?.getIPcsInOrbit(pcs5)!
+    expect(ManagerPcsService.makeNewInstanceOf(pcs5Mus, pcs5Mus.orbit.groupAction!).iPivot).toEqual(2)
+    expect(ManagerPcsService.makeNewInstanceOf(pcs5Mus, pcs5Mus.orbit.groupAction!, 7).iPivot).toEqual(7)
+
+    try {
+      expect(ManagerPcsService.makeNewInstanceOf(pcs5Mus, pcs5Mus.orbit.groupAction!, 1).iPivot).toEqual(1) // error
+      fail("Do not pass here")
+    }catch (e:any) {
+      expect(e.message).toContain('bad iPivot')
+    }
+
+  })
 
 });

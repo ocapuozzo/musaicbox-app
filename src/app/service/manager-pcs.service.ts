@@ -16,7 +16,7 @@ export class ManagerPcsService {
   }
 
   sav_transformeByMxT0(pcs: IPcs, a: number): IPcs {
-    // if not isDetached() get newPcs resulting of group action
+    // if not isDetachedOfGroupAction() get newPcs resulting of group action
     let newPcs = pcs.affineOp(a, 0)
     if (pcs.orbit?.groupAction) {
       let newPcsInOrbit = pcs.orbit.groupAction.getIPcsInOrbit(newPcs)
@@ -210,11 +210,13 @@ export class ManagerPcsService {
   public static makeNewInstanceOf(pcs: IPcs, groupAction: GroupAction, newPivot ?: number) {
     let newPcsInOrbit = groupAction.getIPcsInOrbit(pcs)
 
-    if (newPcsInOrbit.iPivot !== pcs.iPivot) {
+    const theNewPivot = newPivot === undefined ? pcs.iPivot : newPivot
+
+    if (newPcsInOrbit.iPivot !== theNewPivot) {
       // change pivot
       let clonePcs = new IPcs({
         binPcs: newPcsInOrbit.abinPcs,
-        iPivot: newPivot,  // <= changed
+        iPivot: theNewPivot,  // <= changed
         orbit: newPcsInOrbit.orbit,
         templateMappingBinPcs: newPcsInOrbit.templateMappingBinPcs,
         nMapping: newPcsInOrbit.nMapping

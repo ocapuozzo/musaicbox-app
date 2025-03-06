@@ -167,13 +167,13 @@
 
     </fieldset>
 
-    <fieldset class="representation-border">
+    <fieldset *ngIf="{pcs:pcsMapped.symmetryPrimeForm()} as symmetric" class="representation-border">
       <legend class="representation-border">Prime Form</legend>
       <hr>
 
-      <p *ngIf="{pcs:pcsMapped.symmetryPrimeForm()} as symmetric"
-         style="margin: 1px; border-bottom: dashed 1px;">
-        <button [disabled]="symmetric.pcs.id === pcsMapped.id" mat-button (click)="doPushSymmetryPF(pcsMapped)">Symmetry
+      <p style="margin: 1px; border-bottom: dashed 1px;">
+
+        <button [disabled]="symmetric.pcs.equalsPcsByIdAndPivot(pcsMapped)" mat-button (click)="doPushSymmetryPF(pcsMapped)">Symmetry
           :
           <span class="analyse-pcs"> {{ symmetric.pcs.getPcsStr() }}
             <sub> {{ symmetric.pcs.iPivot }} </sub>
@@ -185,7 +185,7 @@
       <p style="margin: 1px">
         <button mat-button (click)="doPushCyclicPF(pcsMapped)">Cyclic :
           <span class="analyse-pcs">{{ pcsMapped.cyclicPrimeForm().getPcsStr() }}
-            @if (pcsMapped.cyclicPrimeForm().pid() === pcsMapped.pid()) {
+            @if (pcsMapped.cyclicPrimeForm().id === pcsMapped.id) {
               *
             }</span>
         </button>
@@ -259,7 +259,7 @@
   }
 
 
-  @if (!pcs.orbit.isDetached()) {
+  @if (!pcs.orbit.isDetachedOfGroupAction()) {
     <div class="marge-5">
       <fieldset class="representation-border" style="max-width: 400px">
         <legend class="representation-border">Pcs in orbit. Group : {{ pcs.orbit!.groupAction!.group!.name }}</legend>

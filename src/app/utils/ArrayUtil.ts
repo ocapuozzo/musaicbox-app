@@ -12,4 +12,10 @@ export class ArrayUtil{
     return arr.every(v => into.includes(v));
  }
 
+
+ static shift(arr: any[], toLeft: boolean, n : number): any[] {
+   for (let i = n; i > 0; --i) { (toLeft ? arr.unshift(arr.pop()) : arr.push(arr.shift())); }
+   return arr;
+  }
+
 }

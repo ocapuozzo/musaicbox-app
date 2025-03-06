@@ -77,7 +77,7 @@ export class OctotropeComponent {
   //
   // _draw(): void {
   //   if (this.opStabilizers.length === 0) {
-  //      if (this.pcs === null || this.pcs?.isDetached()) {
+  //      if (this.pcs === null || this.pcs?.isDetachedOfGroupAction()) {
   //        console.error("octotrope on no data !!!")
   //        return;
   //      }

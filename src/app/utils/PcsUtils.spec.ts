@@ -147,24 +147,24 @@ describe('PcsUtils test', () => {
     expect(pcsSym.k).toEqual(0) // diatonic major is naturally symmetric
   })
 
-  it('static minkValueThatStabByM11_Tk(pcs: IPcs) ', () =>  {
+  it('static minkValueThatStabByMInverseOp_Tk(pcs: IPcs) ', () =>  {
     let ipcs1 = new IPcs({strPcs: ""})
     let ipcs2 = new IPcs({strPcs: "0"})
     let ipcs3 = new IPcs({strPcs: "0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11", iPivot: 4})
     let ipcs4 = new IPcs({strPcs: "0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11", iPivot: 0})
     let diatMaj = new IPcs({strPcs: "0, 2, 4, 5, 7, 9, 11", iPivot: 0})
 
-    let kMin = PcsUtils.minkValueThatStabByM11_Tk(ipcs1)
+    let kMin = PcsUtils.minkValueThatStabByMInverseOp_Tk(ipcs1)
     expect(kMin).toEqual(0)
-    kMin = PcsUtils.minkValueThatStabByM11_Tk(ipcs2)
+    kMin = PcsUtils.minkValueThatStabByMInverseOp_Tk(ipcs2)
     expect(kMin).toEqual(0)
-    kMin = PcsUtils.minkValueThatStabByM11_Tk(ipcs3)
+    kMin = PcsUtils.minkValueThatStabByMInverseOp_Tk(ipcs3)
     expect(kMin).toEqual(0)
-    kMin = PcsUtils.minkValueThatStabByM11_Tk(ipcs4)
+    kMin = PcsUtils.minkValueThatStabByMInverseOp_Tk(ipcs4)
     expect(kMin).toEqual(0)
-    kMin = PcsUtils.minkValueThatStabByM11_Tk(diatMaj.cyclicPrimeForm())
+    kMin = PcsUtils.minkValueThatStabByMInverseOp_Tk(diatMaj.cyclicPrimeForm())
     expect(kMin).toEqual(6)
-    kMin = PcsUtils.minkValueThatStabByM11_Tk(diatMaj.cyclicPrimeForm().cloneWithNewPivot(3))
+    kMin = PcsUtils.minkValueThatStabByMInverseOp_Tk(diatMaj.cyclicPrimeForm().cloneWithNewPivot(3))
     expect(kMin).toEqual(0)
   })
 

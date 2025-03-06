@@ -33,7 +33,7 @@ export class Orbit {
    *   attached of a group action => groupAction ref an instance of GroupAction and this.detached is NOT true
    *
    * IPcs is detached (or not) of a GroupAction if this.orbit is detached or if this.groupAction is undefined
-   * @see methode isDetached()
+   * @see methode isDetachedOfGroupAction()
    */
   groupAction ?: GroupAction = undefined
 
@@ -108,7 +108,7 @@ export class Orbit {
       });
     });
 
-    if (cmp === 0 && !orbit1.isDetached() && !orbit2.isDetached()) {
+    if (cmp === 0 && !orbit1.isDetachedOfGroupAction() && !orbit2.isDetachedOfGroupAction()) {
       cmp = orbit1.getPcsMin().compareTo(orbit2.getPcsMin());
     }
     return cmp;
@@ -130,7 +130,7 @@ export class Orbit {
    * @return {IPcs} the min IPcs of elements of orbit (min elt in ipcsset)
    */
   getPcsMin(): IPcs {
-    if (this.isDetached())
+    if (this.isDetachedOfGroupAction())
       throw new Error("Orbit : impossible get min on detached orbit");
     return this.ipcsset[0];
   }
@@ -265,7 +265,8 @@ export class Orbit {
     return this.stabilizers.some(stab => stab.isMotifEquivalence)
   }
 
-  isDetached(): boolean {
+
+  isDetachedOfGroupAction(): boolean {
     return this.groupAction === undefined // or this.ipcsset.length == 0
   }
 

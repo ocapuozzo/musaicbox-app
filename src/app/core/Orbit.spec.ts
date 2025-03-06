@@ -35,10 +35,10 @@ describe('Orbit', () => {
 
   it("Orbit detached or not", () => {
     let orbit = new Orbit();
-    expect(orbit.isDetached()).toBe(true)
+    expect(orbit.isDetachedOfGroupAction()).toBe(true)
 
     let groupAction = ManagerGroupActionService.getGroupActionFromGroupAliasName("Dihedral")!
-    expect(groupAction.orbits[0].isDetached()).toBe(false)
+    expect(groupAction.orbits[0].isDetachedOfGroupAction()).toBe(false)
   });
 
   it("compare equals orbits", () => {

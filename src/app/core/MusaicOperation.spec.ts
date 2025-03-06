@@ -85,11 +85,11 @@ describe('MusaicPcsOperation', () => {
 
     let newPcs = opCM7_T5.actionOn(pcs)
 
-    expect(pcs.equalsPcs(newPcs)).toBeTruthy();
+    expect(pcs.equalsPcsById(newPcs)).toBeTruthy();
 
     let opCM7 = new MusaicOperation(12, 7, 0, true);
     let opT5 = new MusaicOperation(12, 1, 5, false);
-    expect(pcs.equalsPcs(opT5.actionOn(opCM7.actionOn(pcs)))).toBeTruthy();
+    expect(pcs.equalsPcsById(opT5.actionOn(opCM7.actionOn(pcs)))).toBeTruthy();
   });
 
   it("MusaicPcsOp test op stab sort", () => {
