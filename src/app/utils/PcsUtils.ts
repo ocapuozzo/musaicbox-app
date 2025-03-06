@@ -395,6 +395,9 @@ export class PcsUtils {
     let temPcs = pcs.cloneDetached()
     possiblePivots.forEach(pivot => {
       temPcs.setPivot(pivot) // controlled side effect (tempPcs is local)
+      // TODO instead of putting a counter, put a list of stabilizing operations
+      //  which will allow to set up a more precise logic for the rest of the processing
+      //  (instead of simply taking the first pivot)
       pivotNumberStabInT0.set(pivot, this.numberOfStabOperationInT0(temPcs))
     })
 
