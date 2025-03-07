@@ -1510,7 +1510,7 @@ export class IPcs {
   }
 
   /**
-   * If this is detached, get stabilizer operations from musaic group
+   * If this is detached, get stabilizer op, neutral op, M1-T0
    * else get stabilizer operations from operations of group where come from its orbit
    */
   getStabilizerOperations() {

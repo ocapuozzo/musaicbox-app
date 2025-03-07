@@ -1,11 +1,13 @@
 import {MusaicOperation} from "../core/MusaicOperation";
 import {IPcs} from "../core/IPcs";
+import {ManagerGroupActionService} from "../service/manager-group-action.service";
 
 //TODO rename or put in MusaicOperationUtils ?
 
 export class PcsUtils {
 
   static  OPERATIONS_IN_T0 = [
+    MusaicOperation.stringOpToMusaicOperation("M1-T0"),
     MusaicOperation.stringOpToMusaicOperation("M5-T0"),
     MusaicOperation.stringOpToMusaicOperation("M7-T0"),
     MusaicOperation.stringOpToMusaicOperation("M11-T0"),
@@ -390,40 +392,36 @@ export class PcsUtils {
 
     const possiblePivots = pcs.abinPcs.reduce(getPivots, [])
 
-    let pivotNumberStabInT0 = new Map<number, number>()
+    let pivotAndTheirStabOperations = new Map<number, MusaicOperation[]>()
 
     let temPcs = pcs.cloneDetached()
     possiblePivots.forEach(pivot => {
       temPcs.setPivot(pivot) // controlled side effect (tempPcs is local)
-      // TODO instead of putting a counter, put a list of stabilizing operations
-      //  which will allow to set up a more precise logic for the rest of the processing
-      //  (instead of simply taking the first pivot)
-      pivotNumberStabInT0.set(pivot, this.numberOfStabOperationInT0(temPcs))
+      // Get list of stabilizing operations in T0
+      pivotAndTheirStabOperations.set(pivot, this.getMusaicStabOperationsInT0(temPcs))
     })
 
     // sort pivot on their number of stab pos in T0
-    const sortedMap = new Map([...pivotNumberStabInT0.entries()].sort(
-      (a, b) => b[1] - a[1]));
+    const sortedPivotsStab = new Map([...pivotAndTheirStabOperations.entries()].sort(
+      (a, b) => b[1].length - a[1].length));
 
-    const firstPivot = sortedMap.keys().next().value
+    const minPivot = sortedPivotsStab.keys().next().value
 
-    // when choice, pcs.iPivot is preferred
-    if (pcs.iPivot && sortedMap.has(pcs.iPivot) && sortedMap.get(pcs.iPivot) === sortedMap.get(firstPivot)) {
+    // when choice, pcs.iPivot is preferred (always avoid shifted intervallic structure ??)
+    if (pcs.iPivot && sortedPivotsStab.has(pcs.iPivot) && sortedPivotsStab.get(pcs.iPivot) === sortedPivotsStab.get(minPivot)) {
       return pcs.iPivot
     }
 
     // get first possible pivots having max stabilizer operations
-    return firstPivot
+    return minPivot
   }
 
-  private static numberOfStabOperationInT0(pcs: IPcs) {
+  private static getMusaicStabOperationsInT0(pcs: IPcs) {
+    return this.OPERATIONS_IN_T0.filter(op => op.actionOn(pcs).id === pcs.id)
+  }
 
-    let sumStabInT0 = 0
-    for (let i = 0; i < this.OPERATIONS_IN_T0.length; i++) {
-      if (this.OPERATIONS_IN_T0[i].actionOn(pcs).id === pcs.id) {
-        sumStabInT0++
-      }
-    }
-    return sumStabInT0;
+  private static getMusaicStabOperationsOf(pcs: IPcs) {
+    const operations = ManagerGroupActionService.getGroupActionFromGroupAliasName('Musaic')?.operations!
+    return operations.filter(op => op.actionOn(pcs).id === pcs.id)
   }
 }

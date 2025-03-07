@@ -475,7 +475,7 @@ describe('IPcs unit tests', () => {
     let pcsSym  = new IPcs({strPcs:"10 2 3 9"})
 
     expect(pcs.symmetryPrimeForm().equals(pcsSym)).toBeTrue()
-    expect(pcs.symmetryPrimeForm().iPivot).toEqual(10)
+    expect(pcs.symmetryPrimeForm().iPivot).toEqual(2) // Intervallic Structure no shifted
 
     let empty = new IPcs({strPcs: ""})
     expect(empty.iPivot).toEqual(undefined)
@@ -493,7 +493,7 @@ describe('IPcs unit tests', () => {
     expect(kothimic.iPivot).toEqual(1)
     expect(kothimicSymPF.iPivot).toEqual(11)
     // check good pivot = 4, it is not with Tk minimal (pivot 11 => M11-T2)
-    // because pcs in symmetry 1 4 5 7 8 11 has 2 stab in T0 : M1-T0 and M7-T0 with M11-T4
+    // but pcs in symmetry 1 4 5 7 8 11 has 2 stab in T0 : M1-T0 and M7-T0, what is preferred (with M11-T4)
     expect(kothimic.symmetryPrimeForm().iPivot).toEqual(4)
 
     // 0 1 3 4 7 9
@@ -505,7 +505,6 @@ describe('IPcs unit tests', () => {
     //   if pivot = 11 stab =  M1-T0 M5-T8 M7-T6 M11-T2  (1 sym in -T0  min M11-T2)
     //   if pivot = 4 stab =  M1-T0 M5-T4 M7-T0 M11-T4   (2 sym in -T0  and M11-T4) <= good solution !!!
     //      see musaic 85
-    //   if symmetricPF is  "1 2 5 7 10 11" pivot = 4 also, but not minimal pcs
 
     const pcs5 = new  IPcs({strPcs:"[2 3 7 8 9]"})
     const pcs5SPF = new  IPcs({strPcs:"[0 1 5 6 7]"})
