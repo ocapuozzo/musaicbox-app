@@ -1284,8 +1284,10 @@ export class IPcs {
 
   /**
    *
-   * TODO  to fix [1 2 10 11] pivot 11  => *mini stabilizer* = [M1-T0 M11-T2]
-   *        actually [1 2 10 11] pivot 1 = [M1-T0 M11-T10]
+   *   [1 2 10 11] pivot 1 =>   stab = [M1-T0 M11-T10]
+   *   [1 2 10 11] pivot 11  => stab = [M1-T0 M11-T2]
+
+   *   ony stab in T0 matters, and pivot 1 is "natural" pivot (is not shifted)
    *
    * Try to define iPivot from symmetries of pcs, if possible
    * Begin first with M11, M5 then M7, and their complement, in this order,

@@ -401,19 +401,38 @@ export class PcsUtils {
       pivotAndTheirStabOperations.set(pivot, this.getMusaicStabOperationsInT0(temPcs))
     })
 
-    // sort pivot on their number of stab pos in T0
-    const sortedPivotsStab = new Map([...pivotAndTheirStabOperations.entries()].sort(
-      (a, b) => b[1].length - a[1].length));
+    /**
+     * sort pivot on their array of stab op (in T0) :
+     *  max.length to min.length
+     *  then, if same length, from "max Mx" to "min Mx" : M11, M7, M5, M1
+     */
+    const sortedPivotsOnStabMx = new Map([...pivotAndTheirStabOperations.entries()].sort(
+      (a, b) => {
+        let res = b[1].length - a[1].length
+        if (res === 0) {
+          res = b[1].reduce((sumA, op) => sumA+op.a, 0)
+                -
+                a[1].reduce((sumA, op) => sumA+op.a, 0)
+        }
+        return res
+       })
+    );
 
-    const minPivot = sortedPivotsStab.keys().next().value
+    // first element of keys = first pivot
+    const firstPivotMaxStab = sortedPivotsOnStabMx.keys().next().value
 
-    // when choice, pcs.iPivot is preferred (always avoid shifted intervallic structure ??)
-    if (pcs.iPivot && sortedPivotsStab.has(pcs.iPivot) && sortedPivotsStab.get(pcs.iPivot) === sortedPivotsStab.get(minPivot)) {
+    // when choice, pcs.iPivot is preferred because by default
+    // pcs.iPivot is the first PC, then its IntervStruct is not shifted
+    // Ex : symmetryPrimeForme of [0 1 5 6] => [2 3 9 10] 2  (and not [2 3 9 10] 10)
+    if (pcs.iPivot // not "empty pcs"
+      && sortedPivotsOnStabMx.has(pcs.iPivot) // exists as pivot stab ?
+      && sortedPivotsOnStabMx.get(pcs.iPivot) === sortedPivotsOnStabMx.get(firstPivotMaxStab)) // same stab in T0
+    {
       return pcs.iPivot
     }
 
-    // get first possible pivots having max stabilizer operations
-    return minPivot
+    // pivot having max stabilizer operations
+    return firstPivotMaxStab
   }
 
   private static getMusaicStabOperationsInT0(pcs: IPcs) {

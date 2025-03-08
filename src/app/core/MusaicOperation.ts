@@ -166,7 +166,7 @@ export class MusaicOperation {
     if (op1.complement)
       w1 = op1.n;
     if (op2.complement)
-      w2 = op1.n;
+      w2 = op1.n; // assume op1 & op2 having same n
 
     let comp = (w1 + op1.a) - (w2 + op2.a);
 
@@ -196,7 +196,7 @@ export class MusaicOperation {
       if (op1.complement)
         w1 = op1.n;
       if (op2.complement)
-        w2 = op1.n;
+        w2 = op1.n; // assume op1 & op2 having same n
 
       comp = (w1 + op1.a) - (w2 + op2.a);
     }
@@ -233,7 +233,7 @@ export class MusaicOperation {
    * Convert name of MusaicOperation in instance of MusaicOperation
    * ex: "M1-T0" => instance of MusaicOperation
    * @param opName string representation of MusaicOperation
-   * @param n
+   * @param n number > 2
    * @return instance of MusaicOperation
    */
   static stringOpToMusaicOperation(opName: string, n=12) {
@@ -269,8 +269,8 @@ export class MusaicOperation {
   }
 
 
-// // test en vue de supprimer  la coll fixedPcs
-// // qui est gourmande en mémoire inutule
+// // test en vue de supprimer  la collection fixedPcs
+// // qui est gourmande en mémoire inutile
 // // pour que ça marche il faut ajouter une liaison
 // // vers les stabilizers ayant cette opération comme stab.
 //
