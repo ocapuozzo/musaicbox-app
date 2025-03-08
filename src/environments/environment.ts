@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  buildVersion:"2025-03-08 21:00"
 };

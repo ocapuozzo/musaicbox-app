@@ -9,6 +9,7 @@ import {UiOrbitComponent} from "../../component/ui-orbit/ui-orbit.component";
 import {ManagerExplorerService} from "../../service/manager-explorer.service";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {MatButton} from "@angular/material/button";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-group-explorer',
@@ -24,6 +25,7 @@ import {MatButton} from "@angular/material/button";
   styleUrl: './group-explorer.component.css'
 })
 export class GroupExplorerComponent {
+  currentBuildVersion = environment.buildVersion
   n = 12
   primesWithN = [1, 5, 7, 11]
   primesWithNOperations: string[] = ["M1", "M5", "M7", "M11", "CM1", "CM5", "CM7", "CM11"]

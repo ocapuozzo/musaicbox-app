@@ -109,3 +109,8 @@ legend.representation-border {
   display: table-cell;
   max-width: 300px;
 }
+
+.build-version {
+  font-size: .7rem;
+  font-style: italic;
+}

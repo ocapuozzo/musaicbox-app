@@ -32,8 +32,7 @@ Example of structure :
 
 def updateJson():
   url_to_open = "https://ianring.com/musictheory/scales/"
-  #json_file = '../src/app/data/2048scales.json'
-  json_file = 'sav_2048scales.json'
+  json_file = '../src/app/data/2048scales.json'
 
   updated = []
 
@@ -41,13 +40,13 @@ def updateJson():
     data = json.load(json_data)
 
   #pprint(data)
-  # add a field to the first object, json file do not have comment notation... 
+  # add a field to the first object, json file do not have comment notation...
   data[0]["date_import"]=f"{datetime.today().strftime('%Y-%m-%d')}"
   for scale in data:
     try :
        # print(scale['is'])
        a_is = scale['is']
-       pidIndex = isids.index(a_is)       
+       pidIndex = isids.index(a_is)
        # print(scale['pcs'], "as pid = ", pids[pidIndex])
        nameIanring = next((name for name in scale['sources'] if name['type'] == 'ianring'), None)
        if (nameIanring):
@@ -63,19 +62,19 @@ def updateJson():
          if (actualScaleName.lower() != onlineScaleName.lower()):
            updated.append(f'pcs={scale["pcs"]} => {actualScaleName} change to {onlineScaleName}')
            nameIanring['name'] = onlineScaleName
-           # verify if update (YES, becaue logic by reference, not by value) 
+           # verify if update (YES, becaue logic by reference, not by value)
            # pprint(scale)
-           # in test, stop to the first update 
+           # in test, stop to the first update
            if (len(updated) > 1):
              break
-           
+
 
     except ValueError:
       pass
-   
-  print(json.dumps(data)) # pprint(data, width=130) =>  single quote error (double quote wainting) 
-  
-  print('TO CUT FROME HERE') 
+
+  print(json.dumps(data)) # pprint(data, width=130) =>  single quote error (double quote wainting)
+
+  print('TO CUT FROME HERE')
   print('=======> updated size : ', len(updated))
   pprint(updated, width=130)
 
