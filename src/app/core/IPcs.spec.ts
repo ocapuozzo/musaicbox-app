@@ -236,7 +236,7 @@ describe('IPcs unit tests', () => {
 
     let pcsTest = new IPcs({strPcs:"0 4 5"})
     expect(pcsTest.iPivot).toEqual(0)
-    expect(pcsTest.complement().iPivot).toEqual(2)
+    expect(pcsTest.complement().iPivot).toEqual(6)
 
     let pcsTestCplt = pcsTest.complement()
     expect(pcsTestCplt.iPivot).toEqual(6)
@@ -525,42 +525,67 @@ describe('IPcs unit tests', () => {
     let pcs = new IPcs({strPcs: '[0,1,2]'})
     expect(pcs.getPivot()).toEqual(0)
 
-    let pivot = pcs.getPivotFromSymmetryForComplement()
-    expect(pivot).toEqual(1)
+    let pivot = pcs.getPivotAxialSymmetryForComplement()
+    expect(pivot).toEqual(6)
 
     const p3 = pcs.symmetryPrimeForm()
     expect(p3.getPcsStr()).toEqual('[0 1 11]')
     expect(p3.getPivot()).toEqual(0)
 
     pcs = new IPcs({strPcs: '[4 5 6 7 8]'})
-    pivot = pcs.getPivotFromSymmetryForComplement()
-    expect(pivot).toEqual(6)
+    pivot = pcs.getPivotAxialSymmetryForComplement()
+    expect(pivot).toEqual(10)
 
     // musaic n° 80
     pcs = new IPcs({strPcs: '[0,2,3,5,6,8]'})
-    pivot = pcs.getPivotFromSymmetryForComplement()
-    expect(pivot).toEqual(3) // invariant by M7-T0
+    pivot = pcs.getPivotAxialSymmetryForComplement()
+    expect(pivot).toEqual(7)
 
     // musaic n° 32
     pcs = new IPcs({strPcs: '[0,3,4,7]'})
-    pivot = pcs.getPivotFromSymmetryForComplement()
-    expect(pivot).toEqual(3) // no invariant by Mx-T0 but M11-T1
+    pivot = pcs.getPivotAxialSymmetryForComplement()
+    expect(pivot).toEqual(6)
 
     // musaic n° 35
     pcs = new IPcs({strPcs: '[0,2,4,8]'})
-    pivot = pcs.getPivotFromSymmetryForComplement()
-    expect(pivot).toEqual(2) // invariant by M11-T0, M7-T0
+    pivot = pcs.getPivotAxialSymmetryForComplement()
+    expect(pivot).toEqual(6)
 
     // musaic n° 64
     pcs = new IPcs({strPcs: '[0,1,2,3,4,6]'})
-    pivot = pcs.getPivotFromSymmetryForComplement()
-    expect(pivot).toEqual(0) // invariant by CM11-T11
+    pivot = pcs.getPivotAxialSymmetryForComplement()
+    expect(pivot).toEqual(5)
+
+    pcs = new IPcs({strPcs: '[0,1,2,3,4,5,6]'})
+    pivot = pcs.getPivotAxialSymmetryForComplement()
+    expect(pivot).toEqual(7)
+
+    pcs = new IPcs({strPcs: '[0,1,2,3,4,5,6,7,8,9,10,11]'})
+    pivot = pcs.getPivotAxialSymmetryForComplement()
+    expect(pivot).toEqual(undefined)
+
+    pcs = new IPcs({strPcs: '[]'})
+    pivot = pcs.getPivotAxialSymmetryForComplement()
+    expect(pivot).toEqual(0)
+
+    pcs = new IPcs({strPcs: '[0]'})
+    pivot = pcs.getPivotAxialSymmetryForComplement()
+    expect(pivot).toEqual(6)
+
+    pcs = new IPcs({strPcs: '[3]'})
+    pivot = pcs.getPivotAxialSymmetryForComplement()
+    expect(pivot).toEqual(9)
+
 
     pcs = new IPcs({strPcs: '[0 4 5]'})
-    pivot = pcs.getPivotFromSymmetryForComplement()
-
-    // TODO pcs.getPivotFromSymmetryForComplement() used by complement
-    expect(pivot).toEqual(0)
+    pivot = pcs.getPivotAxialSymmetryForComplement()
+    expect(pivot).toEqual(6)
+    pcs = new IPcs({strPcs: '[4 5 0]'})
+    pivot = pcs.getPivotAxialSymmetryForComplement()
+    expect(pivot).toEqual(10)
+    pcs = new IPcs({strPcs: '[5 0 4]'})
+    pivot = pcs.getPivotAxialSymmetryForComplement()
+    expect(pivot).toEqual(11)
 
   })
 
@@ -1045,10 +1070,6 @@ describe('IPcs unit tests', () => {
 
   })
 
-  it('getOthersChordNames()', () =>{
-    fail("TOTO getOthersChordNames()")
-
-  })
 
   it ('getStabilizerOperations()', () => {
 

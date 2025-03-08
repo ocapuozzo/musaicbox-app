@@ -1195,31 +1195,7 @@ export class IPcs {
         ? Scales2048Name.getLinksNameDefs(pcsMap12).find(value => value.name)?.name
         : Scales2048Name.getLinksNameDefs(pcsMap12).map(value => value.name).join("<br>")
 
-    // const infoRoot = pcsMap12.iPivot ? ` (root = ${Scales2048Name.ROOT_NAMES[pcsMap12.iPivot]}) \n` : ""
-    let infoChord = pcsMap12.getChordName()
-    let othersChordNames = pcsMap12.getOthersChordNames()
-    if (infoChord) infoChord += "<br>"
-    if (othersChordNames) othersChordNames = '(' + othersChordNames + ")<br>"
-
-    return infoChord + /*infoRoot + */ othersChordNames + pcsNames
-  }
-
-  /**
-   * Get some others mode name, if exist
-   */
-  getOthersChordNames(): string {
-    const pcsMap12 = this.unMap()
-    let names: string[] = []
-
-    let pcs = pcsMap12.modulation(IPcs.NEXT_DEGREE)
-    for (let i = 1; i < this.cardOrbitMode() - 1; i++) {
-      const chordName = pcs.getChordName()
-      if (chordName && !names.includes(chordName)) {
-        names.push(chordName)
-      }
-      pcs = pcs.modulation(IPcs.NEXT_DEGREE)
-    }
-    return names.join("\n")
+    return pcsNames ?? ''
   }
 
   getFirstScaleNameOrDerived() {
@@ -1278,8 +1254,42 @@ export class IPcs {
    *
    * @return pivot value or -1 if not found (Not sure this case could exist)
    */
-  public getPivotFromSymmetryForComplement(): number {
-    return this.getPivotFromSymmetryForComplementByBruteForce()
+  public getPivotAxialSymmetryForComplement(): number | undefined {
+    return this.getPivotAxialSymmetry()
+  }
+
+  private getPivotAxialSymmetry(){
+    let pivot = this.iPivot
+
+    // empty set pcs ? complement is chromatic scale
+    if (pivot===undefined) {
+      return 0
+    }
+
+    // full pcs => complement is empty set, so ipivot is undefined
+    if (this.cardinal === this.n) {
+      return undefined
+    }
+
+    let newPivot = (pivot + this.n/2) % this.n
+    let ok = this.abinPcs[newPivot] === 0
+
+    let delta = 0
+    while (!ok) {
+      delta++
+      let newPivotRight = (this.n + newPivot - delta) % this.n
+      let newPivotLeft = (newPivot + delta) % this.n
+      ok = this.abinPcs[newPivotRight] === 0
+      if (ok) {
+        newPivot = newPivotRight
+      } else {
+        ok = this.abinPcs[newPivotLeft] === 0
+        if (ok) {
+          newPivot = newPivotLeft
+        }
+      }
+    }
+    return newPivot
   }
 
   /**

@@ -44,23 +44,13 @@ export class ManagerPcsService {
   }
 
   complement(pcs: IPcs): IPcs {
+    const newPivot = pcs.getPivotAxialSymmetryForComplement()
+
     let newPcs = pcs.complement()
     if (pcs.orbit?.groupAction) {
       newPcs = pcs.orbit.groupAction.getIPcsInOrbit(newPcs)
     }
-    // lost iPivot, set a new
-    const newPivot = newPcs.getPivotFromSymmetryForComplement()
-    if (newPivot >= 0) {
-      return new IPcs({
-        binPcs: newPcs.abinPcs,
-        iPivot: newPivot,
-        orbit: newPcs.orbit,
-        templateMappingBinPcs: newPcs.templateMappingBinPcs,
-        nMapping: newPcs.nMapping
-        // TODO stabilizerCardinal
-      })
-    }
-    return newPcs
+    return newPcs.cloneWithNewPivot(newPivot)
   }
 
   /**
