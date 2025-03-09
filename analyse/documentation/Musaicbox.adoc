@@ -1154,7 +1154,7 @@ Orbit stem:[H cdot "[0 4 7\]" = {"[0 4 7\]", "[1 5 8\]", ..., "[3 6 11\]"}], so 
 Stabilizer stem:[H_"[0 4 7\]" = {"M1-T0"}] (only neutral operation : major triad is not in limited transposition)
 
 .An other view on H ⋅ [0 4 7] (orbit cyclic of major triad)
-image:_047-cyclic-simple.png[047-cyclic]
+image:cyclic-047-simple.png[cyclic]
 
 Therefore, all pcs in orbit of stem:[H] are equivalent, *_up to transposition_*.
 
@@ -1177,7 +1177,7 @@ In our case, we need to establish an order relation between elements of an orbit
 
 The cyclic prime form of [0 4 7] is ... [0 4 7] itself, as well as cyclic prime form of [0 5 9] and 10 others PCS (major triads).
 
-image::_047_cyclic_motif.png[cyclic_motif]
+image::cyclic-047-motif.png[cyclic_motif]
 
 
 Orbite stem:[H"⋅[0 4 7\]"] has 12 elements. Its number of stabilizers is stem:[|H_("[0 4 7\]")| = (|H|) / (|H"⋅[0 4 7\]"|)], so stem:[12/12 = 1]. It is stem:["M1-T0"] (neutral operation)
