@@ -67,7 +67,7 @@ Example : Get Limited Transposition PCS in Cyclic Prime Form : Select only `M1` 
 --
 [.left]
 .17 PCS LT in Cyclic Prime Form
-image::17PCS-LT.png["17 PCS LT in Cyclic Prime Form" float="left",align="center"]
+image::PCS-LT-17.png["17 PCS LT in Cyclic Prime Form" float="left",align="center"]
 --
 
 ====
@@ -224,7 +224,7 @@ A PCS is, by definition, an unordered set of PC, even if, in practice, by conven
 
 Let's take the PCS [0, 4, 7], C, E and G. Formally the textual representations below are all equal.
 
-image::_0_4_7_set_repr.png[_0_4_7_set_repr]
+image::set-047-repr.png[_0_4_7_set_repr]
 
 Example for C,E,G :  `[0,4,7]` or `[0 4 7]` (without comma)
 
@@ -234,7 +234,7 @@ It is a binary representation of a pcs.
 
 Example for [0 4 7]  (C major):  `[*1*,0,0,0,*1*,0,0,*1*,0,0,0,0]`  (ordered list of binary values) :
 
-image:047_vector.png[]
+image:vector-047.png[]
 
 This vector, of dimension _n_, is constructed by placing `1` at the position corresponding to each pitch class present in the pcs studied, and `0` at the position of the others. By convention, the position corresponds to the pitch class name (which turns out to be very practical for algorithms).
 
@@ -280,7 +280,7 @@ which transforms stem:[0] to stem:[1], and vice versa, pitch class representatio
 The fragment framed below is characterized by the pitch classes set [0, 4, 7].
 
 .Analysis example of a musical fragment.
-image::047_fragment.png[]
+image::fragment-047.png[]
 
 There is an inverse function _vectorToPcs_  defined by :
 
@@ -293,7 +293,7 @@ stem:["vectorToPcs(V)" := { bar i | V_i = 1 and 0 <= i < n} ]
 
 Example of reinterpretation of a vector representation
 
-image::047-vector-reinterpr.png[047-vector-reinterpr]
+image::vector-reinterpr-047.png[047-vector-reinterpr]
 
 === Integer
 
@@ -344,8 +344,8 @@ Optional with polygon inscribed.
 
 [.float-group]
 --
-image::_0_4_7.png["_0_4_7_clock-names",float="left",align="center"]
-image::_0_4_7_clock.png["_0_4_7_clock",float="left",align="center" ]
+image::pcs-047.png["_0_4_7_clock-names",float="left",align="center"]
+image::clock-047.png["_0_4_7_clock",float="left",align="center" ]
 --
 
 Polygon inscribed into circle denote the intervallic structure of the PCS.
@@ -382,8 +382,8 @@ Because, each of them being generator of a generator step value of n, they guara
 .Example of musaic representation of [0 4 7]
 [.float-group]
 --
-image::_0_4_7_musaic-names.png["_0_4_7_musaic-names",float="left",align="center"]
-image::_0_4_7_musaic.png["_0_4_7_musaic",float="left",align="center" ]
+image::musaic-047-names.png["_0_4_7_musaic-names",float="left",align="center"]
+image::musaic-047.png["_0_4_7_musaic",float="left",align="center" ]
 --
 
 [NOTE]
@@ -1200,7 +1200,7 @@ For understand reduced notation of stabilizer like `MI-T0~4*`, see in appendix <
 Example of PCS in Limited Transposition : Augmented triad (4 PCS into cyclic orbit)
 
 .[0 4 8] Augmented triad cyclic orbit
-image:_048-cyclic-eatl.png[]
+image:cyclic-048-eatl.png[eatl]
 
 Cyclic orbit of augmented triad is : { stem:["[0 4 8\]", "[1 5 9\]","[2 6 10\]","[3 7 11\]"] }
 
@@ -1304,7 +1304,7 @@ image:tableau-sous-groupes-ircam.png[tableau-sous-groupes-ircam]
 
 //
 // .From https://www.emis.de/journals/SLC/opapers/s26fripert.pdf (Andreatta ircam)
-// image:_3-common-groups.png[common groups]
+// image:common-groups.png[common groups]
 
 === 17 subgroups computed
 
