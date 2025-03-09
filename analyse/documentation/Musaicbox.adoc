@@ -1227,6 +1227,7 @@ Orbit stabilizer is the union of the stabilizers of its elements (PCS).
 
 More formally :
 
+====
 [.text-center]
 --
 
@@ -1237,6 +1238,7 @@ stem:[ "Orbit" -> Stabilizer^+]
 stem:["Stab(O)" := { G_"pcs" }, AA \ pcs in O ]
 
 --
+====
 
 Examples, with _H_ = Cyclic group :
 
@@ -1668,6 +1670,7 @@ Thus, `M1-T0~1*` is a reduced (compressed) version of : `M1-T0 M1-T1 M1-T2 ... M
 
 More formally :
 
+====
 [.text-center]
 --
 
@@ -1678,8 +1681,8 @@ stem:[ "string " -> " Set of Operations"]
 stem:["C"_b"M"_a"-T"_"i""~step*" :=  uuu_(k=0)^(n/"step") "C"_b"M"_a"-T"_(i+(k cdot "step"))]
 
 where _step_ is a divisor of _n_
-
 --
+====
 
 Examples :
 
