@@ -230,25 +230,35 @@ Example for C,E,G :  `[0,4,7]` or `[0 4 7]` (without comma)
 
 === Vector
 
-It is a binary representation of a pcs.
+It is a binary representation of a pcs, by a |E|-dimensional vector.
 
-Example for [0 4 7]  (C major):  `[*1*,0,0,0,*1*,0,0,*1*,0,0,0,0]`  (ordered list of binary values) :
+Example for [0 4 7]  (C major):  `[*1*,0,0,0,*1*,0,0,*1*,0,0,0,0]`  (ordered list of 12 binary values) :
 
 image:vector-047.png[]
 
-This vector, of dimension _n_, is constructed by placing `1` at the position corresponding to each pitch class present in the pcs studied, and `0` at the position of the others. By convention, the position corresponds to the pitch class name (which turns out to be very practical for algorithms).
+This vector, of _n_-dimension, is constructed by placing `1` at the index corresponding to each pitch class present in the pcs studied, and `0` at the index of the others. By convention, the index  corresponds to the pitch class name (which turns out to be very practical for algorithms).
 
 To convert a PCS to a binary vector, we define a bijective function named _pcsToVector_.
 
+====
 [.text-center]
+--
+*_pcsToVector_*
+
 stem:[P(Z_n) -> {0,1}^n] {nbsp}
 
-[.text-center]
 stem:[tt"pcsToVector(A)" := \[f_A(0), f_A(1),...,f_A(n-1)\] ]
 
 // stem:[tt"toVector(A)" = \[v_0,v_1,...,v_(n-1)\] ] where stem:[v_i = f_A(i)]
 
-where stem:[f_A] (also known as stem:[chi_A]), is the characteristic function stem:[f_A : Z_n -> {0,1}]  : stem:[f_A(bar i) := { (1  if bar i in A), (0  if bar i notin A) :}]
+where stem:[f_A] (also known as stem:[chi_A]), is the *characteristic function* :
+
+stem:[f_A : Z_n -> {0,1}]
+
+stem:[f_A(bar i) := { (1  if bar i in A), (0  if bar i notin A) :}]
+--
+====
+
 
 So, for _n = 12_, any pcs stem:[A] of stem:[P(Z_12)] corresponds a unique vector stem:[v] defined as follows:
 
@@ -284,13 +294,19 @@ image::fragment-047.png[]
 
 There is an inverse function _vectorToPcs_  defined by :
 
+====
 [.text-center]
 --
+
+*_vectorToPcs_*
+
 stem:[ZZ^n -> P(ZZ_n)]
 
 stem:["vectorToPcs(V)" := { bar i | V_i = 1 and 0 <= i < n} ]
---
 
+NOTE: Note the dual role of the index : element position in the vector and Pitch Class name : _i_ and stem:[bar i]
+--
+====
 Example of reinterpretation of a vector representation
 
 image::vector-reinterpr-047.png[047-vector-reinterpr]
@@ -480,17 +496,17 @@ _Where a is prime with |E|, and stem:[*] is multiplication operator_.
 
 
 
-Motivation: allows to establish an equivalence relation "up to a symmetry"
+Motivation: allows to establish an equivalence relation "up to a symmetry", *including inversion and other substitutions.*
 
 Examples when stem:[E = {0, 1, ..., 11}]  (cardinal of stem:[E\ is\ |E| = 12])
 
-* Example M11 : {nbsp} stem:[M_11("[0 4 7\]") ->"[0 5 8\]"] {nbsp} (C Maj -> Fm/5th - inversion)
+* Example M11 : {nbsp} stem:[M_11("[0 4 7\]") ->"[0 5 8\]"] {nbsp} (C Maj -> Fm/5th - *inversion*)
 
-* Example M5 : {nbsp} stem:[M_5("[0 4 7\]") ->"[0 8 11\]"] {nbsp}
+* Example M5 : {nbsp} stem:[M_5("[0 4 7\]") ->"[0 8 11\]"] (*M5 substitution*){nbsp}
 
-* Example M7 : {nbsp} stem:[M_7("[0 4 7\]") ->"[0 1 4\]"] {nbsp}
+* Example M7 : {nbsp} stem:[M_7("[0 4 7\]") ->"[0 1 4\]"] {nbsp}(*M7 substitution*)
 
-* Example id : {nbsp} stem:[M_1("[0 4 7\]") ->"[0 4 7\]"] {nbsp} (neutral operation)
+* Example id : {nbsp} stem:[M_1("[0 4 7\]") ->"[0 4 7\]"] {nbsp} (*neutral operation*)
 
 === Complement
 
@@ -557,7 +573,7 @@ Examples when stem:[E = {0, 1, ..., 11}]  (cardinal of stem:[E\ is\ |E| = 12])
 
 . Example M5-T5 : {nbsp} stem:[M_5T_5("[0 4 7\]") -> "[1 4 5\]"] {nbsp} Multiplication and Transposition
 
-=== Extended Aff Operation
+=== Extended Special Affine Operation
 
 If we add the complementarity operation to the special affine function, we obtain the following operation: *stem:[c * (ax + k)]* that operates on stem:[P(E)].
 
@@ -587,9 +603,9 @@ stem:["C"_cM_aT_k(A) := { (M_aT_k(A) \ \ \ \ \ \ \ if c = false), (E\  \\ \ M_aT
 ====
 In practice, we will not mention C when its value is stem:[false], so these writings are synonymous :
 
-stem:[C_"c=false"M_aT_k] , will be denoted by *MA-TK*
+stem:[C_"false"M_aT_k] , will be denoted by *MA-TK*
 
-stem:[C_"c=true"M_aT_k] , will be denoted by *CMA-TK*
+stem:[C_"true"M_aT_k] , will be denoted by *CMA-TK*
 ====
 
 Examples when stem:[E = {0, 1, ..., 11}]  (cardinal of stem:[E\ is\ |E| = 12]) :
@@ -609,7 +625,7 @@ Examples when stem:[E = {0, 1, ..., 11}]  (cardinal of stem:[E\ is\ |E| = 12]) :
 
 etc.
 
-NOTE: Extended Affine Operation is called _MusaicOperation_ into MusaicBox project.
+NOTE: Extended Special Affine Operation is called _MusaicOperation_ into MusaicBox project.
 
 
 == Group
@@ -620,7 +636,7 @@ To define a group, we need to have
 
 * a function composition stem:[@] that we define as : stem:[(c,a,k) @ (c',a',k') = ] (  stem:[underbrace(bb "c ⊕ c'")_("part to check"), underbrace(aa', ak' + k)_(@ " Affine")])
 
-This function composition stem:[@], extend function composition of Affine group, where stem:[aa'] is prime with stem:[n] and stem:[oplus] the logical operator XOR.
+This function composition stem:[@], extend function composition of special Affine group, where stem:[a and a'] is prime with stem:[n] and stem:[oplus] the logical operator XOR.
 
 
 === Group Axioms
@@ -771,7 +787,7 @@ Because :
 
 * stem:[ c oplus c = false, AA c in {true, false}]
 
-* stem:[aa = 1] because stem:[((a * a) mod n) = 1] where stem:[a] is prime with stem:[n]
+* stem:[aa = 1] because stem:[(a^2 mod n) = 1,  AA a " prime with " n]
 
 * stem:[ (-k * a^-1) (mod n)] {nbsp} is value of stem:[k'] which solves the equation stem:[ak' + k = 0] {nbsp} ( _a_^-1^ is the modular inverse of _a_)
 
@@ -789,9 +805,9 @@ We can therefore say that stem:[(c , a , -k * a^-1)] is *the symmetric element* 
 
 === Conclusion
 
-We have defined an extended special affine group with complementarity  stem:[c * (ax + k)] intended to act on stem:[P(ZZ_n)] defined by :
+We have defined an extended special affine group stem:[G] with complementarity  , from operation stem:[c * (ax + k)] intended to act on stem:[P(ZZ_n)] defined by :
 
-* Its elements are triplets stem:[(c, a, k)] , in reference to special operation :  stem:[c * (ax + k)]
+* Its elements are triplets stem:[(c, a, k)] , in reference to extend special operation :  stem:[c * (ax + k)]
 
 * Function composition (stem:[@])  is stem:[(c,a,k) @ (c',a',k') = (c oplus c', aa', ak' + k)]
 
@@ -804,17 +820,19 @@ where stem:[n>2], stem:[a] prime with stem:[n] and stem:[c in {true, false}]
 
 == Group Action
 
-Let us now consider the action of stem:[G] on set stem:[P(E)], with stem:[E = ZZ "/" 12ZZ = ZZ_12] and stem:[P(E)], a set of stem:[2^|E| = 2^12 = bb 4096] *PCS elements*.
+Consider the action of stem:[G] on set stem:[P(E)], with stem:[E = ZZ "/" nZZ = ZZ_n] and stem:[P(E)], a set of stem:[2^|E| = 2^n].
 
+Let us now consider stem:[E = ZZ_12] = {0,1,2,3,4,5,6,7,8,9,10,11}
 
+stem:[P(E)] is set of stem:[2^|E| = 2^12 = bb 4096] *PCS elements* (4096 subsets of _E_)
 
 === Context
 
 https://88musaics.org/[88musaics project] presents different operations, when n = 12, as *geometrical transformations by rotation of half a turn*. M5 is left diagonal and M7 is right diagonal transformation, M11 (inversion) around central point, M1 is neutral operation anc C is a change of perspective of point of view (or permutation of color).
 
-Into Musaicbox project (https://musaicbox.org/) , primitives operations are implemented by permutations of values into vector representation of PCS, i.e. stem:[ NN^n -> NN^n].
+Into Musaicbox application project (https://musaicbox.org/) , primitives operations are implemented by permutations of values into vector representation of PCS, i.e. stem:[ NN^n -> NN^n].
 
-.Example of different points of view on transformation operations
+.Example of different points of view of basics transformation operations
 image::diff-4operations.png[diff-4operations]
 
 For transformations by multiplication, see also : https://en.wikipedia.org/wiki/Multiplication_(music)[wikipedia multiplication and music]
@@ -979,10 +997,10 @@ Example with n=12 => stem:[ |G| = 2 xx 12 xx 4 = 96]
 
 We have seen that when the group stem:[G] acts on stem:[P(ZZ_12)], stem:[G] is composed of  *96* elements (operations)
 
-stem:[G] acts on  stem:[ZZ_12]  stem:[G = { C_cM_a"-"T_k]
-where stem:[a in { 1, 5, 7, 11 }, k in { 0, 1, ..., 11  }, c in {true, false}}]
+When stem:[G] acts on  stem:[ZZ_12]  ,  stem:[G] = stem:[{ C_cM_a"-"T_k],
+where stem:[c in {true, false}, a in { 1, 5, 7, 11 } and k in { 0, 1, ..., 11  } }]
 
-stem:[G = { "M1-T0", "CM1-T0", ..., "CM11-T10", "CM11-T11"}]
+stem:[G = { "M1-T0", "M1-T1",..., "CM1-T0", ..., "CM11-T10", "CM11-T11"}]
 
 
 It is thanks to this group that we will be able to partition our 4096 PCS into remarkable subsets by action of this group on stem:[ZZ_12].
@@ -1636,7 +1654,7 @@ Other view, the lattice of subgroups, without trivial group, identified by their
 .Subgroups lattice - prefix "M" and "M1" are omitted (M1 CM11 => C11) (J-Y. Fusil - 2009)
 image::lattice-subgroups12.png[lattice-subgroups12]
 
-NOTE: Note the central vertical axis on which 4 of its 5 known subgroups are located.
+NOTE: 4 of its 5 known subgroups are located on the central vertical axis.
 
 TODO Suite...
 

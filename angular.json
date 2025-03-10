@@ -34,7 +34,6 @@
             ],
             "styles": [
               "@angular/material/prebuilt-themes/indigo-pink.css",
-              "node_modules/bootstrap-icons/font/bootstrap-icons.css",
               "src/styles.css",
               "src/app/component/score-notation/abcjs-audio.css"
             ],
@@ -46,7 +45,7 @@
               "optimization": {
                 "scripts": true,
                 "fonts": {
-                  "inline": true
+                  "inline": false
                 },
                 "styles": {
                   "minify": true,
