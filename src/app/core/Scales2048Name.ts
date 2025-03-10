@@ -43,7 +43,7 @@ export class Scales2048Name {
         url : nameDefLink.url,
         type: nameDefLink.type
       }
-      pcs = pcs.modulation(IPcs.PREV_DEGREE)
+      pcs = pcs.modulation("Previous")
     }
     return {
       name: '',

@@ -9,12 +9,12 @@ export class Mapping {
    * Function call for create auto mapping on himself
    * Example of call (in constructor).
    *  <pre>
-   *   this.templateMappingBinPcs = mapToHimSelf(this.abinPcs)
-   *   if this.abinPcs = [1,0,0,1,0,0,0,1,0,0,1,0] // cm7 = [0,3,7,10]
-   *   then this.templateMappingBinPcs will be : [0,1,2,3,4,5,6,7,8,9,10,11]
+   *   this.templateMappingVectorPcs = mapToHimSelf(this.vectorPcs)
+   *   if this.vectorPcs = [1,0,0,1,0,0,0,1,0,0,1,0] // cm7 = [0,3,7,10]
+   *   then this.templateMappingVectorPcs will be : [0,1,2,3,4,5,6,7,8,9,10,11]
    *  </pre>
    * @param {number[]} binPcs a array bin pcs
-   * @return {number[]} result.length == binPcs.length and elements of result are array index of binPcs
+   * @return {number[]} result.length == vectorPcs.length and elements of result are array index of vectorPcs
    */
   static mapToHimSelf = (binPcs: number[]): number[] => {
     return binPcs.map((value, index) => index)

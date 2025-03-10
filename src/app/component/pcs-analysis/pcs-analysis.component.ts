@@ -105,7 +105,7 @@ export class PcsAnalysisComponent {
     let cardinal = pcs.cardOrbitMode()
     for (let degree = 0; degree < cardinal; degree++) {
       this.managerPagePcsListService.addPcs(PcsAnalysisComponent.ROMAIN[degree], pcs, true)
-      pcs = pcs.modulation(IPcs.NEXT_DEGREE)
+      pcs = pcs.modulation("Next")
     }
     this.managerPagePcsListService.addModesOf(pcs.id)
     HtmlUtil.gotoAnchor("idListPcs")

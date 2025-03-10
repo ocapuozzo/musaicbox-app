@@ -21,14 +21,14 @@
  *    cm7 = new IPcs({strPcs:'[0, 7, 3, 10]', n:12}); // default n=12
  *
  *    cm7.getPcsStr() => '[0,3,7,10]'
- *    cm7.abinPcs => [1,0,0,1,0,0,0,1,0,0,1,0]
- *    cm7.getMappedBinPcs() => [1,0,0,1,0,0,0,1,0,0,1,0] // by default, automap on himself
+ *    cm7.vectorPcs => [1,0,0,1,0,0,0,1,0,0,1,0]
+ *    cm7.getMappedVectorPcs() => [1,0,0,1,0,0,0,1,0,0,1,0] // by default, automap on himself
  *
  *    const pcsDiatMajMapped = new IPcs({
  *      strPcs: "[0, 2, 4]", // first 3-chord (C E G)
  *      n: 7,
  *      nMapping: 12,
- *      templateMappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // pcs mapped into [0,4,7]
+ *      templateMappingVectorPcs: [0, 2, 4, 5, 7, 9, 11]  // pcs mapped into [0,4,7]
  *    })
  *    expect(pcsDiatMajMapped.getMappedPcsStr()).toEqual('[0,4,7]')
  *    expect(pcsDiatMajMapped.is()).toEqual([4,3,5]);
@@ -50,9 +50,6 @@ import {ManagerGroupActionService} from "../service/manager-group-action.service
 import {PcsUtils} from "../utils/PcsUtils";
 import {ManagerPcsService} from "../service/manager-pcs.service";
 
-const NEXT_MODULATION = 1
-const PREV_MODULATION = 2
-
 const negativeToPositiveModulo = (i: number, n: number): number => {
   return (n - ((i * -1) % n)) % n
 }
@@ -60,6 +57,9 @@ const negativeToPositiveModulo = (i: number, n: number): number => {
 const helperGetGroupActionFrom = (groupName: string): GroupAction | undefined => {
   return ManagerGroupActionService.getGroupActionFromGroupName(groupName)
 }
+
+export const DIRECTIONS = ['Next', 'Previous'] as const;
+export type TDirection  = typeof DIRECTIONS[number];
 
 /**
  * @see at top of this file
@@ -80,12 +80,12 @@ export class IPcs {
 
 
   /**
-   * inner binary representation of pcs (this.abinPcs.length == this.n)
+   * inner binary representation of pcs (this.vectorPcs.length == this.n)
    */
-  readonly abinPcs: number[];
+  readonly vectorPcs: number[];
 
   /**
-   * id, abinPcs based
+   * id, vectorPcs based
    */
   readonly id: number;
 
@@ -116,21 +116,21 @@ export class IPcs {
 
   /**
    * mapping of this, for external/interface representation
-   * this.templateMappingBinPcs.length == this.n
+   * this.templateMappingVectorPcs.length == this.n
    * Example : this.n = 7
    *      strPcs: "[0, 2, 4]", // first 3-chord (C E G)
    *      nMapping: 12,
-   *      templateMappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // pcs [0, 2, 4] mapped into [0,4,7]
+   *      templateMappingVectorPcs: [0, 2, 4, 5, 7, 9, 11]  // pcs [0, 2, 4] mapped into [0,4,7]
    */
-  readonly templateMappingBinPcs: number[]
+  readonly templateMappingVectorPcs: number[]
 
   /**
-   * this is abinPcs mapped
-   * Be careful : _mappedBinPcs.length == n, not nMapping
-   * but element values of _mappedBinPcs are in [0..nMapping[
+   * this is vectorPcs mapped
+   * Be careful : _mappedVectorPcs.length == n, not nMapping
+   * but element values of _mappedVectorPcs are in [0..nMapping[
    * @private
    */
-  private readonly _mappedBinPcs: number[] = []
+  private readonly _mappedVectorPcs: number[] = []
 
 
   /**
@@ -140,15 +140,15 @@ export class IPcs {
   orbit: Orbit;
 
   constructor(
-    {pidVal, strPcs, binPcs, n, iPivot, orbit, templateMappingBinPcs, nMapping}:
+    {pidVal, strPcs, vectorPcs, n, iPivot, orbit, templateMappingVectorPcs, nMapping}:
     {
       pidVal?: number,
       strPcs?: string,
-      binPcs?: number[],
+      vectorPcs?: number[],
       n?: number,
       iPivot?: number,
       orbit?: Orbit,
-      templateMappingBinPcs?: number[],
+      templateMappingVectorPcs?: number[],
       nMapping?: number
     } = {}) {
     if (n !== undefined && (n < 3 || n > 13)) {
@@ -159,68 +159,68 @@ export class IPcs {
       if (pidVal >= Math.pow(2, 13)) {
         throw Error(`Bad pidVal = ${pidVal} waiting in [0...2^13]`)
       }
-      this.abinPcs = IPcs.intToBinArray(pidVal, n ?? 12)
+      this.vectorPcs = IPcs.intToBinArray(pidVal, n ?? 12)
       // first index to 1 is iPivot
-      const tempPivot = this.abinPcs.findIndex((pc => pc === 1))
+      const tempPivot = this.vectorPcs.findIndex((pc => pc === 1))
       // case of pcs = empty set
       this.iPivot = tempPivot === -1 ? undefined : tempPivot
     }
     // case vector given
-    else if (Array.isArray(binPcs)) {
+    else if (Array.isArray(vectorPcs)) {
       // assume pcs bin vector [1,0,1, ... ]
-      this.abinPcs = binPcs.slice()
-      if (!this.abinPcs.every(pc => pc >= 0 && pc <= 1)) {
-        throw Error(`Bad vector given = ${binPcs} waiting [0|1]*`)
+      this.vectorPcs = vectorPcs.slice()
+      if (!this.vectorPcs.every(pc => pc >= 0 && pc <= 1)) {
+        throw Error(`Bad vector given = ${vectorPcs} waiting [0|1]*`)
       }
-      if (this.abinPcs.length < 3 || this.abinPcs.length > 13) {
-        throw Error(`Bad vector size = ${this.abinPcs.length} waiting in [3...13]`)
+      if (this.vectorPcs.length < 3 || this.vectorPcs.length > 13) {
+        throw Error(`Bad vector size = ${this.vectorPcs.length} waiting in [3...13]`)
       }
     }
     // case string given
     else if (strPcs !== undefined) {
       let vectorAndPivot = IPcs._fromStringTobinArray(strPcs, n)
       this.iPivot = vectorAndPivot.defaultPivot
-      this.abinPcs = vectorAndPivot.vector
+      this.vectorPcs = vectorAndPivot.vector
     } else {
       throw new Error("Can't create IPcs instance (bad args = " + strPcs + ")")
     }
 
     // check iPivot
     if (iPivot !== undefined) {
-      if (iPivot < 0 || iPivot >= this.abinPcs.length) {
+      if (iPivot < 0 || iPivot >= this.vectorPcs.length) {
         throw new Error(`Can't create IPcs instance (bad iPivot = "  ${iPivot})`)
       } else {
-        if (this.abinPcs[iPivot] === 1) {
+        if (this.vectorPcs[iPivot] === 1) {
           this.iPivot = iPivot
         } else {
-          throw new Error(`Can't create IPcs instance (bad iPivot = ${iPivot} for pcs ${this.abinPcs})`)
+          throw new Error(`Can't create IPcs instance (bad iPivot = ${iPivot} for pcs ${this.vectorPcs})`)
         }
       }
     }
 
     // check n
-    if (n && n !== this.abinPcs.length) {
-      throw new Error("Can't create IPcs instance (bad n = " + n + " for pcs " + this.abinPcs + ")")
+    if (n && n !== this.vectorPcs.length) {
+      throw new Error("Can't create IPcs instance (bad n = " + n + " for pcs " + this.vectorPcs + ")")
     }
 
-    this.n = this.abinPcs.length // normally, param n synchronized
+    this.n = this.vectorPcs.length // normally, param n synchronized
 
-    this.cardinal = this.abinPcs.reduce((sumOnes, v_i) => v_i === 1 ? sumOnes+1 : sumOnes, 0)
+    this.cardinal = this.vectorPcs.reduce((sumOnes, v_i) => v_i === 1 ? sumOnes+1 : sumOnes, 0)
 
     // check a logic of this.iPivot
     if (this.cardinal === 0 && this.iPivot !== undefined) {
       // this.iPivot = undefined
-      throw Error(`Something wrong with iPivot  = ${this.iPivot} and ${this.abinPcs}`)
+      throw Error(`Something wrong with iPivot  = ${this.iPivot} and ${this.vectorPcs}`)
     }
 
     this.orbit = orbit ?? new Orbit() // a king of "null orbit"
-    this.id = IPcs.id(this.abinPcs)
+    this.id = IPcs.id(this.vectorPcs)
 
     // default mapping on himself
-    if (!templateMappingBinPcs || templateMappingBinPcs.length != this.n) {
-      this.templateMappingBinPcs = Mapping.getAutoMapping(this.abinPcs)
+    if (!templateMappingVectorPcs || templateMappingVectorPcs.length != this.n) {
+      this.templateMappingVectorPcs = Mapping.getAutoMapping(this.vectorPcs)
     } else {
-      this.templateMappingBinPcs = templateMappingBinPcs
+      this.templateMappingVectorPcs = templateMappingVectorPcs
     }
 
     this.nMapping = nMapping ? nMapping : this.n
@@ -229,15 +229,15 @@ export class IPcs {
     if (this.nMapping < this.n) throw new Error("Invalid data mapping")
 
     // check mapping data
-    if (this.templateMappingBinPcs.some(value => value >= this.nMapping)) {
+    if (this.templateMappingVectorPcs.some(value => value >= this.nMapping)) {
       throw new Error("Invalid data mapping")
     }
 
-    // @see method getMappedBinPcs()
-    // construct mappedBinPcs (default mapping on himself)
-    this._mappedBinPcs = new Array<number>(this.nMapping).fill(0)
-    for (let i = 0; i < this.templateMappingBinPcs.length; i++) {
-      this._mappedBinPcs[this.templateMappingBinPcs[i]] = this.abinPcs[i];
+    // @see method getMappedVectorPcs()
+    // construct mappedVectorPcs (default mapping on himself)
+    this._mappedVectorPcs = new Array<number>(this.nMapping).fill(0)
+    for (let i = 0; i < this.templateMappingVectorPcs.length; i++) {
+      this._mappedVectorPcs[this.templateMappingVectorPcs[i]] = this.vectorPcs[i];
     }
 
     // this.serviceManagerGroupAction = inject(ManagerGroupActionService);
@@ -334,50 +334,42 @@ export class IPcs {
     return pitchClassArray;
   }
 
-  static get NEXT_DEGREE() {
-    return NEXT_MODULATION
-  }
-
-  static get PREV_DEGREE() {
-    return PREV_MODULATION
-  }
-
   /**
-   * int identify of PCS Bin Array representation (abin)
+   * int identify of PCS Bin Array representation (vector)
    *  function polynomial (bijective function)
-   * @param {array} abin
+   * @param {array} vector
    * @returns {number}
    */
-  static pid(abin: number[]): number {
-    let n = abin.length;
+  static pid(vector: number[]): number {
+    let n = vector.length;
     let res = 0;
     let pow = 1;
     let card = 0;
     for (let i = 0; i < n; i++) {
-      res += abin[i] * pow;
+      res += vector[i] * pow;
       pow *= 2;
-      if (abin[i] === 1)
+      if (vector[i] === 1)
         card++;
     }
     return res;
   }
 
   /**
-   * int identify of PCS Bin Array representation (abin)
+   * int identify of PCS Bin Array representation (vector)
    *  is function polynomial + 2^12 * cardinal
    *   for order relation (min include weight of cardinal)
-   * @param {array} abin
+   * @param {array} vector
    * @returns {number}
    */
-  static id(abin: number[]): number {
-    let n = abin.length;
+  static id(vector: number[]): number {
+    let n = vector.length;
     let res = 0;
     let pow = 1;
     let card = 0;
     for (let i = 0; i < n; i++) {
-      res += abin[i] * pow;
+      res += vector[i] * pow;
       pow *= 2;
-      if (abin[i] === 1)
+      if (vector[i] === 1)
         card++;
     }
     return res + card * (1 << n);  // res + ((int) Math.pow(2, dim)) * card;
@@ -385,7 +377,7 @@ export class IPcs {
 
 
   pid() {
-    return IPcs.pid(this.abinPcs);
+    return IPcs.pid(this.vectorPcs);
   }
 
   /**
@@ -508,12 +500,12 @@ export class IPcs {
    * @param  a    : number
    * @param  t  :number  [0..this.n[
    * @param iPivot : number [0..this.n[
-   * @param binPcs : number[] array of int
+   * @param vectorPcs : number[] array of int
    * @return {number[]}
    */
-  static getBinPcsPermute(a: number, t: number, iPivot: number, binPcs: number[]): number[] {
-    let binPcsPermuted = binPcs.slice()
-    let n = binPcs.length
+  static getVectorPcsPermute(a: number, t: number, iPivot: number, vectorPcs: number[]): number[] {
+    let vectorPcsPermuted = vectorPcs.slice()
+    let n = vectorPcs.length
     let j
     if (t < 0) {
       t = negativeToPositiveModulo(t, n)
@@ -522,9 +514,9 @@ export class IPcs {
     for (let i = 0; i < n; i++) {
       j = (n + (((i * a) - (a - 1) * iPivot - t) % n)) % n
       // j may be negative... so n + (...) modulo n
-      binPcsPermuted[i] = binPcs[j]
+      vectorPcsPermuted[i] = vectorPcs[j]
     }
-    return binPcsPermuted
+    return vectorPcsPermuted
   }
 
   /**
@@ -544,12 +536,12 @@ export class IPcs {
       return this
     }
 
-    let newPivot = negativeToPositiveModulo(((this.iPivot ?? 0) + t), this.abinPcs.length)
+    let newPivot = negativeToPositiveModulo(((this.iPivot ?? 0) + t), this.vectorPcs.length)
     return new IPcs({
-      binPcs: IPcs.getBinPcsPermute(a, t, newPivot, this.abinPcs),
+      vectorPcs: IPcs.getVectorPcsPermute(a, t, newPivot, this.vectorPcs),
       iPivot: newPivot,
-      orbit: new Orbit(), // detached pcs
-      templateMappingBinPcs: this.templateMappingBinPcs,
+      orbit: new Orbit(), // detached pcs from orbit
+      templateMappingVectorPcs: this.templateMappingVectorPcs,
       nMapping: this.nMapping
     })
   }
@@ -573,32 +565,69 @@ export class IPcs {
     return this.affineOp(1, t)
   }
 
+
   /**
    * Modulation of this (change iPivot)
    * @param direction which next or previus degree of modulation
    *  Example : { 0, 4, 7 } iPivot=0,  next=> iPivot == 4,  prev=> iPivot == 7
+   *  Example : { 0, 4, 7 } iPivot=4,  next=> iPivot == 7,  prev=> iPivot == 0
    * @returns {IPcs} a new object, but same pcs (just pivot change)
    *
    */
-  modulation(direction: number): IPcs {
+  modulation(direction: TDirection): IPcs {
+    if (this.cardinal === 0) return this
+
+    const indexes = this.vectorPcs.reduce(IPcs.vector2integersPcs, [])
+
+    // double values and size. Ex [0, 4, 7] => [0, 4, 7, 0, 4, 7]
+    // to simplify the algorithm.
+    indexes.push(...indexes)
+    // indexes = [...indexes, ...indexes] : more memory-intensive
+
+    let newPivot : number
+    let pivot: number = this.iPivot! // only undefined when cardinal = 0
+
+    if (direction === "Next"){
+      // indexOf start from 0
+      newPivot = indexes[indexes.indexOf(pivot)+1]
+    } else { // assume (direction === "Previous") {
+      // indexOf start from middle of indexes
+      newPivot = indexes[indexes.indexOf(pivot, this.cardinal-1)-1]
+    }
+    return this.cloneWithNewPivot(newPivot)
+  }
+
+  /**
+   * Modulation of this (change iPivot)
+   * @param direction which next or previus degree of modulation
+   *  Example : { 0, 4, 7 } iPivot=0,  next=> iPivot == 4,  prev=> iPivot == 7
+   *  Example : { 0, 4, 7 } iPivot=4,  next=> iPivot == 7,  prev=> iPivot == 0
+   * @returns {IPcs} a new object, but same pcs (just pivot change)
+   *
+   *  Old implementation
+   */
+  _modulation(direction: TDirection): IPcs {
     let newPivot = this.iPivot
-    let pivot: number = this.iPivot ?? 0
-    if (direction === IPcs.NEXT_DEGREE) {
-      let n = this.abinPcs.length
+
+    if (this.cardinal === 0) return this
+
+    let pivot: number = this.iPivot!
+    if (direction === "Next") {
+      let n = this.vectorPcs.length
       for (let i = pivot + 1; i < n + pivot; i++) {
-        if (this.abinPcs[i % n] === 1) {
+        if (this.vectorPcs[i % n] === 1) {
           newPivot = i % n
           break
         }
       }
-    } else if (direction === IPcs.PREV_DEGREE) {
-      let n = this.abinPcs.length
+    } else if (direction === "Previous") {
+      let n = this.vectorPcs.length
       let i = pivot - 1
       if (i < 0) {
         i = negativeToPositiveModulo(i, n)
       }
       for (; i !== pivot;) {
-        if (this.abinPcs[i] === 1) {
+        if (this.vectorPcs[i] === 1) {
           newPivot = i
           break
         }
@@ -609,15 +638,22 @@ export class IPcs {
       }
     }
     return new IPcs({
-      binPcs: this.abinPcs.slice(),
+      vectorPcs: this.vectorPcs, //.slice(), <= In readonly, let's go without fear
       iPivot: newPivot,
       orbit: this.orbit, // same orbit because same pcs
-      templateMappingBinPcs: this.templateMappingBinPcs,
+      templateMappingVectorPcs: this.templateMappingVectorPcs,
       nMapping: this.nMapping
     })
   }
 
-  static vector2pcsStr(previousValue: number[], currentValue: number, currentIndex: number) {
+  /**
+   * In arg to reduce. Input array of 0|1, output array of integer [0..n-1]
+   * [1,0,0,0,1,0,0,1,0,0,0,0] => [0,4,7]
+   * @param previousValue
+   * @param currentValue
+   * @param currentIndex
+   */
+  static vector2integersPcs(previousValue: number[], currentValue: number, currentIndex: number) {
     if (currentValue === 1) {
       previousValue.push(currentIndex)
     }
@@ -631,12 +667,12 @@ export class IPcs {
    * @returns {string}
    */
   getPcsStr(withBracket: boolean = true): string {
-    const pcs = this.abinPcs.reduce(IPcs.vector2pcsStr, [])
+    const pcsNameIndexes = this.vectorPcs.reduce(IPcs.vector2integersPcs, [])
 
     if (withBracket) {
-      return `[${pcs.join(' ')}]`
+      return `[${pcsNameIndexes.join(' ')}]`
     }
-    return pcs.join(' ')
+    return pcsNameIndexes.join(' ')
   }
 
 
@@ -647,7 +683,7 @@ export class IPcs {
    * @returns {string}
    */
   getMappedPcsStr(withBracket: boolean = true): string {
-    const pcs = this.getMappedBinPcs().reduce(IPcs.vector2pcsStr, [])
+    const pcs = this.getMappedVectorPcs().reduce(IPcs.vector2integersPcs, [])
     if (withBracket) {
       return `[${pcs.join(' ')}]`
     }
@@ -681,20 +717,20 @@ export class IPcs {
    * Example : is( "1,5,8", iPivot:5) > [3, 5, 4]
    * Example : is( "1,5,8", iPivot:1) > [4, 3, 5]
    *
-   * This function work on MappedBinPcs, because this is interface of inner abinPcs
+   * This function work on MappedVectorPcs, because this is interface of inner vectorPcs
    */
   is(): number[] {
     const res: number[] = []
-    const binPcsMapped = this.getMappedBinPcs()
+    const vectorPcsMapped = this.getMappedVectorPcs()
     const nMapped = this.nMapping
-    const pivotMapped = this.templateMappingBinPcs[this.iPivot ?? 0]
+    const pivotMapped = this.templateMappingVectorPcs[this.iPivot ?? 0]
 
     for (let i = 0; i < nMapped; i++) {
-      if (binPcsMapped[(i + pivotMapped) % nMapped] === 1) {
+      if (vectorPcsMapped[(i + pivotMapped) % nMapped] === 1) {
         let j;
         for (let k = 0; k < nMapped; k++) {
           j = (k + i + 1) % nMapped
-          if (binPcsMapped[(j + pivotMapped) % nMapped] === 1) {
+          if (vectorPcsMapped[(j + pivotMapped) % nMapped] === 1) {
             // offset iPivot is not necessary (TODO : say why)
             res.push((nMapped + j - i) % nMapped)
             break
@@ -734,8 +770,8 @@ export class IPcs {
    * Example : iv("0,3,7") => [0,0,1,1,1,0]
    */
   iv(): number[] {
-    const nMapped = this.nMapping// getMappedBinPcs().length;
-    const binPcsMapped = this.getMappedBinPcs()
+    const nMapped = this.nMapping// getMappedVectorPcs().length;
+    const vectorPcsMapped = this.getMappedVectorPcs()
 
     let res = new Array(Math.ceil(nMapped / 2));
     // Rem : So res.length is always even, even if n is odd
@@ -746,7 +782,7 @@ export class IPcs {
       res[i] = 0;
       v++;
       for (let j = 0; j < nMapped; j++) {
-        if (binPcsMapped[j] === 1 && binPcsMapped[(j + v) % nMapped] === 1)
+        if (vectorPcsMapped[j] === 1 && vectorPcsMapped[(j + v) % nMapped] === 1)
           res[i] = res[i] + 1;
       }
     }
@@ -814,7 +850,7 @@ export class IPcs {
    *
    */
   complement(): IPcs {
-    let binCplt: number[] = this.abinPcs.map(pc => (pc === 1 ? 0 : 1)) //;slice() and inverse 0/1
+    let binCplt: number[] = this.vectorPcs.map(pc => (pc === 1 ? 0 : 1)) //;slice() and inverse 0/1
     let new_iPivot = undefined
     let actual_iPivot = this.iPivot ?? 0
     let n = binCplt.length
@@ -847,17 +883,17 @@ export class IPcs {
     // hum... no, risk of side effect when construct group action ?
     // if not then we do same job with other transformation operations.
     return new IPcs({
-      binPcs: binCplt,
+      vectorPcs: binCplt,
       iPivot: new_iPivot,
       orbit: new Orbit(), // as new pcs, here we don't know its orbit (see note below)
-      templateMappingBinPcs: this.templateMappingBinPcs,
+      templateMappingVectorPcs: this.templateMappingVectorPcs,
       nMapping: this.nMapping
     })
 
   }
 
   toString() {
-    return JSON.stringify(this.abinPcs) + " n = " + this.n + ", iPivot : "
+    return JSON.stringify(this.vectorPcs) + " n = " + this.n + ", iPivot : "
       + JSON.stringify(this.iPivot)
       + ((this.n != this.nMapping) ? '  Mapped on ' + this.nMapping : '')
     //	return JSON.stringify(this);
@@ -932,9 +968,9 @@ export class IPcs {
     let left = ipitch; //
     let middle = Math.round(this.nMapping / 2) + 1
     for (iAxe = 0; iAxe < this.nMapping; iAxe++) {
-      if (this.getMappedBinPcs()[right] === 1)
+      if (this.getMappedVectorPcs()[right] === 1)
         arrResearchA[iAxe] = 1; // { in one way }
-      if (this.getMappedBinPcs()[left] === 1)
+      if (this.getMappedVectorPcs()[left] === 1)
         arrResearchB[iAxe] = 1; // { other way }
       right = (right + 1) % this.nMapping;
       if (left === 0) left = this.nMapping;
@@ -1002,36 +1038,36 @@ export class IPcs {
    * @return {IPcs} a new instance (free, not attached to an orbit)
    */
   toggleIndexPC(ipc: number): IPcs {
-    if (ipc < 0 || ipc >= this.abinPcs.length)
+    if (ipc < 0 || ipc >= this.vectorPcs.length)
       throw new Error("Invalid index pitch class ! (" + ipc + ")")
 
     let newIPcs: IPcs
-    let newBinPcs = this.abinPcs.slice()
+    let newVectorPcs = this.vectorPcs.slice()
     let iPivot = this.iPivot
 
-    if (this.abinPcs[ipc] === 0) {
-      newBinPcs[ipc] = 1
+    if (this.vectorPcs[ipc] === 0) {
+      newVectorPcs[ipc] = 1
       // same pivot
       newIPcs = new IPcs({
-        binPcs: newBinPcs,
-        n: newBinPcs.length,
+        vectorPcs: newVectorPcs,
+        n: newVectorPcs.length,
         iPivot: this.iPivot,
         orbit: new Orbit(), // not same pcs (old orbit = this.orbit),
-        templateMappingBinPcs: this.templateMappingBinPcs,
+        templateMappingVectorPcs: this.templateMappingVectorPcs,
         nMapping: this.nMapping
       })
     } else {
       // remove bit 1 to 0
-      newBinPcs[ipc] = 0
+      newVectorPcs[ipc] = 0
       let cardinal = this.cardinal
       if (cardinal == 1) {
         // make empty pcs
         newIPcs = new IPcs({
-          binPcs: newBinPcs,
-          n: newBinPcs.length,
+          vectorPcs: newVectorPcs,
+          n: newVectorPcs.length,
           iPivot: undefined,
           orbit: new Orbit(), // not same pcs (old orbit = this.orbit)
-          templateMappingBinPcs: this.templateMappingBinPcs,
+          templateMappingVectorPcs: this.templateMappingVectorPcs,
           nMapping: this.nMapping
         })
       } else {
@@ -1039,27 +1075,27 @@ export class IPcs {
           // change iPivot, get the first "to the right"
           let i = ipc, cpt = 0
           while (cpt < this.n) {
-            if (newBinPcs[i] == 1) break
+            if (newVectorPcs[i] == 1) break
             cpt++
             i = (i + 1) % this.n
           }
           let newIPivot = i
           newIPcs = new IPcs({
-            binPcs: newBinPcs,
-            n: newBinPcs.length,
+            vectorPcs: newVectorPcs,
+            n: newVectorPcs.length,
             iPivot: newIPivot,
             orbit: new Orbit(), // not same pcs (old orbit = this.orbit)
-            templateMappingBinPcs: this.templateMappingBinPcs,
+            templateMappingVectorPcs: this.templateMappingVectorPcs,
             nMapping: this.nMapping
           })
         } else {
           // same pivot
           newIPcs = new IPcs({
-            binPcs: newBinPcs,
-            n: newBinPcs.length,
+            vectorPcs: newVectorPcs,
+            n: newVectorPcs.length,
             iPivot: this.iPivot,
             orbit: new Orbit(), // not same pcs (old orbit = this.orbit)
-            templateMappingBinPcs: this.templateMappingBinPcs,
+            templateMappingVectorPcs: this.templateMappingVectorPcs,
             nMapping: this.nMapping
           })
         }
@@ -1069,28 +1105,28 @@ export class IPcs {
   }
 
   /**
-   * set auto mapping from current binPcs exemple : this = "0,4,7,10", n=12
-   * mapping will be in n binPcs intra will be "0,1,2,3", with n = 4 mapping in
+   * set auto mapping from current vectorPcs exemple : this = "0,4,7,10", n=12
+   * mapping will be in n vectorPcs intra will be "0,1,2,3", with n = 4 mapping in
    * n=12 into "0,4,7,10"
    */
   autoMap(): IPcs {
-    let newBinPcs = new Array(this.cardinal).fill(1);
-    let templateMappingBinPcs = new Array<number>(this.cardinal);
+    let newVectorPcs = new Array(this.cardinal).fill(1);
+    let templateMappingVectorPcs = new Array<number>(this.cardinal);
 
-    for (let i = 0, j = 0; i < this.abinPcs.length; i++) {
-      if (this.abinPcs[i] == 1) {
-        templateMappingBinPcs[j++] = i;
+    for (let i = 0, j = 0; i < this.vectorPcs.length; i++) {
+      if (this.vectorPcs[i] == 1) {
+        templateMappingVectorPcs[j++] = i;
       }
     } // end of loop : assert j === this.cardinal - 1
-    // assert value element of templateMappingBinPcs in [0..this.abinPcs.length[
+    // assert value element of templateMappingVectorPcs in [0..this.vectorPcs.length[
 
-    let new_nMapping: number = this.abinPcs.length
+    let new_nMapping: number = this.vectorPcs.length
 
     return new IPcs(
       {
-        binPcs: newBinPcs,
+        vectorPcs: newVectorPcs,
         n: this.cardinal,
-        templateMappingBinPcs: templateMappingBinPcs,
+        templateMappingVectorPcs: templateMappingVectorPcs,
         nMapping: new_nMapping
       })
   }
@@ -1108,26 +1144,26 @@ export class IPcs {
       ? undefined
       : this.getMappedPivot()
 
-    return new IPcs({binPcs: this.getMappedBinPcs(), iPivot: pivot})
+    return new IPcs({vectorPcs: this.getMappedVectorPcs(), iPivot: pivot})
   }
 
   /**
    * Get representative binary pitches class set.
    * In this project, un PCS is always a projection of a pcs of dim inf or equal
-   * Example : binPcs = [0,1,1], mappingBinPitches = [0, 4, 7],
+   * Example : vectorPcs = [0,1,1], mappingBinPitches = [0, 4, 7],
    * nMapping = 12 return [0,0,0,0,1,0,0,1,0,0,0,0]
    *
    * @return : number[]
    */
-  getMappedBinPcs(): number[] {
-    // this._mappedBinPcs is constructed into constructor
-    return (this._mappedBinPcs.length > 0)
-      ? this._mappedBinPcs
-      : this.abinPcs;
+  getMappedVectorPcs(): number[] {
+    // this._mappedVectorPcs is constructed into constructor
+    return (this._mappedVectorPcs.length > 0)
+      ? this._mappedVectorPcs
+      : this.vectorPcs;
   }
 
   getMappedPivot() {
-    return this.templateMappingBinPcs[this.iPivot ?? 0]
+    return this.templateMappingVectorPcs[this.iPivot ?? 0]
   }
 
 
@@ -1142,16 +1178,16 @@ export class IPcs {
    *       strPcs: "[0, 2, 4]", // first 3-chord
    *       n: 7,
    *       nMapping: 12,
-   *       templateMappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // pcs mapped into [0,4,7] {C E G}
+   *       templateMappingVectorPcs: [0, 2, 4, 5, 7, 9, 11]  // pcs mapped into [0,4,7] {C E G}
    *    })
    *    pcsDiatMajMapped.indexMappedToIndexInner(2) => 1
    *
    * @param indexMapped
-   * @return index for inner binary vector (abinPcs)
+   * @return index for inner binary vector (vectorPcs)
    *         or -1 if indexMapped is not mapped
    */
   indexMappedToIndexInner(indexMapped: number): number {
-    return this.templateMappingBinPcs.findIndex(value => indexMapped == value) ?? -1
+    return this.templateMappingVectorPcs.findIndex(value => indexMapped == value) ?? -1
   }
 
   getChordName(): string {
@@ -1206,7 +1242,7 @@ export class IPcs {
     if (newPivot < 0 || newPivot >= this.n) {
       throw new Error(`Invalid Pivot ! ( ${newPivot} with n = ${this.n} )`)
     }
-    if (this.abinPcs[newPivot] == 0) {
+    if (this.vectorPcs[newPivot] == 0) {
       throw new Error(`Invalid Pivot ! ( ${newPivot} not in PCS ${this.getPcsStr()} )`)
     }
     if (this.iPivot !== newPivot) {
@@ -1247,18 +1283,18 @@ export class IPcs {
     }
 
     let newPivot = (pivot + this.n/2) % this.n
-    let ok = this.abinPcs[newPivot] === 0
+    let ok = this.vectorPcs[newPivot] === 0
 
     let delta = 0
     while (!ok) {
       delta++
       let newPivotRight = (this.n + newPivot - delta) % this.n
       let newPivotLeft = (newPivot + delta) % this.n
-      ok = this.abinPcs[newPivotRight] === 0
+      ok = this.vectorPcs[newPivotRight] === 0
       if (ok) {
         newPivot = newPivotRight
       } else {
-        ok = this.abinPcs[newPivotLeft] === 0
+        ok = this.vectorPcs[newPivotLeft] === 0
         if (ok) {
           newPivot = newPivotLeft
         }
@@ -1283,10 +1319,10 @@ export class IPcs {
   // public getPivotFromSymmetryForComplementByBruteForce(): number {
   //   // create new instance for test
   //   let pcsForTest = new IPcs({
-  //     binPcs: this.abinPcs,
+  //     vectorPcs: this.vectorPcs,
   //     iPivot: this.iPivot,
   //     orbit: this.orbit,
-  //     templateMappingBinPcs: this.templateMappingBinPcs,
+  //     templateMappingVectorPcs: this.templateMappingVectorPcs,
   //     nMapping: this.nMapping
   //   })
   //
@@ -1297,8 +1333,8 @@ export class IPcs {
   //   const id = this.id
   //   for (let t = 0; t < this.n / 6; t++) {
   //     for (let i = 0; i < IPcs.OperationsT0_M11_M5_M7_CM11_CM5_CM7.length; i++) {
-  //       for (let j = 0; j < pcsForTest.abinPcs.length; j++) {
-  //         if (pcsForTest.abinPcs[j] === 1) {
+  //       for (let j = 0; j < pcsForTest.vectorPcs.length; j++) {
+  //         if (pcsForTest.vectorPcs[j] === 1) {
   //           pcsForTest.setPivot(j)
   //           if (t === 0) {
   //             // no need to translate when t == 0
@@ -1334,10 +1370,10 @@ export class IPcs {
   // public sav_getPivotFromSymmetry(): number {
   //   // create new instance for test
   //   let pcsForTest = new IPcs({
-  //     binPcs: this.abinPcs,
+  //     vectorPcs: this.vectorPcs,
   //     iPivot: this.iPivot,
   //     orbit: this.orbit,
-  //     templateMappingBinPcs: this.templateMappingBinPcs,
+  //     templateMappingVectorPcs: this.templateMappingVectorPcs,
   //     nMapping: this.nMapping
   //   })
   //
@@ -1347,8 +1383,8 @@ export class IPcs {
   //   // example : musaic n° 53, 35 (see unit test)
   //   const id = this.id
   //   for (let i = 0; i < IPcs.OperationsT0_M11_M5_M7_CM11_CM5_CM7.length; i++) {
-  //     for (let j = 0; j < pcsForTest.abinPcs.length; j++) {
-  //       if (pcsForTest.abinPcs[j] === 1) {
+  //     for (let j = 0; j < pcsForTest.vectorPcs.length; j++) {
+  //       if (pcsForTest.vectorPcs[j] === 1) {
   //         pcsForTest.setPivot(j)
   //         if (id === IPcs.OperationsT0_M11_M5_M7_CM11_CM5_CM7[i].actionOn(pcsForTest).id) {
   //           // good pivot
@@ -1399,18 +1435,18 @@ export class IPcs {
    * Use for Intervallic Structure where pivot don't exist
    */
   isPivotFirstPosition() {
-    return this.iPivot === this.getMappedBinPcs().findIndex(value => value === 1);
+    return this.iPivot === this.getMappedVectorPcs().findIndex(value => value === 1);
   }
 
   /**
-   * Get index of pitchOrder
+   * Get index of pitchOrder for abc notation event
    * Example : {0, 4, 7}  (cardinal = 3)
    *     pitch order of first pitch = 0
    *     pitch order of second pitch = 4
    *     pitch order of third pitch = 7
    *
    * @param pitchOrder : number [1..this.cardinal]
-   * @return index of pitchOrder into aBinPcs having bit to 1
+   * @return index of pitchOrder into vectorPcs having bit to 1
    */
   getVectorIndexOfPitchOrder(pitchOrder: number): number {
     if (!pitchOrder || pitchOrder > this.cardinal) {
@@ -1418,8 +1454,8 @@ export class IPcs {
       // throw new Error(`Invalid pitch order ${pitchOrder} `)
     }
     let currentOrder = 0
-    for (let i = this.getPivot() ?? 0; i < this.abinPcs.length; i = (i + 1) % this.n) {
-      if (this.abinPcs[i] === 1) {
+    for (let i = this.getPivot() ?? 0; i < this.vectorPcs.length; i = (i + 1) % this.n) {
+      if (this.vectorPcs[i] === 1) {
         currentOrder++
         if (currentOrder === pitchOrder) {
           return i
@@ -1463,7 +1499,7 @@ export class IPcs {
    * @return new instance, but same orbit because same pcs is returned (just pivot change)
    */
   cloneWithDefaultPivot(): IPcs {
-    const defaultPivot = this.getMappedBinPcs().findIndex(value => value === 1)
+    const defaultPivot = this.getMappedVectorPcs().findIndex(value => value === 1)
     return this.cloneWithNewPivot(defaultPivot)
   }
 
@@ -1477,13 +1513,13 @@ export class IPcs {
    */
   cloneWithNewPivot(iPivot ?: number): IPcs {
     // exception is catch when bad iPivot (in constructor logic)
-    let newBinPcs = this.abinPcs.slice() // if readonly, it is no necessary
+    let newVectorPcs = this.vectorPcs//.slice() // readonly, it is no necessary to clone array
     return new IPcs({
-      binPcs: newBinPcs,
-      n: newBinPcs.length,
+      vectorPcs: newVectorPcs,
+      n: newVectorPcs.length,
       iPivot: iPivot, // if undefined set default pivot
       orbit: this.orbit, // same orbit because same pcs, just pivot change
-      templateMappingBinPcs: this.templateMappingBinPcs,
+      templateMappingVectorPcs: this.templateMappingVectorPcs,
       nMapping: this.nMapping
     })
   }

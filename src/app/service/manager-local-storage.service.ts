@@ -69,7 +69,7 @@ export class ManagerLocalStorageService {
           pcsStr: pcsDto.pcs.getPcsStr(),
           iPivot: pcsDto.pcs.iPivot,
           nMapping: pcsDto.pcs.nMapping,
-          templateMappingBinPcs: pcsDto.pcs.templateMappingBinPcs,
+          templateMappingBinPcs: pcsDto.pcs.templateMappingVectorPcs,
           groupName: pcsDto.pcs.isComingFromAnOrbit() ? pcsDto.pcs.orbit!.groupAction!.group.name : ''
         }
       }

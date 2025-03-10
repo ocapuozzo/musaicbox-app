@@ -70,7 +70,7 @@ export class ClockDrawing {
   }
 
   isSelected(i: number): boolean {
-    return this.pcs.getMappedBinPcs()[i] === 1;
+    return this.pcs.getMappedVectorPcs()[i] === 1;
   }
 
   // pass IPcs instance in parameter ? for store reactive ?
@@ -101,10 +101,10 @@ export class ClockDrawing {
     // console.log("index : " + index + " selected : " + this.isSelected(index));
     ctx.fillStyle =
       (this.isSelected(index))
-        ? (index === this.pcs.templateMappingBinPcs[this.pcs.iPivot ?? 0])
+        ? (index === this.pcs.templateMappingVectorPcs[this.pcs.iPivot ?? 0])
           ? this.drawPivot ? this.pc_pivot_color : this.pc_color_fill
           : this.pc_color_fill
-        : this.pcs.templateMappingBinPcs.includes(index) ? 'white' : 'lightgray' ;
+        : this.pcs.templateMappingVectorPcs.includes(index) ? 'white' : 'lightgray' ;
 
     ctx.fill();
     if (radius >= 6) {
@@ -171,10 +171,10 @@ export class ClockDrawing {
     ctx.fillStyle = this.pc_color_stroke // 'black'
     ctx.beginPath();
     for (let i = 0; i < this.n; i++) {
-      if (this.pcs.getMappedBinPcs()[i] === 1 && firstPoint) {
+      if (this.pcs.getMappedVectorPcs()[i] === 1 && firstPoint) {
         firstPoint = false;
         ctx.moveTo(pointsRegions[i].x, pointsRegions[i].y);
-      } else if (this.pcs.getMappedBinPcs()[i] === 1) {
+      } else if (this.pcs.getMappedVectorPcs()[i] === 1) {
         ctx.lineTo(pointsRegions[i].x, pointsRegions[i].y);
       }
     }

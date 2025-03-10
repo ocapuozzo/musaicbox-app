@@ -27,7 +27,7 @@ export class AnalyseChord {
         const chord = new IPcs({strPcs:keyChord})
         AnalyseChord.addPcs(chordsByDegree, nbDegree + 1, chord.transposition(pcsWorking.iPivot ?? 0));
       }
-      pcsWorking = pcsWorking.modulation(IPcs.NEXT_DEGREE)
+      pcsWorking = pcsWorking.modulation("Next")
     }
     return chordsByDegree
   }

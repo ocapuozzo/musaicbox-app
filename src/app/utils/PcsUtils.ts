@@ -340,7 +340,7 @@ export class PcsUtils {
     for (let degree = 0; degree < cardinalMode; degree++) {
       // be careful all pcsMod are same id... just pivot change
       pcsMinK.set(pcsMod, this.minkValueThatStabByMInverseOp_Tk(pcsMod))
-      pcsMod = pcsMod.modulation(IPcs.NEXT_DEGREE)
+      pcsMod = pcsMod.modulation("Next")
     }
 
     let minK = Math.min(...pcsMinK.values())
@@ -390,7 +390,7 @@ export class PcsUtils {
      return  (currentValue === 1) ? [...previousValue, currentIndex] : previousValue
     }
 
-    const possiblePivots = pcs.abinPcs.reduce(getPivots, [])
+    const possiblePivots = pcs.vectorPcs.reduce(getPivots, [])
 
     let pivotAndTheirStabOperations = new Map<number, MusaicOperation[]>()
 

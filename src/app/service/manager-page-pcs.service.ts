@@ -1,5 +1,5 @@
 import {EventEmitter, Injectable, Output} from '@angular/core';
-import {IPcs} from "../core/IPcs";
+import {IPcs, TDirection} from "../core/IPcs";
 import {ManagerPcsService} from "./manager-pcs.service";
 import {HistoryT} from "../utils/HistoryT";
 
@@ -41,7 +41,7 @@ export class ManagerPagePcsService {
     this.setPcsAsPresentToHistoryAndEmit();
   }
 
-  modulation(direction: number) {
+  modulation(direction: TDirection) {
     this.pcs = this.managerPcsService.modulation(this.pcs, direction)
     this.setPcsAsPresentToHistoryAndEmit();
   }

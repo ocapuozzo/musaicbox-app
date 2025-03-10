@@ -41,10 +41,10 @@ describe('IPcs unit tests', () => {
         strPcs: "[0, 2, 7]",  // 7 not in [0..7[ but 7 Modulo 7 => 0
         n: 7,
         nMapping: 12,
-        templateMappingBinPcs: [0, 2, 4, 5, 7, 9, 11]
+        templateMappingVectorPcs: [0, 2, 4, 5, 7, 9, 11]
       })
       expect(ipcsDiatMajMapped.n).toEqual(7)
-      expect(ipcsDiatMajMapped.abinPcs).toEqual([1,0,1,0,0,0,0])
+      expect(ipcsDiatMajMapped.vectorPcs).toEqual([1,0,1,0,0,0,0])
     } catch (e: any) {
       expect().nothing()
     }
@@ -56,7 +56,7 @@ describe('IPcs unit tests', () => {
     })
     expect(ipcsCMajor).toBeTruthy()
     expect(ipcsCMajor.n).toEqual(12)
-    expect(ipcsCMajor.getMappedBinPcs()).toEqual([1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0])
+    expect(ipcsCMajor.getMappedVectorPcs()).toEqual([1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0])
   });
 
   it("IPcs constructor with strPcs:'[0, 4, 7]' ", () => {
@@ -65,14 +65,14 @@ describe('IPcs unit tests', () => {
     })
     expect(ipcsCMajor).toBeTruthy()
     expect(ipcsCMajor.n).toEqual(12)
-    expect(ipcsCMajor.getMappedBinPcs()).toEqual([1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0])
+    expect(ipcsCMajor.getMappedVectorPcs()).toEqual([1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0])
   });
 
   it("IPcs constructor with nMapping ", () => {
     const pcs: IPcs = new IPcs({strPcs: "[0, 4, 7]"})
-    expect(pcs.templateMappingBinPcs.length).toEqual(12)
-    expect(pcs.getMappedBinPcs().length).toEqual(12)
-    expect(pcs.templateMappingBinPcs.length).toEqual(12)
+    expect(pcs.templateMappingVectorPcs.length).toEqual(12)
+    expect(pcs.getMappedVectorPcs().length).toEqual(12)
+    expect(pcs.templateMappingVectorPcs.length).toEqual(12)
 
     let nMapping = 12
     let templateMapping = undefined
@@ -82,14 +82,14 @@ describe('IPcs unit tests', () => {
       strPcs: "[0, 4, 7]",
       //n:12,
       nMapping: nMapping,
-      templateMappingBinPcs: templateMapping ?? [] //undefined
+      templateMappingVectorPcs: templateMapping ?? [] //undefined
     })
 
     expect(ipcsCMajor).toBeTruthy()
     expect(ipcsCMajor.n).toEqual(12)
     expect(ipcsCMajor.getPcsStr()).toEqual("[0 4 7]")
-    expect(ipcsCMajor.getMappedBinPcs().length).toEqual(12)
-    expect(ipcsCMajor.templateMappingBinPcs.length).toEqual(12)
+    expect(ipcsCMajor.getMappedVectorPcs().length).toEqual(12)
+    expect(ipcsCMajor.templateMappingVectorPcs.length).toEqual(12)
 
   });
 
@@ -101,9 +101,9 @@ describe('IPcs unit tests', () => {
       expect(e.message).toContain('Invalid data mapping')
     }
 
-    let pcs = new IPcs({strPcs: "[0, 4, 7]", templateMappingBinPcs: [0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3]})
+    let pcs = new IPcs({strPcs: "[0, 4, 7]", templateMappingVectorPcs: [0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3]})
     // auto fix
-    expect(pcs.templateMappingBinPcs.length).toEqual(12)
+    expect(pcs.templateMappingVectorPcs.length).toEqual(12)
   })
 
   it("IPcs bad detached constructor", () => {
@@ -130,7 +130,7 @@ describe('IPcs unit tests', () => {
       strPcs: "[0, 2, 4]", // first 3-chord
       n: 7,
       nMapping: 12,
-      templateMappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // mapped into [0,4,7] {C E G}
+      templateMappingVectorPcs: [0, 2, 4, 5, 7, 9, 11]  // mapped into [0,4,7] {C E G}
     })
     expect(ipcsDiatMajMapped.getPcsStr()).toEqual('[0 2 4]')
     expect(ipcsDiatMajMapped.unMap().getPcsStr()).toEqual('[0 4 7]')
@@ -141,7 +141,7 @@ describe('IPcs unit tests', () => {
       strPcs: "[0, 2, 4]", // first 3-chord
       n: 7,
       nMapping: 12,
-      templateMappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // mapped into [0,4,7] {C E G}
+      templateMappingVectorPcs: [0, 2, 4, 5, 7, 9, 11]  // mapped into [0,4,7] {C E G}
     })
     expect(pcsDiatMajMapped.toString()).toEqual('[1,0,1,0,1,0,0] n = 7, iPivot : 0  Mapped on 12')
 
@@ -189,24 +189,24 @@ describe('IPcs unit tests', () => {
     let ipcs_other1
     let ipcs_other2 = new IPcs({strPcs: "0,4,11", iPivot: 4})
 
-    expect(ipcs.modulation(IPcs.NEXT_DEGREE)).toEqual(ipcs_other2);
+    expect(ipcs.modulation("Next")).toEqual(ipcs_other2);
     ipcs_other1 = new IPcs({strPcs: "0,4,11", iPivot: 11})
-    expect(ipcs_other2.modulation(IPcs.NEXT_DEGREE)).toEqual(ipcs_other1);
+    expect(ipcs_other2.modulation("Next")).toEqual(ipcs_other1);
     ipcs_other2 = new IPcs({strPcs: "0,4,11", iPivot: 0})
-    expect(ipcs_other1.modulation(IPcs.NEXT_DEGREE)).toEqual(ipcs_other2);
+    expect(ipcs_other1.modulation("Next")).toEqual(ipcs_other2);
 
 
     let diatMaj = new IPcs({strPcs: "0 2 4 5 7 9 11", iPivot: 0})
     const pcsInMusicGroup = ManagerGroupActionService.getGroupActionFromGroupAliasName('Musaic')?.getIPcsInOrbit(diatMaj)!
     expect(pcsInMusicGroup.isComingFromAnOrbit()).toBeTrue()
-    expect(pcsInMusicGroup.modulation(IPcs.NEXT_DEGREE).isComingFromAnOrbit()).toBeTrue()
+    expect(pcsInMusicGroup.modulation("Next").isComingFromAnOrbit()).toBeTrue()
   });
 
   it("IPcs cardinal PREVIOUS", () => {
     const ipcs = new IPcs({strPcs: "0,4,11", iPivot: 0})
     const ipcs_other = new IPcs({strPcs: "0,4,11", iPivot: 11})
 
-    expect(ipcs.modulation(IPcs.PREV_DEGREE)).toEqual(ipcs_other);
+    expect(ipcs.modulation("Previous")).toEqual(ipcs_other);
   });
 
   it("IPcs equals ok ", () => {
@@ -317,15 +317,15 @@ describe('IPcs unit tests', () => {
 
   it("IPcs cyclicPrimeForm", () => {
     let ipcsPF = new IPcs({strPcs: "0, 3, 6, 9", iPivot: 0})
-    expect(ipcsPF.cyclicPrimeForm().getMappedBinPcs()).toEqual(ipcsPF.getMappedBinPcs())
+    expect(ipcsPF.cyclicPrimeForm().getMappedVectorPcs()).toEqual(ipcsPF.getMappedVectorPcs())
     let ipcs = new IPcs({strPcs: "1, 4, 7, 10", iPivot: 1})
-    expect(ipcs.cyclicPrimeForm().getMappedBinPcs()).toEqual(ipcsPF.getMappedBinPcs())
+    expect(ipcs.cyclicPrimeForm().getMappedVectorPcs()).toEqual(ipcsPF.getMappedVectorPcs())
     ipcs = new IPcs({strPcs: "7", iPivot: 7})
     let pcsExpected = new IPcs({strPcs: "0", iPivot: 0})
-    expect(ipcs.cyclicPrimeForm().getMappedBinPcs()).toEqual(pcsExpected.getMappedBinPcs())
+    expect(ipcs.cyclicPrimeForm().getMappedVectorPcs()).toEqual(pcsExpected.getMappedVectorPcs())
     ipcs = new IPcs({strPcs: "0,1,2,3,4,5,6,7,8,9,10,11", iPivot: 7})
     pcsExpected = new IPcs({strPcs: "0,1,2,3,4,5,6,7,8,9,10,11", iPivot: 0})
-    expect(ipcs.cyclicPrimeForm().getMappedBinPcs()).toEqual(pcsExpected.getMappedBinPcs())
+    expect(ipcs.cyclicPrimeForm().getMappedVectorPcs()).toEqual(pcsExpected.getMappedVectorPcs())
   });
 
   it("IPcs cyclicPrimeForm from pcs with orbit set", () => {
@@ -341,25 +341,25 @@ describe('IPcs unit tests', () => {
   it("IPcs dihedralPrimeForm example Maj -> Min", () => {
     const cMaj = new IPcs({strPcs: "0, 4, 7"})
     const cMajDihedral = cMaj.affineOp(11, 0)
-    expect(cMaj.getMappedBinPcs()).toEqual(cMajDihedral.affineOp(11, 0).getMappedBinPcs())
+    expect(cMaj.getMappedVectorPcs()).toEqual(cMajDihedral.affineOp(11, 0).getMappedVectorPcs())
     const cMajDihedralPF = new IPcs({strPcs: "0, 3, 7"})
-    expect(cMaj.dihedralPrimeForm().getMappedBinPcs()).toEqual(cMajDihedralPF.getMappedBinPcs())
+    expect(cMaj.dihedralPrimeForm().getMappedVectorPcs()).toEqual(cMajDihedralPF.getMappedVectorPcs())
 
     // test when pcs have already good orbit
     const ipcs2 = cMaj.dihedralPrimeForm()
-    expect(ipcs2.getMappedBinPcs()).toEqual(ipcs2.transposition(2).dihedralPrimeForm().getMappedBinPcs())
+    expect(ipcs2.getMappedVectorPcs()).toEqual(ipcs2.transposition(2).dihedralPrimeForm().getMappedVectorPcs())
   })
 
   it("IPcs affinePrimeForm", () => {
     const cMaj = new IPcs({strPcs: "0, 4, 7"})
     const cMajDihedral = cMaj.affineOp(11, 0)
     let ipcs = cMajDihedral.affineOp(5, 0)
-    expect(ipcs.getMappedBinPcs()).toEqual([1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0])
-    expect(ipcs.getMappedBinPcs()).toEqual(cMaj.affinePrimeForm().getMappedBinPcs())
+    expect(ipcs.getMappedVectorPcs()).toEqual([1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0])
+    expect(ipcs.getMappedVectorPcs()).toEqual(cMaj.affinePrimeForm().getMappedVectorPcs())
 
     // test when pcs have already good orbit
     const ipcs2 = cMaj.affinePrimeForm()
-    expect(ipcs2.getMappedBinPcs()).toEqual(ipcs2.transposition(2).affinePrimeForm().getMappedBinPcs())
+    expect(ipcs2.getMappedVectorPcs()).toEqual(ipcs2.transposition(2).affinePrimeForm().getMappedVectorPcs())
   })
 
 
@@ -659,7 +659,7 @@ describe('IPcs unit tests', () => {
 
   it("IPcs symmetry n=7", () => {
     // n = 7
-    let ipcs = new IPcs({binPcs: [1, 0, 1, 0, 1, 0, 1]})
+    let ipcs = new IPcs({vectorPcs: [1, 0, 1, 0, 1, 0, 1]})
     let symmetries = ipcs.getAxialSymmetries()
     let symMedian = [0, 0, 0, 1, 0, 0, 0]
     let symInter = [0, 0, 0, 0, 0, 0, 0]
@@ -682,7 +682,7 @@ describe('IPcs unit tests', () => {
    */
   it("IPcs is function n=12", () => {
     let ipcs = new IPcs({
-      binPcs: [1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0]
+      vectorPcs: [1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0]
     })
     expect(ipcs.is()).toEqual([3, 4, 5])
     ipcs = new IPcs({strPcs: "0,2"})
@@ -709,7 +709,7 @@ describe('IPcs unit tests', () => {
     expect(ipcsNew.cardinal).toEqual(3)
     expect(ipcsNew.iPivot).toEqual(3)
     let ipcsNew2 = ipcsNew.toggleIndexPC(0)
-    expect(ipcsNew2.abinPcs).toEqual(ipcsDim.abinPcs)
+    expect(ipcsNew2.vectorPcs).toEqual(ipcsDim.vectorPcs)
     // no go back for iPivot...
     expect(ipcsNew2.iPivot).toEqual(3)
   })
@@ -779,20 +779,20 @@ describe('IPcs unit tests', () => {
   })
 
 
-  it("getMappedBinPcs no mapping", () => {
+  it("getMappedVectorPcs no mapping", () => {
     let dminor7 = new IPcs({strPcs: "0,2,5,9", iPivot: 2})
-    expect(dminor7.getMappedBinPcs()).toEqual([1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0])
+    expect(dminor7.getMappedVectorPcs()).toEqual([1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0])
   })
 
 
-  it("autoMAp getMappedBinPcs 7 diat maj => 12 chromatic", () => {
+  it("autoMAp getMappedVectorPcs 7 diat maj => 12 chromatic", () => {
     let ipcsDiatMaj = new IPcs({strPcs: "0, 2, 4, 5, 7, 9, 11", iPivot: 0})
     expect(ipcsDiatMaj.n).toEqual(12)
 
     let ipcsDiatMajMappedIn12 = ipcsDiatMaj.autoMap()
     expect(ipcsDiatMajMappedIn12.n).toEqual(7)
     expect(ipcsDiatMajMappedIn12.nMapping).toEqual(12)
-    expect(ipcsDiatMajMappedIn12.getMappedBinPcs().length).toEqual(12)
+    expect(ipcsDiatMajMappedIn12.getMappedVectorPcs().length).toEqual(12)
 
     // unselect 3 pitches
     let otherPics = ipcsDiatMajMappedIn12.toggleIndexPC(1)
@@ -802,15 +802,15 @@ describe('IPcs unit tests', () => {
     expect(otherPics.id).toEqual(new IPcs({strPcs: '[0, 2, 4, 6]', n: 7}).id)
 
     // verify state
-    expect(otherPics.getMappedBinPcs().length).toEqual(12)
+    expect(otherPics.getMappedVectorPcs().length).toEqual(12)
     expect(otherPics.n).toEqual(7)
     expect(otherPics.cardinal).toEqual(4)
-    expect(otherPics.abinPcs).toEqual([1, 0, 1, 0, 1, 0, 1])
+    expect(otherPics.vectorPcs).toEqual([1, 0, 1, 0, 1, 0, 1])
 
-    // verify that getMappedBinPcs of mapped pcs (n=7) is equals to getMappedBinPcs of none mapped pcs (n=12)
+    // verify that getMappedVectorPcs of mapped pcs (n=7) is equals to getMappedVectorPcs of none mapped pcs (n=12)
     let binPcs = new IPcs(
-      {strPcs: '[0, 4, 7, 11]', n: 12}).getMappedBinPcs()
-    expect(otherPics.getMappedBinPcs()).toEqual(binPcs)
+      {strPcs: '[0, 4, 7, 11]', n: 12}).getMappedVectorPcs()
+    expect(otherPics.getMappedVectorPcs()).toEqual(binPcs)
   })
 
 
@@ -823,19 +823,19 @@ describe('IPcs unit tests', () => {
     otherPics = otherPics.toggleIndexPC(5)
     let firstDegree = otherPics.toggleIndexPC(6)
 
-    expect(firstDegree.abinPcs).toEqual([1, 0, 1, 0, 1, 0, 0])
+    expect(firstDegree.vectorPcs).toEqual([1, 0, 1, 0, 1, 0, 0])
 
     // verify mapping ok ?
-    expect(firstDegree.getMappedBinPcs())
-      .toEqual(new IPcs({strPcs: '[0, 4, 7]', n: 12}).getMappedBinPcs())
+    expect(firstDegree.getMappedVectorPcs())
+      .toEqual(new IPcs({strPcs: '[0, 4, 7]', n: 12}).getMappedVectorPcs())
 
     // now verify if transposition in 7 has a good impact in 12 mapped
     let secondeDegreeIn7 = firstDegree.transposition(1) // C,E,G => D,F,A
-    expect(firstDegree.abinPcs).toEqual([1, 0, 1, 0, 1, 0, 0])
-    expect(secondeDegreeIn7.abinPcs).toEqual([0, 1, 0, 1, 0, 1, 0])
+    expect(firstDegree.vectorPcs).toEqual([1, 0, 1, 0, 1, 0, 0])
+    expect(secondeDegreeIn7.vectorPcs).toEqual([0, 1, 0, 1, 0, 1, 0])
 
     let expectedDminorIn12 = new IPcs({strPcs: "2,5,9", n: 12}) // D, F, A
-    expect(secondeDegreeIn7.getMappedBinPcs()).toEqual(expectedDminorIn12.getMappedBinPcs())
+    expect(secondeDegreeIn7.getMappedVectorPcs()).toEqual(expectedDminorIn12.getMappedVectorPcs())
 
     // good ! a little self-satisfaction can't hurt...
 
@@ -846,7 +846,7 @@ describe('IPcs unit tests', () => {
       strPcs: "[0, 2, 4]", // first 3-chord
       n: 7,
       nMapping: 12,
-      templateMappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // mapped in {C E G}
+      templateMappingVectorPcs: [0, 2, 4, 5, 7, 9, 11]  // mapped in {C E G}
     })
 
     // verify mapping 7 -> 12
@@ -859,9 +859,9 @@ describe('IPcs unit tests', () => {
 
     // default mapping is n
     expect(ipcsDiatMaj.nMapping).toEqual(12)
-    expect(ipcsDiatMaj.templateMappingBinPcs.length).toEqual(12)
+    expect(ipcsDiatMaj.templateMappingVectorPcs.length).toEqual(12)
 
-    expect(ipcsDiatMaj.getMappedBinPcs().length).toEqual(12)
+    expect(ipcsDiatMaj.getMappedVectorPcs().length).toEqual(12)
   })
 
   it("Default Mapping", () => {
@@ -871,7 +871,7 @@ describe('IPcs unit tests', () => {
     })
     expect(ipcsDminor.nMapping).toEqual(ipcsDminor.n)
     expect(ipcsDminor.nMapping).toEqual(12)
-    expect(ipcsDminor.templateMappingBinPcs).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
+    expect(ipcsDminor.templateMappingVectorPcs).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
   })
 
 
@@ -894,7 +894,7 @@ describe('IPcs unit tests', () => {
       strPcs: "[0, 2, 4]", // first 3-chord
       n: 7,
       nMapping: 12,
-      templateMappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // mapped into [0,4,7] {C E G}
+      templateMappingVectorPcs: [0, 2, 4, 5, 7, 9, 11]  // mapped into [0,4,7] {C E G}
     })
     expect(ipcsDiatMajMapped.getPcsStr()).toEqual('[0 2 4]')
     expect(ipcsDiatMajMapped.getMappedPcsStr()).toEqual('[0 4 7]')
@@ -910,7 +910,7 @@ describe('IPcs unit tests', () => {
       strPcs: "[0, 2, 4]", // first 3-chord
       n: 7,
       nMapping: 12,
-      templateMappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // pcs mapped into [0,4,7] {C E G}
+      templateMappingVectorPcs: [0, 2, 4, 5, 7, 9, 11]  // pcs mapped into [0,4,7] {C E G}
     })
     expect(pcsDiatMajMapped.indexMappedToIndexInner(0)).toEqual(0)
     expect(pcsDiatMajMapped.indexMappedToIndexInner(2)).toEqual(1)
@@ -968,7 +968,7 @@ describe('IPcs unit tests', () => {
       strPcs: "[0, 2, 4]", // first 3-chord {C E G}
       n: 7,
       nMapping: 12,
-      templateMappingBinPcs: [0, 2, 4, 5, 7, 9, 11]  // pcs mapped into [0,4,7]
+      templateMappingVectorPcs: [0, 2, 4, 5, 7, 9, 11]  // pcs mapped into [0,4,7]
     })
     expect(pcsDiatMajMapped.getMappedPcsStr()).toEqual('[0 4 7]')
     expect(pcsDiatMajMapped.is()).toEqual([4, 3, 5]);

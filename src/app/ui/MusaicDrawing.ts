@@ -32,7 +32,7 @@ export class MusaicDrawing {
   drawMusaic() {
 
     let opaque = this.pcsDto.uiMusaic.opaque
-    let n = this.pcsDto.pcs.nMapping //getMappedBinPcs().length;
+    let n = this.pcsDto.pcs.nMapping //getMappedVectorPcs().length;
 
     let ctx = this.ctx
     ctx.fillStyle = this.pcsDto.colorPitchOff
@@ -55,10 +55,10 @@ export class MusaicDrawing {
     // let iPivot = this.pcs.iPivot ?? 0
 
 
-    const pivotMapped = this.pcsDto.pcs.templateMappingBinPcs[this.pcsDto.pcs.iPivot ?? 0]
+    const pivotMapped = this.pcsDto.pcs.templateMappingVectorPcs[this.pcsDto.pcs.iPivot ?? 0]
     for (let i = 0; i <= n; i++) {
       for (let j = 0; j <= n; j++) {
-        if (this.pcsDto.pcs.getMappedBinPcs()[(i + pivotMapped + j * 5) % n] === 1) {
+        if (this.pcsDto.pcs.getMappedVectorPcs()[(i + pivotMapped + j * 5) % n] === 1) {
           ctx.fillStyle = this.pcsDto.colorPitchOn;
           ctx.strokeStyle = this.pcsDto.colorPitchOn;
           ctx.fillRect(j * CEL_WIDTH, i * CEL_WIDTH, CEL_WIDTH, CEL_WIDTH);

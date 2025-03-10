@@ -239,7 +239,7 @@ export class ManagerPageWBService {
         new UIPcsDto({...this.uiPcsDtoList[index]})
 
       let size = pcsDto.width + DELTA_ZOOM
-      let n = pcsDto.pcs.nMapping //getMappedBinPcs().length;
+      let n = pcsDto.pcs.nMapping //getMappedVectorPcs().length;
 
       // adjust canvas size from CEL_WIDTH, for a better rendering (no float)
       // even if FormDrawer is not MUSAIC
@@ -1086,7 +1086,7 @@ export class ManagerPageWBService {
     let pcsModeList = [pcs]
     let cardinal = pcs.cardOrbitMode()
     for (let degree = 1; degree < cardinal; degree++) {
-      pcs = pcs.modulation(IPcs.NEXT_DEGREE)
+      pcs = pcs.modulation("Next")
       pcsModeList.push(pcs)
     }
     this.pcsDtoForTemplate = this.uiPcsDtoList[index]
@@ -1114,27 +1114,27 @@ export class ManagerPageWBService {
       const pcsRef = this.uiPcsDtoList[this.getSelectedPcsDtoIndexes()[0]].pcs
       // operation requires 2 or more pcs
       // get clone array bin vector of first pcs
-      let vector = [...pcsRef.abinPcs]
+      let vector = [...pcsRef.vectorPcs]
       // start with 1, because first is pcs initial value for set operations with others pcs
       for (let i = 1; i < this.getSelectedPcsDtoIndexes().length; i++) {
         const pcs = this.uiPcsDtoList[this.getSelectedPcsDtoIndexes()[i]].pcs
         for (let j = 0; j < vector.length; j++) {
           switch (opName) {
             case 'SymmetricDifference' :
-              vector[j] += pcs.abinPcs[j] % 2  // xor op
+              vector[j] += pcs.vectorPcs[j] % 2  // xor op
               break
             case 'Union' :
-              if (pcs.abinPcs[j] === 1) {
+              if (pcs.vectorPcs[j] === 1) {
                 vector[j] = 1 // 1 iif not 0 and 0
               }
               break
             case 'Intersection' :
-              vector[j] *= pcs.abinPcs[j]  // 1 iif 1 * 1
+              vector[j] *= pcs.vectorPcs[j]  // 1 iif 1 * 1
               break
           }
         }
       }
-      let newPcs = new IPcs({binPcs: vector})
+      let newPcs = new IPcs({vectorPcs: vector})
       if (pcsRef.isComingFromAnOrbit()) {
         newPcs = ManagerPcsService.makeNewInstanceOf(newPcs, pcsRef.orbit!.groupAction!)
       }

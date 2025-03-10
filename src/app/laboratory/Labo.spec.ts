@@ -206,8 +206,8 @@ describe('Laboratory explorer', () => {
 
       someOperations = [M1_T1] // inject M1-T1, will generate M1-T0 - neutral op
       // make unique list of MusaicOperation (someOperations)
-      for (let j = 0; j < pcsForCombinatorial.abinPcs.length; j++) {
-        if (pcsForCombinatorial.abinPcs[j] === 1) {
+      for (let j = 0; j < pcsForCombinatorial.vectorPcs.length; j++) {
+        if (pcsForCombinatorial.vectorPcs[j] === 1) {
           someOperations.push(allOperations[j])
         }
       }

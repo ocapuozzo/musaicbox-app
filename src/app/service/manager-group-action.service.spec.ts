@@ -47,20 +47,20 @@ describe('ManagerGroupActionService', () => {
     const pcsPrimeFormOfPcsId88 = new IPcs({pidVal: 11})
     const primeFormFromGroupAction = cyclicGroupAction?.getOrbitOf(pcsId88).getPcsMin()
 
-    const n = pcsId88.abinPcs.length;
-    let norm: number[] = pcsId88.abinPcs.slice();
+    const n = pcsId88.vectorPcs.length;
+    let norm: number[] = pcsId88.vectorPcs.slice();
     let min = norm;
-    let minInt = IPcs.id(pcsId88.abinPcs);
+    let minInt = IPcs.id(pcsId88.vectorPcs);
 
     for (let i = 0; i < n - 1; i++) {
-      norm = IPcs.getBinPcsPermute(1, 1, 0, norm);
+      norm = IPcs.getVectorPcsPermute(1, 1, 0, norm);
       let curInt = IPcs.id(norm);
       if (minInt > curInt) {
         minInt = curInt;
         min = norm;
       }
     }
-    const primeFormComputed = new IPcs({binPcs: min, iPivot: 0})
+    const primeFormComputed = new IPcs({vectorPcs: min, iPivot: 0})
 
     expect(primeFormFromGroupAction).toBeTruthy()
     expect(pcsPrimeFormOfPcsId88.id).toEqual(primeFormFromGroupAction!.id)

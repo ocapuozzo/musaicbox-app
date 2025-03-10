@@ -119,7 +119,7 @@ export class UiMusaicComponent {
   drawsMusaic(withDrawPitchIndex: boolean = false) {
 
     let w = this.containerCanvas.nativeElement.clientWidth ?? 40
-    let n = this.pcs.nMapping //getMappedBinPcs().length;
+    let n = this.pcs.nMapping //getMappedVectorPcs().length;
 
     let CEL_WIDTH = Math.floor(w / (n + 1));
     w = CEL_WIDTH * (n + 1)
@@ -141,7 +141,7 @@ export class UiMusaicComponent {
     //   pcs : ({1, 4, 7, 10}, iPivot=1)
     // are same IS, are same Musaic representation
     ctx.strokeStyle = 'black'
-    const pivotMapped = this.pcs.templateMappingBinPcs[this.pcs.iPivot ?? 0]
+    const pivotMapped = this.pcs.templateMappingVectorPcs[this.pcs.iPivot ?? 0]
 
     function drawPitch(j: number, i: number, iPitch: number, color: string) {
       let pitch = iPitch.toString()
@@ -164,7 +164,7 @@ export class UiMusaicComponent {
     for (let i = 0; i <= n; i++) {
       for (let j = 0; j <= n; j++) {
         const pitch = (pivotMapped + (i + j * 5)) % n
-        if (this.pcs.getMappedBinPcs()[pitch] === 1) {
+        if (this.pcs.getMappedVectorPcs()[pitch] === 1) {
           ctx.strokeStyle = 'black'
           ctx.fillStyle = "black";
           ctx.fillRect(j * CEL_WIDTH, i * CEL_WIDTH, CEL_WIDTH, CEL_WIDTH);
@@ -198,7 +198,7 @@ export class UiMusaicComponent {
     let x = e.clientX - rect.left;
     let y = e.clientY - rect.top;
 
-    let localPivot = this.pcs.templateMappingBinPcs[this.pcs.iPivot ?? 0]
+    let localPivot = this.pcs.templateMappingVectorPcs[this.pcs.iPivot ?? 0]
     // from matrix coord to indice linear (for matrix armature 1 x 5)
     return ((5 * Math.floor(x / this.CEL_WIDTH))
       + (Math.floor(y / this.CEL_WIDTH)) + localPivot) % this.pcs.nMapping
@@ -211,7 +211,7 @@ export class UiMusaicComponent {
   mouseMoveSetCursor(e: any) {
     if (this.canvas == undefined) return
     let index = this.fromMatrixPointerToIndexVector(e)
-    const cursorPointer = this.pcs.templateMappingBinPcs.includes(index)
+    const cursorPointer = this.pcs.templateMappingVectorPcs.includes(index)
 
     // always repaint... even if style cursor not set...
     if (cursorPointer) {
@@ -226,8 +226,8 @@ export class UiMusaicComponent {
   mouseup(e: any) {
     let index = this.fromMatrixPointerToIndexVector(e)
 
-    // only select PCS in templateMappingBinPcs
-    if (!this.pcs.templateMappingBinPcs.includes(index)) {
+    // only select PCS in templateMappingVectorPcs
+    if (!this.pcs.templateMappingVectorPcs.includes(index)) {
       return;
     }
 

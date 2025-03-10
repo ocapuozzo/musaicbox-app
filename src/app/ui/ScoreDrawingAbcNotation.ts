@@ -55,21 +55,21 @@ export class ScoreDrawingAbcNotation {
     let notes = '';
     let chord = '[ ';
 
-    let n = pcs.getMappedBinPcs().length;
+    let n = pcs.getMappedVectorPcs().length;
 
     const alterationNotesForChange = [1, 3, 6, 8, 10]
 
     let pcsMapped = pcs.n !== 12 ? pcs.unMap() : pcs
 
     let pivot = pcsMapped.iPivot ?? 0
-    let prevNote = pcsMapped.abinPcs[(n + pivot - 1) % n] === 1 ? ScoreDrawingAbcNotation.lettersSharpedNotation[(n + pivot - 1) % n] : 'X'
+    let prevNote = pcsMapped.vectorPcs[(n + pivot - 1) % n] === 1 ? ScoreDrawingAbcNotation.lettersSharpedNotation[(n + pivot - 1) % n] : 'X'
     if (prevNote.length > 1) {
       prevNote = prevNote[1] // _A, ^A => A
     }
     // console.log("pivot = ", pivot)
     for (let i = pivot; i < n + pivot; i++) {
       let index = i % n
-      if (pcsMapped.abinPcs[index] === 1) {
+      if (pcsMapped.vectorPcs[index] === 1) {
         let note
         if (i == pivot && i > 6) {
           note = ScoreDrawingAbcNotation.lettersFlattedNotation[index]
@@ -81,7 +81,7 @@ export class ScoreDrawingAbcNotation {
           // index is in [1, 3, 6, 8, 10]
           // change # by b ?
           // console.log('note = ', note, '  prevNote = ', prevNote )
-          if (pcsMapped.abinPcs[index + 1] === 0 && note.includes(prevNote)) {
+          if (pcsMapped.vectorPcs[index + 1] === 0 && note.includes(prevNote)) {
             note = "_" + ScoreDrawingAbcNotation.lettersSharpedNotation[index + 1]
           }
         }

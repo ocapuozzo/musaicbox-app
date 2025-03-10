@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {IPcs} from "../core/IPcs";
+import {IPcs, TDirection} from "../core/IPcs";
 import {GroupAction} from "../core/GroupAction";
 import {MusaicOperation} from "../core/MusaicOperation";
 
@@ -13,30 +13,6 @@ export class ManagerPcsService {
 
   transformeByMxT0(pcs: IPcs, a: number): IPcs {
     return this.doTransformAffine(pcs, a, 0)
-  }
-
-  sav_transformeByMxT0(pcs: IPcs, a: number): IPcs {
-    // if not isDetachedOfGroupAction() get newPcs resulting of group action
-    let newPcs = pcs.affineOp(a, 0)
-    if (pcs.orbit?.groupAction) {
-      let newPcsInOrbit = pcs.orbit.groupAction.getIPcsInOrbit(newPcs)
-      // set pivot from pivot obtained by transposition
-      // rem: pivot is not signifiant for pcs identity
-      if (newPcs.iPivot !== undefined && newPcs.iPivot !== newPcsInOrbit.iPivot) {
-        // change pivot, so as immutable, make a new instance
-        // newPcsInOrbit.setPivot(newPcs.iPivot) <== BAD idea, side effect !!
-        newPcsInOrbit = new IPcs({
-          binPcs: newPcsInOrbit.abinPcs,
-          iPivot: newPcs.iPivot,
-          orbit: newPcsInOrbit.orbit,
-          templateMappingBinPcs: newPcsInOrbit.templateMappingBinPcs,
-          nMapping: newPcsInOrbit.nMapping
-        })
-
-      }
-      return newPcsInOrbit
-    }
-    return newPcs
   }
 
   translateByM1Tx(pcs: IPcs, t: number): IPcs {
@@ -58,7 +34,7 @@ export class ManagerPcsService {
    * @param pcs
    * @param direction
    */
-  modulation(pcs: IPcs, direction: number): IPcs {
+  modulation(pcs: IPcs, direction: TDirection): IPcs {
     // return new instance, even if same pcs (<> pivot) for reactive update ui by angular
     // with same orbit
     return pcs.modulation(direction)
@@ -73,7 +49,7 @@ export class ManagerPcsService {
   toggleInnerIndexOrSetIPivot(pcs: IPcs, index: number): IPcs {
     // inner index (no mapping index)
     let newPcs: IPcs
-    if (pcs.abinPcs[index] === 0) {
+    if (pcs.vectorPcs[index] === 0) {
       newPcs = pcs.toggleIndexPC(index)
       if (pcs.orbit?.groupAction) {
         // newPcs = pcs.orbit.groupAction.getIPcsInOrbit(newPcs)
@@ -84,11 +60,11 @@ export class ManagerPcsService {
         // change pivot only
         newPcs =
           new IPcs({
-            binPcs: pcs.abinPcs,
+            vectorPcs: pcs.vectorPcs,
             iPivot: index,  // change pivot
             n: pcs.n,
             orbit: pcs.orbit,
-            templateMappingBinPcs: pcs.templateMappingBinPcs,
+            templateMappingVectorPcs: pcs.templateMappingVectorPcs,
             nMapping: pcs.nMapping
           })
       } else {
@@ -130,7 +106,7 @@ export class ManagerPcsService {
     let cardinal = pcs.cardOrbitMode()
 
     for (let degree = 1; degree < cardinal; degree++) {
-      pcs = pcs.modulation(IPcs.NEXT_DEGREE)
+      pcs = pcs.modulation("Next")
       allModulations.push(pcs)
     }
 
@@ -199,15 +175,7 @@ export class ManagerPcsService {
     const theNewPivot = newPivot === undefined ? pcs.iPivot : newPivot
 
     if (newPcsInOrbit.iPivot !== theNewPivot) {
-      // change pivot
-      let clonePcs = new IPcs({
-        binPcs: newPcsInOrbit.abinPcs,
-        iPivot: theNewPivot,  // <= changed
-        orbit: newPcsInOrbit.orbit,
-        templateMappingBinPcs: newPcsInOrbit.templateMappingBinPcs,
-        nMapping: newPcsInOrbit.nMapping
-      })
-      return clonePcs
+      return newPcsInOrbit.cloneWithNewPivot(theNewPivot)
     }
     return newPcsInOrbit // readonly by default, so can be shared
   }

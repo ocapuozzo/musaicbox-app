@@ -172,7 +172,7 @@ export class UiClockComponent {
     let index = this.getIndexSelectedFromUIClock(e);
     if (index >= 0) {
       this.canvas.nativeElement.style.cursor =
-        this.pcs.templateMappingBinPcs.includes(index) ? 'pointer' : 'not-allowed'
+        this.pcs.templateMappingVectorPcs.includes(index) ? 'pointer' : 'not-allowed'
     } else {
       this.canvas.nativeElement.style.cursor = 'default'
     }
@@ -279,7 +279,7 @@ export class UiClockComponent {
   }
 
   isSelected(i: number): boolean {
-    return this.pcs.getMappedBinPcs()[i] === 1;
+    return this.pcs.getMappedVectorPcs()[i] === 1;
   }
 
   touchstart(e: TouchEvent | MouseEvent) {
@@ -331,7 +331,7 @@ export class UiClockComponent {
     if ($event.startsWith('T')) {
       this.managerPagePcsService.translateByM1Tx($event == 'T-1' ? -1 : +1)
     } else { // M
-      this.managerPagePcsService.modulation($event == 'M-1' ? IPcs.PREV_DEGREE : IPcs.NEXT_DEGREE)
+      this.managerPagePcsService.modulation($event === 'M-1' ? "Previous" : "Next")
     }
 
   }

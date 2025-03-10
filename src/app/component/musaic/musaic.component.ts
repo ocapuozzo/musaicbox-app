@@ -62,7 +62,7 @@ export class MusaicComponent {
 
     this._widthInput = this._widthInput * paddingCanvas
 
-    let n = this.ipcs.nMapping //getMappedBinPcs().length;
+    let n = this.ipcs.nMapping //getMappedVectorPcs().length;
     this.CEL_WIDTH = Math.floor((this._widthInput / (n + 1)));
 
     // adjust size from CEL_WIDTH
@@ -79,7 +79,7 @@ export class MusaicComponent {
   drawsMusaic() {
     this.updateGraphicContext()
 
-    let n = this.ipcs.nMapping //getMappedBinPcs().length;
+    let n = this.ipcs.nMapping //getMappedVectorPcs().length;
 
     let ctx = this.context
     ctx.strokeStyle = this.pcColorSet //"black";
@@ -93,10 +93,10 @@ export class MusaicComponent {
     //   pcs : ({1, 4, 7, 10}, iPivot=1)
     // are same IS, are same Musaic representation
     // let iPivot = this..iPivot ?? 0
-    const pivotMapped = this.ipcs.templateMappingBinPcs[this.ipcs.iPivot ?? 0]
+    const pivotMapped = this.ipcs.templateMappingVectorPcs[this.ipcs.iPivot ?? 0]
     for (let i = 0; i <= n; i++) {
       for (let j = 0; j <= n; j++) {
-        if (this.ipcs.getMappedBinPcs()[(i + pivotMapped + j * 5) % n] === 1) {
+        if (this.ipcs.getMappedVectorPcs()[(i + pivotMapped + j * 5) % n] === 1) {
           ctx.fillStyle = this.pcColorSet;
           // ctx.strokeStyle = this.pcColorSet;
 

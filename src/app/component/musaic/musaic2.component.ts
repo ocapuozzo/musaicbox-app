@@ -57,7 +57,7 @@ export class Musaic2Component {
     // @ts-ignore
     this.context = this.canvas.nativeElement.getContext('2d');
 
-    let n = this.ipcs.nMapping //getMappedBinPcs().length;
+    let n = this.ipcs.nMapping //getMappedVectorPcs().length;
 
     let CEL_WIDTH = Math.floor((this._preferredWidthInput / (n + 1)));
 
