@@ -57,7 +57,7 @@ export class OctotropeComponent {
 
   draw(): void {
     if (this.opStabilizers.length === 0) {
-      if (this.pcs === null || this.pcs?.isDetached()) {
+      if (this.pcs === null || !this.pcs?.isComingFromAnOrbit()) {
         console.error("octotrope on no data !!!")
         return;
       }

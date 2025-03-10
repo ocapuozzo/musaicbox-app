@@ -108,7 +108,7 @@ export class Orbit {
       });
     });
 
-    if (cmp === 0 && !orbit1.isDetachedOfGroupAction() && !orbit2.isDetachedOfGroupAction()) {
+    if (cmp === 0 && orbit1.isComingFromGroupAction() && orbit2.isComingFromGroupAction()) {
       cmp = orbit1.getPcsMin().compareTo(orbit2.getPcsMin());
     }
     return cmp;
@@ -130,7 +130,7 @@ export class Orbit {
    * @return {IPcs} the min IPcs of elements of orbit (min elt in ipcsset)
    */
   getPcsMin(): IPcs {
-    if (this.isDetachedOfGroupAction())
+    if (! this.isComingFromGroupAction())
       throw new Error("Orbit : impossible get min on detached orbit");
     return this.ipcsset[0];
   }
@@ -264,10 +264,9 @@ export class Orbit {
   get isMotifEquivalence(): boolean {
     return this.stabilizers.some(stab => stab.isMotifEquivalence)
   }
-
-
-  isDetachedOfGroupAction(): boolean {
-    return this.groupAction === undefined // or this.ipcsset.length == 0
+  
+  isComingFromGroupAction(): boolean {
+    return this.groupAction !== undefined
   }
 
   has(pcs: IPcs): boolean {

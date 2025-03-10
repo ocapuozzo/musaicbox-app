@@ -106,7 +106,7 @@
 
       </p>
       <p style="max-width: 550px">
-        @if (pcs.isDetached() || pcsInMusaicGroup()) {
+        @if (!pcs.isComingFromAnOrbit() || pcsInMusaicGroup()) {
           (Musaic)
         } @else {
           (in orbit)
@@ -259,7 +259,7 @@
   }
 
 
-  @if (!pcs.orbit.isDetachedOfGroupAction()) {
+  @if (pcs.orbit.isComingFromGroupAction()) {
     <div class="marge-5">
       <fieldset class="representation-border" style="max-width: 400px">
         <legend class="representation-border">Pcs in orbit. Group : {{ pcs.orbit!.groupAction!.group!.name }}</legend>

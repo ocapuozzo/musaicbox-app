@@ -70,7 +70,7 @@ export class ManagerLocalStorageService {
           iPivot: pcsDto.pcs.iPivot,
           nMapping: pcsDto.pcs.nMapping,
           templateMappingBinPcs: pcsDto.pcs.templateMappingBinPcs,
-          groupName: pcsDto.pcs.isDetached() ? '' : pcsDto.pcs.orbit!.groupAction!.group.name
+          groupName: pcsDto.pcs.isComingFromAnOrbit() ? pcsDto.pcs.orbit!.groupAction!.group.name : ''
         }
       }
       savListPcsDto.push(obj)

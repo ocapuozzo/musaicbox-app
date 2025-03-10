@@ -74,7 +74,7 @@ describe('test getFirstScaleName from 2048pcs.json', () => {
 
     const pcs = new IPcs({strPcs:"[0,2,3,7,11]"})
     let scaleName = Scales2048Name.getFirstScaleNameOrDerived(pcs)?.name ?? ''
-    expect(scaleName).toEqual('Zagitonic')
+    expect(scaleName).toEqual('Rāga Hamsadhvani')
 
     pcs.setPivot(3)
     scaleName = Scales2048Name.getFirstScaleNameOrDerived(pcs)?.name ?? ''

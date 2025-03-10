@@ -198,8 +198,8 @@ describe('IPcs unit tests', () => {
 
     let diatMaj = new IPcs({strPcs: "0 2 4 5 7 9 11", iPivot: 0})
     const pcsInMusicGroup = ManagerGroupActionService.getGroupActionFromGroupAliasName('Musaic')?.getIPcsInOrbit(diatMaj)!
-    expect(pcsInMusicGroup.isDetached()).toBeFalse()
-    expect(pcsInMusicGroup.modulation(IPcs.NEXT_DEGREE).isDetached()).toBeFalse()
+    expect(pcsInMusicGroup.isComingFromAnOrbit()).toBeTrue()
+    expect(pcsInMusicGroup.modulation(IPcs.NEXT_DEGREE).isComingFromAnOrbit()).toBeTrue()
   });
 
   it("IPcs cardinal PREVIOUS", () => {
@@ -330,10 +330,10 @@ describe('IPcs unit tests', () => {
 
   it("IPcs cyclicPrimeForm from pcs with orbit set", () => {
     let ipcsNotPF = new IPcs({strPcs: "1, 4, 7, 10"})
-    expect(ipcsNotPF.isDetached()).toBeTruthy()
+    expect(ipcsNotPF.isComingFromAnOrbit()).toBeFalse()
     const groupAction: GroupAction = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!
     let ipcsFromGroupActionNotPF: IPcs = groupAction.getIPcsInOrbit(ipcsNotPF)
-    expect(ipcsFromGroupActionNotPF.isDetached()).not.toBeTruthy()
+    expect(ipcsFromGroupActionNotPF.isComingFromAnOrbit()).toBeTrue()
     let ipcsPF = new IPcs({strPcs: "0, 3, 6, 9", iPivot: 0})
     expect(ipcsFromGroupActionNotPF.cyclicPrimeForm()).toEqual(groupAction.getIPcsInOrbit(ipcsPF))
   })
@@ -365,18 +365,17 @@ describe('IPcs unit tests', () => {
 
   it("IPcs musaicPrimeForm", () => {
     const ipcsWithNoOrbit = new IPcs({strPcs: "0, 3, 5, 8", iPivot: 0})
-    expect(ipcsWithNoOrbit.isDetached()).toBeTruthy()
 
     // page 1171 de ToposOfMusic
     const ipcsMusaicPF = new IPcs({strPcs: "0, 1, 3, 4", iPivot: 0})
     const primeForm = ipcsWithNoOrbit.musaicPrimeForm()
     expect(primeForm.id).toEqual(ipcsMusaicPF.id)
 
-    expect(primeForm.isDetached()).not.toBeTruthy()
+    expect(primeForm.isComingFromAnOrbit()).toBeTrue()
     const ipcsWithOrbit = primeForm.transposition(1)
 
     // only ManagerPcsService manage state orbit
-    expect(ipcsWithOrbit.isDetached()).toBeTruthy()
+    expect(ipcsWithOrbit.isComingFromAnOrbit()).toBeFalse()
 
     expect(primeForm).toEqual(ipcsWithOrbit.musaicPrimeForm())
   });
@@ -483,8 +482,8 @@ describe('IPcs unit tests', () => {
     expect(empty.symmetryPrimeForm()).toEqual(empty)
 
     const pcsInMusicGroup = ManagerGroupActionService.getGroupActionFromGroupAliasName('Musaic')?.getIPcsInOrbit(diatMaj)!
-    expect(pcsInMusicGroup.isDetached()).toBeFalse()
-    expect(pcsInMusicGroup.symmetryPrimeForm().isDetached()).toBeFalse()
+    expect(pcsInMusicGroup.isComingFromAnOrbit()).toBeTrue()
+    expect(pcsInMusicGroup.symmetryPrimeForm().isComingFromAnOrbit()).toBeTrue()
 
     // difficult case :  1 3 6 7 9 10, pass by CM11 and all others steps
     let kothimic = new IPcs({strPcs:"1 3 6 7 9 10"})
@@ -758,25 +757,25 @@ describe('IPcs unit tests', () => {
     let ipcsWithoutOrbit = new IPcs({strPcs: "0, 4, 8", iPivot: 0})
     let ipcsWithOrbit: IPcs = cyclicGroup12.getIPcsInOrbit(ipcsWithoutOrbit)
 
-    expect(ipcsWithoutOrbit.isDetached()).toBeTruthy()
-    expect(ipcsWithOrbit.isDetached()).not.toBeTruthy()
+    expect(ipcsWithoutOrbit.isComingFromAnOrbit()).toBeFalse()
+    expect(ipcsWithOrbit.isComingFromAnOrbit()).toBeTrue()
 
-    expect(ipcsWithoutOrbit.complement().isDetached()).toBeTruthy()
+    expect(ipcsWithoutOrbit.complement().isComingFromAnOrbit()).toBeFalse()
 
     // only ManagerPcsService manage state orbit
-    expect(ipcsWithOrbit.complement().isDetached()).toBeTruthy()
+    expect(ipcsWithOrbit.complement().isComingFromAnOrbit()).toBeFalse()
   })
 
   it("equals with same pivot", () => {
     let ipcsMajPivot0 = new IPcs({strPcs: "0, 4, 7", iPivot: 0})
     let ipcsMajBisPivot0 = new IPcs({strPcs: "0, 4, 7", iPivot: 0})
-    expect(ipcsMajPivot0.equals(ipcsMajBisPivot0)).toBeTruthy()
+    expect(ipcsMajPivot0.equals(ipcsMajBisPivot0)).toBeTrue()
   })
 
   it("equals with NOT same pivot", () => {
     let ipcsMajPivot0 = new IPcs({strPcs: "0, 4, 7", iPivot: 0})
     let ipcsMajBisPivot4 = new IPcs({strPcs: "0, 4, 7", iPivot: 4})
-    expect(ipcsMajPivot0.equals(ipcsMajBisPivot4)).toBeTruthy()
+    expect(ipcsMajPivot0.equals(ipcsMajBisPivot4)).toBeTrue()
   })
 
 
@@ -979,14 +978,14 @@ describe('IPcs unit tests', () => {
   });
 
 
-  it("isDetached", () => {
+  it("isComingFromAnOrbit()", () => {
     const ipcsMaj3Pitches: IPcs = new IPcs({
       strPcs: "[0, 4, 7]", // C Major
     })
-    expect(ipcsMaj3Pitches.isDetached()).toBe(true)
+    expect(ipcsMaj3Pitches.isComingFromAnOrbit()).toBeFalse()
 
     const ipcsPrimeForme = ipcsMaj3Pitches.cyclicPrimeForm()
-    expect(ipcsPrimeForme.isDetached()).toBe(false)
+    expect(ipcsPrimeForme.isComingFromAnOrbit()).toBeTrue()
     // because ipcsPrimeForme is get from group action
   });
 

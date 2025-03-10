@@ -172,18 +172,14 @@ export class ManagerPcsService {
     // now check if pcsSymmetry is found
     // if not, get cyclic prime form
     if (!pcsSymmetry) {
-      if (pcs.isDetached()) {
-        const cpf = pcs.cyclicPrimeForm()
-        // cyclic prim form detached
-        pcsSymmetry = new IPcs({
-          binPcs: cpf.abinPcs,
-          nMapping: cpf.nMapping,
-          templateMappingBinPcs: cpf.templateMappingBinPcs
-        })
-      } else {
+      if (pcs.isComingFromAnOrbit()) {
         const cpf = pcs.cyclicPrimeForm()
         // get cyclic prime form in its orbit
         pcsSymmetry = ManagerPcsService.makeNewInstanceOf(cpf, pcs.orbit.groupAction!, cpf.iPivot)
+      } else {
+        const cpf = pcs.cyclicPrimeForm()
+        // cyclic prim form detached
+        pcsSymmetry = cpf.cloneDetached()
       }
     }
     return pcsSymmetry

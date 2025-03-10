@@ -333,15 +333,9 @@ export class GroupAction {
     if (!pcsInOrbit)
       throw new Error("Invalid pcs (is not in this group action)  ??? : " + pcs)
 
-    if (pcs.iPivot) {
-      //pcsInOrbit.setPivot(pcs.iPivot)
-      return new IPcs({
-        binPcs: pcsInOrbit.abinPcs,
-        iPivot: pcs.iPivot,  // <= updated
-        orbit: pcsInOrbit.orbit,
-        templateMappingBinPcs: pcsInOrbit.templateMappingBinPcs,
-        nMapping: pcsInOrbit.nMapping
-      })
+
+    if (pcs.iPivot !== pcsInOrbit.iPivot) {
+      return pcsInOrbit.cloneWithNewPivot(pcs.iPivot)
     }
 
     return pcsInOrbit

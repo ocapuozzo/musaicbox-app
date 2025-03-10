@@ -186,7 +186,7 @@ export class PcsAnalysisComponent {
 
     let pcsToCompute: IPcs = pcs
 
-    if (pcs.isDetached()) {
+    if (!pcs.isComingFromAnOrbit()) {
       const groupMusaic = ManagerGroupActionService.getGroupActionFromGroupAliasName('Musaic')
       pcsToCompute = groupMusaic!.getIPcsInOrbit(pcs)
     }
@@ -199,6 +199,6 @@ export class PcsAnalysisComponent {
   }
 
   pcsInMusaicGroup() {
-    return !this.pcs.isDetached() ? this.pcs.n === 12 && this.pcs.orbit.groupAction?.group.operations.length===96 : false
+    return this.pcs.isComingFromAnOrbit() ? this.pcs.n === 12 && this.pcs.orbit.groupAction?.group.operations.length===96 : false
   }
 }

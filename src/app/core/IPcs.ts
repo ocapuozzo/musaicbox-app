@@ -443,7 +443,7 @@ export class IPcs {
     // get pivot that max symmetry -T0 for pcsSymmetry, from ops M5-T0, M7-T0, M11-T0 and cplt
     const pivotBestSymmetry = PcsUtils.getPivotBestSymmetryInT0(pcsSymmetry) ?? pcsSymmetry.iPivot
 
-    if (!this.isDetached()) {
+    if (this.isComingFromAnOrbit()) {
       pcsSymmetry = ManagerPcsService.makeNewInstanceOf(pcsSymmetry, this.orbit.groupAction!, pivotBestSymmetry === undefined ?  pcsSymmetry.iPivot : pivotBestSymmetry)
       // pcsSymmetry = ManagerPcsService.makeNewInstanceOf(pcsSymmetry, this.orbit.groupAction!, pcsSymmetry.iPivot)
     } else {
@@ -1150,13 +1150,9 @@ export class IPcs {
     return this.templateMappingBinPcs[this.iPivot ?? 0]
   }
 
- // TODO isDetachedOfGroupAction() refactor by isComingFromAnOrbit() ???
-  isDetached(): boolean {
-    return this.orbit.isDetachedOfGroupAction()
-  }
 
   isComingFromAnOrbit(): boolean {
-    return this.orbit.isDetachedOfGroupAction()
+    return this.orbit.isComingFromGroupAction()
   }
 
 
@@ -1526,11 +1522,10 @@ export class IPcs {
    * else get stabilizer operations from operations of group where come from its orbit
    */
   getStabilizerOperations() {
-    if (this.isDetached()) {
-      return [MusaicOperation.stringOpToMusaicOperation("M1-T0", this.n)]
+    if (this.isComingFromAnOrbit()) {
+      return this.orbit!.groupAction!.operations.filter(op => op.actionOn(this).id === this.id)
     }
-    //return stab operations
-    return this.orbit!.groupAction!.operations.filter(op => op.actionOn(this).id === this.id)
+    return [MusaicOperation.stringOpToMusaicOperation("M1-T0", this.n)]
   }
 
 }

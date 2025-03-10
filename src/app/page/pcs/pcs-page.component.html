@@ -11,9 +11,9 @@
           <span>Musaic n° {{ EightyEight.idNumberOf(pcs) }}</span>
         </button>
       </h5>
-      <div [ngClass]="{'inner-box-musaic-orbit':!pcs.isDetached(), 'inner-box-musaic':pcs.isDetached()}">
+      <div [ngClass]="{'inner-box-musaic-orbit':pcs.isComingFromAnOrbit(), 'inner-box-musaic':!pcs.isComingFromAnOrbit()}">
         <p class="text-small">
-          @if (!pcs.isDetached()) {
+          @if (pcs.isComingFromAnOrbit()) {
             [{{ pcs.orbit.groupAction?.group?.opsNamesWithoutTx?.join(" ") }}]
           }
         </p>
@@ -58,7 +58,7 @@
           Redo
         </button>
       </div>
-      <div [ngStyle]="{'margin': pcs.isDetached() ? '10px 0 15px 0' : '25px 0 15px 0'}">
+      <div [ngStyle]="{'margin': pcs.isComingFromAnOrbit() ? '25px 0 15px 0' : '10px 0 15px 0'}">
         <app-ui-clock></app-ui-clock>
       </div>
     </div>
