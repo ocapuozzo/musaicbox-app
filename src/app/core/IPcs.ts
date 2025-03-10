@@ -90,6 +90,11 @@ export class IPcs {
   readonly id: number;
 
   /**
+   * number of pitches of this
+   */
+  readonly cardinal: number
+
+  /**
    * predetermines prime forme cyclic of this
    * @private
    */
@@ -193,22 +198,23 @@ export class IPcs {
       }
     }
 
-    // check a logic of this.iPivot
-    if (this.cardinal === 0 && this.iPivot !== undefined) {
-      // this.iPivot = undefined
-      throw Error(`Something wrong with iPivot  = ${this.iPivot} and ${this.abinPcs}`)
-    }
-
     // check n
     if (n && n !== this.abinPcs.length) {
       throw new Error("Can't create IPcs instance (bad n = " + n + " for pcs " + this.abinPcs + ")")
     }
 
     this.n = this.abinPcs.length // normally, param n synchronized
-    this.orbit = orbit ?? new Orbit()
-    this.id = IPcs.id(this.abinPcs)
 
-    // this.stabilizerCardinal ???
+    this.cardinal = this.abinPcs.reduce((sumOnes, v_i) => v_i === 1 ? sumOnes+1 : sumOnes, 0)
+
+    // check a logic of this.iPivot
+    if (this.cardinal === 0 && this.iPivot !== undefined) {
+      // this.iPivot = undefined
+      throw Error(`Something wrong with iPivot  = ${this.iPivot} and ${this.abinPcs}`)
+    }
+
+    this.orbit = orbit ?? new Orbit() // a king of "null orbit"
+    this.id = IPcs.id(this.abinPcs)
 
     // default mapping on himself
     if (!templateMappingBinPcs || templateMappingBinPcs.length != this.n) {
@@ -237,24 +243,6 @@ export class IPcs {
     // this.serviceManagerGroupAction = inject(ManagerGroupActionService);
   }
 
-  //
-  // checkStrpcs(strpcs: string) {
-  //   if (strpcs.length > 0) {
-  //     if ((strpcs[0] === '[' && strpcs[strpcs.length - 1] === ']') ||
-  //       (strpcs[0] === '{' && strpcs[strpcs.length - 1] === '}')) {
-  //       strpcs = strpcs.substring(1, strpcs.length - 1);
-  //     }
-  //     if (strpcs) {
-  //       let pitches = strpcs.split(',');
-  //       for (let i = 0; i < pitches.length; i++) {
-  //         const x = Number(pitches[i])
-  //         if (Number.isNaN(x) || x < 0 || x > 12) {
-  //           throw new Error("Invalid PCS ! (" + strpcs + ')')
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
 
 
   /**
@@ -769,13 +757,6 @@ export class IPcs {
     return res;
   }
 
-  /**
-   * get number of pitches of this
-   * @return number
-   */
-  get cardinal(): number {
-    return this.abinPcs.filter(i => i === 1).length
-  }
 
   /**
    * Get number of all modes.
@@ -1144,7 +1125,7 @@ export class IPcs {
       ? this._mappedBinPcs
       : this.abinPcs;
   }
-  
+
   getMappedPivot() {
     return this.templateMappingBinPcs[this.iPivot ?? 0]
   }
@@ -1233,14 +1214,14 @@ export class IPcs {
     }
   }
 
-  static OperationsT0_M11_M5_M7_CM11_CM5_CM7 = [
-    new MusaicOperation(12, 11, 0, false),
-    new MusaicOperation(12, 5, 0, false),
-    new MusaicOperation(12, 7, 0, false),
-    new MusaicOperation(12, 11, 0, true),
-    new MusaicOperation(12, 5, 0, true),
-    new MusaicOperation(12, 7, 0, true)
-  ]
+  // static OperationsT0_M11_M5_M7_CM11_CM5_CM7 = [
+  //   new MusaicOperation(12, 11, 0, false),
+  //   new MusaicOperation(12, 5, 0, false),
+  //   new MusaicOperation(12, 7, 0, false),
+  //   new MusaicOperation(12, 11, 0, true),
+  //   new MusaicOperation(12, 5, 0, true),
+  //   new MusaicOperation(12, 7, 0, true)
+  // ]
 
   /**
    * Try to define iPivot from symmetries of pcs, if possible
@@ -1286,62 +1267,62 @@ export class IPcs {
     return newPivot
   }
 
-  /**
-   *
-   *   [1 2 10 11] pivot 1 =>   stab = [M1-T0 M11-T10]
-   *   [1 2 10 11] pivot 11  => stab = [M1-T0 M11-T2]
-
-   *   ony stab in T0 matters, and pivot 1 is "natural" pivot (is not shifted)
-   *
-   * Try to define iPivot from symmetries of pcs, if possible
-   * Begin first with M11, M5 then M7, and their complement, in this order,
-   * The first closest to zero win (excludes M1-Tx) !
-   * Example of winners : M5-T0, CM5-T11 or CM5-T1 (same distance to zero)
-   * @return pivot value or -1 if not found (Not sure this case could exist)
-   */
-  public getPivotFromSymmetryForComplementByBruteForce(): number {
-    // create new instance for test
-    let pcsForTest = new IPcs({
-      binPcs: this.abinPcs,
-      iPivot: this.iPivot,
-      orbit: this.orbit,
-      templateMappingBinPcs: this.templateMappingBinPcs,
-      nMapping: this.nMapping
-    })
-
-    if (this.n !== 12) throw Error("pcs.n = " + this.n + " invalid (must be 12 digits)")
-
-    // exists stab in T0 other that M1-T0 ?
-    // example : musaic n° 53, 35 (see unit test)
-    const id = this.id
-    for (let t = 0; t < this.n / 6; t++) {
-      for (let i = 0; i < IPcs.OperationsT0_M11_M5_M7_CM11_CM5_CM7.length; i++) {
-        for (let j = 0; j < pcsForTest.abinPcs.length; j++) {
-          if (pcsForTest.abinPcs[j] === 1) {
-            pcsForTest.setPivot(j)
-            if (t === 0) {
-              // no need to translate when t == 0
-              if (id === IPcs.OperationsT0_M11_M5_M7_CM11_CM5_CM7[i].actionOn(pcsForTest).id) {
-                // good pivot
-                return j
-              }
-            } else {
-              // The case T has been exhausted, let's search with values of T greater than zero.
-              // let's try with a value of t which gradually moves away from zero
-              // Note : this.n-t and t are both same distance from zero.
-              if (id === IPcs.OperationsT0_M11_M5_M7_CM11_CM5_CM7[i].actionOn(pcsForTest).transposition(t).id
-                ||
-                id === IPcs.OperationsT0_M11_M5_M7_CM11_CM5_CM7[i].actionOn(pcsForTest).transposition(this.n - t).id) {
-                // Closest value to zero find
-                return j
-              }
-            }
-          }
-        }
-      }
-    }
-    return -1 // never ??
-  }
+  // /**
+  //  *
+  //  *   [1 2 10 11] pivot 1 =>   stab = [M1-T0 M11-T10]
+  //  *   [1 2 10 11] pivot 11  => stab = [M1-T0 M11-T2]
+  //
+  //  *   ony stab in T0 matters, and pivot 1 is "natural" pivot (is not shifted)
+  //  *
+  //  * Try to define iPivot from symmetries of pcs, if possible
+  //  * Begin first with M11, M5 then M7, and their complement, in this order,
+  //  * The first closest to zero win (excludes M1-Tx) !
+  //  * Example of winners : M5-T0, CM5-T11 or CM5-T1 (same distance to zero)
+  //  * @return pivot value or -1 if not found (Not sure this case could exist)
+  //  */
+  // public getPivotFromSymmetryForComplementByBruteForce(): number {
+  //   // create new instance for test
+  //   let pcsForTest = new IPcs({
+  //     binPcs: this.abinPcs,
+  //     iPivot: this.iPivot,
+  //     orbit: this.orbit,
+  //     templateMappingBinPcs: this.templateMappingBinPcs,
+  //     nMapping: this.nMapping
+  //   })
+  //
+  //   if (this.n !== 12) throw Error("pcs.n = " + this.n + " invalid (must be 12 digits)")
+  //
+  //   // exists stab in T0 other that M1-T0 ?
+  //   // example : musaic n° 53, 35 (see unit test)
+  //   const id = this.id
+  //   for (let t = 0; t < this.n / 6; t++) {
+  //     for (let i = 0; i < IPcs.OperationsT0_M11_M5_M7_CM11_CM5_CM7.length; i++) {
+  //       for (let j = 0; j < pcsForTest.abinPcs.length; j++) {
+  //         if (pcsForTest.abinPcs[j] === 1) {
+  //           pcsForTest.setPivot(j)
+  //           if (t === 0) {
+  //             // no need to translate when t == 0
+  //             if (id === IPcs.OperationsT0_M11_M5_M7_CM11_CM5_CM7[i].actionOn(pcsForTest).id) {
+  //               // good pivot
+  //               return j
+  //             }
+  //           } else {
+  //             // The case T has been exhausted, let's search with values of T greater than zero.
+  //             // let's try with a value of t which gradually moves away from zero
+  //             // Note : this.n-t and t are both same distance from zero.
+  //             if (id === IPcs.OperationsT0_M11_M5_M7_CM11_CM5_CM7[i].actionOn(pcsForTest).transposition(t).id
+  //               ||
+  //               id === IPcs.OperationsT0_M11_M5_M7_CM11_CM5_CM7[i].actionOn(pcsForTest).transposition(this.n - t).id) {
+  //               // Closest value to zero find
+  //               return j
+  //             }
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  //   return -1 // never ??
+  // }
 
 
   // /**
