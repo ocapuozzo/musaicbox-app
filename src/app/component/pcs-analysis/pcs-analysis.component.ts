@@ -12,6 +12,7 @@ import {OctotropeComponent} from "../octotrope/octotrope.component";
 import {NgClass, NgIf} from "@angular/common";
 import {HtmlUtil} from "../../utils/HtmlUtil";
 import {ManagerGroupActionService} from "../../service/manager-group-action.service";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-pcs-analysis',
@@ -29,7 +30,7 @@ import {ManagerGroupActionService} from "../../service/manager-group-action.serv
 })
 
 export class PcsAnalysisComponent {
-
+  currentBuildVersion = environment.buildVersion
   pcs: IPcs = new IPcs({strPcs: '0'})
 
   /**

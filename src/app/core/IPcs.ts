@@ -1144,8 +1144,7 @@ export class IPcs {
       ? this._mappedBinPcs
       : this.abinPcs;
   }
-
-
+  
   getMappedPivot() {
     return this.templateMappingBinPcs[this.iPivot ?? 0]
   }
@@ -1154,7 +1153,6 @@ export class IPcs {
   isComingFromAnOrbit(): boolean {
     return this.orbit.isComingFromGroupAction()
   }
-
 
   /**
    * Get correspondance index of a mappedIndex
