@@ -23,6 +23,52 @@ canvas {
   margin: 10px;
 }
 
+.panel-chord-action {
+  width:85%;
+  display: flex;
+  /*display: flex;*/
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  border-radius: 30px;
+  /*margin: 10px;*/
+}
+
+
+.example-flex-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+section {
+  display: table;
+}
+.example-button-row {
+  display: table-cell;
+  margin-bottom: 5px;
+  max-width: 450px;
+}
+
+.legend-chords {
+  display: table-cell;
+  text-align: center;
+  font-size: 1em !important;
+  font-weight: bold !important;
+  font-style: italic;
+  padding: 0 10px;
+  border-bottom: none;
+}
+
+legend.representation-border {
+  font-size: 1em !important;
+  font-weight: bold !important;
+  font-style: italic;
+  padding: 0 10px;
+  border-bottom: none;
+}
+
+
 .score-center {
   margin-left: auto;
 }
@@ -34,3 +80,5 @@ canvas {
 .chord-name-def {
   font-style: italic;
 }
+
+

@@ -40,40 +40,6 @@ export class ManagerPcsService {
     return pcs.modulation(direction)
   }
 
-  // /**
-  //  * TODO this method do 2 things... change that
-  //  *
-  //  * @param pcs
-  //  * @param index
-  //  */
-  // toggleInnerIndexOrSetIPivot(pcs: IPcs, index: number): IPcs {
-  //   // inner index (no mapping index)
-  //   let newPcs: IPcs
-  //   if (pcs.vectorPcs[index] === 0) {
-  //     newPcs = pcs.toggleIndexPC(index)
-  //     if (pcs.orbit?.groupAction) {
-  //       // newPcs = pcs.orbit.groupAction.getIPcsInOrbit(newPcs)
-  //       newPcs = ManagerPcsService.makeNewInstanceOf(newPcs, pcs.orbit.groupAction, pcs.iPivot);
-  //     }
-  //   } else {
-  //     if (index < pcs.n && index >= 0) {
-  //       // change pivot only
-  //       newPcs =
-  //         new IPcs({
-  //           vectorPcs: pcs.vectorPcs,
-  //           iPivot: index,  // change pivot
-  //           n: pcs.n,
-  //           orbit: pcs.orbit,
-  //           templateMappingVectorPcs: pcs.templateMappingVectorPcs,
-  //           nMapping: pcs.nMapping
-  //         })
-  //     } else {
-  //       throw new Error("Invalid iPivot : " + index)
-  //     }
-  //   }
-  //   return newPcs
-  // }
-
   changePivotBy(pcs: IPcs, index: number) {
     if (index < pcs.n && index >= 0 && pcs.vectorPcs[index] === 1) {
       // change pivot only

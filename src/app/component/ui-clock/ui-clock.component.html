@@ -47,34 +47,35 @@
 
   <div class="panel-action">
     @if (pcs.n === 12) {
-      <span (click)="autoMap()" style="cursor: pointer">
-        <span>
-          <i class="bi bi-circle-square"></i> Map
-        </span>
+      <span (click)="autoMap()" style="display: inline-flex; padding-top: 4px; cursor: pointer">
+           <mat-icon>move_up</mat-icon> &nbsp; Map
       </span>
-    } @else {@if (pcs.nMapping === 12) {
-        <span (click)="unMap()" style="cursor: pointer">
-           <span>
-              <i class="bi bi-circle"></i> UnMap
+    } @else {
+      @if (pcs.nMapping === 12) {
+        <span (click)="unMap()" style="display: inline-flex; padding-top: 4px; cursor: pointer">
+             <mat-icon>move_down</mat-icon> &nbsp; UnMap
            </span>
-        </span>
       }
     }
-    <span (click)="addToList()" style="cursor: pointer">
-       <i class="bi bi-plus-circle"></i> Add pcs
+    <span (click)="addToList()" style="display: inline-flex; padding-top: 4px; cursor: pointer">
+       <mat-icon>playlist_add</mat-icon> &nbsp;Add pcs
     </span>
   </div>
-  <div class="panel-action">
-    <span [hidden]="pcs.cardinal < 5"
-          (click)="threeChordList()"
-          style="cursor: pointer; margin-right: 25px">
-       <button mat-raised-button>3-chords</button>
-    </span>
-    <span [hidden]="pcs.cardinal < 5"
-          (click)="fourChordList()" style="cursor: pointer">
-      <button mat-raised-button >
-        <!--  <mat-icon>arrow_downward</mat-icon>-->4-chords
-      </button>
-    </span>
+
+  <hr>
+  <div [hidden]="pcs.cardinal < 5">
+  <section [hidden]="pcs.cardinal < 5" style="width: 100%">
+    <fieldset   style="max-width: 450px;">
+      <legend class="legend-chords"> Discovery Chords </legend>
+      <div class="example-flex-container">
+     <div class="example-button-row">
+       <button  (click)="threeChordList()" mat-raised-button style="font-size: smaller">3-chords</button>
+     </div>
+        <div class="example-button-row">
+          <button (click)="fourChordList()" mat-raised-button style="font-size: smaller">4-chords</button>
+        </div>
+     </div>
+    </fieldset>
+  </section>
   </div>
 </div>

@@ -10,7 +10,6 @@ import {EightyEight} from "../../utils/EightyEight";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MatButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
-import {IElementListPcs} from "../../service/IElementListPcs";
 import {PcsListComponent} from "../../component/pcs-list/pcs-list.component";
 import {NgClass, NgStyle} from "@angular/common";
 import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
@@ -40,8 +39,7 @@ import {HtmlUtil} from "../../utils/HtmlUtil";
 
 export class PcsPageComponent {
 
-  pcs: IPcs = new IPcs({strPcs:"0,1,2,3"})
-  labeledListPcs = new Map<string, IElementListPcs>()
+  pcs: IPcs = new IPcs({strPcs: "0,1,2,3"})
   protected readonly EightyEight = EightyEight;
 
   maxWidthParentUiMusaic: string = "270px";
@@ -61,39 +59,35 @@ export class PcsPageComponent {
 
   @HostListener('window:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {
-    if((event.ctrlKey || event.metaKey) && event.key == "z") {
+    if ((event.ctrlKey || event.metaKey) && event.key == "z") {
       // console.log('CTRL + Z');
       this.doUnDo()
     }
-    if((event.ctrlKey || event.metaKey) && event.key == "y") {
+    if ((event.ctrlKey || event.metaKey) && event.key == "y") {
       // console.log('CTRL + Y');
       this.doReDo()
     }
   }
 
   constructor(
-    private readonly managerPagePcsService : ManagerPagePcsService,
-    private readonly managerPagePcsListService : ManagerPagePcsListService,
-    private managerPageWBService : ManagerPageWBService,
-    private router : Router,
+    private readonly managerPagePcsService: ManagerPagePcsService,
+    private readonly managerPagePcsListService: ManagerPagePcsListService,
+    private managerPageWBService: ManagerPageWBService,
+    private router: Router,
     private activateRoute: ActivatedRoute,
     private responsive: BreakpointObserver) {
 
     this.pcs = this.managerPagePcsService.pcs
-    this.labeledListPcs = this.managerPagePcsListService.labeledListPcs
 
-    this.managerPagePcsService.updatePcsEvent.subscribe( (pcs: IPcs) => {
+    this.managerPagePcsService.updatePcsEvent.subscribe((pcs: IPcs) => {
       const isNew = this.pcs.id !== pcs.id
       this.pcs = pcs
       // avoid refresh not desired on smartphone...
       if (isNew) {
-          HtmlUtil.gotoTopPage()
+        HtmlUtil.gotoTopPage()
       }
     })
 
-    this.managerPagePcsListService.updatePcsListEvent.subscribe( (labeledListPcs : Map<string, IElementListPcs>) => {
-      this.labeledListPcs = labeledListPcs
-    })
   }
 
   ngOnInit() {
@@ -134,9 +128,9 @@ export class PcsPageComponent {
 
     // route pcs/pid/42 => pcs {1,3,5}, musaic n° 11
     this.activateRoute.params.subscribe(params => {
-      const pid =  parseInt(this.activateRoute.snapshot.paramMap.get('pid') || '');
+      const pid = parseInt(this.activateRoute.snapshot.paramMap.get('pid') || '');
       // console.log(`pid : ${pid}`)
-      if (! isNaN(pid)) {
+      if (!isNaN(pid)) {
         const pcs = PcsSearch.searchPcsWithThisPid(pid)
         if (pcs) {
           // console.log(`pcs : ${pcs}`)
@@ -163,15 +157,15 @@ export class PcsPageComponent {
     this.managerPagePcsService.reDoPcs()
   }
 
-  get canUndo() : boolean {
+  get canUndo(): boolean {
     return this.managerPagePcsService.canUndo()
   }
 
-  get canRedo() : boolean {
+  get canRedo(): boolean {
     return this.managerPagePcsService.canRedo()
   }
 
-  isForUpdatePcsDto() : boolean {
+  isForUpdatePcsDto(): boolean {
     return this.managerPagePcsService.indexPcsForEdit >= 0
   }
 
@@ -185,9 +179,8 @@ export class PcsPageComponent {
 
   pushToWhiteBoardPage() {
     this.managerPagePcsService.indexPcsForEdit = -1
-    this.managerPageWBService.addPcs({somePcs:[this.pcs]})
+    this.managerPageWBService.addPcs({somePcs: [this.pcs]})
     this.router.navigateByUrl('/w-board');
   }
-
-
+  
 }
