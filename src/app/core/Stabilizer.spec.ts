@@ -245,7 +245,7 @@ describe('Stabilizer', () => {
 
     shortNames = []
     group.orbitsSortedGroupedByStabilizer.forEach(stab => shortNames.push(stab.groupingCriterion))
-    // neutral op and detached and full IPcs (2 pcs) transposables 7 times in same state by step 1
+    // neutral op and op transposables 7 times by step 1
     expect(shortNames).toEqual(["M1-T0~1*", "M1-T0"])
   })
 

@@ -16,7 +16,7 @@ describe('ManagerPcsService', () => {
     expect(managerPcsService).toBeTruthy();
   });
 
-  it(' detached complement state or not', () => {
+  it(' isComingFromAnOrbit complement state or not', () => {
     const ipcsWithNoOrbit = new IPcs({strPcs: "0, 3, 5, 8", iPivot: 0})
     expect(ipcsWithNoOrbit.isComingFromAnOrbit()).toBeFalse()
 
@@ -27,7 +27,7 @@ describe('ManagerPcsService', () => {
     expect(managerPcsService.complement(ipcsMusaicPF).isComingFromAnOrbit()).toBeTrue()
     expect(ipcsMusaicPF.complement().isComingFromAnOrbit()).toBeFalse()
 
-    // when pcs is detached, then stay detached after op
+    // when pcs is not coming from orbit, then stay with this state after complement
     expect(managerPcsService.complement(ipcsWithNoOrbit).isComingFromAnOrbit()).toBeFalse()
 
   });

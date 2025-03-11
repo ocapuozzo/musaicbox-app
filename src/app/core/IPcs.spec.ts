@@ -106,7 +106,7 @@ describe('IPcs unit tests', () => {
     expect(pcs.templateMappingVectorPcs.length).toEqual(12)
   })
 
-  it("IPcs bad detached constructor", () => {
+  it("IPcs bad empty constructor", () => {
     try {
       const ipcs: IPcs = new IPcs(
         {}
@@ -115,7 +115,7 @@ describe('IPcs unit tests', () => {
     } catch (e: any) {
       expect(e.message).toContain('bad args')
     }
-    // really detached args
+    // really empty args
     try {
       const ipcs: IPcs = new IPcs()
       expect(ipcs).not.toBeTruthy()
@@ -243,14 +243,14 @@ describe('IPcs unit tests', () => {
 
   });
 
-  it("IPcs complement max/detached", () => {
+  it("IPcs complement max/empty", () => {
     const ipcs12pc = new IPcs({strPcs: "0,1,2,3,4,5,6,7,8,9,10,11", iPivot: 0})
     try {
       expect(ipcs12pc.cardinal).toEqual(12)
       const complement = ipcs12pc.complement()
       expect(complement.cardinal).toEqual(0)
     } catch (e: any) {
-      expect(e.toString()).toMatch("Not accept detached pcs?")
+      expect(e.toString()).toMatch("Not accept empty pcs?")
     }
   });
 
@@ -289,21 +289,21 @@ describe('IPcs unit tests', () => {
 
   it("IPcs cardOrbitCyclic", () => {
     let ipcs = new IPcs({strPcs: "0, 3, 6, 9", iPivot: 0})
-    expect(ipcs.cardOrbitCyclic()).toEqual(3)
+    expect(ipcs.cyclicPrimeForm().orbit.cardinal).toEqual(3)
     ipcs = ipcs.cyclicPrimeForm()
     // pcs is now attached with good orbit (for good average test)
-    expect(ipcs.cardOrbitCyclic()).toEqual(3)
+    expect(ipcs.orbit.cardinal).toEqual(3)
 
     ipcs = new IPcs({strPcs: "0, 4, 8", iPivot: 0})
-    expect(ipcs.cardOrbitCyclic()).toEqual(4);
+    expect(ipcs.cyclicPrimeForm().orbit.cardinal).toEqual(4);
     ipcs = new IPcs({strPcs: "0, 1, 6, 7", iPivot: 0})
-    expect(ipcs.cardOrbitCyclic()).toEqual(6);
+    expect(ipcs.cyclicPrimeForm().orbit.cardinal).toEqual(6);
     ipcs = new IPcs({strPcs: "0, 1, 2, 3", iPivot: 0})
-    expect(ipcs.cardOrbitCyclic()).toEqual(12);
+    expect(ipcs.cyclicPrimeForm().orbit.cardinal).toEqual(12);
     ipcs = new IPcs({strPcs: "0, 2, 4, 5, 7, 9, 11", iPivot: 0})
-    expect(ipcs.cardOrbitCyclic()).toEqual(12);
+    expect(ipcs.cyclicPrimeForm().orbit.cardinal).toEqual(12);
     ipcs = new IPcs({strPcs: "0, 1, 3, 5, 6, 8, 10", iPivot: 0})
-    expect(ipcs.cardOrbitCyclic()).toEqual(12);
+    expect(ipcs.cyclicPrimeForm().orbit.cardinal).toEqual(12);
 
 
     let cyclicGroup12
@@ -615,7 +615,7 @@ describe('IPcs unit tests', () => {
     expect(symmetries.symMedian).toEqual(symMedian)
     expect(symmetries.symInter).toEqual(symInter)
 
-    // detached set => full symmetries
+    // empty set => full symmetries
     ipcs = new IPcs({strPcs: ""})
     symmetries = ipcs.getAxialSymmetries()
     symMedian = [1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0]
@@ -666,7 +666,7 @@ describe('IPcs unit tests', () => {
     expect(symmetries.symMedian).toEqual(symMedian)
     expect(symmetries.symInter).toEqual(symInter)
 
-    // detached set => full symmetries
+    // empty set => full symmetries
     ipcs = new IPcs({strPcs: "", n: 7})
 
     symmetries = ipcs.getAxialSymmetries()
@@ -680,7 +680,7 @@ describe('IPcs unit tests', () => {
   /**
    * @see https://sites.google.com/view/88musaics/88musaicsexplained
    */
-  it("IPcs is function n=12", () => {
+  it("IPcs Intervallic Structure function n=12", () => {
     let ipcs = new IPcs({
       vectorPcs: [1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0]
     })
@@ -714,7 +714,7 @@ describe('IPcs unit tests', () => {
     expect(ipcsNew2.iPivot).toEqual(3)
   })
 
-  it("toggleIndexPC solo => detached", () => {
+  it("toggleIndexPC solo => empty", () => {
     let ipcsOnePitch = new IPcs({strPcs: "6", n: 12, iPivot: 6})
     let emptyPcs = new IPcs({strPcs: "", n: 12})
     let ipcsNew = ipcsOnePitch.toggleIndexPC(6)
@@ -922,7 +922,7 @@ describe('IPcs unit tests', () => {
   })
 
 
-  it("Forte detached set", () => {
+  it("Forte empty set", () => {
     const ipcsEmpty = new IPcs({strPcs: '[]', n: 12})
     expect(ipcsEmpty.forteNum()).toEqual('0-1');
   });
@@ -991,13 +991,13 @@ describe('IPcs unit tests', () => {
 
 
   it("get metaStabilizer", () => {
-    const detachedMaj7 = new IPcs({strPcs: '0,4,7,10'})
+    const notInOrbitMaj7 = new IPcs({strPcs: '0,4,7,10'})
     const groupMusaic = ManagerGroupActionService.getGroupActionFromGroupAliasName("Musaic")!
 
-    const attachedMaj7 = groupMusaic.getIPcsInOrbit(new IPcs({strPcs: '0,4,7,10'}))
+    const inOrbitMaj7 = groupMusaic.getIPcsInOrbit(new IPcs({strPcs: '0,4,7,10'}))
 
-    expect(attachedMaj7.orbit.metaStabilizer).toBeTruthy()
-    expect(detachedMaj7.orbit.metaStabilizer.name).not.toBeTruthy()
+    expect(inOrbitMaj7.orbit.metaStabilizer).toBeTruthy()
+    expect(notInOrbitMaj7.orbit.metaStabilizer.name).not.toBeTruthy()
   })
 
   it("isLimitedTransposition", () => {

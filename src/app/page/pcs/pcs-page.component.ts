@@ -34,7 +34,8 @@ import {HtmlUtil} from "../../utils/HtmlUtil";
     NgStyle
   ],
   templateUrl: './pcs-page.component.html',
-  styleUrl: './pcs-page.component.css'
+  styleUrl: './pcs-page.component.css',
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class PcsPageComponent {

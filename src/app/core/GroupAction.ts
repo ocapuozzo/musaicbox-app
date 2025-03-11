@@ -170,39 +170,41 @@ export class GroupAction {
       // order collection stabilizers in current orbit
       orbit.stabilizers.sort(Stabilizer.compareShortName)
 
-      // orbit is complete, we can set his name and motif stabilizer property (orbit.strMetaStabilizer)
-      orbit.buildNameAndMetaStabilizerName()
+      // orbit is complete, we can set metaStabilizer property
+      orbit.finalizeStateMetaStabilizer()
     }) // end loop orbits
   }
 
   get orbitsSortedGroupedByMetaStabilizer(): ISortedOrbits[] {
     if (!this._orbitsSortedGroupedByMetaStabilizer)
-      this._orbitsSortedGroupedByMetaStabilizer = this.computeOrbitSortedGroupedByMetaStabilizer()
+      this._orbitsSortedGroupedByMetaStabilizer = this.computeSortedOrbitsGroupedByMetaStabilizer()
 
     return this._orbitsSortedGroupedByMetaStabilizer
   }
 
   get orbitsSortedGroupedByStabilizer() {
     if (!this._orbitsSortedGroupedByStabilizer)
-      this._orbitsSortedGroupedByStabilizer = this.computeOrbitSortedGroupedByStabilizer()
+      this._orbitsSortedGroupedByStabilizer = this.computeSortedOrbitsGroupedByStabilizer()
 
     return this._orbitsSortedGroupedByStabilizer
   }
 
   get orbitsSortedGroupedByCardinal(): ISortedOrbits[] {
     if (!this._orbitsSortedGroupedByCardinal)
-      this._orbitsSortedGroupedByCardinal = this.computeOrbitSortedGroupedByCardinal()
+      this._orbitsSortedGroupedByCardinal = this.computeSortedOrbitsGroupedByCardinal()
 
     return this._orbitsSortedGroupedByCardinal
   }
 
   /**
+   * this => instance is complete
+   *
    * Partitionne orbits list in "sets" of orbit. Each set is grouped by
    * equivalence relation "have same stabilizer set"
    * @param byReduceStabilizerName as grouping criteria
    * @return {ISortedOrbits[]} array of ISortedOrbits
    */
-   computeOrbitSortedGroupedByStabilizer(byReduceStabilizerName : boolean = true ): ISortedOrbits[] {
+   computeSortedOrbitsGroupedByStabilizer(byReduceStabilizerName : boolean = true ): ISortedOrbits[] {
     let orbitsSortedByStabilizers = new Map<string, Orbit[]>()
     // key=name orbit based on his stabs, value=array of orbits
 
@@ -240,7 +242,7 @@ export class GroupAction {
   /**
    * @return {ISortedOrbits[]} array of ISortedOrbits
    */
-  private computeOrbitSortedGroupedByMetaStabilizer(): ISortedOrbits[] {
+  private computeSortedOrbitsGroupedByMetaStabilizer(): ISortedOrbits[] {
     let orbitsSortedGroupedByMetaStabilizer = new Map<MetaStabilizer, Orbit[]>()
     // key=MetaStabilizer orbit based on his stabs, value=array of Orbit having same MetaStabilizer
     this.orbits.forEach(orbit => {
@@ -274,7 +276,7 @@ export class GroupAction {
   /**
    * @return {ISortedOrbits[]} array of ISortedOrbits
    */
-  private computeOrbitSortedGroupedByCardinal(): ISortedOrbits[] {
+  private computeSortedOrbitsGroupedByCardinal(): ISortedOrbits[] {
     let orbitsSortedByCardinal = new Map() // k=name orbit based on his stabs, v=array of orbits
     this.orbits.forEach(orbit => {
       let card = Array.from(orbitsSortedByCardinal.keys()).find(card => card === orbit.getPcsMin().cardinal)
@@ -322,17 +324,15 @@ export class GroupAction {
 
   /**
    * Get pcs into orbit from a pcs given. If not same pivot, then create new instance
-   * TODO verify post process because in first version, iPivot was directly modified (side effect)
-   *   and somme works were perhaps no more necessary
    * @param {IPcs} pcs
    * @return {IPcs}
    * @throws Error if not find pcs in this group action
    */
   getIPcsInOrbit(pcs: IPcs): IPcs {
     let pcsInOrbit: IPcs | undefined = this.powerset.get(pcs.id)
-    if (!pcsInOrbit)
+    if (!pcsInOrbit) {
       throw new Error("Invalid pcs (is not in this group action)  ??? : " + pcs)
-
+    }
 
     if (pcs.iPivot !== pcsInOrbit.iPivot) {
       return pcsInOrbit.cloneWithNewPivot(pcs.iPivot)
@@ -381,16 +381,5 @@ export class GroupAction {
     return Array.from(isStabilizersMap.keys()).join(" ")
   }
 
-  /**
-   *
-   * @param n
-   * @param opNameWithoutTx operation name without Tx (ex: CM5, M11)
-   * @private
-   */
-  static makeMusaicOperation(n: number, opNameWithoutTx: string) {
-    const complement = opNameWithoutTx.startsWith('C')
-    const a = parseInt(opNameWithoutTx.substring(complement ? 2 : 1))
-    return new MusaicOperation(n, a, 1, complement); // T=1
-  }
 
 }

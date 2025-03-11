@@ -7,14 +7,14 @@ import {ManagerGroupActionService} from "../service/manager-group-action.service
 export class PcsUtils {
 
   static  OPERATIONS_IN_T0 = [
-    MusaicOperation.stringOpToMusaicOperation("M1-T0"),
-    MusaicOperation.stringOpToMusaicOperation("M5-T0"),
-    MusaicOperation.stringOpToMusaicOperation("M7-T0"),
-    MusaicOperation.stringOpToMusaicOperation("M11-T0"),
-    MusaicOperation.stringOpToMusaicOperation("CM1-T0"),
-    MusaicOperation.stringOpToMusaicOperation("CM5-T0"),
-    MusaicOperation.stringOpToMusaicOperation("CM7-T0"),
-    MusaicOperation.stringOpToMusaicOperation("CM11-T0")
+    MusaicOperation.convertStringOpToMusaicOperation("M1-T0"),
+    MusaicOperation.convertStringOpToMusaicOperation("M5-T0"),
+    MusaicOperation.convertStringOpToMusaicOperation("M7-T0"),
+    MusaicOperation.convertStringOpToMusaicOperation("M11-T0"),
+    MusaicOperation.convertStringOpToMusaicOperation("CM1-T0"),
+    MusaicOperation.convertStringOpToMusaicOperation("CM5-T0"),
+    MusaicOperation.convertStringOpToMusaicOperation("CM7-T0"),
+    MusaicOperation.convertStringOpToMusaicOperation("CM11-T0")
   ]
 
   /**
@@ -364,7 +364,7 @@ export class PcsUtils {
   static minkValueThatStabByMInverseOp_Tk(pcs: IPcs) {
     let minK = pcs.n
     for (let i = 0; i < pcs.n; i++) {
-      let operation = MusaicOperation.stringOpToMusaicOperation(`M${pcs.n - 1}-T${i}`) // M11-Tk
+      let operation = MusaicOperation.convertStringOpToMusaicOperation(`M${pcs.n - 1}-T${i}`) // M11-Tk
       if (operation.actionOn(pcs).id === pcs.id) {
         if (minK > i) minK = i
       }

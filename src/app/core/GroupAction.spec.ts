@@ -103,8 +103,8 @@ describe('GroupAction unit tests', () => {
 
     // test orbit short name or not : same cardinal when grouped by stab
 
-    expect(dihedralGroup12.computeOrbitSortedGroupedByStabilizer(false).length).toEqual(35)
-    expect(dihedralGroup12.computeOrbitSortedGroupedByStabilizer(true).length).toEqual(35)
+    expect(dihedralGroup12.computeSortedOrbitsGroupedByStabilizer(false).length).toEqual(35)
+    expect(dihedralGroup12.computeSortedOrbitsGroupedByStabilizer(true).length).toEqual(35)
     expect(dihedralGroup12.orbitsSortedGroupedByStabilizer.length).toEqual(35)
 
   });
@@ -339,7 +339,7 @@ describe('GroupAction unit tests', () => {
     expect(trivialGroup.orbitsSortedGroupedByStabilizer.length).toEqual(1)
     expect(trivialGroup.orbitsSortedGroupedByMetaStabilizer.length).toEqual(1)
 
-    // n+1 because detached set count for one
+    // n+1 because empty set count for one
     expect(trivialGroup.orbitsSortedGroupedByCardinal.length).toEqual(trivialGroup.n + 1)
   });
 
@@ -358,7 +358,7 @@ describe('GroupAction unit tests', () => {
       expect(cyclicGroup.orbitsSortedGroupedByMetaStabilizer.length).toEqual(1)
       expect(cyclicGroup.orbitsSortedGroupedByMetaStabilizer[0].groupingCriterion).toEqual('M1')
 
-      // n+1 because detached set count for one
+      // n+1 because empty set count for one
       expect(cyclicGroup.orbitsSortedGroupedByCardinal.length).toEqual(cyclicGroup.n + 1)
     }
   });

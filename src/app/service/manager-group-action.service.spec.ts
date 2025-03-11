@@ -125,4 +125,28 @@ describe('ManagerGroupActionService', () => {
     expect(smaller.id).toEqual(pcsMajDiato.musaicPrimeForm().id)
   })
 
+  it('_buildOperationsFromGroupName', () =>{
+    let groupName="n=12 [M1 M5 M7 M11]"
+    expect(ManagerGroupActionService._buildOperationsFromGroupName(groupName).length).toEqual(4)
+
+    groupName="n=12 [MX]"
+    expect(ManagerGroupActionService._buildOperationsFromGroupName(groupName).length).toEqual(0)
+
+    groupName="[MX]"
+    expect(ManagerGroupActionService._buildOperationsFromGroupName(groupName).length).toEqual(0)
+
+    groupName="[M1 M5 M7 M11]"
+    expect(ManagerGroupActionService._buildOperationsFromGroupName(groupName).length).toEqual(0)
+
+    groupName="n=5 [M1 M4 M4]"
+    expect(ManagerGroupActionService._buildOperationsFromGroupName(groupName).length).toEqual(2)
+
+    groupName="n=5 [M1 M5]"
+    // no M5, 5 >= n
+    expect(ManagerGroupActionService._buildOperationsFromGroupName(groupName).length).toEqual(1)
+    // M1 only
+    expect(ManagerGroupActionService._buildOperationsFromGroupName(groupName)[0].a).toEqual(1)
+
+  })
+
 });

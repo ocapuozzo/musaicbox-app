@@ -80,7 +80,7 @@ export class ManagerGroupActionService {
    * Build MusaicOperation[] from name op without Tx.
    * Example : "n=2 [M1 CM7]" => M1-T1, CM7-T1 (MusaicOperation instances)
    * @param groupName example "n=12 [M1 M5 M7 M11]"
-   * @private
+   * @return {MusaicOperation[]} array of MusaicOperation. May be empty if bad format input
    */
   static _buildOperationsFromGroupName(groupName: string): MusaicOperation[] {
     let operations: MusaicOperation[] = []
@@ -91,8 +91,12 @@ export class ManagerGroupActionService {
       for (let i = 0; i < opsName.length; i++) {
         const complement = opsName[i].startsWith("C")
         const a = parseInt(opsName[i].substring(complement ? 2 : 1))
-        if (Number.isInteger(a) && a) {
-          operations.push(new MusaicOperation(n, a, t, complement))
+        if (Number.isInteger(a) && a > 0 && a < n) {
+          const op = new MusaicOperation(n, a, t, complement)
+          if (!operations.find(currentOp => currentOp.getHashCode() === op.getHashCode())) {
+            // no duplication
+            operations.push(op)
+          }
         }
       }
     }

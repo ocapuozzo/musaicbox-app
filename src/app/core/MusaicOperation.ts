@@ -15,7 +15,7 @@ import {IPcs} from "./IPcs";
 /**
  * musaic operation group : c . ((ax + t) modulo n)
  *
- * where 'a' is prime with n,  'x' a PCS (all PCs in x), 't' step of transposition, 'c' is
+ * where 'a' is prime with n,  'x' a PC (for all PCs in a PCS given), 't' step of transposition, 'c' is
  * complement operation which can be : neutral operation or complement operation
  * so 'c' is boolean representation with composition operation is XOR
  * <table>
@@ -53,7 +53,7 @@ export class MusaicOperation {
   /**
    *  ((ax + t) modulo n) . c
    *
-   * @param n number dimension vector
+   * @param n number dimensional vector
    * @param a number coef mult
    * @param t number transposition value
    * @param complement boolean
@@ -67,7 +67,6 @@ export class MusaicOperation {
     this._strRepr = prefix + "M" + this.a + "-T" + this.t; // n ? generally used into same Zn
     this._strReprWithoutTransp = prefix + "M" + a;
     this.fixedPcs = []  // new ArrayList<Pcs>();
-  //  this.stabilizers = [] // new ArrayList<Stabilizer>();
     this.getHashCode()
   }
 
@@ -236,11 +235,13 @@ export class MusaicOperation {
    * @param n number > 2
    * @return instance of MusaicOperation
    */
-  static stringOpToMusaicOperation(opName: string, n=12) {
+  static convertStringOpToMusaicOperation(opName: string, n=12) {
     const complement = opName.charAt(0) === 'C';
     const indexCaret = opName.indexOf("-")
 
-    if (indexCaret === -1 ) throw Error(`Convert ${opName} to MusaicOperation impossible`)
+    if (indexCaret === -1 ) {
+      throw Error(`Convert ${opName} to MusaicOperation impossible`)
+    }
 
     const a = (complement)
       ? parseInt(opName.substring(2, indexCaret))
@@ -248,7 +249,9 @@ export class MusaicOperation {
 
     const k = parseInt(opName.substring(indexCaret+2))
 
-    if (Number.isNaN(k) || Number.isNaN(a)) throw Error(`Convert ${opName} to MusaicOperation impossible`)
+    if (Number.isNaN(k) || Number.isNaN(a)) {
+      throw Error(`Convert ${opName} to MusaicOperation impossible`)
+    }
 
     return new MusaicOperation(n, a, k, complement)
   }
@@ -262,24 +265,12 @@ export class MusaicOperation {
    */
  static convertArrayStringsToArrayOfMusaicOperations(n: number, stringMusaicOperations: string[]): MusaicOperation[] {
     let resultOperations : MusaicOperation[] = []
-    stringMusaicOperations.forEach(opName => {
-      resultOperations.push(this.stringOpToMusaicOperation(opName, n))
+    stringMusaicOperations.forEach(
+      opName => {
+      resultOperations.push(this.convertStringOpToMusaicOperation(opName, n))
     })
     return resultOperations
   }
 
-
-// // test en vue de supprimer  la collection fixedPcs
-// // qui est gourmande en mémoire inutile
-// // pour que ça marche il faut ajouter une liaison
-// // vers les stabilizers ayant cette opération comme stab.
-//
-// public Set<Pcs> getComputeFixedPcs() {
-//   Set<Pcs> fixedPcs = new HashSet<Pcs>();
-//   for(Stabilizer stab : stabilizers) {
-//     fixedPcs.addAll(stab.getFix().pcsset);
-//   }
-//   return fixedPcs;
-// }
 
 }

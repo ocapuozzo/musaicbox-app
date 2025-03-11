@@ -7,6 +7,7 @@ import {IElementListPcs} from "../../service/IElementListPcs";
 import {ClockComponent} from "../clock/clock.component";
 import {NgIf} from "@angular/common";
 import {HtmlUtil} from "../../utils/HtmlUtil";
+import {MatIcon} from "@angular/material/icon";
 
 @Component({
   selector: 'app-pcs-list',
@@ -14,7 +15,8 @@ import {HtmlUtil} from "../../utils/HtmlUtil";
   imports: [
     ScoreNotationComponent,
     ClockComponent,
-    NgIf
+    NgIf,
+    MatIcon
   ],
   templateUrl: './pcs-list.component.html',
   styleUrl: './pcs-list.component.css'
@@ -47,6 +49,7 @@ export class PcsListComponent {
 
   doPushPcsFromList(pcs: IPcs) {
     this.managerHomePcsService.replaceBy(pcs)
+    HtmlUtil.gotoTopPage()
   }
 
 }

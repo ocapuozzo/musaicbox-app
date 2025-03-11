@@ -1,5 +1,10 @@
-<p id="idListPcs" class="ms-2" style="cursor: pointer" (click)="doClearList()" [hidden]="labeledListPcs.size==0">Clear all <i
-  class="bi bi-trash3-fill"></i></p>
+<p [hidden]="labeledListPcs.size==0"
+   id="idListPcs"
+   style="cursor: pointer;"
+   (click)="doClearList()" >
+  <i mat-icon-button style="display: inline-flex;align-items: center;">Clear all  <mat-icon>delete_forever</mat-icon></i>
+</p>
+
 <div class="row">
   @for (title of labeledListPcs.keys(); track title) {
     @if (title === '') {
@@ -10,7 +15,13 @@
           class="box text-center"
           style="width: 155px;">
           <div class="box text-center" style="width: 145px;">
-            <app-clock [w]="145" [ipcs]="pcs" [drawPivot]="pivot.drawPivot"></app-clock>
+            <app-clock
+              (click)="doPushPcsFromList(pcs)"
+              style="cursor: pointer"
+              [w]="145"
+              [ipcs]="pcs"
+              [drawPivot]="pivot.drawPivot">
+            </app-clock>
             <div>
               @if (pivot.drawPivot) {
                 <p class="text-center">
@@ -18,9 +29,10 @@
                 </p>
               }
               <h6>{{ pcs.getMappedPcsStr() }}</h6>
-              <i (click)="doRemoveFromList(pcs)" class="bi bi-trash p-1" style="cursor: pointer"></i>
+              <i (click)="doRemoveFromList(pcs)"   mat-icon-button style="cursor: pointer">
+                <mat-icon>delete_forever</mat-icon>
+              </i>
               @if (pcs.n === 12) {
-                <i (click)="doPushPcsFromList(pcs)" class="bi bi-eye p-1" style="cursor: pointer"></i>
                 @if (pivot.drawPivot) {
                   <app-score-notation [hidden]="! withMusicalNotation"
                                       [pcs]="pcs"
@@ -43,7 +55,12 @@
         <p>{{ title }} ({{ labeledListPcs.get(title)?.pcsList?.length }})</p>
         @for (pcs of labeledListPcs.get(title)?.pcsList; track pcs.id; let index = $index) {
           <div class="box" style="width: 145px;">
-            <app-clock [w]="145" [ipcs]="pcs" [drawPivot]="labeledListPcs.get(title)?.drawPivot ?? true"></app-clock>
+            <app-clock
+              (click)="doPushPcsFromList(pcs)"
+              style="cursor: pointer"
+              [w]="145" [ipcs]="pcs"
+              [drawPivot]="labeledListPcs.get(title)?.drawPivot ?? true">
+            </app-clock>
             <div class="card-body">
               @if (pivot.drawPivot) {
                 @if ([3, 4].includes(pcs.cardinal)) {
@@ -56,9 +73,10 @@
                   </p>
                 }
               }
-              <i (click)="doRemoveFromList(pcs)" class="bi bi-trash p-1" style="cursor: pointer"></i>
+              <i (click)="doRemoveFromList(pcs)"   mat-icon-button style="cursor: pointer">
+                <mat-icon>delete_forever</mat-icon>
+              </i>
               @if (pcs.n == 12) {
-                <i (click)="doPushPcsFromList(pcs)" class="bi bi-eye p-1" style="cursor: pointer"></i>
                 @if (pivot.drawPivot) {
                   <app-score-notation [hidden]="! withMusicalNotation"
                                       [pcs]="pcs"

@@ -11,8 +11,8 @@
  *    - interface mapped binary representation and operations, vector in n+m dimension (default m=0)
  *
  *  Instance of IPcs can be created by a group action (@link GroupAction), in this case, such
- *  instance is "not detached", i.e his orbit is not empty (and linked to an instance of GroupAction)
- *  and has a stabilizer, else, by simple instanciation, an instance of IPcs is called "detached" (by default).
+ *  instance is in orbit, i.e his orbit is not empty (and linked to an instance of GroupAction)
+ *  and has a stabilizer, else, by simple instanciation, an instance of IPcs is not in orbit (by default).
  *
  *  <pre>
  *    Example :
@@ -185,19 +185,6 @@ export class IPcs {
       throw new Error("Can't create IPcs instance (bad args = " + strPcs + ")")
     }
 
-    // check iPivot
-    if (iPivot !== undefined) {
-      if (iPivot < 0 || iPivot >= this.vectorPcs.length) {
-        throw new Error(`Can't create IPcs instance (bad iPivot = "  ${iPivot})`)
-      } else {
-        if (this.vectorPcs[iPivot] === 1) {
-          this.iPivot = iPivot
-        } else {
-          throw new Error(`Can't create IPcs instance (bad iPivot = ${iPivot} for pcs ${this.vectorPcs})`)
-        }
-      }
-    }
-
     // check n
     if (n && n !== this.vectorPcs.length) {
       throw new Error("Can't create IPcs instance (bad n = " + n + " for pcs " + this.vectorPcs + ")")
@@ -207,10 +194,40 @@ export class IPcs {
 
     this.cardinal = this.vectorPcs.reduce((sumOnes, v_i) => v_i === 1 ? sumOnes+1 : sumOnes, 0)
 
+    // check iPivot
+    if (this.iPivot === undefined && iPivot) {
+      if (iPivot < 0 || iPivot >= this.vectorPcs.length) {
+        throw new Error(`Can't create IPcs instance (bad iPivot = "  ${iPivot})`)
+      } else {
+        if (this.vectorPcs[iPivot] === 1) {
+          this.iPivot = iPivot
+        } if (iPivot === 0 && this.iPivot === undefined && this.cardinal > 0) {
+          // special case, sometime force 0, but must be fixed here
+          // first pc to 1
+          this.iPivot = this.vectorPcs.findIndex(pc => pc === 1)
+        }
+      }
+    }
+
+    // check a logic of param iPivot
+    if (iPivot !== undefined) {
+      if (iPivot < 0 || iPivot >= this.vectorPcs.length) {
+        throw Error(`Something wrong with iPivot = ${this.iPivot} and ${this.vectorPcs}`)
+      }
+      if (this.vectorPcs[iPivot] !== 1) {
+        throw new Error(`Can't create IPcs instance (bad iPivot = ${iPivot} for pcs ${this.vectorPcs})`)
+      }
+      this.iPivot = iPivot
+    }
+
     // check a logic of this.iPivot
-    if (this.cardinal === 0 && this.iPivot !== undefined) {
-      // this.iPivot = undefined
-      throw Error(`Something wrong with iPivot  = ${this.iPivot} and ${this.vectorPcs}`)
+    if (this.iPivot !== undefined) {
+      if (this.cardinal === 0) {
+        throw Error(`Something wrong with iPivot = ${this.iPivot} and ${this.vectorPcs}`)
+      }
+      if (this.cardinal > 0 && this.vectorPcs[this.iPivot] !== 1) {
+        throw new Error(`Can't create IPcs instance (bad iPivot = ${iPivot} for pcs ${this.vectorPcs})`)
+      }
     }
 
     this.orbit = orbit ?? new Orbit() // a king of "null orbit"
@@ -240,10 +257,7 @@ export class IPcs {
       this._mappedVectorPcs[this.templateMappingVectorPcs[i]] = this.vectorPcs[i];
     }
 
-    // this.serviceManagerGroupAction = inject(ManagerGroupActionService);
   }
-
-
 
   /**
    * bin array image of PCS string
@@ -450,30 +464,30 @@ export class IPcs {
     if (this._minCyclic) {
       return this._minCyclic
     }
-    // lazy compute
+    // lazy compute (M1 => cyclic group for all n > 2)
     const groupName = `n=${this.n} [M1]`
-    this._minCyclic = this.getMinFromGroupName(groupName);
+    this._minCyclic = this.getMinOfMyOrbitFromNamedGroup(groupName);
     return this._minCyclic
   }
 
   dihedralPrimeForm() {
     // const groupName = `n=${this.n} [M1 M11]`
     const groupName = `n=${this.n} [M1 M${this.n - 1}]`
-    return this.getMinFromGroupName(groupName);
+    return this.getMinOfMyOrbitFromNamedGroup(groupName);
   }
 
   affinePrimeForm() {
     // const groupName = `n=${this.n} [M1 M5 M7 M11]`
     const operations = IPcs.getStrAffineOpsOf(this.n)
     const groupName = `n=${this.n} ${operations}`
-    return this.getMinFromGroupName(groupName);
+    return this.getMinOfMyOrbitFromNamedGroup(groupName);
   }
 
   musaicPrimeForm(): IPcs {
     // const groupName = `n=${this.n} [M1 M5 M7 M11 CM1 CM5 CM7 CM11]`
     const musaicOps: string = IPcs.getStrMusaicOpsOf(this.n)
     const groupName = `n=${this.n} ${musaicOps}`
-    return this.getMinFromGroupName(groupName);
+    return this.getMinOfMyOrbitFromNamedGroup(groupName);
   }
 
   /**
@@ -482,7 +496,7 @@ export class IPcs {
    * @param groupName
    * @private
    */
-  private getMinFromGroupName(groupName: string) {
+  private getMinOfMyOrbitFromNamedGroup(groupName: string) {
     if (this.orbit.groupAction && this.orbit.groupAction.group.name === groupName) {
       return this.orbit.getPcsMin()
     } else {
@@ -540,7 +554,7 @@ export class IPcs {
     return new IPcs({
       vectorPcs: IPcs.getVectorPcsPermute(a, t, newPivot, this.vectorPcs),
       iPivot: newPivot,
-      orbit: new Orbit(), // detached pcs from orbit
+      orbit: new Orbit(), // pcs not coming from orbit
       templateMappingVectorPcs: this.templateMappingVectorPcs,
       nMapping: this.nMapping
     })
@@ -828,22 +842,6 @@ export class IPcs {
   }
 
   /**
-   * get number of distinct PCS in cyclic orbit of PCS.
-   *
-   * @return {number}
-   */
-  cardOrbitCyclic(): number {
-    if (this.orbit?.groupAction === ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!)
-      return this.orbit.cardinal
-
-    let ipcsInCyclicGroup: IPcs =
-      ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!.getIPcsInOrbit(this)
-
-    // @ts-ignore we are sure that orbit is defined in this context (primeForme)
-    return ipcsInCyclicGroup.orbit.cardinal
-  }
-
-  /**
    * get complement of this.
    * Important : complement loses iPivot
    * @return {IPcs} a new instance (free, not attached to an orbit).
@@ -876,7 +874,7 @@ export class IPcs {
       }
     }
 
-    // Note :  if this come from a group action (not detached) then newIpcsComplement already exists in
+    // Note :  if this come from a group action (not in orbit) then newIpcsComplement already exists in
     // an orbit of this.orbit.groupAction, and its orbit is not empty.
     // @see ManagerPcsService.ts complement method
     // Discussion : is a good idea to make the job of ManagerPcsService here ?
@@ -919,6 +917,7 @@ export class IPcs {
 
 
   /**
+   * Order relation is id based
    *
    * @param ipcs1
    * @param ipcs2
@@ -938,7 +937,7 @@ export class IPcs {
   }
 
   /**
-   * Call in ActionGroup constructor
+   * Call only by ActionGroup constructor
    *
    * @param newIPcs
    */
@@ -1019,7 +1018,7 @@ export class IPcs {
         case INTERCAL:
           symInter[i] = 1;
           break;
-        case MEDIAN_INTERCAL: // pcs detached n even
+        case MEDIAN_INTERCAL: // pcs empty n even
           symMedian[i] = 1;
           symInter[i] = 1;
           break;
@@ -1149,7 +1148,7 @@ export class IPcs {
 
   /**
    * Get representative binary pitches class set.
-   * In this project, un PCS is always a projection of a pcs of dim inf or equal
+   * In this project, a PCS is always a projection of a pcs of dim inf or equal
    * Example : vectorPcs = [0,1,1], mappingBinPitches = [0, 4, 7],
    * nMapping = 12 return [0,0,0,0,1,0,0,1,0,0,0,0]
    *
@@ -1454,8 +1453,8 @@ export class IPcs {
       // throw new Error(`Invalid pitch order ${pitchOrder} `)
     }
     let currentOrder = 0
-    for (let i = this.getPivot() ?? 0; i < this.vectorPcs.length; i = (i + 1) % this.n) {
-      if (this.vectorPcs[i] === 1) {
+    for (let i = this.getMappedPivot() ?? 0; i < this.getMappedVectorPcs().length; i = (i + 1) % this.nMapping) {
+      if (this.getMappedVectorPcs()[i] === 1) {
         currentOrder++
         if (currentOrder === pitchOrder) {
           return i
@@ -1533,14 +1532,17 @@ export class IPcs {
   }
 
   /**
-   * If this is detached, get stabilizer op, neutral op, M1-T0
+   * If this not coming from orbit, get stabilizer op, neutral op, M1-T0
    * else get stabilizer operations from operations of group where come from its orbit
    */
   getStabilizerOperations() {
     if (this.isComingFromAnOrbit()) {
       return this.orbit!.groupAction!.operations.filter(op => op.actionOn(this).id === this.id)
     }
-    return [MusaicOperation.stringOpToMusaicOperation("M1-T0", this.n)]
+    return [MusaicOperation.convertStringOpToMusaicOperation("M1-T0", this.n)]
   }
 
+  getMappedVersion() {
+    return new IPcs({vectorPcs: this.getMappedVectorPcs()});
+  }
 }

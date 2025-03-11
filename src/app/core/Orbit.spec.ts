@@ -33,7 +33,7 @@ describe('Orbit', () => {
     expect(orbit.isMotifEquivalence).toBeTruthy()
   });
 
-  it("Orbit detached or not", () => {
+  it("Come from orbit or not", () => {
     let orbit = new Orbit();
     expect(orbit.isComingFromGroupAction()).toBeFalse()
 
@@ -80,21 +80,21 @@ describe('Orbit', () => {
       let ipcs: IPcs = secondOrbit.getPcsMin()
       expect(ipcs.getPcsStr()).toEqual('[0]')
     } catch (e: any) {
-      fail('Waiting possible getMin() on not detached orbit')
+      fail('Waiting possible getMin() on not coming from orbit')
     }
   })
 
-  it("Impossible getMin() on detached orbit", () => {
+  it("Impossible getMin() on empty orbit", () => {
     let orbit = new Orbit();
     try {
       let ipcs = orbit.getPcsMin()
-      fail('impossible getMin() on detached orbit')
+      fail('impossible getMin() on empty orbit')
     } catch (e: any) {
       expect(e.message).toContain('impossible get min on detached orbit')
     }
   })
 
-  it("hashCode() on attached orbit", () => {
+  it("hashCode() orbit of empty pcs", () => {
     let firstOrbit = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!.orbits[0]
     let ipcs: IPcs = firstOrbit.getPcsMin()
 
@@ -110,7 +110,7 @@ describe('Orbit', () => {
     expect(pcs).toBeTruthy()
   })
 
-  it("hashCode() on detached orbit", () => {
+  it("hashCode() on detached/empty orbit", () => {
     let orbit = new Orbit();
     let stab = new Stabilizer()
     orbit.stabilizers.push(stab)
@@ -129,7 +129,7 @@ describe('Orbit', () => {
     expect(secondOrbit.toString()).toContain('Orbit (12) stabilizers.length:1')
   })
 
-  it("toString() on detached orbit", () => {
+  it("toString() on detached/empty orbit", () => {
     let orbit = new Orbit();
     expect(orbit.toString()).toContain('Orbit (0) stabilizers.length:0')
   })
@@ -157,8 +157,8 @@ describe('Orbit', () => {
    * @param waitingCardinal
    */
   function testOrbitNameFromShortStabilizer(groupAction : GroupAction, waitingCardinal : number){
-      const nOrbits1 = groupAction.computeOrbitSortedGroupedByStabilizer(false).length
-      const nOrbits2 = groupAction.computeOrbitSortedGroupedByStabilizer(true).length
+      const nOrbits1 = groupAction.computeSortedOrbitsGroupedByStabilizer(false).length
+      const nOrbits2 = groupAction.computeSortedOrbitsGroupedByStabilizer(true).length
       expect(nOrbits1).toEqual(waitingCardinal)
       expect(nOrbits1).toEqual(nOrbits2)
   }

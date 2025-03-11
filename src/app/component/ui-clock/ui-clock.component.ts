@@ -14,6 +14,7 @@ import {
   ModulationTranspositionControlComponent
 } from "../modulation-transposition-control/modulation-transposition-control.component";
 import {HtmlUtil} from "../../utils/HtmlUtil";
+import {MatButton} from "@angular/material/button";
 
 @Component({
   selector: 'app-ui-clock',
@@ -22,7 +23,8 @@ import {HtmlUtil} from "../../utils/HtmlUtil";
     ScoreNotationComponent,
     NgForOf,
     NgIf,
-    ModulationTranspositionControlComponent
+    ModulationTranspositionControlComponent,
+    MatButton
   ],
   templateUrl: './ui-clock.component.html',
   styleUrl: './ui-clock.component.css'

@@ -161,7 +161,7 @@ export class ManagerPageWBService {
 
             freeText: undefined,
           })
-          : new UIPcsDto({pcs: pcs}) // {uiMusaic: new UIMusaic({rounded: !pcs.isDetachedOfGroupAction()})})
+          : new UIPcsDto({pcs: pcs})
 
       // uiMusaic: {...this.pcsDtoForTemplate.uiMusaic},
       pcsDto.uiMusaic.rounded = pcsDto.uiMusaic.rounded || pcs.isComingFromAnOrbit()

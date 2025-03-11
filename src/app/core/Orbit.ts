@@ -17,6 +17,7 @@ import {MusaicOperation} from "./MusaicOperation";
 
 
 export class Orbit {
+
   /**
    * stabilizers of this orbit
    */
@@ -29,16 +30,15 @@ export class Orbit {
 
   /**
    * This orbit can be in two states :
-   *   detached of a group action => groupAction is undefined and this.detached is true
-   *   attached of a group action => groupAction ref an instance of GroupAction and this.detached is NOT true
+   *   detached of a group action => groupAction is undefined and this.comingFromOrbit is false
+   *   attached of a group action => groupAction ref an instance of GroupAction and this.comingFromOrbit is true
    *
-   * IPcs is detached (or not) of a GroupAction if this.orbit is detached or if this.groupAction is undefined
-   * @see methode isDetachedOfGroupAction()
+   * IPcs is coming from orbit (or not)
    */
   groupAction ?: GroupAction = undefined
 
   /**
-   * @see buildNameAndMetaStabilizerName
+   * @see finalizeStateByBuildMetaStabilizer
    */
   metaStabilizer: MetaStabilizer  // stab without Tx
 
@@ -64,15 +64,18 @@ export class Orbit {
     this.stabilizers = stabs ?? []
     this.ipcsset = ipcsSet ?? []
     this._hashcode = undefined
+
+
+    // will be re-instantiated by finalizeStateByBuildMetaStabilizer()
+    // when group action
     this.metaStabilizer = MetaStabilizer.nullMetaStabilizer
 
-    // this.buildStabilizersSignatureName() no, do not !
+    // this.buildStabilizersSignatureName() no, don't do it here !
 
     // orbit is not an immutable class. During the GroupAction constructor,
     // the orbit instance changes state until the orbit construction is complete.
-    // When it's done, the GroupAction constructor calls this.buildStabilizersSignatureName()
+    // When it's done, the GroupAction constructor calls this.finalizeStateMetaStabilizer()
     // and, only then, does the orbit become immutable.
-
   }
 
   get cardinal() {
@@ -156,20 +159,6 @@ export class Orbit {
     return this._hashcode
   }
 
-  /**
-   * get symmetric minimum (experimental)
-   *
-   * @return
-   *
-   public Pcs getMinSym() {
-   if (minSymmetric == null) {
-   List<Pcs> cyclicPcs =  Arrays.asList(getMin().getPcsCyclicTransf());
-   Collections.sort(cyclicPcs, new PcsSymmetryComparator());
-   minSymmetric = cyclicPcs.get(0);
-   }
-   return minSymmetric;
-   }
-*/
 
   getAllStabilizersName() : string {
      const ops = this.stabilizers.flatMap(stab => stab.operations)
@@ -231,8 +220,15 @@ export class Orbit {
     return result.sort(PcsUtils.compareOpCMaTkReducedOrNot).join(' ')
   }
 
-
   /**
+   * Only one call, by GroupAction constructor when this orbit is complete
+   *
+   */
+  finalizeStateMetaStabilizer() {
+    this.metaStabilizer = this.finalizeStateByBuildMetaStabilizer()
+  }
+
+    /**
    * compute ISMotif stabilizer from orbit's stabilizers
    * example n=12 :
    *   stabilizers 1 :  M1-T0,M5-T8,M7-T9,M11-T5
@@ -245,16 +241,14 @@ export class Orbit {
    *
    *   @return {MetaStabilizer} the strMetaStabilizer of this orbit
    */
-  buildNameAndMetaStabilizerName(): MetaStabilizer {
+  finalizeStateByBuildMetaStabilizer(): MetaStabilizer {
     const stabSignature = this.reducedStabilizersName
 
     // take left part of "M1-T0 CM11-Tk~step" => "M1 CM11"
     const signatureWithoutTranslation = stabSignature.split(" ").map(op => op.trim().split("-")[0]);
 
     // with delete duplicate values via Set
-    this.metaStabilizer = new MetaStabilizer([...new Set(signatureWithoutTranslation)].sort(PcsUtils.compareOpCMaWithoutTk).join(" "))
-
-    return this.metaStabilizer
+    return new MetaStabilizer([...new Set(signatureWithoutTranslation)].sort(PcsUtils.compareOpCMaWithoutTk).join(" "))
   }
 
   /**
@@ -264,7 +258,7 @@ export class Orbit {
   get isMotifEquivalence(): boolean {
     return this.stabilizers.some(stab => stab.isMotifEquivalence)
   }
-  
+
   isComingFromGroupAction(): boolean {
     return this.groupAction !== undefined
   }

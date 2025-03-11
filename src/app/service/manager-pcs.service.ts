@@ -84,7 +84,7 @@ export class ManagerPcsService {
 
   /**
    * Get new instance àf this argument, with "empty" orbit
-   * @param pcs a detached PCS
+   * @param pcs a PCS coming from orbit, or not... (in this last case, is "simple" clone)
    */
   doDetach(pcs: IPcs): IPcs {
     return pcs.cloneDetached()
@@ -111,7 +111,7 @@ export class ManagerPcsService {
     }
 
     let pcsWithPivotInSymmetry: IPcs[] = []
-    let opM11_T0 = MusaicOperation.stringOpToMusaicOperation(`M1${pcs.n - 1}-T0`) // "M11-T0"
+    let opM11_T0 = MusaicOperation.convertStringOpToMusaicOperation(`M1${pcs.n - 1}-T0`) // "M11-T0"
 
     allModulations.forEach(pcs => {
       if (opM11_T0.actionOn(pcs).id === pcs.id) {
@@ -127,12 +127,12 @@ export class ManagerPcsService {
     } else {
       // search stab with M11-Tk, k > 0
       let findMinimal = false
-      let minimalStabilizerOperation = MusaicOperation.stringOpToMusaicOperation("M1-T0")
+      let minimalStabilizerOperation = MusaicOperation.convertStringOpToMusaicOperation("M1-T0")
       const n = pcs.n
       for (let i = 1; i < n && !findMinimal; i++) {
         for (pcs of allModulations) {
           // search first stabilizer op M11-Ti
-          let operation = MusaicOperation.stringOpToMusaicOperation(`M${pcs.n - 1}-T${i}`) // M11-Tk
+          let operation = MusaicOperation.convertStringOpToMusaicOperation(`M${pcs.n - 1}-T${i}`) // M11-Tk
           if (operation.actionOn(pcs).id === pcs.id) {
             // pcs is fixed by operation, with -Tk minimal
             minimalStabilizerOperation = operation
@@ -154,7 +154,7 @@ export class ManagerPcsService {
         pcsSymmetry = ManagerPcsService.makeNewInstanceOf(cpf, pcs.orbit.groupAction!, cpf.iPivot)
       } else {
         const cpf = pcs.cyclicPrimeForm()
-        // cyclic prim form detached
+        // cyclic prim detached of group action
         pcsSymmetry = cpf.cloneDetached()
       }
     }
