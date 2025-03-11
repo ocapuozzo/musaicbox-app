@@ -114,24 +114,28 @@ describe('Group', () => {
     let a = 1;
     let t = 1;
     let complement = false;
+
+    // M1
     someOperations.push(new MusaicOperation(order, a, t, complement));
 
+    // M7
     a = 7;
     someOperations.push(new MusaicOperation(order, a, t, complement));
 
+    // CM5
     a = 5;
     complement = true;
     someOperations.push(new MusaicOperation(order, a, t, complement));
 
+    // CM11
     a = 11;
     complement = true;
     someOperations.push(new MusaicOperation(order, a, t, complement));
 
     let allOps = Group.buildOperationsGroupByCayleyTable(someOperations)
 
-    console.log("allOps.length = ", allOps.length)
-    // waiting 96 operations : 12 * each a = 48 and each complement (*2)
-    // expect(allOps.length).toEqual(order * 4 * 2)
+    // waiting 48 operations : 12 * 4 (no CM7 ans CM1 generated)
+    expect(allOps.length).toEqual(12 * 4)
   })
 
 

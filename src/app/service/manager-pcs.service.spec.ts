@@ -39,29 +39,53 @@ describe('ManagerPcsService', () => {
   })
 
   it('transformeByMxT0', () => {
-
+    const pcs = new IPcs({strPcs: "0, 4, 7, 11", iPivot: 0})
+    const pcsTime5 = new IPcs({strPcs: "0, 8, 11, 7", iPivot: 0})
+    expect(managerPcsService.transformeByMxT0(pcs, 1).id).toEqual(pcs.id)
+    expect(managerPcsService.transformeByMxT0(pcs, 5).id).toEqual(pcsTime5.id)
   });
 
   it('translateByM1Tx', () => {
+    const pcs = new IPcs({strPcs: "0, 4, 7, 11"})
+    const pcsPlus1 = new IPcs({strPcs: "1, 5, 8, 0"})
+    const pcsPlus2 = new IPcs({strPcs: "2, 6, 9, 1"})
 
+    expect(managerPcsService.translateByM1Tx(pcs, 1).id).toEqual(pcsPlus1.id)
+    expect(managerPcsService.translateByM1Tx(pcs, 2).id).toEqual(pcsPlus2.id)
   });
 
   it('modulation', () => {
-
-  });
-
-  it('toggleInnerIndexOrSetIPivot', () => {
-
-  });
-
-  it('toggleIndexFromMapped', () => {
-
+    const pcs = new IPcs({strPcs: "0, 4, 7, 11"})
+    expect(managerPcsService.modulation(pcs, "Next").iPivot).toEqual(4)
+    expect(managerPcsService.modulation(pcs, "Previous").iPivot).toEqual(11)
   });
 
 
-  it('doDetach', () => {
+  it(' changePivotBy', () =>{
+    const pcs5 = new  IPcs({strPcs:"[2 3 7 8 9]"})
+    expect(pcs5.iPivot).toEqual(2)
+    expect(managerPcsService.changePivotBy(pcs5, 7).iPivot).toEqual(7)
+    try {
+      expect(managerPcsService.changePivotBy(pcs5, 0).iPivot).toEqual(7)
+      fail('Do not pass here, because Invalid iPivot ')
+    } catch (e: any) {
+      expect(e.message).toContain('Invalid iPivot')
+    }
+  })
 
+  it('toggleIndex', () => {
+    const pcs5 = new  IPcs({strPcs:"[2 3 7 8 9]"})
+    expect(pcs5.cardinal).toEqual(5)
+    expect(managerPcsService.toggleIndex(pcs5, 7).cardinal).toEqual(4)
+    expect(managerPcsService.toggleIndex(pcs5, 0).cardinal).toEqual(6)
+    try {
+      expect(managerPcsService.toggleIndex(pcs5, 12).cardinal).toEqual(6)
+      fail('Do not pass here, because Invalid index ')
+    } catch (e: any) {
+      expect(e.message).toContain('Invalid index')
+    }
   });
+
 
   it('makeNewInstanceOf', ()=>{
     const pcs5 = new  IPcs({strPcs:"[2 3 7 8 9]"})

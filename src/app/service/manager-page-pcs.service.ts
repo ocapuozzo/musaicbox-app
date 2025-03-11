@@ -46,13 +46,13 @@ export class ManagerPagePcsService {
     this.setPcsAsPresentToHistoryAndEmit();
   }
 
-  toggleIndexOrSetIPivot(index: number) {
-    this.pcs = this.managerPcsService.toggleInnerIndexOrSetIPivot(this.pcs, index)
+  changePivotBy(index: number) {
+    this.pcs = this.managerPcsService.changePivotBy(this.pcs, index)
     this.setPcsAsPresentToHistoryAndEmit();
   }
 
   toggleIndex(index: number) {
-    this.pcs = this.managerPcsService.toggleIndexFromMapped(this.pcs, index)
+    this.pcs = this.managerPcsService.toggleIndex(this.pcs, index)
     this.setPcsAsPresentToHistoryAndEmit();
   }
 
@@ -118,5 +118,6 @@ export class ManagerPagePcsService {
     this.historyPcs.pushIntoPresent(this.pcs)
     this.updatePcsEvent.emit(this.pcs)
   }
+
 
 }

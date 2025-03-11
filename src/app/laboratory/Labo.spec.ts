@@ -59,10 +59,10 @@ describe('Laboratory explorer', () => {
   })
 
 
-  // TODO compare enumeration sorted by cardinal (cyclic and dihedral) with
+  // TODO : compare enumeration sorted by cardinal (cyclic and dihedral) with
   //  Enumeration in Musical Theory by Harald Fripertinger, enumeration via Pólya’s Theorem
   //  https://www.mat.univie.ac.at/~slc/s/s26fripert.pdf
-
+  //
 
 
   /////////// Explore PCS lists

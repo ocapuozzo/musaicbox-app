@@ -189,10 +189,10 @@ export class UiClockComponent {
     // see https://developer.mozilla.org/en-US/docs/Web/API/Element/auxclick_event ?
     // https://stackoverflow.com/questions/56260646/how-can-i-handle-the-angular-click-event-for-the-middle-mouse-button
 
-    let index = this.getIndexSelectedFromUIClock(e);
-    index = this.pcs.indexMappedToIndexInner(index)
+    let innerIndex = this.getIndexSelectedFromUIClock(e);
+    innerIndex = this.pcs.indexMappedToIndexInner(innerIndex)
 
-    if (index < 0 || this.touchendOk) {
+    if (innerIndex < 0 || this.touchendOk) {
       this.touchendOk = false
       return;
     }
@@ -213,16 +213,24 @@ export class UiClockComponent {
     // index = this.pcs.indexMappedToIndexInner(index)
     // right click and long click => change iPivot
     if (isRightMB || longClick) {
-      if (index !== this.getIPivot()) {
-        this.managerPagePcsService.toggleIndexOrSetIPivot(index)
+
+      if (innerIndex !== this.getIPivot()) {
+        if (this.pcs.vectorPcs[innerIndex] === 0) {
+          this.managerPagePcsService.toggleIndex(innerIndex)
+        } else {
+
+          this.managerPagePcsService.changePivotBy(innerIndex)// toggleIndexOrSetIPivot(index)
+        }
+
+
       }
       this.dateMouseDone = undefined
       return;
     }
 
     // accept unset iPivot when cardinal == 1 only
-    if (index >= 0 && (index !== this.getIPivot() || this.pcs.cardinal === 1)) {
-      this.managerPagePcsService.toggleIndex(index)
+    if (innerIndex >= 0 && (innerIndex !== this.getIPivot() || this.pcs.cardinal === 1)) {
+      this.managerPagePcsService.toggleIndex(innerIndex)
     }
   }
 
@@ -230,13 +238,13 @@ export class UiClockComponent {
     return this.pcs.iPivot
   }
 
-  public setIPivot(newPivot: number) {
-    if (newPivot < this.pcs.n && newPivot >= 0) {
-      this.managerPagePcsService.toggleIndexOrSetIPivot(newPivot)
-    } else {
-      throw new Error("Invalid iPivot")
-    }
-  }
+  // public setIPivot(newPivot: number) {
+  //   if (newPivot < this.pcs.n && newPivot >= 0) {
+  //     this.managerPagePcsService.toggleIndexOrSetIPivot(newPivot)
+  //   } else {
+  //     throw new Error("Invalid iPivot")
+  //   }
+  // }
 
   getCardinal() {
     return this.pcs.n
@@ -313,7 +321,10 @@ export class UiClockComponent {
     if (index !== this.getIPivot()) {
       this.touchendOk = true
       if (longClick) {
-        this.managerPagePcsService.toggleIndexOrSetIPivot(index)
+        const innerIndex = this.pcs.indexMappedToIndexInner(index)
+        if (this.pcs.vectorPcs[innerIndex] === 1 && this.pcs.iPivot !== innerIndex) {
+          this.managerPagePcsService.changePivotBy(index) // innerIndex set in changePivotBy
+        }
       } else {
         this.managerPagePcsService.toggleIndex(index)
       }
