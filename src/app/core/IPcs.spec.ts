@@ -1,4 +1,4 @@
-import {IPcs} from './IPcs'
+import {IPcs, negativeToPositiveModulo} from './IPcs'
 import {GroupAction} from "./GroupAction";
 import {Group} from "./Group";
 import {ManagerGroupActionService} from "../service/manager-group-action.service";
@@ -91,7 +91,6 @@ describe('IPcs unit tests', () => {
     expect(ipcsCMajor.getMappedVectorPcs().length).toEqual(12)
     expect(ipcsCMajor.templateMappingVectorPcs.length).toEqual(12)
 
-
     const chord = new IPcs({
       strPcs: "0 2 4",
       n:7,
@@ -101,6 +100,19 @@ describe('IPcs unit tests', () => {
     expect(chord.getPcsStr()).toEqual("[0 2 4]")
 
   });
+
+  it('negativeToPositiveModulo', ()=>{
+    expect(negativeToPositiveModulo(0,12)).toEqual(0)
+    expect(negativeToPositiveModulo(1,12)).toEqual(1)
+    expect(negativeToPositiveModulo(-1,12)).toEqual(11)
+    expect(negativeToPositiveModulo(-6,12)).toEqual(6)
+  })
+
+  it('Test for detect bug with pivot not set', ()=>{
+    let pcs = new IPcs({strPcs:""})
+    expect(pcs.permute(1,0).iPivot).toEqual(undefined)
+    expect(pcs.toggleIndexPC(1).iPivot).toEqual(1)
+  })
 
   it("IPcs constructor with bad nMapping ", () => {
     try {

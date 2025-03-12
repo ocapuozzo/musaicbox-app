@@ -50,7 +50,7 @@ import {ManagerGroupActionService} from "../service/manager-group-action.service
 import {PcsUtils} from "../utils/PcsUtils";
 import {ManagerPcsService} from "../service/manager-pcs.service";
 
-const negativeToPositiveModulo = (i: number, n: number): number => {
+export const negativeToPositiveModulo = (i: number, n: number): number => {
   return (n - ((i * -1) % n)) % n
 }
 
@@ -194,33 +194,25 @@ export class IPcs {
 
     this.cardinal = this.vectorPcs.reduce((sumOnes, v_i) => v_i === 1 ? sumOnes+1 : sumOnes, 0)
 
-    // check iPivot
-    if (this.iPivot === undefined && iPivot) {
-      if (iPivot < 0 || iPivot >= this.vectorPcs.length) {
-        throw new Error(`Can't create IPcs instance (bad iPivot = "  ${iPivot})`)
-      } else {
-        if (this.vectorPcs[iPivot] === 1) {
-          this.iPivot = iPivot
-        } if (iPivot === 0 && this.iPivot === undefined && this.cardinal > 0) {
-          // special case, sometime force 0, but must be fixed here
-          // first pc to 1
-          this.iPivot = this.vectorPcs.findIndex(pc => pc === 1)
-        }
-      }
-    }
 
+    // check when iPivot === 0
+    if (this.iPivot === undefined && iPivot === 0 && this.cardinal > 0) {
+      // special case, sometime force 0, but must be fixed here
+      // first pc to 1, may be zero
+      this.iPivot = this.vectorPcs.findIndex(pc => pc === 1)
+    }
     // check a logic of param iPivot
-    if (iPivot !== undefined) {
+    else if (iPivot !== undefined) {
       if (iPivot < 0 || iPivot >= this.vectorPcs.length) {
         throw Error(`Something wrong with iPivot = ${this.iPivot} and ${this.vectorPcs}`)
       }
       if (this.vectorPcs[iPivot] !== 1) {
-        throw new Error(`Can't create IPcs instance (bad iPivot = ${iPivot} for pcs ${this.vectorPcs})`)
+        throw new Error(`Can't create IPcs instance (bad iPivot = ${iPivot} for pcs ${this.vectorPcs} with this.iPivot = ${this.iPivot})`)
       }
       this.iPivot = iPivot
     }
 
-    // check a logic of this.iPivot
+    // check logic of this.iPivot
     if (this.iPivot !== undefined) {
       if (this.cardinal === 0) {
         throw Error(`Something wrong with iPivot = ${this.iPivot} and ${this.vectorPcs}`)
@@ -228,6 +220,11 @@ export class IPcs {
       if (this.cardinal > 0 && this.vectorPcs[this.iPivot] !== 1) {
         throw new Error(`Can't create IPcs instance (bad iPivot = ${iPivot} for pcs ${this.vectorPcs})`)
       }
+    }
+    // finally check that this.iPivot === undefined only if cardinal === 0
+    if (this.iPivot === undefined && this.cardinal > 0) {
+      // first pc to 1, may be zero
+      this.iPivot = this.vectorPcs.findIndex(pc => pc === 1)
     }
 
     this.orbit = orbit ?? new Orbit() // a king of "null orbit"
@@ -256,7 +253,6 @@ export class IPcs {
     for (let i = 0; i < this.templateMappingVectorPcs.length; i++) {
       this._mappedVectorPcs[this.templateMappingVectorPcs[i]] = this.vectorPcs[i];
     }
-
   }
 
   /**
@@ -1501,7 +1497,7 @@ export class IPcs {
    */
   cloneWithDefaultPivot(): IPcs {
     const defaultPivot = this.getMappedVectorPcs().findIndex(value => value === 1)
-    return this.cloneWithNewPivot(defaultPivot)
+    return this.cloneWithNewPivot(defaultPivot < 0 ? undefined : defaultPivot)
   }
 
 

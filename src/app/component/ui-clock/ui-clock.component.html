@@ -1,9 +1,9 @@
-<div class="_is-clock" >
-  <div #containercanvas  style="width: 100%; text-align:center;"  id="containercanvas">
+<div class="_is-clock">
+  <div #containercanvas style="width: 100%; text-align:center;" id="containercanvas">
     <canvas #canvas style="display: inline"></canvas>
 
     <p style="margin-top: 10px">
-    IS : <span class="analyse-pcs"> ({{ pcs.is() }})</span>
+      IS : <span class="analyse-pcs"> ({{ pcs.is() }})</span>
     </p>
 
     <div>
@@ -18,18 +18,20 @@
     }
     <p></p>
     @if (getLinksNameDefs().length > 0) {
-      <p *ngFor="let linkNameDef of getLinksNameDefs(); index as i; " class="chord-name-def" style="margin: 0; padding: 0">
+      <p *ngFor="let linkNameDef of getLinksNameDefs(); index as i; " class="chord-name-def"
+         style="margin: 0; padding: 0">
         <a href="{{linkNameDef.url}}" target="_blank"> {{ linkNameDef.name }}
           <i *ngIf="linkNameDef.type=='ianring'">
-            <img src="/assets/img/ianring-logo.png" alt="ianring logo" width="15"  style="margin-top: 4px; vertical-align: top">
+            <img src="/assets/img/ianring-logo.png" alt="ianring logo" width="15"
+                 style="margin-top: 4px; vertical-align: top">
           </i>
-          <i *ngIf="linkNameDef.type=='wikipedia'"  class="bi bi-wikipedia"></i>
-          <i *ngIf="linkNameDef.type=='zeitler'"  class="bi bi-globe2"></i>
+          <i *ngIf="linkNameDef.type=='wikipedia'" class="bi bi-wikipedia"></i>
+          <i *ngIf="linkNameDef.type=='zeitler'" class="bi bi-globe2"></i>
         </a>
       </p>
     } @else if (pcsFirstScaleNameOrDerived.name) {
       <p class="chord-name-def" style="margin: 0; padding: 0">
-<!--        no elvis op...-->
+        <!--        no elvis op...-->
         <a href="{{pcsFirstScaleNameOrDerived.url ? pcsFirstScaleNameOrDerived.url : '#'}}"
            target="_blank">
           {{ pcsFirstScaleNameOrDerived.name }}
@@ -37,8 +39,8 @@
       </p>
     }
   </div>
-<!--  [hidden]="pcs.n != 12"-->
-  <div  class="score-center">
+  <!--  [hidden]="pcs.n != 12"-->
+  <div class="score-center">
     <app-score-notation [pcs]="pcs" [withChord]="true" style="height: 150px;">
     </app-score-notation>
   </div>
@@ -47,35 +49,35 @@
 
   <div class="panel-action">
     @if (pcs.n === 12) {
-      <span (click)="autoMap()" style="display: inline-flex; padding-top: 4px; cursor: pointer">
-           <mat-icon>move_up</mat-icon> &nbsp; Map
-      </span>
+      <button [disabled]="pcs.cardinal < 3" mat-button (click)="autoMap()" >
+           <mat-icon>move_up</mat-icon> Map
+      </button>
     } @else {
       @if (pcs.nMapping === 12) {
-        <span (click)="unMap()" style="display: inline-flex; padding-top: 4px; cursor: pointer">
-             <mat-icon>move_down</mat-icon> &nbsp; UnMap
-           </span>
+        <button mat-button (click)="unMap()" >
+             <mat-icon>move_down</mat-icon> UnMap
+        </button>
       }
     }
-    <span (click)="addToList()" style="display: inline-flex; padding-top: 4px; cursor: pointer">
-       <mat-icon>playlist_add</mat-icon> &nbsp;Add pcs
-    </span>
+    <button mat-button (click)="addToList()" style="font-size: small">
+       <mat-icon>playlist_add</mat-icon>Add pcs
+    </button>
   </div>
 
   <hr>
   <div [hidden]="pcs.cardinal < 5">
-  <section [hidden]="pcs.cardinal < 5" style="width: 100%">
-    <fieldset   style="max-width: 450px;">
-      <legend class="legend-chords"> Discovery Chords </legend>
-      <div class="example-flex-container">
-     <div class="example-button-row">
-       <button  (click)="threeChordList()" mat-raised-button style="font-size: smaller">3-chords</button>
-     </div>
-        <div class="example-button-row">
-          <button (click)="fourChordList()" mat-raised-button style="font-size: smaller">4-chords</button>
+    <section [hidden]="pcs.cardinal < 5" style="width: 100%">
+      <fieldset style="max-width: 450px;">
+        <legend class="legend-chords"> Discovery Chords</legend>
+        <div class="example-flex-container">
+          <div class="example-button-row">
+            <button (click)="threeChordList()" mat-raised-button style="font-size: smaller">3-chords</button>
+          </div>
+          <div class="example-button-row">
+            <button (click)="fourChordList()" mat-raised-button style="font-size: smaller">4-chords</button>
+          </div>
         </div>
-     </div>
-    </fieldset>
-  </section>
+      </fieldset>
+    </section>
   </div>
 </div>

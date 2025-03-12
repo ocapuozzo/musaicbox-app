@@ -191,6 +191,7 @@ export class PcsAnalysisComponent {
       const groupMusaic = ManagerGroupActionService.getGroupActionFromGroupAliasName('Musaic')
       pcsToCompute = groupMusaic!.getIPcsInOrbit(pcs)
     }
+    
     const stabOperations = pcsToCompute.getStabilizerOperations()
     return {
       cardinal: stabOperations.length,
