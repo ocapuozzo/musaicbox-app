@@ -192,7 +192,8 @@ export class ChordNaming {
   /**
    * Get chord name 4 pitches first then 3 pitches if exists else empty string
    * Root chord is given by iPivot
-   * @param pcs
+   * @param pcs assert pcs.n == 12
+   *    The caller will have to check before calling this function, and possibly call unMap() before
    * @param nbPitches value of k (kChord)
    */
   static getFirstChordName(pcs: IPcs, nbPitches: number = 3): string {
@@ -202,7 +203,6 @@ export class ChordNaming {
     }
 
     let nameRoot = ''
-    // const indexNameRoot = pcs.iPivot != undefined ? pcs.getMappedPivot() : -1
     const names = ChordNaming.chordsModalPF.get(chordsNPitches[0])
 
     // experimental
@@ -213,7 +213,7 @@ export class ChordNaming {
     for (const chordName of names) {
       const _chordName = chordName.name
       // which nameRoot name ?
-      let indexNameRoot = (pcs.getMappedPivot() + chordName.root) % 12 // case chord inversion
+      let indexNameRoot = ( (pcs.iPivot ?? 0) + chordName.root) % 12 // case chord inversion
 
       // console.log("indexNameRoot = ", indexNameRoot)
       if (ChordNaming.INDEX_ALTERED_NOTES.includes(indexNameRoot)) {

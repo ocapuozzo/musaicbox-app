@@ -691,19 +691,15 @@ export class IPcs {
 
 
   /**
-   * Get textuel representation of this in nMapping (notation bracket)
+   * Get textuel representation of this in nMapping (notation bracket or not)
    * string image of PCS from bin array
    * Example : [1,1,0,0,0,0,0,1,0,0,0,0] => "[0 1 7]"
    * @returns {string}
    */
   getMappedPcsStr(withBracket: boolean = true): string {
     const pcs = this.getMappedVectorPcs().reduce(IPcs.vector2integersPcs, [])
-    if (withBracket) {
-      return `[${pcs.join(' ')}]`
-    }
-    return pcs.join(' ')
+    return withBracket ? `[${pcs.join(' ')}]` : pcs.join(' ')
   }
-
 
   /**
    * Get Forte Num of this or empty string
@@ -719,7 +715,6 @@ export class IPcs {
     // not found ? get with dihedralPrimeForm
     return Forte.forteNum(this.dihedralPrimeForm());
   }
-
 
   /**
    * intervallic structure, useful to identify scales and modes from cyclic group
@@ -1104,28 +1099,35 @@ export class IPcs {
   }
 
   /**
-   * set auto mapping from current vectorPcs exemple : this = "0,4,7,10", n=12
-   * mapping will be in n vectorPcs intra will be "0,1,2,3", with n = 4 mapping in
-   * n=12 into "0,4,7,10"
+   * set auto mapping from current vectorPcs which becomes templateMappingVectorPcs.
+   * Example :
+   *   this = "0 4 7 10", n=12 => autoMap
+   *      this becomes "0 1 2 3", with n = 4 and templateMapping : "0 4 7 10", n=12
    */
   autoMap(): IPcs {
     let newVectorPcs = new Array(this.cardinal).fill(1);
-    let templateMappingVectorPcs = new Array<number>(this.cardinal);
+
+    // Pre-sizing array before processing.
+    let newTemplateMappingVectorPcs = new Array<number>(this.cardinal);
 
     for (let i = 0, j = 0; i < this.vectorPcs.length; i++) {
       if (this.vectorPcs[i] == 1) {
-        templateMappingVectorPcs[j++] = i;
+        newTemplateMappingVectorPcs[j++] = i;
       }
     } // end of loop : assert j === this.cardinal - 1
     // assert value element of templateMappingVectorPcs in [0..this.vectorPcs.length[
 
-    let new_nMapping: number = this.vectorPcs.length
+    const new_nMapping: number = this.vectorPcs.length
+    const pivot = this.getPivot() === undefined
+      ? undefined
+      : newTemplateMappingVectorPcs.indexOf(this.getPivot()!)
 
     return new IPcs(
       {
         vectorPcs: newVectorPcs,
         n: this.cardinal,
-        templateMappingVectorPcs: templateMappingVectorPcs,
+        iPivot: pivot,
+        templateMappingVectorPcs: newTemplateMappingVectorPcs,
         nMapping: new_nMapping
       })
   }
@@ -1135,7 +1137,7 @@ export class IPcs {
    * create new instance with n === this.nMapping
    */
   unMap(): IPcs {
-    if (this.n === 12) {
+    if (this.n === this.nMapping) {
       return this
     }
 
@@ -1190,7 +1192,7 @@ export class IPcs {
   }
 
   getChordName(): string {
-    return ([3, 4].includes(this.cardinal)) ? ChordNaming.getFirstChordName(this, this.cardinal) : '' // (this.getFirstScaleNameOrDerived().name ?? '') // or empty ??
+    return ([3, 4].includes(this.cardinal)) ? ChordNaming.getFirstChordName(this.unMap(), this.cardinal) : '' // (this.getFirstScaleNameOrDerived().name ?? '') // or empty ??
   }
 
   getFirstNameDetail(): string {

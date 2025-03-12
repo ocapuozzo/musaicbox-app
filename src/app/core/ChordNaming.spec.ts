@@ -12,6 +12,12 @@ describe('ChordNaming unit tests', () => {
 
     // console.log(ipcsDiatMajMapped.getMappedPcsStr())
     expect(ipcsDiatMajMapped.getChordName()).toEqual('CMaj')
+    expect(ipcsDiatMajMapped.transposition(1).getChordName()).toEqual('Dm')
+    expect(ipcsDiatMajMapped.transposition(2).getChordName()).toEqual('Em')
+    expect(ipcsDiatMajMapped.transposition(3).getChordName()).toEqual('FMaj')
+    expect(ipcsDiatMajMapped.transposition(6).getChordName()).toEqual('Bdim')
+    // return to origin :
+    expect(ipcsDiatMajMapped.transposition(7).getChordName()).toEqual('CMaj')
 
     let pcs = ipcsDiatMajMapped.toggleIndexPC(6)
     expect(pcs.getChordName()).toEqual('CM7')

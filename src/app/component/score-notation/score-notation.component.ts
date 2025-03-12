@@ -158,7 +158,7 @@ export class ScoreNotationComponent {
         options : {qpm:800, defaultQpm:800} // does not work
       }).then(function () {
         synthControl.setTune(visualObj, false, audioParams).then(function () {
-          console.log("Audio successfully loaded.")
+          // console.log("Audio successfully loaded.")
         }).catch(function (error) {
           console.warn("Audio problem:", error);
         });

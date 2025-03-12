@@ -91,6 +91,15 @@ describe('IPcs unit tests', () => {
     expect(ipcsCMajor.getMappedVectorPcs().length).toEqual(12)
     expect(ipcsCMajor.templateMappingVectorPcs.length).toEqual(12)
 
+
+    const chord = new IPcs({
+      strPcs: "0 2 4",
+      n:7,
+      nMapping: 12,
+      templateMappingVectorPcs: [0,2,4,5,7,9,11]
+    })
+    expect(chord.getPcsStr()).toEqual("[0 2 4]")
+
   });
 
   it("IPcs constructor with bad nMapping ", () => {
@@ -786,13 +795,19 @@ describe('IPcs unit tests', () => {
 
 
   it("autoMAp getMappedVectorPcs 7 diat maj => 12 chromatic", () => {
-    let ipcsDiatMaj = new IPcs({strPcs: "0, 2, 4, 5, 7, 9, 11", iPivot: 0})
+    let ipcsDiatMaj = new IPcs({strPcs: "0, 2, 4, 5, 7, 9, 11", iPivot: 2})
     expect(ipcsDiatMaj.n).toEqual(12)
 
     let ipcsDiatMajMappedIn12 = ipcsDiatMaj.autoMap()
+
     expect(ipcsDiatMajMappedIn12.n).toEqual(7)
     expect(ipcsDiatMajMappedIn12.nMapping).toEqual(12)
     expect(ipcsDiatMajMappedIn12.getMappedVectorPcs().length).toEqual(12)
+
+    // index of 2 in new templateMapping is 1
+    expect(ipcsDiatMajMappedIn12.iPivot).toEqual(1)
+    // 2 becomes initial pivot again
+    expect(ipcsDiatMajMappedIn12.unMap().iPivot).toEqual(2)
 
     // unselect 3 pitches
     let otherPics = ipcsDiatMajMappedIn12.toggleIndexPC(1)

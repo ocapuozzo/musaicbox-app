@@ -23,9 +23,33 @@ export class AnalyseChord {
       }
       if (keysChords.length == 0) {
         chordsByDegree.set(AnalyseChord.ROMAIN[nbDegree], [])
-      } else for (const keyChord of keysChords) {
-        const chord = new IPcs({strPcs:keyChord})
-        AnalyseChord.addPcs(chordsByDegree, nbDegree + 1, chord.transposition(pcsWorking.iPivot ?? 0));
+      } else for (let keyChord of keysChords) {
+
+        let chord = new IPcs({
+          strPcs:keyChord,
+        }).transposition(pcsWorking.iPivot ?? 0)
+
+        if (pcs.nMapping > pcs.n) {
+          // pcs is Mapped, convert keyChordPcs from templateMapping
+          // 0 4 7 with n=7, nMapping=12, templateMapping[0, 2, 4, 5, 7, 9, 11]
+          // so "0 4 7" => unMappedPcs = "0 2 4" (and vector [1,0,1,0,1,0,0,0])
+
+          const unMappedPcs = chord.getPcsStr(false).split(' ').map(pc => pcs.templateMappingVectorPcs.indexOf(Number(pc)))//.join(' ')
+          // if not compatible with mapping, pass
+          if (unMappedPcs.includes(-1)) {
+            continue
+          }
+
+          chord = new IPcs({
+            strPcs:unMappedPcs.join(' '),
+            n:pcs.n,
+            nMapping: pcs.nMapping,
+            templateMappingVectorPcs: pcs.templateMappingVectorPcs
+          })
+
+        }
+
+        AnalyseChord.addPcs(chordsByDegree, nbDegree + 1, chord)
       }
       pcsWorking = pcsWorking.modulation("Next")
     }
