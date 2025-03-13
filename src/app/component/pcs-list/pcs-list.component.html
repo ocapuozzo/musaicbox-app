@@ -76,7 +76,7 @@
               <i (click)="doRemoveFromList(pcs)"   mat-icon-button style="cursor: pointer">
                 <mat-icon>delete_forever</mat-icon>
               </i>
-              @if (pcs.n == 12) {
+              @if (pcs.nMapping === 12) {
                 @if (pivot.drawPivot) {
                   <app-score-notation [hidden]="! withMusicalNotation"
                                       [pcs]="pcs"

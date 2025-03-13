@@ -191,9 +191,7 @@ export class IPcs {
     }
 
     this.n = this.vectorPcs.length // normally, param n synchronized
-
     this.cardinal = this.vectorPcs.reduce((sumOnes, v_i) => v_i === 1 ? sumOnes+1 : sumOnes, 0)
-
 
     // check when iPivot === 0
     if (this.iPivot === undefined && iPivot === 0 && this.cardinal > 0) {

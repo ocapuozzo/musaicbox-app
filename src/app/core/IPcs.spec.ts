@@ -122,7 +122,10 @@ describe('IPcs unit tests', () => {
       expect(e.message).toContain('Invalid data mapping')
     }
 
-    let pcs = new IPcs({strPcs: "[0, 4, 7]", templateMappingVectorPcs: [0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3]})
+    let pcs = new IPcs({
+      strPcs: "[0, 4, 7]",
+      templateMappingVectorPcs: [0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3]
+    })
     // auto fix
     expect(pcs.templateMappingVectorPcs.length).toEqual(12)
   })
