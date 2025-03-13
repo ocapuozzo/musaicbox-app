@@ -62,7 +62,7 @@ Explore orbits resulting of various group action.
 
 A good illustration of mathematics concepts.
 
-Example : Get Limited Transposition PCS in Cyclic Prime Form : Select only `M1` operation and click on button with label :  _Show orbits (352) grouped by Stabilizers signature_. On 352 PCS representatives, 335 are 12 uniques transposed, 17 are less than 12 (called PCS in Limited Transposition)
+Example : Get Limited Transposition PCS in Cyclic Prime Form : Select only `M1` operation and click on button with label :  _Show orbits (352) grouped by Stabilizer signature_. On 352 PCS representatives, 335 are 12 uniques transposed, 17 are less than 12 (called PCS in Limited Transposition)
 [.float-group]
 --
 [.left]
@@ -75,7 +75,7 @@ image::PCS-LT-17.png["17 PCS LT in Cyclic Prime Form" float="left",align="center
 * 88 musaics page
 ====
 
-Explore musaics shearing same is-stabilizers.footnote:[A stabiliser is a transformation operation which conserve intervallic structure], having same *octotropes* (partition) and search musaic that include a PCS given (search form on top right menu)
+Explore musaics shearing same meta-stabilizer.footnote:[A stabilizing operation is a transformation operation which conserve intervallic structure], having same *octotropes* (partition) and search musaic that include a PCS given (search form on top right menu)
 
 [.float-group]
 --
@@ -93,7 +93,7 @@ image::page88musaics.png["page 88 musaics" float="left",align="center"]
 image::octotrope.png["Octotrope def" float="left",align="center"]
 --
 
-Example : There is 6 musaics which are invariant by complement operation (a stabilizer) : Select only `CM1` operation (C for _complement_ M1 for _neutral multiplication operation_). Set of these 6 musaics is partitioned by 3 octotropes (is-stabilizers classes) : `M1,M5,CM1,CM5`, `M1,M11,CM1,CM11` and `M1,M5,M7,M11,CM1,CM5,CM7,CM11`
+Example : There is 6 musaics which are invariant by complement operation (a stabilizer) : Select only `CM1` operation (C for _complement_ M1 for _neutral multiplication operation_). Set of these 6 musaics is partitioned by 3 octotropes (meta-stabilizer classes) : `M1,M5,CM1,CM5`, `M1,M11,CM1,CM11` and `M1,M5,M7,M11,CM1,CM5,CM7,CM11`
 
 image:octotrope-cm1.png[]
 
@@ -436,6 +436,8 @@ We will retain the following operations:
 • *Transposition* (**T**), which geometrically corresponds to a translation in the plane and musically to the transposition of a given step
 • *Multiplication* (**M**) by a prime number with cardinal of E, which geometrically corresponds to a half-rotation around an axis, and musically corresponds to a "symmetry". Inversion est given by multiplication by _n-1_, so 11 when n=12.
 • *Complementation* (**C**), which geometrically and musically corresponds to a complementarity.
+
+From Musical Set Theory, these algebraic definitions provide a precise framework for analyzing the relationships between sets of pitch classes in atonal and post-tonal music.
 
 We present these transformation operations below.
 
@@ -1111,8 +1113,8 @@ stem:[G cdot "[0 2 4 6 8 10\]"] = stem:[{"[0 2 4 6 8 10\], [1 3 5 7 9 11\]"}]
 // ====
 
 
-[#_stabilizers_and_fixed_pcs]
-=== Stabilizers and Fixed PCS
+[#_stabilizer_and_fixed_pcs]
+=== Stabilizer and Fixed PCS
 
 PCS are fixed (i.e. unmodified, invariant) under action of one or more transformation operations of stem:[G], which contains 96.
 
@@ -1128,13 +1130,31 @@ For examples :
 
 Operations in stem:[G] which do not transform some of its elements (it fixes them) are called _stabilizer_. Such operation in _G_ fix the concerned PCS in P(E)
 
+====
+[.text-center]
+--
+*Stabilizer*
+
 A *stabilizer* of stem:[ "pcs" in P(E)] is a *subset* of stem:[G], denoted *_G~pcs~_*, having all its elements fixing stem:[pcs]
 
 stem:[G_bb"pcs" := {g in G | g cdot pcs = pcs }]
+--
+====
 
-Inversely, stem:[Fixed_H] is the set of elements of stem:[P(E)] invariants under action of   stem:[H subseteq G]
+
+Inversely,
+
+====
+[.text-center]
+--
+*Fixed Pcs*
+
+stem:[Fixed_H] is the set of elements of stem:[P(E)] invariants under action of   stem:[H subseteq G]
 
 stem:[Fixed_H := {pcs in P(E) | g cdot pcs = pcs, AA g in H}]
+
+--
+====
 
 // stem:[Fixed_H := {A in P(E) | g cdot A = A, AA g in H}]
 
@@ -1261,14 +1281,14 @@ Of the 352 orbits,
 
 * 335 orbits are composed of 12 elements, having exactly one stabilizer, stem:["M1-T0"], and their cardinal is equal to the number of operations in the group, i.e. 12.
 
-* 17 very special orbits, which represent the structures with *"limited transpositions"*, have more than one stabilizer. Therefore, their cardinality is less than 12.
+* 17 very special orbits, which represent the structures with *"limited transpositions"*, have more than one stabilizing operation. Therefore, their cardinality is less than 12.
 
 
 TIP: You can already explore the cyclic group in the musaicbox application: go to the "Z~n~ Explorer" tab and select M1 (meaning M1-T1) as operation and click on the "Show 352 orbits grouped by stabilizer" button.
  +
  +
  .17 Cyclic orbits of Limited Transposition PCS
- image:zn-explorer-cyclic-group.png[zn-explorer-cyclic-group]
+ image:zn-explorer-cyclic-groupV2.png[zn-explorer-cyclic-group]
 
 For understand reduced notation of stabilizer like `MI-T0~4*`, see in appendix <<Reduced Name>>.
 
@@ -1279,7 +1299,7 @@ image:cyclic-048-eatl.png[eatl]
 
 Cyclic orbit of augmented triad is : { stem:["[0 4 8\]", "[1 5 9\]","[2 6 10\]","[3 7 11\]"] }
 
-Stabilizers cyclic orbit of augmented triad are : stem:[{"M1-T0~4*"}] = stem:[{"M1-T0", "M1-T4", "M1-T8"}]
+Stabilizer cyclic orbit of augmented triad is : stem:[{"M1-T0~4*"}] = stem:[{"M1-T0", "M1-T4", "M1-T8"}]
 
 Check this result by orbit-stabilizer theorem : stem:[|G"⋅"A| = (|G|) / (|G_A|)]
 
@@ -1308,9 +1328,9 @@ More formally :
 
 *Orbit Stabilizer*
 
-stem:[ "Orbit" -> Stabilizer^+]
+stem:[ "Orbit" -> Stabilizer]
 
-stem:["Stab(O)" := { G_"pcs" }, AA \ pcs in O ]
+stem:["Stabilizer(O)" := { G_"pcs" }, AA \ pcs in O ]
 
 --
 ====
@@ -1721,7 +1741,7 @@ TODO Suite...
 
 === Stabilizer naming
 
-As specified in the chapter <<_stabilizers_and_fixed_pcs>>, a stabilizer is inseparable from an orbit, it is even one of its components.
+As specified in the chapter <<_stabilizer_and_fixed_pcs>>, a stabilizer is inseparable from an orbit, it is even one of its components.
 
 It turns out that possible several orbits share the same stabilizer. The best known of them is the only one to be composed of only one transformation operation is stem:["M1-T0"], the _identity operation_, also called _neutral operation_.
 
@@ -1766,7 +1786,7 @@ Examples :
 - M1-T0~1* = { M1-T0, M1-T2, M1-T3, ..., M1-T10, M1-T11 }
 - M5-T1~4* = { M5-T1, M5-T5, M5-T9 }
 
-This type of representation increases the readability of the stabilizers. Empty pcs is the best case, because the set of stabilizers of G~[∅]~ is composed of 48 operations, and denoted M1-T0~1* M5-T0~1* M7-T0~1* M11-T0~1*, only 4 reduced names vs 48, a nice saving!
+This type of representation increases the readability of a stabilizer. Empty pcs is the best case, because the set of stabilizer of G~[∅]~ is composed of 48 operations, and denoted M1-T0~1* M5-T0~1* M7-T0~1* M11-T0~1*, only 4 reduced names vs 48, a nice saving!
 
 
 ==== Meta-Stabilizer
