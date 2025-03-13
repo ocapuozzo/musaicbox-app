@@ -42,7 +42,7 @@ export class ScoreDrawingAbcNotation {
    */
   // static fromPcsToABCNotation(pcs : IPcs, withChordIfCardinalInf5 : boolean = false): string {
   static fromPcsToABCNotation(pcs : IPcs, config : {withChordIfCardinalInf5 ?: boolean, onlyChord ?: boolean }={}): string {
-    if (!pcs) return "";
+    if (!pcs || pcs.nMapping !== 12) return "";
 
     if (pcs.cardinal === 0) return "z4" // silence (else no representation !)
 
@@ -55,13 +55,12 @@ export class ScoreDrawingAbcNotation {
     let notes = '';
     let chord = '[ ';
 
-    let n = pcs.getMappedVectorPcs().length;
-
     const alterationNotesForChange = [1, 3, 6, 8, 10]
 
     let pcsMapped = pcs.n !== 12 ? pcs.unMap() : pcs
+    let n = pcsMapped.n  // assert = 12 in entry of function
 
-    let pivot = pcsMapped.iPivot ?? 0
+    let pivot = pcsMapped.iPivot ?? 0 // normally set when cardinal > 0 (managed by constructor logic)
     let prevNote = pcsMapped.vectorPcs[(n + pivot - 1) % n] === 1 ? ScoreDrawingAbcNotation.lettersSharpedNotation[(n + pivot - 1) % n] : 'X'
     if (prevNote.length > 1) {
       prevNote = prevNote[1] // _A, ^A => A

@@ -8,7 +8,7 @@ export interface IPitchPlaying {
 @Injectable({
   providedIn: 'root'
 })
-export class AnimPitchService {
+export class ManagerAnimPitchService {
 
   @Output() eventNotePlaying = new EventEmitter<IPitchPlaying>();
   constructor() { }

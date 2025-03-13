@@ -3,8 +3,12 @@ import {IPcs} from "../../core/IPcs";
 import {StringHash} from "../../utils/StringHash";
 import {ScoreDrawingAbcNotation} from "../../ui/ScoreDrawingAbcNotation";
 import abcjs, {MidiBuffer} from "abcjs";
-import {AnimPitchService} from "../../service/anim-pitch.service";
+import {ManagerAnimPitchService} from "../../service/manager-anim-pitch.service";
 
+/**
+ * ABC notation based component
+ * Forwards events to manager layer ManagerAnimPitchService (for animation to which component ui-clock  is subscribed)
+ */
 @Component({
   selector: 'app-score-notation',
   standalone: true,
@@ -35,7 +39,7 @@ export class ScoreNotationComponent {
     return this._pcs
   }
 
-  constructor(public animPitchService: AnimPitchService) {
+  constructor(public managerAnimPitchService: ManagerAnimPitchService) {
     this.randomId = StringHash.guidGenerator()
   }
 
@@ -76,7 +80,7 @@ export class ScoreNotationComponent {
 
       onFinished() {
         this.superThis.iCurrentOrderPlaying = -1
-        this.superThis.animPitchService
+        this.superThis.managerAnimPitchService
           .notePlaying({
             idPcs: this.superThis.idPcsCurrentPlaying,
             indexPitchPlaying: this.superThis.iCurrentOrderPlaying
@@ -111,7 +115,7 @@ export class ScoreNotationComponent {
 
         // avoid anim when chord playing
         if (this.nNotesPlayingCounter <= this.superThis.pcs.cardinal+1) {
-          this.superThis.animPitchService
+          this.superThis.managerAnimPitchService
             .notePlaying({
               idPcs: this.superThis.idPcsCurrentPlaying,
               indexPitchPlaying: currentIndex

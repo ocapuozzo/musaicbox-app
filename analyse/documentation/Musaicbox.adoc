@@ -304,7 +304,7 @@ stem:[ZZ^n -> P(ZZ_n)]
 
 stem:["vectorToPcs(V)" := { bar i | V_i = 1 and 0 <= i < n} ]
 
-NOTE: Note the dual role of the index : element position in the vector and Pitch Class name : _i_ and stem:[bar i]
+NOTE: Note the *dual role* of index _i_ : a position of element in the vector and Pitch Class name, _i_ and stem:[bar i]
 --
 ====
 Example of reinterpretation of a vector representation
@@ -386,13 +386,14 @@ TIP: (simple hypothesis) We think that the dimension (2D) is deduced from _n_. T
 
 Musaic is instance of a dual interval space <<DIS>>, as two-dimensional array of pitches where “rows” are separated by the same interval and the “columns” by an other but also same (non-zero) interval (regular interface).
 
-By default, we take as intervals step the "generator prime forme" of _n_, these are those in the first half of the prime integers with n. For n=12 these are 1 and 5 from [`*1*, *5*, n-5, n-1`].
+By default, we take as intervals step the "generator prime form" of _n_, these are those in the first half of the prime integers with n. For n=12 these are 1 and 5 from [`*1*, *5*, n-5, n-1`].
 
 [NOTE]
 ====
 Wy take prime form with n ?
 
-Because, each of them being generator of a generator step value of n, they guarantee to traverse the structure in its entirety, while preserving characteristics specific to _n_ (in particular the invariants).
+Because, each of them is a n-step generator, they guarantee to traverse the structure in its entirety, while preserving the _n_-specific characteristics (notably the invariants). They also guarantee the cardinality of PCS.
+
 ====
 
 .Example of musaic representation of [0 4 7]
@@ -433,7 +434,7 @@ PCS are elements stem:[P(E)]. So writing stem:[P(E) -> P(E)] means that transfor
 We will retain the following operations:
 
 • *Transposition* (**T**), which geometrically corresponds to a translation in the plane and musically to the transposition of a given step
-• *Multiplication* (**M**) by a prime number with cardinal of E, which geometrically corresponds to a half-rotation around an axis, and musically corresponds to a "symmetry".
+• *Multiplication* (**M**) by a prime number with cardinal of E, which geometrically corresponds to a half-rotation around an axis, and musically corresponds to a "symmetry". Inversion est given by multiplication by _n-1_, so 11 when n=12.
 • *Complementation* (**C**), which geometrically and musically corresponds to a complementarity.
 
 We present these transformation operations below.
@@ -470,6 +471,22 @@ Examples when stem:[E = {0, 1, ..., 11}]  (cardinal of stem:[E\ is\ |E| = 12])
 
 * Example3 : {nbsp} stem:[T_0("["0 4 7\]) ->"["0 4 7\]] {nbsp} (neutral operation)
 
+==== Illustration
+
+* Example1 : {nbsp} stem:[T_1("["0 4 7\]) ->"["1 5 8\]] {nbsp} (C Maj -> C# Maj)
+
+image::T1-047.png[T1-047]
+
+.Transformations by PCS page
+image::Transf-047.png[Transf-047 ops UI]
+
+.[0 4 7]
+image:T1-047-Mus.png[T1-047 Musaic]
+
+.[1 5 8] after click on T right
+image:T1-158-Mus.png[T1-158 Musaic]
+
+
 
 === Multiplication
 
@@ -495,7 +512,6 @@ _Where a is prime with |E|, and stem:[*] is multiplication operator_.
 // defined by {nbsp} stem:[M_a(A) = {\ (x * a) mod |E| \ },  forall   x in A]
 
 
-
 Motivation: allows to establish an equivalence relation "up to a symmetry", *including inversion and other substitutions.*
 
 Examples when stem:[E = {0, 1, ..., 11}]  (cardinal of stem:[E\ is\ |E| = 12])
@@ -507,6 +523,35 @@ Examples when stem:[E = {0, 1, ..., 11}]  (cardinal of stem:[E\ is\ |E| = 12])
 * Example M7 : {nbsp} stem:[M_7("[0 4 7\]") ->"[0 1 4\]"] {nbsp}(*M7 substitution*)
 
 * Example id : {nbsp} stem:[M_1("[0 4 7\]") ->"[0 4 7\]"] {nbsp} (*neutral operation*)
+
+==== Illustration
+
+* Example M11 : {nbsp} stem:[M_11("[0 4 7\]") ->"[0 5 8\]"] {nbsp} (C Maj -> Fm/5th - *inversion*)
+
+.[0 4 7] M11 -> [0 5 8]
+image:M11-047.png[M11-047]
+
+.[0 4 7] M11 -> [0 5 8] (Musaics with reversed motif)
+image:M11-047-Mus.png[M11-047 Musaic]
+
+
+* Example M5 : {nbsp} stem:[M_5("[0 4 7\]") ->"[0 8 11\]"] (*M5 substitution*){nbsp}
+
+.[0 4 7] M5 -> [0 8 11]
+image:M5-047.png[M5-047]
+
+.[0 4 7] M5 -> [0 8 11] (Musaics with reversed motif)
+image:M5-047-Mus.png[M5-047 Musaic]
+
+* Example M7 : {nbsp} stem:[M_7("[0 4 7\]") ->"[0 1 4\]"] {nbsp}(*M7 substitution*)
+
+
+.[0 4 7] M5 -> [0 1 4]
+image:M7-047.png[M7-047]
+
+.[0 4 7] M5 -> [0 1 4] (Musaics with reversed motif)
+image:M7-047-Mus.png[M7-047 Musaic]
+
 
 === Complement
 
@@ -528,12 +573,24 @@ stem:[C(A) := A^c = E\  \\ A = { x in E | x notin A }]
 
 Motivation: “up to the complement” equivalence
 
-Particularly because we have the equality : stem:[Stab(A) = Stab(A^c)] (Property studied later in this document)
+Particularly because we have the equality : stem:[Stab(Orbit(A)) = Stab(Orbit(A^c))] (Property studied later in this document)
 
-Examples when stem:[E = {0, 1, ..., 11}]  (cardinal of stem:[E\ is\ |E| = 12])
+Examples when stem:[E = {0, 1, ..., 11}],  cardinal of stem:[E\ is\ |E| = 12].
 
 * Example1 : {nbsp}  stem:[C("[0 2 4 5 7 9 11\]") ->"[1 3 6 8 10 \]"] {nbsp} Major scale to Pentatonic scale
 * Example2 : {nbsp}  stem:[C("[0 2 4 6 8 10\]") ->"[1 3 5 7 9 11\]"] {nbsp} Whole tone scale to Whole tone scale
+
+==== Illustration
+
+* Example1 : {nbsp}  stem:[C("[0 2 4 5 7 9 11\]") ->"[1 3 6 8 10 \]"] {nbsp} Major scale to Pentatonic scale
+
+
+.Major scale  -> Pentatonic scale
+image:Cplt-MajorScale.png[Cplt-MajorScale]
+
+.[0 2 4 5 7 9 11] Complement -> [1 3 6 8 10] (Musaics complemented motif)
+image:Cplt-MajorScale-Mus.png[Cplt-MajorScale Musaic]
+
 
 === Conclusion
 

@@ -9,7 +9,7 @@ import {NgForOf, NgIf} from "@angular/common";
 import {ChordNaming} from "../../core/ChordNaming";
 import {Scales2048Name} from "../../core/Scales2048Name";
 import {INameDefLink} from "../../core/IScaleName";
-import {AnimPitchService, IPitchPlaying} from "../../service/anim-pitch.service";
+import {IPitchPlaying, ManagerAnimPitchService} from "../../service/manager-anim-pitch.service";
 import {
   ModulationTranspositionControlComponent
 } from "../modulation-transposition-control/modulation-transposition-control.component";
@@ -68,7 +68,7 @@ export class UiClockComponent {
   constructor(
     private managerPagePcsService: ManagerPagePcsService,
     private managerPagePcsListService: ManagerPagePcsListService,
-    private managerAnimPitchService: AnimPitchService,
+    private managerAnimPitchService: ManagerAnimPitchService,
     private ngZone: NgZone,
     private renderer2: Renderer2) {
 

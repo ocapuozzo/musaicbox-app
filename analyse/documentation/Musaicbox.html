@@ -607,16 +607,28 @@ p>span[class="note"] {
 </li>
 <li><a href="#_transformation_operations">Transformation operations</a>
 <ul class="sectlevel2">
-<li><a href="#_transposition">Transposition</a></li>
-<li><a href="#_multiplication">Multiplication</a></li>
-<li><a href="#_complement">Complement</a></li>
+<li><a href="#_transposition">Transposition</a>
+<ul class="sectlevel3">
+<li><a href="#_illustration">Illustration</a></li>
+</ul>
+</li>
+<li><a href="#_multiplication">Multiplication</a>
+<ul class="sectlevel3">
+<li><a href="#_illustration_2">Illustration</a></li>
+</ul>
+</li>
+<li><a href="#_complement">Complement</a>
+<ul class="sectlevel3">
+<li><a href="#_illustration_3">Illustration</a></li>
+</ul>
+</li>
 <li><a href="#_conclusion">Conclusion</a></li>
 </ul>
 </li>
 <li><a href="#_group_operation">Group operation</a>
 <ul class="sectlevel2">
 <li><a href="#_special_affine_operation">Special Affine Operation</a></li>
-<li><a href="#_extended_aff_operation">Extended Aff Operation</a></li>
+<li><a href="#_extended_special_affine_operation">Extended Special Affine Operation</a></li>
 </ul>
 </li>
 <li><a href="#_group">Group</a>
@@ -1043,28 +1055,45 @@ classifications.</p>
 <div class="sect2">
 <h3 id="_vector">Vector</h3>
 <div class="paragraph">
-<p>It is a binary representation of a pcs.</p>
+<p>It is a binary representation of a pcs, by a |E|-dimensional vector.</p>
 </div>
 <div class="paragraph">
-<p>Example for [0 4 7]  (C major):  <code>[<strong>1</strong>,0,0,0,<strong>1</strong>,0,0,<strong>1</strong>,0,0,0,0]</code>  (ordered list of binary values) :</p>
+<p>Example for [0 4 7]  (C major):  <code>[<strong>1</strong>,0,0,0,<strong>1</strong>,0,0,<strong>1</strong>,0,0,0,0]</code>  (ordered list of 12 binary values) :</p>
 </div>
 <div class="paragraph">
 <p><span class="image"><img src="./assets/images/vector-047.png" alt="vector 047"></span></p>
 </div>
 <div class="paragraph">
-<p>This vector, of dimension <em>n</em>, is constructed by placing <code>1</code> at the position corresponding to each pitch class present in the pcs studied, and <code>0</code> at the position of the others. By convention, the position corresponds to the pitch class name (which turns out to be very practical for algorithms).</p>
+<p>This vector, of <em>n</em>-dimension, is constructed by placing <code>1</code> at the index corresponding to each pitch class present in the pcs studied, and <code>0</code> at the index of the others. By convention, the index  corresponds to the pitch class name (which turns out to be very practical for algorithms).</p>
 </div>
 <div class="paragraph">
 <p>To convert a PCS to a binary vector, we define a bijective function named <em>pcsToVector</em>.</p>
 </div>
-<div class="paragraph text-center">
+<div class="exampleblock">
+<div class="content">
+<div class="openblock text-center">
+<div class="content">
+<div class="paragraph">
+<p><strong><em>pcsToVector</em></strong></p>
+</div>
+<div class="paragraph">
 <p>\$P(Z_n) -&gt; {0,1}^n\$ &#160;</p>
 </div>
-<div class="paragraph text-center">
+<div class="paragraph">
 <p>\$tt"pcsToVector(A)" := \[f_A(0), f_A(1),...,f_A(n-1)] \$</p>
 </div>
 <div class="paragraph">
-<p>where \$f_A\$ (also known as \$chi_A\$), is the characteristic function \$f_A : Z_n -&gt; {0,1}\$  : \$f_A(bar i) := { (1  if bar i in A), (0  if bar i notin A) :}\$</p>
+<p>where \$f_A\$ (also known as \$chi_A\$), is the <strong>characteristic function</strong> :</p>
+</div>
+<div class="paragraph">
+<p>\$f_A : Z_n -&gt; {0,1}\$</p>
+</div>
+<div class="paragraph">
+<p>\$f_A(bar i) := { (1  if bar i in A), (0  if bar i notin A) :}\$</p>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div class="paragraph">
 <p>So, for <em>n = 12</em>, any pcs \$A\$ of \$P(Z_12)\$ corresponds a unique vector \$v\$ defined as follows:</p>
@@ -1132,13 +1161,32 @@ We can clearly see the use of the name of Pitch Class \$bar i\$ as an index \$i\
 <div class="paragraph">
 <p>There is an inverse function <em>vectorToPcs</em>  defined by :</p>
 </div>
+<div class="exampleblock">
+<div class="content">
 <div class="openblock text-center">
 <div class="content">
+<div class="paragraph">
+<p><strong><em>vectorToPcs</em></strong></p>
+</div>
 <div class="paragraph">
 <p>\$ZZ^n -&gt; P(ZZ_n)\$</p>
 </div>
 <div class="paragraph">
 <p>\$"vectorToPcs(V)" := { bar i | V_i = 1 and 0 &lt;= i &lt; n} \$</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Note the <strong>dual role</strong> of index <em>i</em> : a position of element in the vector and Pitch Class name, <em>i</em> and \$bar i\$
+</td>
+</tr>
+</table>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -1385,7 +1433,7 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0 4
 <p>Musaic is instance of a dual interval space <a href="#DIS">[DIS]</a>, as two-dimensional array of pitches where “rows” are separated by the same interval and the “columns” by an other but also same (non-zero) interval (regular interface).</p>
 </div>
 <div class="paragraph">
-<p>By default, we take as intervals step the "generator prime forme" of <em>n</em>, these are those in the first half of the prime integers with n. For n=12 these are 1 and 5 from [<code><strong>1</strong>, <strong>5</strong>, n-5, n-1</code>].</p>
+<p>By default, we take as intervals step the "generator prime form" of <em>n</em>, these are those in the first half of the prime integers with n. For n=12 these are 1 and 5 from [<code><strong>1</strong>, <strong>5</strong>, n-5, n-1</code>].</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1398,7 +1446,7 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0 4
 <p>Wy take prime form with n ?</p>
 </div>
 <div class="paragraph">
-<p>Because, each of them being generator of a generator step value of n, they guarantee to traverse the structure in its entirety, while preserving characteristics specific to <em>n</em> (in particular the invariants).</p>
+<p>Because, each of them is a n-step generator, they guarantee to traverse the structure in its entirety, while preserving the <em>n</em>-specific characteristics (notably the invariants). They also guarantee the cardinality of PCS.</p>
 </div>
 </td>
 </tr>
@@ -1485,7 +1533,7 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0 4
 <p><strong>Transposition</strong> (<strong>T</strong>), which geometrically corresponds to a translation in the plane and musically to the transposition of a given step</p>
 </li>
 <li>
-<p><strong>Multiplication</strong> (<strong>M</strong>) by a prime number with cardinal of E, which geometrically corresponds to a half-rotation around an axis, and musically corresponds to a "symmetry".</p>
+<p><strong>Multiplication</strong> (<strong>M</strong>) by a prime number with cardinal of E, which geometrically corresponds to a half-rotation around an axis, and musically corresponds to a "symmetry". Inversion est given by multiplication by <em>n-1</em>, so 11 when n=12.</p>
 </li>
 <li>
 <p><strong>Complementation</strong> (<strong>C</strong>), which geometrically and musically corresponds to a complementarity.</p>
@@ -1536,6 +1584,35 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0 4
 </li>
 </ul>
 </div>
+<div class="sect3">
+<h4 id="_illustration">Illustration</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Example1 : &#160; \$T_1("["0 4 7]) -&gt;"["1 5 8]\$ &#160; (C Maj &#8594; C# Maj)</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./assets/images/T1-047.png" alt="T1-047">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./assets/images/Transf-047.png" alt="Transf-047 ops UI">
+</div>
+<div class="title">Figure 10. Transformations by PCS page</div>
+</div>
+<div class="paragraph">
+<div class="title">[0 4 7]</div>
+<p><span class="image"><img src="./assets/images/T1-047-Mus.png" alt="T1-047 Musaic"></span></p>
+</div>
+<div class="paragraph">
+<div class="title">[1 5 8] after click on T right</div>
+<p><span class="image"><img src="./assets/images/T1-158-Mus.png" alt="T1-158 Musaic"></span></p>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_multiplication">Multiplication</h3>
@@ -1563,7 +1640,7 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0 4
 </div>
 </div>
 <div class="paragraph">
-<p>Motivation: allows to establish an equivalence relation "up to a symmetry"</p>
+<p>Motivation: allows to establish an equivalence relation "up to a symmetry", <strong>including inversion and other substitutions.</strong></p>
 </div>
 <div class="paragraph">
 <p>Examples when \$E = {0, 1, ..., 11}\$  (cardinal of \$E\ is\ |E| = 12\$)</p>
@@ -1571,18 +1648,66 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0 4
 <div class="ulist">
 <ul>
 <li>
-<p>Example M11 : &#160; \$M_11("[0 4 7]") -&gt;"[0 5 8]"\$ &#160; (C Maj &#8594; Fm/5th - inversion)</p>
+<p>Example M11 : &#160; \$M_11("[0 4 7]") -&gt;"[0 5 8]"\$ &#160; (C Maj &#8594; Fm/5th - <strong>inversion</strong>)</p>
 </li>
 <li>
-<p>Example M5 : &#160; \$M_5("[0 4 7]") -&gt;"[0 8 11]"\$ &#160;</p>
+<p>Example M5 : &#160; \$M_5("[0 4 7]") -&gt;"[0 8 11]"\$ (<strong>M5 substitution</strong>)&#160;</p>
 </li>
 <li>
-<p>Example M7 : &#160; \$M_7("[0 4 7]") -&gt;"[0 1 4]"\$ &#160;</p>
+<p>Example M7 : &#160; \$M_7("[0 4 7]") -&gt;"[0 1 4]"\$ &#160;(<strong>M7 substitution</strong>)</p>
 </li>
 <li>
-<p>Example id : &#160; \$M_1("[0 4 7]") -&gt;"[0 4 7]"\$ &#160; (neutral operation)</p>
+<p>Example id : &#160; \$M_1("[0 4 7]") -&gt;"[0 4 7]"\$ &#160; (<strong>neutral operation</strong>)</p>
 </li>
 </ul>
+</div>
+<div class="sect3">
+<h4 id="_illustration_2">Illustration</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Example M11 : &#160; \$M_11("[0 4 7]") -&gt;"[0 5 8]"\$ &#160; (C Maj &#8594; Fm/5th - <strong>inversion</strong>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<div class="title">[0 4 7] M11 &#8594; [0 5 8]</div>
+<p><span class="image"><img src="./assets/images/M11-047.png" alt="M11-047"></span></p>
+</div>
+<div class="paragraph">
+<div class="title">[0 4 7] M11 &#8594; [0 5 8] (Musaics with reversed motif)</div>
+<p><span class="image"><img src="./assets/images/M11-047-Mus.png" alt="M11-047 Musaic"></span></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Example M5 : &#160; \$M_5("[0 4 7]") -&gt;"[0 8 11]"\$ (<strong>M5 substitution</strong>)&#160;</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<div class="title">[0 4 7] M5 &#8594; [0 8 11]</div>
+<p><span class="image"><img src="./assets/images/M5-047.png" alt="M5-047"></span></p>
+</div>
+<div class="paragraph">
+<div class="title">[0 4 7] M5 &#8594; [0 8 11] (Musaics with reversed motif)</div>
+<p><span class="image"><img src="./assets/images/M5-047-Mus.png" alt="M5-047 Musaic"></span></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Example M7 : &#160; \$M_7("[0 4 7]") -&gt;"[0 1 4]"\$ &#160;(<strong>M7 substitution</strong>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<div class="title">[0 4 7] M5 &#8594; [0 1 4]</div>
+<p><span class="image"><img src="./assets/images/M7-047.png" alt="M7-047"></span></p>
+</div>
+<div class="paragraph">
+<div class="title">[0 4 7] M5 &#8594; [0 1 4] (Musaics with reversed motif)</div>
+<p><span class="image"><img src="./assets/images/M7-047-Mus.png" alt="M7-047 Musaic"></span></p>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -1611,10 +1736,10 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0 4
 <p>Motivation: “up to the complement” equivalence</p>
 </div>
 <div class="paragraph">
-<p>Particularly because we have the equality : \$Stab(A) = Stab(A^c)\$ (Property studied later in this document)</p>
+<p>Particularly because we have the equality : \$Stab(Orbit(A)) = Stab(Orbit(A^c))\$ (Property studied later in this document)</p>
 </div>
 <div class="paragraph">
-<p>Examples when \$E = {0, 1, ..., 11}\$  (cardinal of \$E\ is\ |E| = 12\$)</p>
+<p>Examples when \$E = {0, 1, ..., 11}\$,  cardinal of \$E\ is\ |E| = 12\$.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -1625,6 +1750,24 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0 4
 <p>Example2 : &#160;  \$C("[0 2 4 6 8 10]") -&gt;"[1 3 5 7 9 11]"\$ &#160; Whole tone scale to Whole tone scale</p>
 </li>
 </ul>
+</div>
+<div class="sect3">
+<h4 id="_illustration_3">Illustration</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Example1 : &#160;  \$C("[0 2 4 5 7 9 11]") -&gt;"[1 3 6 8 10 ]"\$ &#160; Major scale to Pentatonic scale</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<div class="title">Major scale  &#8594; Pentatonic scale</div>
+<p><span class="image"><img src="./assets/images/Cplt-MajorScale.png" alt="Cplt-MajorScale"></span></p>
+</div>
+<div class="paragraph">
+<div class="title">[0 2 4 5 7 9 11] Complement &#8594; [1 3 6 8 10] (Musaics complemented motif)</div>
+<p><span class="image"><img src="./assets/images/Cplt-MajorScale-Mus.png" alt="Cplt-MajorScale Musaic"></span></p>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -1693,7 +1836,7 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0 4
 </div>
 </div>
 <div class="sect2">
-<h3 id="_extended_aff_operation">Extended Aff Operation</h3>
+<h3 id="_extended_special_affine_operation">Extended Special Affine Operation</h3>
 <div class="paragraph">
 <p>If we add the complementarity operation to the special affine function, we obtain the following operation: <strong>\$c * (ax + k)\$</strong> that operates on \$P(E)\$.</p>
 </div>
@@ -1738,10 +1881,10 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0 4
 <p>In practice, we will not mention C when its value is \$false\$, so these writings are synonymous :</p>
 </div>
 <div class="paragraph">
-<p>\$C_"c=false"M_aT_k\$ , will be denoted by <strong>MA-TK</strong></p>
+<p>\$C_"false"M_aT_k\$ , will be denoted by <strong>MA-TK</strong></p>
 </div>
 <div class="paragraph">
-<p>\$C_"c=true"M_aT_k\$ , will be denoted by <strong>CMA-TK</strong></p>
+<p>\$C_"true"M_aT_k\$ , will be denoted by <strong>CMA-TK</strong></p>
 </div>
 </td>
 </tr>
@@ -1782,7 +1925,7 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0 4
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Extended Affine Operation is called <em>MusaicOperation</em> into MusaicBox project.
+Extended Special Affine Operation is called <em>MusaicOperation</em> into MusaicBox project.
 </td>
 </tr>
 </table>
@@ -1807,7 +1950,7 @@ Extended Affine Operation is called <em>MusaicOperation</em> into MusaicBox proj
 </ul>
 </div>
 <div class="paragraph">
-<p>This function composition \$@\$, extend function composition of Affine group, where \$aa'\$ is prime with \$n\$ and \$oplus\$ the logical operator XOR.</p>
+<p>This function composition \$@\$, extend function composition of special Affine group, where \$a and a'\$ is prime with \$n\$ and \$oplus\$ the logical operator XOR.</p>
 </div>
 <div class="sect2">
 <h3 id="_group_axioms">Group Axioms</h3>
@@ -2045,7 +2188,7 @@ Extended Affine Operation is called <em>MusaicOperation</em> into MusaicBox proj
 <p>\$ c oplus c = false, AA c in {true, false}\$</p>
 </li>
 <li>
-<p>\$aa = 1\$ because \$((a * a) mod n) = 1\$ where \$a\$ is prime with \$n\$</p>
+<p>\$aa = 1\$ because \$(a^2 mod n) = 1,  AA a " prime with " n\$</p>
 </li>
 <li>
 <p>\$ (-k * a^-1) (mod n)\$ &#160; is value of \$k'\$ which solves the equation \$ak' + k = 0\$ &#160; ( <em>a</em><sup>-1</sup> is the modular inverse of <em>a</em>)</p>
@@ -2084,12 +2227,12 @@ Extended Affine Operation is called <em>MusaicOperation</em> into MusaicBox proj
 <div class="sect2">
 <h3 id="_conclusion_2">Conclusion</h3>
 <div class="paragraph">
-<p>We have defined an extended special affine group with complementarity  \$c * (ax + k)\$ intended to act on \$P(ZZ_n)\$ defined by :</p>
+<p>We have defined an extended special affine group \$G\$ with complementarity  , from operation \$c * (ax + k)\$ intended to act on \$P(ZZ_n)\$ defined by :</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Its elements are triplets \$(c, a, k)\$ , in reference to special operation :  \$c * (ax + k)\$</p>
+<p>Its elements are triplets \$(c, a, k)\$ , in reference to extend special operation :  \$c * (ax + k)\$</p>
 </li>
 <li>
 <p>Function composition (\$@\$)  is \$(c,a,k) @ (c',a',k') = (c oplus c', aa', ak' + k)\$</p>
@@ -2106,7 +2249,13 @@ Extended Affine Operation is called <em>MusaicOperation</em> into MusaicBox proj
 <h2 id="_group_action">Group Action</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Let us now consider the action of \$G\$ on set \$P(E)\$, with \$E = ZZ "/" 12ZZ = ZZ_12\$ and \$P(E)\$, a set of \$2^|E| = 2^12 = bb 4096\$ <strong>PCS elements</strong>.</p>
+<p>Consider the action of \$G\$ on set \$P(E)\$, with \$E = ZZ "/" nZZ = ZZ_n\$ and \$P(E)\$, a set of \$2^|E| = 2^n\$.</p>
+</div>
+<div class="paragraph">
+<p>Let us now consider \$E = ZZ_12\$ = {0,1,2,3,4,5,6,7,8,9,10,11}</p>
+</div>
+<div class="paragraph">
+<p>\$P(E)\$ is set of \$2^|E| = 2^12 = bb 4096\$ <strong>PCS elements</strong> (4096 subsets of <em>E</em>)</p>
 </div>
 <div class="sect2">
 <h3 id="_context">Context</h3>
@@ -2114,13 +2263,13 @@ Extended Affine Operation is called <em>MusaicOperation</em> into MusaicBox proj
 <p><a href="https://88musaics.org/">88musaics project</a> presents different operations, when n = 12, as <strong>geometrical transformations by rotation of half a turn</strong>. M5 is left diagonal and M7 is right diagonal transformation, M11 (inversion) around central point, M1 is neutral operation anc C is a change of perspective of point of view (or permutation of color).</p>
 </div>
 <div class="paragraph">
-<p>Into Musaicbox project (<a href="https://musaicbox.org/" class="bare">https://musaicbox.org/</a>) , primitives operations are implemented by permutations of values into vector representation of PCS, i.e. \$ NN^n -&gt; NN^n\$.</p>
+<p>Into Musaicbox application project (<a href="https://musaicbox.org/" class="bare">https://musaicbox.org/</a>) , primitives operations are implemented by permutations of values into vector representation of PCS, i.e. \$ NN^n -&gt; NN^n\$.</p>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="./assets/images/diff-4operations.png" alt="diff-4operations">
 </div>
-<div class="title">Figure 10. Example of different points of view on transformation operations</div>
+<div class="title">Figure 11. Example of different points of view of basics transformation operations</div>
 </div>
 <div class="paragraph">
 <p>For transformations by multiplication, see also : <a href="https://en.wikipedia.org/wiki/Multiplication_(music)">wikipedia multiplication and music</a></p>
@@ -2356,11 +2505,11 @@ We can observe the highlighting of symmetries, and a <a href="https://en.wikiped
 <p>We have seen that when the group \$G\$ acts on \$P(ZZ_12)\$, \$G\$ is composed of  <strong>96</strong> elements (operations)</p>
 </div>
 <div class="paragraph">
-<p>\$G\$ acts on  \$ZZ_12\$  \$G = { C_cM_a"-"T_k\$
-where \$a in { 1, 5, 7, 11 }, k in { 0, 1, ..., 11  }, c in {true, false}}\$</p>
+<p>When \$G\$ acts on  \$ZZ_12\$  ,  \$G\$ = \${ C_cM_a"-"T_k\$,
+where \$c in {true, false}, a in { 1, 5, 7, 11 } and k in { 0, 1, ..., 11  } }\$</p>
 </div>
 <div class="paragraph">
-<p>\$G = { "M1-T0", "CM1-T0", ..., "CM11-T10", "CM11-T11"}\$</p>
+<p>\$G = { "M1-T0", "M1-T1",..., "CM1-T0", ..., "CM11-T10", "CM11-T11"}\$</p>
 </div>
 <div class="paragraph">
 <p>It is thanks to this group that we will be able to partition our 4096 PCS into remarkable subsets by action of this group on \$ZZ_12\$.</p>
@@ -3504,7 +3653,7 @@ Example : [M1-T1 M11-T1] &#8658; [M1 M11]
 <div class="content">
 <img src="./assets/images/lattice-subgroups12.png" alt="lattice-subgroups12">
 </div>
-<div class="title">Figure 11. Subgroups lattice - prefix "M" and "M1" are omitted (M1 CM11 &#8658; C11) (J-Y. Fusil - 2009)</div>
+<div class="title">Figure 12. Subgroups lattice - prefix "M" and "M1" are omitted (M1 CM11 &#8658; C11) (J-Y. Fusil - 2009)</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -3513,7 +3662,7 @@ Example : [M1-T1 M11-T1] &#8658; [M1 M11]
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Note the central vertical axis on which 4 of its 5 known subgroups are located.
+4 of its 5 known subgroups are located on the central vertical axis.
 </td>
 </tr>
 </table>
@@ -4101,7 +4250,7 @@ Modal prime form concept is invented, specific to this project.
 <div class="content">
 <img src="./assets/images/pcs_2_3_5_7_8_V2.png" alt="Modal and cyclic prime form">
 </div>
-<div class="title">Figure 12. Modal and cyclic prime form</div>
+<div class="title">Figure 13. Modal and cyclic prime form</div>
 </div>
 </div>
 </div>
@@ -4111,7 +4260,7 @@ Modal prime form concept is invented, specific to this project.
 <div class="content">
 <img src="./assets/images/pcs_2_3_5_7_8-PF-V2.png" alt="Cyclic prime form">
 </div>
-<div class="title">Figure 13. Cyclic prime form</div>
+<div class="title">Figure 14. Cyclic prime form</div>
 </div>
 </div>
 </div>
@@ -4121,7 +4270,7 @@ Modal prime form concept is invented, specific to this project.
 <div class="content">
 <img src="./assets/images/pcs_2_3_5_7_8-MPF-V2.png" alt="Modal prime form">
 </div>
-<div class="title">Figure 14. Modal prime form</div>
+<div class="title">Figure 15. Modal prime form</div>
 </div>
 </div>
 </div>
@@ -4131,7 +4280,7 @@ Modal prime form concept is invented, specific to this project.
 <div class="content">
 <img src="./assets/images/pcs_2_3_5_7_8-wb1.png" alt="Modal and cyclic prime form">
 </div>
-<div class="title">Figure 15. Cyclic orbit and his modal and prime form</div>
+<div class="title">Figure 16. Cyclic orbit and his modal and prime form</div>
 </div>
 </div>
 </div>
@@ -4144,7 +4293,7 @@ Modal prime form concept is invented, specific to this project.
 <div class="content">
 <img src="./assets/images/pcs_2_3_5_7_8-wb2.png" alt="Modal and cyclic prime form">
 </div>
-<div class="title">Figure 16. Cyclic orbit and his modal and prime form</div>
+<div class="title">Figure 17. Cyclic orbit and his modal and prime form</div>
 </div>
 </div>
 </div>
@@ -4387,7 +4536,7 @@ Modal prime form concept is invented, specific to this project.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-03-09 20:46:15 +0100
+Last updated 2025-03-13 17:32:03 +0100
 </div>
 </div>
 <script type="text/x-mathjax-config">

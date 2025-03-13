@@ -39,7 +39,7 @@ export class AnalyseChord {
           if (unMappedPcs.includes(-1)) {
             continue
           }
-
+          // chord version with mapping
           chord = new IPcs({
             strPcs:unMappedPcs.join(' '),
             iPivot: pcs.templateMappingVectorPcs.indexOf(chord.iPivot!),
@@ -47,7 +47,6 @@ export class AnalyseChord {
             nMapping: pcs.nMapping,
             templateMappingVectorPcs: pcs.templateMappingVectorPcs
           })
-
         }
 
         AnalyseChord.addPcs(chordsByDegree, nbDegree + 1, chord)
