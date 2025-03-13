@@ -646,7 +646,7 @@ p>span[class="note"] {
 </li>
 <li><a href="#_orbit">Orbit</a>
 <ul class="sectlevel2">
-<li><a href="#_stabilizers_and_fixed_pcs">Stabilizers and Fixed PCS</a></li>
+<li><a href="#_stabilizer_and_fixed_pcs">Stabilizer and Fixed PCS</a></li>
 <li><a href="#_equivalence_relation">Equivalence relation</a></li>
 <li><a href="#_case_study_cyclic_group">Case study (cyclic group)</a></li>
 <li><a href="#_orbit_stabilizer">Orbit stabilizer</a></li>
@@ -759,7 +759,7 @@ p>span[class="note"] {
 <p>A good illustration of mathematics concepts.</p>
 </div>
 <div class="paragraph">
-<p>Example : Get Limited Transposition PCS in Cyclic Prime Form : Select only <code>M1</code> operation and click on button with label :  <em>Show orbits (352) grouped by Stabilizers signature</em>. On 352 PCS representatives, 335 are 12 uniques transposed, 17 are less than 12 (called PCS in Limited Transposition)</p>
+<p>Example : Get Limited Transposition PCS in Cyclic Prime Form : Select only <code>M1</code> operation and click on button with label :  <em>Show orbits (352) grouped by Stabilizer signature</em>. On 352 PCS representatives, 335 are 12 uniques transposed, 17 are less than 12 (called PCS in Limited Transposition)</p>
 </div>
 <div class="openblock float-group">
 <div class="content">
@@ -783,7 +783,7 @@ p>span[class="note"] {
 <div class="exampleblock">
 <div class="content">
 <div class="paragraph">
-<p>Explore musaics shearing same is-stabilizers.<sup class="footnote">[<a id="_footnoteref_3" class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup>, having same <strong>octotropes</strong> (partition) and search musaic that include a PCS given (search form on top right menu)</p>
+<p>Explore musaics shearing same meta-stabilizer.<sup class="footnote">[<a id="_footnoteref_3" class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup>, having same <strong>octotropes</strong> (partition) and search musaic that include a PCS given (search form on top right menu)</p>
 </div>
 <div class="openblock float-group">
 <div class="content">
@@ -806,7 +806,7 @@ p>span[class="note"] {
 </div>
 </div>
 <div class="paragraph">
-<p>Example : There is 6 musaics which are invariant by complement operation (a stabilizer) : Select only <code>CM1</code> operation (C for <em>complement</em> M1 for <em>neutral multiplication operation</em>). Set of these 6 musaics is partitioned by 3 octotropes (is-stabilizers classes) : <code>M1,M5,CM1,CM5</code>, <code>M1,M11,CM1,CM11</code> and <code>M1,M5,M7,M11,CM1,CM5,CM7,CM11</code></p>
+<p>Example : There is 6 musaics which are invariant by complement operation (a stabilizer) : Select only <code>CM1</code> operation (C for <em>complement</em> M1 for <em>neutral multiplication operation</em>). Set of these 6 musaics is partitioned by 3 octotropes (meta-stabilizer classes) : <code>M1,M5,CM1,CM5</code>, <code>M1,M11,CM1,CM11</code> and <code>M1,M5,M7,M11,CM1,CM5,CM7,CM11</code></p>
 </div>
 <div class="paragraph">
 <p><span class="image"><img src="./assets/images/octotrope-cm1.png" alt="octotrope cm1"></span></p>
@@ -1539,6 +1539,9 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0 4
 <p><strong>Complementation</strong> (<strong>C</strong>), which geometrically and musically corresponds to a complementarity.</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>From Musical Set Theory, these algebraic definitions provide a precise framework for analyzing the relationships between sets of pitch classes in atonal and post-tonal music.</p>
 </div>
 <div class="paragraph">
 <p>We present these transformation operations below.</p>
@@ -2571,7 +2574,7 @@ where \$c in {true, false}, a in { 1, 5, 7, 11 } and k in { 0, 1, ..., 11  } }\$
 </div>
 </div>
 <div class="sect2">
-<h3 id="_stabilizers_and_fixed_pcs">Stabilizers and Fixed PCS</h3>
+<h3 id="_stabilizer_and_fixed_pcs">Stabilizer and Fixed PCS</h3>
 <div class="paragraph">
 <p>PCS are fixed (i.e. unmodified, invariant) under action of one or more transformation operations of \$G\$, which contains 96.</p>
 </div>
@@ -2607,17 +2610,42 @@ where \$c in {true, false}, a in { 1, 5, 7, 11 } and k in { 0, 1, ..., 11  } }\$
 <div class="paragraph">
 <p>Operations in \$G\$ which do not transform some of its elements (it fixes them) are called <em>stabilizer</em>. Such operation in <em>G</em> fix the concerned PCS in P(E)</p>
 </div>
+<div class="exampleblock">
+<div class="content">
+<div class="openblock text-center">
+<div class="content">
+<div class="paragraph">
+<p><strong>Stabilizer</strong></p>
+</div>
 <div class="paragraph">
 <p>A <strong>stabilizer</strong> of \$ "pcs" in P(E)\$ is a <strong>subset</strong> of \$G\$, denoted <strong><em>G<sub>pcs</sub></em></strong>, having all its elements fixing \$pcs\$</p>
 </div>
 <div class="paragraph">
 <p>\$G_bb"pcs" := {g in G | g cdot pcs = pcs }\$</p>
 </div>
+</div>
+</div>
+</div>
+</div>
 <div class="paragraph">
-<p>Inversely, \$Fixed_H\$ is the set of elements of \$P(E)\$ invariants under action of   \$H subseteq G\$</p>
+<p>Inversely,</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="openblock text-center">
+<div class="content">
+<div class="paragraph">
+<p><strong>Fixed Pcs</strong></p>
+</div>
+<div class="paragraph">
+<p>\$Fixed_H\$ is the set of elements of \$P(E)\$ invariants under action of   \$H subseteq G\$</p>
 </div>
 <div class="paragraph">
 <p>\$Fixed_H := {pcs in P(E) | g cdot pcs = pcs, AA g in H}\$</p>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div class="paragraph">
 <p>By correlation, the cardinality of an orbit is linked to the number of its stabilizers. Indeed, the more stabilizers an orbit has, the fewer elements the orbit has. This is the subject of a theorem known as <a href="https://en.wikipedia.org/wiki/Group_action#Orbit-stabilizer_theorem">orbit-stabilizer</a> :</p>
@@ -3032,7 +3060,7 @@ The concept of the "smallest element" refers to the concept of "normal form" and
 <p>335 orbits are composed of 12 elements, having exactly one stabilizer, \$"M1-T0"\$, and their cardinal is equal to the number of operations in the group, i.e. 12.</p>
 </li>
 <li>
-<p>17 very special orbits, which represent the structures with <strong>"limited transpositions"</strong>, have more than one stabilizer. Therefore, their cardinality is less than 12.</p>
+<p>17 very special orbits, which represent the structures with <strong>"limited transpositions"</strong>, have more than one stabilizing operation. Therefore, their cardinality is less than 12.</p>
 </li>
 </ul>
 </div>
@@ -3047,7 +3075,7 @@ You can already explore the cyclic group in the musaicbox application: go to the
 <br>
 <br>
  .17 Cyclic orbits of Limited Transposition PCS
- <span class="image"><img src="./assets/images/zn-explorer-cyclic-group.png" alt="zn-explorer-cyclic-group"></span>
+ <span class="image"><img src="./assets/images/zn-explorer-cyclic-groupV2.png" alt="zn-explorer-cyclic-group"></span>
 </td>
 </tr>
 </table>
@@ -3066,7 +3094,7 @@ You can already explore the cyclic group in the musaicbox application: go to the
 <p>Cyclic orbit of augmented triad is : { \$"[0 4 8]", "[1 5 9]","[2 6 10]","[3 7 11]"\$ }</p>
 </div>
 <div class="paragraph">
-<p>Stabilizers cyclic orbit of augmented triad are : \${"M1-T0~4*"}\$ = \${"M1-T0", "M1-T4", "M1-T8"}\$</p>
+<p>Stabilizer cyclic orbit of augmented triad is : \${"M1-T0~4*"}\$ = \${"M1-T0", "M1-T4", "M1-T8"}\$</p>
 </div>
 <div class="paragraph">
 <p>Check this result by orbit-stabilizer theorem : \$|G"⋅"A| = (|G|) / (|G_A|)\$</p>
@@ -3115,10 +3143,10 @@ You can already explore the cyclic group in the musaicbox application: go to the
 <p><strong>Orbit Stabilizer</strong></p>
 </div>
 <div class="paragraph">
-<p>\$ "Orbit" -&gt; Stabilizer^+\$</p>
+<p>\$ "Orbit" -&gt; Stabilizer\$</p>
 </div>
 <div class="paragraph">
-<p>\$"Stab(O)" := { G_"pcs" }, AA \ pcs in O \$</p>
+<p>\$"Stabilizer(O)" := { G_"pcs" }, AA \ pcs in O \$</p>
 </div>
 </div>
 </div>
@@ -3679,7 +3707,7 @@ Example : [M1-T1 M11-T1] &#8658; [M1 M11]
 <div class="sect2">
 <h3 id="_stabilizer_naming">Stabilizer naming</h3>
 <div class="paragraph">
-<p>As specified in the chapter <a href="#_stabilizers_and_fixed_pcs">Stabilizers and Fixed PCS</a>, a stabilizer is inseparable from an orbit, it is even one of its components.</p>
+<p>As specified in the chapter <a href="#_stabilizer_and_fixed_pcs">Stabilizer and Fixed PCS</a>, a stabilizer is inseparable from an orbit, it is even one of its components.</p>
 </div>
 <div class="paragraph">
 <p>It turns out that possible several orbits share the same stabilizer. The best known of them is the only one to be composed of only one transformation operation is \$"M1-T0"\$, the <em>identity operation</em>, also called <em>neutral operation</em>.</p>
@@ -3753,7 +3781,7 @@ Example : [M1-T1 M11-T1] &#8658; [M1 M11]
 </ul>
 </div>
 <div class="paragraph">
-<p>This type of representation increases the readability of the stabilizers. Empty pcs is the best case, because the set of stabilizers of G<sub>[∅]</sub> is composed of 48 operations, and denoted M1-T0~1* M5-T0~1* M7-T0~1* M11-T0~1*, only 4 reduced names vs 48, a nice saving!</p>
+<p>This type of representation increases the readability of a stabilizer. Empty pcs is the best case, because the set of stabilizer of G<sub>[∅]</sub> is composed of 48 operations, and denoted M1-T0~1* M5-T0~1* M7-T0~1* M11-T0~1*, only 4 reduced names vs 48, a nice saving!</p>
 </div>
 </div>
 <div class="sect3">
@@ -4528,7 +4556,7 @@ Modal prime form concept is invented, specific to this project.
 <a href="#_footnoteref_2">2</a>. redo:Back to the future only possible if the past has not been updated
 </div>
 <div class="footnote" id="_footnotedef_3">
-<a href="#_footnoteref_3">3</a>. A stabiliser is a transformation operation which conserve intervallic structure
+<a href="#_footnoteref_3">3</a>. A stabilizing operation is a transformation operation which conserve intervallic structure
 </div>
 <div class="footnote" id="_footnotedef_4">
 <a href="#_footnoteref_4">4</a>. Sometimes 10 and 11 are noted A, B or e, t
@@ -4536,7 +4564,7 @@ Modal prime form concept is invented, specific to this project.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-03-13 17:32:03 +0100
+Last updated 2025-03-13 18:09:06 +0100
 </div>
 </div>
 <script type="text/x-mathjax-config">
