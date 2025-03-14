@@ -625,10 +625,10 @@ p>span[class="note"] {
 <li><a href="#_conclusion">Conclusion</a></li>
 </ul>
 </li>
-<li><a href="#_group_operation">Group operation</a>
+<li><a href="#_unified_operation">Unified operation</a>
 <ul class="sectlevel2">
 <li><a href="#_special_affine_operation">Special Affine Operation</a></li>
-<li><a href="#_extended_special_affine_operation">Extended Special Affine Operation</a></li>
+<li><a href="#_extended_special_affine_operation">*Extended Special Affine Operation</a></li>
 </ul>
 </li>
 <li><a href="#_group">Group</a>
@@ -681,7 +681,7 @@ p>span[class="note"] {
 <ul class="sectlevel3">
 <li><a href="#_what_prime_form_is">What Prime Form is</a></li>
 <li><a href="#_what_prime_form_is_not">What Prime Form is not</a></li>
-<li><a href="#_modal_prime_form">Modal prime form</a></li>
+<li><a href="#_symmetry_prime_form">Symmetry prime form</a></li>
 </ul>
 </li>
 <li><a href="#_subgroups_and_their_generators">Subgroups and their generators</a></li>
@@ -1785,7 +1785,7 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0 4
 </div>
 </div>
 <div class="sect1">
-<h2 id="_group_operation">Group operation</h2>
+<h2 id="_unified_operation">Unified operation</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>We will now combine our these three primitive operations (C, M and T)  into one single operation with the aim of creating a group.</p>
@@ -1796,14 +1796,14 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0 4
 <p>Multiplication and Transposition may be grouped into one special affine operation \$ (ax + k)\$ that operates on \$P(E)\$.</p>
 </div>
 <div class="paragraph">
-<p>Operation name is &#160; \$M_aT_k\$</p>
+<p>Operation name will be represented by  \$M_aT_k\$ (<em>M</em><sub>a</sub>  for multiplication by <em>a</em> and <em>T</em><sub>k</sub> for transposition by a step of <em>k</em>).</p>
 </div>
 <div class="exampleblock">
 <div class="content">
 <div class="openblock text-center">
 <div class="content">
 <div class="paragraph">
-<p><strong>Special Affine Operation (SAO)</strong></p>
+<p><strong>Special Affine Operation</strong></p>
 </div>
 <div class="paragraph">
 <p>\$M_aT_k  :  P(E) xx NN xx NN -&gt; P(E)\$</p>
@@ -1839,9 +1839,9 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0 4
 </div>
 </div>
 <div class="sect2">
-<h3 id="_extended_special_affine_operation">Extended Special Affine Operation</h3>
+<h3 id="_extended_special_affine_operation">*Extended Special Affine Operation</h3>
 <div class="paragraph">
-<p>If we add the complementarity operation to the special affine function, we obtain the following operation: <strong>\$c * (ax + k)\$</strong> that operates on \$P(E)\$.</p>
+<p>If we add the complementarity operation to the special affine function, we obtain the following operation: <strong>\$c * (ax + k)\$</strong> that operates on \$P(E)\$. It is with this unified operation that we will work.</p>
 </div>
 <div class="paragraph">
 <p>Operation name is &#160; \$C_cM_aT_k\$</p>
@@ -1902,10 +1902,7 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0 4
 <p><strong>M1-T0</strong> &#160;:&#160;  \$C_"false"M_1T_0("[0 4 7]") -&gt; "[0 4 7]"\$ &#160; (neutral op)</p>
 </li>
 <li>
-<p><strong>CM1-T0</strong> &#160;:&#160; \$C_"true"M_1T_0("[0 2 4 5 7 9 11]") -&gt; "[1 3 6 8 10]"\$ &#160; (complement only)</p>
-</li>
-<li>
-<p><strong>M1-T1</strong> &#160;:&#160; \$C_"false"M_1T_1("[0 4 7]) -&gt; "[1 5 8]"\$ &#160; (transposition of 1 halftone only)</p>
+<p><strong>M1-T1</strong> &#160;:&#160; \$C_"false"M_1T_1("[0 4 7]") -&gt; "[1 5 8]"\$ &#160; (transposition of 1 halftone only)</p>
 </li>
 <li>
 <p><strong>M5-T0</strong> &#160;:&#160; \$C_"false"M_5T_0("[0 4 7]") -&gt; "[0 8 11]"\$ &#160; (M5 only)</p>
@@ -1915,6 +1912,9 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0 4
 </li>
 <li>
 <p><strong>CM1-T1</strong> &#160;:&#160; \$C_"true"M_1T_1("[0 2 4 6 8 10]") -&gt; "[0 2 4 6 8 10]"\$ &#160; (T1 and Complement)</p>
+</li>
+<li>
+<p><strong>CM1-T0</strong> &#160;:&#160; \$C_"true"M_1T_0("[0 3 6 9]") -&gt; "[1 2 4 5 7 8 10 11]"\$ &#160; (Complement only : Dim7 &#8594; Dim scale)</p>
 </li>
 </ul>
 </div>
@@ -2230,7 +2230,7 @@ Extended Special Affine Operation is called <em>MusaicOperation</em> into Musaic
 <div class="sect2">
 <h3 id="_conclusion_2">Conclusion</h3>
 <div class="paragraph">
-<p>We have defined an extended special affine group \$G\$ with complementarity  , from operation \$c * (ax + k)\$ intended to act on \$P(ZZ_n)\$ defined by :</p>
+<p>We have defined an extended special affine group \$G\$ with complementarity  , from unified operation \$c * (ax + k)\$ intended to act on \$P(ZZ_n)\$ defined by :</p>
 </div>
 <div class="ulist">
 <ul>
@@ -2255,7 +2255,7 @@ Extended Special Affine Operation is called <em>MusaicOperation</em> into Musaic
 <p>Consider the action of \$G\$ on set \$P(E)\$, with \$E = ZZ "/" nZZ = ZZ_n\$ and \$P(E)\$, a set of \$2^|E| = 2^n\$.</p>
 </div>
 <div class="paragraph">
-<p>Let us now consider \$E = ZZ_12\$ = {0,1,2,3,4,5,6,7,8,9,10,11}</p>
+<p>Let us now consider \$E = ZZ_12\$ = {0,1,2,3,4,5,6,7,8,9,10,11}, the twelve pitch classes.</p>
 </div>
 <div class="paragraph">
 <p>\$P(E)\$ is set of \$2^|E| = 2^12 = bb 4096\$ <strong>PCS elements</strong> (4096 subsets of <em>E</em>)</p>
@@ -3179,6 +3179,12 @@ You can already explore the cyclic group in the musaicbox application: go to the
 </td>
 <td class="content">
 Into an orbit of cyclic group, all pcs share the same stabilizer. This is generally not the case for other groups.
+<br>
+Example with H = <code>{ M1-T0~1*, M11-T0~1* }</code> (dihedral group) :
+<br>
+ <span class="image"><img src="./assets/images/orbit-stab-fix-diatMaj.svg" alt="orbit-stab-fix-diatMaj"></span>
+<br>
+ Note : Diatonic major is in <em>Limited Transformation</em> (its inverse is also a Diatonic major structure)
 </td>
 </tr>
 </table>
@@ -4253,9 +4259,9 @@ In musical set theory, historically, the default context of Prime Form is the di
 </div>
 </div>
 <div class="sect3">
-<h4 id="_modal_prime_form">Modal prime form</h4>
+<h4 id="_symmetry_prime_form">Symmetry prime form</h4>
 <div class="paragraph">
-<p>It is a pcs of cyclic orbit that, if possible, highlights its symmetry (else is cyclic prime form).</p>
+<p>A symmetry prime form of a given pcs, is a minimum pcs of its cyclic orbit that, if possible, highlights its axial symmetries (else is cyclic prime form).</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -4264,7 +4270,7 @@ In musical set theory, historically, the default context of Prime Form is the di
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Modal prime form concept is invented, specific to this project.
+Symmetry prime form concept is invented, specific to this project.
 </td>
 </tr>
 </table>
@@ -4276,9 +4282,9 @@ Modal prime form concept is invented, specific to this project.
 <div class="content">
 <div class="imageblock left text-center left">
 <div class="content">
-<img src="./assets/images/pcs_2_3_5_7_8_V2.png" alt="Modal and cyclic prime form">
+<img src="./assets/images/pcs_2_3_5_7_8_V3.png" alt="Symmetry and cyclic prime form">
 </div>
-<div class="title">Figure 13. Modal and cyclic prime form</div>
+<div class="title">Figure 13. Symmetry and cyclic prime form</div>
 </div>
 </div>
 </div>
@@ -4286,7 +4292,7 @@ Modal prime form concept is invented, specific to this project.
 <div class="content">
 <div class="imageblock left text-center left">
 <div class="content">
-<img src="./assets/images/pcs_2_3_5_7_8-PF-V2.png" alt="Cyclic prime form">
+<img src="./assets/images/pcs_2_3_5_7_8-PF-V3.png" alt="Cyclic prime form">
 </div>
 <div class="title">Figure 14. Cyclic prime form</div>
 </div>
@@ -4296,24 +4302,27 @@ Modal prime form concept is invented, specific to this project.
 <div class="content">
 <div class="imageblock left text-center left">
 <div class="content">
-<img src="./assets/images/pcs_2_3_5_7_8-MPF-V2.png" alt="Modal prime form">
+<img src="./assets/images/pcs_2_3_5_7_8-MPF-V3.png" alt="Symmetry prime form">
 </div>
-<div class="title">Figure 15. Modal prime form</div>
+<div class="title">Figure 15. Symmetry prime form</div>
 </div>
 </div>
+</div>
+<div class="paragraph">
+<p>Below, cyclic orbit of [2 3 5 7 8], or [0 2 3 9 10], or &#8230;&#8203; 12 choices !</p>
 </div>
 <div class="openblock float-group">
 <div class="content">
 <div class="imageblock left text-center left">
 <div class="content">
-<img src="./assets/images/pcs_2_3_5_7_8-wb1.png" alt="Modal and cyclic prime form">
+<img src="./assets/images/pcs_023910-cyclic-symmetry-pf.png" alt="Symmetry and cyclic prime form">
 </div>
-<div class="title">Figure 16. Cyclic orbit and his modal and prime form</div>
+<div class="title">Figure 16. Cyclic orbit and his symmetry and prime form</div>
 </div>
 </div>
 </div>
 <div class="paragraph">
-<p>Same, in other views :</p>
+<p>Same orbit, in other views and order :</p>
 </div>
 <div class="openblock float-group">
 <div class="content">
@@ -4564,7 +4573,7 @@ Modal prime form concept is invented, specific to this project.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-03-13 18:09:06 +0100
+Last updated 2025-03-14 19:14:38 +0100
 </div>
 </div>
 <script type="text/x-mathjax-config">

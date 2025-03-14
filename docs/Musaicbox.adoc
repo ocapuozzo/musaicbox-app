@@ -600,7 +600,7 @@ We have just defined 3 primitive operations which are _Transposition_, _Multipli
 
 Let's see how to use them in a Group structure.
 
-== Group operation
+== Unified operation
 
 We will now combine our these three primitive operations (C, M and T)  into one single operation with the aim of creating a group.
 
@@ -608,12 +608,12 @@ We will now combine our these three primitive operations (C, M and T)  into one 
 
 Multiplication and Transposition may be grouped into one special affine operation stem:[ (ax + k)] that operates on stem:[P(E)].
 
-Operation name is {nbsp} stem:[M_aT_k]
+Operation name will be represented by  stem:[M_aT_k] (_M_~a~  for multiplication by _a_ and _T_~k~ for transposition by a step of _k_).
 
 ====
 [.text-center]
 --
-*Special Affine Operation (SAO)*
+*Special Affine Operation*
 
 stem:[M_aT_k  :  P(E) xx NN xx NN -> P(E)]
 
@@ -632,12 +632,11 @@ Examples when stem:[E = {0, 1, ..., 11}]  (cardinal of stem:[E\ is\ |E| = 12])
 
 . Example M5-T5 : {nbsp} stem:[M_5T_5("[0 4 7\]") -> "[1 4 5\]"] {nbsp} Multiplication and Transposition
 
-=== Extended Special Affine Operation
+=== *Extended Special Affine Operation
 
-If we add the complementarity operation to the special affine function, we obtain the following operation: *stem:[c * (ax + k)]* that operates on stem:[P(E)].
+If we add the complementarity operation to the special affine function, we obtain the following operation: *stem:[c * (ax + k)]* that operates on stem:[P(E)]. It is with this unified operation that we will work.
 
 Operation name is {nbsp} stem:[C_cM_aT_k]
-
 
 ====
 [.text-center]
@@ -671,15 +670,17 @@ Examples when stem:[E = {0, 1, ..., 11}]  (cardinal of stem:[E\ is\ |E| = 12]) :
 
 * *M1-T0* {nbsp}:{nbsp}  stem:[C_"false"M_1T_0("[0 4 7\]") -> "[0 4 7\]"] {nbsp} (neutral op)
 
-* *CM1-T0* {nbsp}:{nbsp} stem:[C_"true"M_1T_0("[0 2 4 5 7 9 11\]") -> "[1 3 6 8 10\]"] {nbsp} (complement only)
-
-* *M1-T1* {nbsp}:{nbsp} stem:[C_"false"M_1T_1("[0 4 7\]) -> "[1 5 8\]"] {nbsp} (transposition of 1 halftone only)
+* *M1-T1* {nbsp}:{nbsp} stem:[C_"false"M_1T_1("[0 4 7\]") -> "[1 5 8\]"] {nbsp} (transposition of 1 halftone only)
 
 * *M5-T0* {nbsp}:{nbsp} stem:[C_"false"M_5T_0("[0 4 7\]") -> "[0 8 11\]"] {nbsp} (M5 only)
 
 * *CM5-T4* {nbsp}:{nbsp} stem:[C_"true"M_5T_4("[0 4 7\]") -> "[1 2 5 6 7 8 9 10 11\]"] {nbsp} (M5,  T4 and Complement)
 
 * *CM1-T1* {nbsp}:{nbsp} stem:[C_"true"M_1T_1("[0 2 4 6 8 10\]") -> "[0 2 4 6 8 10\]"] {nbsp} (T1 and Complement)
+
+* *CM1-T0* {nbsp}:{nbsp} stem:[C_"true"M_1T_0("[0 3 6 9\]") -> "[1 2 4 5 7 8 10 11\]"] {nbsp} (Complement only : Dim7 -> Dim scale)
+
+// * *CM1-T0* {nbsp}:{nbsp} stem:[C_"true"M_1T_0("[0 2 4 5 7 9 11\]") -> "[1 3 6 8 10\]"] {nbsp} (complement only)
 
 
 etc.
@@ -864,7 +865,7 @@ We can therefore say that stem:[(c , a , -k * a^-1)] is *the symmetric element* 
 
 === Conclusion
 
-We have defined an extended special affine group stem:[G] with complementarity  , from operation stem:[c * (ax + k)] intended to act on stem:[P(ZZ_n)] defined by :
+We have defined an extended special affine group stem:[G] with complementarity  , from unified operation stem:[c * (ax + k)] intended to act on stem:[P(ZZ_n)] defined by :
 
 * Its elements are triplets stem:[(c, a, k)] , in reference to extend special operation :  stem:[c * (ax + k)]
 
@@ -881,7 +882,7 @@ where stem:[n>2], stem:[a] prime with stem:[n] and stem:[c in {true, false}]
 
 Consider the action of stem:[G] on set stem:[P(E)], with stem:[E = ZZ "/" nZZ = ZZ_n] and stem:[P(E)], a set of stem:[2^|E| = 2^n].
 
-Let us now consider stem:[E = ZZ_12] = {0,1,2,3,4,5,6,7,8,9,10,11}
+Let us now consider stem:[E = ZZ_12] = {0,1,2,3,4,5,6,7,8,9,10,11}, the twelve pitch classes.
 
 stem:[P(E)] is set of stem:[2^|E| = 2^12 = bb 4096] *PCS elements* (4096 subsets of _E_)
 
@@ -1343,6 +1344,12 @@ Examples, with _H_ = Cyclic group :
 - Stab( _H_ ⋅[0 4 7] ) = `{ M1-T0 }`
 
 NOTE: Into an orbit of cyclic group, all pcs share the same stabilizer. This is generally not the case for other groups.
+ +
+Example with H = `{ M1-T0~1*, M11-T0~1* }` (dihedral group) :
+ +
+ image:orbit-stab-fix-diatMaj.svg[orbit-stab-fix-diatMaj]
+ +
+ Note : Diatonic major is in _Limited Transformation_ (its inverse is also a Diatonic major structure)
 
 === Conclusion
 
@@ -2177,43 +2184,45 @@ Prime form is a "technical" characteristic of one element into an orbit, *withou
 
 In absolute terms, any pcs into an orbit can be a representative of their orbit. By convention, we select the _minimal element_
 
-==== Modal prime form
+==== Symmetry prime form
 
-It is a pcs of cyclic orbit that, if possible, highlights its symmetry (else is cyclic prime form).
+A symmetry prime form of a given pcs, is a minimum pcs of its cyclic orbit that, if possible, highlights its axial symmetries (else is cyclic prime form).
 
-NOTE: Modal prime form concept is invented, specific to this project.
+NOTE: Symmetry prime form concept is invented, specific to this project.
 
 Example on pcs : [2 3 5 7 8] :
 
 [.float-group]
 --
 [.left]
-.Modal and cyclic prime form
-image::pcs_2_3_5_7_8_V2.png["Modal and cyclic prime form" float="left",align="center"]
+.Symmetry and cyclic prime form
+image::pcs_2_3_5_7_8_V3.png["Symmetry and cyclic prime form" float="left",align="center"]
 --
 
 [.float-group]
 --
 [.left]
 .Cyclic prime form
-image::pcs_2_3_5_7_8-PF-V2.png["Cyclic prime form" float="left",align="center"]
+image::pcs_2_3_5_7_8-PF-V3.png["Cyclic prime form" float="left",align="center"]
 --
 
 [.float-group]
 --
 [.left]
-.Modal prime form
-image::pcs_2_3_5_7_8-MPF-V2.png["Modal prime form" float="left",align="center"]
+.Symmetry prime form
+image::pcs_2_3_5_7_8-MPF-V3.png["Symmetry prime form" float="left",align="center"]
 --
+
+Below, cyclic orbit of [2 3 5 7 8], or [0 2 3 9 10], or ... 12 choices !
 
 [.float-group]
 --
 [.left]
-.Cyclic orbit and his modal and prime form
-image::pcs_2_3_5_7_8-wb1.png["Modal and cyclic prime form" float="left",align="center"]
+.Cyclic orbit and his symmetry and prime form
+image::pcs_023910-cyclic-symmetry-pf.png["Symmetry and cyclic prime form" float="left",align="center"]
 --
 
-Same, in other views :
+Same orbit, in other views and order :
 
 [.float-group]
 --
