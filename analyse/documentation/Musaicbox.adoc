@@ -1343,6 +1343,12 @@ Examples, with _H_ = Cyclic group :
 - Stab( _H_ ⋅[0 4 7] ) = `{ M1-T0 }`
 
 NOTE: Into an orbit of cyclic group, all pcs share the same stabilizer. This is generally not the case for other groups.
+ +
+Example with H = `{ M1-T0~1*, M11-T0~1* }` (dihedral group) :
+ +
+ image:orbit-stab-fix-diatMaj.svg[orbit-stab-fix-diatMaj]
+ +
+ Note : Diatonic major is in _Limited Transformation_ (its inverse is also a Diatonic major structure)
 
 === Conclusion
 
