@@ -450,7 +450,13 @@ td:has(>p>span[class="klein2"]) {
 }
 
 
-p>span[class="note"] {
+ #zero-fixed-problem tr:nth-child(3)>td>p>mark {
+    background-color: red;
+}
+
+
+
+  p>span[class="note"] {
   background-color: lightgray;
 }
 
@@ -629,6 +635,12 @@ p>span[class="note"] {
 <ul class="sectlevel2">
 <li><a href="#_special_affine_operation">Special Affine Operation</a></li>
 <li><a href="#_extended_special_affine_operation">*Extended Special Affine Operation</a></li>
+</ul>
+</li>
+<li><a href="#_whats_wrong_with_operations">What&#8217;s wrong with operations ?</a>
+<ul class="sectlevel2">
+<li><a href="#_mismatch_in_basic_operations">Mismatch in basic operations !</a></li>
+<li><a href="#_solution_by_adopting_a_mobile_pivot">Solution by adopting a mobile pivot</a></li>
 </ul>
 </li>
 <li><a href="#_group">Group</a>
@@ -1161,7 +1173,7 @@ We can clearly see the use of the name of Pitch Class \$bar i\$ as an index \$i\
 <div class="paragraph">
 <p>There is an inverse function <em>vectorToPcs</em>  defined by :</p>
 </div>
-<div class="exampleblock">
+<div id="vector-to-pcs" class="exampleblock">
 <div class="content">
 <div class="openblock text-center">
 <div class="content">
@@ -1633,7 +1645,7 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0 4
 <p>\$M_a  :  P(E) xx NN -&gt; P(E)\$</p>
 </div>
 <div class="paragraph">
-<p>\$M_a(A) := {\ (x * a) mod |E| \ },  forall   x in A\$</p>
+<p>\$M_a(A) := {\ (a * x) mod |E| \ },  forall   x in A\$</p>
 </div>
 <div class="paragraph">
 <p><em>Where a is prime with |E|, and \$*\$ is multiplication operator</em>.</p>
@@ -1937,10 +1949,294 @@ Extended Special Affine Operation is called <em>MusaicOperation</em> into Musaic
 </div>
 </div>
 <div class="sect1">
+<h2 id="_whats_wrong_with_operations">What&#8217;s wrong with operations ?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Let&#8217;s take the inversion operation as an example.</p>
+</div>
+<div class="paragraph">
+<p>In the literature on post-tonal analysis, inversion operation can be found expressed in two forms :</p>
+</div>
+<div class="paragraph">
+<p>\$InverseA(Pcs) = { (n - x) mod n | x ∈ Pcs }\$ // simple version <a href="#Forte">[Forte]</a></p>
+</div>
+<div class="paragraph">
+<p>\$InverseB(Pcs) = { (n - 1) * x + 0 mod n | x ∈ Pcs }\$ // <a href="https://en.wikipedia.org/wiki/Multiplication_(music)">affine version</a></p>
+</div>
+<div class="paragraph">
+<p>Example : C Major scale <code>[0 2 4 5 7 9 11]</code></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>InverseA(<code>[0 2 4 5 7 9 11]</code>) :</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>0</code> &#8594; <code>12 - 0</code> &#8594; <code>0</code></p>
+</div>
+<div class="paragraph">
+<p><code>2</code> &#8594; <code>12 - 2</code> &#8594; <code>10</code></p>
+</div>
+<div class="paragraph">
+<p><code>4</code> &#8594; <code>12 - 4</code> &#8594; <code>8</code></p>
+</div>
+<div class="paragraph">
+<p><code>5</code> &#8594; <code>12 - 5</code> &#8594; <code>7</code></p>
+</div>
+<div class="paragraph">
+<p><code>7</code> &#8594; <code>12 - 7</code> &#8594; <code>5</code></p>
+</div>
+<div class="paragraph">
+<p><code>9</code> &#8594; <code>12 - 3</code> &#8594; <code>3</code></p>
+</div>
+<div class="paragraph">
+<p><code>11</code> &#8594; <code>12 - 11</code> &#8594; <code>1</code></p>
+</div>
+<div class="paragraph">
+<p>This gives : InverseA(<code>[0 2 4 5 7 9 11]</code>) &#8594; <code>[0 1 3 5 7 8 10]</code></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>InverseB(<code>[0 2 4 5 7 9 11]</code>) :</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>0</code> &#8594; <code>11 x 0</code> &#8594; <code>0</code></p>
+</div>
+<div class="paragraph">
+<p><code>2</code> &#8594; <code>11 x 2</code> &#8594; 22 mod 12 &#8594; <code>10</code></p>
+</div>
+<div class="paragraph">
+<p><code>4</code> &#8594; <code>11 x 4</code> &#8594; 44 mod 12 &#8594; <code>8</code></p>
+</div>
+<div class="paragraph">
+<p><code>5</code> &#8594; <code>11 x 5</code> &#8594; 55 mod 12 &#8594; <code>7</code></p>
+</div>
+<div class="paragraph">
+<p><code>7</code> &#8594; <code>11 x 7</code> &#8594; 77 mod 12 &#8594; <code>5</code></p>
+</div>
+<div class="paragraph">
+<p><code>9</code> &#8594; <code>11 x 3</code> &#8594; 33 mod 12 &#8594; <code>3</code></p>
+</div>
+<div class="paragraph">
+<p><code>11</code> &#8594; <code>11 x 11</code> &#8594; 121 mod 12 &#8594; <code>1</code></p>
+</div>
+<div class="paragraph">
+<p>This gives : InverseB(<code>[0 2 4 5 7 9 11]</code>) &#8594; <code>[0 1 3 5 7 8 10]</code></p>
+</div>
+<div class="paragraph">
+<p><strong>InverseA and InverseB are same logic</strong> : CMajor is transformed in III degree of its VIb Major (Ab Major)</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./assets/images/CMajor-M11.png" alt="CMajor-M11">
+</div>
+</div>
+<div class="paragraph">
+<p>Now let&#8217;s take C# Major / Db Major : <code>[0 1 3 5 6 8 10]</code></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>InverseA(<code>[0 1 3 5 6 8 10]</code>) :</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>0</code> &#8594; <code>12 - 0</code> &#8594; <code>0</code></p>
+</div>
+<div class="paragraph">
+<p><code>1</code> &#8594; <code>12 - 1</code> &#8594; <code>11</code></p>
+</div>
+<div class="paragraph">
+<p><code>3</code> &#8594; <code>12 - 3</code> &#8594; <code>9</code></p>
+</div>
+<div class="paragraph">
+<p><code>5</code> &#8594; <code>12 - 5</code> &#8594; <code>7</code></p>
+</div>
+<div class="paragraph">
+<p><code>6</code> &#8594; <code>12 - 6</code> &#8594; <code>6</code></p>
+</div>
+<div class="paragraph">
+<p><code>8</code> &#8594; <code>12 - 8</code> &#8594; <code>4</code></p>
+</div>
+<div class="paragraph">
+<p><code>10</code> &#8594; <code>12 - 10</code> &#8594; <code>2</code></p>
+</div>
+<div class="paragraph">
+<p>InverseA(<code>[0 1 3 5 6 8 10]</code>) &#8594; <code>[0 2 4 6 7 9 11]</code></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./assets/images/DbMajor-M11.png" alt="DbMajor-M11">
+</div>
+</div>
+<div class="paragraph">
+<p>Oh, how come the treatment of inversion for a Db Major <strong>differs</strong> from that of a C Major?</p>
+</div>
+<div class="paragraph">
+<p>The correct answer to InverseA(<code>[0 1 3 5 6 8 10]</code>) is <code>[1 2 4 6 8 9 11]</code>, Phrygian mode of A maj (VIb of Db Major).</p>
+</div>
+<div class="paragraph">
+<p>Other example, with a <em>Limited Transposition</em> scale : <em>C Diminished</em></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./assets/images/CDim7-infos.png" alt="CDim7-infos">
+</div>
+</div>
+<div class="paragraph">
+<p>As you might expect, a diminished seventh chord is <strong>very strongly symmetrical</strong>. Observe its stabilizers, there are 16 of them and 4 are in T0 (highlighted in yellow in the screenshot above) : <code><mark>M1-T0</mark></code> of course, and  <code><mark>M5-T0</mark></code>, <code><mark>M7-T0</mark></code> and <code><mark>M11-T0</mark></code>.</p>
+</div>
+<table id="zero-fixed-problem" class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. Basic operations in Musical Set Theory</caption>
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Scale</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M11 (11x) modulo&#160;12
+(inversion)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M5  (5x) modulo&#160;12</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M7 (7x) modulo&#160;12</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ok, Dim7 waiting as strongly invariant</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[0 3 6 9]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[0 3 6 9]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[0 3 6 9]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[0 3 6 9]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><mark>OK</mark></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[1 4 7 10]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><mark>[2 5 8 11]</mark></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><mark>[2 5 8 11]</mark></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[1 4 7 10]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><mark>???!</mark></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Obviously [2 5 8 11] is an intruder! He has no business being there. But then why is he here???</p>
+</div>
+<div class="sect2">
+<h3 id="_mismatch_in_basic_operations">Mismatch in basic operations !</h3>
+<div class="paragraph">
+<p>The basic operations of musical set theory, which are the standard in the field, have a peculiarity: <strong>they are always centered on 0 (zero)</strong>, thus defining it as a fixed point.</p>
+</div>
+<div class="paragraph">
+<p>This is a side effect of the fact that pitch classes are given integer names and <strong>calculations are performed directly with these values</strong>.</p>
+</div>
+<div class="paragraph">
+<p>In other words, in the vector representation of a PCS, the bias arises from the confusion between pitch class names and vector indices. See <a href="#vector-to-pcs">[vector-to-pcs]</a></p>
+</div>
+<div class="paragraph">
+<p>This has unexpected repercussions on business logic.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>This inconsistency doesn&#8217;t seem to bother the people who gravitate toward the MST.</p>
+</div>
+<div class="paragraph">
+<p>This can be explained by the fact that the "intruder PCS" are, however, part of the same orbit as the reference PCS.</p>
+</div>
+<div class="paragraph">
+<p>In our case, this is not admissible, because we want there to always be:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Consistency between geometric transformations and algebraic transformations</strong></p>
+</li>
+<li>
+<p><strong>That what an instrumentalist observes in phrasing echoes a harmonic structure</strong></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>We will call this problem the <em>"fixed zero problem"</em>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_solution_by_adopting_a_mobile_pivot">Solution by adopting a mobile pivot</h3>
+<div class="paragraph">
+<p>The solution is to select a Pitch Class that :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Serves as a pivot (fixed pc)</p>
+</li>
+<li>
+<p>Belongs to the PCS being studied</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For this, we are going to add a new feature to the PCS, it is its <strong><em>iPivot</em></strong> (pivot index or pivot pitch, remember, we are mixing these two notions&#8230;&#8203;)</p>
+</div>
+<div class="paragraph">
+<p>This property can be brought to the user&#8217;s attention by mentioning it as an index, after the textual representation of the PCS.</p>
+</div>
+<div class="paragraph">
+<p>Examples :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>CDim7 with iPivot = 0 :  <code>[0 3 6 9]</code><sub><code>0</code></sub></p>
+</li>
+<li>
+<p>CDim7 with iPivot = 3 :  <code>[0 3 6 9]</code><sub><code>3</code></sub></p>
+</li>
+<li>
+<p>C#Dim7 with iPivot = 1 :  <code>[1 4 7 10]</code><sub><code>1</code></sub></p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+We do not have integrated this property, <em>iPivot</em>, in the logical identity. Thus, <code>[0 3 6 9]</code><sub><code>0</code></sub> and <code>[0 3 6 9]</code><sub><code>3</code></sub> will be considered identical PCS (same id)
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>TODO suite&#8230;&#8203;</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="_group">Group</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>To define a group, we need to have</p>
+<p>To define a group, we need to have:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -2290,7 +2586,7 @@ Extended Special Affine Operation is called <em>MusaicOperation</em> into Musaic
 <p>To begin with, we can focus on a few operations that will allow us to generate all possible transformation operations in \$"T0"\$, i.e. \$C_cM_aT_0\$. Several configurations of generating operations are possible, all of which lead to the same result. For now, we will arbitrarily take :  <strong>{M1-T0, CM1-T0, M5-T0, M7-T0}</strong>.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 2. First step to discover operations</caption>
+<caption class="title">Table 3. First step to discover operations</caption>
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 20%;">
@@ -2342,7 +2638,7 @@ Extended Special Affine Operation is called <em>MusaicOperation</em> into Musaic
 <p>As we can see, three new operations are discovered (<strong>M11-T0</strong>, <strong>CM5-T0</strong> and <strong>CM7-T0</strong>), we add them to the table structure (M11, CM5 and CM7), perform the calculations and repeat this process until no new operations are discovered, which gives, in fine:</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 3. All operations in T-0, but suffix -T0 is omitted (id = M1-T0)</caption>
+<caption class="title">Table 4. All operations in T-0, but suffix -T0 is omitted (id = M1-T0)</caption>
 <colgroup>
 <col style="width: 11.1111%;">
 <col style="width: 11.1111%;">
@@ -2715,7 +3011,7 @@ All these properties, and more, can be viewed on page : <a href="https://musaicb
 <p>Let&#8217;s take \${"M1-T0", "M1-T1"}\$</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 4. First step to discover operations (Cayley table)</caption>
+<caption class="title">Table 5. First step to discover operations (Cayley table)</caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -2748,7 +3044,7 @@ All these properties, and more, can be viewed on page : <a href="https://musaicb
 <p>This is because the basic operation we selected (<code>M1-T1</code>), with a step of 1, generates 12. We could have chosen <code>M1-T5</code>, <code>M1-T7</code> or <code>M1-T11</code>, since 1, 5, 7, and 11 are prime with 12, we would arrive at the same result.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 5. All operations in M1-Tk, but prefix M1-  is omitted (Rem : k + k' value is modulo n=12; Example : 4+9 = 1 modulo 12)</caption>
+<caption class="title">Table 6. All operations in M1-Tk, but prefix M1-  is omitted (Rem : k + k' value is modulo n=12; Example : 4+9 = 1 modulo 12)</caption>
 <colgroup>
 <col style="width: 7.6923%;">
 <col style="width: 7.6923%;">
@@ -3310,7 +3606,7 @@ Example : [M1-T1 M11-T1] &#8658; [M1 M11]
 </table>
 </div>
 <table class="tableblock frame-ends grid-rows stretch">
-<caption class="title">Table 6. Enumeration of subgroups, by cardinality</caption>
+<caption class="title">Table 7. Enumeration of subgroups, by cardinality</caption>
 <colgroup>
 <col style="width: 29.6296%;">
 <col style="width: 3.7037%;">
@@ -3796,7 +4092,7 @@ Example : [M1-T1 M11-T1] &#8658; [M1 M11]
 <p>A "meta-stabilizer" is a stabilizer "up to transposition", so, suffix <code>-Tk</code> is omitted.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 7. Meta-Stabilizer naming examples</caption>
+<caption class="title">Table 8. Meta-Stabilizer naming examples</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -3978,7 +4274,7 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <p>Examples with some pairs of pcs (pcs1 and pcs2), let&#8217;s compare pid(pcs1) and pid(pcs2) to determine if pcs1 "is less than" pcs2 :</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 8. Example problem when compare identity with Polynomial Identifier</caption>
+<caption class="title">Table 9. Example problem when compare identity with Polynomial Identifier</caption>
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 20%;">
@@ -4120,7 +4416,7 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <p>\$forall (A, B) in P(ZZ_n)^2, |A| &lt;= |B| &lt;=&gt; id(A) &lt;= id(B)\$ &#160; (<em>cardinality compatible</em>)</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 9. Example Compare with Augmented Polynomial Identifier (id)</caption>
+<caption class="title">Table 10. Example Compare with Augmented Polynomial Identifier (id)</caption>
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 20%;">
@@ -4573,7 +4869,7 @@ Symmetry prime form concept is invented, specific to this project.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-03-14 19:14:38 +0100
+Last updated 2025-03-15 17:54:29 +0100
 </div>
 </div>
 <script type="text/x-mathjax-config">

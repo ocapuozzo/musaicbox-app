@@ -1035,7 +1035,7 @@ export class ManagerPageWBService {
 
   private doUpdateFreeText(data: { index: number, text: string, fontSize: string }) {
     if (data.index < 0 || data.index >= this.uiPcsDtoList.length) {
-      throw new Error("oops bad index : " + data.index)
+      throw new Error(`oops bad index :  ${data.index}  for ${this.uiPcsDtoList.length} elements.` )
     }
 
     this.uiPcsDtoList = [...this.uiPcsDtoList]
