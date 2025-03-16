@@ -450,7 +450,11 @@ td:has(>p>span[class="klein2"]) {
 }
 
 
- #zero-fixed-problem tr:nth-child(3)>td>p>mark {
+ #zero-fixed-problem tr:nth-child(3)>td>p>mark  {
+   background-color: red;
+ }
+
+ #zero-fixed-problem tr:nth-child(4)>td>p>mark {
     background-color: red;
 }
 
@@ -637,12 +641,8 @@ td:has(>p>span[class="klein2"]) {
 <li><a href="#_extended_special_affine_operation">*Extended Special Affine Operation</a></li>
 </ul>
 </li>
-<li><a href="#_whats_wrong_with_operations">What&#8217;s wrong with operations ?</a>
-<ul class="sectlevel2">
-<li><a href="#_mismatch_in_basic_operations">Mismatch in basic operations !</a></li>
-<li><a href="#_solution_by_adopting_a_mobile_pivot">Solution by adopting a mobile pivot</a></li>
-</ul>
-</li>
+<li><a href="#_whats_wrong_with_operations">What&#8217;s wrong with operations ?</a></li>
+<li><a href="#_expanded_pcs">Expanded PCS</a></li>
 <li><a href="#_group">Group</a>
 <ul class="sectlevel2">
 <li><a href="#_group_axioms">Group Axioms</a></li>
@@ -1957,11 +1957,15 @@ Extended Special Affine Operation is called <em>MusaicOperation</em> into Musaic
 <div class="paragraph">
 <p>In the literature on post-tonal analysis, inversion operation can be found expressed in two forms :</p>
 </div>
-<div class="paragraph">
-<p>\$InverseA(Pcs) = { (n - x) mod n | x ∈ Pcs }\$ // simple version <a href="#Forte">[Forte]</a></p>
-</div>
-<div class="paragraph">
-<p>\$InverseB(Pcs) = { (n - 1) * x + 0 mod n | x ∈ Pcs }\$ // <a href="https://en.wikipedia.org/wiki/Multiplication_(music)">affine version</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p>\$InverseA(Pcs) = { (n - x) mod n | x ∈ Pcs }\$ // basic version <a href="#Forte">[Forte]</a></p>
+</li>
+<li>
+<p>\$InverseB(Pcs) = { (n - 1) * x + 0 mod n | x ∈ Pcs }\$ // <a href="https://en.wikipedia.org/wiki/Multiplication_(music)">generalized affine version</a></p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
 <p>Example : C Major scale <code>[0 2 4 5 7 9 11]</code></p>
@@ -1974,25 +1978,25 @@ Extended Special Affine Operation is called <em>MusaicOperation</em> into Musaic
 </ul>
 </div>
 <div class="paragraph">
-<p><code>0</code> &#8594; <code>12 - 0</code> &#8594; <code>0</code></p>
+<p><code>0</code> &#8594; <code>12 - 0</code> &#8594; <code><mark>0</mark></code></p>
 </div>
 <div class="paragraph">
-<p><code>2</code> &#8594; <code>12 - 2</code> &#8594; <code>10</code></p>
+<p><code>2</code> &#8594; <code>12 - 2</code> &#8594; <code><mark>10</mark></code></p>
 </div>
 <div class="paragraph">
-<p><code>4</code> &#8594; <code>12 - 4</code> &#8594; <code>8</code></p>
+<p><code>4</code> &#8594; <code>12 - 4</code> &#8594; <code><mark>8</mark></code></p>
 </div>
 <div class="paragraph">
-<p><code>5</code> &#8594; <code>12 - 5</code> &#8594; <code>7</code></p>
+<p><code>5</code> &#8594; <code>12 - 5</code> &#8594; <code><mark>7</mark></code></p>
 </div>
 <div class="paragraph">
-<p><code>7</code> &#8594; <code>12 - 7</code> &#8594; <code>5</code></p>
+<p><code>7</code> &#8594; <code>12 - 7</code> &#8594; <code><mark>5</mark></code></p>
 </div>
 <div class="paragraph">
-<p><code>9</code> &#8594; <code>12 - 3</code> &#8594; <code>3</code></p>
+<p><code>9</code> &#8594; <code>12 - 3</code> &#8594; <code><mark>3</mark></code></p>
 </div>
 <div class="paragraph">
-<p><code>11</code> &#8594; <code>12 - 11</code> &#8594; <code>1</code></p>
+<p><code>11</code> &#8594; <code>12 - 11</code> &#8594; <code><mark>1</mark></code></p>
 </div>
 <div class="paragraph">
 <p>This gives : InverseA(<code>[0 2 4 5 7 9 11]</code>) &#8594; <code>[0 1 3 5 7 8 10]</code></p>
@@ -2005,31 +2009,31 @@ Extended Special Affine Operation is called <em>MusaicOperation</em> into Musaic
 </ul>
 </div>
 <div class="paragraph">
-<p><code>0</code> &#8594; <code>11 x 0</code> &#8594; <code>0</code></p>
+<p><code>0</code> &#8594; <code>11 x 0</code> &#8594; <code><mark>0</mark></code></p>
 </div>
 <div class="paragraph">
-<p><code>2</code> &#8594; <code>11 x 2</code> &#8594; 22 mod 12 &#8594; <code>10</code></p>
+<p><code>2</code> &#8594; <code>11 x 2</code> &#8594; 22 mod 12 &#8594; <code><mark>10</mark></code></p>
 </div>
 <div class="paragraph">
-<p><code>4</code> &#8594; <code>11 x 4</code> &#8594; 44 mod 12 &#8594; <code>8</code></p>
+<p><code>4</code> &#8594; <code>11 x 4</code> &#8594; 44 mod 12 &#8594; <code><mark>8</mark></code></p>
 </div>
 <div class="paragraph">
-<p><code>5</code> &#8594; <code>11 x 5</code> &#8594; 55 mod 12 &#8594; <code>7</code></p>
+<p><code>5</code> &#8594; <code>11 x 5</code> &#8594; 55 mod 12 &#8594; <code><mark>7</mark></code></p>
 </div>
 <div class="paragraph">
-<p><code>7</code> &#8594; <code>11 x 7</code> &#8594; 77 mod 12 &#8594; <code>5</code></p>
+<p><code>7</code> &#8594; <code>11 x 7</code> &#8594; 77 mod 12 &#8594; <code><mark>5</mark></code></p>
 </div>
 <div class="paragraph">
-<p><code>9</code> &#8594; <code>11 x 3</code> &#8594; 33 mod 12 &#8594; <code>3</code></p>
+<p><code>9</code> &#8594; <code>11 x 3</code> &#8594; 33 mod 12 &#8594; <code><mark>3</mark></code></p>
 </div>
 <div class="paragraph">
-<p><code>11</code> &#8594; <code>11 x 11</code> &#8594; 121 mod 12 &#8594; <code>1</code></p>
+<p><code>11</code> &#8594; <code>11 x 11</code> &#8594; 121 mod 12 &#8594; <code><mark>1</mark></code></p>
 </div>
 <div class="paragraph">
-<p>This gives : InverseB(<code>[0 2 4 5 7 9 11]</code>) &#8594; <code>[0 1 3 5 7 8 10]</code></p>
+<p>This gives : InverseB(<code>[0 2 4 5 7 9 11]</code>) &#8594; <code>[<mark>0 1 3 5 7 8 10</mark>]</code></p>
 </div>
 <div class="paragraph">
-<p><strong>InverseA and InverseB are same logic</strong> : CMajor is transformed in III degree of its VIb Major (Ab Major)</p>
+<p><strong>InverseA and InverseB are same logic</strong> : <span class="underline">CMajor is transformed in III degree of its VIb Major</span> (Ab Major)</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -2042,33 +2046,33 @@ Extended Special Affine Operation is called <em>MusaicOperation</em> into Musaic
 <div class="ulist">
 <ul>
 <li>
-<p>InverseA(<code>[0 1 3 5 6 8 10]</code>) :</p>
+<p>Inverse(<code>[0 1 3 5 6 8 10]</code>) :</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p><code>0</code> &#8594; <code>12 - 0</code> &#8594; <code>0</code></p>
+<p><code>0</code> &#8594; <code>12 - 0</code> &#8594; <code><mark>0</mark></code></p>
 </div>
 <div class="paragraph">
-<p><code>1</code> &#8594; <code>12 - 1</code> &#8594; <code>11</code></p>
+<p><code>1</code> &#8594; <code>12 - 1</code> &#8594; <code><mark>11</mark></code></p>
 </div>
 <div class="paragraph">
-<p><code>3</code> &#8594; <code>12 - 3</code> &#8594; <code>9</code></p>
+<p><code>3</code> &#8594; <code>12 - 3</code> &#8594; <code><mark>9</mark></code></p>
 </div>
 <div class="paragraph">
-<p><code>5</code> &#8594; <code>12 - 5</code> &#8594; <code>7</code></p>
+<p><code>5</code> &#8594; <code>12 - 5</code> &#8594; <code><mark>7</mark></code></p>
 </div>
 <div class="paragraph">
-<p><code>6</code> &#8594; <code>12 - 6</code> &#8594; <code>6</code></p>
+<p><code>6</code> &#8594; <code>12 - 6</code> &#8594; <code><mark>6</mark></code></p>
 </div>
 <div class="paragraph">
-<p><code>8</code> &#8594; <code>12 - 8</code> &#8594; <code>4</code></p>
+<p><code>8</code> &#8594; <code>12 - 8</code> &#8594; <code><mark>4</mark></code></p>
 </div>
 <div class="paragraph">
-<p><code>10</code> &#8594; <code>12 - 10</code> &#8594; <code>2</code></p>
+<p><code>10</code> &#8594; <code>12 - 10</code> &#8594; <code><mark>2</mark></code></p>
 </div>
 <div class="paragraph">
-<p>InverseA(<code>[0 1 3 5 6 8 10]</code>) &#8594; <code>[0 2 4 6 7 9 11]</code></p>
+<p>InverseA(<code>[0 1 3 5 6 8 10]</code>) = InverseB(<code>[0 1 3 5 6 8 10]</code>) &#8594; <code>[<mark>0 2 4 6 7 9 11</mark>]</code></p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -2076,10 +2080,10 @@ Extended Special Affine Operation is called <em>MusaicOperation</em> into Musaic
 </div>
 </div>
 <div class="paragraph">
-<p>Oh, how come the treatment of inversion for a Db Major <strong>differs</strong> from that of a C Major?</p>
+<p>Oh!, how come the treatment of inversion for a Db Major <strong>differs</strong> from that of a C Major?</p>
 </div>
 <div class="paragraph">
-<p>The correct answer to InverseA(<code>[0 1 3 5 6 8 10]</code>) is <code>[1 2 4 6 8 9 11]</code>, Phrygian mode of A maj (VIb of Db Major).</p>
+<p>The expected correct answer of InverseA(<code>[0 1 3 5 6 8 10]</code>)  should have been <code>[<mark>1 2 4 6 8 9 11</mark>]</code>, III degree of A Major (the VIb Major of Db Major).</p>
 </div>
 <div class="paragraph">
 <p>Other example, with a <em>Limited Transposition</em> scale : <em>C Diminished</em></p>
@@ -2092,7 +2096,10 @@ Extended Special Affine Operation is called <em>MusaicOperation</em> into Musaic
 <div class="paragraph">
 <p>As you might expect, a diminished seventh chord is <strong>very strongly symmetrical</strong>. Observe its stabilizers, there are 16 of them and 4 are in T0 (highlighted in yellow in the screenshot above) : <code><mark>M1-T0</mark></code> of course, and  <code><mark>M5-T0</mark></code>, <code><mark>M7-T0</mark></code> and <code><mark>M11-T0</mark></code>.</p>
 </div>
-<table id="zero-fixed-problem" class="tableblock frame-all grid-all stretch">
+<div id="zero-fixed-problem" class="openblock">
+<div class="title">[text-center]</div>
+<div class="content">
+<table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 2. Basic operations in Musical Set Theory</caption>
 <colgroup>
 <col style="width: 20%;">
@@ -2101,63 +2108,114 @@ Extended Special Affine Operation is called <em>MusaicOperation</em> into Musaic
 <col style="width: 20%;">
 <col style="width: 20%;">
 </colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top">Scale</th>
+<th class="tableblock halign-center valign-top">M11-T0 (inversion)</th>
+<th class="tableblock halign-center valign-top">M5-T0</th>
+<th class="tableblock halign-center valign-top">M7-T0</th>
+<th class="tableblock halign-center valign-top">Dim7 waiting as strongly invariant</th>
+</tr>
+</thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Scale</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">M11 (11x) modulo&#160;12
-(inversion)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">M5  (5x) modulo&#160;12</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">M7 (7x) modulo&#160;12</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Ok, Dim7 waiting as strongly invariant</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/clock-0369.png" alt="clock 0369"></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/clock-0369.png" alt="clock 0369"></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/clock-0369.png" alt="clock 0369"></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/clock-0369.png" alt="clock 0369"></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><mark>OK</mark></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[0 3 6 9]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[0 3 6 9]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[0 3 6 9]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[0 3 6 9]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><mark>OK</mark></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">[0 3 6 9]</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">[0 3 6 9]</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">[0 3 6 9]</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">[0 3 6 9]</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><mark>OK</mark></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[1 4 7 10]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><mark>[2 5 8 11]</mark></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><mark>[2 5 8 11]</mark></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">[1 4 7 10]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><mark>???!</mark></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/clock-14710.png" alt="clock 14710"></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/clock-25811.png" alt="clock 25811"></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/clock-25811.png" alt="clock 25811"></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/clock-14710.png" alt="clock 14710"></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><mark>[2 5 8 11] should be [1&#160;4&#160;7&#160;10]</mark></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">[1 4 7 10]</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><mark>[2 5 8 11]</mark></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><mark>[2 5 8 11]</mark></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">[1 4 7 10]</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><mark>???!</mark></p></td>
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p>Obviously [2 5 8 11] is an intruder! He has no business being there. But then why is he here???</p>
 </div>
-<div class="sect2">
-<h3 id="_mismatch_in_basic_operations">Mismatch in basic operations !</h3>
+</div>
 <div class="paragraph">
-<p>The basic operations of musical set theory, which are the standard in the field, have a peculiarity: <strong>they are always centered on 0 (zero)</strong>, thus defining it as a fixed point.</p>
+<p>Obviously [2 5 8 11] is an intruder! business logic is not good. But then why is he here???</p>
+</div>
+<div class="paragraph">
+<p>The basic operations of musical set theory, which are the standard in the field, have a peculiarity: <strong>they are always centered on 0 (zero)</strong>, thus defining it as a fixed point we call the <strong><em>"fixed zero problem"</em></strong>.</p>
+</div>
+<div class="paragraph">
+<p>Example : <code>[1 4 7 10] x 11 = [11 44 70 110] modulo 12 = [11 8 5 2] &#8658; <mark>[2 5 8 11]</mark></code></p>
 </div>
 <div class="paragraph">
 <p>This is a side effect of the fact that pitch classes are given integer names and <strong>calculations are performed directly with these values</strong>.</p>
 </div>
 <div class="paragraph">
-<p>In other words, in the vector representation of a PCS, the bias arises from the confusion between pitch class names and vector indices. See <a href="#vector-to-pcs">[vector-to-pcs]</a></p>
+<p>In other words, in the vector representation of a PCS, the bias comes from the confusion between pitch class names and vector indices : \$"v"_i\$ and  \$bar i \$. See <a href="#vector-to-pcs">[vector-to-pcs]</a></p>
 </div>
 <div class="paragraph">
-<p>This has unexpected repercussions on business logic.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>This inconsistency doesn&#8217;t seem to bother the people who gravitate toward the MST.</p>
+<p>This has unexpected repercussions on logic.</p>
 </div>
 <div class="paragraph">
-<p>This can be explained by the fact that the "intruder PCS" are, however, part of the same orbit as the reference PCS.</p>
+<p>To correct this problem, it would be sufficient to :</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>transpose the PCS to make the <strong>smallest PC coincide with zero</strong>, with a step of -k</p>
+</li>
+<li>
+<p>Apply the requested transformation (ax + t)</p>
+</li>
+<li>
+<p>perform an inverse transposition (+k)</p>
+</li>
+</ol>
 </div>
 <div class="paragraph">
-<p>In our case, this is not admissible, because we want there to always be:</p>
+<p>Example : <code>M11-T0</code> on <code>[1 4 7 10]</code></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><code>[1 4 7 10]</code> transpose with <code>k = -1</code> &#8658; <code>[0&#160;3&#160;6&#160;9]</code></p>
+</li>
+<li>
+<p><code>[0 3 6 9]</code> x 11 modulo 12 &#8658; <code>[0&#160;3&#160;6&#160;9]</code></p>
+</li>
+<li>
+<p><code>[0 3 6 9]</code> transpose with <code>k = 1</code> &#8658; <code>[1&#160;4&#160;7&#160;10]</code></p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Making the "smallest PC" coincide with zero is a naive solution that doesn&#8217;t work in all situations. For example, with <code>D Maj</code> <code>[1&#160;2&#160;4&#160;6&#160;7&#160;9&#160;11]</code>, the reference PC should be <code>2</code>, not <code>1</code>, because the fundamental is PC 2.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph text-center">
+<p><strong><em>"fixed zero problem"</em></strong>.</p>
+</div>
+<div class="paragraph">
+<p>This inconsistency doesn&#8217;t seem to bother the people who gravitate toward the <em>Musical Set Theory</em>.</p>
+</div>
+<div class="paragraph">
+<p>This can be explained by the fact that the "intruder PCS", resulting from bad calculation logic, are, however, <strong>part of the same orbit as the reference PCS</strong>. So, result is "up to transformation", which is not precise enough, not fair enough for our needs.</p>
+</div>
+<div class="paragraph">
+<p>In our case, this is not acceptable, because we want :</p>
 </div>
 <div class="ulist">
 <ul>
@@ -2165,27 +2223,28 @@ Extended Special Affine Operation is called <em>MusaicOperation</em> into Musaic
 <p><strong>Consistency between geometric transformations and algebraic transformations</strong></p>
 </li>
 <li>
-<p><strong>That what an instrumentalist observes in phrasing echoes a harmonic structure</strong></p>
+<p><strong>That what an instrumentalist observes in fingering of phrasing must echo a harmonic structure</strong></p>
+</li>
+<li>
+<p>As any musician would expect, the main characteristics of a PCS <strong>should be insensitive to the transposition step</strong> : the characteristics of a PCS remain unchanged compared to those of the same PCS transposed by a <em>k-step</em>. These characteristics include:
+Interval structure, Interval vector, Forte number, limited meta-transposition, limited transposition, and stabilizer.</p>
 </li>
 </ul>
 </div>
-</td>
-</tr>
-</table>
 </div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_expanded_pcs">Expanded PCS</h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>We will call this problem the <em>"fixed zero problem"</em>.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_solution_by_adopting_a_mobile_pivot">Solution by adopting a mobile pivot</h3>
-<div class="paragraph">
-<p>The solution is to select a Pitch Class that :</p>
+<p>Solution to resolve mismatch basic operations is to add a mobile pivot property to PCS. The solution consists, for a PCS given, of selecting a Pitch Class that :</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Serves as a pivot (fixed pc)</p>
+<p>Serves as a pivot (not necessary "zero")</p>
 </li>
 <li>
 <p>Belongs to the PCS being studied</p>
@@ -2193,10 +2252,10 @@ Extended Special Affine Operation is called <em>MusaicOperation</em> into Musaic
 </ul>
 </div>
 <div class="paragraph">
-<p>For this, we are going to add a new feature to the PCS, it is its <strong><em>iPivot</em></strong> (pivot index or pivot pitch, remember, we are mixing these two notions&#8230;&#8203;)</p>
+<p>For this, we are going to add a new feature to the PCS, what we call  <strong><em>iPivot</em></strong> (pivot index or pivot pitch class, or fixed pitch class, remember, we are mixing these two notions&#8230;&#8203;)</p>
 </div>
 <div class="paragraph">
-<p>This property can be brought to the user&#8217;s attention by mentioning it as an index, after the textual representation of the PCS.</p>
+<p>This property can be brought to the user&#8217;s attention by mentioning it in suffix, as subscript, after the textual representation of the PCS.</p>
 </div>
 <div class="paragraph">
 <p>Examples :</p>
@@ -2212,6 +2271,9 @@ Extended Special Affine Operation is called <em>MusaicOperation</em> into Musaic
 <li>
 <p>C#Dim7 with iPivot = 1 :  <code>[1 4 7 10]</code><sub><code>1</code></sub></p>
 </li>
+<li>
+<p>D Major with iPivot = 2 :  <code>[1&#160;2&#160;4&#160;6&#160;7&#160;9&#160;11]</code><sub><code>2</code></sub></p>
+</li>
 </ul>
 </div>
 <div class="admonitionblock important">
@@ -2221,14 +2283,13 @@ Extended Special Affine Operation is called <em>MusaicOperation</em> into Musaic
 <i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-We do not have integrated this property, <em>iPivot</em>, in the logical identity. Thus, <code>[0 3 6 9]</code><sub><code>0</code></sub> and <code>[0 3 6 9]</code><sub><code>3</code></sub> will be considered identical PCS (same id)
+We do not have integrated this property, <em>iPivot</em>, in the logical identity. Thus, <code>[0&#160;3&#160;6&#160;9]</code><sub><code>0</code></sub> and <code>[0&#160;3&#160;6&#160;9]</code><sub><code>3</code></sub> will be considered identical PCS (same id)
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
 <p>TODO suite&#8230;&#8203;</p>
-</div>
 </div>
 </div>
 </div>
@@ -4869,7 +4930,7 @@ Symmetry prime form concept is invented, specific to this project.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-03-15 17:54:29 +0100
+Last updated 2025-03-16 19:16:25 +0100
 </div>
 </div>
 <script type="text/x-mathjax-config">
