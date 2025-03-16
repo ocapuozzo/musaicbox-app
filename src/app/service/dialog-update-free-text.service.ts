@@ -8,7 +8,7 @@ import {DialogFreeTextComponent} from "../component/dialog-free-text/dialog-free
 })
 export class DialogUpdateFreeTextService {
 
-  @Output() eventUpdateFreeText = new EventEmitter<string>()
+  @Output() eventUpdateFreeText = new EventEmitter<IDialogDataSaveFreeText>()
 
   readonly dialogFreeText = inject(MatDialog);
 
@@ -18,18 +18,20 @@ export class DialogUpdateFreeTextService {
   openDialogForUpdateFreeText(data: IDialogDataSaveFreeText): void {
     const dialogRef = this.dialogFreeText.open(DialogFreeTextComponent,
       {
-        data:
-          {
-            text: data.text,
-            index: data.index,
-            fontSize: data.fontSize
-          }
+        data: { ...data }
+          // {
+          //   text: data.text,
+          //   index: data.index,
+          //   fontSize: data.fontSize
+          // }
       });
 
     dialogRef.afterClosed().subscribe(result => {
       // console.log('The dialog was closed with : ', result);
       if (result !== undefined) {
         if (result) {
+          // console.log('The dialog was closed with : ', result);
+          // @see manager-page-wb-service which subscribes to this event
           this.eventUpdateFreeText.emit(result)
         }
       }

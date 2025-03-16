@@ -1029,7 +1029,7 @@ export class ManagerPageWBService {
       {
         text: this.uiPcsDtoList[index].freeText.text,
         index: index,
-        fontSize: this.uiPcsDtoList[index].freeText.fontSize ?? "12px"
+        fontSize: this.uiPcsDtoList[index].freeText.fontSize || "12px"
       })
   }
 

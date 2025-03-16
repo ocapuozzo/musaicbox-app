@@ -275,7 +275,7 @@ export class UIPcsDto {
         fontSize:"12px"
       }
     } else {
-      this.freeText = freeText
+      this.freeText = { ...freeText }
     }
 
     this.position = position ?? {x: 50, y: 50}
