@@ -80,7 +80,7 @@ legend.representation-border {
   margin: 2px;
 }
 
-.waiting {
+.expected {
   margin-left: 10px;
   padding-top: 2px;
   display: flex;
@@ -92,7 +92,7 @@ legend.representation-border {
   margin-left: 3px;
 }
 
-.waiting-message {
+.expected-message {
   color: red;
   font-size: 1rem;
   vertical-align: auto;

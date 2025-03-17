@@ -14,39 +14,39 @@ describe('Group', () => {
   it("Trivial group Generator group from M1T0", () => {
     let opM1_T0 = new MusaicOperation(12, 1, 0, false);
     let someOps = [opM1_T0]
-    let opsWaiting = someOps
+    let opsExpected = someOps
     let allOps = Group.buildOperationsGroupByCayleyTable(someOps)
-    expect(1).toEqual(opsWaiting.length)
-    expect(allOps).toEqual(opsWaiting)
+    expect(1).toEqual(opsExpected.length)
+    expect(allOps).toEqual(opsExpected)
     expect(allOps.length).toEqual(1)
   })
 
   it("Generator group from M1-T1 (cyclic)", () => {
     let opM1_T1 = new MusaicOperation(12, 1, 1, false);
     let someOps = [opM1_T1]
-    let opsWaiting: MusaicOperation[] = []
+    let opsExpected: MusaicOperation[] = []
 
     let allOperations = Group.buildOperationsGroupByCayleyTable(someOps)
 
     expect(allOperations.length).toEqual(12)
     for (let i = 0; i < 12; i++) {
-      opsWaiting.push(new MusaicOperation(12, 1, i, false))
+      opsExpected.push(new MusaicOperation(12, 1, i, false))
     }
     expect(allOperations.length).toEqual(12)
-    expect(allOperations).toEqual(opsWaiting)
+    expect(allOperations).toEqual(opsExpected)
   })
 
 
   it("Generator group from M1-T1 and M5-T1", () => {
     let opM1_T1 = new MusaicOperation(12, 1, 1, false);
     let someOps = [opM1_T1]
-    let opsWaiting: MusaicOperation[] = []
+    let opsExpected: MusaicOperation[] = []
     for (let i = 0; i < 12; i++) {
-      opsWaiting.push(new MusaicOperation(12, 1, i, false))
+      opsExpected.push(new MusaicOperation(12, 1, i, false))
     }
     let allOperations = Group.buildOperationsGroupByCayleyTable(someOps)
     expect(allOperations.length).toEqual(12)
-    expect(allOperations).toEqual(opsWaiting)
+    expect(allOperations).toEqual(opsExpected)
 
     let opM5_T1 = new MusaicOperation(12, 5, 1, false);
     someOps.push(opM5_T1)
@@ -103,7 +103,7 @@ describe('Group', () => {
     // test if aleaOp is in allOps
     expect(allOps.find((op) => op.getHashCode() === aleaOp.getHashCode())).toBeTruthy()
 
-    // waiting 96 operations : 12 * each a = 48 and each complement (*2)
+    // expected 96 operations : 12 * each a = 48 and each complement (*2)
     expect(allOps.length).toEqual(order * 4 * 2)
   })
 
@@ -134,7 +134,7 @@ describe('Group', () => {
 
     let allOps = Group.buildOperationsGroupByCayleyTable(someOperations)
 
-    // waiting 48 operations : 12 * 4 (no CM7 ans CM1 generated)
+    // expected 48 operations : 12 * 4 (no CM7 ans CM1 generated)
     expect(allOps.length).toEqual(12 * 4)
   })
 
@@ -158,7 +158,7 @@ describe('Group', () => {
 
     let group = new Group(someOperations)
 
-    // waiting 96 operations : 12 * each a = 48 and each complement (*2)
+    // expected 96 operations : 12 * each a = 48 and each complement (*2)
     expect(group.operations.length).toEqual(order * 4 * 2)
 
     let ipcs = new IPcs({pidVal: 0, n: 12})
@@ -212,7 +212,7 @@ describe('Group', () => {
 
     let group = new Group(someOperations)
 
-    // waiting 96 operations : 12 * each a = 48 and each complement (*2)
+    // expected 96 operations : 12 * each a = 48 and each complement (*2)
     expect(group.operations.length).toEqual(4 * 2)
     //
     // let ipcs = new IPcs({pidVal: 0, n: 12})

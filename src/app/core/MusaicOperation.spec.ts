@@ -39,7 +39,7 @@ describe('MusaicPcsOperation', () => {
     const badT5 = new MusaicOperation(7, 1, 5, true);
     try {
       expect(opCM7_T5.equals(badT5.compose(opCM7))).toBeTrue();
-      fail('Waiting exception because invalid n in operations')
+      fail('Error because invalid n in operations')
     } catch (e: any) {
       expect(e.message).toContain("bad N in compose op")
     }
@@ -104,15 +104,15 @@ describe('MusaicPcsOperation', () => {
 
     let ops = [opM1_T3, opM1_T0,  opCM1_T5 , opM5_T0, opCM7_T8, opCM7_T3]
 
-    let opsSortedWaiting = [opM1_T0, opM5_T0, opM1_T3, opCM7_T3, opCM1_T5, opCM7_T8]
+    let opsSortedExpected = [opM1_T0, opM5_T0, opM1_T3, opCM7_T3, opCM1_T5, opCM7_T8]
 
-    expect(ops).not.toEqual(opsSortedWaiting)
+    expect(ops).not.toEqual(opsSortedExpected)
 
     ops.sort(MusaicOperation.compareStabMajorTMinorA)
 
     // ops.forEach( (op) => console.log(op._strRepr) )
 
-    expect(ops).toEqual(opsSortedWaiting)
+    expect(ops).toEqual(opsSortedExpected)
   })
 
 
@@ -125,13 +125,13 @@ describe('MusaicPcsOperation', () => {
 
     let ops = [opCM7_T5, opM1_T3, opM1_T0, opM7_T5, opM1_T11]
 
-    let opsSortedWaiting = [opM1_T0, opM1_T3, opM1_T11, opM7_T5, opCM7_T5]
+    let opsSortedexpected = [opM1_T0, opM1_T3, opM1_T11, opM7_T5, opCM7_T5]
 
-    expect(ops).not.toEqual(opsSortedWaiting)
+    expect(ops).not.toEqual(opsSortedexpected)
 
     ops.sort(MusaicOperation.compare)
 
-    expect(ops).toEqual(opsSortedWaiting)
+    expect(ops).toEqual(opsSortedexpected)
   })
 
 
@@ -223,15 +223,15 @@ describe('MusaicPcsOperation', () => {
     const opM11T9 = new MusaicOperation(12,11,9,false)
     const opCM5T5 = new MusaicOperation(12,5,5,true)
     let names = ["M1-T0", "M11-T9"]
-    let opsWaiting = [opM1T0, opM11T9]
+    let opsexpected = [opM1T0, opM11T9]
     let ops = MusaicOperation.convertArrayStringsToArrayOfMusaicOperations(12,names)
 
-    expect(opsWaiting).toEqual(ops)
+    expect(opsexpected).toEqual(ops)
 
     names = ["M1-T0", "CM5-T5"]
-    opsWaiting = [opM1T0, opCM5T5]
+    opsexpected = [opM1T0, opCM5T5]
     ops = MusaicOperation.convertArrayStringsToArrayOfMusaicOperations(12,names)
-    expect(opsWaiting).toEqual(ops)
+    expect(opsexpected).toEqual(ops)
 
   })
 

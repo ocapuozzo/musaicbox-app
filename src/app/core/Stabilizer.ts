@@ -247,7 +247,7 @@ export class Stabilizer {
 
   /**
    * Return true if this is "up to transposition", false else.
-   * Waiting : always true
+   * expected : always true
    */
   get isMotifEquivalence() {
     return this.getName().includes("M1-T1")

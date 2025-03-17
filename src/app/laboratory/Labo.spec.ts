@@ -245,7 +245,7 @@ describe('Laboratory explorer', () => {
 
       //e[0] is group name, like "n=12 [M1-T0]"
       // so e[0].substring(5) avoid to get "n=12 ", therefore  "n=12 [M1-T0]" => "[M1-T0]"
-      // cols : groupeName; 12 entries (enum by cardinality) ; number orbits ; number ops in group ;  name (empty)
+      // cols : groupName; 12 entries (enum by cardinality) ; number orbits ; number ops in group ;  name (empty)
       console.log(e[0].substring(5) + ";" + stringNumberOrbitByCardinal + ";" + e[1].orbits.length + ";" + e[1].cardinal+ ";")
     }
     console.log()
@@ -319,8 +319,8 @@ describe('Laboratory explorer', () => {
   it("intervallic structure feature", () => {
     const majScale = new IPcs({strPcs: "0,2,4,5,7,9,11"})
     const featureIS = majScale.getFeatureIS()
-    const featureWaiting = [1, 2]
-    expect(featureIS).toEqual(featureWaiting)
+    const featureexpected = [1, 2]
+    expect(featureIS).toEqual(featureexpected)
   })
 
   it("get all pcs having same interval types that Major scale", () => {

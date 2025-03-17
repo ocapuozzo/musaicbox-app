@@ -49,7 +49,7 @@ describe('MetaStabilizer', () => {
     let metaStab6 = new MetaStabilizer("M1, M5, CM1, CM9");
     let stabilizers = [metaStab1, metaStab2, metaStab3, metaStab6, metaStab4, metaStab5]
 
-    // waiting
+    // expected
     // "CM1"            (stab4)
     // "M1 CM1"         (stab5)
     // "M1 M5 M7"       (stab1)
@@ -99,10 +99,10 @@ describe('MetaStabilizer', () => {
   it("MetaStabilizer of pcs", () => {
     const pcsSource = new IPcs({strPcs:"[0,1,3,5,8,10]"})
     const pcs = ManagerGroupActionService.getGroupActionFromGroupAliasName("Musaic")!.getIPcsInOrbit(pcsSource)
-    let metaStabWaiting = new MetaStabilizer("M1 M11 CM1 CM11");
+    let metaStabexpected = new MetaStabilizer("M1 M11 CM1 CM11");
 
-    expect(metaStabWaiting.toString()).toEqual(pcs!.orbit!.metaStabilizer!.toString())
-    expect(metaStabWaiting.metaStabOperations.length).toEqual(4)
+    expect(metaStabexpected.toString()).toEqual(pcs!.orbit!.metaStabilizer!.toString())
+    expect(metaStabexpected.metaStabOperations.length).toEqual(4)
   });
 
 

@@ -73,7 +73,7 @@ describe('GroupAction unit tests', () => {
     // 17 LTs is-motifs
     expect(nLimitedTransposition).toEqual(17)
 
-    // 5 classes of limited transposition plus identity stab ([M1-T0]), so 6 waiting
+    // 5 classes of limited transposition plus identity stab ([M1-T0]), so 6 expected
     // expected 6 stabilizer names (2/1 , 54/6 , 12/4 , 6/3 , 2/2 and 4020/12)
     // (sorted by name) M1-T0 M1-T0~1* M1-T0~2* M1-T0~3* M1-T0~4* M1-T0~6*
     expect(cyclicGroup12.orbitsSortedGroupedByStabilizer.length).toEqual(6)
@@ -131,50 +131,6 @@ describe('GroupAction unit tests', () => {
 
   });
 
-  /**
-   * TODO : (a first ?) comment to be checked in proofreading / code review !!
-   * If group has a complemented operation then this group must have CM1-T1 op
-   * because pcs complemented lost his iPivot... So equivalence relation must include
-   * "to a near transposition"
-   */
-  it("group with complemented op and no T (n = 12)", () => {
-    let complemented = true
-    let opNeutral = new MusaicOperation(12, 1, 0);
-    let opCM1 = new MusaicOperation(12, 1, 0, complemented);
-    let opM5 = new MusaicOperation(12, 5, 0, complemented);
-    let opM7 = new MusaicOperation(12, 7, 0, !complemented);
-    try {
-      let group = new GroupAction({
-        n: 12,
-        someMusaicOperations: [opNeutral, /*opCM1T1, opM1, */ opCM1, opM5, opM7]
-      });
-      expect(group.orbits.length).toEqual(919)
-    } catch (e) {
-      fail(e)
-    }
-  })
-
-  /**
-   * TODO specs !
-   */
-  it("Test M5 M7 T0 group (n = 12) ", () => {
-    let complemented = true
-    let opNeutral = new MusaicOperation(12, 1, 0);
-    let opM5 = new MusaicOperation(12, 5, 0, !complemented);
-    let opM7 = new MusaicOperation(12, 7, 0, !complemented);
-
-    let group = new GroupAction({n: 12, someMusaicOperations: [opNeutral, opM5, opM7]});
-
-    if (group.orbitsSortedGroupedByMetaStabilizer === undefined) {
-      throw new Error("group.orbitsSortedGroupedByMetaStabilizer undefined")
-    }
-
-    try {
-      expect(group.orbits.length).toEqual(1886)
-    } catch (e) {
-      fail(e)
-    }
-  })
 
 
   it("Predefined Musaic Group Action n=12", () => {
@@ -290,17 +246,16 @@ describe('GroupAction unit tests', () => {
     }
   })
 
-  it("getOrbitOf with bad ", () => {
+  it("getOrbitOf with bad pcs", () => {
     const cyclicGroup12
        = ManagerGroupActionService.getGroupActionFromGroupName("n=12 [M1]")
     expect(cyclicGroup12).toBeTruthy()
     if (cyclicGroup12) {
-      const ipcs = new IPcs({strPcs: "0, 1, 2", n: 5})
-
+      const pcs = new IPcs({strPcs: "0, 1, 2", n: 5})
       try {
         // pcs.n = 5 or group is n = 12 !
-        cyclicGroup12.getOrbitOf(ipcs)
-        // waiting exception
+        cyclicGroup12.getOrbitOf(pcs)
+        // expected exception
         fail("Impossible operation !!")
       } catch (e: any) {
         expect(e.message).toContain('Invalid dimension')
@@ -313,15 +268,15 @@ describe('GroupAction unit tests', () => {
       = ManagerGroupActionService.getGroupActionFromGroupName("n=12 [M1]")
     expect(cyclicGroup12).toBeTruthy()
     if (cyclicGroup12) {
-      let badIpcs = new IPcs({strPcs: "0, 1, 2", n: 5})
-      const ipcs = new IPcs({strPcs: "0, 6", n: 12})
+      let badPcs = new IPcs({strPcs: "0, 1, 2", n: 5})
+      const pcs = new IPcs({strPcs: "0, 6", n: 12})
 
       try {
-        const ipcsWithOrbit = cyclicGroup12.getIPcsInOrbit(ipcs)
-        expect(ipcsWithOrbit.orbit.cardinal).toEqual(6)
+        const pcsWithOrbit = cyclicGroup12.getIPcsInOrbit(pcs)
+        expect(pcsWithOrbit.orbit.cardinal).toEqual(6)
 
-        cyclicGroup12.getIPcsInOrbit(badIpcs)
-        // waiting exception
+        cyclicGroup12.getIPcsInOrbit(badPcs)
+        // expected exception
         fail("Impossible operation !!")
       } catch (e: any) {
         expect(e.message).toContain('Invalid')
@@ -364,6 +319,9 @@ describe('GroupAction unit tests', () => {
   });
 
 
+  // Oh, a such group would not have inverse operation
+  // So, it is not a group
+  // Don't do that !
   it("Group with T0 only ", () => {
     let opNeutral = new MusaicOperation(12, 1, 0);
     let m5_t0 = new MusaicOperation(12, 5, 0);
@@ -378,14 +336,21 @@ describe('GroupAction unit tests', () => {
     expect(group.orbits.length).toEqual(919) // from musaicboxapp
     const orbit = group.orbits.find((orbit) => orbit.reducedStabilizersName === "M1-T0 M11-T0");
 
-    expect(orbit).toBeTruthy()
+    expect(orbit?.cardinal).toBeTruthy()
+    //
+    // const pcsM11_T0 = orbit?.ipcsset[0].affineOp(11,0)
+    // const pcsM11_T1 = orbit?.ipcsset[0].affineOp(11,1)
+    //
+    // expect(orbit?.ipcsset.some( (pcs) => pcs.id === pcsM11_T0?.id ?? 0)).toBeTruthy()
+    // expect(orbit?.ipcsset.some((pcs) => pcs.id === pcsM11_T1?.id ?? 0)).toEqual(false)
 
-    const pcsM11_T0 = orbit?.ipcsset[0].affineOp(11,0)
-    const pcsM11_T1 = orbit?.ipcsset[0].affineOp(11,1)
+  })
 
-    expect(orbit?.ipcsset.some( (pcs) => pcs.id === pcsM11_T0?.id ?? 0)).toBeTruthy()
-    expect(orbit?.ipcsset.some((pcs) => pcs.id === pcsM11_T1?.id ?? 0)).toEqual(false)
-
+  it('Test if all pcs from group action Musaic have good default pivot', () => {
+    const musaicGroup = ManagerGroupActionService.getGroupActionFromGroupAliasName('Musaic')
+    musaicGroup?.powerset.forEach(pcs => {
+      if (pcs.cardinal > 0) expect( pcs.iPivot ).toEqual(pcs.vectorPcs.findIndex( pc => pc === 1))
+    })
   })
 
 

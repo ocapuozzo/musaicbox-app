@@ -201,7 +201,7 @@ export class PcsUtils {
           }
         }
         if (ignoreCar) {
-          // "1" waiting to be consumed
+          // "1" expected to be consumed
           if (' ' === car || isNaN(Number(car))) {
             // pass
             if (' ' === car) {
@@ -276,7 +276,7 @@ export class PcsUtils {
                 car = "11"
             }
           }
-          // "1" waiting to be consumed
+          // "1" expected to be consumed
           if (' ' === car || isNaN(Number(car))) {
             // pass
           } else {

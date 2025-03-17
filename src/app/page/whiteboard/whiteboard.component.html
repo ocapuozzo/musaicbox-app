@@ -116,6 +116,9 @@
       <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doToggleShowPcs(index)">
         <mat-slide-toggle [checked]="isShowPcs(index)">Show [pcs]</mat-slide-toggle>
       </button>
+      <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doToggleShowPivot(index)">
+        <mat-slide-toggle [checked]="isShowPivot(index)">Show pivot</mat-slide-toggle>
+      </button>
 
       <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="menuAlign">
         Align <span>&#10148;</span>
@@ -261,9 +264,6 @@
                (change)="colorPitchOFF($event, index)"
         >
       </label>
-      <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doToggleShowPivot(index)">
-        <mat-slide-toggle [checked]="isShowPivot(index)">Show pivot</mat-slide-toggle>
-      </button>
 
       <button class="contextual-menu-item" cdkMenuItem disabled>
         Polygon

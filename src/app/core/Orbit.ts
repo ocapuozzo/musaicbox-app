@@ -97,7 +97,7 @@ export class Orbit {
    *
    * @param orbit1
    * @param orbit2
-   * @return {number} as waiting by Array sort
+   * @return {number} as expected by Array sort
    */
   static compare(orbit1: Orbit, orbit2: Orbit): number {
     let cmp = 0;
@@ -121,7 +121,7 @@ export class Orbit {
    *
    * @param orbit1
    * @param orbit2
-   * @return {number} as waiting by Array sort
+   * @return {number} as expected by Array sort
    */
   static comparePcsMin(orbit1: Orbit, orbit2: Orbit): number {
     return orbit1.getPcsMin().compareTo(orbit2.getPcsMin());

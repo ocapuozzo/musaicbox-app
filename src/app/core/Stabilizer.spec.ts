@@ -121,7 +121,7 @@ describe('Stabilizer', () => {
         setStabilizers.add(stab.hashCode())
       })
     })
-    // 5 classes of limited transposition plus identity stab ([M1-T0]), so 6 waiting
+    // 5 classes of limited transposition plus identity stab ([M1-T0]), so 6 expected
     // expected 6 stabilizers (2/1 , 54/6 , 12/4 , 6/3 , 2/2 and 4020/12)
     expect(setStabilizers.size).toEqual(6) // = 6
     expect(cyclicGroup.orbitsSortedGroupedByStabilizer.length).toEqual(6)
@@ -269,29 +269,29 @@ describe('Stabilizer', () => {
     const opCM1T11 = new MusaicOperation(12,1,11,true)
     const opM11T1 = new MusaicOperation(12,11,1,false)
 
-    const waiting1 = "CM1-T0~4*"
-    const waiting2 = "CM1-T3~6*"
-    const waiting3 = "CM1-T1~2*"
-    const waiting4 = "M1-T0 M11-T1"
+    const expected1 = "CM1-T0~4*"
+    const expected2 = "CM1-T3~6*"
+    const expected3 = "CM1-T1~2*"
+    const expected4 = "M1-T0 M11-T1"
 
     // CM1-T0 CM1-T4 CM1-T8 => "CM1-T0~4*"
-    expect(Stabilizer.makeShortNameIfPossible([opCM1T0, opCM1T4, opCM1T8])).toEqual(waiting1)
+    expect(Stabilizer.makeShortNameIfPossible([opCM1T0, opCM1T4, opCM1T8])).toEqual(expected1)
     // CM1-T3 CM1-T9 => "CM1-T3~6*"
-    expect(Stabilizer.makeShortNameIfPossible([opCM1T3, opCM1T9])).toEqual(waiting2)
+    expect(Stabilizer.makeShortNameIfPossible([opCM1T3, opCM1T9])).toEqual(expected2)
     // CM1-T1 CM1-T3 CM1-T5 CM1-T7 CM1-T9 CM1-T11 => "CM1-T1~2*"
-    expect(Stabilizer.makeShortNameIfPossible([opCM1T1, opCM1T3, opCM1T5, opCM1T7, opCM1T9, opCM1T11])).toEqual(waiting3)
+    expect(Stabilizer.makeShortNameIfPossible([opCM1T1, opCM1T3, opCM1T5, opCM1T7, opCM1T9, opCM1T11])).toEqual(expected3)
     //M1-T0 M11-T1 => "M1-T0 M11-T1"
-    expect(Stabilizer.makeShortNameIfPossible([opM1T0, opM11T1])).toEqual(waiting4)
+    expect(Stabilizer.makeShortNameIfPossible([opM1T0, opM11T1])).toEqual(expected4)
 
     //   CM1-T1 CM1-T3 CM1-T5 CM1-T7 /*CM1-T9*/ CM1-T11 =
     // "CM1-T1 CM1-T3 CM1-T5 CM1-T7 CM1-T11"
-    // const waiting5 = "CM1-T1~6* CM1-T3 CM1-T5 CM1-T11"
-    const waiting5Better = "CM1-T1~6* CM1-T3 CM1-T11~6*" // "CM1-T1~6* CM1-T3 CM1-T5~6*"
-    expect(Stabilizer.makeShortNameIfPossible([opCM1T1, opCM1T3, opCM1T5, opCM1T7, /*opCM1T9,*/ opCM1T11])).toEqual(waiting5Better)
+    // const expected5 = "CM1-T1~6* CM1-T3 CM1-T5 CM1-T11"
+    const expected5Better = "CM1-T1~6* CM1-T3 CM1-T11~6*" // "CM1-T1~6* CM1-T3 CM1-T5~6*"
+    expect(Stabilizer.makeShortNameIfPossible([opCM1T1, opCM1T3, opCM1T5, opCM1T7, /*opCM1T9,*/ opCM1T11])).toEqual(expected5Better)
 
 
     // M11-T1 M11-T2 M11-T4 M11-T5 M11-T7 M11-T8 M11-T10 M11-T11 => M11-T1~3* and M11-T2~3*
-    const waiting6 = "M11-T1~3* M11-T2~3*"
+    const expected6 = "M11-T1~3* M11-T2~3*"
     expect(Stabilizer.makeShortNameIfPossible([
       new MusaicOperation(12,11,1),
       new MusaicOperation(12,11,2),
@@ -301,7 +301,7 @@ describe('Stabilizer', () => {
       new MusaicOperation(12,11,8),
       new MusaicOperation(12,11,10),
       new MusaicOperation(12,11,11)
-    ])).toEqual(waiting6)
+    ])).toEqual(expected6)
 
   })
 
@@ -350,8 +350,8 @@ describe('Stabilizer', () => {
     expect(Stabilizer.getCycleStep([11,5,3])).toEqual({step:6, stepIndex:1})
 
     // with "CM1-T1~6* CM1-T3 CM1-T5 CM1-T11"
-    // const waiting5       = "CM1-T1~6* CM1-T3 CM1-T5 CM1-T11"
-    // const waiting5Better = "CM1-T1~6* CM1-T3 CM1-T5~6*"  <===== YES
+    // const expected5       = "CM1-T1~6* CM1-T3 CM1-T5 CM1-T11"
+    // const expected5Better = "CM1-T1~6* CM1-T3 CM1-T5~6*"  <===== YES
 
     //reduce steps 0,1,2,4,5,7,8,10,11 -> 1,4,7,10 (indexStep = 2)
     //reduce steps 0,1,2,4,5,7,8,10,11 -> 1,2,5,7,10,11 (indexStep = 3)

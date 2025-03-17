@@ -14,7 +14,7 @@ describe('ScoreDrawingAbcNotation', () => {
 
     // C#7 or Db7
     // C#7 : ^C ^E ^G _C  (we avoid _x when natural y exists.  E# -> F, Cb -> B)
-    // so waiting C#7 = ^C F ^G B or Db7 : _D F _A _C, so _D F _A B (no top anymore)
+    // so expected C#7 = ^C F ^G B or Db7 : _D F _A _C, so _D F _A B (no top anymore)
     pcs7 = pcs7.transposition(1)
     abcNotation = ScoreDrawingAbcNotation.fromPcsToABCNotation(pcs7)
     expect(abcNotation).toEqual("_D F _A B '_d")

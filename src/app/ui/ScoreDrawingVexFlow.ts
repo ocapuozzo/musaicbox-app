@@ -26,7 +26,7 @@ export class ScoreDrawingVexFlow {
       idElement ?: string
       pcsDto?: UIPcsDto
     } = {}) {
-    if (!x.idElement) throw Error('Element Id waiting')
+    if (!x.idElement) throw Error('Element Id expected')
     this.randomId = x.idElement
     this.pcsDto = x.pcsDto ?? new UIPcsDto()
   }

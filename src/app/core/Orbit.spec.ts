@@ -80,7 +80,7 @@ describe('Orbit', () => {
       let ipcs: IPcs = secondOrbit.getPcsMin()
       expect(ipcs.getPcsStr()).toEqual('[0]')
     } catch (e: any) {
-      fail('Waiting possible getMin() on not coming from orbit')
+      fail('expected possible getMin() on not coming from orbit')
     }
   })
 
@@ -154,12 +154,12 @@ describe('Orbit', () => {
   /**
    * test if orbit.name (short stabilizer name based) is ok from a groupAction
    * @param groupAction
-   * @param waitingCardinal
+   * @param expectedCardinal
    */
-  function testOrbitNameFromShortStabilizer(groupAction : GroupAction, waitingCardinal : number){
+  function testOrbitNameFromShortStabilizer(groupAction : GroupAction, expectedCardinal : number){
       const nOrbits1 = groupAction.computeSortedOrbitsGroupedByStabilizer(false).length
       const nOrbits2 = groupAction.computeSortedOrbitsGroupedByStabilizer(true).length
-      expect(nOrbits1).toEqual(waitingCardinal)
+      expect(nOrbits1).toEqual(expectedCardinal)
       expect(nOrbits1).toEqual(nOrbits2)
   }
 

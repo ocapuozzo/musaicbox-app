@@ -152,12 +152,12 @@ export class IPcs {
       nMapping?: number
     } = {}) {
     if (n !== undefined && (n < 3 || n > 13)) {
-      throw Error(`Bad n = ${n} waiting in [3...13]`)
+      throw Error(`Bad n = ${n} expected in [3...13]`)
     }
     // case integer given
     if (pidVal !== undefined && pidVal >= 0) {
       if (pidVal >= Math.pow(2, 13)) {
-        throw Error(`Bad pidVal = ${pidVal} waiting in [0...2^13]`)
+        throw Error(`Bad pidVal = ${pidVal} expected in [0...2^13]`)
       }
       this.vectorPcs = IPcs.intToBinArray(pidVal, n ?? 12)
       // first index to 1 is iPivot
@@ -170,10 +170,10 @@ export class IPcs {
       // assume pcs bin vector [1,0,1, ... ]
       this.vectorPcs = vectorPcs.slice()
       if (!this.vectorPcs.every(pc => pc >= 0 && pc <= 1)) {
-        throw Error(`Bad vector given = ${vectorPcs} waiting [0|1]*`)
+        throw Error(`Bad vector given = ${vectorPcs} expected [0|1]*`)
       }
       if (this.vectorPcs.length < 3 || this.vectorPcs.length > 13) {
-        throw Error(`Bad vector size = ${this.vectorPcs.length} waiting in [3...13]`)
+        throw Error(`Bad vector size = ${this.vectorPcs.length} expected in [3...13]`)
       }
     }
     // case string given
@@ -910,7 +910,7 @@ export class IPcs {
    *
    * @param ipcs1
    * @param ipcs2
-   * @return {number} as waiting by Array sort
+   * @return {number} as expected by Array sort
    */
   static compare(ipcs1: IPcs, ipcs2: IPcs): number {
     return ipcs1.id - ipcs2.id
@@ -919,7 +919,7 @@ export class IPcs {
   /**
    *
    * @param {IPcs} ipcs2 to compareTo
-   * @return {number} as waiting by Array sort
+   * @return {number} as expected by Array sort
    */
   compareTo(ipcs2: IPcs): number {
     return IPcs.compare(this, ipcs2)

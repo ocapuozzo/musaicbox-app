@@ -183,7 +183,7 @@ export class PcsAnalysisComponent {
    * @param pcs
    */
   operationsStabilizerOf(pcs: IPcs) {
-    if (pcs.n !== 12) throw Error("Waiting n = 12")
+    if (pcs.n !== 12) throw Error("expected n = 12")
 
     let pcsToCompute: IPcs = pcs
 
@@ -191,7 +191,7 @@ export class PcsAnalysisComponent {
       const groupMusaic = ManagerGroupActionService.getGroupActionFromGroupAliasName('Musaic')
       pcsToCompute = groupMusaic!.getIPcsInOrbit(pcs)
     }
-    
+
     const stabOperations = pcsToCompute.getStabilizerOperations()
     return {
       cardinal: stabOperations.length,

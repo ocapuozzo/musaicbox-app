@@ -38,7 +38,7 @@ export class GroupExplorerComponent {
   orbitsPartitions: ISortedOrbits[] = []
   preReactOrbits: Orbit[] = []
   actionCommand: string  // last user choice
-  waitingCompute = false
+  expectedCompute = false
 
   criteriaEquiv = "" // for UI
   debug = false
@@ -122,9 +122,9 @@ export class GroupExplorerComponent {
    *
    */
   buildAllOperationsOfGroup() {
-    if (this.waitingCompute) return
+    if (this.expectedCompute) return
     // see https://github.com/vuejs/vue/issues/9200
-    this.waitingCompute = true
+    this.expectedCompute = true
     this.doubleRaf(() => {
       let local_groupOperations = Group.buildOperationsGroupByCayleyTable(this.getGeneratedSetOperationsFromUI());
       let start = 0
@@ -149,7 +149,7 @@ export class GroupExplorerComponent {
   }
 
   nextTick = () => {
-    this.waitingCompute = false
+    this.expectedCompute = false
     this.toggleShowHide = 'hidden'
   }
 
@@ -157,7 +157,7 @@ export class GroupExplorerComponent {
     if (!this.groupAction) {
       this.buildAllOperationsOfGroup()
     } else {
-      this.waitingCompute = true
+      this.expectedCompute = true
       // see https://github.com/vuejs/vue/issues/9200
       this.doubleRaf(() => {
         //this.stabilizers = this.groupAction.stabilizers

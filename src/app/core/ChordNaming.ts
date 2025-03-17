@@ -112,7 +112,7 @@ export class ChordNaming {
     // assert nMapping to be 12
     let pivot = pcs.getMappedPivot()
     let binPcs = pcs.getMappedVectorPcs()
-    let n = pcs.nMapping // 12 waiting
+    let n = pcs.nMapping // 12 expected
 
     let key = ''
     for (let minorMajor of [3, 4]) {

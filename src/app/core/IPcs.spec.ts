@@ -767,7 +767,7 @@ describe('IPcs unit tests', () => {
     let ipcsMajPivotThird = new IPcs({strPcs: "0, 4, 7", iPivot: 4})
     try {
       expect(ipcsMaj.cloneWithNewPivot(6)).toEqual(ipcsMajPivotThird)
-      fail("Error waiting, because bad new pivot")
+      fail("Error expected, because bad new pivot")
     } catch (e: any) {
       // good
       expect().nothing()
@@ -1064,7 +1064,7 @@ describe('IPcs unit tests', () => {
     pcs1 = new IPcs({strPcs: '[5,1,8]'})
     expect(pcs1.getPivot()).toEqual(5)
     pcs2 = pcs1.cloneWithDefaultPivot()
-    // waiting "leftmost" (or min) pivot
+    // expected "leftmost" (or min) pivot
     expect(pcs2.getPivot()).toEqual(1)
 
   })

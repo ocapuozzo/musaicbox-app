@@ -25,7 +25,7 @@ export class ScoreDrawingAbcNotation {
       idElement?: string
       pcsDto?: UIPcsDto
     } = {}) {
-    if (!x.idElement) throw Error('Element Id waiting')
+    if (!x.idElement) throw Error('Element Id expected')
     this.randomId = x.idElement
     this.pcsDto = x.pcsDto ?? new UIPcsDto()
   }
@@ -103,7 +103,7 @@ export class ScoreDrawingAbcNotation {
       notes = "^F^G^AB^C'^D'^E'"
     }
 
-    // note : 0 3 6 9 => C D# F# A   (but waiting : C Eb Gb A)
+    // note : 0 3 6 9 => C D# F# A   (but expected : C Eb Gb A)
     // 1,5,8,11 => Db F Ab B (Cb)   or C# F (E#) G# B  aie...
     // 1,3,7,10 pivot = 3
     // 0,3,6,8  pivot:0 Aie !!! third is D# will be Eb ?? but chord no name - only with pivot=8

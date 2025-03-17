@@ -3,9 +3,9 @@
     <div>
       <h2>Cyclic group ℤ<sub>n</sub> & group action explorer</h2>
     </div>
-    @if (waitingCompute) {
-      <div class="waiting">
-        <h2 class="waiting-message">Waiting...</h2>
+    @if (expectedCompute) {
+      <div class="expected">
+        <h2 class="expected-message">expected...</h2>
         <mat-spinner [diameter]="15" [color]="'warn'" class="spinner-align"></mat-spinner>
       </div>
     }
