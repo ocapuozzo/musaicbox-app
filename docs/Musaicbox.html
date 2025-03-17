@@ -449,14 +449,10 @@ td:has(>p>span[class="klein2"]) {
   background-color: lightblue;
 }
 
-
  #zero-fixed-problem tr:nth-child(3)>td>p>mark,
  #zero-fixed-problem tr:nth-child(4)>td>p>mark{
    background-color: red;
  }
-
-
-
 
   p>span[class="note"] {
   background-color: lightgray;
@@ -2173,7 +2169,7 @@ Extended Special Affine Operation is called <em>MusaicOperation</em> into Musaic
 <p><strong><em>"fixed zero problem"</em></strong>.</p>
 </div>
 <div class="paragraph">
-<p>This inconsistency doesn&#8217;t seem to bother the people who gravitate toward the <em>Musical Set Theory</em>.</p>
+<p>This inconsistency doesn&#8217;t seem to bother the people who gravitate toward the <em>Musical Set Theory</em> (?).</p>
 </div>
 <div class="paragraph">
 <p>This can be explained by the fact that the "intruder PCS", resulting from bad calculation logic, are, however, <strong>part of the same orbit as the reference PCS</strong>. So, result is "up to transformation", which is not precise enough, not fair enough for our needs.</p>
@@ -2187,7 +2183,7 @@ Extended Special Affine Operation is called <em>MusaicOperation</em> into Musaic
 <p><strong>Consistency between geometric transformations and algebraic transformations</strong></p>
 </li>
 <li>
-<p>Maintain integrity of a PCS along its affine transformations.</p>
+<p>Maintain integrity of a PCS along its affine transformations. The main rule is the pivot must be a PC belonging to the PCS, and this is not the case when the pivot is always set to zero.</p>
 </li>
 </ul>
 </div>
@@ -2197,11 +2193,28 @@ Extended Special Affine Operation is called <em>MusaicOperation</em> into Musaic
 <p>As any musician would expect, the main characteristics of a PCS <strong>should be insensitive to the transposition step</strong> : the characteristics of a PCS remain unchanged compared to those of the same PCS transposed by a <em>k-step</em>.</p>
 </div>
 <div class="paragraph">
-<p>A D Major share same structural characteristics of any PCS Major.</p>
+<p>D-Major PCS shares same structural characteristics as any Major PCS.</p>
 </div>
 <div class="paragraph">
 <p>These characteristics include:
 <em>Interval structure, Interval vector, Forte number, limited meta-transposition status, limited transposition status, stabilizer</em>&#8230;&#8203;</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Let&#8217;s note that the "fixed zero problem" does not exist on PCS in Prime Form, because, expect the empty element, all PCS in Prime form have zero as their first Pitch Class.</p>
+</div>
+<div class="paragraph">
+<p>We also do not know whether solving the <em>fixed-zero-problem</em> can have repercussions on transformational theory (David Lewin), which, we think, is not limited to PCS in Prime Form&#8230;&#8203;</p>
+</div>
+</td>
+</tr>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_fixed_point">Fixed point</h3>
@@ -2220,23 +2233,26 @@ It therefore becomes necessary to use this fixed points template wisely.
 </strong></p>
 </div>
 <div class="paragraph">
-<p>Without questioning everything, in particular the arithmetic with the PCs, a general solution would consist of transposing any PCS which is the subject of a transformation operation, onto the standard template, centered on zero, BEFORE the transformation, make transformation and then, returning to its starting point AFTER the transformation. So 3 operations instead of just one. This is the price to pay for good consistency.</p>
+<p>Without questioning everything, especially the arithmetic of PCs, a general solution would be to transpose any PC undergoing a transformation operation, by a step <em>-k</em> that brings it back to the zero origin point, BEFORE the transformation, to perform the transformation, then to return to its starting point, transposition of <em>+k</em>, AFTER the transformation. That is three operations instead of just one. This is the price to pay for good consistency. That is :</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Transpose, by a step ok <em>k</em>, the PCS to make one of its PCs coincide with zero</p>
+<p>Transpose, by a step ok <em>-k</em>, the PCS to make one of its PCs coincide with zero</p>
 </li>
 <li>
-<p>Apply the requested transformation (ax + t)</p>
+<p>Apply the requested transformation (<em>ax + t</em>)</p>
 </li>
 <li>
-<p>perform an inverse transposition (-<em>k</em>)</p>
+<p>perform an inverse transposition (<em>k</em>)</p>
 </li>
 </ol>
 </div>
 <div class="paragraph">
-<p>Example Dim7 : <code>M11-T0</code> on <code>[1 4 7 10]</code></p>
+<p>Some examples :</p>
+</div>
+<div class="paragraph">
+<p>Example1 Dim7 : <code>M11-T0</code> on <code>[1 4 7 10]</code></p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -2252,7 +2268,7 @@ It therefore becomes necessary to use this fixed points template wisely.
 </ol>
 </div>
 <div class="paragraph">
-<p>Example Major scale : <code>M11-T0</code> on  D Major <code>[1&#160;2&#160;4&#160;6&#160;7&#160;9&#160;11]</code></p>
+<p>Example2 Major scale : <code>M11-T0</code> on  D Major <code>[1&#160;2&#160;4&#160;6&#160;7&#160;9&#160;11]</code></p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -2269,10 +2285,10 @@ It therefore becomes necessary to use this fixed points template wisely.
 </ol>
 </div>
 <div class="paragraph">
-<p>The solution consists of defining the value of k to be applied, which will be used by all transformation operations.</p>
+<p>The solution consists of defining the value of <em>k</em> to be applied, which will be used by all transformation operations.</p>
 </div>
 <div class="paragraph">
-<p>Choosing the "smallest PC" of the PCS is not decisive: it works in the case of C# dim7, but not in D major, because then the leading note (7th) of the scale is made to coincide with zero, and not its root, as in C major.</p>
+<p>Choosing the "smallest PC" of the PCS is not decisive: it works in the case of C# dim7, but not on D major, [1&#160;2&#160;4&#160;6&#160;7&#160;9&#160;11], because its first and minimum PC is 1 (C#), the seventh of the scale, and not its root, as in C major.</p>
 </div>
 <div class="paragraph">
 <p>We must therefore choose to add a new property to the very concept of PCS.</p>
@@ -4985,7 +5001,7 @@ Symmetry prime form concept is invented, specific to this project.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-03-17 13:09:17 +0100
+Last updated 2025-03-17 18:56:58 +0100
 </div>
 </div>
 <script type="text/x-mathjax-config">

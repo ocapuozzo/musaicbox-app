@@ -28,9 +28,8 @@
      [style.width]="pcsDto.width"
      [style.font-size]="pcsDto.width <= 39 ? '50%' : pcsDto.width < 143 ? '80%' : '100%'"
      style="margin: 0; padding: 0; word-wrap:break-word; line-height: 1.2em;"
-     [innerHTML]="pcsDto.showPcs ? pcsDto.pcs.getPcsStr() : pcsDto.pcs.getFirstNameDetail()"
+     [innerHTML]="pcsDto.showPcs ? getPcsName() : pcsDto.pcs.getFirstNameDetail()"
   >
-
   </p>
 }
 

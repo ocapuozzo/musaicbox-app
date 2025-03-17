@@ -28,7 +28,7 @@ export class ClockFormDraw extends FormDraw {
       height: len, // square
       pc_pivot_color: 'red', // this._pcsDto.uiMusaic.pivotColor,
       pc_color_fill: pcsDto.uiClock.colorPitchOn,
-      drawPivot: pcsDto.uiClock.drawPivot,
+      drawPivot: pcsDto.showPivot,
       segmentsLineDash: [[1, 2, 2, 1], [2, 3]] // median, inter
     })
   }

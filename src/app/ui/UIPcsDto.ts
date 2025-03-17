@@ -46,13 +46,13 @@ export class UIClock {
   radiusPitch: number
   textWidthAuto: boolean
   textWidth: number
-  drawPivot: boolean
+  // drawPivot: boolean
   colorPitchOn: string
   width: number
   height: number
 
   constructor(
-    {drawPolygon, radiusPitch, textWidthAuto, textWidth, drawPivot, colorPitchOn, width, height}:
+    {drawPolygon, radiusPitch, textWidthAuto, textWidth, /*drawPivot,*/ colorPitchOn, width, height}:
       {
         drawPolygon?: boolean,
         colorPitchOn?: string,
@@ -61,13 +61,13 @@ export class UIClock {
         radiusPitch?: number,
         textWidthAuto?: boolean,
         textWidth?: number,
-        drawPivot?: boolean
+        // drawPivot?: boolean
       } = {}) {
     this.drawPolygon = drawPolygon ?? false;
     this.radiusPitch = radiusPitch ?? 10;
     this.textWidthAuto = textWidthAuto ?? true;
     this.textWidth = textWidth ?? 10;
-    this.drawPivot = drawPivot ?? true;
+    // this.drawPivot = drawPivot ?? true;
     this.colorPitchOn = colorPitchOn ?? 'yellow';
     this.width = width ?? 91;
     this.height = height ?? 91;
@@ -116,6 +116,7 @@ export class UIPcsDto {
   // xor value when true
   showName: boolean
   showPcs: boolean
+  showPivot: boolean
 
   uiMusaic: UIMusaic
   uiClock: UIClock
@@ -226,6 +227,7 @@ export class UIPcsDto {
       isSelected,
       showName,
       showPcs,
+      showPivot,
       octotrope,
       uiMusaic,
       uiClock,
@@ -242,6 +244,7 @@ export class UIPcsDto {
       isSelected?: boolean,
       showName?: boolean,
       showPcs?: boolean,
+      showPivot?: boolean,
       octotrope ?: { size: number },
       uiMusaic?: UIMusaic,
       uiClock?: UIClock,
@@ -285,6 +288,7 @@ export class UIPcsDto {
     this.isSelected = isSelected ?? false
     this.showName = showName ?? false
     this.showPcs = showPcs ?? false
+    this.showPivot = showPivot ?? true
     this.octotrope = octotrope ? { ...octotrope} : { size: 50 }
     // construct 3 new objects (else they are shared)
     this.uiMusaic = uiMusaic ? {...uiMusaic} : new UIMusaic()

@@ -888,7 +888,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
       throw new Error(`Invalid index : $ {index}`)
     }
-    return this.pcsDtoList[index].uiClock.drawPivot;
+    return this.pcsDtoList[index].showPivot;
   }
 
 

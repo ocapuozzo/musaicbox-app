@@ -812,25 +812,32 @@ Example : `[1 4 7 10] x 11 = [11 44 70 110] modulo 12 = [11 8 5 2] => #[2 5 8 11
 [.text-center]
 *_"fixed zero problem"_*.
 
-This inconsistency doesn't seem to bother the people who gravitate toward the _Musical Set Theory_.
+This inconsistency doesn't seem to bother the people who gravitate toward the _Musical Set Theory_ (?).
 
 This can be explained by the fact that the "intruder PCS", resulting from bad calculation logic, are, however, *part of the same orbit as the reference PCS*. So, result is "up to transformation", which is not precise enough, not fair enough for our needs.
 
 In our case, this is not acceptable, because we want :
 
 * *Consistency between geometric transformations and algebraic transformations*
-* Maintain integrity of a PCS along its affine transformations.
+* Maintain integrity of a PCS along its affine transformations. The main rule is the pivot must be a PC belonging to the PCS, and this is not the case when the pivot is always set to zero.
 // * *That what an instrumentalist observes in fingering of phrasing must echo a harmonic structure*
 
 ====
 
 As any musician would expect, the main characteristics of a PCS *should be insensitive to the transposition step* : the characteristics of a PCS remain unchanged compared to those of the same PCS transposed by a _k-step_.
 
-A D Major share same structural characteristics of any PCS Major.
+D-Major PCS shares same structural characteristics as any Major PCS.
 
 These characteristics include:
 _Interval structure, Interval vector, Forte number, limited meta-transposition status, limited transposition status, stabilizer_...
 
+[NOTE]
+--
+Let's note that the "fixed zero problem" does not exist on PCS in Prime Form, because, expect the empty element, all PCS in Prime form have zero as their first Pitch Class.
+
+We also do not know whether solving the _fixed-zero-problem_ can have repercussions on transformational theory (David Lewin), which, we think, is not limited to PCS in Prime Form...
+
+--
 === Fixed point
 
 The points fixed by the transformation operations depend essentially on _n_. For _n_ = 12, these fixed points are represented by this figure :
@@ -842,19 +849,21 @@ image::fixed-indexes-n12.png[fixed-indexes-n12]
 It therefore becomes necessary to use this fixed points template wisely.
 **
 
-Without questioning everything, in particular the arithmetic with the PCs, a general solution would consist of transposing any PCS which is the subject of a transformation operation, onto the standard template, centered on zero, BEFORE the transformation, make transformation and then, returning to its starting point AFTER the transformation. So 3 operations instead of just one. This is the price to pay for good consistency.
+Without questioning everything, especially the arithmetic of PCs, a general solution would be to transpose any PC undergoing a transformation operation, by a step _-k_ that brings it back to the zero origin point, BEFORE the transformation, to perform the transformation, then to return to its starting point, transposition of _+k_, AFTER the transformation. That is three operations instead of just one. This is the price to pay for good consistency. That is :
 
-. Transpose, by a step ok _k_, the PCS to make one of its PCs coincide with zero
-. Apply the requested transformation (ax + t)
-. perform an inverse transposition (-_k_)
+. Transpose, by a step ok _-k_, the PCS to make one of its PCs coincide with zero
+. Apply the requested transformation (_ax + t_)
+. perform an inverse transposition (_k_)
 
-Example Dim7 : `M11-T0` on `[1 4 7 10]`
+Some examples :
+
+Example1 Dim7 : `M11-T0` on `[1 4 7 10]`
 
 . `[1 4 7 10]` transpose with `k = -1` => `[0{nbsp}3{nbsp}6{nbsp}9]`
 .  `[0 3 6 9]` x 11 modulo 12 => `[0{nbsp}3{nbsp}6{nbsp}9]`
 . `[0 3 6 9]` transpose with `k = 1` => `#[1{nbsp}4{nbsp}7{nbsp}10]#`
 
-Example Major scale : `M11-T0` on  D Major `[1{nbsp}2{nbsp}4{nbsp}6{nbsp}7{nbsp}9{nbsp}11]`
+Example2 Major scale : `M11-T0` on  D Major `[1{nbsp}2{nbsp}4{nbsp}6{nbsp}7{nbsp}9{nbsp}11]`
 
 . `[1{nbsp}2{nbsp}4{nbsp}6{nbsp}7{nbsp}9{nbsp}11]` transpose with `k = -2` => `[0{nbsp}2{nbsp}4{nbsp}5{nbsp}7{nbsp}9{nbsp}11]`
 . `[0{nbsp}2{nbsp}4{nbsp}5{nbsp}7{nbsp}9{nbsp}11]` x 11 modulo 12 =>
@@ -862,9 +871,9 @@ Example Major scale : `M11-T0` on  D Major `[1{nbsp}2{nbsp}4{nbsp}6{nbsp}7{nbsp}
 
 . `[0{nbsp}1{nbsp}3{nbsp}5{nbsp}7{nbsp}8{nbsp}10]` transpose with `k = 2` => `#[0{nbsp}2{nbsp}3{nbsp}5{nbsp}7{nbsp}9{nbsp}10]#`
 
-The solution consists of defining the value of k to be applied, which will be used by all transformation operations.
+The solution consists of defining the value of _k_ to be applied, which will be used by all transformation operations.
 
-Choosing the "smallest PC" of the PCS is not decisive: it works in the case of C# dim7, but not in D major, because then the leading note (7th) of the scale is made to coincide with zero, and not its root, as in C major.
+Choosing the "smallest PC" of the PCS is not decisive: it works in the case of C# dim7, but not on D major, [1{nbsp}2{nbsp}4{nbsp}6{nbsp}7{nbsp}9{nbsp}11], because its first and minimum PC is 1 (C#), the seventh of the scale, and not its root, as in C major.
 
 We must therefore choose to add a new property to the very concept of PCS.
 

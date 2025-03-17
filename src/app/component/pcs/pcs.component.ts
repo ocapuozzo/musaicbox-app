@@ -98,4 +98,11 @@ export class PcsComponent {
   protected readonly UIPcsDto = UIPcsDto;
 
   protected readonly EightyEight = EightyEight;
+
+  getPcsName() {
+    if (this.pcsDto.showPivot && this.pcsDto.pcs.cardinal > 0) {
+      return this.pcsDto.pcs.getMappedPcsStr() + "<sub>" + this.pcsDto.pcs.getMappedPivot() + "</sub>"
+    }
+    return this.pcsDto.pcs.getMappedPcsStr()
+  }
 }

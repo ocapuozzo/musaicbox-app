@@ -523,13 +523,14 @@ export class ManagerPageWBService {
     this.uiPcsDtoList = [...this.uiPcsDtoList]
     let indexes = this.getIndexesTarget(index);
     // work with value of element target event
-    const valueShowPivot = !this.uiPcsDtoList[index].uiClock.drawPivot
+    const valueShowPivot = !this.uiPcsDtoList[index].showPivot
 
     indexes.forEach(index => {
       let pcsDto = this.uiPcsDtoList[index]
       this.uiPcsDtoList[index] = new UIPcsDto({
         ...pcsDto,
-        uiClock: {...pcsDto.uiClock, drawPivot: valueShowPivot}
+        showPivot: valueShowPivot,
+        uiClock: {...pcsDto.uiClock}
       })
     })
 
@@ -1077,7 +1078,7 @@ export class ManagerPageWBService {
       new UIPcsDto({...this.uiPcsDtoList[index],
         uiClock : {...this.uiPcsDtoList[index].uiClock /*, drawPivot: false*/}
       })
-    pcsDtoForTemplate.uiClock.drawPivot = false
+    pcsDtoForTemplate.showPivot = false
     this.addPcs({somePcs: pcsCyclicList, circularAlign: true, indexCenterElement: index, templateDto:pcsDtoForTemplate})
   }
 
