@@ -1,5 +1,5 @@
 import {MusaicOperation} from "./MusaicOperation";
-import {IPcs} from "./IPcs";
+import {IPcs, negativeToPositiveModulo} from "./IPcs";
 import {ManagerGroupActionService} from "../service/manager-group-action.service";
 
 describe('MusaicPcsOperation', () => {
@@ -233,6 +233,32 @@ describe('MusaicPcsOperation', () => {
     ops = MusaicOperation.convertArrayStringsToArrayOfMusaicOperations(12,names)
     expect(opsexpected).toEqual(ops)
 
+  })
+
+  it('temp verify reduction extended operation with pivot', () =>{
+    // a(-(a'-1)p' + k') + (-(a-1)p + k))
+    const p=1
+    const pPrime=2
+    const a=5
+    const aPrime =7
+    const k=2
+    const kPrime=3
+    const res1 =  a * (-(aPrime-1) * pPrime + kPrime) + (-(a-1) * p + k)
+    // const res1bis =  a * ( -aPrime *  pPrime + pPrime + kPrime) + -a*p +p + k
+    // const res1ter = -a * aPrime * pPrime + a * pPrime +a * kPrime -a*p + p + k
+    //-aa'p' + ap' +ak' -ap + p + k
+    const res2 =  -a * pPrime * (a + 1) + p * (1 - a) + a*kPrime + k
+    // -ap'(a + 1) + p(1-a) + ak' + k
+    // console.log(`res1 = ${res1} resIbis = ${res1bis} resIter = ${res1ter} res2 = ${res2}`)
+    const n = 12
+    const res3 =  (n - a) * pPrime * (a + 1) + p * (n + 1 - a) + a*kPrime + k
+    // -ap'(a + 1) + p(1-a) + ak' + k
+
+    // console.log(`res1 = ${res1} res2 = ${res2} res3 = ${res3} `)
+    expect(res1).toEqual(res2)
+    expect(res2).toEqual(-47)
+    expect(negativeToPositiveModulo(res2, 12)).toEqual(1)
+    expect(negativeToPositiveModulo(res3, 12)).toEqual(1)
   })
 
 })

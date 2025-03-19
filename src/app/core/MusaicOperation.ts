@@ -127,6 +127,10 @@ export class MusaicOperation {
       this.complement !== other.complement)  // logical xor
   }
 
+
+
+
+
   /**
    * action on a IPcs is define by
    * <pre>

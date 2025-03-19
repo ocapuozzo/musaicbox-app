@@ -366,7 +366,9 @@ describe('IPcs unit tests', () => {
     const cMaj = new IPcs({strPcs: "0, 4, 7"})
     const cMajDihedral = cMaj.affineOp(11, 0)
     expect(cMaj.getMappedVectorPcs()).toEqual(cMajDihedral.affineOp(11, 0).getMappedVectorPcs())
+
     const cMajDihedralPF = new IPcs({strPcs: "0, 3, 7"})
+    expect(cMaj.dihedralPrimeForm().getMappedVectorPcs()).toEqual(cMajDihedralPF.getMappedVectorPcs())
     expect(cMaj.dihedralPrimeForm().getMappedVectorPcs()).toEqual(cMajDihedralPF.getMappedVectorPcs())
 
     // test when pcs have already good orbit

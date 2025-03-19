@@ -297,30 +297,6 @@ export class IPcs {
     return {vector: bin, defaultPivot: defaultPivot === undefined ? undefined : defaultPivot % n}
   }
 
-  /**
-   * first pc is pivot by default
-   * Case if strpcs is not in  normal form
-   * Example : [11, 4, 5] => 11 is iPivot
-   * @param strpcs a str Pcs
-   */
-  static defaultPivotFromStr(strpcs: string): number | undefined {
-    strpcs = strpcs.trim()
-    if (strpcs.length > 0) {
-      if (isNaN(Number(strpcs[0]))) {
-        // Suppose it is framed by a symbol, delete it
-        strpcs = strpcs.substring(1, strpcs.length - 1);
-      }
-    }
-    if (strpcs) {
-      let pitches = strpcs.split(/[ ,]+/);
-      for (let i = 0; i < pitches.length; i++) {
-        if (isNaN(Number(pitches[i]))) continue;
-        return Number(pitches[i])
-      }
-    }
-    return undefined;
-  }
-
 
   /**
    * Convert integer in binary vector, binary pitches class set
@@ -505,6 +481,8 @@ export class IPcs {
    *  2/ affine operation : ax + t
    *  3/ translate :        1 + iPivot
    *  so : ax + ( -(a-1) * iPivot + t )
+   *  so : ax + iPivot * (1 - a) + t )
+   *
    * @param  a    : number
    * @param  t  :number  [0..this.n[
    * @param iPivot : number [0..this.n[
@@ -513,15 +491,15 @@ export class IPcs {
    */
   static getVectorPcsPermute(a: number, t: number, iPivot: number, vectorPcs: number[]): number[] {
     let vectorPcsPermuted = vectorPcs.slice()
-    let n = vectorPcs.length
+    const n = vectorPcs.length
     let j
-    if (t < 0) {
-      t = negativeToPositiveModulo(t, n)
-      // t in [0..n[
-    }
+
     for (let i = 0; i < n; i++) {
-      j = (n + (((i * a) - (a - 1) * iPivot - t) % n)) % n
-      // j may be negative... so n + (...) modulo n
+      // j = (n + (((i * a) - (a - 1) * iPivot - t) % n)) % n
+      // note : at end expression  "plus t" => "minus t"  : [...] + t) % n) =>  [...] - t) % n)
+      //        because we put in pcs[i] value "behind it" of t step (if t > 0))
+      j = (n + (((i * a) + iPivot * (1 - a) - t) % n)) % n
+      // j may be negative... so n + (...) modulo n,  (n + j) modulo n
       vectorPcsPermuted[i] = vectorPcs[j]
     }
     return vectorPcsPermuted
