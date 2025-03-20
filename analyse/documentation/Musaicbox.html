@@ -4359,7 +4359,24 @@ We do not have integrated this property, <em>iPivot</em>, in the logical identit
 <i class="fa icon-caution" title="Caution"></i>
 </td>
 <td class="content">
-This operation does not replace the usual affine function since it refers to the affine function in its <a href="#design-affine-pivot">Design AffinePivot on Extended PCS</a>.
+Conceptually <em>AffPivot</em> function does not replace the usual affine function since it refers to the affine function in its <a href="#design-affine-pivot">Design AffinePivot on Extended PCS</a>.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><em>MusaicBox</em> works with Extended PCS and implements affine functions with variable index of pitch class (<em>iPivot</em>), via <em>affinePivot</em> algorithm.</p>
+</div>
+<div class="paragraph">
+<p>Although the affine function has replaced the usual affine functions in the project &#8230;&#8203; It should not be lost in sight that it is only a contraction of a composition of functions: <code>M1-T<sub>p</sub> ∘ M<sub>a</sub>-T<sub>k</sub> ∘ M<sub>1</sub>-T<sub>-p</sub></code> or <code>M1-T<sub>p</sub>(M<sub>a</sub>-T<sub>k</sub>(M<sub>1</sub>-T<sub>-p</sub>( pcs )))</code></p>
+</div>
 </td>
 </tr>
 </table>
@@ -5236,7 +5253,7 @@ Symmetry prime form concept is invented, specific to this project.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-03-20 15:41:15 +0100
+Last updated 2025-03-20 18:23:57 +0100
 </div>
 </div>
 <script type="text/x-mathjax-config">
