@@ -2085,10 +2085,19 @@ _Where *a* is prime with |E|, *k* a step of transposition, *p* the iPivot of A_
 --
 ====
 
-CAUTION: This operation does not replace the usual affine function since it refers to the affine function in its <<design-affine-pivot>>.
- +
- +
- And yet, the AffineMivot function has taken the place of the usual Affine functions in the project... Obviously to be clarified...
+CAUTION: Conceptually _AffPivot_ function does not replace the usual affine function since it refers to the affine function in its <<design-affine-pivot>>.
+
+[IMPORTANT]
+====
+_MusaicBox_ works with Extended PCS and implements affine functions with variable index of pitch class (_iPivot_), via _affinePivot_ algorithm.
+
+Although the affine function has replaced the usual affine functions in the project ... It should not be lost in sight that it is only a contraction of a composition of functions: `M1-T~p~ ∘ M~a~-T~k~ ∘ M~1~-T~-p~` or `M1-T~p~(M~a~-T~k~(M~1~-T~-p~( pcs )))`
+
+====
+
+
+
+// And yet, the AffineMivot function has taken the place of the usual Affine functions in the project... Obviously to be clarified...
 
 //
 // === Composition function of (a, p(1 - a) + k)
