@@ -323,31 +323,36 @@ export class MusaicOperation {
    * @returns {IPcs}
    */
   static transposition(pcs: IPcs, t: number): IPcs {
-    return this.affineOp(pcs, 1, t)
+    return this.permute(pcs, 1, t)
   }
 
 
   /**
    * general transformation : affine operation ax + t
    * general idea (composition of affine operations):
-   *  1/ translate :        1 + -iPivot
+   *  1/ translate :        - pivot
    *  2/ affine operation : ax + t
-   *  3/ translate :        1 + iPivot
-   *  so : ax + ( -(a-1) * iPivot + t )
-   *  so : ax + iPivot * (1 - a) + t )
+   *  3/ translate :        + pivot
+   *  so : ax + ( -(a-1) * pivot + t )
+   *  so : ax + pivot * (1 - a) + t
    *
    * @param  a : number
    * @param  t : number  [0..this.n[
-   * @param iPivot : number [0..this.n[
+   * @param pivot : number [0..this.n[
    * @param vectorPcs : number[] array of int
    * @return {number[]}
    */
-  static getVectorPcsPermuted(a: number, t: number, iPivot: number, vectorPcs: number[]): number[] {
+  static getVectorPcsPermuted(a: number, t: number, pivot: number, vectorPcs: number[]): number[] {
     let vectorPcsPermuted = vectorPcs.slice()
     const n = vectorPcs.length
     let j
     for (let i = 0; i < n; i++) {
-      // focus on algebra expression :  (i * a) + iPivot * (1 - a) + t
+      // focus on algebra expression affine extend with manage pivot  : ax + pivot(1 - a) + k)
+      // ax + pivot(1 - a) + k)
+      // = ax + pivot(1 - a) + t
+      // = a*x - a*pivot + pivot  + t
+      // a * (x - pivot) + pivot  + t // <= 1 multiplication 1 subtraction 2 add : best implementation
+      //
       // Let's take an example :
       //
       // array-in :  [...,    c, d,  e,  f,  g,  h  ,....]
@@ -364,7 +369,13 @@ export class MusaicOperation {
       //                                                                           ^
       // this is why, in permutation act, plus t became minus t at end of expression : [...] + t)  =>  [...] - t)
       //
-      j = (n + (((i * a) + iPivot * (1 - a) - t) % n)) % n
+      // j =  a (x - pivot) + pivot + t
+      //
+      // (below i = x,  where index and pitch class are "merged" :))
+      //   @see whats_wrong_with_operations in documentation
+
+      j = (n + (a * ( i - pivot) + pivot - t) % n) % n
+
       // first j modulo n may be negative... so twice modulo : (n + ( j modulo n )) modulo n
       // @see https://stackoverflow.com/questions/4467539/javascript-modulo-gives-a-negative-result-for-negative-numbers
       vectorPcsPermuted[i] = vectorPcs[j]

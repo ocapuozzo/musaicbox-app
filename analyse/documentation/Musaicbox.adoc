@@ -973,6 +973,9 @@ We do now reduce this composition  stem:[M_1T_p(A) @ M_aT_k(A) @ M_1T_-p(A)] in 
 * = stem:[(a, -(a-1)p + k)]
 * = #stem:[(a, p(1 - a) + k)]#  <= solution
 
+// a * (x - pivot) + pivot + t // 1 mut 1 sous 2 add
+
+
 Unsurprisingly, only the transposition step is affected.
 
 

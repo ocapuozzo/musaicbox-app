@@ -2,6 +2,7 @@ import {TestBed} from '@angular/core/testing';
 
 import {ManagerGroupActionService} from './manager-group-action.service';
 import {IPcs} from "../core/IPcs";
+import {MusaicOperation} from "../core/MusaicOperation";
 
 describe('ManagerGroupActionService', () => {
 
@@ -53,7 +54,7 @@ describe('ManagerGroupActionService', () => {
     let minInt = IPcs.id(pcsId88.vectorPcs);
 
     for (let i = 0; i < n - 1; i++) {
-      norm = IPcs.getVectorPcsPermute(1, 1, 0, norm);
+      norm = MusaicOperation.getVectorPcsPermuted(1, 1, 0, norm);
       let curInt = IPcs.id(norm);
       if (minInt > curInt) {
         minInt = curInt;
@@ -82,7 +83,7 @@ describe('ManagerGroupActionService', () => {
 
 
     const pcsCyclicPfOfDm = cyclicGroupAction?.getOrbitOf(pcsDminor).getPcsMin()
-    const pcsPfInverseOfDmPf = pcsCyclicPfOfDm!.affineOp(11, 0).cyclicPrimeForm();
+    const pcsPfInverseOfDmPf = MusaicOperation.affineOp(pcsCyclicPfOfDm!,11, 0).cyclicPrimeForm();
 
     const smaller = pcsCyclicPfOfDm!.id < pcsPfInverseOfDmPf.id ? pcsCyclicPfOfDm : pcsPfInverseOfDmPf;
 
@@ -101,8 +102,8 @@ describe('ManagerGroupActionService', () => {
 
     const pcsDihedralPfOfCMaj = pcsCMaj.dihedralPrimeForm(); // call ManagerGroupActionService logic
 
-    const pcsM5 = pcsDihedralPfOfCMaj.affineOp(5, 0).cyclicPrimeForm();
-    const pcsM7 = pcsDihedralPfOfCMaj.affineOp(7, 0).cyclicPrimeForm();
+    const pcsM5 = MusaicOperation.affineOp(pcsDihedralPfOfCMaj, 5, 0).cyclicPrimeForm();
+    const pcsM7 = MusaicOperation.affineOp(pcsDihedralPfOfCMaj, 7, 0).cyclicPrimeForm();
     const smaller =
       (pcsDihedralPfOfCMaj.id < pcsM5.id && pcsDihedralPfOfCMaj.id < pcsM7.id) ?
        pcsDihedralPfOfCMaj : (pcsM5.id < pcsM7.id) ? pcsM5 : pcsM7

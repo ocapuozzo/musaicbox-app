@@ -66,7 +66,8 @@ export class ManagerPcsService {
   }
 
   doTransformAffine(pcs: IPcs, a: number, t: number): IPcs {
-    let newPcs = pcs.affineOp(a, t)
+    // let newPcs = pcs.affineOp(a, t)
+    let newPcs = MusaicOperation.affineOp(pcs, a, t)
     const savPivot = newPcs.getPivot()
     if (pcs.orbit?.groupAction) {
       newPcs = ManagerPcsService.makeNewInstanceOf(newPcs, pcs.orbit.groupAction, savPivot);

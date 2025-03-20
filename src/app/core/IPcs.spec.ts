@@ -2,6 +2,7 @@ import {IPcs, negativeToPositiveModulo} from './IPcs'
 import {GroupAction} from "./GroupAction";
 import {Group} from "./Group";
 import {ManagerGroupActionService} from "../service/manager-group-action.service";
+import {MusaicOperation} from "./MusaicOperation";
 
 describe('IPcs unit tests', () => {
 
@@ -110,7 +111,7 @@ describe('IPcs unit tests', () => {
 
   it('Test for detect bug with pivot not set', ()=>{
     let pcs = new IPcs({strPcs:""})
-    expect(pcs.permute(1,0).iPivot).toEqual(undefined)
+    expect(MusaicOperation.permute(pcs,1,0).iPivot).toEqual(undefined)
     expect(pcs.toggleIndexPC(1).iPivot).toEqual(1)
   })
 
@@ -364,8 +365,8 @@ describe('IPcs unit tests', () => {
 
   it("IPcs dihedralPrimeForm example Maj -> Min", () => {
     const cMaj = new IPcs({strPcs: "0, 4, 7"})
-    const cMajDihedral = cMaj.affineOp(11, 0)
-    expect(cMaj.getMappedVectorPcs()).toEqual(cMajDihedral.affineOp(11, 0).getMappedVectorPcs())
+    const cMajDihedral = MusaicOperation.affineOp(cMaj,11, 0)
+    expect(cMaj.getMappedVectorPcs()).toEqual(MusaicOperation.affineOp(cMajDihedral,11, 0).getMappedVectorPcs())
 
     const cMajDihedralPF = new IPcs({strPcs: "0, 3, 7"})
     expect(cMaj.dihedralPrimeForm().getMappedVectorPcs()).toEqual(cMajDihedralPF.getMappedVectorPcs())
@@ -378,8 +379,8 @@ describe('IPcs unit tests', () => {
 
   it("IPcs affinePrimeForm", () => {
     const cMaj = new IPcs({strPcs: "0, 4, 7"})
-    const cMajDihedral = cMaj.affineOp(11, 0)
-    let ipcs = cMajDihedral.affineOp(5, 0)
+    const cMajDihedral = MusaicOperation.affineOp(cMaj, 11, 0)
+    let ipcs = MusaicOperation.affineOp(cMajDihedral, 5, 0)
     expect(ipcs.getMappedVectorPcs()).toEqual([1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0])
     expect(ipcs.getMappedVectorPcs()).toEqual(cMaj.affinePrimeForm().getMappedVectorPcs())
 

@@ -475,71 +475,13 @@ export class IPcs {
   }
 
   /**
-   * general transformation : affine operation ax + t
-   * general idea (composition of affine operations):
-   *  1/ translate :        1 + -iPivot
-   *  2/ affine operation : ax + t
-   *  3/ translate :        1 + iPivot
-   *  so : ax + ( -(a-1) * iPivot + t )
-   *  so : ax + iPivot * (1 - a) + t )
-   *
-   * @param  a    : number
-   * @param  t  :number  [0..this.n[
-   * @param iPivot : number [0..this.n[
-   * @param vectorPcs : number[] array of int
-   * @return {number[]}
-   */
-  static getVectorPcsPermute(a: number, t: number, iPivot: number, vectorPcs: number[]): number[] {
-    let vectorPcsPermuted = vectorPcs.slice()
-    const n = vectorPcs.length
-    let j
-
-    for (let i = 0; i < n; i++) {
-      // j = (n + (((i * a) - (a - 1) * iPivot - t) % n)) % n
-      // note : at end expression  "plus t" => "minus t"  : [...] + t) % n) =>  [...] - t) % n)
-      //        because we put in pcs[i] value "behind it" of t step (if t > 0))
-      j = (n + (((i * a) + iPivot * (1 - a) - t) % n)) % n
-      // j may be negative... so n + (...) modulo n,  (n + j) modulo n
-      vectorPcsPermuted[i] = vectorPcs[j]
-    }
-    return vectorPcsPermuted
-  }
-
-  /**
-   * general transformation : affine operation ax + t
-   * general idea (composition of affine operations):
-   *  1/ translate :        1 + -iPivot
-   *  2/ affine operation : ax + t
-   *  3/ translate :        1 + iPivot
-   *  so : ax + ( -(a-1) * iPivot + t ) (for each pc in pcs)
-   * @param  a : number   {number}
-   * @param  t : number   [0..11]
-   * @return IPcs
-   */
-  permute(a: number, t: number): IPcs {
-    if (this.cardinal === 0) {
-      // detached pcs no change
-      return this
-    }
-
-    let newPivot = negativeToPositiveModulo(((this.iPivot ?? 0) + t), this.vectorPcs.length)
-    return new IPcs({
-      vectorPcs: IPcs.getVectorPcsPermute(a, t, newPivot, this.vectorPcs),
-      iPivot: newPivot,
-      orbit: new Orbit(), // pcs not coming from orbit
-      templateMappingVectorPcs: this.templateMappingVectorPcs,
-      nMapping: this.nMapping
-    })
-  }
-
-  /**
    * Transformation affine of this
    * @param a
    * @param t
    * @returns {IPcs}
    */
   affineOp(a: number, t: number): IPcs {
-    return this.permute(a, t)
+    return MusaicOperation.permute(this, a, t)
   }
 
   /**
@@ -548,9 +490,8 @@ export class IPcs {
    * @returns {IPcs}
    */
   transposition(t: number): IPcs {
-    return this.affineOp(1, t)
+    return MusaicOperation.permute(this, 1, t)
   }
-
 
   /**
    * Modulation of this (change iPivot)
@@ -623,13 +564,7 @@ export class IPcs {
         }
       }
     }
-    return new IPcs({
-      vectorPcs: this.vectorPcs, //.slice(), <= In readonly, let's go without fear
-      iPivot: newPivot,
-      orbit: this.orbit, // same orbit because same pcs
-      templateMappingVectorPcs: this.templateMappingVectorPcs,
-      nMapping: this.nMapping
-    })
+    return this.cloneWithNewPivot(newPivot)
   }
 
   /**
