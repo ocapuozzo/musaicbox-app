@@ -10,7 +10,8 @@
 
 
 import {StringHash} from "../utils/StringHash";
-import {IPcs} from "./IPcs";
+import {IPcs, negativeToPositiveModulo} from "./IPcs";
+import {Orbit} from "./Orbit";
 
 /**
  * musaic operation group : c . ((ax + t) modulo n)
@@ -139,11 +140,11 @@ export class MusaicOperation {
    *   else
    *     return affineOperation(pcs)
    * </pre>
-   * @param ipcs IPcs
+   * @param pcs IPcs
    * @return a new IPcs
    */
-  actionOn(ipcs: IPcs) {
-    return this.complement ? ipcs.affineOp(this.a, this.t).complement() : ipcs.affineOp(this.a, this.t);
+  actionOn(pcs: IPcs) {
+    return this.complement ? MusaicOperation.affineOp(pcs, this.a, this.t).complement() : MusaicOperation.affineOp(pcs, this.a, this.t);
   }
 
   toString() {
@@ -211,9 +212,9 @@ export class MusaicOperation {
     return MusaicOperation.compare(this, other)
   }
 
-  addFixedPcs(ipcs: IPcs) {
-    if (!this.fixedPcs.find(p => p.id === ipcs.id)) {
-      this.fixedPcs.push(ipcs);
+  addFixedPcs(pcs: IPcs) {
+    if (!this.fixedPcs.find(p => p.id === pcs.id)) {
+      this.fixedPcs.push(pcs);
     }
   }
 
@@ -276,5 +277,99 @@ export class MusaicOperation {
     return resultOperations
   }
 
+  /**
+   * general transformation : affine operation ax + t
+   * general idea (composition of affine operations):
+   *  1/ translate :        1 + -iPivot
+   *  2/ affine operation : ax + t
+   *  3/ translate :        1 + iPivot
+   *  so : ax + ( -(a-1) * iPivot + t ) (for each pc in pcs)
+   * @param pcs
+   * @param  a : number   {number}
+   * @param  t : number   [0..11]
+   * @return IPcs
+   */
+  static permute(pcs: IPcs, a: number, t: number): IPcs {
+    if (pcs.cardinal === 0) {
+      // detached pcs no change
+      return pcs
+    }
+
+    let newPivot = negativeToPositiveModulo(((pcs.iPivot ?? 0) + t), pcs.vectorPcs.length)
+    return new IPcs({
+      vectorPcs: this.getVectorPcsPermuted(a, t, newPivot, pcs.vectorPcs),
+      iPivot: newPivot,
+      orbit: new Orbit(), // pcs not coming from orbit
+      templateMappingVectorPcs: pcs.templateMappingVectorPcs,
+      nMapping: pcs.nMapping
+    })
+  }
+
+  /**
+   * Transformation affine of this
+   * @param pcs
+   * @param a
+   * @param t
+   * @returns {IPcs}
+   */
+  static affineOp(pcs: IPcs, a: number, t: number): IPcs {
+    return this.permute(pcs, a, t)
+  }
+
+  /**
+   * Transposition of this, in n
+   * @param pcs
+   * @param t step
+   * @returns {IPcs}
+   */
+  static transposition(pcs: IPcs, t: number): IPcs {
+    return this.affineOp(pcs, 1, t)
+  }
+
+
+  /**
+   * general transformation : affine operation ax + t
+   * general idea (composition of affine operations):
+   *  1/ translate :        1 + -iPivot
+   *  2/ affine operation : ax + t
+   *  3/ translate :        1 + iPivot
+   *  so : ax + ( -(a-1) * iPivot + t )
+   *  so : ax + iPivot * (1 - a) + t )
+   *
+   * @param  a : number
+   * @param  t : number  [0..this.n[
+   * @param iPivot : number [0..this.n[
+   * @param vectorPcs : number[] array of int
+   * @return {number[]}
+   */
+  static getVectorPcsPermuted(a: number, t: number, iPivot: number, vectorPcs: number[]): number[] {
+    let vectorPcsPermuted = vectorPcs.slice()
+    const n = vectorPcs.length
+    let j
+    for (let i = 0; i < n; i++) {
+      // focus on algebra expression :  (i * a) + iPivot * (1 - a) + t
+      // Let's take an example :
+      //
+      // array-in :  [...,    c, d,  e,  f,  g,  h  ,....]
+      //              0,1,... 8, 9, 10, 11, 12, 13, ...
+      //                             ^
+      //  Example : array-in[10] == "e"
+      //
+      //  if t = +2, array-out[10] becomes "c"
+      //
+      // array-out :  [...,           c,  d,  e,  f,  g,  h,....]
+      //               0,1,... 8,  9, 10, 11, 12, 13, ...
+      //                               ^
+      //  if t = +2,  element "e" at index 10 becomes "c" (index of c = index of e - t)
+      //                                                                           ^
+      // this is why, in permutation act, plus t became minus t at end of expression : [...] + t)  =>  [...] - t)
+      //
+      j = (n + (((i * a) + iPivot * (1 - a) - t) % n)) % n
+      // first j modulo n may be negative... so twice modulo : (n + ( j modulo n )) modulo n
+      // @see https://stackoverflow.com/questions/4467539/javascript-modulo-gives-a-negative-result-for-negative-numbers
+      vectorPcsPermuted[i] = vectorPcs[j]
+    }
+    return vectorPcsPermuted
+  }
 
 }
