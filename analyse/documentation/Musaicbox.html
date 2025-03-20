@@ -635,29 +635,17 @@ td:has(>p>span[class="klein2"]) {
 <li><a href="#_extended_special_affine_operation">Extended Special Affine Operation</a></li>
 </ul>
 </li>
-<li><a href="#_whats_wrong_with_operations">What&#8217;s wrong with operations ?</a>
-<ul class="sectlevel2">
-<li><a href="#_fixed_point">Fixed point</a></li>
-<li><a href="#_extended_pcs_with_pivot">Extended PCS with pivot</a></li>
-<li><a href="#_conclusion_2">Conclusion</a></li>
-</ul>
-</li>
-<li><a href="#_composition_of_affine_operations_on_extended_pcs">Composition of affine operations on Extended PCS</a>
-<ul class="sectlevel2">
-<li><a href="#_reduction_of_extended_operation">Reduction of extended operation</a></li>
-</ul>
-</li>
 <li><a href="#_group">Group</a>
 <ul class="sectlevel2">
 <li><a href="#_group_axioms">Group Axioms</a></li>
-<li><a href="#_conclusion_3">Conclusion</a></li>
+<li><a href="#_conclusion_2">Conclusion</a></li>
 </ul>
 </li>
 <li><a href="#_group_action">Group Action</a>
 <ul class="sectlevel2">
 <li><a href="#_context">Context</a></li>
 <li><a href="#_discovering_operations_of_g">Discovering operations of G</a></li>
-<li><a href="#_conclusion_4">Conclusion</a></li>
+<li><a href="#_conclusion_3">Conclusion</a></li>
 </ul>
 </li>
 <li><a href="#_orbit">Orbit</a>
@@ -666,13 +654,23 @@ td:has(>p>span[class="klein2"]) {
 <li><a href="#_equivalence_relation">Equivalence relation</a></li>
 <li><a href="#_case_study_cyclic_group">Case study (cyclic group)</a></li>
 <li><a href="#_orbit_stabilizer">Orbit stabilizer</a></li>
-<li><a href="#_conclusion_5">Conclusion</a></li>
+<li><a href="#_conclusion_4">Conclusion</a></li>
 </ul>
 </li>
 <li><a href="#_inventory_of_subgroups">Inventory of subgroups</a>
 <ul class="sectlevel2">
 <li><a href="#classification-table">A classification table of P(Z<sub>12</sub>)</a></li>
 <li><a href="#_17_subgroups_computed">17 subgroups computed</a></li>
+</ul>
+</li>
+<li><a href="#_for_better_operations">For better operations</a>
+<ul class="sectlevel2">
+<li><a href="#_fixed_zero_problem">fixed zero problem</a></li>
+<li><a href="#understand-fixed-point-algorithm">Understand "fixed point algorithm"</a></li>
+<li><a href="#_extended_pcs_with_pivot">Extended PCS with pivot</a></li>
+<li><a href="#_resume">Resume</a></li>
+<li><a href="#design-affine-pivot">Design AffinePivot on Extended PCS</a></li>
+<li><a href="#_affinepivot_reduced">AffinePivot reduced</a></li>
 </ul>
 </li>
 <li><a href="#_appendix">Appendix</a>
@@ -1953,623 +1951,6 @@ Extended Special Affine Operation is called <em>MusaicOperation</em> into Musaic
 </div>
 </div>
 <div class="sect1">
-<h2 id="_whats_wrong_with_operations">What&#8217;s wrong with operations ?</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Let&#8217;s take the inversion operation as an example.</p>
-</div>
-<div class="paragraph">
-<p>In the literature on post-tonal analysis, inversion operation can be found expressed in two forms :</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>\$InverseA(Pcs) = { (n - x) mod n | x ∈ Pcs }\$ // basic version <a href="#Forte">[Forte]</a></p>
-</li>
-<li>
-<p>\$InverseB(Pcs) = { (n - 1) * x mod n | x ∈ Pcs }\$ // <a href="https://en.wikipedia.org/wiki/Multiplication_(music)">multiplicative version M11</a></p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Example : C Major scale <code>[0 2 4 5 7 9 11]</code></p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>InverseA(<code>[0 2 4 5 7 9 11]</code>) :</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p><code>0</code> &#8594; <code>12 - 0</code> &#8594; <code><mark>0</mark></code></p>
-</div>
-<div class="paragraph">
-<p><code>2</code> &#8594; <code>12 - 2</code> &#8594; <code><mark>10</mark></code></p>
-</div>
-<div class="paragraph">
-<p><code>4</code> &#8594; <code>12 - 4</code> &#8594; <code><mark>8</mark></code></p>
-</div>
-<div class="paragraph">
-<p><code>5</code> &#8594; <code>12 - 5</code> &#8594; <code><mark>7</mark></code></p>
-</div>
-<div class="paragraph">
-<p><code>7</code> &#8594; <code>12 - 7</code> &#8594; <code><mark>5</mark></code></p>
-</div>
-<div class="paragraph">
-<p><code>9</code> &#8594; <code>12 - 3</code> &#8594; <code><mark>3</mark></code></p>
-</div>
-<div class="paragraph">
-<p><code>11</code> &#8594; <code>12 - 11</code> &#8594; <code><mark>1</mark></code></p>
-</div>
-<div class="paragraph">
-<p>This gives : InverseA(<code>[0 2 4 5 7 9 11]</code>) &#8594; <code>[<mark>0 1 3 5 7 8 10</mark>]</code></p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>InverseB(<code>[0 2 4 5 7 9 11]</code>) :</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p><code>0</code> &#8594; <code>11 x 0</code> &#8594; <code><mark>0</mark></code></p>
-</div>
-<div class="paragraph">
-<p><code>2</code> &#8594; <code>11 x 2</code> &#8594; 22 mod 12 &#8594; <code><mark>10</mark></code></p>
-</div>
-<div class="paragraph">
-<p><code>4</code> &#8594; <code>11 x 4</code> &#8594; 44 mod 12 &#8594; <code><mark>8</mark></code></p>
-</div>
-<div class="paragraph">
-<p><code>5</code> &#8594; <code>11 x 5</code> &#8594; 55 mod 12 &#8594; <code><mark>7</mark></code></p>
-</div>
-<div class="paragraph">
-<p><code>7</code> &#8594; <code>11 x 7</code> &#8594; 77 mod 12 &#8594; <code><mark>5</mark></code></p>
-</div>
-<div class="paragraph">
-<p><code>9</code> &#8594; <code>11 x 3</code> &#8594; 33 mod 12 &#8594; <code><mark>3</mark></code></p>
-</div>
-<div class="paragraph">
-<p><code>11</code> &#8594; <code>11 x 11</code> &#8594; 121 mod 12 &#8594; <code><mark>1</mark></code></p>
-</div>
-<div class="paragraph">
-<p>This gives : InverseB(<code>[0 2 4 5 7 9 11]</code>) &#8594; <code>[<mark>0 1 3 5 7 8 10</mark>]</code></p>
-</div>
-<div class="paragraph">
-<p>As expected, <em>inverseA</em> and <em>inverseB</em> are <strong>same logic</strong> : <span class="underline">CMajor is transformed in III degree of its VIb Major</span> (Ab Major)</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="./assets/images/CMajor-M11-noPivot.png" alt="CMajor-M11">
-</div>
-<div class="title">Figure 11. M11 on C Major = III degree of VIb Major</div>
-</div>
-<div class="paragraph">
-<p>Now let&#8217;s take C# Major / Db Major : <code>[0 1 3 5 6 8 10]</code></p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Inverse(<code>[0 1 3 5 6 8 10]</code>) :</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p><code>0</code> &#8594; <code>12 - 0</code> &#8594; <code><mark>0</mark></code></p>
-</div>
-<div class="paragraph">
-<p><code>1</code> &#8594; <code>12 - 1</code> &#8594; <code><mark>11</mark></code></p>
-</div>
-<div class="paragraph">
-<p><code>3</code> &#8594; <code>12 - 3</code> &#8594; <code><mark>9</mark></code></p>
-</div>
-<div class="paragraph">
-<p><code>5</code> &#8594; <code>12 - 5</code> &#8594; <code><mark>7</mark></code></p>
-</div>
-<div class="paragraph">
-<p><code>6</code> &#8594; <code>12 - 6</code> &#8594; <code><mark>6</mark></code></p>
-</div>
-<div class="paragraph">
-<p><code>8</code> &#8594; <code>12 - 8</code> &#8594; <code><mark>4</mark></code></p>
-</div>
-<div class="paragraph">
-<p><code>10</code> &#8594; <code>12 - 10</code> &#8594; <code><mark>2</mark></code></p>
-</div>
-<div class="paragraph">
-<p>InverseA(<code>[0 1 3 5 6 8 10]</code>) = InverseB(<code>[0 1 3 5 6 8 10]</code>) &#8594; <code>[<mark>0 2 4 6 7 9 11</mark>]</code></p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="./assets/images/DbMajor-M11-noPivot.png" alt="DbMajor-M11">
-</div>
-</div>
-<div class="paragraph">
-<p><mark>⚠</mark> Oh!, how come the treatment of inversion for a Db Major <strong>differs</strong> from that of a C Major?</p>
-</div>
-<div class="paragraph">
-<p>The expected correct answer of Inverse(<code>[0 1 3 5 6 8 10]</code>)  should have been <code>[<mark>1 2 4 6 8 9 11</mark>]</code>, III degree of A Major (the VIb Major of Db Major) and not <code>[0 2 4 6 7 9 11]</code>.</p>
-</div>
-<div class="paragraph">
-<p>Other example, with a <em>Limited Transposition</em> scale : <em>C Dim7</em></p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="./assets/images/CDim7-infos.png" alt="CDim7-infos">
-</div>
-</div>
-<div class="paragraph">
-<p>As you might expect, a diminished seventh chord is <strong>very strongly symmetrical</strong>. Observe its stabilizers, there are 16 of them and 4 are in T0 (highlighted in yellow in the screenshot above) : <code><mark>M1-T0</mark></code> of course, and  <code><mark>M5-T0</mark></code>, <code><mark>M7-T0</mark></code> and <code><mark>M11-T0</mark></code>.</p>
-</div>
-<div class="openblock text-center">
-<div class="content">
-<table id="zero-fixed-problem" class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 2. Basic operations in Musical Set Theory</caption>
-<colgroup>
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-center valign-top">Scale</th>
-<th class="tableblock halign-center valign-top">M11-T0 (inversion)</th>
-<th class="tableblock halign-center valign-top">M5-T0</th>
-<th class="tableblock halign-center valign-top">M7-T0</th>
-<th class="tableblock halign-center valign-top">Dim7 waiting as strongly invariant</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/clock-0369.png" alt="clock 0369"></span></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/clock-0369.png" alt="clock 0369"></span></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/clock-0369.png" alt="clock 0369"></span></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/clock-0369.png" alt="clock 0369"></span></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><mark>OK</mark></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock">[0 3 6 9]</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">[0 3 6 9]</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">[0 3 6 9]</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">[0 3 6 9]</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><mark>OK</mark></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/clock-14710.png" alt="clock 14710"></span></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/clock-25811.png" alt="clock 25811"></span></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/clock-25811.png" alt="clock 25811"></span></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/clock-14710.png" alt="clock 14710"></span></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><mark>[2 5 8 11] should be [1&#160;4&#160;7&#160;10]</mark></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock">[1 4 7 10]</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><mark>[2 5 8 11]</mark></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><mark>[2 5 8 11]</mark></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">[1 4 7 10]</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><mark>???!</mark></p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="paragraph">
-<p>Obviously [2 5 8 11] is an intruder! business logic is not good. But then why is he here???</p>
-</div>
-<div class="paragraph">
-<p>The basic operations of musical set theory, which are the standard in the field, have a peculiarity: <strong>they are always centered on 0 (zero)</strong>, thus defining it as a fixed point we call the <strong><em>"fixed zero problem"</em></strong>.</p>
-</div>
-<div class="paragraph">
-<p>The bad result we observed comes from the fact that the algorithms confuse index and Pitch Class name, both being expressed by integers (a very useful confusion, by the way).</p>
-</div>
-<div class="paragraph">
-<p>Calculations performed directly with these values leads to a falsely controlled side effect.</p>
-</div>
-<div class="paragraph">
-<p>Example : <code>[1 4 7 10] x 11 = [11 44 70 110] modulo 12 = [11 8 5 2] &#8658; <mark>[2 5 8 11]</mark></code></p>
-</div>
-<div class="exampleblock">
-<div class="content">
-<div class="paragraph text-center">
-<p><strong><em>"fixed zero problem"</em></strong>.</p>
-</div>
-<div class="paragraph">
-<p>This inconsistency doesn&#8217;t seem to bother the people who gravitate toward the <em>Musical Set Theory</em> (?).</p>
-</div>
-<div class="paragraph">
-<p>This can be explained by the fact that the "intruder PCS", resulting from bad calculation logic, are, however, <strong>part of the same orbit as the reference PCS</strong>. So, result is "up to transformation", which is not precise enough, not fair enough for our needs.</p>
-</div>
-<div class="paragraph">
-<p>In our case, this is not acceptable, because we want :</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Consistency between geometric transformations and algebraic transformations</strong></p>
-</li>
-<li>
-<p>Maintain integrity of a PCS along its affine transformations. The main rule is the pivot must be a PC belonging to the PCS, and this is not the case when the pivot is always set to zero.</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p>As any musician would expect, the main characteristics of a PCS <strong>should be insensitive to the transposition step</strong> : the characteristics of a PCS remain unchanged compared to those of the same PCS transposed by a <em>k-step</em>.</p>
-</div>
-<div class="paragraph">
-<p>D-Major PCS shares same structural characteristics as any Major PCS.</p>
-</div>
-<div class="paragraph">
-<p>These characteristics include:
-<em>Interval structure, Interval vector, Forte number, limited meta-transposition status, limited transposition status, stabilizer</em>&#8230;&#8203;</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>Let&#8217;s note that the "fixed zero problem" does not exist on PCS in Prime Form, because, expect the empty element, all PCS in Prime form have zero as their first Pitch Class.</p>
-</div>
-<div class="paragraph">
-<p>We also do not know whether solving the <em>fixed-zero-problem</em> can have repercussions on transformational theory (David Lewin), which, we think, is not limited to PCS in Prime Form&#8230;&#8203;</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div class="sect2">
-<h3 id="_fixed_point">Fixed point</h3>
-<div class="paragraph">
-<p>The points fixed by the transformation operations depend essentially on <em>n</em>. For <em>n</em> = 12, these fixed points are represented by this figure :</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="./assets/images/fixed-indexes-n12.png" alt="fixed-indexes-n12">
-</div>
-<div class="title">Figure 12. Template of fixed points (n = 12)</div>
-</div>
-<div class="paragraph">
-<p><strong>
-It therefore becomes necessary to use this fixed points template wisely.
-</strong></p>
-</div>
-<div class="paragraph">
-<p>Without questioning everything, especially the arithmetic of PCs, a general solution would be to transpose any PC undergoing a transformation operation, by a step <em>k</em> that brings it back to the zero origin point, BEFORE the transformation, to perform the transformation, then to return to its starting point, transposition of <em>k-inverse</em>, AFTER the transformation. That is three operations instead of just one. This is the price to pay for good consistency. That is :</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Transpose, by a step ok <em>-k</em>, the PCS to make one of its PCs coincide with zero</p>
-</li>
-<li>
-<p>Apply the requested transformation (<em>ax + t</em>)</p>
-</li>
-<li>
-<p>perform an inverse transposition (<em>k</em>)</p>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p>Some examples :</p>
-</div>
-<div class="paragraph">
-<p>Example1 Dim7 : <code>M11-T0</code> on <code>[1 4 7 10]</code></p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p><code>[1 4 7 10]</code> transpose with <code>k = -1</code> &#8658; <code>[0&#160;3&#160;6&#160;9]</code></p>
-</li>
-<li>
-<p><code>[0 3 6 9]</code> x 11 modulo 12 &#8658; <code>[0&#160;3&#160;6&#160;9]</code></p>
-</li>
-<li>
-<p><code>[0 3 6 9]</code> transpose with <code>k = 1</code> &#8658; <code><mark>[1&#160;4&#160;7&#160;10]</mark></code></p>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p>Example2 Major scale : <code>M11-T0</code> on  D Major <code>[1&#160;2&#160;4&#160;6&#160;7&#160;9&#160;11]</code></p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p><code>[1&#160;2&#160;4&#160;6&#160;7&#160;9&#160;11]</code> transpose with <code>k = -2</code> &#8658; <code>[0&#160;2&#160;4&#160;5&#160;7&#160;9&#160;11]</code></p>
-</li>
-<li>
-<p><code>[0&#160;2&#160;4&#160;5&#160;7&#160;9&#160;11]</code> x 11 modulo 12 &#8658;
-<code>[&#160;1&#160;3&#160;5&#160;7&#160;8&#160;10]</code></p>
-</li>
-<li>
-<p><code>[0&#160;1&#160;3&#160;5&#160;7&#160;8&#160;10]</code> transpose with <code>k = 2</code> &#8658; <code><mark>[0&#160;2&#160;3&#160;5&#160;7&#160;9&#160;10]</mark></code></p>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p>The solution consists of defining the value of <em>k</em> to be applied, which will be used by all transformation operations.</p>
-</div>
-<div class="paragraph">
-<p>Choosing the "smallest PC" of the PCS is not decisive: it works in the case of C# dim7, but not on D major, [1&#160;2&#160;4&#160;6&#160;7&#160;9&#160;11], because its first and minimum PC is 1 (C#), the seventh of the scale, and not its root, as in C major.</p>
-</div>
-<div class="paragraph">
-<p>We must therefore choose to add a new property to the very concept of PCS.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_extended_pcs_with_pivot">Extended PCS with pivot</h3>
-<div class="paragraph">
-<p>Solution to resolve mismatch basic operations is to add a mobile pivot property to PCS.</p>
-</div>
-<div class="paragraph">
-<p>The solution consists, for a PCS given, of selecting a Pitch Class that :</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Serves as a <em>index pivot</em> (not necessary "zero")</p>
-</li>
-<li>
-<p>Belongs to the PCS being studied</p>
-</li>
-<li>
-<p>Doesn&#8217;t change the nature of a PCS, just expands the concept by making it <strong>slightly less abstract</strong>.</p>
-</li>
-<li>
-<p>Default "the smallest PC" of PCS, or undefined if PCS is empty set.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>For this, we are going to add a new feature to the PCS, what we call  <strong><em>iPivot</em></strong> (pivot index or pivot pitch class, or fixed pitch class, or root pitch class&#8230;&#8203;)</p>
-</div>
-<div class="paragraph">
-<p>This property can be <strong>optionally</strong> brought to the user&#8217;s attention by mentioning it in <strong>suffix</strong>, as subscript, after the textual representation of the PCS. Ex : <code>[0 4 7]</code><sub><code>4</code></sub></p>
-</div>
-<div class="paragraph">
-<p>The presence of a movable pivot allows us to answer questions like: <em>How do you represent a G Major with a PCS?</em>
-The answer consists of giving the PCS that includes only the PCs of the expected scale (<code>[0 2 4 6 7 9 11]</code>), and positioning the pivot on the root (G = 7), so : <code>[0 2 4 6 7 9 11]</code><sub><code>7</code></sub></p>
-</div>
-<div class="paragraph">
-<p>Other examples :</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 3. PCS with pivot</caption>
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-center valign-top">PCS</th>
-<th class="tableblock halign-center valign-top">Textual</th>
-<th class="tableblock halign-center valign-top">Clock</th>
-<th class="tableblock halign-center valign-top">Comment</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock">CDim7 (iPivot = 0)</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><code>[0 3 6 9]</code><sub><code>0</code></sub></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/pcs-0369-pivot0.png" alt="pcs-0369-pivot0"></span></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">The pivot is indicated by a red color</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock">EbDim7 (iPivot = 3)</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><code>[0 3 6 9]</code><sub><code>3</code></sub></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/pcs-0369-pivot3.png" alt="pcs-0369-pivot3"></span></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">idem</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock">C#Dim7 (iPivot = 1)</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><code>[1 4 7 10]</code><sub><code>1</code></sub></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/pcs-14710-pivot1.png" alt="pcs-14710-pivot1"></span></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">idem</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock">D Major (iPivot = 2)</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><code>[1&#160;2&#160;4&#160;6&#160;7&#160;9&#160;11]</code><sub><code>2</code></sub></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/pcs-DMajor-pivot2.png" alt="pcs-DMajor-pivot2"></span></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">idem</p></td>
-</tr>
-</tbody>
-</table>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-We do not have integrated this property, <em>iPivot</em>, in the logical identity. Thus, <code>[0&#160;3&#160;6&#160;9]</code><sub><code>0</code></sub> and <code>[0&#160;3&#160;6&#160;9]</code><sub><code>3</code></sub> will be considered identical PCS <code>[0&#160;3&#160;6&#160;9]</code> (same id)
-<br>
-<br>
-<strong>Therefore an extended PCS remains a (common) PCS.</strong>
-</td>
-</tr>
-</table>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="./assets/images/big-major-cyclic-orbit.png" alt="Major cyclic orbit">
-</div>
-<div class="title">Figure 13. Red Pitch Class, in Clock view, denote <em>iPivot</em> property</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_conclusion_2">Conclusion</h3>
-<div class="paragraph">
-<p>Extended PCS is a classic PCS augmented by <em>iPivot</em> property.</p>
-</div>
-<div class="paragraph">
-<p>The <em>iPivot</em> property allows us to take a particular look at a PCS, as a scale, a chord according to a reference note (tonic, root, etc.)</p>
-</div>
-<div class="paragraph">
-<p>Moreover, this property will allow to fix a PC, pointed by <em>iPivot</em>, like the traditional "zero fixed" role, provided that we redefine the transformation operation accordingly.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_composition_of_affine_operations_on_extended_pcs">Composition of affine operations on Extended PCS</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>In order to define a fixed point as the pivot of a given PCS, the affine operation must be reexamined because it <strong>requires now three operations which can be reduced to one</strong>.</p>
-</div>
-<div class="exampleblock">
-<div class="content">
-<div class="openblock text-center">
-<div class="content">
-<div class="paragraph">
-<p><strong>Composition of affine operations on Extended PCS</strong></p>
-</div>
-<div class="paragraph">
-<p>\$M_aT_k : Extended\ PCS xx NN xx NN -&gt; Extended\ PCS\$</p>
-</div>
-<div class="paragraph">
-<p>\$M_aT_k(A) := M_1T_p(A) @ M_aT_k(A) @ M_1T_-p(A)\$</p>
-</div>
-<div class="paragraph">
-<p>Where \$p\$ is <em>iPivot</em> value of \$A\$</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_reduction_of_extended_operation">Reduction of extended operation</h3>
-<div class="paragraph">
-<p>\$M_aT_k(A) := M_1T_p(A) @ M_aT_k(A) @ M_1T_-p(A)\$</p>
-</div>
-<div class="paragraph">
-<p>The affine function is \$(ax + k)\$ that we can denote \$(a, k)\$ for the sake of simplification.</p>
-</div>
-<div class="paragraph">
-<p>The affine composition function is known, it is:
-  that \$(a, k) @ (a', k') = (aa', ak' + k)\$</p>
-</div>
-<div class="paragraph">
-<p>We do now reduce this composition  \$M_1T_p(A) @ M_aT_k(A) @ M_1T_-p(A)\$ in one affine function :</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>= \$(1, p) @ (a, k) @ (1,-p)\$</p>
-</li>
-<li>
-<p>= \$(1, p) @ (a, -ap + k)\$</p>
-</li>
-<li>
-<p>= \$(a, -ap + k + p)\$</p>
-</li>
-<li>
-<p>= \$(a, -(a-1)p + k)\$</p>
-</li>
-<li>
-<p>= <mark>\$(a, p(1 - a) + k)\$</mark>  &#8656; solution</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Unsurprisingly, only the transposition step is affected.</p>
-</div>
-<div class="openblock">
-<div class="title">Examples</div>
-<div class="content">
-<div class="ulist">
-<ul>
-<li>
-<p>With <em>p</em> = 0</p>
-<div class="ulist">
-<ul>
-<li>
-<p>\$(a, p(1 - a) + k)\$</p>
-</li>
-<li>
-<p>\$(a, k)\$  // ok this is initial function composition affine</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>With <em>p</em> = 0 and <em>a</em> = 1</p>
-<div class="ulist">
-<ul>
-<li>
-<p>\$(a, p(1 - a) + k)\$</p>
-</li>
-<li>
-<p>\$(1, k)\$  // ok, simple transposition</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>With <em>p</em> = <em>0</em> and <em>a</em> = <em>1</em> and <em>k</em> = <em>0</em></p>
-<div class="ulist">
-<ul>
-<li>
-<p>\$(a, p(1 - a) + k)\$</p>
-</li>
-<li>
-<p>\$(1, 0)\$  // ok, neutral operation (id)</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>With <em>p</em> = 2 and <em>a</em> = 11  and <em>k</em> = <em>3</em></p>
-<div class="ulist">
-<ul>
-<li>
-<p>\$(a, p(1 - a) + k)\$</p>
-</li>
-<li>
-<p>\$(11, 2 * (1 - 11) + 3)\$</p>
-</li>
-<li>
-<p>\$(11, -17)\$</p>
-</li>
-<li>
-<p>\$(5, 7)\$ // modulo 12</p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="exampleblock">
-<div class="content">
-<div class="openblock text-center">
-<div class="content">
-<div class="paragraph">
-<p><strong>Composition Affine Operation on Extended PCS</strong></p>
-</div>
-<div class="paragraph">
-<p>\$M_aT_k(A) := {\ (ax + p(1 - a) + k) mod |E| \ },  forall  x in A\$</p>
-</div>
-<div class="paragraph">
-<p><em>Where <strong>a</strong> is prime with |E|, <strong>k</strong> a step of transposition, <strong>p</strong> is A<sub>iPivot</sub></em></p>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p>TODO suite&#8230;&#8203; refactor Group operation ?</p>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
 <h2 id="_group">Group</h2>
 <div class="sectionbody">
 <div class="paragraph">
@@ -2861,7 +2242,7 @@ We do not have integrated this property, <em>iPivot</em>, in the logical identit
 </div>
 </div>
 <div class="sect2">
-<h3 id="_conclusion_3">Conclusion</h3>
+<h3 id="_conclusion_2">Conclusion</h3>
 <div class="paragraph">
 <p>We have defined an extended special affine group \$G\$ with complementarity  , from unified operation \$c * (ax + k)\$ intended to act on \$P(ZZ_n)\$ defined by :</p>
 </div>
@@ -2905,7 +2286,7 @@ We do not have integrated this property, <em>iPivot</em>, in the logical identit
 <div class="content">
 <img src="./assets/images/diff-4operations.png" alt="diff-4operations">
 </div>
-<div class="title">Figure 14. Example of different points of view of basics transformation operations</div>
+<div class="title">Figure 11. Example of different points of view of basics transformation operations</div>
 </div>
 <div class="paragraph">
 <p>For transformations by multiplication, see also : <a href="https://en.wikipedia.org/wiki/Multiplication_(music)">wikipedia multiplication and music</a></p>
@@ -2923,7 +2304,7 @@ We do not have integrated this property, <em>iPivot</em>, in the logical identit
 <p>To begin with, we can focus on a few operations that will allow us to generate all possible transformation operations in \$"T0"\$, i.e. \$C_cM_aT_0\$. Several configurations of generating operations are possible, all of which lead to the same result. For now, we will arbitrarily take :  <strong>{M1-T0, CM1-T0, M5-T0, M7-T0}</strong>.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 4. First step to discover operations</caption>
+<caption class="title">Table 2. First step to discover operations</caption>
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 20%;">
@@ -2975,7 +2356,7 @@ We do not have integrated this property, <em>iPivot</em>, in the logical identit
 <p>As we can see, three new operations are discovered (<strong>M11-T0</strong>, <strong>CM5-T0</strong> and <strong>CM7-T0</strong>), we add them to the table structure (M11, CM5 and CM7), perform the calculations and repeat this process until no new operations are discovered, which gives, in fine:</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 5. All operations in T-0, but suffix -T0 is omitted (id = M1-T0)</caption>
+<caption class="title">Table 3. All operations in T-0, but suffix -T0 is omitted (id = M1-T0)</caption>
 <colgroup>
 <col style="width: 11.1111%;">
 <col style="width: 11.1111%;">
@@ -3136,7 +2517,7 @@ We can observe the highlighting of symmetries, and a <a href="https://en.wikiped
 </div>
 </div>
 <div class="sect2">
-<h3 id="_conclusion_4">Conclusion</h3>
+<h3 id="_conclusion_3">Conclusion</h3>
 <div class="paragraph">
 <p>We have seen that when the group \$G\$ acts on \$P(ZZ_12)\$, \$G\$ is composed of  <strong>96</strong> elements (operations)</p>
 </div>
@@ -3348,7 +2729,7 @@ All these properties, and more, can be viewed on page : <a href="https://musaicb
 <p>Let&#8217;s take \${"M1-T0", "M1-T1"}\$</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 6. First step to discover operations (Cayley table)</caption>
+<caption class="title">Table 4. First step to discover operations (Cayley table)</caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -3381,7 +2762,7 @@ All these properties, and more, can be viewed on page : <a href="https://musaicb
 <p>This is because the basic operation we selected (<code>M1-T1</code>), with a step of 1, generates 12. We could have chosen <code>M1-T5</code>, <code>M1-T7</code> or <code>M1-T11</code>, since 1, 5, 7, and 11 are prime with 12, we would arrive at the same result.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 7. All operations in M1-Tk, but prefix M1-  is omitted (Rem : k + k' value is modulo n=12; Example : 4+9 = 1 modulo 12)</caption>
+<caption class="title">Table 5. All operations in M1-Tk, but prefix M1-  is omitted (Rem : k + k' value is modulo n=12; Example : 4+9 = 1 modulo 12)</caption>
 <colgroup>
 <col style="width: 7.6923%;">
 <col style="width: 7.6923%;">
@@ -3824,7 +3205,7 @@ Example with H = <code>{ M1-T0~1*, M11-T0~1* }</code> (dihedral group) :
 </div>
 </div>
 <div class="sect2">
-<h3 id="_conclusion_5">Conclusion</h3>
+<h3 id="_conclusion_4">Conclusion</h3>
 <div class="paragraph">
 <p>We have seen that the operations of the cyclic group only perform transpositions.</p>
 </div>
@@ -3943,7 +3324,7 @@ Example : [M1-T1 M11-T1] &#8658; [M1 M11]
 </table>
 </div>
 <table class="tableblock frame-ends grid-rows stretch">
-<caption class="title">Table 8. Enumeration of subgroups, by cardinality</caption>
+<caption class="title">Table 6. Enumeration of subgroups, by cardinality</caption>
 <colgroup>
 <col style="width: 29.6296%;">
 <col style="width: 3.7037%;">
@@ -4320,7 +3701,7 @@ Example : [M1-T1 M11-T1] &#8658; [M1 M11]
 <div class="content">
 <img src="./assets/images/lattice-subgroups12.png" alt="lattice-subgroups12">
 </div>
-<div class="title">Figure 15. Subgroups lattice - prefix "M" and "M1" are omitted (M1 CM11 &#8658; C11) (J-Y. Fusil - 2009)</div>
+<div class="title">Figure 12. Subgroups lattice - prefix "M" and "M1" are omitted (M1 CM11 &#8658; C11) (J-Y. Fusil - 2009)</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -4330,6 +3711,655 @@ Example : [M1-T1 M11-T1] &#8658; [M1 M11]
 </td>
 <td class="content">
 4 of its 5 known subgroups are located on the central vertical axis.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_for_better_operations">For better operations</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>As they stand, the generally accepted basic operations of musical set theory pose a problem that we raise here.</p>
+</div>
+<div class="sect2">
+<h3 id="_fixed_zero_problem">fixed zero problem</h3>
+<div class="paragraph">
+<p>Let&#8217;s take the inversion operation as an example.</p>
+</div>
+<div class="paragraph">
+<p>In the literature on post-tonal analysis, inversion operation can be found expressed in two forms :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>\$InverseA(Pcs) = { (n - x) mod n | x ∈ Pcs }\$ // basic version <a href="#Forte">[Forte]</a></p>
+</li>
+<li>
+<p>\$InverseB(Pcs) = { (n - 1) * x mod n | x ∈ Pcs }\$ // <a href="https://en.wikipedia.org/wiki/Multiplication_(music)">multiplicative version M11</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Example : C Major scale <code>[0 2 4 5 7 9 11]</code></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>InverseA(<code>[0 2 4 5 7 9 11]</code>) :</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>0</code> &#8594; <code>12 - 0</code> &#8594; <code><mark>0</mark></code></p>
+</div>
+<div class="paragraph">
+<p><code>2</code> &#8594; <code>12 - 2</code> &#8594; <code><mark>10</mark></code></p>
+</div>
+<div class="paragraph">
+<p><code>4</code> &#8594; <code>12 - 4</code> &#8594; <code><mark>8</mark></code></p>
+</div>
+<div class="paragraph">
+<p><code>5</code> &#8594; <code>12 - 5</code> &#8594; <code><mark>7</mark></code></p>
+</div>
+<div class="paragraph">
+<p><code>7</code> &#8594; <code>12 - 7</code> &#8594; <code><mark>5</mark></code></p>
+</div>
+<div class="paragraph">
+<p><code>9</code> &#8594; <code>12 - 3</code> &#8594; <code><mark>3</mark></code></p>
+</div>
+<div class="paragraph">
+<p><code>11</code> &#8594; <code>12 - 11</code> &#8594; <code><mark>1</mark></code></p>
+</div>
+<div class="paragraph">
+<p>This gives : InverseA(<code>[0 2 4 5 7 9 11]</code>) &#8594; <code>[<mark>0 1 3 5 7 8 10</mark>]</code></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>InverseB(<code>[0 2 4 5 7 9 11]</code>) :</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>0</code> &#8594; <code>11 x 0</code> &#8594; <code><mark>0</mark></code></p>
+</div>
+<div class="paragraph">
+<p><code>2</code> &#8594; <code>11 x 2</code> &#8594; 22 mod 12 &#8594; <code><mark>10</mark></code></p>
+</div>
+<div class="paragraph">
+<p><code>4</code> &#8594; <code>11 x 4</code> &#8594; 44 mod 12 &#8594; <code><mark>8</mark></code></p>
+</div>
+<div class="paragraph">
+<p><code>5</code> &#8594; <code>11 x 5</code> &#8594; 55 mod 12 &#8594; <code><mark>7</mark></code></p>
+</div>
+<div class="paragraph">
+<p><code>7</code> &#8594; <code>11 x 7</code> &#8594; 77 mod 12 &#8594; <code><mark>5</mark></code></p>
+</div>
+<div class="paragraph">
+<p><code>9</code> &#8594; <code>11 x 3</code> &#8594; 33 mod 12 &#8594; <code><mark>3</mark></code></p>
+</div>
+<div class="paragraph">
+<p><code>11</code> &#8594; <code>11 x 11</code> &#8594; 121 mod 12 &#8594; <code><mark>1</mark></code></p>
+</div>
+<div class="paragraph">
+<p>This gives : InverseB(<code>[0 2 4 5 7 9 11]</code>) &#8594; <code>[<mark>0 1 3 5 7 8 10</mark>]</code></p>
+</div>
+<div class="paragraph">
+<p>As expected, <em>inverseA</em> and <em>inverseB</em> are <strong>same logic</strong> : <span class="underline">CMajor is transformed in III degree of its VIb Major</span> (Ab Major)</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./assets/images/CMajor-M11-noPivot.png" alt="CMajor-M11">
+</div>
+<div class="title">Figure 13. M11 on C Major = III degree of VIb Major</div>
+</div>
+<div class="paragraph">
+<p>Now let&#8217;s take C# Major / Db Major : <code>[0 1 3 5 6 8 10]</code></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Inverse(<code>[0 1 3 5 6 8 10]</code>) :</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>0</code> &#8594; <code>12 - 0</code> &#8594; <code><mark>0</mark></code></p>
+</div>
+<div class="paragraph">
+<p><code>1</code> &#8594; <code>12 - 1</code> &#8594; <code><mark>11</mark></code></p>
+</div>
+<div class="paragraph">
+<p><code>3</code> &#8594; <code>12 - 3</code> &#8594; <code><mark>9</mark></code></p>
+</div>
+<div class="paragraph">
+<p><code>5</code> &#8594; <code>12 - 5</code> &#8594; <code><mark>7</mark></code></p>
+</div>
+<div class="paragraph">
+<p><code>6</code> &#8594; <code>12 - 6</code> &#8594; <code><mark>6</mark></code></p>
+</div>
+<div class="paragraph">
+<p><code>8</code> &#8594; <code>12 - 8</code> &#8594; <code><mark>4</mark></code></p>
+</div>
+<div class="paragraph">
+<p><code>10</code> &#8594; <code>12 - 10</code> &#8594; <code><mark>2</mark></code></p>
+</div>
+<div class="paragraph">
+<p>InverseA(<code>[0 1 3 5 6 8 10]</code>) = InverseB(<code>[0 1 3 5 6 8 10]</code>) &#8594; <code>[<mark>0 2 4 6 7 9 11</mark>]</code></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./assets/images/DbMajor-M11-noPivot.png" alt="DbMajor-M11">
+</div>
+</div>
+<div class="paragraph">
+<p><mark>⚠</mark> Oh!, how come the treatment of inversion for a Db Major <strong>differs</strong> from that of a C Major?</p>
+</div>
+<div class="paragraph">
+<p>The expected correct answer of Inverse(<code>[0 1 3 5 6 8 10]</code>)  should have been <code>[<mark>1 2 4 6 8 9 11</mark>]</code>, III degree of A Major (the VIb Major of Db Major) and not <code>[0 2 4 6 7 9 11]</code>.</p>
+</div>
+<div class="paragraph">
+<p>Other example, with a <em>Limited Transposition</em> scale : <em>C Dim7</em></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./assets/images/CDim7-infos.png" alt="CDim7-infos">
+</div>
+</div>
+<div class="paragraph">
+<p>As you might expect, a diminished seventh chord is <strong>very strongly symmetrical</strong>. Observe its stabilizers, there are 16 of them and 4 are in T0 (highlighted in yellow in the screenshot above) : <code><mark>M1-T0</mark></code> of course, and  <code><mark>M5-T0</mark></code>, <code><mark>M7-T0</mark></code> and <code><mark>M11-T0</mark></code>.</p>
+</div>
+<div class="openblock text-center">
+<div class="content">
+<table id="zero-fixed-problem" class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 7. Basic operations in Musical Set Theory</caption>
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top">Scale</th>
+<th class="tableblock halign-center valign-top">M11-T0 (inversion)</th>
+<th class="tableblock halign-center valign-top">M5-T0</th>
+<th class="tableblock halign-center valign-top">M7-T0</th>
+<th class="tableblock halign-center valign-top">Dim7 waiting as strongly invariant</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/clock-0369.png" alt="clock 0369"></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/clock-0369.png" alt="clock 0369"></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/clock-0369.png" alt="clock 0369"></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/clock-0369.png" alt="clock 0369"></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><mark>OK</mark></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">[0 3 6 9]</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">[0 3 6 9]</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">[0 3 6 9]</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">[0 3 6 9]</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><mark>OK</mark></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/clock-14710.png" alt="clock 14710"></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/clock-25811.png" alt="clock 25811"></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/clock-25811.png" alt="clock 25811"></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/clock-14710.png" alt="clock 14710"></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><mark>[2 5 8 11] should be [1&#160;4&#160;7&#160;10]</mark></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">[1 4 7 10]</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><mark>[2 5 8 11]</mark></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><mark>[2 5 8 11]</mark></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">[1 4 7 10]</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><mark>???!</mark></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="paragraph">
+<p>Obviously [2 5 8 11] is an intruder! business logic is not good. But then why is he here???</p>
+</div>
+<div class="paragraph">
+<p>The basic operations of musical set theory, which are the standard in the field, have a peculiarity: <strong>they are always centered on 0 (zero)</strong>, thus defining it as a fixed point we call the <strong><em>"fixed zero problem"</em></strong>.</p>
+</div>
+<div class="paragraph">
+<p>The bad result we observed comes from the fact that the algorithms confuse index and Pitch Class name, both being expressed by integers (a very useful confusion, by the way).</p>
+</div>
+<div class="paragraph">
+<p>Calculations performed directly with these values leads to a falsely controlled side effect.</p>
+</div>
+<div class="paragraph">
+<p>Example : <code>[1 4 7 10] x 11 = [11 44 70 110] modulo 12 = [11 8 5 2] &#8658; <mark>[2 5 8 11]</mark></code></p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph text-center">
+<p><strong><em>"fixed zero problem"</em></strong>.</p>
+</div>
+<div class="paragraph">
+<p>This inconsistency doesn&#8217;t seem to bother the people who gravitate toward the <em>Musical Set Theory</em> (?).</p>
+</div>
+<div class="paragraph">
+<p>This can be explained by the fact that the "intruder PCS", resulting from bad calculation logic, are, however, <strong>part of the same orbit as the reference PCS</strong>. So, result is "up to transformation", which is not precise enough, not fair enough for our needs.</p>
+</div>
+<div class="paragraph">
+<p>In our case, this is not acceptable, because we want :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Consistency between geometric transformations and algebraic transformations</strong></p>
+</li>
+<li>
+<p>Maintain integrity of a PCS along its affine transformations. The main rule is the pivot must be a PC belonging to the PCS, and this is not the case when the pivot is always set to zero.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>As any musician would expect, the main characteristics of a PCS <strong>should be insensitive to the transposition step</strong> : the characteristics of a PCS remain unchanged compared to those of the same PCS transposed by a <em>k-step</em>.</p>
+</div>
+<div class="paragraph">
+<p>D-Major PCS shares same structural characteristics as any Major PCS.</p>
+</div>
+<div class="paragraph">
+<p>These characteristics include:
+<em>Interval structure, Interval vector, Forte number, limited meta-transposition status, limited transposition status, stabilizer</em>&#8230;&#8203;</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Let&#8217;s note that the "fixed zero problem" does not exist on PCS in Prime Form, because, expect the empty element, all PCS in Prime form have zero as their first Pitch Class.</p>
+</div>
+<div class="paragraph">
+<p>We also do not know whether solving the <em>fixed-zero-problem</em> can have repercussions on transformational theory (David Lewin), which, we think, is not limited to PCS in Prime Form&#8230;&#8203;</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="understand-fixed-point-algorithm">Understand "fixed point algorithm"</h3>
+<div class="paragraph">
+<p>The points fixed by the transformation operations depend essentially on <em>n</em>. For <em>n</em> = 12, these fixed points are represented by this figure :</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./assets/images/fixed-indexes-n12.png" alt="fixed-indexes-n12">
+</div>
+<div class="title">Figure 14. Template of fixed points (n = 12)</div>
+</div>
+<div class="paragraph">
+<p><strong>
+It therefore becomes necessary to use this fixed points template wisely.
+</strong></p>
+</div>
+<div class="paragraph">
+<p>Without questioning everything, especially the arithmetic of PCs, a general solution would be to transpose any PC undergoing a transformation operation, by a step <em>k</em> that brings it back to the zero origin point, BEFORE the transformation, to perform the transformation, then to return to its starting point, transposition of <em>k-inverse</em>, AFTER the transformation. That is three operations instead of just one. This is the price to pay for good consistency. That is :</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Transpose, by a step ok <em>-k</em>, the PCS to make one of its PCs coincide with zero</p>
+</li>
+<li>
+<p>Apply the requested transformation (<em>ax + t</em>)</p>
+</li>
+<li>
+<p>perform an inverse transposition (<em>k</em>)</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Some examples :</p>
+</div>
+<div class="paragraph">
+<p>Example1 Dim7 : <code>M11-T0</code> on <code>[1 4 7 10]</code></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><code>[1 4 7 10]</code> transpose with <code>k = -1</code> &#8658; <code>[0&#160;3&#160;6&#160;9]</code></p>
+</li>
+<li>
+<p><code>[0 3 6 9]</code> x 11 modulo 12 &#8658; <code>[0&#160;3&#160;6&#160;9]</code></p>
+</li>
+<li>
+<p><code>[0 3 6 9]</code> transpose with <code>k = 1</code> &#8658; <code><mark>[1&#160;4&#160;7&#160;10]</mark></code></p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Example2 Major scale : <code>M11-T0</code> on  D Major <code>[1&#160;2&#160;4&#160;6&#160;7&#160;9&#160;11]</code></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><code>[1&#160;2&#160;4&#160;6&#160;7&#160;9&#160;11]</code> transpose with <code>k = -2</code> &#8658; <code>[0&#160;2&#160;4&#160;5&#160;7&#160;9&#160;11]</code></p>
+</li>
+<li>
+<p><code>[0&#160;2&#160;4&#160;5&#160;7&#160;9&#160;11]</code> x 11 modulo 12 &#8658;
+<code>[&#160;1&#160;3&#160;5&#160;7&#160;8&#160;10]</code></p>
+</li>
+<li>
+<p><code>[0&#160;1&#160;3&#160;5&#160;7&#160;8&#160;10]</code> transpose with <code>k = 2</code> &#8658; <code><mark>[0&#160;2&#160;3&#160;5&#160;7&#160;9&#160;10]</mark></code></p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The solution consists of defining the value of <em>k</em> to be applied, which will be used by all transformation operations.</p>
+</div>
+<div class="paragraph">
+<p>Choosing the "smallest PC" of the PCS is not decisive: it works in the case of C# dim7, but not on D major, [1&#160;2&#160;4&#160;6&#160;7&#160;9&#160;11], because its first and minimum PC is 1 (C#), the seventh of the scale, and not its root, as in C major.</p>
+</div>
+<div class="paragraph">
+<p><strong>We must therefore choose to add a new property to the very concept of PCS.</strong></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_extended_pcs_with_pivot">Extended PCS with pivot</h3>
+<div class="paragraph">
+<p>Solution to resolve mismatch basic operations is to add a mobile pivot property to PCS (Extended PCS)</p>
+</div>
+<div class="paragraph">
+<p>The solution consists, for a PCS given, of selecting a Pitch Class that :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Serves as a <em>index pivot</em> (not necessary "zero")</p>
+</li>
+<li>
+<p>Belongs to the PCS being studied</p>
+</li>
+<li>
+<p>Doesn&#8217;t change the nature of a PCS, just expands the concept by making it <strong>slightly less abstract</strong>.</p>
+</li>
+<li>
+<p>Default "the smallest PC" of PCS, or undefined if PCS is empty set.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For this, we are going to add a new feature to the PCS, what we call  <strong><em>iPivot</em></strong> (pivot index or pivot pitch class, or fixed pitch class, or root pitch class&#8230;&#8203;)</p>
+</div>
+<div class="paragraph">
+<p>This property can be <strong>optionally</strong> brought to the user&#8217;s attention by mentioning it in <strong>suffix</strong>, as subscript, after the textual representation of the PCS. Ex : <code>[0 4 7]</code><sub><code>4</code></sub></p>
+</div>
+<div class="paragraph">
+<p>The presence of a movable pivot allows us to answer questions like: <em>How do you represent a G Major with a PCS?</em>
+The answer consists of giving the PCS that includes only the PCs of the expected scale (<code>[0 2 4 6 7 9 11]</code>), and positioning the pivot on the root (G = 7), so : <code>[0 2 4 6 7 9 11]</code><sub><code>7</code></sub></p>
+</div>
+<div class="paragraph">
+<p>Other examples :</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 8. PCS with pivot</caption>
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top">PCS</th>
+<th class="tableblock halign-center valign-top">Textual</th>
+<th class="tableblock halign-center valign-top">Clock</th>
+<th class="tableblock halign-center valign-top">Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">CDim7 (iPivot = 0)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>[0 3 6 9]</code><sub><code>0</code></sub></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/pcs-0369-pivot0.png" alt="pcs-0369-pivot0"></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">The pivot is indicated by a red color</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">EbDim7 (iPivot = 3)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>[0 3 6 9]</code><sub><code>3</code></sub></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/pcs-0369-pivot3.png" alt="pcs-0369-pivot3"></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">idem</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">C#Dim7 (iPivot = 1)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>[1 4 7 10]</code><sub><code>1</code></sub></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/pcs-14710-pivot1.png" alt="pcs-14710-pivot1"></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">idem</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">D Major (iPivot = 2)</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><code>[1&#160;2&#160;4&#160;6&#160;7&#160;9&#160;11]</code><sub><code>2</code></sub></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/pcs-DMajor-pivot2.png" alt="pcs-DMajor-pivot2"></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">idem</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+We do not have integrated this property, <em>iPivot</em>, in the logical identity. Thus, <code>[0&#160;3&#160;6&#160;9]</code><sub><code>0</code></sub> and <code>[0&#160;3&#160;6&#160;9]</code><sub><code>3</code></sub> will be considered identical PCS <code>[0&#160;3&#160;6&#160;9]</code> (same id)
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>+</p>
+</div>
+<div class="paragraph">
+<p>+
+<strong>Therefore an extended PCS remains a (common) PCS.</strong></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./assets/images/big-major-cyclic-orbit.png" alt="Major cyclic orbit">
+</div>
+<div class="title">Figure 15. Red Pitch Class, in Clock view, denote <em>iPivot</em> property</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_resume">Resume</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Extended PCS is a classic PCS augmented by <em>iPivot</em> property.</p>
+</li>
+<li>
+<p>This property will allow to fix a PC, pointed by <em>iPivot</em>, like the traditional "zero fixed", in order to make the transformation operations more consistent.</p>
+</li>
+<li>
+<p>Moreover, the <em>iPivot</em> property allows us to take a particular look at a PCS, as a scale, a chord according to a reference note (tonic, root, etc.)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="design-affine-pivot">Design AffinePivot on Extended PCS</h3>
+<div class="paragraph">
+<p>We have seen that when an transformation operation acts on an extended PCS, in order to take into account a particular fixed point (and not just zero), it will involve a series of three operations instead of a single one (M1-Tp, Ma-Tk then M1-T-p). We call this operation <em>"AffinePivot"</em></p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="openblock text-center">
+<div class="content">
+<div class="paragraph">
+<p><strong><em>AffPivot</em><sub>a,k</sub> : Composition of 3 affine operations</strong></p>
+</div>
+<div class="paragraph">
+<p>\$"AffPivot"_(a,k)  : Extended\ PCS xx NN xx NN -&gt; Extended\ PCS\$</p>
+</div>
+<div class="paragraph">
+<p>\$"AffPivot"_(a,k)(A) := M_1T_p(A) @ M_aT_k(A) @ M_1T_-p(A)\$</p>
+</div>
+<div class="paragraph">
+<p>Where \$p\$ is <em>iPivot</em> value of \$A\$</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_affinepivot_reduced">AffinePivot reduced</h3>
+<div class="paragraph">
+<p>We are now preparing to establish a condensed version of the function.</p>
+</div>
+<div class="paragraph">
+<p>\$"AffPivot"_(a,k)(A) := M_1T_p(A) @ M_aT_k(A) @ M_1T_-p(A)\$</p>
+</div>
+<div class="paragraph">
+<p>Recall : The affine function \$M_aT_k\$ is defined by  \$(ax + k)\$ that we can denote \$(a, k)\$ for the sake of simplification.</p>
+</div>
+<div class="paragraph">
+<p>The affine composition function, that define one single function from composition of two functions, is well known, is : \$(a, k) @ (a', k') = (aa', ak' + k)\$.</p>
+</div>
+<div class="paragraph">
+<p>We will use this reduction to reduce the composition of 3 functions, \$M_1T_p(A) @ M_aT_k(A) @ M_1T_-p(A)\$, to a single one.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>= \$(1, p) @ (a, k) @ (1,-p)\$</p>
+</li>
+<li>
+<p>= \$(1, p) @ (a, -ap + k)\$</p>
+</li>
+<li>
+<p>= \$(a, -ap + k + p)\$</p>
+</li>
+<li>
+<p>= \$(a, -(a-1)p + k)\$</p>
+</li>
+<li>
+<p>= <mark>\$(a, p(1 - a) + k)\$</mark>  &#8656; solution</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Unsurprisingly, only the transposition step is affected.</p>
+</div>
+<div class="openblock">
+<div class="title">Examples</div>
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>With <em>p</em> = 0</p>
+<div class="ulist">
+<ul>
+<li>
+<p>\$(a, p(1 - a) + k)\$</p>
+</li>
+<li>
+<p>\$(a, k)\$  // ok this is initial function composition affine</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>With <em>p</em> = 0 and <em>a</em> = 1</p>
+<div class="ulist">
+<ul>
+<li>
+<p>\$(a, p(1 - a) + k)\$</p>
+</li>
+<li>
+<p>\$(1, k)\$  // ok, simple transposition</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>With <em>p</em> = <em>0</em> and <em>a</em> = <em>1</em> and <em>k</em> = <em>0</em></p>
+<div class="ulist">
+<ul>
+<li>
+<p>\$(a, p(1 - a) + k)\$</p>
+</li>
+<li>
+<p>\$(1, 0)\$  // ok, neutral operation (id)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>With <em>p</em> = 2 and <em>a</em> = 11  and <em>k</em> = <em>3</em></p>
+<div class="ulist">
+<ul>
+<li>
+<p>\$(a, p(1 - a) + k)\$</p>
+</li>
+<li>
+<p>\$(11, 2 * (1 - 11) + 3)\$</p>
+</li>
+<li>
+<p>\$(11, -17)\$</p>
+</li>
+<li>
+<p>\$(5, 7)\$ // modulo 12</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>We can now define the operation that acts on Extended PCS.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="openblock text-center">
+<div class="content">
+<div class="paragraph">
+<p><strong>AffPivot : An action on Extended PCS</strong></p>
+</div>
+<div class="paragraph">
+<p>\$"AffPivot"_(a,k)(A) := {\ (ax + p(1 - a) + k) mod |E| \ },  forall  x in A\$</p>
+</div>
+<div class="paragraph">
+<p>or better (with minimum operations)</p>
+</div>
+<div class="paragraph">
+<p>\$"AffPivot"_(a,k)(A) := {\  a(x - p) + p + k mod |E| \ },  forall  x in A\$</p>
+</div>
+<div class="paragraph">
+<p><em>Where <strong>a</strong> is prime with |E|, <strong>k</strong> a step of transposition, <strong>p</strong> the iPivot of A</em></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-caution" title="Caution"></i>
+</td>
+<td class="content">
+This operation does not replace the usual affine function since it refers to the affine function in its <a href="#design-affine-pivot">Design AffinePivot on Extended PCS</a>.
 </td>
 </tr>
 </table>
@@ -5206,7 +5236,7 @@ Symmetry prime form concept is invented, specific to this project.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-03-20 07:51:29 +0100
+Last updated 2025-03-20 15:41:15 +0100
 </div>
 </div>
 <script type="text/x-mathjax-config">

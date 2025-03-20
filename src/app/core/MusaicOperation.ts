@@ -125,7 +125,8 @@ export class MusaicOperation {
       this.n,
       (this.a * other.a) % this.n,
       (this.a * other.t + this.t) % this.n,
-      this.complement !== other.complement)  // logical xor
+      this.complement !== other.complement // logical xor
+    )
   }
 
 
@@ -291,7 +292,7 @@ export class MusaicOperation {
    */
   static permute(pcs: IPcs, a: number, t: number): IPcs {
     if (pcs.cardinal === 0) {
-      // detached pcs no change
+      // empty set pcs, no change
       return pcs
     }
 
@@ -299,7 +300,7 @@ export class MusaicOperation {
     return new IPcs({
       vectorPcs: this.getVectorPcsPermuted(a, t, newPivot, pcs.vectorPcs),
       iPivot: newPivot,
-      orbit: new Orbit(), // pcs not coming from orbit
+      orbit: new Orbit(), // basic PCS operation, not coming from orbit // manager do this
       templateMappingVectorPcs: pcs.templateMappingVectorPcs,
       nMapping: pcs.nMapping
     })
@@ -328,13 +329,16 @@ export class MusaicOperation {
 
 
   /**
-   * general transformation : affine operation ax + t
-   * general idea (composition of affine operations):
+   * general transformation from affine operation ax + t, but fixed on pivot (see "fixed zero problem" in doc)
+   * Version by permutation.
+   * general idea (composition of basic affine operations):
    *  1/ translate :        - pivot
    *  2/ affine operation : ax + t
    *  3/ translate :        + pivot
    *  so : ax + ( -(a-1) * pivot + t )
    *  so : ax + pivot * (1 - a) + t
+   *
+   * @see analysis/documentation : affPivot function
    *
    * @param  a : number
    * @param  t : number  [0..this.n[
