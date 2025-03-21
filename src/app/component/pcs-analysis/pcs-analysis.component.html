@@ -32,7 +32,7 @@
         }
       </p>
       <p>
-        Vector : <span class="analyse-pcs">[{{ pcsMapped.getMappedVectorPcs() }}]<sub> {{ pcsMapped.iPivot }} </sub></span>
+        Vector : <span class="analyse-pcs">[{{ pcsMapped.vectorPcs }}]<sub> {{ pcsMapped.iPivot }} </sub></span>
         &nbsp;
       </p>
       <p>
@@ -46,27 +46,36 @@
       <p>
         Intervallic Structure :
         <span class="analyse-pcs">({{ pcsMapped.cloneWithDefaultPivot().is() }})</span>
-
-        @if (!pcsMapped.isPivotFirstPosition()) {
-          circular-shift to
-          <button mat-button (click)="doReplaceByPcsWithIS(pcsMapped.is())">
-            <span class="analyse-pcs">({{ pcsMapped.is() }})</span>
-          </button>
-        }
       </p>
+      @if (!pcsMapped.isPivotFirstPosition()) {
+
+        <ul>
+          <li>
+            circular-shifted to :
+            <button [disabled]="pcs.n !== 12" mat-button (click)="doReplaceByPcsWithIS(pcsMapped.is())">
+              <span class="analyse-pcs">({{ pcsMapped.is() }})</span>
+            </button>
+          </li>
+          <li>
+            In reference to pcs :
+            <button [disabled]="pcs.n !== 12" mat-button (click)="doReplaceByPcsWithIS(pcsMapped.is())">
+              <span>{{ getPcsHavingThisIS(pcsMapped.is())?.getPcsStr() || '??' }}</span>
+            </button>
+          </li>
+        </ul>
+      }
 
       <p *ngIf="{pcsList:pcsWithSameIVas(pcsMapped)} as pcsWithSameIVas">
         Interval Vector :
         <span class="analyse-pcs" style="margin-right: 10px">&lt;{{ pcsMapped.iv() }}&gt;</span>
         @if (pcsWithSameIVas.pcsList.length > 1) {
           shared by :
-          @for (pcs of pcsWithSameIVas.pcsList; track pcs.id) {
-            <button mat-button (click)="doReplaceBy(pcs)">
-          <span class="other-pcs-same-iv">
-            {{ pcs.getPcsStr() }} @if (pcs.cyclicPrimeForm().id == pcsMapped.cyclicPrimeForm().id) {
-            *
-          }
-          </span>
+          @for (pcsSameIV of pcsWithSameIVas.pcsList; track pcsSameIV.id) {
+            <button mat-button [disabled]="pcs.n !== 12" (click)="doReplaceBy(pcsSameIV)">
+             <span class="other-pcs-same-iv">
+              {{ pcsSameIV.getPcsStr() }}
+               @if (pcsSameIV.cyclicPrimeForm().id == pcsMapped.cyclicPrimeForm().id) { * }
+             </span>
             </button>
           }
         }
@@ -86,7 +95,7 @@
           }
 
         </span>&nbsp;&nbsp;
-          {{ '' // tips @for for refresh octotrope component !! ???    }}
+          {{ '' // tips @for for refresh octotrope component !! ???     }}
           @for (pcs of [pcsMapped.musaicPrimeForm()]; track pcs.id) {
             <app-octotrope [w]="30" [pcs]="pcs"></app-octotrope>
           }
@@ -105,7 +114,7 @@
         }
       </p>
       <p style="max-width: 550px">
-        @if (!pcs.isComingFromAnOrbit() || pcsInMusaicGroup()) {
+        @if (!pcs.isComingFromAnOrbit() || pcs.isComingFromAnOrbitTrivial() || pcsInMusaicGroup()) {
           (Musaic)
         } @else {
           (in orbit)
@@ -123,7 +132,7 @@
     </div>
   </fieldset>
   <div class="marge-5">
-    <fieldset class="representation-border">
+    <fieldset [disabled]="pcs.n !== 12" class="representation-border">
       <legend class="representation-border">Version & Fecundity</legend>
       <hr/>
       <p style="margin: 1px">
@@ -131,7 +140,7 @@
           <mat-icon>filter_tilt_shift</mat-icon>
           <i class="bi bi-chevron-double-down"> Modes : </i>
         </button>
-        {{ ''// sub sub below => to have same height that next fieldset       }}
+        {{ ''// sub sub below => to have same height that next fieldset        }}
         <span class="analyse-pcs">#{{ pcsMapped.cardOrbitMode() }} <sub></sub></span>
       </p>
 
@@ -166,13 +175,15 @@
 
     </fieldset>
 
-    <fieldset *ngIf="{pcs:pcsMapped.symmetryPrimeForm()} as symmetric" class="representation-border">
+    <fieldset [disabled]="pcs.n !== 12" *ngIf="{pcs:pcsMapped.symmetryPrimeForm()} as symmetric"
+              class="representation-border">
       <legend class="representation-border">Prime Form</legend>
       <hr>
 
       <p style="margin: 1px; border-bottom: dashed 1px;">
 
-        <button [disabled]="symmetric.pcs.equalsPcsByIdAndPivot(pcsMapped)" mat-button (click)="doPushSymmetryPF(pcsMapped)">Symmetry
+        <button [disabled]="symmetric.pcs.equalsPcsByIdAndPivot(pcsMapped)" mat-button
+                (click)="doPushSymmetryPF(pcsMapped)">Symmetry
           :
           <span class="analyse-pcs"> {{ symmetric.pcs.getPcsStr() }}
             <sub> {{ symmetric.pcs.iPivot }} </sub>
@@ -221,7 +232,7 @@
       <fieldset class="representation-border" style="max-width: 450px;">
         <legend class="representation-border">
       <span style="display: inline-flex; align-items: center;">
-        {{ '' // tips @for for refresh octotrope component !! ???    }}
+        {{ '' // tips @for for refresh octotrope component !! ???     }}
         @for (pcs of [pcsMapped.musaicPrimeForm()]; track pcs.id) {
           <app-octotrope [w]="50" [pcs]="pcs"></app-octotrope>
         }
@@ -290,7 +301,7 @@
       <span class="id-pcs">id : {{ pcs.id }}</span> ~ <span class="id-pcs">pid : {{ pcs.pid() }}</span>
     </p>
     <hr>
-    <p class="build-version">build : {{currentBuildVersion}}</p>
+    <p class="build-version">build : {{ currentBuildVersion }}</p>
   </div>
 
 </div>

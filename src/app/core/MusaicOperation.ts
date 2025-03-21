@@ -378,7 +378,7 @@ export class MusaicOperation {
       // (below i = x,  where index and pitch class are "merged" :))
       //   @see whats_wrong_with_operations in documentation
 
-      j = (n + (a * ( i - pivot) + pivot - t) % n) % n
+       j = (n + (a * ( i - pivot) + pivot - t) % n) % n
 
       // first j modulo n may be negative... so twice modulo : (n + ( j modulo n )) modulo n
       // @see https://stackoverflow.com/questions/4467539/javascript-modulo-gives-a-negative-result-for-negative-numbers

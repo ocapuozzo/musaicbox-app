@@ -1,7 +1,9 @@
 <div>
   <div #containercanvas class="text-center">
     <canvas #canvas id="canvas"
-            [ngClass]="{'roundedImageBorder roundedImageShadow': pcs.isComingFromAnOrbit(), 'box-musaic': !pcs.isComingFromAnOrbit()}"
+            [ngClass]="{
+            'roundedImageBorder roundedImageShadow': pcs.isComingFromAnOrbit() && !pcs.isComingFromAnOrbitTrivial(),
+             'box-musaic': !pcs.isComingFromAnOrbit() || pcs.isComingFromAnOrbitTrivial() }"
             style="border:1px solid black;" >
     </canvas>
   </div>

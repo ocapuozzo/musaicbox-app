@@ -156,9 +156,10 @@ export class PcsAnalysisComponent {
   }
 
 
-  doReplaceByPcsWithIS(numbers: number[]) {
-    const pcs = PcsSearch.searchPcsWithThisIS(numbers.toString())
+  doReplaceByPcsWithIS(intervallicStructureNumbers: number[]) {
+    const pcs = PcsSearch.searchPcsWithThisIS(intervallicStructureNumbers.toString())
     if (pcs) {
+
       this.managerPagePcsService.replaceBy(pcs)
     }
   }
@@ -187,7 +188,8 @@ export class PcsAnalysisComponent {
 
     let pcsToCompute: IPcs = pcs
 
-    if (!pcs.isComingFromAnOrbit()) {
+    // when pcs no from group action or trivial group action, give from musaic because it is richer in information
+    if (!pcs.isComingFromAnOrbit() || pcs.isComingFromAnOrbitTrivial()) {
       const groupMusaic = ManagerGroupActionService.getGroupActionFromGroupAliasName('Musaic')
       pcsToCompute = groupMusaic!.getIPcsInOrbit(pcs)
     }
@@ -202,5 +204,10 @@ export class PcsAnalysisComponent {
 
   pcsInMusaicGroup() {
     return this.pcs.isComingFromAnOrbit() ? this.pcs.n === 12 && this.pcs.orbit.groupAction?.group.operations.length===96 : false
+  }
+
+  getPcsHavingThisIS(intervallicStructureNumbers: number[]) {
+    return  PcsSearch.searchPcsWithThisIS(intervallicStructureNumbers.toString())
+
   }
 }

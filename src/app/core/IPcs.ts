@@ -1079,6 +1079,11 @@ export class IPcs {
     return this.orbit.isComingFromGroupAction()
   }
 
+  isComingFromAnOrbitTrivial(): boolean {
+    return this.orbit.groupAction === ManagerGroupActionService.getGroupActionFromGroupAliasName("Trivial")
+  }
+
+
   /**
    * Get correspondance index of a mappedIndex
    * Example :

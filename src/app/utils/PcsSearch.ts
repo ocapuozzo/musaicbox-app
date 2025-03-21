@@ -28,7 +28,7 @@ export class PcsSearch {
    * @return IPcs or undefined
    */
   static searchPcsWithThisIS(searchIS : string) : IPcs  | undefined{
-    const groupCyclic = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!
+    const groupCyclic = ManagerGroupActionService.getGroupActionFromGroupAliasName("Trivial")!
     return groupCyclic.getPcsWithThisIS(searchIS)
   }
 
