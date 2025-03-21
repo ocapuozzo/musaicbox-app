@@ -5,6 +5,7 @@
 import {MusaicOperation} from "./MusaicOperation";
 import {IPcs} from "./IPcs";
 import {Group} from "./Group";
+import {ManagerGroupActionService} from "../service/manager-group-action.service";
 
 const getRandomInt = (max: number)  => {
  return Math.floor(Math.random() * Math.floor(max))
@@ -51,11 +52,6 @@ describe('Group', () => {
     let opM5_T1 = new MusaicOperation(12, 5, 1, false);
     someOps.push(opM5_T1)
     expect(Group.buildOperationsGroupByCayleyTable(someOps).length).toEqual(24)
-  })
-
-  it("Predefined Cyclic Group", () => {
-    let cyclicGroup = Group.predefinedGroups12[Group.CYCLIC]
-    expect(cyclicGroup.operations.length).toEqual(12)
   })
 
   it("testCayleyGenerateOperationsAffine", () => {
@@ -139,6 +135,39 @@ describe('Group', () => {
   })
 
 
+  it("testCayleySubGroupM1_M2 with n=7", () => {
+    let someOperations: MusaicOperation[] = []
+    let order = 7;
+    let a = 1;
+    let t = 1;
+    let complement = false;
+
+    // M1
+    someOperations.push(new MusaicOperation(order, a, t, complement));
+
+    // M2
+    a = 2;
+    someOperations.push(new MusaicOperation(order, a, t, complement));
+
+    let allOps = Group.buildOperationsGroupByCayleyTable(someOperations)
+
+    // expected 42 operations : 7 * 6 ([M1 M2 M3 M4 M5 M6).length
+    expect(allOps.length).toEqual(7 * 6)
+
+    // CM1
+    a = 1;
+    complement = true
+    someOperations.push(new MusaicOperation(order, a, t, complement));
+
+    allOps = Group.buildOperationsGroupByCayleyTable(someOperations)
+
+    // allOps.forEach(op => console.log(op.toString()))
+
+    // expected 84 operations : 7 * 12 ([M1 M2 M3 M4 M5 M6 CM1 CM2 CM3 CM4 CM5 CM6].length)
+    expect(allOps.length).toEqual(7 * 12)
+  })
+
+
 
   // M1, M7, CM5, CM11
 
@@ -169,18 +198,6 @@ describe('Group', () => {
     ipcs_dim = group.buildOrbitOf(ipcs_dim)
     expect(ipcs_dim.orbit.cardinal).toEqual(6)
 
-  })
-
-  it("Group buildOrbit by predefined groups ", () => {
-    let ipcs = new IPcs({pidVal: 0, n: 12})
-    ipcs = Group.predefinedGroups12[Group.MUSAIC].buildOrbitOf(ipcs)
-    expect(ipcs.orbit.cardinal).toEqual(2)
-
-    let ipcs_dim = new IPcs({strPcs: "0, 3, 6, 9"})
-    ipcs_dim = Group.predefinedGroups12[Group.MUSAIC].buildOrbitOf(ipcs_dim)
-    expect(ipcs_dim.orbit.cardinal).toEqual(6)
-
-    expect(Group.predefinedGroups12[Group.MUSAIC].operations.length).toEqual(96)
   })
 
   it("phiEulerElements", () => {
@@ -226,10 +243,10 @@ describe('Group', () => {
   })
 
  it("group name", () => {
-    const groupCyclic = Group.predefinedGroups12[Group.CYCLIC]
-    expect(groupCyclic.name).toEqual("n=12 [M1]")
+   const groupCyclic = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!.group
+   expect(groupCyclic.name).toEqual("n=12 [M1]")
 
-   const groupMusaic = Group.predefinedGroups12[Group.MUSAIC]
+   const groupMusaic =  ManagerGroupActionService.getGroupActionFromGroupAliasName("Musaic")!.group
    expect(groupMusaic.name).toEqual("n=12 [M1 M5 M7 M11 CM1 CM5 CM7 CM11]")
 
  })

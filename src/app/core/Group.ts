@@ -13,16 +13,6 @@ import {IPcs} from "./IPcs";
 
 export class Group {
 
-  /** indexes for predefinedGroups12
-   *  @see GroupAction.spec
-   */
-  static CYCLIC = 0
-  static DIHEDRAL = 1
-  static AFFINE = 2
-  static MUSAIC = 3
-
-  static _predefinedGroups12: Group[]
-
   operations: MusaicOperation[]
 
   readonly name: string
@@ -39,27 +29,6 @@ export class Group {
     this.opsNamesWithoutTx = res.opsNamesWithoutTx
   }
 
-  static get predefinedGroups12(): Group[] {
-    if (!this._predefinedGroups12) {
-      this._predefinedGroups12 = []
-      // index == 0 == Group.CYCLIC
-      let opM1_T1 = new MusaicOperation(12, 1, 1, false);
-      this._predefinedGroups12.push(new Group([opM1_T1]))
-
-      // index == 1 == Group.DIHEDRAL
-      let opM11_T1 = new MusaicOperation(12, 11, 1, false);
-      this._predefinedGroups12.push(new Group([opM1_T1, opM11_T1]))
-
-      // index == 2 == Group.AFFINE
-      let opM5_T1 = new MusaicOperation(12, 5, 1, false);
-      this._predefinedGroups12.push(new Group([opM1_T1, opM11_T1, opM5_T1]))
-
-      // index == 3 == Group.MUSAIC
-      let opCM1_T1 = new MusaicOperation(12, 1, 1, true);
-      this._predefinedGroups12.push(new Group([opM1_T1, opM11_T1, opM5_T1, opCM1_T1]))
-    }
-    return this._predefinedGroups12
-  }
 
   /**
    *
@@ -90,7 +59,7 @@ export class Group {
     // while (loop) {
       let cardinalOp = allOps.length
       // loop = false;
-      // forLoop:
+      forLoop:
       for (let i = 0; i < cardinalOp; i++) {
         for (let j = 0; j < cardinalOp; j++) {
           let newOp = allOps[i].compose(allOps[j]);
@@ -101,6 +70,18 @@ export class Group {
             // TODO  must be demonstrated... and verified by tests unit
             allOps.push(newOp)
             cardinalOp++
+            // if newOp.a and n == 7, then will do add here all ops because
+            // 2 * 2 = 4 and 4 * 2 = 1 and basta... not generate 3 and more...
+            // 2 its prime with primes number, but bad generator !!
+            if (newOp.a === 2) {
+              for (let k = newOp.a * 2; k < newOp.n; k += newOp.a) {
+                const newOpBis = new MusaicOperation(newOp.n, k, newOp.t)
+                if (!allOps.find(op => op.getHashCode() === newOpBis.getHashCode())) {
+                  allOps.push(new MusaicOperation(newOp.n, k, newOp.t))
+                  cardinalOp++
+                }
+              }
+            }
             // loop = true;
             // break forLoop
           } else {

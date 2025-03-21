@@ -1,6 +1,5 @@
 import {IPcs, negativeToPositiveModulo} from './IPcs'
 import {GroupAction} from "./GroupAction";
-import {Group} from "./Group";
 import {ManagerGroupActionService} from "../service/manager-group-action.service";
 import {MusaicOperation} from "./MusaicOperation";
 
@@ -112,6 +111,7 @@ describe('IPcs unit tests', () => {
   it('Test for detect bug with pivot not set', ()=>{
     let pcs = new IPcs({strPcs:""})
     expect(MusaicOperation.permute(pcs,1,0).iPivot).toEqual(undefined)
+    expect(pcs.affineOp(1,0).iPivot).toEqual(undefined)
     expect(pcs.toggleIndexPC(1).iPivot).toEqual(1)
   })
 
@@ -331,8 +331,8 @@ describe('IPcs unit tests', () => {
     expect(ipcs.cyclicPrimeForm().orbit.cardinal).toEqual(12);
 
 
-    let cyclicGroup12
-      = new GroupAction({group: Group.predefinedGroups12[Group.CYCLIC]})
+    let cyclicGroup12 = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!
+
     ipcs = new IPcs({strPcs: "0, 3, 6, 9", iPivot: 0})
 
     let orbit = cyclicGroup12.getOrbitOf(ipcs)

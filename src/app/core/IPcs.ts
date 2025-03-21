@@ -1139,6 +1139,8 @@ export class IPcs {
   isLimitedTransformation() {
     // implementation limited for n === 12
     // TODO : generalize this method !!!
+    const group = this.orbit?.groupAction?.group
+    // ManagerGroupActionService.getGroupActionFromGroupAliasName("Musaic"))
     return this.n === 12 && this.musaicPrimeForm().orbit.cardinal < this.n * 8;
   }
 
