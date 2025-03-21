@@ -1,8 +1,9 @@
 <div class="main-page"
      id="white-board"
      [cdkContextMenuTriggerFor]="menuBackgroundWhiteboard"
-
 >
+  <app-toolbar-for-white-board [isShown]="viewToolBar"></app-toolbar-for-white-board>
+
   <app-rect-selector
     (changeAreaRect)="doCheckPcsComponentsInRectangleSelector($event)"
     (mousedown)="doUpZIndexRectangleSelector()"

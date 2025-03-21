@@ -1,4 +1,4 @@
-import {Component, CUSTOM_ELEMENTS_SCHEMA, HostListener} from '@angular/core';
+import {Component, CUSTOM_ELEMENTS_SCHEMA, HostListener, inject} from '@angular/core';
 import {Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
@@ -19,6 +19,7 @@ import {ManagerPageWBService} from "./service/manager-page-wb.service";
 import {ManagerPageEightyHeightService} from "./service/manager-page-eighty-height.service";
 import {NgClass, NgOptimizedImage} from "@angular/common";
 import {PcsUtils} from "./utils/PcsUtils";
+import {ManagerToolbarService} from "./service/manager-toolbar.service";
 
 
 @Component({
@@ -50,6 +51,8 @@ export class AppComponent {
   checkoutForm = this.formBuilder.group({
     pcsStr: ''
   });
+
+  managerToolbarService = inject(ManagerToolbarService)
 
   matchInput: boolean = true;
 
@@ -261,5 +264,18 @@ export class AppComponent {
       // match if is a "long" double click
       window.open(url, "_blank");
     }
+  }
+
+  pageWhiteBoard() {
+    // console.log('this.router.url === w-board')// : ', this.router.url === '/w-board')
+    return this.router.url === '/w-board'
+  }
+
+  toggleToolbar() {
+    this.managerToolbarService.toggleShowToolbar()
+  }
+
+  toolBarIsShown() {
+    return this.managerToolbarService.isToolbarShown
   }
 }

@@ -6,7 +6,7 @@ import {
   CdkMenuItemRadio,
   CdkMenuTrigger
 } from "@angular/cdk/menu";
-import {AfterViewInit, Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, HostListener, inject, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {MatMenuContent, MatMenuTrigger} from "@angular/material/menu";
 import {MatIcon} from "@angular/material/icon";
 import {KeyValuePipe, NgClass, NgIf} from "@angular/common";
@@ -29,6 +29,8 @@ import {FormsModule} from "@angular/forms";
 import {IPcs} from "../../core/IPcs";
 import {MatDialog} from "@angular/material/dialog";
 import {DialogConfirmationComponent} from "../../component/dialog-confirmation/dialog-confirmation.component";
+import {ManagerToolbarService} from "../../service/manager-toolbar.service";
+import {ToolbarForWhiteBoardComponent} from "../../component/toolbar-for-white-board/toolbar-for-white-board.component";
 
 
 interface ElementMove {
@@ -55,7 +57,8 @@ interface ElementMove {
     MatSlideToggle,
     RectSelectorComponent,
     FormsModule,
-    KeyValuePipe
+    KeyValuePipe,
+    ToolbarForWhiteBoardComponent
   ],
   templateUrl: './whiteboard.component.html',
   styleUrl: './whiteboard.component.css'
@@ -63,6 +66,8 @@ interface ElementMove {
 export class WhiteboardComponent implements OnInit, AfterViewInit {
   @ViewChild(MatMenuTrigger, {static: true}) matMenuTrigger: MatMenuTrigger;
   @ViewChild('rectangleselector', {static: true}) rectangleSelector: ElementRef<SVGElement>;
+
+  managerToolbarService = inject(ManagerToolbarService)
 
   /**
    * For mouseMoveListener
@@ -107,6 +112,8 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
 
   initPositionRectSelector = new Point(0, 0)
 
+  viewToolBar: boolean = false
+
   constructor(private managerPageWBService: ManagerPageWBService,
               private readonly managerPagePcsService: ManagerPagePcsService,
               private readonly router: Router,
@@ -150,7 +157,6 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     // elt!.addEventListener('touchstart',
     //   (event) => this.onMouseDown(event));
 
-
     elt!.addEventListener('mousedown',
       (event) => this.onMouseDown(event));
 
@@ -168,7 +174,13 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
       this.updateRectangleSelectorDimension();
     }
 
-   }
+    this.managerToolbarService.eventShowToolbar.subscribe((viewToolbar: boolean) => {
+      this.viewToolBar = viewToolbar
+    })
+
+    this.viewToolBar = this.managerToolbarService.isToolbarShown
+
+  }
 
   // when mouse is out page
   // https://stackoverflow.com/questions/5429827/how-can-i-prevent-text-element-selection-with-cursor-drag

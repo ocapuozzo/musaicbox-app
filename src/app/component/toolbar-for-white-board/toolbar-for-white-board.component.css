@@ -1,0 +1,21 @@
+
+.floating-toolbar {
+  position: fixed;
+  top: 60px;
+  right: 0;
+  width: 60px;
+
+  flex-direction: column;
+  background-color: rgba(100, 155, 100, 0.1);
+  z-index: 2000;
+  box-shadow: none;
+  transition: right 0.3s ease;
+  height: calc(100vh - 60px); /* Prend toute la hauteur de la fenêtre moins le top */
+  display: flex;
+  justify-content: flex-start; /* Aligne les éléments en haut */
+  padding: 10px 0; /* Ajoute un peu d'espace en haut et en bas */
+}
+
+.floating-toolbar.retracted {
+  right: -60px;
+}

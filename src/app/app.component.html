@@ -59,6 +59,17 @@
   </div>
   <span class="example-spacer"></span>
 
+  @if ( pageWhiteBoard() ) {
+    <button mat-button color="primary" (click)="toggleToolbar()">
+      @if (toolBarIsShown()) {
+        <mat-icon aria-hidden="false" aria-label="show" fontIcon="visibility_off"></mat-icon>
+      } @else {
+        <mat-icon aria-hidden="false" aria-label="show" fontIcon="visibility"></mat-icon>
+      }
+      Toolbar
+    </button>
+  }
+
   <form [formGroup]="checkoutForm" class="" (ngSubmit)="onSubmitSearchForm()">
     <i class="bi bi-search">
     </i>

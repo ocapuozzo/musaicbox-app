@@ -1,0 +1,17 @@
+<mat-toolbar
+  class="floating-toolbar"
+  [class.retracted]="!isShown"
+>
+  <button mat-icon-button  (click) = "hideToolBar()">
+    <mat-icon>{{ isShown ? 'chevron_right' : 'chevron_left' }}</mat-icon>
+  </button>
+  <button mat-icon-button (click)="zoomIn()">
+    <mat-icon>add</mat-icon>
+  </button>
+  <button mat-icon-button (click)="zoomOut()">
+    <mat-icon>remove</mat-icon>
+  </button>
+  <button mat-icon-button (click)="delete()">
+    <mat-icon>delete</mat-icon>
+  </button>
+</mat-toolbar>
