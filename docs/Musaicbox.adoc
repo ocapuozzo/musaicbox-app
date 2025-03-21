@@ -1743,9 +1743,9 @@ NOTE: 4 of its 5 known subgroups are located on the central vertical axis.
 
 == For better operations
 
-As they stand, the generally accepted basic operations of musical set theory pose a problem that we raise here.
+As they stand, the generally accepted basic operations of musical set theory pose a logic problem that we raise here.
 
-=== fixed zero problem
+=== Understanding what's wrong
 
 Let's take the inversion operation as an example.
 
@@ -1856,6 +1856,8 @@ As you might expect, a diminished seventh chord is *very strongly symmetrical*. 
 
 Obviously [2 5 8 11] is an intruder! business logic is not good. But then why is he here???
 
+=== The "fixed zero problem"
+
 The basic operations of musical set theory, which are the standard in the field, have a peculiarity: *they are always centered on 0 (zero)*, thus defining it as a fixed point we call the *_"fixed zero problem"_*.
 
 The bad result we observed comes from the fact that the algorithms confuse index and Pitch Class name, both being expressed by integers (a very useful confusion, by the way).
@@ -1869,11 +1871,11 @@ Example : `[1 4 7 10] x 11 = [11 44 70 110] modulo 12 = [11 8 5 2] => #[2 5 8 11
 [.text-center]
 *_"fixed zero problem"_*.
 
-This inconsistency doesn't seem to bother the people who gravitate toward the _Musical Set Theory_ (?).
+This inconsistency doesn't seem to bother the people who gravitate toward the _Musical Set Theory_ (?). This can be explained by an approach guided by the results pre-determined by the authors, authors who do not attach importance to the logic of the tools they use.
 
 This can be explained by the fact that the "intruder PCS", resulting from bad calculation logic, are, however, *part of the same orbit as the reference PCS*. So, result is "up to transformation", which is not precise enough, not fair enough for our needs.
 
-In our case, this is not acceptable, because we want :
+In our case, this is a problem, because we want :
 
 * *Consistency between geometric transformations and algebraic transformations*
 * Maintain integrity of a PCS along its affine transformations. The main rule is the pivot must be a PC belonging to the PCS, and this is not the case when the pivot is always set to zero.
@@ -1896,7 +1898,7 @@ We also do not know whether solving the _fixed-zero-problem_ can have repercussi
 
 --
 [#understand-fixed-point-algorithm]
-=== Understand "fixed point algorithm"
+=== Idea of solution
 
 The points fixed by the transformation operations depend essentially on _n_. For _n_ = 12, these fixed points are represented by this figure :
 
@@ -1998,7 +2000,9 @@ image::big-major-cyclic-orbit.png[Major cyclic orbit]
 * Moreover, the _iPivot_ property allows us to take a particular look at a PCS, as a scale, a chord according to a reference note (tonic, root, etc.)
 
 [#design-affine-pivot]
-=== Design AffinePivot on Extended PCS
+=== Affine with pivot on Extended PCS
+
+Now that we have a property that allows us to designate a transformation pivot, we can get on with enriching the affine transformation function.
 
 We have seen that when an transformation operation acts on an extended PCS, in order to take into account a particular fixed point (and not just zero), it will involve a series of three operations instead of a single one (M1-Tp, Ma-Tk then M1-T-p). We call this operation _"AffinePivot"_
 
@@ -2089,7 +2093,7 @@ CAUTION: Conceptually _AffPivot_ function does not replace the usual affine func
 
 [IMPORTANT]
 ====
-_MusaicBox_ works with Extended PCS and implements affine functions with variable index of pitch class (_iPivot_), via _affinePivot_ algorithm.
+_MusaicBox_ works with Extended PCS and implements affine function with _iPivot_, as defined by _affinePivot_ algorithm.
 
 Although the affine function has replaced the usual affine functions in the project ... It should not be lost in sight that it is only a contraction of a composition of functions: `M1-T~p~ ∘ M~a~-T~k~ ∘ M~1~-T~-p~` or `M1-T~p~(M~a~-T~k~(M~1~-T~-p~( pcs )))`
 

@@ -1148,4 +1148,15 @@ describe('IPcs unit tests', () => {
 
   })
 
+  it('isComingFromAnOrbitTrivial', ()=> {
+    let pcs = new IPcs({strPcs: '[0,4,7]'})
+    expect(pcs.isComingFromAnOrbitTrivial()).toBeFalse()
+    let pcInOrbit = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")?.getIPcsInOrbit(pcs)
+    expect(pcInOrbit?.isComingFromAnOrbitTrivial()).toBeFalse()
+    pcInOrbit = ManagerGroupActionService.getGroupActionFromGroupAliasName("Musaic")?.getIPcsInOrbit(pcs)
+    expect(pcInOrbit?.isComingFromAnOrbitTrivial()).toBeFalse()
+    pcInOrbit = ManagerGroupActionService.getGroupActionFromGroupAliasName("Trivial")?.getIPcsInOrbit(pcs)
+    expect(pcInOrbit?.isComingFromAnOrbitTrivial()).toBeTrue() // <== true
+  })
+
 })

@@ -296,11 +296,13 @@ export class MusaicOperation {
       return pcs
     }
 
+    // if there is a transposition, then the pivot follows it.
     let newPivot = negativeToPositiveModulo(((pcs.iPivot ?? 0) + t), pcs.vectorPcs.length)
+
     return new IPcs({
       vectorPcs: this.getVectorPcsPermuted(a, t, newPivot, pcs.vectorPcs),
       iPivot: newPivot,
-      orbit: new Orbit(), // basic PCS operation, not coming from orbit // manager do this
+      orbit: new Orbit(), // TODO ? basic PCS operation, not coming from orbit // manager do this ? or to do here ?
       templateMappingVectorPcs: pcs.templateMappingVectorPcs,
       nMapping: pcs.nMapping
     })

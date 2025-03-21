@@ -665,11 +665,12 @@ td:has(>p>span[class="klein2"]) {
 </li>
 <li><a href="#_for_better_operations">For better operations</a>
 <ul class="sectlevel2">
-<li><a href="#_fixed_zero_problem">fixed zero problem</a></li>
-<li><a href="#understand-fixed-point-algorithm">Understand "fixed point algorithm"</a></li>
+<li><a href="#_understanding_whats_wrong">Understanding what&#8217;s wrong</a></li>
+<li><a href="#_the_fixed_zero_problem">The "fixed zero problem"</a></li>
+<li><a href="#understand-fixed-point-algorithm">Idea of solution</a></li>
 <li><a href="#_extended_pcs_with_pivot">Extended PCS with pivot</a></li>
 <li><a href="#_resume">Resume</a></li>
-<li><a href="#design-affine-pivot">Design AffinePivot on Extended PCS</a></li>
+<li><a href="#design-affine-pivot">Affine with pivot on Extended PCS</a></li>
 <li><a href="#_affinepivot_reduced">AffinePivot reduced</a></li>
 </ul>
 </li>
@@ -3722,10 +3723,10 @@ Example : [M1-T1 M11-T1] &#8658; [M1 M11]
 <h2 id="_for_better_operations">For better operations</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>As they stand, the generally accepted basic operations of musical set theory pose a problem that we raise here.</p>
+<p>As they stand, the generally accepted basic operations of musical set theory pose a logic problem that we raise here.</p>
 </div>
 <div class="sect2">
-<h3 id="_fixed_zero_problem">fixed zero problem</h3>
+<h3 id="_understanding_whats_wrong">Understanding what&#8217;s wrong</h3>
 <div class="paragraph">
 <p>Let&#8217;s take the inversion operation as an example.</p>
 </div>
@@ -3928,6 +3929,9 @@ Example : [M1-T1 M11-T1] &#8658; [M1 M11]
 <div class="paragraph">
 <p>Obviously [2 5 8 11] is an intruder! business logic is not good. But then why is he here???</p>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_the_fixed_zero_problem">The "fixed zero problem"</h3>
 <div class="paragraph">
 <p>The basic operations of musical set theory, which are the standard in the field, have a peculiarity: <strong>they are always centered on 0 (zero)</strong>, thus defining it as a fixed point we call the <strong><em>"fixed zero problem"</em></strong>.</p>
 </div>
@@ -3946,13 +3950,13 @@ Example : [M1-T1 M11-T1] &#8658; [M1 M11]
 <p><strong><em>"fixed zero problem"</em></strong>.</p>
 </div>
 <div class="paragraph">
-<p>This inconsistency doesn&#8217;t seem to bother the people who gravitate toward the <em>Musical Set Theory</em> (?).</p>
+<p>This inconsistency doesn&#8217;t seem to bother the people who gravitate toward the <em>Musical Set Theory</em> (?). This can be explained by an approach guided by the results pre-determined by the authors, authors who do not attach importance to the logic of the tools they use.</p>
 </div>
 <div class="paragraph">
 <p>This can be explained by the fact that the "intruder PCS", resulting from bad calculation logic, are, however, <strong>part of the same orbit as the reference PCS</strong>. So, result is "up to transformation", which is not precise enough, not fair enough for our needs.</p>
 </div>
 <div class="paragraph">
-<p>In our case, this is not acceptable, because we want :</p>
+<p>In our case, this is a problem, because we want :</p>
 </div>
 <div class="ulist">
 <ul>
@@ -3995,7 +3999,7 @@ Example : [M1-T1 M11-T1] &#8658; [M1 M11]
 </div>
 </div>
 <div class="sect2">
-<h3 id="understand-fixed-point-algorithm">Understand "fixed point algorithm"</h3>
+<h3 id="understand-fixed-point-algorithm">Idea of solution</h3>
 <div class="paragraph">
 <p>The points fixed by the transformation operations depend essentially on <em>n</em>. For <em>n</em> = 12, these fixed points are represented by this figure :</p>
 </div>
@@ -4195,7 +4199,10 @@ We do not have integrated this property, <em>iPivot</em>, in the logical identit
 </div>
 </div>
 <div class="sect2">
-<h3 id="design-affine-pivot">Design AffinePivot on Extended PCS</h3>
+<h3 id="design-affine-pivot">Affine with pivot on Extended PCS</h3>
+<div class="paragraph">
+<p>Now that we have a property that allows us to designate a transformation pivot, we can get on with enriching the affine transformation function.</p>
+</div>
 <div class="paragraph">
 <p>We have seen that when an transformation operation acts on an extended PCS, in order to take into account a particular fixed point (and not just zero), it will involve a series of three operations instead of a single one (M1-Tp, Ma-Tk then M1-T-p). We call this operation <em>"AffinePivot"</em></p>
 </div>
@@ -4359,7 +4366,7 @@ We do not have integrated this property, <em>iPivot</em>, in the logical identit
 <i class="fa icon-caution" title="Caution"></i>
 </td>
 <td class="content">
-Conceptually <em>AffPivot</em> function does not replace the usual affine function since it refers to the affine function in its <a href="#design-affine-pivot">Design AffinePivot on Extended PCS</a>.
+Conceptually <em>AffPivot</em> function does not replace the usual affine function since it refers to the affine function in its <a href="#design-affine-pivot">Affine with pivot on Extended PCS</a>.
 </td>
 </tr>
 </table>
@@ -4372,7 +4379,7 @@ Conceptually <em>AffPivot</em> function does not replace the usual affine functi
 </td>
 <td class="content">
 <div class="paragraph">
-<p><em>MusaicBox</em> works with Extended PCS and implements affine functions with variable index of pitch class (<em>iPivot</em>), via <em>affinePivot</em> algorithm.</p>
+<p><em>MusaicBox</em> works with Extended PCS and implements affine function with <em>iPivot</em>, as defined by <em>affinePivot</em> algorithm.</p>
 </div>
 <div class="paragraph">
 <p>Although the affine function has replaced the usual affine functions in the project &#8230;&#8203; It should not be lost in sight that it is only a contraction of a composition of functions: <code>M1-T<sub>p</sub> ∘ M<sub>a</sub>-T<sub>k</sub> ∘ M<sub>1</sub>-T<sub>-p</sub></code> or <code>M1-T<sub>p</sub>(M<sub>a</sub>-T<sub>k</sub>(M<sub>1</sub>-T<sub>-p</sub>( pcs )))</code></p>
@@ -5253,7 +5260,7 @@ Symmetry prime form concept is invented, specific to this project.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-03-20 18:23:57 +0100
+Last updated 2025-03-21 09:39:04 +0100
 </div>
 </div>
 <script type="text/x-mathjax-config">
