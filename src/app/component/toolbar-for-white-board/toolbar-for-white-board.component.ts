@@ -44,5 +44,16 @@ export class ToolbarForWhiteBoardComponent {
     this.managerPageWBService.doDelete()
   }
 
+  doChangeViewClock() {
+    this.managerPageWBService.doUpdateDrawer('Clock')
+  }
+
+  doChangeViewScore() {
+    this.managerPageWBService.doUpdateDrawer('Score')
+  }
+
+  doChangeViewMusaic() {
+    this.managerPageWBService.doUpdateDrawer('Musaic')
+  }
 
 }

@@ -13,7 +13,7 @@
   height: calc(100vh - 60px); /* Prend toute la hauteur de la fenêtre moins le top */
   display: flex;
   justify-content: flex-start; /* Aligne les éléments en haut */
-  padding: 10px 0; /* Ajoute un peu d'espace en haut et en bas */
+  padding: 10px 0; /* add space top and bottom */
 }
 
 .floating-toolbar.retracted {
