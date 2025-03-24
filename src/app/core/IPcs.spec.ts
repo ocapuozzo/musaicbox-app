@@ -99,6 +99,16 @@ describe('IPcs unit tests', () => {
     })
     expect(chord.getPcsStr()).toEqual("[0 2 4]")
 
+    const chord2 = new IPcs({
+      strPcs: "[0 2 4 6]",
+      iPivot: 0,
+      n:7,
+      nMapping: 12,
+      templateMappingVectorPcs: [0,2,4,5,7,9,11]
+    })
+    expect(chord2.n).toEqual(7)
+    expect(chord2.templateMappingVectorPcs).toEqual([0,2,4,5,7,9,11])
+
   });
 
   it('negativeToPositiveModulo', ()=>{

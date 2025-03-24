@@ -9,9 +9,10 @@ import {IStoragePage88} from "./IDataState";
 
 export interface ISerializedPcs {
   strPcs: string
+  n ?: number
   iPivot ?: number
   nMapping: number
-  templateMappingBinPcs ?: number[]
+  templateMappingVectorPcs ?: number[]
   groupName: string
 }
 
@@ -67,6 +68,7 @@ export class ManagerLocalStorageService {
         pcs: null, // pcs is no directly serialized (object complex in relationship)
         serializedPcs: {
           pcsStr: pcsDto.pcs.getPcsStr(),
+          n :  pcsDto.pcs.n,
           iPivot: pcsDto.pcs.iPivot,
           nMapping: pcsDto.pcs.nMapping,
           templateMappingBinPcs: pcsDto.pcs.templateMappingVectorPcs,
@@ -102,8 +104,9 @@ export class ManagerLocalStorageService {
         const serializedPcs: ISerializedPcs = {
           strPcs: pcsSerialDto.serializedPcs.pcsStr,
           iPivot: pcsSerialDto.serializedPcs.iPivot,
+          n:pcsSerialDto.serializedPcs.n,
           nMapping: pcsSerialDto.serializedPcs.nMapping ?? 12,
-          templateMappingBinPcs: pcsSerialDto.serializedPcs.templateMappingBinPcs ?? [],
+          templateMappingVectorPcs: pcsSerialDto.serializedPcs.templateMappingVectorPcs ?? [],
           groupName: pcsSerialDto.serializedPcs.groupName ?? ''
         }
 
