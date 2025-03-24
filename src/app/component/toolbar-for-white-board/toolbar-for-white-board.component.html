@@ -2,50 +2,95 @@
   class="floating-toolbar"
   [class.retracted]="!isShown"
 >
-  <button mat-icon-button  (click)="hideToolBar()">
+  <button mat-icon-button  (click)="hideToolBar()"
+    style="padding: 0.2em 0;width: 30px; height: 30px"
+  >
     <mat-icon>{{ isShown ? 'chevron_right' : 'chevron_left' }}</mat-icon>
   </button>
 
-  <button mat-icon-button [disabled]="numberSelectedComponents === 0" (click)="zoomIn()">
+  <button mat-icon-button [disabled]="numberSelectedComponents === 0" (click)="zoomIn()"
+          class="button-toolbar"
+   >
     <mat-icon>zoom_in</mat-icon>
   </button>
-  <button mat-icon-button [disabled]="numberSelectedComponents === 0" (click)="zoomOut()">
+  <button mat-icon-button [disabled]="numberSelectedComponents === 0" (click)="zoomOut()"
+          class="button-toolbar"
+  >
     <mat-icon>zoom_out</mat-icon>
   </button>
-  <button mat-icon-button [disabled]="numberSelectedComponents === 0" (click)="delete()">
+  <button mat-icon-button [disabled]="numberSelectedComponents === 0" (click)="delete()"
+          class="button-toolbar"
+  >
     <mat-icon>delete</mat-icon>
   </button>
-  <button mat-icon-button [disabled]="numberSelectedComponents === 0" (click)="doTranspose(1)">
+
+  <span style="font-size:small; opacity: 0.4; margin-top: 0.1em; padding: 0.3em 0; line-height: 0.125;">-------</span>
+
+  <button mat-icon-button [disabled]="numberSelectedComponents === 0" (click)="doTranspose(1)"
+          class="button-toolbar"
+          style=" margin-top: 0;"
+  >
     <span style="font-size: small" >T+1</span>
   </button>
-  <button mat-icon-button [disabled]="numberSelectedComponents === 0" (click)="doTranspose(-1)" >
-    <span style="font-size: small">T-1</span>
+  <button mat-icon-button [disabled]="numberSelectedComponents === 0" (click)="doTranspose(-1)"
+          class="button-toolbar">
+    <span style="font-size: small;">T-1</span>
   </button>
 
+  <button mat-icon-button matTooltip="M5"
+          class="button-toolbar"
+          [disabled]="numberSelectedComponents === 0"
+          (click)="doChangeViewAffine(5, 0)">
+    <span style="font-size: small">M5</span>
+  </button>
 
-  <span style="opacity: 0.4">-----</span>
+  <button mat-icon-button matTooltip="M7"
+          class="button-toolbar"
+          [disabled]="numberSelectedComponents === 0"
+          (click)="doChangeViewAffine(7, 0)">
+    <span style="font-size: small">M7</span>
+  </button>
+
+  <button mat-icon-button matTooltip="M11"
+          class="button-toolbar"
+          [disabled]="numberSelectedComponents === 0"
+          (click)="doChangeViewAffine(11, 0)">
+    <span style="font-size: small;">M11</span>
+  </button>
+
+  <span style="font-size:small; opacity: 0.4; margin-top: 0.1em; padding: 0.3em 0; line-height: 0.125;">-------</span>
+
   <button mat-icon-button matTooltip="Clock"
           [disabled]="numberSelectedComponents === 0"
-          (click)="doChangeViewClock()">
+          (click)="doChangeViewClock()"
+          class="button-toolbar"
+          style="vertical-align: middle;"
+  >
     <img src="assets/img/clockV2.svg" width="30px" height="30px" alt="clock">
   </button>
+
   <button mat-icon-button matTooltip="Score"
           [disabled]="numberSelectedComponents === 0"
-          (click)="doChangeViewScore()">
-    <span style="margin-left: 2px"> &#x266C;</span>
+          (click)="doChangeViewScore()"
+          class="button-toolbar"
+          style="margin-top: 0; text-align: center; vertical-align: middle;">
+    <span style="margin-left: 2px;"> &#x266C;</span>
   </button>
   <button mat-icon-button matTooltip="Musaic"
           [disabled]="numberSelectedComponents === 0"
-          (click)="doChangeViewMusaic()">
-    <img src="assets/img/musaic.svg" width="40px" height="40px" alt="musaic">
+          (click)="doChangeViewMusaic()"
+          class="button-toolbar"
+          style="margin-top: 0.4em;"
+  >
+    <img src="assets/img/musaic.svg" width="26px" height="26px" alt="musaic">
   </button>
   <button mat-icon-button matTooltip="Octotrope"
           [disabled]="numberSelectedComponents === 0"
-          (click)="doChangeViewOctotrope()">
+          (click)="doChangeViewOctotrope()"
+          class="button-toolbar"
+          style="margin-top: 0.4em;"
+  >
     <img src="assets/img/polytrope.svg" width="40px" height="40px" alt="octotrope">
   </button>
-
-
-
 
 </mat-toolbar>

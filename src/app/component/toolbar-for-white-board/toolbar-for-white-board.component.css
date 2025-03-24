@@ -6,7 +6,7 @@
   width: 60px;
 
   flex-direction: column;
-  background-color: rgba(100, 155, 100, 0.1);
+  background-color: rgba(200, 200, 227, 0.95);
   z-index: 2000;
   box-shadow: none;
   transition: right 0.3s ease;
@@ -18,4 +18,11 @@
 
 .floating-toolbar.retracted {
   right: -60px;
+}
+
+.button-toolbar {
+  margin-top: 0.1em;
+  padding: 0 0;
+  width: 30px;
+  height: 30px
 }

@@ -1150,6 +1150,10 @@ export class ManagerPageWBService {
 
 
   doTranspose(k : number) {
+    this.doTransformAffine(1,k)
+  }
+
+  doTransformAffine(a: number, k: number) {
     this.uiPcsDtoList = [...this.uiPcsDtoList]
     let indexes = this.getSelectedPcsDtoIndexes()
     indexes.forEach(index => {
@@ -1157,11 +1161,10 @@ export class ManagerPageWBService {
         throw new Error("oops bad index : " + index)
       }
       let pcsDto= new UIPcsDto({...this.uiPcsDtoList[index]})
-      pcsDto.pcs = this.managerPcsService.doTransformAffine(pcsDto.pcs, 1, k)
+      pcsDto.pcs = this.managerPcsService.doTransformAffine(pcsDto.pcs, a, k)
       this.uiPcsDtoList[index] = pcsDto
     })
     this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
     this.emit()
   }
-
 }

@@ -69,4 +69,8 @@ export class ToolbarForWhiteBoardComponent {
   doTranspose(k : number) {
     this.managerPageWBService.doTranspose(k)
   }
+
+  doChangeViewAffine(a: number, k: number) {
+    this.managerPageWBService.doTransformAffine(a,k)
+  }
 }
