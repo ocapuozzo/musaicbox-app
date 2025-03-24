@@ -61,6 +61,10 @@
         Color <span>&#10148;</span>
       </button>
 
+      <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="menuAlign">
+        Align <span>&#10148;</span>
+      </button>
+
       <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doSingleToggleSelected(index)">
         <mat-slide-toggle [checked]="isSelected(index)">Selected</mat-slide-toggle>
       </button>
@@ -98,14 +102,14 @@
         Neighbors <span>&#10148;</span>
       </button>
       <hr/>
-      <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doZoom(1, index)">
-        zoom+ (+)
-        <span [hidden]="pcsDtoList[index].indexFormDrawer > 0">&nbsp; (cw={{ sizeCellWidth(index) }})</span>
-      </button>
-      <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doZoom(-1, index)">
-        zoom- (-)
-        <span [hidden]="pcsDtoList[index].indexFormDrawer > 0">&nbsp; (cw={{ sizeCellWidth(index) }})</span>
-      </button>
+<!--      <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doZoom(1, index)">-->
+<!--        zoom+ (+)-->
+<!--        <span [hidden]="pcsDtoList[index].indexFormDrawer > 0">&nbsp; (cw={{ sizeCellWidth(index) }})</span>-->
+<!--      </button>-->
+<!--      <button class="contextual-menu-item" cdkMenuItem (cdkMenuItemTriggered)="doZoom(-1, index)">-->
+<!--        zoom- (-)-->
+<!--        <span [hidden]="pcsDtoList[index].indexFormDrawer > 0">&nbsp; (cw={{ sizeCellWidth(index) }})</span>-->
+<!--      </button>-->
       <button *ngIf="isMusaicFormDrawer(index)" class="contextual-menu-item" cdkMenuItem
               (cdkMenuItemTriggered)="doSetRounded(index)">
         <mat-slide-toggle [checked]="isRounded(index)">Rounded</mat-slide-toggle>
@@ -121,22 +125,28 @@
         <mat-slide-toggle [checked]="isShowPivot(index)">Show pivot</mat-slide-toggle>
       </button>
 
-      <button class="contextual-menu-item" cdkMenuItem [cdkMenuTriggerFor]="menuAlign">
-        Align <span>&#10148;</span>
-      </button>
-
       <hr/>
-      <div cdkMenuGroup>
-        @for (drawer of UIPcsDto.ALL_DRAWERS.keys(); track drawer; ) {
-          <button
-            cdkMenuItemRadio
-            class="contextual-menu-item"
-            [cdkMenuItemChecked]="UIPcsDto.ALL_DRAWERS.get(drawer) === indexFormDrawer"
-            (cdkMenuItemTriggered)="updateDrawer(drawer, index)">
-            {{ drawer }}
-          </button>
-        }
-      </div>
+      <button
+        cdkMenuItemRadio
+        class="contextual-menu-item"
+        [cdkMenuItemChecked]="UIPcsDto.ALL_DRAWERS.get('FreeText') === indexFormDrawer"
+        (cdkMenuItemTriggered)="updateDrawer('FreeText', index)">
+        FreeText
+       </button>
+
+
+<!--      <div cdkMenuGroup>-->
+<!--        @for (drawer of UIPcsDto.ALL_DRAWERS.keys(); track drawer; ) {-->
+<!--          <button-->
+<!--            cdkMenuItemRadio-->
+<!--            class="contextual-menu-item"-->
+<!--            [cdkMenuItemChecked]="UIPcsDto.ALL_DRAWERS.get(drawer) === indexFormDrawer"-->
+<!--            (cdkMenuItemTriggered)="updateDrawer(drawer, index)">-->
+<!--            {{ drawer }}-->
+<!--          </button>-->
+<!--        }-->
+<!--      </div>-->
+
     </div>
   </ng-template>
 
@@ -186,20 +196,20 @@
 
     <div class="contextual-menu" cdkMenu>
       <button class="contextual-menu-item" cdkMenuItem
-              (cdkMenuItemTriggered)="doGetTransformedPcs('Affine',index)">Affine pcs (4)
+              (cdkMenuItemTriggered)="doFromGroupNameImages('Affine',index)">Affine pcs (4)
       </button>
       <button class="contextual-menu-item" cdkMenuItem
-              (cdkMenuItemTriggered)="doGetTransformedPcs('Musaic',index)">Musaic pcs (8)
+              (cdkMenuItemTriggered)="doFromGroupNameImages('Musaic',index)">Musaic pcs (8)
       </button>
       <hr/>
       <button class="contextual-menu-item" cdkMenuItem
               [disabled]="[1, 4].includes(countDistinctAffinePcs)"
-              (cdkMenuItemTriggered)="doGetTransformedPcs('Affine',index, true)">
+              (cdkMenuItemTriggered)="doFromGroupNameImages('Affine',index, true)">
         Distinct Affine pcs ({{ countDistinctAffinePcs }})
       </button>
       <button class="contextual-menu-item" cdkMenuItem
               [disabled]="countMusaicPcs === 8"
-              (cdkMenuItemTriggered)="doGetTransformedPcs('Musaic',index, true)">
+              (cdkMenuItemTriggered)="doFromGroupNameImages('Musaic',index, true)">
         Distinct Musaic pcs ({{ countMusaicPcs }})
       </button>
     </div>
@@ -312,7 +322,7 @@
       <button class="contextual-menu-item" (cdkMenuItemTriggered)="doOpenLocalFile()" cdkMenuItem>Open file...</button>
     </div>
   </ng-template>
-</div>
+
 
 <ng-template #menuPcsFreeText matMenuContent let-index="index" let-name="name" let-indexFormDrawer="indexFormDrawer">
   <div class="contextual-menu" cdkMenu>
@@ -390,4 +400,6 @@
 <div style="display:none; flex-direction: row;">
   <button (click)="fileInput.click()">Open file</button>
   <input #fileInput type="file" (change)="onLoadLocalFile($event)" accept=".musaicbox" style="display:none"/>
+</div>
+
 </div>

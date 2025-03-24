@@ -10,10 +10,10 @@
   z-index: 2000;
   box-shadow: none;
   transition: right 0.3s ease;
-  height: calc(100vh - 60px); /* Prend toute la hauteur de la fenêtre moins le top */
+  height: calc(100vh - 65px); /* get all window height - top */
   display: flex;
-  justify-content: flex-start; /* Aligne les éléments en haut */
-  padding: 10px 0; /* add space top and bottom */
+  justify-content: flex-start; /* Align  */
+  padding: 1px 0; /* add space top and bottom */
 }
 
 .floating-toolbar.retracted {

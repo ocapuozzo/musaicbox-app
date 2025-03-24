@@ -2,27 +2,47 @@
   class="floating-toolbar"
   [class.retracted]="!isShown"
 >
-  <button mat-icon-button  (click) = "hideToolBar()">
+  <button mat-icon-button  (click)="hideToolBar()">
     <mat-icon>{{ isShown ? 'chevron_right' : 'chevron_left' }}</mat-icon>
   </button>
-  <button mat-icon-button (click)="zoomIn()">
-    <mat-icon>add</mat-icon>
+
+  <button mat-icon-button [disabled]="numberSelectedComponents === 0" (click)="zoomIn()">
+    <mat-icon>zoom_in</mat-icon>
   </button>
-  <button mat-icon-button (click)="zoomOut()">
-    <mat-icon>remove</mat-icon>
+  <button mat-icon-button [disabled]="numberSelectedComponents === 0" (click)="zoomOut()">
+    <mat-icon>zoom_out</mat-icon>
   </button>
-  <button mat-icon-button (click)="delete()">
+  <button mat-icon-button [disabled]="numberSelectedComponents === 0" (click)="delete()">
     <mat-icon>delete</mat-icon>
   </button>
+  <button mat-icon-button [disabled]="numberSelectedComponents === 0" (click)="doTranspose(1)">
+    <span style="font-size: small" >T+1</span>
+  </button>
+  <button mat-icon-button [disabled]="numberSelectedComponents === 0" (click)="doTranspose(-1)" >
+    <span style="font-size: small">T-1</span>
+  </button>
+
+
   <span style="opacity: 0.4">-----</span>
-  <button mat-icon-button (click)="doChangeViewClock()">
+  <button mat-icon-button matTooltip="Clock"
+          [disabled]="numberSelectedComponents === 0"
+          (click)="doChangeViewClock()">
     <img src="assets/img/clockV2.svg" width="30px" height="30px" alt="clock">
   </button>
-  <button mat-icon-button (click)="doChangeViewScore()">
-  <span style="margin-left: 2px"> &#x266C;</span>
+  <button mat-icon-button matTooltip="Score"
+          [disabled]="numberSelectedComponents === 0"
+          (click)="doChangeViewScore()">
+    <span style="margin-left: 2px"> &#x266C;</span>
   </button>
-  <button mat-icon-button (click)="doChangeViewMusaic()">
+  <button mat-icon-button matTooltip="Musaic"
+          [disabled]="numberSelectedComponents === 0"
+          (click)="doChangeViewMusaic()">
     <img src="assets/img/musaic.svg" width="40px" height="40px" alt="musaic">
+  </button>
+  <button mat-icon-button matTooltip="Octotrope"
+          [disabled]="numberSelectedComponents === 0"
+          (click)="doChangeViewOctotrope()">
+    <img src="assets/img/polytrope.svg" width="40px" height="40px" alt="octotrope">
   </button>
 
 

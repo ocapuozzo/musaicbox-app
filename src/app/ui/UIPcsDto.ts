@@ -85,6 +85,8 @@ export class UIScore {
 }
 
 // main class
+export const DRAWER_NAMES = ['Musaic', 'Clock', 'Score', 'Octotrope', 'FreeText'] as const;
+export type TDrawerName = typeof DRAWER_NAMES[number];
 
 export class UIPcsDto {
   static MUSAIC = 0
@@ -92,11 +94,13 @@ export class UIPcsDto {
   static SCORE = 2
   static OCTOTROPE = 13
   static FREE_TEXT = 42
-  // TODO others index... or Array.from(ALL_DRAWERS.values())
 
-  // TODO revoir la logique ici : dict [[string, number]]
-  static  ALL_DRAWERS : Map<string,number> = new Map( [
-      ["Musaic", 0], ["Clock", 1], ["Score",2], ["Octotrope", 13], ["FreeText",42]
+  static  ALL_DRAWERS : Map<TDrawerName,number> = new Map( [
+      ["Musaic", UIPcsDto.MUSAIC],
+      ["Clock", UIPcsDto.CLOCK],
+      ["Score",UIPcsDto.SCORE],
+      ["Octotrope", UIPcsDto.OCTOTROPE],
+      ["FreeText",UIPcsDto.FREE_TEXT]
     ]
   )
 
@@ -104,9 +108,7 @@ export class UIPcsDto {
   freeText : IFreeText
   // pcs will not be serialized (transient)
   pcs: IPcs = new IPcs({strPcs: "0, 4, 8"})
-
-  // serializedPcs: ISerializedPcs
-
+  
   position: { x: number; y: number }
   colorPitchOn: string = 'black'
   colorPitchOff: string = 'white'

@@ -4,6 +4,7 @@ import {MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {ManagerPageWBService} from "../../service/manager-page-wb.service";
 import {ManagerToolbarService} from "../../service/manager-toolbar.service";
+import {MatTooltip} from "@angular/material/tooltip";
 
 @Component({
   selector: 'app-toolbar-for-white-board',
@@ -11,7 +12,8 @@ import {ManagerToolbarService} from "../../service/manager-toolbar.service";
   imports: [
     MatToolbar,
     MatIconButton,
-    MatIcon
+    MatIcon,
+    MatTooltip
   ],
   templateUrl: './toolbar-for-white-board.component.html',
   styleUrl: './toolbar-for-white-board.component.css'
@@ -21,6 +23,10 @@ export class ToolbarForWhiteBoardComponent {
 
   managerPageWBService = inject(ManagerPageWBService)
   managerToolbarService = inject(ManagerToolbarService)
+
+  get numberSelectedComponents(): number {
+    return this.managerPageWBService.getSelectedPcsDtoIndexes().length
+  }
 
   hideToolBar() {
     this.managerToolbarService.toggleShowToolbar()
@@ -56,4 +62,11 @@ export class ToolbarForWhiteBoardComponent {
     this.managerPageWBService.doUpdateDrawer('Musaic')
   }
 
+  doChangeViewOctotrope() {
+    this.managerPageWBService.doUpdateDrawer('Octotrope')
+  }
+
+  doTranspose(k : number) {
+    this.managerPageWBService.doTranspose(k)
+  }
 }

@@ -1,5 +1,5 @@
 import {EventEmitter, Injectable, Output, SecurityContext} from '@angular/core';
-import {UIMusaic, UIPcsDto} from "../ui/UIPcsDto";
+import {TDrawerName, UIMusaic, UIPcsDto} from "../ui/UIPcsDto";
 import {ManagerLocalStorageService} from "./manager-local-storage.service";
 import {Point} from "../utils/Point";
 import {IPcs} from "../core/IPcs";
@@ -322,7 +322,7 @@ export class ManagerPageWBService {
     this.emit()
   }
 
-  doUpdateDrawer(drawer: string, indexes: number[] = []) {
+  doUpdateDrawer(drawer: TDrawerName, indexes: number[] = []) {
     this.uiPcsDtoList = [...this.uiPcsDtoList]
 
     if (indexes.length === 0) {
@@ -498,7 +498,7 @@ export class ManagerPageWBService {
     this.emit()
   }
 
-  doToggleShowPcs(index: any) {
+  doToggleShowPcsName(index: any) {
     this.uiPcsDtoList = [...this.uiPcsDtoList]
     let indexes = this.getIndexesTarget(index);
 
@@ -693,7 +693,7 @@ export class ManagerPageWBService {
     this.doFinalPosition(finalMoveElements)
   }
 
-  private getSelectedPcsDtoIndexes(): number[] {
+  public getSelectedPcsDtoIndexes(): number[] {
     return this.orderedIndexesSelectedPcsDto
   }
 
@@ -888,7 +888,7 @@ export class ManagerPageWBService {
     this.emit()
   }
 
-  doGetTransformedPcsFromPcs(pcs: IPcs, groupName: string, distinct: boolean = false): IPcs[] {
+  doFromPcsGetImages(pcs: IPcs, groupName: string, distinct: boolean = false): IPcs[] {
     const pcsList: IPcs[] = []
     if (['Affine', 'Musaic'].includes(groupName)) {
       // default Affine
@@ -915,8 +915,8 @@ export class ManagerPageWBService {
   }
 
 
-  doGetTransformedPcs(groupName: string, index: number, distinct: boolean = false) {
-    const transformedPcs = this.doGetTransformedPcsFromPcs(this.uiPcsDtoList[index].pcs, groupName, distinct)
+  doMakeImageTransformedPcsFromGroupName(groupName: string, index: number, distinct: boolean = false) {
+    const transformedPcs = this.doFromPcsGetImages(this.uiPcsDtoList[index].pcs, groupName, distinct)
     this.pcsDtoForTemplate = this.uiPcsDtoList[index]
     this.addPcs({somePcs: transformedPcs, circularAlign: true, indexCenterElement: index})
   }
@@ -1107,6 +1107,11 @@ export class ManagerPageWBService {
     this.doMakeSetOperation('SymmetricDifference')
   }
 
+  /**
+   * implement set operations
+   * @param opName  in {'Complement', 'SymmetricDifference', 'Union', 'Intersection' } // TODO make a type
+   * @private
+   */
   private doMakeSetOperation(opName: string) {
     if (opName === 'Complement' && this.getSelectedPcsDtoIndexes().length > 0) {
       const complement = true
@@ -1144,5 +1149,19 @@ export class ManagerPageWBService {
   }
 
 
+  doTranspose(k : number) {
+    this.uiPcsDtoList = [...this.uiPcsDtoList]
+    let indexes = this.getSelectedPcsDtoIndexes()
+    indexes.forEach(index => {
+      if (index < 0 || index >= this.uiPcsDtoList.length) {
+        throw new Error("oops bad index : " + index)
+      }
+      let pcsDto= new UIPcsDto({...this.uiPcsDtoList[index]})
+      pcsDto.pcs = this.managerPcsService.doTransformAffine(pcsDto.pcs, 1, k)
+      this.uiPcsDtoList[index] = pcsDto
+    })
+    this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
+    this.emit()
+  }
 
 }

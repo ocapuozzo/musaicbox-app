@@ -17,7 +17,7 @@ import {
   TPrimeForm,
   TZoomDirection
 } from "../../service/manager-page-wb.service";
-import {UIPcsDto} from "../../ui/UIPcsDto";
+import {TDrawerName, UIPcsDto} from "../../ui/UIPcsDto";
 import {PcsComponent} from "../../component/pcs/pcs.component";
 // import {DraggableDirective} from "../../draggable.directive";
 import {Point} from "../../utils/Point";
@@ -437,7 +437,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     }
   }
 
-  updateDrawer(drawer: string, index: number) {
+  updateDrawer(drawer: TDrawerName, index: number) {
     if (this.managerPageWBService.isIndexInElementsSelected(index)) {
       this.managerPageWBService.doUpdateDrawer(drawer)
     } else {
@@ -517,7 +517,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   }
 
   get numberSelectedComponents(): number {
-    return this.managerPageWBService.orderedIndexesSelectedPcsDto.length
+    return this.managerPageWBService.getSelectedPcsDtoIndexes().length //orderedIndexesSelectedPcsDto.length
     // return this.pcsDtoList.reduce(
     //   (nbSelected: number, pcsdDto: UIPcsDto) => pcsdDto.isSelected ? nbSelected + 1 : nbSelected, 0)
   }
@@ -663,7 +663,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   }
 
   doToggleShowPcs(index: any) {
-    this.managerPageWBService.doToggleShowPcs(index)
+    this.managerPageWBService.doToggleShowPcsName(index)
   }
 
   isShowPcs(index: any) {
@@ -756,12 +756,12 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
       });
   }
 
-  doGetTransformedPcs(groupName: string, index: number, distinct: boolean = false) {
+  doFromGroupNameImages(groupName: string, index: number, distinct: boolean = false) {
     if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
       throw new Error(`Invalid index : $ {index}`)
     }
     // add all transformed pcs
-    this.managerPageWBService.doGetTransformedPcs(groupName, index, distinct)
+    this.managerPageWBService.doMakeImageTransformedPcsFromGroupName(groupName, index, distinct)
     // deselect component source, because is it duplicate (present as pcs transformed)
     this.managerPageWBService.doToggleSelected(index)
   }
@@ -770,14 +770,14 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
       throw new Error(`Invalid index : $ {index}`)
     }
-    return this.managerPageWBService.doGetTransformedPcsFromPcs(this.pcsDtoList[index].pcs, 'Affine', true).length;
+    return this.managerPageWBService.doFromPcsGetImages(this.pcsDtoList[index].pcs, 'Affine', true).length;
   }
 
   howManyDistinctMusaicPcs(index: number): number {
     if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
       throw new Error(`Invalid index : $ {index}`)
     }
-    return this.managerPageWBService.doGetTransformedPcsFromPcs(this.pcsDtoList[index].pcs, 'Musaic', true).length;
+    return this.managerPageWBService.doFromPcsGetImages(this.pcsDtoList[index].pcs, 'Musaic', true).length;
   }
 
   doCut(index ?: number) {

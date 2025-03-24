@@ -2,7 +2,7 @@ import {GroupAction} from "../core/GroupAction";
 import {MusaicOperation} from "../core/MusaicOperation";
 
 export const GROUP_NAMES = ['Trivial', 'Cyclic', 'Dihedral', 'Affine', 'Musaic'] as const;
-export type TGroupeName = typeof GROUP_NAMES[number];
+export type TGroupName = typeof GROUP_NAMES[number];
 
 /**
  * with n = 12, there are 17 (16+1) possibles groups
@@ -119,7 +119,7 @@ export class ManagerGroupActionService {
     return ManagerGroupActionService.GROUP_ACTION_INSTANCES.get(groupName)
   }
 
-  static getGroupActionFromGroupAliasName(aliasName: TGroupeName) {
+  static getGroupActionFromGroupAliasName(aliasName: TGroupName) {
     const groupNameTuple = this.findGroupName(aliasName)
     if (groupNameTuple) {
       return this.getGroupActionFromGroupName(groupNameTuple.groupName)
