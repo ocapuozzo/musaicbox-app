@@ -2,7 +2,7 @@ import {EventEmitter, Injectable, Output, SecurityContext} from '@angular/core';
 import {TDrawerName, UIMusaic, UIPcsDto} from "../ui/UIPcsDto";
 import {ManagerLocalStorageService} from "./manager-local-storage.service";
 import {Point} from "../utils/Point";
-import {IPcs} from "../core/IPcs";
+import {IPcs, TDirection} from "../core/IPcs";
 import {HistoryT} from "../utils/HistoryT";
 import {DialogSaveAsFileNameService} from "./dialog-save-as-file-name.service";
 import {IDialogDataSaveToFile} from "../component/dialog-save-to-file/IDialogDataSaveToFile";
@@ -128,7 +128,7 @@ export class ManagerPageWBService {
     somePcs: IPcs[],
     circularAlign?: boolean,
     indexCenterElement?: number,
-    templateDto ?: UIPcsDto
+    templateDto?: UIPcsDto
   }) {
     circularAlign = circularAlign ?? false
     indexCenterElement = indexCenterElement ?? undefined
@@ -323,7 +323,7 @@ export class ManagerPageWBService {
   }
 
   doUpdateDrawer(drawer: TDrawerName, indexes: number[] = []) {
-    this.uiPcsDtoList = [...this.uiPcsDtoList]
+    const updatedThisUiPcsDtoList = [...this.uiPcsDtoList]
 
     if (indexes.length === 0) {
       indexes = this.orderedIndexesSelectedPcsDto
@@ -333,28 +333,37 @@ export class ManagerPageWBService {
     let newIndexFormDrawer = UIPcsDto.ALL_DRAWERS.get(drawer)
     if (newIndexFormDrawer === undefined) newIndexFormDrawer = 0
 
+    let updated = false
     indexes.forEach(index => {
       if (index < 0 || index >= this.uiPcsDtoList.length) {
         throw new Error("oops bad index : " + index)
       }
 
-      let pcsDto //= this.uiPcsDtoList[index]
-        = new UIPcsDto({...this.uiPcsDtoList[index]})
+      if (this.uiPcsDtoList[index].indexFormDrawer !== newIndexFormDrawer) {
+        updated = true
+        let pcsDto //= this.uiPcsDtoList[index]
+          = new UIPcsDto({...this.uiPcsDtoList[index]})
 
-      let barycenterBeforeChangeSize = this.getXYFromBarycenter(pcsDto)
-      // rem : pcsDto.width and height are polymorph
+        let barycenterBeforeChangeSize = this.getXYFromBarycenter(pcsDto)
+        // rem : pcsDto.width and height are polymorph
 
-      pcsDto.indexFormDrawer = newIndexFormDrawer
+        pcsDto.indexFormDrawer = newIndexFormDrawer
 
-      pcsDto.position = {
-        x: barycenterBeforeChangeSize.x - pcsDto.width / 2,
-        y: barycenterBeforeChangeSize.y - pcsDto.height / 2
+        pcsDto.position = {
+          x: barycenterBeforeChangeSize.x - pcsDto.width / 2,
+          y: barycenterBeforeChangeSize.y - pcsDto.height / 2
+        }
+        // this.uiPcsDtoList[index] = pcsDto
+        updatedThisUiPcsDtoList[index] = pcsDto
       }
-      this.uiPcsDtoList[index] = pcsDto
+
     })
 
-    this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
-    this.emit()
+   if (updated) {
+     this.uiPcsDtoList = updatedThisUiPcsDtoList
+     this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
+     this.emit()
+   }
   }
 
   doFinalPosition(finalMoveElements: FinalElementMove[]) {
@@ -511,7 +520,7 @@ export class ManagerPageWBService {
       this.uiPcsDtoList[index] = new UIPcsDto({
         ...pcsDto,
         showPcs: valueShowPcs,
-        showName : valueShowPcs && currentShowName ? false : currentShowName
+        showName: valueShowPcs && currentShowName ? false : currentShowName
       })
     })
 
@@ -1036,7 +1045,7 @@ export class ManagerPageWBService {
 
   private doUpdateFreeText(data: { index: number, text: string, fontSize: string }) {
     if (data.index < 0 || data.index >= this.uiPcsDtoList.length) {
-      throw new Error(`oops bad index :  ${data.index}  for ${this.uiPcsDtoList.length} elements.` )
+      throw new Error(`oops bad index :  ${data.index}  for ${this.uiPcsDtoList.length} elements.`)
     }
 
     this.uiPcsDtoList = [...this.uiPcsDtoList]
@@ -1069,17 +1078,23 @@ export class ManagerPageWBService {
     for (let i = 1; i < pcs.n; i++) {
       let nextPcs = pcs.transposition(i)
       // be careful with limited transposition
-      if ( ! pcsCyclicList.find((pcs) => pcs.id === nextPcs.id )) {
+      if (!pcsCyclicList.find((pcs) => pcs.id === nextPcs.id)) {
         pcsCyclicList.push(nextPcs)
       }
     }
 
     let pcsDtoForTemplate =
-      new UIPcsDto({...this.uiPcsDtoList[index],
-        uiClock : {...this.uiPcsDtoList[index].uiClock /*, drawPivot: false*/}
+      new UIPcsDto({
+        ...this.uiPcsDtoList[index],
+        uiClock: {...this.uiPcsDtoList[index].uiClock /*, drawPivot: false*/}
       })
     pcsDtoForTemplate.showPivot = false
-    this.addPcs({somePcs: pcsCyclicList, circularAlign: true, indexCenterElement: index, templateDto:pcsDtoForTemplate})
+    this.addPcs({
+      somePcs: pcsCyclicList,
+      circularAlign: true,
+      indexCenterElement: index,
+      templateDto: pcsDtoForTemplate
+    })
   }
 
   doMakeModeOrbit(index: number) {
@@ -1097,12 +1112,15 @@ export class ManagerPageWBService {
   doMakeComplement(index: number) {
     this.doMakeSetOperation('Complement')
   }
+
   doMakeIntersection() {
     this.doMakeSetOperation('Intersection')
   }
+
   doMakeUnion() {
     this.doMakeSetOperation('Union')
   }
+
   doMakeSymmetricDifference() {
     this.doMakeSetOperation('SymmetricDifference')
   }
@@ -1149,8 +1167,8 @@ export class ManagerPageWBService {
   }
 
 
-  doTranspose(k : number) {
-    this.doTransformAffine(1,k)
+  doTranspose(k: number) {
+    this.doTransformAffine(1, k)
   }
 
   doTransformAffine(a: number, k: number) {
@@ -1160,8 +1178,23 @@ export class ManagerPageWBService {
       if (index < 0 || index >= this.uiPcsDtoList.length) {
         throw new Error("oops bad index : " + index)
       }
-      let pcsDto= new UIPcsDto({...this.uiPcsDtoList[index]})
+      let pcsDto = new UIPcsDto({...this.uiPcsDtoList[index]})
       pcsDto.pcs = this.managerPcsService.doTransformAffine(pcsDto.pcs, a, k)
+      this.uiPcsDtoList[index] = pcsDto
+    })
+    this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
+    this.emit()
+  }
+
+  doChangePivot(d: TDirection) {
+    this.uiPcsDtoList = [...this.uiPcsDtoList]
+    let indexes = this.getSelectedPcsDtoIndexes()
+    indexes.forEach(index => {
+      if (index < 0 || index >= this.uiPcsDtoList.length) {
+        throw new Error("oops bad index : " + index)
+      }
+      let pcsDto = new UIPcsDto({...this.uiPcsDtoList[index]})
+      pcsDto.pcs = pcsDto.pcs.modulation(d)
       this.uiPcsDtoList[index] = pcsDto
     })
     this.pushPcsDtoListToHistoryAndSaveToLocalStorage()

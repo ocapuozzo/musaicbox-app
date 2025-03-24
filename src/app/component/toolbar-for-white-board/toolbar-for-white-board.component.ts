@@ -5,6 +5,7 @@ import {MatIcon} from "@angular/material/icon";
 import {ManagerPageWBService} from "../../service/manager-page-wb.service";
 import {ManagerToolbarService} from "../../service/manager-toolbar.service";
 import {MatTooltip} from "@angular/material/tooltip";
+import {TDirection} from "../../core/IPcs";
 
 @Component({
   selector: 'app-toolbar-for-white-board',
@@ -72,5 +73,9 @@ export class ToolbarForWhiteBoardComponent {
 
   doChangeViewAffine(a: number, k: number) {
     this.managerPageWBService.doTransformAffine(a,k)
+  }
+
+  doChangePivot(d:TDirection) {
+    this.managerPageWBService.doChangePivot(d)
   }
 }

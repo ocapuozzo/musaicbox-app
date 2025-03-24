@@ -57,6 +57,18 @@
           (click)="doChangeViewAffine(11, 0)">
     <span style="font-size: small;">M11</span>
   </button>
+  <button mat-icon-button matTooltip="Pivot-1"
+          class="button-toolbar"
+          [disabled]="numberSelectedComponents === 0"
+          (click)="doChangePivot('Previous')">
+    <span style="font-size: small; text-align: center;">Piv-1</span>
+  </button>
+  <button mat-icon-button matTooltip="Pivot+1"
+          class="button-toolbar"
+          [disabled]="numberSelectedComponents === 0"
+          (click)="doChangePivot('Next')">
+    <span style="font-size: small;">Piv+1</span>
+  </button>
 
   <span style="font-size:small; opacity: 0.4; margin-top: 0.1em; padding: 0.3em 0; line-height: 0.125;">-------</span>
 
@@ -74,7 +86,7 @@
           (click)="doChangeViewScore()"
           class="button-toolbar"
           style="margin-top: 0; text-align: center; vertical-align: middle;">
-    <span style="margin-left: 2px;"> &#x266C;</span>
+    <span style="margin-left: 1px;"> &#x266C;</span>
   </button>
   <button mat-icon-button matTooltip="Musaic"
           [disabled]="numberSelectedComponents === 0"
