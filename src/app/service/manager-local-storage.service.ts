@@ -63,18 +63,20 @@ export class ManagerLocalStorageService {
   makeSerialVersionPageWB(listPcsDto: UIPcsDto[]): UIPcsDto[] {
     let savListPcsDto: any[] = []
     listPcsDto.forEach(pcsDto => {
+      let serialPcs : ISerializedPcs =
+        {
+          strPcs: pcsDto.pcs.getPcsStr(),
+          n: pcsDto.pcs.n,
+          iPivot: pcsDto.pcs.iPivot,
+          nMapping: pcsDto.pcs.nMapping,
+          templateMappingVectorPcs: pcsDto.pcs.templateMappingVectorPcs,
+          groupName: pcsDto.pcs.isComingFromAnOrbit() ? pcsDto.pcs.orbit!.groupAction!.group.name : ''
+        }
       let obj = {
         ...pcsDto,
         pcs: null, // pcs is no directly serialized (object complex in relationship)
-        serializedPcs: {
-          pcsStr: pcsDto.pcs.getPcsStr(),
-          n :  pcsDto.pcs.n,
-          iPivot: pcsDto.pcs.iPivot,
-          nMapping: pcsDto.pcs.nMapping,
-          templateMappingBinPcs: pcsDto.pcs.templateMappingVectorPcs,
-          groupName: pcsDto.pcs.isComingFromAnOrbit() ? pcsDto.pcs.orbit!.groupAction!.group.name : ''
+        serializedPcs: serialPcs
         }
-      }
       savListPcsDto.push(obj)
     })
     return savListPcsDto
@@ -102,7 +104,7 @@ export class ManagerLocalStorageService {
         let pcs: IPcs
         // get info via serializedPcs property
         const serializedPcs: ISerializedPcs = {
-          strPcs: pcsSerialDto.serializedPcs.pcsStr,
+          strPcs: pcsSerialDto.serializedPcs.strPcs,
           iPivot: pcsSerialDto.serializedPcs.iPivot,
           n:pcsSerialDto.serializedPcs.n,
           nMapping: pcsSerialDto.serializedPcs.nMapping ?? 12,

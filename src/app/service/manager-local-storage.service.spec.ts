@@ -16,31 +16,31 @@ describe('ManagerLocalStorageService', () => {
 
   it ("serialized data with one PCS n=7 nMapping=12",  () => {
     const serialPcs = `
-      [
-        {
-          "pcs": null,
-          "colorPitchOn": "black",
-          "colorPitchOff": "white",
-          "id": "10231742837755386",
-          "freeText": {
-            "text": "[0 2 4 6]",
-            "width": 84,
+     [
+    {
+        "pcs": null,
+        "colorPitchOn": "black",
+        "colorPitchOff": "white",
+        "id": "5971742885687833",
+        "freeText": {
+            "text": "[0 2 5 9]",
+            "width": 48,
             "height": 22,
             "fontSize": "12px"
-          },
-          "position": {
-            "x": 75,
-            "y": 60
-          },
-          "indexFormDrawer": 1,
-          "isSelected": true,
-          "showName": false,
-          "showPcs": false,
-          "showPivot": true,
-          "octotrope": {
+        },
+        "position": {
+            "x": 111,
+            "y": 35
+        },
+        "indexFormDrawer": 1,
+        "isSelected": true,
+        "showName": true,
+        "showPcs": false,
+        "showPivot": true,
+        "octotrope": {
             "size": 50
-          },
-          "uiMusaic": {
+        },
+        "uiMusaic": {
             "rounded": false,
             "opaque": true,
             "nbCellsPerLine": 13,
@@ -48,8 +48,8 @@ describe('ManagerLocalStorageService', () => {
             "widthCell": 7,
             "width": 91,
             "height": 91
-          },
-          "uiClock": {
+        },
+        "uiClock": {
             "drawPolygon": false,
             "radiusPitch": 10,
             "textWidthAuto": true,
@@ -57,21 +57,29 @@ describe('ManagerLocalStorageService', () => {
             "colorPitchOn": "yellow",
             "width": 91,
             "height": 91
-          },
-          "uiScore": {
+        },
+        "uiScore": {
             "height": 76,
             "width": 130
-          },
-          "serializedPcs": {
-            "pcsStr": "[0 2 4 6]",
+        },
+        "serializedPcs": {
+            "strPcs": "[0 2 4 6]",
             "n": 7,
             "iPivot": 0,
             "nMapping": 12,
-            "templateMappingVectorPcs": [0,2,4,5,7,9,11],
+            "templateMappingVectorPcs": [
+                0,
+                2,
+                4,
+                5,
+                7,
+                9,
+                11
+            ],
             "groupName": ""
-          }
         }
-      ]`
+    }
+]`
      let x = 0
      const arrayUIPcsDto = service.getPcsDtoListFromJsonContent(serialPcs)
      expect(arrayUIPcsDto.length).toEqual(1)
