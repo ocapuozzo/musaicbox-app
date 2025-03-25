@@ -2100,7 +2100,6 @@ Although the affine function has replaced the usual affine functions in the proj
 ====
 
 
-
 // And yet, the AffineMivot function has taken the place of the usual Affine functions in the project... Obviously to be clarified...
 
 //
@@ -2141,6 +2140,41 @@ Although the affine function has replaced the usual affine functions in the proj
 // - stem:[(aa', -ap'(a + 1) + p(1-a) + ak' + k)]
 // - stem:[(35, -10(5 + 1) + (1-5) + 15 + 2)]
 // - stem:[(11, 1)] // modulo 12
+
+Examples of new transformation types :
+
+.Revisited operations of Musical Set Theory
+[%header,cols="^,^,^,^,^"]
+|===
+|Scale|M11-T0 (inversion) |M5-T0|M7-T0|Dim7 waiting as strongly invariant
+
+|image:pcs-0369-pivot0.png[]|image:pcs-0369-pivot0.png[]|image:pcs-0369-pivot0.png[]|image:pcs-0369-pivot0.png[]| #OK#
+ +
+ Cdim7
+
+|[0 3 6 9]|[0 3 6 9]|[0 3 6 9]|[0 3 6 9]| #OK#
+
+|image:pcs-14710-pivot1.png[]|image:pcs-14710-pivot1.png[]|image:pcs-14710-pivot1.png[]|image:pcs-14710-pivot1.png[]|{nbsp}
+ +
+ C#dim7
+
+|[1 4 7 10]|[1 4 7 10]|[1 4 7 10]|[1 4 7 10]| OK
++
+C#dim7 has same transformation types as Cdim7
+
+
+|image:pcs-CMaj-pivot0.png[]|image:pcs-CMaj-M11-pivot0.png[]|image:pcs-CMaj-M5-pivot0.png[]|image:pcs-CMaj-M7-pivot0.png[]| CMajor transformations
+
+|[0 2 4 5 7 9 11]|[0 1 3 5 7 8 10]|[0 1 7 8 9 10 11]|[0 1 2 3 4 5 11]|ok
+
+
+|image:pcs-DMajor-pivot2.png[]|image:pcsDMaj-M11-Pivot2.png[]|image:pcsDMaj-M5-Pivot2.png[]|image:pcsDMaj-M7-Pivot2.png[]| DMajor transformations
+
+|[1 2 4 6 7 9 11]|[0 2 3 5 7 9 10]|[0 1 2 3 9 10 11]|[1 2 3 4 5 6 7]| DMajor has same transformation types as CMajor
+
+
+|===
+
 
 
 TODO Suite...
