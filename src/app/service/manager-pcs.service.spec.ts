@@ -25,12 +25,20 @@ describe('ManagerPcsService', () => {
 
     // difference between service or not
     expect(managerPcsService.complement(ipcsMusaicPF).isComingFromAnOrbit()).toBeTrue()
-    expect(ipcsMusaicPF.complement().isComingFromAnOrbit()).toBeFalse()
+    expect(ipcsMusaicPF.complement().isComingFromAnOrbit()).toBeTrue()
 
     // when pcs is not coming from orbit, then stay with this state after complement
     expect(managerPcsService.complement(ipcsWithNoOrbit).isComingFromAnOrbit()).toBeFalse()
 
   });
+
+  it('complement under pcs mapped', () => {
+    const cmaj7Mapped = new IPcs({strPcs: "0, 2, 4, 6", n:7, nMapping:12, templateMappingVectorPcs:[0,2,4,5,7,9,11], iPivot: 0})
+    expect(cmaj7Mapped.n).toEqual(7)
+    expect(cmaj7Mapped.vectorPcs).toEqual([1,0,1,0,1,0,1])
+    expect(cmaj7Mapped.complement().vectorPcs).toEqual(cmaj7Mapped.vectorPcs.map(pc => pc === 1 ? 0 : 1))
+  })
+
 
   it('doTransformeAffine', () => {
     const pcs = new IPcs({strPcs: "0, 1, 11", iPivot: 0})
@@ -41,8 +49,8 @@ describe('ManagerPcsService', () => {
   it('transformeByMxT0', () => {
     const pcs = new IPcs({strPcs: "0, 4, 7, 11", iPivot: 0})
     const pcsTime5 = new IPcs({strPcs: "0, 8, 11, 7", iPivot: 0})
-    expect(managerPcsService.transformeByMxT0(pcs, 1).id).toEqual(pcs.id)
-    expect(managerPcsService.transformeByMxT0(pcs, 5).id).toEqual(pcsTime5.id)
+    expect(managerPcsService.transformByMxT0(pcs, 1).id).toEqual(pcs.id)
+    expect(managerPcsService.transformByMxT0(pcs, 5).id).toEqual(pcsTime5.id)
   });
 
   it('translateByM1Tx', () => {

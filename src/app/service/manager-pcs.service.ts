@@ -11,7 +11,7 @@ export class ManagerPcsService {
   constructor() {
   }
 
-  transformeByMxT0(pcs: IPcs, a: number): IPcs {
+  transformByMxT0(pcs: IPcs, a: number): IPcs {
     return this.doTransformAffine(pcs, a, 0)
   }
 
@@ -20,13 +20,7 @@ export class ManagerPcsService {
   }
 
   complement(pcs: IPcs): IPcs {
-    const newPivot = pcs.getPivotAxialSymmetryForComplement()
-
-    let newPcs = pcs.complement()
-    if (pcs.orbit?.groupAction) {
-      newPcs = pcs.orbit.groupAction.getIPcsInOrbit(newPcs)
-    }
-    return newPcs.cloneWithNewPivot(newPivot)
+    return  pcs.complement()
   }
 
   /**

@@ -299,13 +299,23 @@ export class MusaicOperation {
     // if there is a transposition, then the pivot follows it.
     let newPivot = negativeToPositiveModulo(((pcs.iPivot ?? 0) + t), pcs.vectorPcs.length)
 
-    return new IPcs({
+    let pcsPermuted = new IPcs({
       vectorPcs: this.getVectorPcsPermuted(a, t, newPivot, pcs.vectorPcs),
       iPivot: newPivot,
-      orbit: new Orbit(), // TODO ? basic PCS operation, not coming from orbit // manager do this ? or to do here ?
+      orbit: new Orbit(),
       templateMappingVectorPcs: pcs.templateMappingVectorPcs,
       nMapping: pcs.nMapping
     })
+
+    if (pcs.isConstructionComplete) {
+      if (pcs.orbit?.groupAction) {
+        pcsPermuted = pcs.orbit.groupAction.getIPcsInOrbit(pcsPermuted)
+        if (pcsPermuted.iPivot !== newPivot) {
+          pcsPermuted = pcsPermuted.cloneWithNewPivot(newPivot)
+        }
+      }
+    }
+    return pcsPermuted
   }
 
   /**
@@ -389,4 +399,27 @@ export class MusaicOperation {
     return vectorPcsPermuted
   }
 
+  static complement(pcs: IPcs) {
+
+    let binCplt: number[] = pcs.vectorPcs.map(pc => (pc === 1 ? 0 : 1)) //;slice() and inverse 0/1
+
+    const newPivot = pcs.getPivotAxialSymmetryForComplement()
+
+    let pcsComplement = new IPcs({
+      vectorPcs: binCplt,
+      iPivot: newPivot, // new_iPivot,
+      orbit: new Orbit(), // as new pcs, here we don't know its orbit (see note below)
+      templateMappingVectorPcs: pcs.templateMappingVectorPcs,
+      nMapping: pcs.nMapping
+    })
+    if (pcs.isConstructionComplete) {
+      if (pcs.orbit?.groupAction) {
+        pcsComplement = pcs.orbit.groupAction.getIPcsInOrbit(pcsComplement)
+        if (pcsComplement.iPivot !== newPivot) {
+          pcsComplement = pcsComplement.cloneWithNewPivot(newPivot)
+        }
+      }
+    }
+    return pcsComplement
+  }
 }

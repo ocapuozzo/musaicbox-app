@@ -30,13 +30,13 @@ describe('test getFirstScaleName from 2048pcs.json', () => {
     const isDict = new Map<string, string>()
     // from 4096 to 2048
     for (let pcs of groupCyclic.powerset.values()) {
-      if (pcs.is().toString())
+      if (pcs.is().toString() !== '')
         if (!isDict.has(pcs.is().toString())) {
           isDict.set(pcs.is().toString(), pcs.getPcsStr())
         }
     }
 
-    expect(isDict.size).toEqual(2048) // +1 for empty pcs
+    expect(isDict.size).toEqual(2048) // -1 for empty pcs
 
     // from 4096 no cyclic equiv : 24318 (some says 24576 but is not because Limited Transposition)
     // expect(allDict.size).toEqual(24318)
@@ -57,7 +57,7 @@ describe('test getFirstScaleName from 2048pcs.json', () => {
 
     expect(array[42].id88).toEqual(28)
 
-    expect(array.length).toEqual(2048)
+    expect(array.length).toEqual(2048) // empty pcs not in scales list
     // console.log(JSON.stringify(array))
     // console.log(JSON.stringify(array.length))
   })

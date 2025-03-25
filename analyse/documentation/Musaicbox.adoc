@@ -2141,7 +2141,7 @@ Although the affine function has replaced the usual affine functions in the proj
 // - stem:[(35, -10(5 + 1) + (1-5) + 15 + 2)]
 // - stem:[(11, 1)] // modulo 12
 
-Examples of new transformation types :
+Examples of new transformations taking into account the pivot :
 
 .Revisited operations of Musical Set Theory
 [%header,cols="^,^,^,^,^"]
@@ -2149,6 +2149,7 @@ Examples of new transformation types :
 |Scale|M11-T0 (inversion) |M5-T0|M7-T0|Dim7 waiting as strongly invariant
 
 |image:pcs-0369-pivot0.png[]|image:pcs-0369-pivot0.png[]|image:pcs-0369-pivot0.png[]|image:pcs-0369-pivot0.png[]| #OK#
+ +
  +
  Cdim7
 
@@ -2172,9 +2173,7 @@ C#dim7 has same transformation types as Cdim7
 
 |[1 2 4 6 7 9 11]|[0 2 3 5 7 9 10]|[0 1 2 3 9 10 11]|[1 2 3 4 5 6 7]| DMajor has same transformation types as CMajor
 
-
 |===
-
 
 
 TODO Suite...

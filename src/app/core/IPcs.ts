@@ -48,7 +48,7 @@ import {MusaicOperation} from "./MusaicOperation";
 import {ArrayUtil} from "../utils/ArrayUtil";
 import {ManagerGroupActionService} from "../service/manager-group-action.service";
 import {PcsUtils} from "../utils/PcsUtils";
-import {ManagerPcsService} from "../service/manager-pcs.service";
+import {MetaStabilizer} from "./MetaStabilizer";
 
 export const negativeToPositiveModulo = (i: number, n: number): number => {
   return (n - ((i * -1) % n)) % n
@@ -407,15 +407,19 @@ export class IPcs {
     // get pivot that max symmetry -T0 for pcsSymmetry, from ops M5-T0, M7-T0, M11-T0 and cplt
     const pivotBestSymmetry = PcsUtils.getPivotBestSymmetryInT0(pcsSymmetry) ?? pcsSymmetry.iPivot
 
-    if (this.isComingFromAnOrbit()) {
-      pcsSymmetry = ManagerPcsService.makeNewInstanceOf(pcsSymmetry, this.orbit.groupAction!, pivotBestSymmetry === undefined ?  pcsSymmetry.iPivot : pivotBestSymmetry)
-      // pcsSymmetry = ManagerPcsService.makeNewInstanceOf(pcsSymmetry, this.orbit.groupAction!, pcsSymmetry.iPivot)
-    } else {
-      pcsSymmetry = pcsSymmetry.cloneDetached()
-      if (pivotBestSymmetry) {
-        pcsSymmetry = pcsSymmetry.cloneWithNewPivot(pivotBestSymmetry)
-      }
-    }
+
+    pcsSymmetry = pcsSymmetry.cloneWithNewPivot(pivotBestSymmetry === undefined ?  pcsSymmetry.iPivot : pivotBestSymmetry)
+
+    //
+    // if (this.isComingFromAnOrbit()) {
+    //   pcsSymmetry = ManagerPcsService.makeNewInstanceOf(pcsSymmetry, this.orbit.groupAction!, pivotBestSymmetry === undefined ?  pcsSymmetry.iPivot : pivotBestSymmetry)
+    //   // pcsSymmetry = ManagerPcsService.makeNewInstanceOf(pcsSymmetry, this.orbit.groupAction!, pcsSymmetry.iPivot)
+    // } else {
+    //   pcsSymmetry = pcsSymmetry.cloneDetached()
+    //   if (pivotBestSymmetry) {
+    //     pcsSymmetry = pcsSymmetry.cloneWithNewPivot(pivotBestSymmetry)
+    //   }
+    // }
     return pcsSymmetry
   }
 
@@ -750,46 +754,7 @@ export class IPcs {
    *
    */
   complement(): IPcs {
-    let binCplt: number[] = this.vectorPcs.map(pc => (pc === 1 ? 0 : 1)) //;slice() and inverse 0/1
-    let new_iPivot = undefined
-    let actual_iPivot = this.iPivot ?? 0
-    let n = binCplt.length
-    // iPivot is lost by complement... set a new iPivot of complement
-    // opposite is a good candidate when n is even
-    if (/*actualiPivot === undefined &&*/ binCplt[0] === 1) {
-      new_iPivot = 0
-    } else if ((n % 2) === 0 && binCplt[(actual_iPivot + n / 2) % n] === 1) {
-      // on symmetry axe
-      new_iPivot = (actual_iPivot + n / 2) % n
-    } else {
-      // TODO best strategy to find new iPivot
-      // here the first in right circular search
-      if (binCplt[0] === 1) {
-        new_iPivot = 0
-      } else {
-        for (let i = actual_iPivot + 1; i < actual_iPivot + n; i++) {
-          if (binCplt[i % n] === 1) {
-            new_iPivot = i % n
-            break
-          }
-        }
-      }
-    }
-
-    // Note :  if this come from a group action (not in orbit) then newIpcsComplement already exists in
-    // an orbit of this.orbit.groupAction, and its orbit is not empty.
-    // @see ManagerPcsService.ts complement method
-    // Discussion : is a good idea to make the job of ManagerPcsService here ?
-    // hum... no, risk of side effect when construct group action ?
-    // if not then we do same job with other transformation operations.
-    return new IPcs({
-      vectorPcs: binCplt,
-      iPivot: new_iPivot,
-      orbit: new Orbit(), // as new pcs, here we don't know its orbit (see note below)
-      templateMappingVectorPcs: this.templateMappingVectorPcs,
-      nMapping: this.nMapping
-    })
-
+    return MusaicOperation.complement(this)
   }
 
   toString() {
@@ -1139,7 +1104,7 @@ export class IPcs {
   isLimitedTransformation() {
     // implementation limited for n === 12
     // TODO : generalize this method !!!
-    const group = this.orbit?.groupAction?.group
+    // const group = this.orbit?.groupAction?.group
     // ManagerGroupActionService.getGroupActionFromGroupAliasName("Musaic"))
     return this.n === 12 && this.musaicPrimeForm().orbit.cardinal < this.n * 8;
   }
@@ -1197,7 +1162,8 @@ export class IPcs {
       return undefined
     }
 
-    let newPivot = (pivot + this.n/2) % this.n
+    // be careful with odd n (Math.floor)
+    let newPivot = (pivot + Math.floor(this.n/2)) % this.n
     let ok = this.vectorPcs[newPivot] === 0
 
     let delta = 0
@@ -1461,4 +1427,13 @@ export class IPcs {
   getMappedVersion() {
     return new IPcs({vectorPcs: this.getMappedVectorPcs()});
   }
+
+  /**
+   * It is true when constructor of groupAction is done (orbit create by constructor of GroupAction)
+   * As a marker for indicate end of construction, so pcs can works with orbit (@see complement())
+   */
+  get isConstructionComplete() {
+    return this.orbit.metaStabilizer !== MetaStabilizer.nullMetaStabilizer // default value of metaStabilizer
+  }
+
 }

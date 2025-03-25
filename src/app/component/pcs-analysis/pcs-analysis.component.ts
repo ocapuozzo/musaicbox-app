@@ -72,22 +72,22 @@ export class PcsAnalysisComponent {
 
   doPushOrbitCyclicPF(pcs: IPcs) {
     if (pcs.n === 12) {
-      const cyclicGroup = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")
-      this.managerPagePcsService.replaceBy(cyclicGroup!.getIPcsInOrbit(pcs))
+      const cyclicGroup = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!
+      this.managerPagePcsService.replaceBy(cyclicGroup.getIPcsInOrbit(pcs))
     }
   }
 
   doPushOrbitDihedralPF(pcs: IPcs) {
     if (pcs.n === 12) {
-      const dGroup = ManagerGroupActionService.getGroupActionFromGroupAliasName("Dihedral")
-      this.managerPagePcsService.replaceBy(dGroup!.getIPcsInOrbit(pcs))
+      const dGroup = ManagerGroupActionService.getGroupActionFromGroupAliasName("Dihedral")!
+      this.managerPagePcsService.replaceBy(dGroup.getIPcsInOrbit(pcs))
     }
   }
 
   doPushOrbitAffinePF(pcs: IPcs) {
     if (pcs.n === 12) {
-      const afGroup = ManagerGroupActionService.getGroupActionFromGroupAliasName("Affine")
-      this.managerPagePcsService.replaceBy(afGroup!.getIPcsInOrbit(pcs))
+      const afGroup = ManagerGroupActionService.getGroupActionFromGroupAliasName("Affine")!
+      this.managerPagePcsService.replaceBy(afGroup.getIPcsInOrbit(pcs))
     }
   }
 

@@ -370,7 +370,7 @@ describe('IPcs unit tests', () => {
     let ipcsFromGroupActionNotPF: IPcs = groupAction.getIPcsInOrbit(ipcsNotPF)
     expect(ipcsFromGroupActionNotPF.isComingFromAnOrbit()).toBeTrue()
     let ipcsPF = new IPcs({strPcs: "0, 3, 6, 9", iPivot: 0})
-    expect(ipcsFromGroupActionNotPF.cyclicPrimeForm()).toEqual(groupAction.getIPcsInOrbit(ipcsPF))
+    expect(ipcsFromGroupActionNotPF.cyclicPrimeForm().id).toEqual(groupAction.getIPcsInOrbit(ipcsPF).id)
   })
 
   it("IPcs dihedralPrimeForm example Maj -> Min", () => {
@@ -412,7 +412,7 @@ describe('IPcs unit tests', () => {
     const ipcsWithOrbit = primeForm.transposition(1)
 
     // only ManagerPcsService manage state orbit
-    expect(ipcsWithOrbit.isComingFromAnOrbit()).toBeFalse()
+    expect(ipcsWithOrbit.isComingFromAnOrbit()).toBeTrue()
 
     expect(primeForm).toEqual(ipcsWithOrbit.musaicPrimeForm())
   });
@@ -516,7 +516,7 @@ describe('IPcs unit tests', () => {
     let empty = new IPcs({strPcs: ""})
     expect(empty.iPivot).toEqual(undefined)
     expect(empty.symmetryPrimeForm().iPivot).toEqual(undefined)
-    expect(empty.symmetryPrimeForm()).toEqual(empty)
+    expect(empty.symmetryPrimeForm().id).toEqual(empty.id)
 
     const pcsInMusicGroup = ManagerGroupActionService.getGroupActionFromGroupAliasName('Musaic')?.getIPcsInOrbit(diatMaj)!
     expect(pcsInMusicGroup.isComingFromAnOrbit()).toBeTrue()
@@ -800,7 +800,7 @@ describe('IPcs unit tests', () => {
     expect(ipcsWithoutOrbit.complement().isComingFromAnOrbit()).toBeFalse()
 
     // only ManagerPcsService manage state orbit
-    expect(ipcsWithOrbit.complement().isComingFromAnOrbit()).toBeFalse()
+    expect(ipcsWithOrbit.complement().isComingFromAnOrbit()).toBeTrue()
   })
 
   it("equals with same pivot", () => {

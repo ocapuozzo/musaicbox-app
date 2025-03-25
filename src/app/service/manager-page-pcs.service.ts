@@ -27,7 +27,7 @@ export class ManagerPagePcsService {
   }
 
   transformeByMxT0(x: number) {
-    this.pcs = this.managerPcsService.transformeByMxT0(this.pcs, x)
+    this.pcs = this.managerPcsService.transformByMxT0(this.pcs, x)
     this.setPcsAsPresentToHistoryAndEmit();
   }
 

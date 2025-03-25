@@ -132,7 +132,7 @@ describe('Laboratory explorer', () => {
         mapIs.set(pcsIs, [pcs])
       }
     }
-    expect(mapIs.size).toEqual(groupCyclic.powerset.size / 2 + 1) // 2048+1, empty matter 1 ??
+    expect(mapIs.size).toEqual(groupCyclic.powerset.size / 2 +1) // 2048 empty matter 1 ??
 
     let arrayCard = Array(13).fill(0)
 
@@ -380,8 +380,8 @@ describe('Laboratory explorer', () => {
 */
 
 
-  /* test dynamic mutable
-
+  /* test dynamic mutable */
+/*
   type TNoMutable<T> = {
     readonly [k in keyof T]: T[k];
   };
@@ -398,9 +398,11 @@ describe('Laboratory explorer', () => {
     let pcs : IPcs = new IPcs({strPcs:"0,2,4,5,7,9,11"})
     pcs.iPivot = 0
     const majScale : TNoMutable<IPcs> = pcs
-    // majScale.iPivot = 1 // ok, no possible
-    console.log(majScale.getPcsStr())
-    // let pcs2 = pcs as TNoMutable<IPcs>
+    //majScale.iPivot = 1 // ok, no possible
+    // majScale.vectorPcs = [0] // impossible
+    majScale.vectorPcs[0] = 42 // possible
+    // console.log(majScale.getPcsStr())
+    let pcs2 = pcs as TNoMutable<IPcs>
     // let pcs2 = readonly pcs // no possible
     // pcs2.iPivot = 2
   })
