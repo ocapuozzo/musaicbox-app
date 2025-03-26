@@ -20,7 +20,15 @@ export class ManagerPcsService {
   }
 
   complement(pcs: IPcs): IPcs {
-    return  pcs.complement()
+    let pcsComplement =   pcs.complement()
+    const pivot = pcsComplement.iPivot
+    if (pcs.orbit?.groupAction) {
+      pcsComplement = pcs.orbit.groupAction.getIPcsInOrbit(pcsComplement)
+      if (pcsComplement.iPivot !== pivot) {
+        pcsComplement = pcsComplement.cloneWithNewPivot(pivot)
+      }
+    }
+    return pcsComplement
   }
 
   /**
@@ -46,7 +54,7 @@ export class ManagerPcsService {
   toggleIndex(pcs: IPcs, index: number): IPcs {
     let newPcs = pcs.toggleIndexPC(index)
     if (pcs.orbit?.groupAction) {
-      newPcs = ManagerPcsService.makeNewInstanceOf(newPcs, pcs.orbit?.groupAction, newPcs.getPivot());
+      newPcs = ManagerPcsService.getOrMakeInstanceFromOrbitOfGroupActionOf(newPcs, pcs.orbit?.groupAction, newPcs.getPivot());
     }
     return newPcs
   }
@@ -61,12 +69,15 @@ export class ManagerPcsService {
 
   doTransformAffine(pcs: IPcs, a: number, t: number): IPcs {
     // let newPcs = pcs.affineOp(a, t)
-    let newPcs = MusaicOperation.affineOp(pcs, a, t)
-    const savPivot = newPcs.getPivot()
+    let pcsPermuted = MusaicOperation.affineOp(pcs, a, t)
+    const pivot = pcsPermuted.iPivot
     if (pcs.orbit?.groupAction) {
-      newPcs = ManagerPcsService.makeNewInstanceOf(newPcs, pcs.orbit.groupAction, savPivot);
-    }
-    return newPcs
+          pcsPermuted = pcs.orbit.groupAction.getIPcsInOrbit(pcsPermuted)
+          if (pcsPermuted.iPivot !== pivot) {
+            pcsPermuted = pcsPermuted.cloneWithNewPivot(pivot)
+          }
+        }
+    return pcsPermuted
   }
 
   symmetry(pcs: IPcs): IPcs {
@@ -121,7 +132,7 @@ export class ManagerPcsService {
       if (pcs.isComingFromAnOrbit()) {
         const cpf = pcs.cyclicPrimeForm()
         // get cyclic prime form in its orbit
-        pcsSymmetry = ManagerPcsService.makeNewInstanceOf(cpf, pcs.orbit.groupAction!, cpf.iPivot)
+        pcsSymmetry = ManagerPcsService.getOrMakeInstanceFromOrbitOfGroupActionOf(cpf, pcs.orbit.groupAction!, cpf.iPivot)
       } else {
         const cpf = pcs.cyclicPrimeForm()
         // cyclic prim detached of group action
@@ -133,13 +144,13 @@ export class ManagerPcsService {
 
 
   /**
-   * Build instance of IPcs from pcs and group action (king of clone, with pivot may be changed)
+   * Get instance of IPcs from pcs given and group action (if pivot not same as pcs given, make a new instance)
    * @param pcs to find image in action group
    * @param groupAction where to find pcs (for cloning or not)
    * @param newPivot
    * @private
    */
-  public static makeNewInstanceOf(pcs: IPcs, groupAction: GroupAction, newPivot ?: number) {
+  public static getOrMakeInstanceFromOrbitOfGroupActionOf(pcs: IPcs, groupAction: GroupAction, newPivot ?: number) {
     let newPcsInOrbit = groupAction.getIPcsInOrbit(pcs)
 
     const theNewPivot = newPivot === undefined ? pcs.iPivot : newPivot

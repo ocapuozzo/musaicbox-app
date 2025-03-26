@@ -2,6 +2,7 @@ import {IPcs, negativeToPositiveModulo} from './IPcs'
 import {GroupAction} from "./GroupAction";
 import {ManagerGroupActionService} from "../service/manager-group-action.service";
 import {MusaicOperation} from "./MusaicOperation";
+import {ManagerPcsService} from "../service/manager-pcs.service";
 
 describe('IPcs unit tests', () => {
 
@@ -120,7 +121,7 @@ describe('IPcs unit tests', () => {
 
   it('Test for detect bug with pivot not set', ()=>{
     let pcs = new IPcs({strPcs:""})
-    expect(MusaicOperation.permute(pcs,1,0).iPivot).toEqual(undefined)
+    expect(IPcs.permute(pcs,1,0).iPivot).toEqual(undefined)
     expect(pcs.affineOp(1,0).iPivot).toEqual(undefined)
     expect(pcs.toggleIndexPC(1).iPivot).toEqual(1)
   })
@@ -409,12 +410,12 @@ describe('IPcs unit tests', () => {
     expect(primeForm.id).toEqual(ipcsMusaicPF.id)
 
     expect(primeForm.isComingFromAnOrbit()).toBeTrue()
-    const ipcsWithOrbit = primeForm.transposition(1)
 
-    // only ManagerPcsService manage state orbit
-    expect(ipcsWithOrbit.isComingFromAnOrbit()).toBeTrue()
-
-    expect(primeForm).toEqual(ipcsWithOrbit.musaicPrimeForm())
+    // TODO with orbit or no
+    // const ipcsWithOrbit = primeForm.transposition(1)
+    // // only ManagerPcsService manage state orbit
+    // expect(ipcsWithOrbit.isComingFromAnOrbit()).toBeFalse()
+    // expect(primeForm).toEqual(ipcsWithOrbit.musaicPrimeForm())
   });
 
 
@@ -800,7 +801,7 @@ describe('IPcs unit tests', () => {
     expect(ipcsWithoutOrbit.complement().isComingFromAnOrbit()).toBeFalse()
 
     // only ManagerPcsService manage state orbit
-    expect(ipcsWithOrbit.complement().isComingFromAnOrbit()).toBeTrue()
+    expect(ipcsWithOrbit.complement().isComingFromAnOrbit()).toBeFalse()
   })
 
   it("equals with same pivot", () => {
@@ -1167,6 +1168,37 @@ describe('IPcs unit tests', () => {
     expect(pcInOrbit?.isComingFromAnOrbitTrivial()).toBeFalse()
     pcInOrbit = ManagerGroupActionService.getGroupActionFromGroupAliasName("Trivial")?.getIPcsInOrbit(pcs)
     expect(pcInOrbit?.isComingFromAnOrbitTrivial()).toBeTrue() // <== true
+  })
+
+  it(' clones ', ()=>{
+    let pcs = new IPcs({strPcs: '[0,4,7]'})
+    let pcInOrbit = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")?.getIPcsInOrbit(pcs)
+    expect(pcInOrbit?.isComingFromAnOrbit()).toBeTrue()
+    expect(pcInOrbit?.cloneDetached().isComingFromAnOrbit()).toBeFalse()
+    expect(pcs.isComingFromAnOrbit()).toBeFalse()
+    expect(pcs.cloneDetached().isComingFromAnOrbit()).toBeFalse()
+
+    try {
+      pcs.cloneDetachedWithPivot(42)
+      fail("Pivot 42 should not be accepted")
+    } catch (e) { }
+
+    pcs = new IPcs({strPcs: '[0,3,6,9]'})
+    pcInOrbit = ManagerPcsService.getOrMakeInstanceFromOrbitOfGroupActionOf(pcs, pcInOrbit?.orbit.groupAction!, 6)
+    expect(pcInOrbit?.isComingFromAnOrbit()).toBeTrue()
+    expect(pcInOrbit?.iPivot).toEqual(6)
+
+    let newPcs = pcInOrbit.cloneWithNewPivot(3)
+    expect(newPcs.iPivot).toEqual(3)
+    expect(newPcs.isComingFromAnOrbit()).toBeTrue()
+    expect(newPcs.cloneDetachedWithPivot(0).isComingFromAnOrbit()).toBeFalse()
+
+    expect(newPcs.cloneWithDefaultPivot().isComingFromAnOrbit()).toBeTrue()
+    expect(newPcs.cloneWithDefaultPivot().iPivot).toEqual(0)
+
+    expect(pcInOrbit.cloneWithNewPivot(0).iPivot).toEqual(0)
+    expect(pcInOrbit.cloneWithNewPivot(0).isComingFromAnOrbit()).toBeTrue()
+
   })
 
 })

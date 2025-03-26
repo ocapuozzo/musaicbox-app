@@ -18,7 +18,7 @@ export class HtmlUtil {
             behavior: "smooth",
             block: "start",
             inline: "nearest"
-          })
+          }), 500
         )
       }
     }

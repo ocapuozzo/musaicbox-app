@@ -25,10 +25,12 @@ export class MetaStabilizer {
    */
   constructor(name : string) {
     this.name = name;
-    if (name.includes(","))
-      this.metaStabOperations = this.name.split(",").map(op=> op.trim());
-    else
-      this.metaStabOperations = this.name.split(" ").map(op=> op.trim());
+    // if (name.includes(","))
+    //   this.metaStabOperations = this.name.split(",").map(op=> op.trim());
+    // else
+    //   this.metaStabOperations = this.name.split(" ").map(op=> op.trim());
+    //
+    this.metaStabOperations = this.name.split(/[ ,]+/).map(op=> op.trim());
 
     this._hashCode = StringHash.stringHashCode(this.name)
   }

@@ -10,8 +10,7 @@
 
 
 import {StringHash} from "../utils/StringHash";
-import {IPcs, negativeToPositiveModulo} from "./IPcs";
-import {Orbit} from "./Orbit";
+import {IPcs} from "./IPcs";
 
 /**
  * musaic operation group : c . ((ax + t) modulo n)
@@ -128,10 +127,6 @@ export class MusaicOperation {
       this.complement !== other.complement // logical xor
     )
   }
-
-
-
-
 
   /**
    * action on a IPcs is define by
@@ -278,45 +273,7 @@ export class MusaicOperation {
     return resultOperations
   }
 
-  /**
-   * general transformation : affine operation ax + t
-   * general idea (composition of affine operations):
-   *  1/ translate :        1 + -iPivot
-   *  2/ affine operation : ax + t
-   *  3/ translate :        1 + iPivot
-   *  so : ax + ( -(a-1) * iPivot + t ) (for each pc in pcs)
-   * @param pcs
-   * @param  a : number   {number}
-   * @param  t : number   [0..11]
-   * @return IPcs
-   */
-  static permute(pcs: IPcs, a: number, t: number): IPcs {
-    if (pcs.cardinal === 0) {
-      // empty set pcs, no change
-      return pcs
-    }
-
-    // if there is a transposition, then the pivot follows it.
-    let newPivot = negativeToPositiveModulo(((pcs.iPivot ?? 0) + t), pcs.vectorPcs.length)
-
-    let pcsPermuted = new IPcs({
-      vectorPcs: this.getVectorPcsPermuted(a, t, newPivot, pcs.vectorPcs),
-      iPivot: newPivot,
-      orbit: new Orbit(),
-      templateMappingVectorPcs: pcs.templateMappingVectorPcs,
-      nMapping: pcs.nMapping
-    })
-
-    if (pcs.isConstructionComplete) {
-      if (pcs.orbit?.groupAction) {
-        pcsPermuted = pcs.orbit.groupAction.getIPcsInOrbit(pcsPermuted)
-        if (pcsPermuted.iPivot !== newPivot) {
-          pcsPermuted = pcsPermuted.cloneWithNewPivot(newPivot)
-        }
-      }
-    }
-    return pcsPermuted
-  }
+  //
 
   /**
    * Transformation affine of this
@@ -326,7 +283,15 @@ export class MusaicOperation {
    * @returns {IPcs}
    */
   static affineOp(pcs: IPcs, a: number, t: number): IPcs {
-    return this.permute(pcs, a, t)
+    let pcsPermuted =  IPcs.permute(pcs, a, t)
+    const pivot = pcsPermuted.iPivot
+      if (pcs.orbit?.groupAction) {
+        pcsPermuted = pcs.orbit.groupAction.getIPcsInOrbit(pcsPermuted)
+        if (pcsPermuted.iPivot !== pivot) {
+          pcsPermuted = pcsPermuted.cloneWithNewPivot(pivot)
+        }
+      }
+    return pcsPermuted
   }
 
   /**
@@ -336,90 +301,31 @@ export class MusaicOperation {
    * @returns {IPcs}
    */
   static transposition(pcs: IPcs, t: number): IPcs {
-    return this.permute(pcs, 1, t)
+    return this.affineOp(pcs, 1, t)
   }
 
-
-  /**
-   * general transformation from affine operation ax + t, but fixed on pivot (see "fixed zero problem" in doc)
-   * Version by permutation.
-   * general idea (composition of basic affine operations):
-   *  1/ translate :        - pivot
-   *  2/ affine operation : ax + t
-   *  3/ translate :        + pivot
-   *  so : ax + ( -(a-1) * pivot + t )
-   *  so : ax + pivot * (1 - a) + t
-   *
-   * @see analysis/documentation : affPivot function
-   *
-   * @param  a : number
-   * @param  t : number  [0..this.n[
-   * @param pivot : number [0..this.n[
-   * @param vectorPcs : number[] array of int
-   * @return {number[]}
-   */
-  static getVectorPcsPermuted(a: number, t: number, pivot: number, vectorPcs: number[]): number[] {
-    let vectorPcsPermuted = vectorPcs.slice()
-    const n = vectorPcs.length
-    let j
-    for (let i = 0; i < n; i++) {
-      // focus on algebra expression affine extend with manage pivot  : ax + pivot(1 - a) + k)
-      // ax + pivot(1 - a) + k)
-      // = ax + pivot(1 - a) + t
-      // = a*x - a*pivot + pivot  + t
-      // a * (x - pivot) + pivot  + t // <= 1 multiplication 1 subtraction 2 add : best implementation
-      //
-      // Let's take an example :
-      //
-      // array-in :  [...,    c, d,  e,  f,  g,  h  ,....]
-      //              0,1,... 8, 9, 10, 11, 12, 13, ...
-      //                             ^
-      //  Example : array-in[10] == "e"
-      //
-      //  if t = +2, array-out[10] becomes "c"
-      //
-      // array-out :  [...,           c,  d,  e,  f,  g,  h,....]
-      //               0,1,... 8,  9, 10, 11, 12, 13, ...
-      //                               ^
-      //  if t = +2,  element "e" at index 10 becomes "c" (index of c = index of e - t)
-      //                                                                           ^
-      // this is why, in permutation act, plus t became minus t at end of expression : [...] + t)  =>  [...] - t)
-      //
-      // j =  a (x - pivot) + pivot + t
-      //
-      // (below i = x,  where index and pitch class are "merged" :))
-      //   @see whats_wrong_with_operations in documentation
-
-       j = (n + (a * ( i - pivot) + pivot - t) % n) % n
-
-      // first j modulo n may be negative... so twice modulo : (n + ( j modulo n )) modulo n
-      // @see https://stackoverflow.com/questions/4467539/javascript-modulo-gives-a-negative-result-for-negative-numbers
-      vectorPcsPermuted[i] = vectorPcs[j]
-    }
-    return vectorPcsPermuted
-  }
-
-  static complement(pcs: IPcs) {
-
-    let binCplt: number[] = pcs.vectorPcs.map(pc => (pc === 1 ? 0 : 1)) //;slice() and inverse 0/1
-
-    const newPivot = pcs.getPivotAxialSymmetryForComplement()
-
-    let pcsComplement = new IPcs({
-      vectorPcs: binCplt,
-      iPivot: newPivot, // new_iPivot,
-      orbit: new Orbit(), // as new pcs, here we don't know its orbit (see note below)
-      templateMappingVectorPcs: pcs.templateMappingVectorPcs,
-      nMapping: pcs.nMapping
-    })
-    if (pcs.isConstructionComplete) {
-      if (pcs.orbit?.groupAction) {
-        pcsComplement = pcs.orbit.groupAction.getIPcsInOrbit(pcsComplement)
-        if (pcsComplement.iPivot !== newPivot) {
-          pcsComplement = pcsComplement.cloneWithNewPivot(newPivot)
-        }
-      }
-    }
-    return pcsComplement
-  }
+  //
+  // static complement(pcs: IPcs) {
+  //
+  //   let binCplt: number[] = pcs.vectorPcs.map(pc => (pc === 1 ? 0 : 1)) //;slice() and inverse 0/1
+  //
+  //   const newPivot = pcs.getPivotAxialSymmetryForComplement()
+  //
+  //   let pcsComplement = new IPcs({
+  //     vectorPcs: binCplt,
+  //     iPivot: newPivot, // new_iPivot,
+  //     orbit: new Orbit(), // as new pcs, here we don't know its orbit (see note below)
+  //     templateMappingVectorPcs: pcs.templateMappingVectorPcs,
+  //     nMapping: pcs.nMapping
+  //   })
+  //   // if (pcs.isConstructionComplete()) {
+  //   //   if (pcs.orbit?.groupAction) {
+  //   //     pcsComplement = pcs.orbit.groupAction.getIPcsInOrbit(pcsComplement)
+  //   //     if (pcsComplement.iPivot !== newPivot) {
+  //   //       pcsComplement = pcsComplement.cloneWithNewPivot(newPivot)
+  //   //     }
+  //   //   }
+  //   // }
+  //   return pcsComplement
+  // }
 }

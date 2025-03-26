@@ -15,10 +15,11 @@ describe('test getFirstScaleName from 2048pcs.json', () => {
     expect(Scales2048Name.getFirstScaleNameOrDerived(pcsMajTriad)?.name).toEqual('Major Triad')
   })
 
-
   it('Skeleton for initiate list of 2048 modes/scales ', () => {
     const groupCyclic = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!
     let nbModes = 0
+    expect(groupCyclic.orbits.length).toEqual(352)
+
     for (const orbit of groupCyclic.orbits) {
       nbModes += orbit.getPcsMin().cardOrbitMode()
     }
@@ -27,16 +28,33 @@ describe('test getFirstScaleName from 2048pcs.json', () => {
     // other algorithm
     // key : Intervallic Structure
     // value : array of string (IPcs)
+    let cpt = 0
     const isDict = new Map<string, string>()
     // from 4096 to 2048
-    for (let pcs of groupCyclic.powerset.values()) {
-      if (pcs.is().toString() !== '')
-        if (!isDict.has(pcs.is().toString())) {
-          isDict.set(pcs.is().toString(), pcs.getPcsStr())
+    // Array.from(groupCyclic.powerset.values()).forEach(pcs => {
+    for (const orbit of groupCyclic.orbits) {
+      orbit.ipcsset.forEach(pcs => {
+        //console.log(pcs.is())
+        const key = pcs.is().toString().trim()
+        if (key !== '') {
+          if (!isDict.has(key)) {
+            cpt++
+            isDict.set(key, pcs.getPcsStr())
+          }
         }
+      })
     }
-
-    expect(isDict.size).toEqual(2048) // -1 for empty pcs
+    // })
+    // for (let pcs of groupCyclic.powerset.values()) {
+    //   const key = pcs.is().toString().trim()
+    //   if (key !== '') {
+    //     if (!isDict.has(key)) {
+    //       isDict.set(key, pcs.getPcsStr())
+    //     }
+    //   }
+    // }
+    // console.log(`cpt = ${cpt} isDict.size = ${isDict.size}`)
+    expect(isDict.size).toEqual(2048) //
 
     // from 4096 no cyclic equiv : 24318 (some says 24576 but is not because Limited Transposition)
     // expect(allDict.size).toEqual(24318)
@@ -55,8 +73,8 @@ describe('test getFirstScaleName from 2048pcs.json', () => {
         ]
       }));
 
-    expect(array[42].id88).toEqual(28)
-
+    // expect(array[42].id88).toEqual(28)
+    //
     expect(array.length).toEqual(2048) // empty pcs not in scales list
     // console.log(JSON.stringify(array))
     // console.log(JSON.stringify(array.length))

@@ -25,7 +25,7 @@ describe('ManagerPcsService', () => {
 
     // difference between service or not
     expect(managerPcsService.complement(ipcsMusaicPF).isComingFromAnOrbit()).toBeTrue()
-    expect(ipcsMusaicPF.complement().isComingFromAnOrbit()).toBeTrue()
+    expect(ipcsMusaicPF.complement().isComingFromAnOrbit()).toBeFalse()
 
     // when pcs is not coming from orbit, then stay with this state after complement
     expect(managerPcsService.complement(ipcsWithNoOrbit).isComingFromAnOrbit()).toBeFalse()
@@ -100,11 +100,11 @@ describe('ManagerPcsService', () => {
     expect(pcs5.iPivot).toEqual(2)
 
     const pcs5Mus = ManagerGroupActionService.getGroupActionFromGroupAliasName('Musaic')?.getIPcsInOrbit(pcs5)!
-    expect(ManagerPcsService.makeNewInstanceOf(pcs5Mus, pcs5Mus.orbit.groupAction!).iPivot).toEqual(2)
-    expect(ManagerPcsService.makeNewInstanceOf(pcs5Mus, pcs5Mus.orbit.groupAction!, 7).iPivot).toEqual(7)
+    expect(ManagerPcsService.getOrMakeInstanceFromOrbitOfGroupActionOf(pcs5Mus, pcs5Mus.orbit.groupAction!).iPivot).toEqual(2)
+    expect(ManagerPcsService.getOrMakeInstanceFromOrbitOfGroupActionOf(pcs5Mus, pcs5Mus.orbit.groupAction!, 7).iPivot).toEqual(7)
 
     try {
-      expect(ManagerPcsService.makeNewInstanceOf(pcs5Mus, pcs5Mus.orbit.groupAction!, 1).iPivot).toEqual(1) // error
+      expect(ManagerPcsService.getOrMakeInstanceFromOrbitOfGroupActionOf(pcs5Mus, pcs5Mus.orbit.groupAction!, 1).iPivot).toEqual(1) // error
       fail("Do not pass here")
     }catch (e:any) {
       expect(e.message).toContain('bad iPivot')

@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {ManagerPagePcsService} from "../../service/manager-page-pcs.service";
 import {IPcs} from "../../core/IPcs";
 import {Router} from "@angular/router";
@@ -57,7 +57,7 @@ export interface IOctotrope {
   templateUrl: './the88.component.html',
   styleUrl: './the88.component.css'
 })
-export class The88Component implements OnInit {
+export class The88Component implements OnInit, AfterViewInit {
   @ViewChild("matTabGroup", {static: false}) matTabGroup: MatTabGroup;
   groupMusaic = ManagerGroupActionService.getGroupActionFromGroupAliasName("Musaic")!
   octotropes: IOctotrope[]
@@ -100,6 +100,7 @@ export class The88Component implements OnInit {
         metaStabilizerNames: orbit.metaStabilizer.name.split(' '),
         color: PcsColor.getColor(orbit.metaStabilizer.name),
         cardinal: orbit.cardinal
+        // musaic.pcsDto.pcs.orbit.metaStabilizer.hashCode()
       }))
 
     this.pcs = ManagerGroupActionService.getGroupActionFromGroupAliasName("Musaic")!.getIPcsInOrbit(this.pcs)
@@ -109,8 +110,7 @@ export class The88Component implements OnInit {
     this.octotropes = this.groupMusaic.orbitsSortedGroupedByMetaStabilizer.map(orbit => ({
       pcs: orbit.orbits[0].getPcsMin(), // get any pcs in any orbit... min by default
       numberOfMusaics: orbit.orbits.length,
-      numberOfPcs: orbit.orbits.reduce((numberPcs, orbit) =>
-        numberPcs + orbit.cardinal, 0),
+      numberOfPcs: orbit.orbits.reduce((numberPcs, orbit) => numberPcs + orbit.cardinal, 0),
       numberOfCyclicOrbits: this.getNumberCyclicPF(orbit.orbits),
       active: false,
       selected: false,
@@ -122,7 +122,7 @@ export class The88Component implements OnInit {
 
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.managerPageEightyHeightService.eventSearchMatchMusaic.subscribe((searchData: ISearchPcs) => {
       this.searchPcsInput = searchData
       this.searchMusaicThatMatches(searchData)
@@ -135,7 +135,7 @@ export class The88Component implements OnInit {
       this.matTabGroup.selectedIndex = dataRestore.indexTab
       this.indexSelectedOctotrope = dataRestore.indexSelectedOctotrope
       this.updateOctotropes()
-    })
+    }, 1000)
   }
 
   doPushToPcsPage(pcs: IPcs) {
@@ -168,6 +168,9 @@ export class The88Component implements OnInit {
   private updateOctotropes() {
     // first step
     let newOctotropes = [...this.octotropes]
+
+    // newOctotropes.forEach(octotrope => {console.log(octotrope)})
+
     for (let i = 0; i < this.octotropes.length; i++) {
       // if current selected operations are include into "octotrope",
       // select this group of orbits shearing same stabilizer
@@ -176,6 +179,7 @@ export class The88Component implements OnInit {
         this.octotropes[i].pcs.orbit.metaStabilizer.metaStabOperations))
       {
         newOctotropes[i] = {...this.octotropes[i], selected: true, active: true}
+        // console.log(newOctotropes[i])
       } else if (this.octotropes[i].selected) {
         newOctotropes[i] = {...this.octotropes[i], selected: false, active: false}
       }

@@ -1160,7 +1160,7 @@ export class ManagerPageWBService {
       }
       let newPcs = new IPcs({vectorPcs: vector})
       if (pcsRef.isComingFromAnOrbit()) {
-        newPcs = ManagerPcsService.makeNewInstanceOf(newPcs, pcsRef.orbit!.groupAction!)
+        newPcs = ManagerPcsService.getOrMakeInstanceFromOrbitOfGroupActionOf(newPcs, pcsRef.orbit!.groupAction!)
       }
       this.addPcs({somePcs: [newPcs]})
     }

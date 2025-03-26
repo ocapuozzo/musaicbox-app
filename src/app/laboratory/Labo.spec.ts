@@ -122,17 +122,23 @@ describe('Laboratory explorer', () => {
 
 
   it('Test powerset grouped by is() Pascal Triangle', () => {
-    const groupCyclic =ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!
+    const groupCyclic =  ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!
+
+    // this expect allows the group to be properly initialized.... ???
+    expect(groupCyclic.operations.length).toEqual(12)
+    expect(groupCyclic.orbits.length).toEqual(352)
+
     const mapIs = new Map<string, IPcs[]>()
-    for (const pcs of groupCyclic.powerset.values()) {
-      let pcsIs = pcs.is().toString()
+    // for (const pcs of groupCyclic.powerset.values()) {
+    for (const pcs of Array.from(groupCyclic.powerset.values())) {
+      let pcsIs = pcs.is().toString().trim()
       if (mapIs.has(pcsIs)) {
-        mapIs.get(pcsIs)!.push(pcs)
+          mapIs.get(pcsIs)!.push(pcs)
       } else {
         mapIs.set(pcsIs, [pcs])
       }
     }
-    expect(mapIs.size).toEqual(groupCyclic.powerset.size / 2 +1) // 2048 empty matter 1 ??
+    expect(mapIs.size).toEqual(groupCyclic.powerset.size / 2 +1) // empty matter 1 ??
 
     let arrayCard = Array(13).fill(0)
 

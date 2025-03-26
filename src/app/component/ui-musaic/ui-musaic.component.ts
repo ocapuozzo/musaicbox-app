@@ -73,7 +73,7 @@ export class UiMusaicComponent {
     if (this.containerCanvas) {
       setTimeout(() =>
           this.drawsMusaic(this.optionDrawPitchIndex),
-          100
+          500
       )
     }
   }

@@ -54,7 +54,7 @@ describe('ManagerGroupActionService', () => {
     let minInt = IPcs.id(pcsId88.vectorPcs);
 
     for (let i = 0; i < n - 1; i++) {
-      norm = MusaicOperation.getVectorPcsPermuted(1, 1, 0, norm);
+      norm = IPcs.getVectorPcsPermuted(1, 1, 0, norm);
       let curInt = IPcs.id(norm);
       if (minInt > curInt) {
         minInt = curInt;

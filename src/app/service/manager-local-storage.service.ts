@@ -122,7 +122,7 @@ export class ManagerLocalStorageService {
             ManagerGroupActionService.getGroupActionFromGroupName(serializedPcs.groupName)
           if (groupAction) {
             const savPivot = pcs.getPivot()
-            pcs = ManagerPcsService.makeNewInstanceOf(pcs, groupAction, savPivot);
+            pcs = ManagerPcsService.getOrMakeInstanceFromOrbitOfGroupActionOf(pcs, groupAction, savPivot);
           }
         }
 

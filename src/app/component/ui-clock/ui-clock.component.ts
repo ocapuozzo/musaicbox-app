@@ -108,7 +108,7 @@ export class UiClockComponent {
     // console.log("onResize2")
     setTimeout(() =>
       this.drawClock(),
-      100
+      500
     )
   }
 
