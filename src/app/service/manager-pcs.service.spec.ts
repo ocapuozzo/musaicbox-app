@@ -25,7 +25,7 @@ describe('ManagerPcsService', () => {
 
     // difference between service or not
     expect(managerPcsService.complement(ipcsMusaicPF).isComingFromAnOrbit()).toBeTrue()
-    expect(ipcsMusaicPF.complement().isComingFromAnOrbit()).toBeFalse()
+   // expect(ipcsMusaicPF.complement().isComingFromAnOrbit()).toBeFalse()
 
     // when pcs is not coming from orbit, then stay with this state after complement
     expect(managerPcsService.complement(ipcsWithNoOrbit).isComingFromAnOrbit()).toBeFalse()

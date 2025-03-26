@@ -80,67 +80,6 @@ export class ManagerPcsService {
     return pcsPermuted
   }
 
-  symmetry(pcs: IPcs): IPcs {
-    let pcsSymmetry: IPcs | undefined = undefined
-
-    let allModulations: IPcs[] = [pcs]
-    let cardinal = pcs.cardOrbitMode()
-
-    for (let degree = 1; degree < cardinal; degree++) {
-      pcs = pcs.modulation("Next")
-      allModulations.push(pcs)
-    }
-
-    let pcsWithPivotInSymmetry: IPcs[] = []
-    let opM11_T0 = MusaicOperation.convertStringOpToMusaicOperation(`M1${pcs.n - 1}-T0`) // "M11-T0"
-
-    allModulations.forEach(pcs => {
-      if (opM11_T0.actionOn(pcs).id === pcs.id) {
-        pcsWithPivotInSymmetry.push(pcs)
-      }
-    })
-    if (pcsWithPivotInSymmetry.length === 0) {
-      pcsSymmetry = pcsWithPivotInSymmetry[0]
-    } else if (pcsWithPivotInSymmetry.length > 1) {
-      pcsSymmetry = pcsWithPivotInSymmetry
-        .map(pcs => this.doTransformAffine(pcs, 1, pcs.iPivot ?? 0))
-        .sort(IPcs.compare)[0]
-    } else {
-      // search stab with M11-Tk, k > 0
-      let findMinimal = false
-      let minimalStabilizerOperation = MusaicOperation.convertStringOpToMusaicOperation("M1-T0")
-      const n = pcs.n
-      for (let i = 1; i < n && !findMinimal; i++) {
-        for (pcs of allModulations) {
-          // search first stabilizer op M11-Ti
-          let operation = MusaicOperation.convertStringOpToMusaicOperation(`M${pcs.n - 1}-T${i}`) // M11-Tk
-          if (operation.actionOn(pcs).id === pcs.id) {
-            // pcs is fixed by operation, with -Tk minimal
-            minimalStabilizerOperation = operation
-            findMinimal = true
-            break
-          }
-        }
-      }
-      if (findMinimal) {
-        pcsSymmetry = this.doTransformAffine(pcs, 1, -minimalStabilizerOperation.t)
-      }
-    }
-    // now check if pcsSymmetry is found
-    // if not, get cyclic prime form
-    if (!pcsSymmetry) {
-      if (pcs.isComingFromAnOrbit()) {
-        const cpf = pcs.cyclicPrimeForm()
-        // get cyclic prime form in its orbit
-        pcsSymmetry = ManagerPcsService.getOrMakeInstanceFromOrbitOfGroupActionOf(cpf, pcs.orbit.groupAction!, cpf.iPivot)
-      } else {
-        const cpf = pcs.cyclicPrimeForm()
-        // cyclic prim detached of group action
-        pcsSymmetry = cpf.cloneDetached()
-      }
-    }
-    return pcsSymmetry
-  }
 
 
   /**

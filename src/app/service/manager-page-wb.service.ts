@@ -1109,19 +1109,19 @@ export class ManagerPageWBService {
     this.addPcs({somePcs: pcsModeList, circularAlign: true, indexCenterElement: index})
   }
 
-  doMakeComplement(index: number) {
+  doMakeSetComplement(index: number) {
     this.doMakeSetOperation('Complement')
   }
 
-  doMakeIntersection() {
+  doMakeSetIntersection() {
     this.doMakeSetOperation('Intersection')
   }
 
-  doMakeUnion() {
+  doMakeSetUnion() {
     this.doMakeSetOperation('Union')
   }
 
-  doMakeSymmetricDifference() {
+  doMakeSetSymmetricDifference() {
     this.doMakeSetOperation('SymmetricDifference')
   }
 
@@ -1166,7 +1166,6 @@ export class ManagerPageWBService {
     }
   }
 
-
   doTranspose(k: number) {
     this.doTransformAffine(1, k)
   }
@@ -1185,6 +1184,23 @@ export class ManagerPageWBService {
     this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
     this.emit()
   }
+
+  doComplement() {
+    this.uiPcsDtoList = [...this.uiPcsDtoList]
+    let indexes = this.getSelectedPcsDtoIndexes()
+    indexes.forEach(index => {
+      if (index < 0 || index >= this.uiPcsDtoList.length) {
+        throw new Error("oops bad index : " + index)
+      }
+      let pcsDto = new UIPcsDto({...this.uiPcsDtoList[index]})
+      pcsDto.pcs = this.managerPcsService.complement(pcsDto.pcs)
+      this.uiPcsDtoList[index] = pcsDto
+    })
+    this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
+    this.emit()
+  }
+
+
 
   doChangePivot(d: TDirection) {
     this.uiPcsDtoList = [...this.uiPcsDtoList]

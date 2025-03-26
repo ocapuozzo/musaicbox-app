@@ -20,7 +20,7 @@ import {TDirection} from "../../core/IPcs";
   styleUrl: './toolbar-for-white-board.component.css'
 })
 export class ToolbarForWhiteBoardComponent {
-  @Input()  isShown = false;
+  @Input()  isShown = true;
 
   managerPageWBService = inject(ManagerPageWBService)
   managerToolbarService = inject(ManagerToolbarService)
@@ -71,11 +71,15 @@ export class ToolbarForWhiteBoardComponent {
     this.managerPageWBService.doTranspose(k)
   }
 
-  doChangeViewAffine(a: number, k: number) {
+  doAffine(a: number, k: number) {
     this.managerPageWBService.doTransformAffine(a,k)
   }
 
   doChangePivot(d:TDirection) {
     this.managerPageWBService.doChangePivot(d)
+  }
+
+  doComplement() {
+    this.managerPageWBService.doComplement()
   }
 }

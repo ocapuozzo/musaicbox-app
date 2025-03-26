@@ -112,7 +112,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
 
   initPositionRectSelector = new Point(0, 0)
 
-  viewToolBar: boolean = false
+  viewToolBar: boolean = true
 
   constructor(private managerPageWBService: ManagerPageWBService,
               private readonly managerPagePcsService: ManagerPagePcsService,
@@ -178,7 +178,9 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
       this.viewToolBar = viewToolbar
     })
 
-    this.viewToolBar = this.managerToolbarService.isToolbarShown
+    setTimeout(() => {
+      this.viewToolBar = this.managerToolbarService.isToolbarShown
+    },1000)
 
   }
 
@@ -862,7 +864,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
       throw new Error(`Invalid index : $ {index}`)
     }
     this.managerPageWBService.setPcsDtoForTemplate(this.pcsDtoList[index])
-    this.managerPageWBService.doMakeComplement(index)
+    this.managerPageWBService.doMakeSetComplement(index)
   }
 
   doMakeIntersection(index: number) {
@@ -870,7 +872,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
       throw new Error(`Invalid index : $ {index}`)
     }
     this.managerPageWBService.setPcsDtoForTemplate(this.pcsDtoList[index])
-    this.managerPageWBService.doMakeIntersection()
+    this.managerPageWBService.doMakeSetIntersection()
   }
 
   doMakeUnion(index: number) {
@@ -878,7 +880,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
       throw new Error(`Invalid index : $ {index}`)
     }
     this.managerPageWBService.setPcsDtoForTemplate(this.pcsDtoList[index])
-    this.managerPageWBService.doMakeUnion()
+    this.managerPageWBService.doMakeSetUnion()
   }
 
   doMakeSymmetricDifference(index: number) {
@@ -886,7 +888,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
       throw new Error(`Invalid index : $ {index}`)
     }
     this.managerPageWBService.setPcsDtoForTemplate(this.pcsDtoList[index])
-    this.managerPageWBService.doMakeSymmetricDifference()
+    this.managerPageWBService.doMakeSetSymmetricDifference()
   }
 
   doToggleShowPivot(index: number) {

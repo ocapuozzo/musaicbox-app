@@ -40,7 +40,7 @@
   <button mat-icon-button matTooltip="M5"
           class="button-toolbar"
           [disabled]="numberSelectedComponents === 0"
-          (click)="doChangeViewAffine(5, 0)">
+          (click)="doAffine(5, 0)">
 
     <img src="assets/img/M5-thick.svg" width="30px" height="30px" alt="M5">
   </button>
@@ -48,15 +48,22 @@
   <button mat-icon-button matTooltip="M7"
           class="button-toolbar"
           [disabled]="numberSelectedComponents === 0"
-          (click)="doChangeViewAffine(7, 0)">
+          (click)="doAffine(7, 0)">
     <img src="assets/img/M7-thick.svg" width="30px" height="30px" alt="M7">
   </button>
   <button mat-icon-button
           class="button-toolbar"
           matTooltip="M11"
           [disabled]="numberSelectedComponents === 0"
-          (click)="doChangeViewAffine(11, 0)">
+          (click)="doAffine(11, 0)">
     <img src="assets/img/M11-thick.svg" width="30px" height="30px" alt="M11">
+  </button>
+  <button mat-icon-button
+          class="button-toolbar"
+          matTooltip="Complement"
+          [disabled]="numberSelectedComponents === 0"
+          (click)="doComplement()">
+    <mat-icon>contrast</mat-icon>
   </button>
 
   <button mat-icon-button matTooltip="Pivot-1"

@@ -101,7 +101,12 @@ export class GroupAction {
     while (tmpPowerset.size > 0) {
       let pcs = tmpPowerset.values().next().value
       pcs.addInOrbit(pcs); // add himself in orbit
-      pcs.orbit.groupAction = this // add ref to this group action
+
+      // by default, but recalled here.
+      // It is important because affine operation and complement work with pcs.orbit.groupAction if
+      // is set. Il will be set at end of this step of loop (after for loop below)
+      pcs.orbit.groupAction = undefined
+
       // this pcs is processed, we can remove it from tmpPowerset
       tmpPowerset.delete(pcs.id);
 
@@ -119,6 +124,7 @@ export class GroupAction {
         }
       }
       pcs.orbit.ipcsset.sort(IPcs.compare)
+      pcs.orbit.groupAction = this // now add ref to this group action
       orbits.push(pcs.orbit);
     }
     return orbits.sort(Orbit.compare);

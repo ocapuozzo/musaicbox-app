@@ -6,7 +6,7 @@ import {EventEmitter, Injectable, Output} from '@angular/core';
 export class ManagerToolbarService {
   @Output() eventShowToolbar: EventEmitter<any> = new EventEmitter();
 
-  isToolbarShown = false;
+  isToolbarShown = true;
 
   constructor() { }
 
