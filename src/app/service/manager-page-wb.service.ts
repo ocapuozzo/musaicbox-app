@@ -164,7 +164,7 @@ export class ManagerPageWBService {
           : new UIPcsDto({pcs: pcs})
 
       // uiMusaic: {...this.pcsDtoForTemplate.uiMusaic},
-      pcsDto.uiMusaic.rounded = pcsDto.uiMusaic.rounded || pcs.isComingFromAnOrbit()
+      pcsDto.uiMusaic.rounded = pcsDto.uiMusaic.rounded || pcs.isComingFromOrbit()
 
       if (!circularAlign) {
         ManagerPageWBService.deltaPositionNewPcs += this._GAP_BETWEEN
@@ -1159,8 +1159,8 @@ export class ManagerPageWBService {
         }
       }
       let newPcs = new IPcs({vectorPcs: vector})
-      if (pcsRef.isComingFromAnOrbit()) {
-        newPcs = ManagerPcsService.getOrMakeInstanceFromOrbitOfGroupActionOf(newPcs, pcsRef.orbit!.groupAction!)
+      if (pcsRef.isComingFromOrbit()) {
+        newPcs = newPcs.getOrMakeInstanceFromOrbitOfGroupActionOf(pcsRef.orbit!.groupAction!)
       }
       this.addPcs({somePcs: [newPcs]})
     }

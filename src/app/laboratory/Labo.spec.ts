@@ -324,17 +324,19 @@ describe('Laboratory explorer', () => {
 
   it("intervallic structure feature", () => {
     const majScale = new IPcs({strPcs: "0,2,4,5,7,9,11"})
-    const featureIS = majScale.getFeatureIS()
+    const featureIS = majScale.getIntervalsTypeOfIS()
     const featureexpected = [1, 2]
     expect(featureIS).toEqual(featureexpected)
   })
 
   it("get all pcs having same interval types that Major scale", () => {
     const majScale = new IPcs({strPcs: "0,2,4,5,7,9,11"})
-    const pcsSameFeatureIS: IPcs[] = majScale.getPcsSameFeatureIS()
+    const pcsSameFeatureIS: IPcs[] = majScale.getPcsSameIntervalsType()
+    expect(pcsSameFeatureIS.length).toEqual(29) // 30 - chromatic scale
+    
     console.log("PCS having same intervals that Major Scale (" + pcsSameFeatureIS.length + ")")
     pcsSameFeatureIS.forEach(pcs => console.log(pcs.is() + " Mus n° " + EightyEight.idNumberOf(pcs)))
-    expect(pcsSameFeatureIS.length).toEqual(29) // 30 - chromatic scale
+
   })
 
 

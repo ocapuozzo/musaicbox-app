@@ -1,37 +1,39 @@
 <h2 class="text-center">88 Musaics</h2>
 
 <div class="row" style="margin: auto; width: 80%">
-
-  <div *ngFor="let musaic of listOrbits; index as index"
-       class="box88" style="width: 60px;"
-       [ngClass]="{'box88': true,
+  @for (musaic of musaicOrbits; track musaic.date; let index = $index) {
+    <div
+      class="box88" style="width: 60px;"
+      [ngClass]="{'box88': true,
                    'box-selected': musaic.pcsDto.colorPitchOn !== 'black',
                    'box-not-selected' : musaic.pcsDto.colorPitchOn === 'black'
                    }"
-  >
-    <div class="box88-id text-muted p-0">
-      {{ index + 1 }}
-    </div>
-    <div class="box88-body">
-      <app-pcs
-        [opaque]="musaicDrawGrid"
-        [pcsDto]="musaic.pcsDto"
-        [pcColorSet]="musaic.pcsDto.colorPitchOn"
-        (click)="doPushToPcsPage(musaic.pcsDto.pcs)"
-        [cdkContextMenuTriggerFor]="menu"
-        [cdkContextMenuTriggerData]="{
+    >
+      <div class="box88-id text-muted p-0">
+        {{ index + 1 }}
+      </div>
+      <div class="box88-body">
+        <app-pcs
+          [opaque]="musaicDrawGrid"
+          [pcsDto]="musaic.pcsDto"
+          [pcColorSet]="musaic.pcsDto.colorPitchOn"
+          (click)="doPushToPcsPage(musaic.pcsDto.pcs)"
+          [cdkContextMenuTriggerFor]="menu"
+          [cdkContextMenuTriggerData]="{
             name: 'Musaic N°' + (index+1),
             index:index,
             pcsDto:musaic.pcsDto
             }"
-        style="cursor: pointer"
-      >
-      </app-pcs>
+          style="cursor: pointer"
+        >
+        </app-pcs>
+      </div>
+
+      <div class="box88-footer">
+        #{{ musaic.cardinal }}
+      </div>
     </div>
-    <div class="box88-footer">
-      #{{ musaic.cardinal }}
-    </div>
-  </div>
+  }
 </div>
 
 <div style="margin: auto; width: 80%">
@@ -55,7 +57,8 @@
     <h3> Your selection : @for (op of currentSelectedOps; track op) {
       {{ op }}
     } -> {{ nbMusaicsMatch ? nbMusaicsMatch : 'All' }} musaic{{ nbMusaicsMatch > 1 ? 's' : '' }} stabilized
-      (#{{ numberOfCyclicOrbitsInSelectedOctotropes() }} cyclic orbits / 352 ==> #{{ numberOfPcsInSelectedOctotropes() }} pcs / 4096)
+      (#{{ numberOfCyclicOrbitsInSelectedOctotropes() }} cyclic orbits / 352 ==>
+      #{{ numberOfPcsInSelectedOctotropes() }} pcs / 4096)
     </h3>
 
     <!--  <h4>Select operations to highlight motif stabilizer</h4>-->
@@ -103,11 +106,13 @@
   <div style="margin: auto; text-align: center; width: 100%">
 
     @if (getOnlyOctotropeTabSelectedActive()) {
-      <h3 style="margin-top: 10px"> Your selection : {{getOnlyOctotropeTabSelectedActive().pcs.orbit.metaStabilizer.name}}
-        -> {{ nbMusaicsMatch ? nbMusaicsMatch : 'All' }} exclusively stabilized musaic{{ nbMusaicsMatch > 1 ? 's' : '' }}
+      <h3 style="margin-top: 10px"> Your selection
+        : {{ getOnlyOctotropeTabSelectedActive().pcs.orbit.metaStabilizer.name }}
+        -> {{ nbMusaicsMatch ? nbMusaicsMatch : 'All' }} exclusively stabilized
+        musaic{{ nbMusaicsMatch > 1 ? 's' : '' }}
       </h3>
 
-      <p>{{ getOnlyOctotropeTabSelectedActive().numberOfCyclicOrbits }} cyclic orbits / 352  ==>
+      <p>{{ getOnlyOctotropeTabSelectedActive().numberOfCyclicOrbits }} cyclic orbits / 352 ==>
         {{ getOnlyOctotropeTabSelectedActive().numberOfPcs }} pcs (trivial group) / 4096
       </p>
     }

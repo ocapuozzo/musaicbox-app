@@ -59,7 +59,7 @@ export class Group {
     // while (loop) {
       let cardinalOp = allOps.length
       // loop = false;
-      forLoop:
+      // forLoop:
       for (let i = 0; i < cardinalOp; i++) {
         for (let j = 0; j < cardinalOp; j++) {
           let newOp = allOps[i].compose(allOps[j]);
@@ -72,7 +72,7 @@ export class Group {
             cardinalOp++
             // if newOp.a and n == 7, then will do add here all ops because
             // 2 * 2 = 4 and 4 * 2 = 1 and basta... not generate 3 and more...
-            // 2 its prime with primes number, but bad generator !!
+            // 2 its prime with primes number, but is bad generator with multiplication, so additive way below
             if (newOp.a === 2) {
               for (let k = newOp.a * 2; k < newOp.n; k += newOp.a) {
                 const newOpBis = new MusaicOperation(newOp.n, k, newOp.t)
@@ -125,7 +125,7 @@ export class Group {
    * @param {number} n  n > 0
    * @return {number[]} minimum elts necessary for generate phiEulerElements of n
    */
-  static phiEulerElements(n: number): number[] {
+  static phiEulerElementsOf(n: number): number[] {
     let eltsMinGenerator: number[] = []
     eltsMinGenerator.push(1);
     // TODO stop to n/2, and define others by symmetry

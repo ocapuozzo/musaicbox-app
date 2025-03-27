@@ -48,7 +48,7 @@ export class OctotropeDrawing {
     this.ctx = x.ctx
     this.pcsDto = x.pcsDto ?? new UIPcsDto()
     // if pcs is not in orbit, get pcs into musaic group, else leave pcs in his group
-    const pcsInGroup = this.pcsDto.pcs.isComingFromAnOrbit() ? this.pcsDto.pcs : this.pcsDto.pcs.musaicPrimeForm()
+    const pcsInGroup = this.pcsDto.pcs.isComingFromOrbit() ? this.pcsDto.pcs : this.pcsDto.pcs.musaicPrimeForm()
     // priority to operations list (opStabilizers)
     this.opStabilizers = x.opStabilizers ?? pcsInGroup.orbit.metaStabilizer.metaStabOperations
   }

@@ -201,10 +201,10 @@ describe('Group', () => {
   })
 
   it("phiEulerElements", () => {
-    expect(Group.phiEulerElements(12)).toEqual([1,5,7,11])
-    expect(Group.phiEulerElements(7)).toEqual([1,2,3,4,5,6])
-    expect(Group.phiEulerElements(5)).not.toEqual([1,2,3,4,5,6])
-    expect(Group.phiEulerElements(5)).toEqual([1,2,3,4])
+    expect(Group.phiEulerElementsOf(12)).toEqual([1,5,7,11])
+    expect(Group.phiEulerElementsOf(7)).toEqual([1,2,3,4,5,6])
+    expect(Group.phiEulerElementsOf(5)).not.toEqual([1,2,3,4,5,6])
+    expect(Group.phiEulerElementsOf(5)).toEqual([1,2,3,4])
   })
 
 

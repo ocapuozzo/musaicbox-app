@@ -34,7 +34,7 @@ export class AnalyseChord {
           // 0 4 7 with n=7, nMapping=12, templateMapping[0, 2, 4, 5, 7, 9, 11]
           // so "0 4 7" => unMappedPcs = "0 2 4" (and vector [1,0,1,0,1,0,0,0])
 
-          const unMappedPcs = chord.getPcsStr(false).split(' ').map(pc => pcs.templateMappingVectorPcs.indexOf(Number(pc)))//.join(' ')
+          const unMappedPcs = chord.getPcsStr(false).split(' ').map(pc => pcs.vectorMapping.indexOf(Number(pc)))//.join(' ')
           // if not compatible with mapping, pass
           if (unMappedPcs.includes(-1)) {
             continue
@@ -42,10 +42,10 @@ export class AnalyseChord {
           // chord version with mapping
           chord = new IPcs({
             strPcs:unMappedPcs.join(' '),
-            iPivot: pcs.templateMappingVectorPcs.indexOf(chord.iPivot!),
+            iPivot: pcs.vectorMapping.indexOf(chord.iPivot!),
             n:pcs.n,
             nMapping: pcs.nMapping,
-            templateMappingVectorPcs: pcs.templateMappingVectorPcs
+            vectorMapping: pcs.vectorMapping
           })
         }
 

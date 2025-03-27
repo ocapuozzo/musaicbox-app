@@ -189,7 +189,7 @@ export class PcsAnalysisComponent {
     let pcsToCompute: IPcs = pcs
 
     // when pcs no from group action or trivial group action, give from musaic because it is richer in information
-    if (!pcs.isComingFromAnOrbit() || pcs.isComingFromAnOrbitTrivial()) {
+    if (!pcs.isComingFromOrbit() || pcs.isComingFromTrivialOrbit()) {
       const groupMusaic = ManagerGroupActionService.getGroupActionFromGroupAliasName('Musaic')
       pcsToCompute = groupMusaic!.getIPcsInOrbit(pcs)
     }
@@ -203,7 +203,7 @@ export class PcsAnalysisComponent {
   }
 
   pcsInMusaicGroup() {
-    return this.pcs.isComingFromAnOrbit() ? this.pcs.n === 12 && this.pcs.orbit.groupAction?.group.operations.length===96 : false
+    return this.pcs.isComingFromOrbit() ? this.pcs.n === 12 && this.pcs.orbit.groupAction?.group.operations.length===96 : false
   }
 
   getPcsHavingThisIS(intervallicStructureNumbers: number[]) {

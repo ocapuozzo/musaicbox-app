@@ -339,8 +339,9 @@ export class GroupAction {
       throw new Error("Invalid pcs (is not in this group action)  ??? : " + pcs)
     }
 
-    if (pcs.iPivot !== pcsInOrbit.iPivot) {
-      return pcsInOrbit.cloneWithNewPivot(pcs.iPivot)
+    if (pcs.cardinal > 0 && pcs.iPivot !== pcsInOrbit.iPivot) {
+      return pcsInOrbit.cloneWithNewPivot(pcs.iPivot!)  // <== force with ! operator
+         // because empty set is only pcs having iPivot undefined, and guard (pcs.cardinal > 0) warns of danger
     }
 
     return pcsInOrbit

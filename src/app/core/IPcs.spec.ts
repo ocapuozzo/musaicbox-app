@@ -2,7 +2,7 @@ import {IPcs, negativeToPositiveModulo} from './IPcs'
 import {GroupAction} from "./GroupAction";
 import {ManagerGroupActionService} from "../service/manager-group-action.service";
 import {MusaicOperation} from "./MusaicOperation";
-import {ManagerPcsService} from "../service/manager-pcs.service";
+import {Orbit} from "./Orbit";
 
 describe('IPcs unit tests', () => {
 
@@ -42,7 +42,7 @@ describe('IPcs unit tests', () => {
         strPcs: "[0, 2, 7]",  // 7 not in [0..7[ but 7 Modulo 7 => 0
         n: 7,
         nMapping: 12,
-        templateMappingVectorPcs: [0, 2, 4, 5, 7, 9, 11]
+        vectorMapping: [0, 2, 4, 5, 7, 9, 11]
       })
       expect(ipcsDiatMajMapped.n).toEqual(7)
       expect(ipcsDiatMajMapped.vectorPcs).toEqual([1,0,1,0,0,0,0])
@@ -71,9 +71,9 @@ describe('IPcs unit tests', () => {
 
   it("IPcs constructor with nMapping ", () => {
     const pcs: IPcs = new IPcs({strPcs: "[0, 4, 7]"})
-    expect(pcs.templateMappingVectorPcs.length).toEqual(12)
+    expect(pcs.vectorMapping.length).toEqual(12)
     expect(pcs.getMappedVectorPcs().length).toEqual(12)
-    expect(pcs.templateMappingVectorPcs.length).toEqual(12)
+    expect(pcs.vectorMapping.length).toEqual(12)
 
     let nMapping = 12
     let templateMapping = undefined
@@ -83,20 +83,20 @@ describe('IPcs unit tests', () => {
       strPcs: "[0, 4, 7]",
       //n:12,
       nMapping: nMapping,
-      templateMappingVectorPcs: templateMapping ?? [] //undefined
+      vectorMapping: templateMapping ?? [] //undefined
     })
 
     expect(ipcsCMajor).toBeTruthy()
     expect(ipcsCMajor.n).toEqual(12)
     expect(ipcsCMajor.getPcsStr()).toEqual("[0 4 7]")
     expect(ipcsCMajor.getMappedVectorPcs().length).toEqual(12)
-    expect(ipcsCMajor.templateMappingVectorPcs.length).toEqual(12)
+    expect(ipcsCMajor.vectorMapping.length).toEqual(12)
 
     const chord = new IPcs({
       strPcs: "0 2 4",
       n:7,
       nMapping: 12,
-      templateMappingVectorPcs: [0,2,4,5,7,9,11]
+      vectorMapping: [0,2,4,5,7,9,11]
     })
     expect(chord.getPcsStr()).toEqual("[0 2 4]")
 
@@ -105,10 +105,10 @@ describe('IPcs unit tests', () => {
       iPivot: 0,
       n:7,
       nMapping: 12,
-      templateMappingVectorPcs: [0,2,4,5,7,9,11]
+      vectorMapping: [0,2,4,5,7,9,11]
     })
     expect(chord2.n).toEqual(7)
-    expect(chord2.templateMappingVectorPcs).toEqual([0,2,4,5,7,9,11])
+    expect(chord2.vectorMapping).toEqual([0,2,4,5,7,9,11])
 
   });
 
@@ -136,10 +136,10 @@ describe('IPcs unit tests', () => {
 
     let pcs = new IPcs({
       strPcs: "[0, 4, 7]",
-      templateMappingVectorPcs: [0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3]
+      vectorMapping: [0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3]
     })
     // auto fix
-    expect(pcs.templateMappingVectorPcs.length).toEqual(12)
+    expect(pcs.vectorMapping.length).toEqual(12)
   })
 
   it("IPcs bad empty constructor", () => {
@@ -166,7 +166,7 @@ describe('IPcs unit tests', () => {
       strPcs: "[0, 2, 4]", // first 3-chord
       n: 7,
       nMapping: 12,
-      templateMappingVectorPcs: [0, 2, 4, 5, 7, 9, 11]  // mapped into [0,4,7] {C E G}
+      vectorMapping: [0, 2, 4, 5, 7, 9, 11]  // mapped into [0,4,7] {C E G}
     })
     expect(ipcsDiatMajMapped.getPcsStr()).toEqual('[0 2 4]')
     expect(ipcsDiatMajMapped.unMap().getPcsStr()).toEqual('[0 4 7]')
@@ -177,14 +177,14 @@ describe('IPcs unit tests', () => {
       strPcs: "[0, 2, 4]", // first 3-chord
       n: 7,
       nMapping: 12,
-      templateMappingVectorPcs: [0, 2, 4, 5, 7, 9, 11]  // mapped into [0,4,7] {C E G}
+      vectorMapping: [0, 2, 4, 5, 7, 9, 11]  // mapped into [0,4,7] {C E G}
     })
-    expect(pcsDiatMajMapped.toString()).toEqual('[1,0,1,0,1,0,0] n = 7, iPivot : 0  Mapped on 12')
+    expect(pcsDiatMajMapped.toString()).toEqual('[1,0,1,0,1,0,0] n = 7, iPivot = 0 Mapped on 12')
 
     const pcsDefaultMapping = new IPcs({
       strPcs: "[0, 4, 7]"
     })
-    expect(pcsDefaultMapping.toString()).toEqual('[1,0,0,0,1,0,0,1,0,0,0,0] n = 12, iPivot : 0')
+    expect(pcsDefaultMapping.toString()).toEqual('[1,0,0,0,1,0,0,1,0,0,0,0] n = 12, iPivot = 0')
   })
 
   it("IPcs cardinal", () => {
@@ -234,8 +234,8 @@ describe('IPcs unit tests', () => {
 
     let diatMaj = new IPcs({strPcs: "0 2 4 5 7 9 11", iPivot: 0})
     const pcsInMusicGroup = ManagerGroupActionService.getGroupActionFromGroupAliasName('Musaic')?.getIPcsInOrbit(diatMaj)!
-    expect(pcsInMusicGroup.isComingFromAnOrbit()).toBeTrue()
-    expect(pcsInMusicGroup.modulation("Next").isComingFromAnOrbit()).toBeTrue()
+    expect(pcsInMusicGroup.isComingFromOrbit()).toBeTrue()
+    expect(pcsInMusicGroup.modulation("Next").isComingFromOrbit()).toBeTrue()
   });
 
   it("IPcs cardinal PREVIOUS", () => {
@@ -366,10 +366,10 @@ describe('IPcs unit tests', () => {
 
   it("IPcs cyclicPrimeForm from pcs with orbit set", () => {
     let ipcsNotPF = new IPcs({strPcs: "1, 4, 7, 10"})
-    expect(ipcsNotPF.isComingFromAnOrbit()).toBeFalse()
+    expect(ipcsNotPF.isComingFromOrbit()).toBeFalse()
     const groupAction: GroupAction = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!
     let ipcsFromGroupActionNotPF: IPcs = groupAction.getIPcsInOrbit(ipcsNotPF)
-    expect(ipcsFromGroupActionNotPF.isComingFromAnOrbit()).toBeTrue()
+    expect(ipcsFromGroupActionNotPF.isComingFromOrbit()).toBeTrue()
     let ipcsPF = new IPcs({strPcs: "0, 3, 6, 9", iPivot: 0})
     expect(ipcsFromGroupActionNotPF.cyclicPrimeForm().id).toEqual(groupAction.getIPcsInOrbit(ipcsPF).id)
   })
@@ -409,7 +409,7 @@ describe('IPcs unit tests', () => {
     const primeForm = ipcsWithNoOrbit.musaicPrimeForm()
     expect(primeForm.id).toEqual(ipcsMusaicPF.id)
 
-    expect(primeForm.isComingFromAnOrbit()).toBeTrue()
+    expect(primeForm.isComingFromOrbit()).toBeTrue()
 
     // TODO with orbit or no
     // const ipcsWithOrbit = primeForm.transposition(1)
@@ -520,8 +520,8 @@ describe('IPcs unit tests', () => {
     expect(empty.symmetryPrimeForm().id).toEqual(empty.id)
 
     const pcsInMusicGroup = ManagerGroupActionService.getGroupActionFromGroupAliasName('Musaic')?.getIPcsInOrbit(diatMaj)!
-    expect(pcsInMusicGroup.isComingFromAnOrbit()).toBeTrue()
-    expect(pcsInMusicGroup.symmetryPrimeForm().isComingFromAnOrbit()).toBeTrue()
+    expect(pcsInMusicGroup.isComingFromOrbit()).toBeTrue()
+    expect(pcsInMusicGroup.symmetryPrimeForm().isComingFromOrbit()).toBeTrue()
 
     // difficult case :  1 3 6 7 9 10, pass by CM11 and all others steps
     let kothimic = new IPcs({strPcs:"1 3 6 7 9 10"})
@@ -557,71 +557,82 @@ describe('IPcs unit tests', () => {
     expect(pcs5Cyclic.symmetryPrimeForm().iPivot).toEqual(1) // // M7-T0 stab
   })
 
+  it("IPcs symmetry prime form Orbit", () => {
+    const pcs = new IPcs({strPcs: "0 3 6 9"})
+    const pcsInOrbit =
+       ManagerGroupActionService.getGroupActionFromGroupAliasName('Musaic')?.getIPcsInOrbit(pcs)
+    expect(pcsInOrbit).toBeDefined()
+    expect(pcsInOrbit!.symmetryPrimeForm().isComingFromOrbit()).toBeTrue()
+    expect(pcs.symmetryPrimeForm().isComingFromOrbit()).toBeFalse()
+  })
 
-  it("getPivotFromSymmetry", () => {
+  it("getFutureAxialSymmetryPivotForPrepareComplement", () => {
     let pcs = new IPcs({strPcs: '[0,1,2]'})
     expect(pcs.getPivot()).toEqual(0)
 
-    let pivot = pcs.getPivotAxialSymmetryForComplement()
-    expect(pivot).toEqual(6)
+    pcs = new IPcs({strPcs: '[1 0 2]'})
+    expect(pcs.getPivot()).toEqual(1)
+
+    let pivot = pcs.getFutureAxialSymmetryPivotForPrepareComplement()
+    expect(pivot).toEqual(7)
 
     const p3 = pcs.symmetryPrimeForm()
     expect(p3.getPcsStr()).toEqual('[0 1 11]')
     expect(p3.getPivot()).toEqual(0)
 
     pcs = new IPcs({strPcs: '[4 5 6 7 8]'})
-    pivot = pcs.getPivotAxialSymmetryForComplement()
+    pivot = pcs.getFutureAxialSymmetryPivotForPrepareComplement()
     expect(pivot).toEqual(10)
 
     // musaic n° 80
     pcs = new IPcs({strPcs: '[0,2,3,5,6,8]'})
-    pivot = pcs.getPivotAxialSymmetryForComplement()
+    pivot = pcs.getFutureAxialSymmetryPivotForPrepareComplement()
     expect(pivot).toEqual(7)
 
     // musaic n° 32
     pcs = new IPcs({strPcs: '[0,3,4,7]'})
-    pivot = pcs.getPivotAxialSymmetryForComplement()
+    pivot = pcs.getFutureAxialSymmetryPivotForPrepareComplement()
     expect(pivot).toEqual(6)
 
     // musaic n° 35
     pcs = new IPcs({strPcs: '[0,2,4,8]'})
-    pivot = pcs.getPivotAxialSymmetryForComplement()
+    pivot = pcs.getFutureAxialSymmetryPivotForPrepareComplement()
     expect(pivot).toEqual(6)
 
     // musaic n° 64
     pcs = new IPcs({strPcs: '[0,1,2,3,4,6]'})
-    pivot = pcs.getPivotAxialSymmetryForComplement()
+    pivot = pcs.getFutureAxialSymmetryPivotForPrepareComplement()
     expect(pivot).toEqual(5)
 
     pcs = new IPcs({strPcs: '[0,1,2,3,4,5,6]'})
-    pivot = pcs.getPivotAxialSymmetryForComplement()
+    pivot = pcs.getFutureAxialSymmetryPivotForPrepareComplement()
     expect(pivot).toEqual(7)
 
     pcs = new IPcs({strPcs: '[0,1,2,3,4,5,6,7,8,9,10,11]'})
-    pivot = pcs.getPivotAxialSymmetryForComplement()
+    pivot = pcs.getFutureAxialSymmetryPivotForPrepareComplement()
     expect(pivot).toEqual(undefined)
 
     pcs = new IPcs({strPcs: '[]'})
-    pivot = pcs.getPivotAxialSymmetryForComplement()
+    pivot = pcs.getFutureAxialSymmetryPivotForPrepareComplement()
     expect(pivot).toEqual(0)
 
     pcs = new IPcs({strPcs: '[0]'})
-    pivot = pcs.getPivotAxialSymmetryForComplement()
+    pivot = pcs.getFutureAxialSymmetryPivotForPrepareComplement()
     expect(pivot).toEqual(6)
 
     pcs = new IPcs({strPcs: '[3]'})
-    pivot = pcs.getPivotAxialSymmetryForComplement()
+    pivot = pcs.getFutureAxialSymmetryPivotForPrepareComplement()
     expect(pivot).toEqual(9)
 
 
     pcs = new IPcs({strPcs: '[0 4 5]'})
-    pivot = pcs.getPivotAxialSymmetryForComplement()
+    pivot = pcs.getFutureAxialSymmetryPivotForPrepareComplement()
     expect(pivot).toEqual(6)
     pcs = new IPcs({strPcs: '[4 5 0]'})
-    pivot = pcs.getPivotAxialSymmetryForComplement()
+    pivot = pcs.getFutureAxialSymmetryPivotForPrepareComplement()
     expect(pivot).toEqual(10)
     pcs = new IPcs({strPcs: '[5 0 4]'})
-    pivot = pcs.getPivotAxialSymmetryForComplement()
+    pivot = pcs.getFutureAxialSymmetryPivotForPrepareComplement()
     expect(pivot).toEqual(11)
 
   })
@@ -795,10 +806,10 @@ describe('IPcs unit tests', () => {
     let ipcsWithoutOrbit = new IPcs({strPcs: "0, 4, 8", iPivot: 0})
     let ipcsWithOrbit: IPcs = cyclicGroup12.getIPcsInOrbit(ipcsWithoutOrbit)
 
-    expect(ipcsWithoutOrbit.isComingFromAnOrbit()).toBeFalse()
-    expect(ipcsWithOrbit.isComingFromAnOrbit()).toBeTrue()
+    expect(ipcsWithoutOrbit.isComingFromOrbit()).toBeFalse()
+    expect(ipcsWithOrbit.isComingFromOrbit()).toBeTrue()
 
-    expect(ipcsWithoutOrbit.complement().isComingFromAnOrbit()).toBeFalse()
+    expect(ipcsWithoutOrbit.complement().isComingFromOrbit()).toBeFalse()
 
     // only ManagerPcsService manage state orbit
     // expect(ipcsWithOrbit.complement().isComingFromAnOrbit()).toBeFalse()
@@ -890,7 +901,7 @@ describe('IPcs unit tests', () => {
       strPcs: "[0, 2, 4]", // first 3-chord
       n: 7,
       nMapping: 12,
-      templateMappingVectorPcs: [0, 2, 4, 5, 7, 9, 11]  // mapped in {C E G}
+      vectorMapping: [0, 2, 4, 5, 7, 9, 11]  // mapped in {C E G}
     })
 
     // verify mapping 7 -> 12
@@ -903,7 +914,7 @@ describe('IPcs unit tests', () => {
 
     // default mapping is n
     expect(ipcsDiatMaj.nMapping).toEqual(12)
-    expect(ipcsDiatMaj.templateMappingVectorPcs.length).toEqual(12)
+    expect(ipcsDiatMaj.vectorMapping.length).toEqual(12)
 
     expect(ipcsDiatMaj.getMappedVectorPcs().length).toEqual(12)
   })
@@ -915,7 +926,7 @@ describe('IPcs unit tests', () => {
     })
     expect(ipcsDminor.nMapping).toEqual(ipcsDminor.n)
     expect(ipcsDminor.nMapping).toEqual(12)
-    expect(ipcsDminor.templateMappingVectorPcs).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
+    expect(ipcsDminor.vectorMapping).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
   })
 
 
@@ -938,7 +949,7 @@ describe('IPcs unit tests', () => {
       strPcs: "[0, 2, 4]", // first 3-chord
       n: 7,
       nMapping: 12,
-      templateMappingVectorPcs: [0, 2, 4, 5, 7, 9, 11]  // mapped into [0,4,7] {C E G}
+      vectorMapping: [0, 2, 4, 5, 7, 9, 11]  // mapped into [0,4,7] {C E G}
     })
     expect(ipcsDiatMajMapped.getPcsStr()).toEqual('[0 2 4]')
     expect(ipcsDiatMajMapped.getMappedPcsStr()).toEqual('[0 4 7]')
@@ -954,7 +965,7 @@ describe('IPcs unit tests', () => {
       strPcs: "[0, 2, 4]", // first 3-chord
       n: 7,
       nMapping: 12,
-      templateMappingVectorPcs: [0, 2, 4, 5, 7, 9, 11]  // pcs mapped into [0,4,7] {C E G}
+      vectorMapping: [0, 2, 4, 5, 7, 9, 11]  // pcs mapped into [0,4,7] {C E G}
     })
     expect(pcsDiatMajMapped.indexMappedToIndexInner(0)).toEqual(0)
     expect(pcsDiatMajMapped.indexMappedToIndexInner(2)).toEqual(1)
@@ -1012,7 +1023,7 @@ describe('IPcs unit tests', () => {
       strPcs: "[0, 2, 4]", // first 3-chord {C E G}
       n: 7,
       nMapping: 12,
-      templateMappingVectorPcs: [0, 2, 4, 5, 7, 9, 11]  // pcs mapped into [0,4,7]
+      vectorMapping: [0, 2, 4, 5, 7, 9, 11]  // pcs mapped into [0,4,7]
     })
     expect(pcsDiatMajMapped.getMappedPcsStr()).toEqual('[0 4 7]')
     expect(pcsDiatMajMapped.is()).toEqual([4, 3, 5]);
@@ -1026,10 +1037,10 @@ describe('IPcs unit tests', () => {
     const ipcsMaj3Pitches: IPcs = new IPcs({
       strPcs: "[0, 4, 7]", // C Major
     })
-    expect(ipcsMaj3Pitches.isComingFromAnOrbit()).toBeFalse()
+    expect(ipcsMaj3Pitches.isComingFromOrbit()).toBeFalse()
 
     const ipcsPrimeForme = ipcsMaj3Pitches.cyclicPrimeForm()
-    expect(ipcsPrimeForme.isComingFromAnOrbit()).toBeTrue()
+    expect(ipcsPrimeForme.isComingFromOrbit()).toBeTrue()
     // because ipcsPrimeForme is get from group action
   });
 
@@ -1161,22 +1172,22 @@ describe('IPcs unit tests', () => {
 
   it('isComingFromAnOrbitTrivial', ()=> {
     let pcs = new IPcs({strPcs: '[0,4,7]'})
-    expect(pcs.isComingFromAnOrbitTrivial()).toBeFalse()
+    expect(pcs.isComingFromTrivialOrbit()).toBeFalse()
     let pcInOrbit = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")?.getIPcsInOrbit(pcs)
-    expect(pcInOrbit?.isComingFromAnOrbitTrivial()).toBeFalse()
+    expect(pcInOrbit?.isComingFromTrivialOrbit()).toBeFalse()
     pcInOrbit = ManagerGroupActionService.getGroupActionFromGroupAliasName("Musaic")?.getIPcsInOrbit(pcs)
-    expect(pcInOrbit?.isComingFromAnOrbitTrivial()).toBeFalse()
+    expect(pcInOrbit?.isComingFromTrivialOrbit()).toBeFalse()
     pcInOrbit = ManagerGroupActionService.getGroupActionFromGroupAliasName("Trivial")?.getIPcsInOrbit(pcs)
-    expect(pcInOrbit?.isComingFromAnOrbitTrivial()).toBeTrue() // <== true
+    expect(pcInOrbit?.isComingFromTrivialOrbit()).toBeTrue() // <== true
   })
 
   it(' clones ', ()=>{
     let pcs = new IPcs({strPcs: '[0,4,7]'})
     let pcInOrbit = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")?.getIPcsInOrbit(pcs)
-    expect(pcInOrbit?.isComingFromAnOrbit()).toBeTrue()
-    expect(pcInOrbit?.cloneDetached().isComingFromAnOrbit()).toBeFalse()
-    expect(pcs.isComingFromAnOrbit()).toBeFalse()
-    expect(pcs.cloneDetached().isComingFromAnOrbit()).toBeFalse()
+    expect(pcInOrbit?.isComingFromOrbit()).toBeTrue()
+    expect(pcInOrbit?.cloneDetached().isComingFromOrbit()).toBeFalse()
+    expect(pcs.isComingFromOrbit()).toBeFalse()
+    expect(pcs.cloneDetached().isComingFromOrbit()).toBeFalse()
 
     try {
       pcs.cloneDetachedWithPivot(42)
@@ -1184,21 +1195,45 @@ describe('IPcs unit tests', () => {
     } catch (e) { }
 
     pcs = new IPcs({strPcs: '[0,3,6,9]'})
-    pcInOrbit = ManagerPcsService.getOrMakeInstanceFromOrbitOfGroupActionOf(pcs, pcInOrbit?.orbit.groupAction!, 6)
-    expect(pcInOrbit?.isComingFromAnOrbit()).toBeTrue()
+    pcInOrbit = pcs.getOrMakeInstanceFromOrbitOfGroupActionOf(pcInOrbit?.orbit.groupAction!, 6)
+    expect(pcInOrbit?.isComingFromOrbit()).toBeTrue()
     expect(pcInOrbit?.iPivot).toEqual(6)
 
     let newPcs = pcInOrbit.cloneWithNewPivot(3)
     expect(newPcs.iPivot).toEqual(3)
-    expect(newPcs.isComingFromAnOrbit()).toBeTrue()
-    expect(newPcs.cloneDetachedWithPivot(0).isComingFromAnOrbit()).toBeFalse()
+    expect(newPcs.isComingFromOrbit()).toBeTrue()
+    expect(newPcs.cloneDetachedWithPivot(0).isComingFromOrbit()).toBeFalse()
 
-    expect(newPcs.cloneWithDefaultPivot().isComingFromAnOrbit()).toBeTrue()
+    expect(newPcs.cloneWithDefaultPivot().isComingFromOrbit()).toBeTrue()
     expect(newPcs.cloneWithDefaultPivot().iPivot).toEqual(0)
 
     expect(pcInOrbit.cloneWithNewPivot(0).iPivot).toEqual(0)
-    expect(pcInOrbit.cloneWithNewPivot(0).isComingFromAnOrbit()).toBeTrue()
+    expect(pcInOrbit.cloneWithNewPivot(0).isComingFromOrbit()).toBeTrue()
 
   })
+
+  it(' clones with parameters ', ()=> {
+    let pcs = new IPcs({strPcs: '[0,4,6]', n:7})
+    let pcInOrbitCyclic = ManagerGroupActionService.getGroupActionFromGroupName("n:7 [M1]")?.getIPcsInOrbit(pcs)
+
+    expect(pcInOrbitCyclic).toBeDefined()
+
+    expect(pcs.n).toEqual(7)
+    expect(pcs.nMapping).toEqual(7) // self mapping
+
+    let clone = pcs.cloneWithData({pivot: 0, nMapping: 12, vectorMapping: [0,2,4,5,7,9,11]})
+
+    expect(clone.id).toEqual(pcs.id)
+    expect(clone.n).toEqual(pcs.n)
+    expect(clone.nMapping).toEqual(12)
+    expect(clone.vectorMapping).toEqual([0,2,4,5,7,9,11])
+
+    expect(pcInOrbitCyclic!.isComingFromOrbit()).toBeTrue()
+
+    clone = pcInOrbitCyclic!.cloneWithData({orbit: new Orbit()})
+    expect(clone.isComingFromTrivialOrbit()).toBeFalse()
+
+  });
+
 
 })

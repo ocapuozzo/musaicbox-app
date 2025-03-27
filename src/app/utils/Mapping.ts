@@ -9,9 +9,9 @@ export class Mapping {
    * Function call for create auto mapping on himself
    * Example of call (in constructor).
    *  <pre>
-   *   this.templateMappingVectorPcs = mapToHimSelf(this.vectorPcs)
+   *   this.vectorMapping = mapToHimSelf(this.vectorPcs)
    *   if this.vectorPcs = [1,0,0,1,0,0,0,1,0,0,1,0] // cm7 = [0,3,7,10]
-   *   then this.templateMappingVectorPcs will be : [0,1,2,3,4,5,6,7,8,9,10,11]
+   *   then this.vectorMapping will be : [0,1,2,3,4,5,6,7,8,9,10,11]
    *  </pre>
    * @param {number[]} binPcs a array bin pcs
    * @return {number[]} result.length == vectorPcs.length and elements of result are array index of vectorPcs

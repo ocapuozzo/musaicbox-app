@@ -2,8 +2,8 @@
   <div #containercanvas class="text-center">
     <canvas #canvas id="canvas"
             [ngClass]="{
-            'roundedImageBorder roundedImageShadow': pcs.isComingFromAnOrbit() && !pcs.isComingFromAnOrbitTrivial(),
-             'box-musaic': !pcs.isComingFromAnOrbit() || pcs.isComingFromAnOrbitTrivial() }"
+            'roundedImageBorder roundedImageShadow': pcs.isComingFromOrbit() && !pcs.isComingFromTrivialOrbit(),
+             'box-musaic': !pcs.isComingFromOrbit() || pcs.isComingFromTrivialOrbit() }"
             style="border:1px solid black;" >
     </canvas>
   </div>
@@ -76,7 +76,7 @@
       Show pitches index
     </mat-checkbox>
 
-    <div [hidden]="!pcs.isComingFromAnOrbit()" style="margin-top: 10px">
+    <div [hidden]="!pcs.isComingFromOrbit()" style="margin-top: 10px">
       <button mat-raised-button
               (click)="detachPcs()">
         Detach this PCS

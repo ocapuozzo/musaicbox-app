@@ -98,7 +98,7 @@ export class GroupExplorerComponent {
 
   onChangeN($event: any) {
     this.n = Number.parseInt($event.target.value) ?? 12
-    this.primesWithN = Group.phiEulerElements(this.n);
+    this.primesWithN = Group.phiEulerElementsOf(this.n);
     this.primesWithNOperations = []
     for (let i = 0; i < this.primesWithN.length; i++) {
       this.primesWithNOperations.push(`M${this.primesWithN[i]}`)

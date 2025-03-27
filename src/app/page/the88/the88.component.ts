@@ -4,7 +4,7 @@ import {IPcs} from "../../core/IPcs";
 import {Router} from "@angular/router";
 import {PcsColor} from "../../color/PcsColor";
 import {FormsModule} from "@angular/forms";
-import {NgClass, NgForOf, NgTemplateOutlet} from "@angular/common";
+import {NgClass, NgTemplateOutlet} from "@angular/common";
 import {ManagerLocalStorageService} from "../../service/manager-local-storage.service";
 import {EightyEight} from "../../utils/EightyEight";
 import {PcsComponent} from "../../component/pcs/pcs.component";
@@ -23,8 +23,8 @@ import {ManagerGroupActionService} from "../../service/manager-group-action.serv
 export interface IOrbitMusaic {
   pcsDto: UIPcsDto  // a representative of orbit (prime forme in modalPF)
   metaStabilizerNames: string[] // of orbit
-  color: string
   cardinal: number
+  date : Date
 }
 
 export interface IOctotrope {
@@ -42,7 +42,6 @@ export interface IOctotrope {
   standalone: true,
   imports: [
     FormsModule,
-    NgForOf,
     PcsComponent,
     CdkMenu,
     CdkMenuItem,
@@ -63,7 +62,7 @@ export class The88Component implements OnInit, AfterViewInit {
   octotropes: IOctotrope[]
 
   musaicDrawGrid: boolean = false
-  listOrbits: IOrbitMusaic[] = []
+  musaicOrbits: IOrbitMusaic[] = []
   nbMusaicsMatch = 0
 
   currentSelectedOps: string[] = ["M1"]
@@ -94,14 +93,19 @@ export class The88Component implements OnInit, AfterViewInit {
       })
     }
 
-    this.listOrbits = this.groupMusaic.orbits.map(orbit => (
+    this.musaicOrbits = this.groupMusaic.orbits.map(orbit => (
       {
         pcsDto: makePcsDto(orbit.getPcsMin().symmetryPrimeForm()),
         metaStabilizerNames: orbit.metaStabilizer.name.split(' '),
-        color: PcsColor.getColor(orbit.metaStabilizer.name),
-        cardinal: orbit.cardinal
+        // color: PcsColor.getColor(orbit.metaStabilizer.name),
+        cardinal: orbit.cardinal,
         // musaic.pcsDto.pcs.orbit.metaStabilizer.hashCode()
+        date: new Date()
       }))
+
+    // this.musaicOrbits.forEach((musaic) => {
+    //   console.log("musaic.color : ", musaic.color)
+    // })
 
     this.pcs = ManagerGroupActionService.getGroupActionFromGroupAliasName("Musaic")!.getIPcsInOrbit(this.pcs)
     // console.log("this.pcs", this.pcs.stabilizer.strMetaStabilizer.metaStabOperations)
@@ -190,28 +194,34 @@ export class The88Component implements OnInit, AfterViewInit {
   }
 
   update88musicsFromOctotropesSelectedAndActive() {
-    let newMusaicOrbits: IOrbitMusaic[] = []
     let color: string = "black"
     this.nbMusaicsMatch = 0
 
     // loop over 88 musaics
-    this.listOrbits.forEach(musaic => {
+    this.musaicOrbits.forEach((musaic, index) => {
       color = "black"
       // search if current musaic match
       for (let i = 0; i < this.octotropes.length; i++) {
+        // console.log("this.octotropes[i].pcs.orbit.metaStabilizer.hashCode() =" ,this.octotropes[i].pcs.orbit.metaStabilizer.hashCode() )
+        // console.log("musaic.pcsDto.pcs.orbit.metaStabilizer.hashCode() = ", musaic.pcsDto.pcs.orbit.metaStabilizer.hashCode())
         if (this.octotropes[i].pcs.orbit.metaStabilizer.hashCode() === musaic.pcsDto.pcs.orbit.metaStabilizer.hashCode()
           && this.octotropes[i].selected
           && this.octotropes[i].active) {
           this.nbMusaicsMatch++
-          color = PcsColor.getColor(this.currentSelectedOps.join(' '));
+          // console.log("this.matTabGroup.selectedIndex : ", this.matTabGroup.selectedIndex)
+          if (this.matTabGroup.selectedIndex === 0) { // select operation
+            color = PcsColor.getColor(this.currentSelectedOps.join(' '));
+          } else { // by octotrope
+            color = PcsColor.getColor(this.indexSelectedOctotrope)
+          }
           break
         }
       }
-      musaic.pcsDto.colorPitchOn = color
-      newMusaicOrbits.push({...musaic, color: color})
+      if (musaic.pcsDto.colorPitchOn !== color) {
+        musaic.pcsDto.colorPitchOn = color
+        musaic.date = new Date() // for auto update template
+      }
     })
-    // for auto update template
-    this.listOrbits = newMusaicOrbits
   }
 
   isChecked(op: string) {
@@ -219,13 +229,13 @@ export class The88Component implements OnInit, AfterViewInit {
   }
 
   doPushToWhiteboardPage(index: number) {
-    this.managerPageWBService.setPcsDtoForTemplate(this.listOrbits[index].pcsDto)
-    this.managerPageWBService.addPcs({somePcs: [this.listOrbits[index].pcsDto.pcs]})
+    this.managerPageWBService.setPcsDtoForTemplate(this.musaicOrbits[index].pcsDto)
+    this.managerPageWBService.addPcs({somePcs: [this.musaicOrbits[index].pcsDto.pcs]})
     this.router.navigateByUrl('/w-board');
   }
 
   doPushSelectionToWhiteboardPage(color: string) {
-    let selectedOrbits = this.listOrbits.filter(orbit => orbit.pcsDto.colorPitchOn === color)
+    let selectedOrbits = this.musaicOrbits.filter(orbit => orbit.pcsDto.colorPitchOn === color)
 
     if (selectedOrbits.length > 0) {
       let template = new UIPcsDto({...selectedOrbits[0].pcsDto})
@@ -239,7 +249,7 @@ export class The88Component implements OnInit, AfterViewInit {
   }
 
   cardinalWithThisColor(color: string) {
-    return this.listOrbits.reduce((countSameColor, orbit) =>
+    return this.musaicOrbits.reduce((countSameColor, orbit) =>
       orbit.pcsDto.colorPitchOn === color ? countSameColor + 1 : countSameColor, 0);
   }
 
@@ -274,7 +284,7 @@ export class The88Component implements OnInit, AfterViewInit {
     this.nbMusaicsMatch = 0
 
     // loop over 88 musaics
-    this.listOrbits.forEach(musaic => {
+    this.musaicOrbits.forEach(musaic => {
       color = "black"
       // search if current musaic match one pcs of somePcs
       for (let i = 0; i < searchData.somePcs.length; i++) {
@@ -286,10 +296,10 @@ export class The88Component implements OnInit, AfterViewInit {
         }
       }
       musaic.pcsDto.colorPitchOn = color
-      newMusaicOrbits.push({...musaic, color: color})
+      newMusaicOrbits.push({...musaic})
     })
     // for auto update template
-    this.listOrbits = newMusaicOrbits
+    this.musaicOrbits = newMusaicOrbits
   }
 
   protected readonly console = console;

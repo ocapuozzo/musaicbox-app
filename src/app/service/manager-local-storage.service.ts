@@ -4,7 +4,6 @@ import {UIPcsDto} from "../ui/UIPcsDto";
 import {IPcs} from "../core/IPcs";
 import {ClipboardService} from "./clipboard.service";
 import {ManagerGroupActionService} from "./manager-group-action.service";
-import {ManagerPcsService} from "./manager-pcs.service";
 import {IStoragePage88} from "./IDataState";
 
 export interface ISerializedPcs {
@@ -12,7 +11,7 @@ export interface ISerializedPcs {
   n ?: number
   iPivot ?: number
   nMapping: number
-  templateMappingVectorPcs ?: number[]
+  vectorMapping ?: number[]
   groupName: string
 }
 
@@ -69,8 +68,8 @@ export class ManagerLocalStorageService {
           n: pcsDto.pcs.n,
           iPivot: pcsDto.pcs.iPivot,
           nMapping: pcsDto.pcs.nMapping,
-          templateMappingVectorPcs: pcsDto.pcs.templateMappingVectorPcs,
-          groupName: pcsDto.pcs.isComingFromAnOrbit() ? pcsDto.pcs.orbit!.groupAction!.group.name : ''
+          vectorMapping: pcsDto.pcs.vectorMapping,
+          groupName: pcsDto.pcs.isComingFromOrbit() ? pcsDto.pcs.orbit!.groupAction!.group.name : ''
         }
       let obj = {
         ...pcsDto,
@@ -108,7 +107,7 @@ export class ManagerLocalStorageService {
           iPivot: pcsSerialDto.serializedPcs.iPivot,
           n:pcsSerialDto.serializedPcs.n,
           nMapping: pcsSerialDto.serializedPcs.nMapping ?? 12,
-          templateMappingVectorPcs: pcsSerialDto.serializedPcs.templateMappingVectorPcs ?? [],
+          vectorMapping: pcsSerialDto.serializedPcs.vectorMapping ?? [],
           groupName: pcsSerialDto.serializedPcs.groupName ?? ''
         }
 
@@ -122,7 +121,7 @@ export class ManagerLocalStorageService {
             ManagerGroupActionService.getGroupActionFromGroupName(serializedPcs.groupName)
           if (groupAction) {
             const savPivot = pcs.getPivot()
-            pcs = ManagerPcsService.getOrMakeInstanceFromOrbitOfGroupActionOf(pcs, groupAction, savPivot);
+            pcs = pcs.getOrMakeInstanceFromOrbitOfGroupActionOf(groupAction, savPivot);
           }
         }
 

@@ -28,7 +28,7 @@
  *      strPcs: "[0, 2, 4]", // first 3-chord (C E G)
  *      n: 7,
  *      nMapping: 12,
- *      templateMappingVectorPcs: [0, 2, 4, 5, 7, 9, 11]  // pcs mapped into [0,4,7]
+ *      vectorMapping: [0, 2, 4, 5, 7, 9, 11]  // pcs mapped into [0,4,7]
  *    })
  *    expect(pcsDiatMajMapped.getMappedPcsStr()).toEqual('[0,4,7]')
  *    expect(pcsDiatMajMapped.is()).toEqual([4,3,5]);
@@ -48,7 +48,6 @@ import {MusaicOperation} from "./MusaicOperation";
 import {ArrayUtil} from "../utils/ArrayUtil";
 import {ManagerGroupActionService} from "../service/manager-group-action.service";
 import {PcsUtils} from "../utils/PcsUtils";
-import {ManagerPcsService} from "../service/manager-pcs.service";
 
 export const negativeToPositiveModulo = (i: number, n: number): number => {
   return (n - ((i * -1) % n)) % n
@@ -59,7 +58,7 @@ const helperGetGroupActionFrom = (groupName: string): GroupAction | undefined =>
 }
 
 export const DIRECTIONS = ['Next', 'Previous'] as const;
-export type TDirection  = typeof DIRECTIONS[number];
+export type TDirection = typeof DIRECTIONS[number];
 
 /**
  * @see at top of this file
@@ -116,13 +115,13 @@ export class IPcs {
 
   /**
    * mapping of this, for external/interface representation
-   * this.templateMappingVectorPcs.length == this.n
+   * this.vectorMapping.length == this.n
    * Example : this.n = 7
    *      strPcs: "[0, 2, 4]", // first 3-chord (C E G)
    *      nMapping: 12,
-   *      templateMappingVectorPcs: [0, 2, 4, 5, 7, 9, 11]  // pcs [0, 2, 4] mapped into [0,4,7]
+   *      vectorMapping: [0, 2, 4, 5, 7, 9, 11]  // pcs [0, 2, 4] mapped into [0,4,7]
    */
-  readonly templateMappingVectorPcs: number[]
+  readonly vectorMapping: number[]
 
   /**
    * this is vectorPcs mapped
@@ -140,7 +139,7 @@ export class IPcs {
   orbit: Orbit;
 
   constructor(
-    {pidVal, strPcs, vectorPcs, n, iPivot, orbit, templateMappingVectorPcs, nMapping}:
+    {pidVal, strPcs, vectorPcs, n, iPivot, orbit, vectorMapping, nMapping}:
     {
       pidVal?: number,
       strPcs?: string,
@@ -148,7 +147,7 @@ export class IPcs {
       n?: number,
       iPivot?: number,
       orbit?: Orbit,
-      templateMappingVectorPcs?: number[],
+      vectorMapping?: number[],
       nMapping?: number
     } = {}) {
     if (n !== undefined && (n < 3 || n > 13)) {
@@ -191,7 +190,7 @@ export class IPcs {
     }
 
     this.n = this.vectorPcs.length // normally, param n synchronized
-    this.cardinal = this.vectorPcs.reduce((sumOnes, v_i) => v_i === 1 ? sumOnes+1 : sumOnes, 0)
+    this.cardinal = this.vectorPcs.reduce((sumOnes, v_i) => v_i === 1 ? sumOnes + 1 : sumOnes, 0)
 
     // check when iPivot === 0
     if (this.iPivot === undefined && iPivot === 0 && this.cardinal > 0) {
@@ -229,10 +228,10 @@ export class IPcs {
     this.id = IPcs.id(this.vectorPcs)
 
     // default mapping on himself
-    if (!templateMappingVectorPcs || templateMappingVectorPcs.length != this.n) {
-      this.templateMappingVectorPcs = Mapping.getAutoMapping(this.vectorPcs)
+    if (!vectorMapping || vectorMapping.length != this.n) {
+      this.vectorMapping = Mapping.getAutoMapping(this.vectorPcs)
     } else {
-      this.templateMappingVectorPcs = templateMappingVectorPcs
+      this.vectorMapping = vectorMapping
     }
 
     this.nMapping = nMapping ? nMapping : this.n
@@ -241,15 +240,15 @@ export class IPcs {
     if (this.nMapping < this.n) throw new Error("Invalid data mapping")
 
     // check mapping data
-    if (this.templateMappingVectorPcs.some(value => value >= this.nMapping)) {
+    if (this.vectorMapping.some(value => value >= this.nMapping)) {
       throw new Error("Invalid data mapping")
     }
 
     // @see method getMappedVectorPcs()
     // construct mappedVectorPcs (default mapping on himself)
     this._mappedVectorPcs = new Array<number>(this.nMapping).fill(0)
-    for (let i = 0; i < this.templateMappingVectorPcs.length; i++) {
-      this._mappedVectorPcs[this.templateMappingVectorPcs[i]] = this.vectorPcs[i];
+    for (let i = 0; i < this.vectorMapping.length; i++) {
+      this._mappedVectorPcs[this.vectorMapping[i]] = this.vectorPcs[i];
     }
   }
 
@@ -393,7 +392,7 @@ export class IPcs {
     if (pcsSym.k !== undefined) {
       // ok axial symmetry exists, to be balanced relative to the vertical axis passing through 0
       // as needed. So, if k <> zero, divide k by 2
-      const delta = Math.floor(pcsSym.k / 2) // pcsSym.pcs.iPivot ?? 0
+      const delta = Math.floor(pcsSym.k / 2)
 
       // Get new version of pcsSymmetry
       // note : id delta > 0, the elected pcs must be transposed, for set vertical axe
@@ -402,15 +401,19 @@ export class IPcs {
 
     }
 
-    // Now we have best pcsSymmetryAxial, search for a pivot having best symmetry in -T0
-    // get pivot that max symmetry -T0 for pcsSymmetry, from ops M5-T0, M7-T0, M11-T0 and cplt
+    // Now we have best pcsSymmetryAxial, search for a pivot with the best symmetry in -T0
+    // get pivot that max symmetry -T0 for pcsSymmetry, from ops M5-T0, M7-T0, M11-T0 and complement
     const pivotBestSymmetry = PcsUtils.getPivotBestSymmetryInT0(pcsSymmetry) ?? pcsSymmetry.iPivot
+    //
+    // if (pivotBestSymmetry) {
+    //   pcsSymmetry = pcsSymmetry.cloneWithNewPivot(pivotBestSymmetry)
+    // }
 
     // new pcs to be relocated in its initial orbit, with good pivot
-    if (this.isComingFromAnOrbit()) {
-      pcsSymmetry = ManagerPcsService.getOrMakeInstanceFromOrbitOfGroupActionOf(pcsSymmetry, this.orbit.groupAction!, pivotBestSymmetry === undefined ?  pcsSymmetry.iPivot : pivotBestSymmetry)
-      // pcsSymmetry = ManagerPcsService.makeNewInstanceOf(pcsSymmetry, this.orbit.groupAction!, pcsSymmetry.iPivot)
+    if (this.isComingFromOrbit()) {
+      pcsSymmetry = pcsSymmetry.getOrMakeInstanceFromOrbitOfGroupActionOf(this.orbit.groupAction!, pivotBestSymmetry === undefined ?  pcsSymmetry.iPivot : pivotBestSymmetry)
     } else {
+      // not attached to a group action
       if (pivotBestSymmetry) {
         pcsSymmetry = pcsSymmetry.cloneDetachedWithPivot(pivotBestSymmetry)
       } else {
@@ -475,116 +478,6 @@ export class IPcs {
       return helperGetGroupActionFrom(groupName)!.getOrbitOf(this)!.getPcsMin()
     }
   }
-  //
-  // /**
-  //  * general transformation : affine operation ax + t
-  //  * general idea (composition of affine operations):
-  //  *  1/ translate :        1 + -iPivot
-  //  *  2/ affine operation : ax + t
-  //  *  3/ translate :        1 + iPivot
-  //  *  so : ax + ( -(a-1) * iPivot + t ) (for each pc in pcs)
-  //  * @param pcs
-  //  * @param  a : number   {number}
-  //  * @param  t : number   [0..11]
-  //  * @return IPcs
-  //  */
-  // static permute(pcs: IPcs, a: number, t: number): IPcs {
-  //   if (pcs.cardinal === 0) {
-  //     // empty set pcs, no change
-  //     return pcs
-  //   }
-  //
-  //   // if there is a transposition, then the pivot follows it.
-  //   let newPivot = negativeToPositiveModulo(((pcs.iPivot ?? 0) + t), pcs.vectorPcs.length)
-  //   //
-  //   return  new IPcs({
-  //     vectorPcs: this.getVectorPcsPermuted(a, t, newPivot, pcs.vectorPcs),
-  //     iPivot: newPivot,
-  //     orbit: new Orbit(),
-  //     templateMappingVectorPcs: pcs.templateMappingVectorPcs,
-  //     nMapping: pcs.nMapping
-  //   })
-  //   //
-  //   // let pcsPermuted = new IPcs({
-  //   //   vectorPcs: this.getVectorPcsPermuted(a, t, newPivot, pcs.vectorPcs),
-  //   //   iPivot: newPivot,
-  //   //   orbit: new Orbit(),
-  //   //   templateMappingVectorPcs: pcs.templateMappingVectorPcs,
-  //   //   nMapping: pcs.nMapping
-  //   // })
-  //   //
-  //   //
-  //   // // if (pcs.isConstructionComplete()) {
-  //   //   if (pcs.orbit?.groupAction) {
-  //   //     pcsPermuted = pcs.orbit.groupAction.getIPcsInOrbit(pcsPermuted)
-  //   //     if (pcsPermuted.iPivot !== newPivot) {
-  //   //       pcsPermuted = pcsPermuted.cloneWithNewPivot(newPivot)
-  //   //     }
-  //   //   }
-  //   // // }
-  //   // return pcsPermuted
-  // }
-  //
-  //
-  // /**
-  //  * general transformation from affine operation ax + t, but fixed on pivot (see "fixed zero problem" in doc)
-  //  * Version by permutation.
-  //  * general idea (composition of basic affine operations):
-  //  *  1/ translate :        - pivot
-  //  *  2/ affine operation : ax + t
-  //  *  3/ translate :        + pivot
-  //  *  so : ax + ( -(a-1) * pivot + t )
-  //  *  so : ax + pivot * (1 - a) + t
-  //  *
-  //  * @see analysis/documentation : affPivot function
-  //  *
-  //  * @param  a : number
-  //  * @param  t : number  [0..this.n[
-  //  * @param pivot : number [0..this.n[
-  //  * @param vectorPcs : number[] array of int
-  //  * @return {number[]}
-  //  */
-  // static getVectorPcsPermuted(a: number, t: number, pivot: number, vectorPcs: number[]): number[] {
-  //   let vectorPcsPermuted = vectorPcs.slice()
-  //   const n = vectorPcs.length
-  //   let j
-  //   for (let i = 0; i < n; i++) {
-  //     // focus on algebra expression affine extend with manage pivot  : ax + pivot(1 - a) + k)
-  //     // ax + pivot(1 - a) + k)
-  //     // = ax + pivot(1 - a) + t
-  //     // = a*x - a*pivot + pivot  + t
-  //     // a * (x - pivot) + pivot  + t // <= 1 multiplication 1 subtraction 2 add : best implementation
-  //     //
-  //     // Let's take an example :
-  //     //
-  //     // array-in :  [...,    c, d,  e,  f,  g,  h  ,....]
-  //     //              0,1,... 8, 9, 10, 11, 12, 13, ...
-  //     //                             ^
-  //     //  Example : array-in[10] == "e"
-  //     //
-  //     //  if t = +2, array-out[10] becomes "c"
-  //     //
-  //     // array-out :  [...,           c,  d,  e,  f,  g,  h,....]
-  //     //               0,1,... 8,  9, 10, 11, 12, 13, ...
-  //     //                               ^
-  //     //  if t = +2,  element "e" at index 10 becomes "c" (index of c = index of e - t)
-  //     //                                                                           ^
-  //     // this is why, in permutation act, plus t became minus t at end of expression : [...] + t)  =>  [...] - t)
-  //     //
-  //     // j =  a (x - pivot) + pivot + t
-  //     //
-  //     // (below i = x,  where index and pitch class are "merged" :))
-  //     //   @see whats_wrong_with_operations in documentation
-  //
-  //     j = (n + (a * ( i - pivot) + pivot - t) % n) % n
-  //
-  //     // first j modulo n may be negative... so twice modulo : (n + ( j modulo n )) modulo n
-  //     // @see https://stackoverflow.com/questions/4467539/javascript-modulo-gives-a-negative-result-for-negative-numbers
-  //     vectorPcsPermuted[i] = vectorPcs[j]
-  //   }
-  //   return vectorPcsPermuted
-  // }
-
 
   /**
    * Transformation affine of this
@@ -594,7 +487,6 @@ export class IPcs {
    */
   affineOp(a: number, t: number): IPcs {
     return MusaicOperation.permute(this, a, t)
-    // return MusaicOperation.permute(this, a, t)
   }
 
   /**
@@ -604,7 +496,6 @@ export class IPcs {
    */
   transposition(t: number): IPcs {
     return MusaicOperation.permute(this, 1, t)
-    // return MusaicOperation.permute(this, 1, t)
   }
 
   /**
@@ -618,27 +509,28 @@ export class IPcs {
   modulation(direction: TDirection): IPcs {
     if (this.cardinal === 0) return this
 
-    const indexes = this.vectorPcs.reduce(IPcs.vector2integersPcs, [])
+    const indexes = this.vectorPcs.reduce(IPcs.vector2integerNamePcs, [])
 
     // double values and size. Ex [0, 4, 7] => [0, 4, 7, 0, 4, 7]
     // to simplify the algorithm.
     indexes.push(...indexes)
     // indexes = [...indexes, ...indexes] : more memory-intensive
 
-    let newPivot : number
+    let newPivot: number
     let pivot: number = this.iPivot! // only undefined when cardinal = 0
 
-    if (direction === "Next"){
+    if (direction === "Next") {
       // indexOf start from 0
-      newPivot = indexes[indexes.indexOf(pivot)+1]
+      newPivot = indexes[indexes.indexOf(pivot) + 1]
     } else { // assume (direction === "Previous") {
       // indexOf start from middle of indexes
-      newPivot = indexes[indexes.indexOf(pivot, this.cardinal-1)-1]
+      newPivot = indexes[indexes.indexOf(pivot, this.cardinal - 1) - 1]
     }
     return this.cloneWithNewPivot(newPivot)
   }
 
   /**
+   * **** Old abandoned implementation ****
    * Modulation of this (change iPivot)
    * @param direction which next or previus degree of modulation
    *  Example : { 0, 4, 7 } iPivot=0,  next=> iPivot == 4,  prev=> iPivot == 7
@@ -647,39 +539,39 @@ export class IPcs {
    *
    *  Old implementation
    */
-  _modulation(direction: TDirection): IPcs {
-    let newPivot = this.iPivot
-
-    if (this.cardinal === 0) return this
-
-    let pivot: number = this.iPivot!
-    if (direction === "Next") {
-      let n = this.vectorPcs.length
-      for (let i = pivot + 1; i < n + pivot; i++) {
-        if (this.vectorPcs[i % n] === 1) {
-          newPivot = i % n
-          break
-        }
-      }
-    } else if (direction === "Previous") {
-      let n = this.vectorPcs.length
-      let i = pivot - 1
-      if (i < 0) {
-        i = negativeToPositiveModulo(i, n)
-      }
-      for (; i !== pivot;) {
-        if (this.vectorPcs[i] === 1) {
-          newPivot = i
-          break
-        }
-        i--
-        if (i < 0) {
-          i = negativeToPositiveModulo(i, n)
-        }
-      }
-    }
-    return this.cloneWithNewPivot(newPivot)
-  }
+  // _modulation(direction: TDirection): IPcs {
+  //   let newPivot = this.iPivot
+  //
+  //   if (this.cardinal === 0) return this
+  //
+  //   let pivot: number = this.iPivot!
+  //   if (direction === "Next") {
+  //     let n = this.vectorPcs.length
+  //     for (let i = pivot + 1; i < n + pivot; i++) {
+  //       if (this.vectorPcs[i % n] === 1) {
+  //         newPivot = i % n
+  //         break
+  //       }
+  //     }
+  //   } else if (direction === "Previous") {
+  //     let n = this.vectorPcs.length
+  //     let i = pivot - 1
+  //     if (i < 0) {
+  //       i = negativeToPositiveModulo(i, n)
+  //     }
+  //     for (; i !== pivot;) {
+  //       if (this.vectorPcs[i] === 1) {
+  //         newPivot = i
+  //         break
+  //       }
+  //       i--
+  //       if (i < 0) {
+  //         i = negativeToPositiveModulo(i, n)
+  //       }
+  //     }
+  //   }
+  //   return this.cloneWithNewPivot(newPivot)
+  // }
 
   /**
    * In arg to reduce. Input array of 0|1, output array of integer [0..n-1]
@@ -688,7 +580,7 @@ export class IPcs {
    * @param currentValue
    * @param currentIndex
    */
-  static vector2integersPcs(previousValue: number[], currentValue: number, currentIndex: number) {
+  static vector2integerNamePcs(previousValue: number[], currentValue: number, currentIndex: number) {
     if (currentValue === 1) {
       previousValue.push(currentIndex)
     }
@@ -702,7 +594,7 @@ export class IPcs {
    * @returns {string}
    */
   getPcsStr(withBracket: boolean = true): string {
-    const pcsNameIndexes = this.vectorPcs.reduce(IPcs.vector2integersPcs, [])
+    const pcsNameIndexes = this.vectorPcs.reduce(IPcs.vector2integerNamePcs, [])
 
     if (withBracket) {
       return `[${pcsNameIndexes.join(' ')}]`
@@ -712,13 +604,13 @@ export class IPcs {
 
 
   /**
-   * Get textuel representation of this in nMapping (notation bracket or not)
+   * Get textual representation of this in nMapping (notation bracket or not)
    * string image of PCS from bin array
    * Example : [1,1,0,0,0,0,0,1,0,0,0,0] => "[0 1 7]"
    * @returns {string}
    */
   getMappedPcsStr(withBracket: boolean = true): string {
-    const pcs = this.getMappedVectorPcs().reduce(IPcs.vector2integersPcs, [])
+    const pcs = this.getMappedVectorPcs().reduce(IPcs.vector2integerNamePcs, [])
     return withBracket ? `[${pcs.join(' ')}]` : pcs.join(' ')
   }
 
@@ -753,7 +645,7 @@ export class IPcs {
     const res: number[] = []
     const vectorPcsMapped = this.getMappedVectorPcs()
     const nMapped = this.nMapping
-    const pivotMapped = this.templateMappingVectorPcs[this.iPivot ?? 0]
+    const pivotMapped = this.vectorMapping[this.iPivot ?? 0]
 
     for (let i = 0; i < nMapped; i++) {
       if (vectorPcsMapped[(i + pivotMapped) % nMapped] === 1) {
@@ -860,31 +752,16 @@ export class IPcs {
   /**
    * get complement of this.
    * Important : complement loses iPivot
-   * @return {IPcs} a new instance (free, not attached to an orbit).
+   * @return {IPcs} a new instance, if this come from orbit, then new instance come from orbit of orbit.groupAction
    *
    */
   complement(): IPcs {
-
-    // let complementVector: number[] = this.vectorPcs.map(pc => (pc === 1 ? 0 : 1)) //;slice() and inverse 0/1
-    //
-    // const newPivot = this.getPivotAxialSymmetryForComplement()
-    //
-    // return  new IPcs({
-    //   vectorPcs: complementVector,
-    //   iPivot: newPivot, // new_iPivot,
-    //   orbit: new Orbit(), // as new pcs, here we don't know its orbit (see note below)
-    //   templateMappingVectorPcs: this.templateMappingVectorPcs,
-    //   nMapping: this.nMapping
-    // })
-
     return MusaicOperation.complement(this)
   }
 
   toString() {
-    return JSON.stringify(this.vectorPcs) + " n = " + this.n + ", iPivot : "
-      + JSON.stringify(this.iPivot)
-      + ((this.n != this.nMapping) ? '  Mapped on ' + this.nMapping : '')
-    //	return JSON.stringify(this);
+    return `[${this.vectorPcs.join( )}] n = ${this.n}, iPivot = ${this.iPivot}`
+      + ((this.n != this.nMapping) ? ` Mapped on ${this.nMapping}` : '')
   }
 
   equals(other: any) {
@@ -1042,7 +919,7 @@ export class IPcs {
         n: newVectorPcs.length,
         iPivot: this.iPivot,
         orbit: new Orbit(), // not same pcs (old orbit = this.orbit),
-        templateMappingVectorPcs: this.templateMappingVectorPcs,
+        vectorMapping: this.vectorMapping,
         nMapping: this.nMapping
       })
     } else {
@@ -1056,7 +933,7 @@ export class IPcs {
           n: newVectorPcs.length,
           iPivot: undefined,
           orbit: new Orbit(), // not same pcs (old orbit = this.orbit)
-          templateMappingVectorPcs: this.templateMappingVectorPcs,
+          vectorMapping: this.vectorMapping,
           nMapping: this.nMapping
         })
       } else {
@@ -1074,7 +951,7 @@ export class IPcs {
             n: newVectorPcs.length,
             iPivot: newIPivot,
             orbit: new Orbit(), // not same pcs (old orbit = this.orbit)
-            templateMappingVectorPcs: this.templateMappingVectorPcs,
+            vectorMapping: this.vectorMapping,
             nMapping: this.nMapping
           })
         } else {
@@ -1084,7 +961,7 @@ export class IPcs {
             n: newVectorPcs.length,
             iPivot: this.iPivot,
             orbit: new Orbit(), // not same pcs (old orbit = this.orbit)
-            templateMappingVectorPcs: this.templateMappingVectorPcs,
+            vectorMapping: this.vectorMapping,
             nMapping: this.nMapping
           })
         }
@@ -1094,7 +971,7 @@ export class IPcs {
   }
 
   /**
-   * set auto mapping from current vectorPcs which becomes templateMappingVectorPcs.
+   * set auto mapping from current vectorPcs which becomes vectorMapping.
    * Example :
    *   this = "0 4 7 10", n=12 => autoMap
    *      this becomes "0 1 2 3", with n = 4 and templateMapping : "0 4 7 10", n=12
@@ -1103,26 +980,26 @@ export class IPcs {
     let newVectorPcs = new Array(this.cardinal).fill(1);
 
     // Pre-sizing array before processing.
-    let newTemplateMappingVectorPcs = new Array<number>(this.cardinal);
+    let newvectorMapping = new Array<number>(this.cardinal);
 
     for (let i = 0, j = 0; i < this.vectorPcs.length; i++) {
       if (this.vectorPcs[i] == 1) {
-        newTemplateMappingVectorPcs[j++] = i;
+        newvectorMapping[j++] = i;
       }
     } // end of loop : assert j === this.cardinal - 1
-    // assert value element of templateMappingVectorPcs in [0..this.vectorPcs.length[
+    // assert value element of vectorMapping in [0..this.vectorPcs.length[
 
     const new_nMapping: number = this.vectorPcs.length
     const pivot = this.getPivot() === undefined
       ? undefined
-      : newTemplateMappingVectorPcs.indexOf(this.getPivot()!)
+      : newvectorMapping.indexOf(this.getPivot()!)
 
     return new IPcs(
       {
         vectorPcs: newVectorPcs,
         n: this.cardinal,
         iPivot: pivot,
-        templateMappingVectorPcs: newTemplateMappingVectorPcs,
+        vectorMapping: newvectorMapping,
         nMapping: new_nMapping
       })
   }
@@ -1159,27 +1036,27 @@ export class IPcs {
   }
 
   getMappedPivot() {
-    return this.templateMappingVectorPcs[this.iPivot ?? 0]
+    return this.vectorMapping[this.iPivot ?? 0]
   }
 
 
-  isComingFromAnOrbit(): boolean {
+  isComingFromOrbit(): boolean {
     return this.orbit.isComingFromGroupAction()
   }
 
-  isComingFromAnOrbitTrivial(): boolean {
+  isComingFromTrivialOrbit(): boolean {
     return this.orbit.groupAction === ManagerGroupActionService.getGroupActionFromGroupAliasName("Trivial")
   }
 
 
   /**
-   * Get correspondance index of a mappedIndex
+   * Get correspondence index of a mappedIndex
    * Example :
    *    const pcsDiatMajMapped = new IPcs({
    *       strPcs: "[0, 2, 4]", // first 3-chord
    *       n: 7,
    *       nMapping: 12,
-   *       templateMappingVectorPcs: [0, 2, 4, 5, 7, 9, 11]  // pcs mapped into [0,4,7] {C E G}
+   *       vectorMapping: [0, 2, 4, 5, 7, 9, 11]  // pcs mapped into [0,4,7] {C E G}
    *    })
    *    pcsDiatMajMapped.indexMappedToIndexInner(2) => 1
    *
@@ -1188,7 +1065,7 @@ export class IPcs {
    *         or -1 if indexMapped is not mapped
    */
   indexMappedToIndexInner(indexMapped: number): number {
-    return this.templateMappingVectorPcs.findIndex(value => indexMapped == value) ?? -1
+    return this.vectorMapping.findIndex(value => indexMapped == value) ?? -1
   }
 
   getChordName(): string {
@@ -1229,7 +1106,7 @@ export class IPcs {
     // TODO : generalize this method !!!
     // const group = this.orbit?.groupAction?.group
     // ManagerGroupActionService.getGroupActionFromGroupAliasName("Musaic"))
-    return this.n === 12 && this.musaicPrimeForm().orbit.cardinal < this.n * 8;
+    return /*this.n === 12 && */this.musaicPrimeForm().orbit.cardinal < this.n * 8;
   }
 
   getPivot(): number | undefined {
@@ -1253,30 +1130,23 @@ export class IPcs {
     }
   }
 
-  // static OperationsT0_M11_M5_M7_CM11_CM5_CM7 = [
-  //   new MusaicOperation(12, 11, 0, false),
-  //   new MusaicOperation(12, 5, 0, false),
-  //   new MusaicOperation(12, 7, 0, false),
-  //   new MusaicOperation(12, 11, 0, true),
-  //   new MusaicOperation(12, 5, 0, true),
-  //   new MusaicOperation(12, 7, 0, true)
-  // ]
-
   /**
-   * Try to define iPivot from symmetries of pcs, if possible
+   * Define future axial symmetrical iPivot of complement of pcs, if possible
    *
-   *
-   * @return pivot value or -1 if not found (Not sure this case could exist)
+   * Examples :
+   *  - [0 1 2] => 6
+   *  - [1 0 2] => 7  (pivot is 1)
+   *  - [0 2 3 5 6 8] => 7
+   *  - [0,1,2,3,4,5,6,7,8,9,10,11] => undefined
+   *  - [] => 0
+   * @return symmetrical pivot value
    */
-  public getPivotAxialSymmetryForComplement(): number | undefined {
-    return this.getPivotAxialSymmetry()
-  }
+  public getFutureAxialSymmetryPivotForPrepareComplement(): number | undefined {
 
-  private getPivotAxialSymmetry(){
     let pivot = this.iPivot
 
     // empty set pcs ? complement is chromatic scale
-    if (pivot===undefined) {
+    if (pivot === undefined) {
       return 0
     }
 
@@ -1286,11 +1156,14 @@ export class IPcs {
     }
 
     // be careful with odd n (Math.floor)
-    let newPivot = (pivot + Math.floor(this.n/2)) % this.n
+    let newPivot = (pivot + Math.floor(this.n / 2)) % this.n
+
     let ok = this.vectorPcs[newPivot] === 0
+    // note : if empty pcs, the ok === true, and do not entry into loop
 
     let delta = 0
     while (!ok) {
+      // sure that exist an index i that verify this.vectorPcs[i] === 0, so it is not an infinite loop :)
       delta++
       let newPivotRight = (this.n + newPivot - delta) % this.n
       let newPivotLeft = (newPivot + delta) % this.n
@@ -1307,121 +1180,27 @@ export class IPcs {
     return newPivot
   }
 
-  // /**
-  //  *
-  //  *   [1 2 10 11] pivot 1 =>   stab = [M1-T0 M11-T10]
-  //  *   [1 2 10 11] pivot 11  => stab = [M1-T0 M11-T2]
-  //
-  //  *   ony stab in T0 matters, and pivot 1 is "natural" pivot (is not shifted)
-  //  *
-  //  * Try to define iPivot from symmetries of pcs, if possible
-  //  * Begin first with M11, M5 then M7, and their complement, in this order,
-  //  * The first closest to zero win (excludes M1-Tx) !
-  //  * Example of winners : M5-T0, CM5-T11 or CM5-T1 (same distance to zero)
-  //  * @return pivot value or -1 if not found (Not sure this case could exist)
-  //  */
-  // public getPivotFromSymmetryForComplementByBruteForce(): number {
-  //   // create new instance for test
-  //   let pcsForTest = new IPcs({
-  //     vectorPcs: this.vectorPcs,
-  //     iPivot: this.iPivot,
-  //     orbit: this.orbit,
-  //     templateMappingVectorPcs: this.templateMappingVectorPcs,
-  //     nMapping: this.nMapping
-  //   })
-  //
-  //   if (this.n !== 12) throw Error("pcs.n = " + this.n + " invalid (must be 12 digits)")
-  //
-  //   // exists stab in T0 other that M1-T0 ?
-  //   // example : musaic n° 53, 35 (see unit test)
-  //   const id = this.id
-  //   for (let t = 0; t < this.n / 6; t++) {
-  //     for (let i = 0; i < IPcs.OperationsT0_M11_M5_M7_CM11_CM5_CM7.length; i++) {
-  //       for (let j = 0; j < pcsForTest.vectorPcs.length; j++) {
-  //         if (pcsForTest.vectorPcs[j] === 1) {
-  //           pcsForTest.setPivot(j)
-  //           if (t === 0) {
-  //             // no need to translate when t == 0
-  //             if (id === IPcs.OperationsT0_M11_M5_M7_CM11_CM5_CM7[i].actionOn(pcsForTest).id) {
-  //               // good pivot
-  //               return j
-  //             }
-  //           } else {
-  //             // The case T has been exhausted, let's search with values of T greater than zero.
-  //             // let's try with a value of t which gradually moves away from zero
-  //             // Note : this.n-t and t are both same distance from zero.
-  //             if (id === IPcs.OperationsT0_M11_M5_M7_CM11_CM5_CM7[i].actionOn(pcsForTest).transposition(t).id
-  //               ||
-  //               id === IPcs.OperationsT0_M11_M5_M7_CM11_CM5_CM7[i].actionOn(pcsForTest).transposition(this.n - t).id) {
-  //               // Closest value to zero find
-  //               return j
-  //             }
-  //           }
-  //         }
-  //       }
-  //     }
-  //   }
-  //   return -1 // never ??
-  // }
-
-
-  // /**
-  //  * Try to define iPivot from symmetries of pcs, if possible
-  //  * test first M11, M5 then M7, in this order, the first found is winner
-  //  * @return pivot value or -1 if not found
-  //  */
-  //
-  // public sav_getPivotFromSymmetry(): number {
-  //   // create new instance for test
-  //   let pcsForTest = new IPcs({
-  //     vectorPcs: this.vectorPcs,
-  //     iPivot: this.iPivot,
-  //     orbit: this.orbit,
-  //     templateMappingVectorPcs: this.templateMappingVectorPcs,
-  //     nMapping: this.nMapping
-  //   })
-  //
-  //   if (this.n !== 12) throw Error("pcs.n = " + this.n + " invalid (must be 12 digits)")
-  //
-  //   // no symmetry but exists stab in T0 other that M1-T0 ?
-  //   // example : musaic n° 53, 35 (see unit test)
-  //   const id = this.id
-  //   for (let i = 0; i < IPcs.OperationsT0_M11_M5_M7_CM11_CM5_CM7.length; i++) {
-  //     for (let j = 0; j < pcsForTest.vectorPcs.length; j++) {
-  //       if (pcsForTest.vectorPcs[j] === 1) {
-  //         pcsForTest.setPivot(j)
-  //         if (id === IPcs.OperationsT0_M11_M5_M7_CM11_CM5_CM7[i].actionOn(pcsForTest).id) {
-  //           // good pivot
-  //           return j
-  //         }
-  //       }
-  //     }
-  //   }
-  //   return -1
-  // }
 
   /**
    * Get intervals type of intervallic structure
    * Example : is:[2,2,1,2,2,2,1] => [1,2]
    */
-  getFeatureIS(): number[] {
+  getIntervalsTypeOfIS(): number[] {
     const is = this.is()
     let feature: number[] = [...new Set(is)]
-    // for (let i = 0; i < is.length; i++) {
-    //   if (!feature.includes(is[i])) feature.push(is[i])
-    // }
     return feature.sort()
   }
 
   /**
    * Get array of pcs having same intervals type of this
+   * Ex : [0,2,4,5,7,9,11] => [1,2] two type os interval : Half tone and Whole tone
    */
-  getPcsSameFeatureIS() {
+  getPcsSameIntervalsType() {
     const groupCyclic = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!
     let pcsSameFeatureIS: IPcs[] = []
-    const featureIS = this.getFeatureIS()
+    const featureIS = this.getIntervalsTypeOfIS()
     groupCyclic.orbits.forEach(orbit => {
-      if (ArrayUtil.compareTwoSortedArrays(orbit.getPcsMin().getFeatureIS(), featureIS)) {
+      if (ArrayUtil.compareTwoSortedArrays(orbit.getPcsMin().getIntervalsTypeOfIS(), featureIS)) {
         pcsSameFeatureIS.push(orbit.getPcsMin())
       }
     })
@@ -1445,9 +1224,9 @@ export class IPcs {
   /**
    * Get index of pitchOrder for abc notation event
    * Example : {0, 4, 7}  (cardinal = 3)
-   *     pitch order of first pitch = 0
-   *     pitch order of second pitch = 4
-   *     pitch order of third pitch = 7
+   *     pitch order 1 => pitch = 0
+   *     pitch order 2 => pitch = 4
+   *     pitch order 3 => pitch = 7
    *
    * @param pitchOrder : number [1..this.cardinal]
    * @return index of pitchOrder into vectorPcs having bit to 1
@@ -1471,28 +1250,55 @@ export class IPcs {
     return -1
   }
 
+  /**
+   * Get affine + complement operation names of the form Mx and CMx, where x is prime with n
+   * @param n
+   * @private
+   */
   private static getStrMusaicOpsOf(n: number) {
-    const nPrimeWithN = Group.phiEulerElements(n)
-    let res = ''
-    // affine op
-    for (let i = 0; i < nPrimeWithN.length; i++) {
-      res += res ? ` M${nPrimeWithN[i]}` : `M${nPrimeWithN[i]}`
-    }
-    // same with complement
-    for (let i = 0; i < nPrimeWithN.length; i++) {
-      res += ` CM${nPrimeWithN[i]}`
-    }
-    return `[${res}]`;
+    const nPrimeWithN = Group.phiEulerElementsOf(n)
+    const opNames = [...nPrimeWithN.map(x => `M${x}`), ...nPrimeWithN.map(x => `CM${x}`)]
+    return '[' + opNames.join(' ') + ']'
   }
 
+  /**
+   * Get affine operation names of the form Mx, where x is prime with n
+   * @param n
+   * @private
+   */
   private static getStrAffineOpsOf(n: number) {
-    const nPrimeWithN = Group.phiEulerElements(n)
-    let res = ''
-    // affine op
-    for (let i = 0; i < nPrimeWithN.length; i++) {
-      res += res ? ` M${nPrimeWithN[i]}` : `M${nPrimeWithN[i]}`
+    const nPrimeWithN = Group.phiEulerElementsOf(n)
+    return '[' + nPrimeWithN.map(x => `M${x}`).join(' ') + ']'
+  }
+
+  /**
+   * If this not coming from orbit, get stabilizer op, neutral op, M1-T0
+   * else get stabilizer operations from operations of group where come from its orbit
+   */
+  getStabilizerOperations() {
+    if (this.isComingFromOrbit()) {
+      return this.orbit!.groupAction!.operations.filter(op => op.actionOn(this).id === this.id)
     }
-    return `[${res}]`;
+    return [MusaicOperation.convertStringOpToMusaicOperation("M1-T0", this.n)]
+  }
+
+  getMappedVersion() {
+    return new IPcs({vectorPcs: this.getMappedVectorPcs()});
+  }
+
+  /**
+   * General way to clone a PCS while retaining its identity (id is vectorPcs based, and it does not change)
+   * @param param
+   */
+  cloneWithData(param: { pivot?: number; nMapping?: number; vectorMapping?: number[]; orbit?: Orbit }) {
+    return new IPcs({
+      n: this.n,
+      vectorPcs: this.vectorPcs,
+      iPivot: param.pivot ?? this.iPivot,
+      nMapping: param.nMapping ?? this.nMapping,
+      vectorMapping: param.vectorMapping ?? this.vectorMapping,
+      orbit: param.orbit ?? this.orbit
+    })
   }
 
 
@@ -1503,67 +1309,58 @@ export class IPcs {
    * @return new instance, but same orbit because same pcs is returned (just pivot change)
    */
   cloneWithDefaultPivot(): IPcs {
-    const defaultPivot = this.getMappedVectorPcs().findIndex(value => value === 1)
-    return this.cloneWithNewPivot(defaultPivot < 0 ? undefined : defaultPivot)
+    if (this.cardinal === 0) {
+      return this // empty pcs has no iPivot value
+    }
+    const indexDefaultPivot = this.getMappedVectorPcs().findIndex(value => value === 1)
+    // never -1, because cardinal > 0
+    return this.cloneWithNewPivot(indexDefaultPivot)
   }
 
 
   /**
    * Change iPivot
    *
-   * @param iPivot
+   * @param pivot
    *
    * @return new instance, but same orbit because same pcs is returned (just pivot change)
    */
-  cloneWithNewPivot(iPivot ?: number): IPcs {
-    // exception is catch when bad iPivot (in constructor logic)
-    let newVectorPcs = this.vectorPcs//.slice() // readonly, it is no necessary to clone array
-    return new IPcs({
-      vectorPcs: newVectorPcs,
-      n: newVectorPcs.length,
-      iPivot: iPivot, // if undefined set default pivot
-      orbit: this.orbit, // same orbit because same pcs, just pivot change
-      templateMappingVectorPcs: this.templateMappingVectorPcs,
-      nMapping: this.nMapping
-    })
+  cloneWithNewPivot(pivot: number | undefined): IPcs {
+    if (pivot === undefined) {
+      if (this.cardinal === 0) {
+        return this // no possible change
+      }
+      throw new Error(`${pivot} is not a valid pivot`)
+    }
+
+    return this.cloneWithData({pivot: pivot})
   }
 
   cloneDetached() {
-    // set "empty" orbit
-    return  new IPcs({
-      orbit: new Orbit(), // <= not linked to a group action
-      vectorPcs: this.vectorPcs,
-      iPivot: this.iPivot,
-      templateMappingVectorPcs: this.templateMappingVectorPcs,
-      nMapping: this.nMapping
-    })
+    return this.cloneWithData({orbit: new Orbit()})
   }
 
-  cloneDetachedWithPivot(pivot : number) {
-    // set "empty" orbit
-    return  new IPcs({
-      orbit: new Orbit(), // <= not linked to a group action
-      vectorPcs: this.vectorPcs,
-      iPivot: pivot,
-      templateMappingVectorPcs: this.templateMappingVectorPcs,
-      nMapping: this.nMapping
-    })
+  cloneDetachedWithPivot(pivot: number) {
+    return this.cloneWithData({pivot: pivot, orbit: new Orbit()})
   }
 
 
   /**
-   * If this not coming from orbit, get stabilizer op, neutral op, M1-T0
-   * else get stabilizer operations from operations of group where come from its orbit
+   * Get instance of this, from group action
+   * if pivot is given and is not the same that current pivot then make a new instance
+   * @param groupAction where to find pcs (for cloning or not)
+   * @param newPivot (optional)
    */
-  getStabilizerOperations() {
-    if (this.isComingFromAnOrbit()) {
-      return this.orbit!.groupAction!.operations.filter(op => op.actionOn(this).id === this.id)
+   getOrMakeInstanceFromOrbitOfGroupActionOf(groupAction: GroupAction, newPivot ?: number) {
+    let newPcsInOrbit = groupAction.getIPcsInOrbit(this)
+
+    const theNewPivot = newPivot === undefined ? this.iPivot : newPivot
+
+    if (newPcsInOrbit.iPivot !== theNewPivot) {
+      return newPcsInOrbit.cloneWithNewPivot(theNewPivot)
     }
-    return [MusaicOperation.convertStringOpToMusaicOperation("M1-T0", this.n)]
+    return newPcsInOrbit // readonly by default, so can be shared
   }
 
-  getMappedVersion() {
-    return new IPcs({vectorPcs: this.getMappedVectorPcs()});
-  }
 
 }

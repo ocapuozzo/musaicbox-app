@@ -13,6 +13,7 @@ import {StringHash} from "../utils/StringHash";
 import {IPcs, negativeToPositiveModulo} from "./IPcs";
 import {Orbit} from "./Orbit";
 
+
 /**
  * musaic operation group : c . ((ax + t) modulo n)
  *
@@ -117,9 +118,9 @@ export class MusaicOperation {
    * @param  other MusaicOperation (c',a',t')
    * @return MusaicOperation (this.c,this.a,this.t) (c',a',t') = ( c xor c', aa', at' + t) (a new instance)
    */
-  compose(other: MusaicOperation) : MusaicOperation {
+  compose(other: MusaicOperation): MusaicOperation {
     if (this.n !== other.n)
-      throw new Error("MusaicOperation MusaicGroup Exception bad N in compose op : " + this.n  + " !== " + other.n);
+      throw new Error("MusaicOperation MusaicGroup Exception bad N in compose op : " + this.n + " !== " + other.n);
 
     return new MusaicOperation(
       this.n,
@@ -187,7 +188,7 @@ export class MusaicOperation {
    * other : M1-T0 M7-T0 M5-T8 M11-T8
    *       : M1-T0 M5-T0 M7-T6 M11-T6
    */
-  static compareStabMajorTMinorA(op1: MusaicOperation, op2: MusaicOperation) : number {
+  static compareStabMajorTMinorA(op1: MusaicOperation, op2: MusaicOperation): number {
     let w1 = op1.t;
     let w2 = op2.t;
 
@@ -237,11 +238,11 @@ export class MusaicOperation {
    * @param n number > 2
    * @return instance of MusaicOperation
    */
-  static convertStringOpToMusaicOperation(opName: string, n=12) {
+  static convertStringOpToMusaicOperation(opName: string, n = 12) {
     const complement = opName.charAt(0) === 'C';
     const indexCaret = opName.indexOf("-")
 
-    if (indexCaret === -1 ) {
+    if (indexCaret === -1) {
       throw Error(`Convert ${opName} to MusaicOperation impossible`)
     }
 
@@ -249,7 +250,7 @@ export class MusaicOperation {
       ? parseInt(opName.substring(2, indexCaret))
       : parseInt(opName.substring(1, indexCaret))
 
-    const k = parseInt(opName.substring(indexCaret+2))
+    const k = parseInt(opName.substring(indexCaret + 2))
 
     if (Number.isNaN(k) || Number.isNaN(a)) {
       throw Error(`Convert ${opName} to MusaicOperation impossible`)
@@ -265,12 +266,12 @@ export class MusaicOperation {
    * @param stringMusaicOperations array of stringRepresentation of MusaicOperation
    * @return {MusaicOperation[]} array of instances of MusaicOperation
    */
- static convertArrayStringsToArrayOfMusaicOperations(n: number, stringMusaicOperations: string[]): MusaicOperation[] {
-    let resultOperations : MusaicOperation[] = []
+  static convertArrayStringsToArrayOfMusaicOperations(n: number, stringMusaicOperations: string[]): MusaicOperation[] {
+    let resultOperations: MusaicOperation[] = []
     stringMusaicOperations.forEach(
       opName => {
-      resultOperations.push(this.convertStringOpToMusaicOperation(opName, n))
-    })
+        resultOperations.push(this.convertStringOpToMusaicOperation(opName, n))
+      })
     return resultOperations
   }
 
@@ -317,7 +318,7 @@ export class MusaicOperation {
   //     vectorPcs: binCplt,
   //     iPivot: newPivot, // new_iPivot,
   //     orbit: new Orbit(), // as new pcs, here we don't know its orbit (see note below)
-  //     templateMappingVectorPcs: pcs.templateMappingVectorPcs,
+  //     vectorMapping: pcs.vectorMapping,
   //     nMapping: pcs.nMapping
   //   })
   //   // if (pcs.isConstructionComplete()) {
@@ -357,7 +358,7 @@ export class MusaicOperation {
     //   vectorPcs: this.getVectorPcsPermuted(a, t, newPivot, pcs.vectorPcs),
     //   iPivot: newPivot,
     //   orbit: new Orbit(),
-    //   templateMappingVectorPcs: pcs.templateMappingVectorPcs,
+    //   vectorMapping: pcs.vectorMapping,
     //   nMapping: pcs.nMapping
     // })
     //
@@ -365,19 +366,29 @@ export class MusaicOperation {
       vectorPcs: this.getVectorPcsPermuted(a, t, newPivot, pcs.vectorPcs),
       iPivot: newPivot,
       orbit: new Orbit(),
-      templateMappingVectorPcs: pcs.templateMappingVectorPcs,
+      vectorMapping: pcs.vectorMapping,
       nMapping: pcs.nMapping
     })
 
-
-    // if (pcs.isConstructionComplete()) {
-      if (pcs.orbit?.groupAction) {
-        pcsPermuted = pcs.orbit.groupAction.getIPcsInOrbit(pcsPermuted)
-        if (pcsPermuted.iPivot !== newPivot) {
-          pcsPermuted = pcsPermuted.cloneWithNewPivot(newPivot)
-        }
+    // when orbit come from group action, the link pcs.orbit.groupAction
+    // is setting when orbit is done ( @see buildOrbitsByActionOnPowerset() )
+    if (pcs.orbit?.groupAction) {
+      pcsPermuted = pcs.orbit.groupAction.getIPcsInOrbit(pcsPermuted)
+      if (pcsPermuted.iPivot !== newPivot) {
+        pcsPermuted = pcsPermuted.cloneWithNewPivot(newPivot)
       }
-    // }
+      if (pcsPermuted.nMapping !== pcsPermuted.n && a > 1 && pcsPermuted.cardinal > 0) {
+
+        // TODO faire cela audessus , par exemple en passant { pivot, nMapping, mappingVector } en paramètre de clone
+        //      car actuellement, c'est perdu !!! Faire un test unitaire en premier pour identifier le problème actuel
+
+        // permute mapping
+        // const pcsUnMap = pcsPermuted.unMap()
+        // const vectorPcsMapping = this.getVectorPcsPermuted(a, t, pcsUnMap.iPivot!, pcsUnMap.vectorPcs)
+        // pcsPermuted.vectorMapping = vectorPcsMapping
+      }
+    }
+
     return pcsPermuted
   }
 
@@ -432,7 +443,7 @@ export class MusaicOperation {
       // (below i = x,  where index and pitch class are "merged" :))
       //   @see whats_wrong_with_operations in documentation
 
-      j = (n + (a * ( i - pivot) + pivot - t) % n) % n
+      j = (n + (a * (i - pivot) + pivot - t) % n) % n
 
       // first j modulo n may be negative... so twice modulo : (n + ( j modulo n )) modulo n
       // @see https://stackoverflow.com/questions/4467539/javascript-modulo-gives-a-negative-result-for-negative-numbers
@@ -452,24 +463,46 @@ export class MusaicOperation {
 
     let complementVector: number[] = pcs.vectorPcs.map(pc => (pc === 1 ? 0 : 1)) //;slice() and inverse 0/1
 
-    const newPivot = pcs.getPivotAxialSymmetryForComplement()
+    const newPivot = pcs.getFutureAxialSymmetryPivotForPrepareComplement()
 
-    let pcsComplement =  new IPcs({
+    let pcsComplement = new IPcs({
       vectorPcs: complementVector,
       iPivot: newPivot, // new_iPivot,
       orbit: new Orbit(), // as new pcs, here we don't know its orbit (see note below)
-      templateMappingVectorPcs: pcs.templateMappingVectorPcs,
+      vectorMapping: pcs.vectorMapping,
       nMapping: pcs.nMapping
     })
 
     if (pcs.orbit?.groupAction) {
-      pcsComplement = pcs.orbit.groupAction.getIPcsInOrbit(pcsComplement)
-      if (pcsComplement.iPivot !== newPivot) {
-        pcsComplement = pcsComplement.cloneWithNewPivot(newPivot)
-      }
+      pcsComplement = pcsComplement.getOrMakeInstanceFromOrbitOfGroupActionOf(pcs.orbit?.groupAction);
+      //
+      // pcsComplement = pcs.orbit.groupAction.getIPcsInOrbit(pcsComplement)
+      // if (pcsComplement.iPivot !== newPivot) {
+      //   pcsComplement = pcsComplement.cloneWithNewPivot(newPivot)
+      // }
     }
     return pcsComplement
     // return MusaicOperation.complement(this)
   }
+
+  //
+  // /**
+  //  * Get instance of IPcs from pcs given and group action (if pivot not same as pcs given, make a new instance)
+  //  * @param pcs to find image in action group
+  //  * @param groupAction where to find pcs (for cloning or not)
+  //  * @param newPivot
+  //  * @private
+  //  */
+  // public static getOrMakeInstanceFromOrbitOfGroupActionOf(pcs: IPcs, groupAction: GroupAction, newPivot ?: number) {
+  //   let newPcsInOrbit = groupAction.getIPcsInOrbit(pcs)
+  //
+  //   const theNewPivot = newPivot === undefined ? pcs.iPivot : newPivot
+  //
+  //   if (newPcsInOrbit.iPivot !== theNewPivot) {
+  //     return newPcsInOrbit.cloneWithNewPivot(theNewPivot)
+  //   }
+  //   return newPcsInOrbit // readonly by default, so can be shared
+  // }
+
 
 }

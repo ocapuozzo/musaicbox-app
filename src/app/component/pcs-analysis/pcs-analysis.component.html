@@ -45,7 +45,7 @@
       </p>
       <p>
         Intervallic Structure :
-        <span class="analyse-pcs">({{ pcsMapped.cloneWithDefaultPivot().is() }})</span>
+        <span class="analyse-pcs">({{ pcsMapped.cardinal === 0 ? pcsMapped.is() : pcsMapped.cloneWithDefaultPivot().is() }})</span>
       </p>
       @if (!pcsMapped.isPivotFirstPosition()) {
 
@@ -114,7 +114,7 @@
         }
       </p>
       <p style="max-width: 550px">
-        @if (!pcs.isComingFromAnOrbit() || pcs.isComingFromAnOrbitTrivial() || pcsInMusaicGroup()) {
+        @if (!pcs.isComingFromOrbit() || pcs.isComingFromTrivialOrbit() || pcsInMusaicGroup()) {
           (Musaic)
         } @else {
           (in orbit)

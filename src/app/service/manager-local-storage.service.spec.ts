@@ -67,7 +67,7 @@ describe('ManagerLocalStorageService', () => {
             "n": 7,
             "iPivot": 0,
             "nMapping": 12,
-            "templateMappingVectorPcs": [
+            "vectorMapping": [
                 0,
                 2,
                 4,
@@ -84,7 +84,7 @@ describe('ManagerLocalStorageService', () => {
      const arrayUIPcsDto = service.getPcsDtoListFromJsonContent(serialPcs)
      expect(arrayUIPcsDto.length).toEqual(1)
      expect(arrayUIPcsDto[0].pcs.n).toEqual(7)
-     expect(arrayUIPcsDto[0].pcs.templateMappingVectorPcs).toEqual([0,2,4,5,7,9,11])
+     expect(arrayUIPcsDto[0].pcs.vectorMapping).toEqual([0,2,4,5,7,9,11])
   });
 
 
