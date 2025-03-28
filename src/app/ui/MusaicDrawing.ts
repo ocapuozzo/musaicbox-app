@@ -55,7 +55,7 @@ export class MusaicDrawing {
     // let iPivot = this.pcs.iPivot ?? 0
 
 
-    const pivotMapped = this.pcsDto.pcs.vectorMapping[this.pcsDto.pcs.iPivot ?? 0]
+    const pivotMapped = this.pcsDto.pcs.templateMapping[this.pcsDto.pcs.iPivot ?? 0]
     for (let i = 0; i <= n; i++) {
       for (let j = 0; j <= n; j++) {
         if (this.pcsDto.pcs.getMappedVectorPcs()[(i + pivotMapped + j * 5) % n] === 1) {

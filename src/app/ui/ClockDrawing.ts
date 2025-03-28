@@ -101,10 +101,10 @@ export class ClockDrawing {
     // console.log("index : " + index + " selected : " + this.isSelected(index));
     ctx.fillStyle =
       (this.isSelected(index))
-        ? (index === this.pcs.vectorMapping[this.pcs.iPivot ?? 0])
+        ? (index === this.pcs.templateMapping[this.pcs.iPivot ?? 0])
           ? this.drawPivot ? this.pc_pivot_color : this.pc_color_fill
           : this.pc_color_fill
-        : this.pcs.vectorMapping.includes(index) ? 'white' : 'lightgray' ;
+        : this.pcs.templateMapping.includes(index) ? 'white' : 'lightgray' ;
 
     ctx.fill();
     if (radius >= 6) {

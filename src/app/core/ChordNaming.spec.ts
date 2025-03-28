@@ -7,7 +7,7 @@ describe('ChordNaming unit tests', () => {
       strPcs: "[0, 2, 4]", // first 3-chord
       n: 7,
       nMapping: 12,
-      vectorMapping: [0, 2, 4, 5, 7, 9, 11]  // mapped in {C E G}
+      templateMapping: [0, 2, 4, 5, 7, 9, 11]  // mapped in {C E G}
     })
 
     // console.log(ipcsDiatMajMapped.getMappedPcsStr())

@@ -11,7 +11,7 @@ export interface ISerializedPcs {
   n ?: number
   iPivot ?: number
   nMapping: number
-  vectorMapping ?: number[]
+  templateMapping ?: number[]
   groupName: string
 }
 
@@ -68,7 +68,7 @@ export class ManagerLocalStorageService {
           n: pcsDto.pcs.n,
           iPivot: pcsDto.pcs.iPivot,
           nMapping: pcsDto.pcs.nMapping,
-          vectorMapping: pcsDto.pcs.vectorMapping,
+          templateMapping: pcsDto.pcs.templateMapping,
           groupName: pcsDto.pcs.isComingFromOrbit() ? pcsDto.pcs.orbit!.groupAction!.group.name : ''
         }
       let obj = {
@@ -107,7 +107,7 @@ export class ManagerLocalStorageService {
           iPivot: pcsSerialDto.serializedPcs.iPivot,
           n:pcsSerialDto.serializedPcs.n,
           nMapping: pcsSerialDto.serializedPcs.nMapping ?? 12,
-          vectorMapping: pcsSerialDto.serializedPcs.vectorMapping ?? [],
+          templateMapping: pcsSerialDto.serializedPcs.templateMapping ?? [],
           groupName: pcsSerialDto.serializedPcs.groupName ?? ''
         }
 

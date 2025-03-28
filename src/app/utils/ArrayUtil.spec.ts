@@ -8,7 +8,24 @@ describe('Test for ArrayUtil', () => {
     expect(ArrayUtil.compareTwoSortedArrays(arr1,arr2)).toBeTrue()
     const arr3 = [1, 3, 4]
     expect(ArrayUtil.compareTwoSortedArrays(arr1,arr3)).toBeFalse()
+
+    expect(ArrayUtil.objectsEqual(arr1,arr2)).toBeTrue()
+    expect(ArrayUtil.objectsEqual(arr3,arr2)).toBeFalse()
+
   })
+
+  it('objectsEqual', () => {
+    const arr1 = [1, 3, 5]
+    const arr2 = [1, 3, 5]
+    const arr3 = [1, 3, 4]
+    const arr3bis = [1, 3, 4, 5]
+
+    expect(ArrayUtil.objectsEqual(arr1,arr2)).toBeTrue()
+    expect(ArrayUtil.objectsEqual(arr3,arr2)).toBeFalse()
+    expect(ArrayUtil.objectsEqual(arr3,arr3bis)).toBeFalse()
+
+  })
+
 
   it('isIncludeIn', () => {
     const arr1 = [1, 3, 5]

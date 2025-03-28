@@ -1,4 +1,5 @@
 /*
+/*
  * Copyright (c) 2019. Olivier Capuozzo
  *  This file is part of the musaicbox project
  *
@@ -307,39 +308,16 @@ export class MusaicOperation {
     return this.affineOp(pcs, 1, t)
   }
 
-  //
-  // static complement(pcs: IPcs) {
-  //
-  //   let binCplt: number[] = pcs.vectorPcs.map(pc => (pc === 1 ? 0 : 1)) //;slice() and inverse 0/1
-  //
-  //   const newPivot = pcs.getPivotAxialSymmetryForComplement()
-  //
-  //   let pcsComplement = new IPcs({
-  //     vectorPcs: binCplt,
-  //     iPivot: newPivot, // new_iPivot,
-  //     orbit: new Orbit(), // as new pcs, here we don't know its orbit (see note below)
-  //     vectorMapping: pcs.vectorMapping,
-  //     nMapping: pcs.nMapping
-  //   })
-  //   // if (pcs.isConstructionComplete()) {
-  //   //   if (pcs.orbit?.groupAction) {
-  //   //     pcsComplement = pcs.orbit.groupAction.getIPcsInOrbit(pcsComplement)
-  //   //     if (pcsComplement.iPivot !== newPivot) {
-  //   //       pcsComplement = pcsComplement.cloneWithNewPivot(newPivot)
-  //   //     }
-  //   //   }
-  //   // }
-  //   return pcsComplement
-  // }
-
-
   /**
    * general transformation : affine operation ax + t
    * general idea (composition of affine operations):
-   *  1/ translate :        1 + -iPivot
+   *  1/ translate :        - iPivot
    *  2/ affine operation : ax + t
-   *  3/ translate :        1 + iPivot
+   *  3/ translate :        + iPivot
    *  so : ax + ( -(a-1) * iPivot + t ) (for each pc in pcs)
+   *
+   *  If pcs is mapped (nMapping > n) then there is primacy of templateMapping over vectorPcs
+   *
    * @param pcs
    * @param  a : number   {number}
    * @param  t : number   [0..11]
@@ -350,48 +328,87 @@ export class MusaicOperation {
       // empty set pcs, no change
       return pcs
     }
+    let newPivot
+    let newVectorPcs: number[]
+    let newTemplateMapping: number[]
 
-    // if there is a transposition, then the pivot follows it.
-    let newPivot = negativeToPositiveModulo(((pcs.iPivot ?? 0) + t), pcs.vectorPcs.length)
+    if (pcs.nMapping > pcs.n && a > 1) {
+      // example :
+      //  n=7 vectorPcs = [0 2 4]
+      //  nMapping = 12 templateMapping = [0,2,4,5,7,9,11]
+      //  mapped on [0 4 7]
+      //  op = M11-T0
+      // this.mappedVectorPcs takes over this.vectorPcs
+      // this operation act on this.mappedVectorPcs, so templateMapping will also change
+
+      newPivot = negativeToPositiveModulo(((pcs.getMappedPivot() ?? 0) + t), pcs.nMapping)
+      // newPivot = negativeToPositiveModulo(((pcs.iPivot ?? 0) + t), pcs.nMapping)
+
+      let currentTemplateMapping = pcs.templateMapping
+      //"convert" currentTemplateMapping to currentVectorTemplateMapping  = [0,2,4,5,7,9,11] => [1,0,1,0,1...]
+      let currentVectorTemplateMapping = new Array<number>(pcs.nMapping).fill(0)
+      for (let i = 0; i < currentTemplateMapping.length; i++) {
+        currentVectorTemplateMapping[currentTemplateMapping[i]] = 1
+      }
+      // [0,2,4,5,7,9,11] => [1,0,1,0,1,1,0,1,0,1,0,1]
+      // currentVectorTemplateMapping is binary version of templateMapping
+
+      // permute currentVectorTemplateMapping
+      const permutedVectorTemplateMapping
+        = this.getVectorPcsPermuted(a, t, newPivot, currentVectorTemplateMapping)
+      // M11 * [1 0 1 0 1 1 0 1 0 1 0 1] =>  [1 1 0 1 0 1 0 1 1 0 0 1 0]  ([0 1 3 5 7 8 10])
+
+      // inverse convert action, that begin permutedVectorTemplateMapping becomes new template mapping
+      newTemplateMapping = permutedVectorTemplateMapping.reduce(IPcs.vector2integerNamePcs, [])
+      // so currentTemplateMapping become newTemplateMapping : [0 1 3 5 7 8 10]
+      // [1 1 0 1 0 1 0 1 1 0 0 1 0] => [0 1 3 5 7 8 10]
+
+      // Resume : M11 * [0,2,4,5,7,9,11] => [0 1 3 5 7 8 10]
+
+      // do same operation with pcs.getMappedVectorPcs() [1 0 0 0 1 0 0 1 0 0 0 0] or [0 4 7]
+      let newPermutedMappedVectorPcs = this.getVectorPcsPermuted(a, t, newPivot, pcs.getMappedVectorPcs())
+      // M11 * [0 4 7] => [0 5 8] [1 0 0 0 0 1 0 0 1 0 0 0]
+
+      // now convert inverse mapping [1 0 0 0 0 1 0 0 1 0 0 0] nMapping to n
+      // each index of newPermutedMappedVectorPcs where value is 1 belongs to newTemplateMapping
+      // because both are synchronized by same transformation operation M11
+      newVectorPcs = new Array<number>(pcs.n).fill(0)
+      for (let i = 0; i < newPermutedMappedVectorPcs.length; i++) {
+        if (newPermutedMappedVectorPcs[i] === 1) {
+          newVectorPcs[newTemplateMapping.indexOf(i)] = 1
+        }
+      }
+      // [1 0 0 0 0 1 0 0 1 0 0 0] => [1 0 0 1 <== this index (3) is index of 5 in newTemplateMapping
+      // [1 0 0 0 0 1 0 0 1 0 0 0] => [1 0 0 1 0 1 0]
+      //
+
+      // not get new image of pivot (because templateMapping has been changed)
+      newPivot = newTemplateMapping.indexOf(newPivot)
+
+      // we have defined : newPivot, newVectorPcs and newTemplateMapping
+    } else {
+      // no mapping
+      // if there is a transposition, then the pivot follows it.
+      newPivot = negativeToPositiveModulo(((pcs.iPivot ?? 0) + t), pcs.vectorPcs.length)
+      newVectorPcs = this.getVectorPcsPermuted(a, t, newPivot, pcs.vectorPcs)
+      newTemplateMapping = pcs.templateMapping
+    }
+    // now make operation act
     //
-    // return  new IPcs({
-    //   vectorPcs: this.getVectorPcsPermuted(a, t, newPivot, pcs.vectorPcs),
-    //   iPivot: newPivot,
-    //   orbit: new Orbit(),
-    //   vectorMapping: pcs.vectorMapping,
-    //   nMapping: pcs.nMapping
-    // })
-    //
-    let pcsPermuted = new IPcs({
-      vectorPcs: this.getVectorPcsPermuted(a, t, newPivot, pcs.vectorPcs),
+    let pcsMappedPermuted = new IPcs({
+      vectorPcs: newVectorPcs,
+      n: pcs.n,
+      templateMapping: newTemplateMapping,
+      nMapping: pcs.nMapping,
       iPivot: newPivot,
-      orbit: new Orbit(),
-      vectorMapping: pcs.vectorMapping,
-      nMapping: pcs.nMapping
+      orbit: new Orbit() // will maybe be changed, see below
     })
 
-    // when orbit come from group action, the link pcs.orbit.groupAction
-    // is setting when orbit is done ( @see buildOrbitsByActionOnPowerset() )
     if (pcs.orbit?.groupAction) {
-      pcsPermuted = pcs.orbit.groupAction.getIPcsInOrbit(pcsPermuted)
-      if (pcsPermuted.iPivot !== newPivot) {
-        pcsPermuted = pcsPermuted.cloneWithNewPivot(newPivot)
-      }
-      if (pcsPermuted.nMapping !== pcsPermuted.n && a > 1 && pcsPermuted.cardinal > 0) {
-
-        // TODO faire cela audessus , par exemple en passant { pivot, nMapping, mappingVector } en paramètre de clone
-        //      car actuellement, c'est perdu !!! Faire un test unitaire en premier pour identifier le problème actuel
-
-        // permute mapping
-        // const pcsUnMap = pcsPermuted.unMap()
-        // const vectorPcsMapping = this.getVectorPcsPermuted(a, t, pcsUnMap.iPivot!, pcsUnMap.vectorPcs)
-        // pcsPermuted.vectorMapping = vectorPcsMapping
-      }
+      pcsMappedPermuted = pcs.orbit.groupAction.getIPcsInOrbit(pcsMappedPermuted)
     }
-
-    return pcsPermuted
+    return pcsMappedPermuted
   }
-
 
   /**
    * general transformation from affine operation ax + t, but fixed on pivot (see "fixed zero problem" in doc)
@@ -469,40 +486,15 @@ export class MusaicOperation {
       vectorPcs: complementVector,
       iPivot: newPivot, // new_iPivot,
       orbit: new Orbit(), // as new pcs, here we don't know its orbit (see note below)
-      vectorMapping: pcs.vectorMapping,
+      templateMapping: pcs.templateMapping,
       nMapping: pcs.nMapping
     })
 
     if (pcs.orbit?.groupAction) {
       pcsComplement = pcsComplement.getOrMakeInstanceFromOrbitOfGroupActionOf(pcs.orbit?.groupAction);
-      //
-      // pcsComplement = pcs.orbit.groupAction.getIPcsInOrbit(pcsComplement)
-      // if (pcsComplement.iPivot !== newPivot) {
-      //   pcsComplement = pcsComplement.cloneWithNewPivot(newPivot)
-      // }
     }
     return pcsComplement
-    // return MusaicOperation.complement(this)
+
   }
-
-  //
-  // /**
-  //  * Get instance of IPcs from pcs given and group action (if pivot not same as pcs given, make a new instance)
-  //  * @param pcs to find image in action group
-  //  * @param groupAction where to find pcs (for cloning or not)
-  //  * @param newPivot
-  //  * @private
-  //  */
-  // public static getOrMakeInstanceFromOrbitOfGroupActionOf(pcs: IPcs, groupAction: GroupAction, newPivot ?: number) {
-  //   let newPcsInOrbit = groupAction.getIPcsInOrbit(pcs)
-  //
-  //   const theNewPivot = newPivot === undefined ? pcs.iPivot : newPivot
-  //
-  //   if (newPcsInOrbit.iPivot !== theNewPivot) {
-  //     return newPcsInOrbit.cloneWithNewPivot(theNewPivot)
-  //   }
-  //   return newPcsInOrbit // readonly by default, so can be shared
-  // }
-
 
 }

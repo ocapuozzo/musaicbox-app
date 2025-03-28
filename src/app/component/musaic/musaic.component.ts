@@ -93,7 +93,7 @@ export class MusaicComponent {
     //   pcs : ({1, 4, 7, 10}, iPivot=1)
     // are same IS, are same Musaic representation
     // let iPivot = this..iPivot ?? 0
-    const pivotMapped = this.ipcs.vectorMapping[this.ipcs.iPivot ?? 0]
+    const pivotMapped = this.ipcs.templateMapping[this.ipcs.iPivot ?? 0]
     for (let i = 0; i <= n; i++) {
       for (let j = 0; j <= n; j++) {
         if (this.ipcs.getMappedVectorPcs()[(i + pivotMapped + j * 5) % n] === 1) {

@@ -141,7 +141,7 @@ export class UiMusaicComponent {
     //   pcs : ({1, 4, 7, 10}, iPivot=1)
     // are same IS, are same Musaic representation
     ctx.strokeStyle = 'black'
-    const pivotMapped = this.pcs.vectorMapping[this.pcs.iPivot ?? 0]
+    const pivotMapped = this.pcs.templateMapping[this.pcs.iPivot ?? 0]
 
     function drawPitch(j: number, i: number, iPitch: number, color: string) {
       let pitch = iPitch.toString()
@@ -198,7 +198,7 @@ export class UiMusaicComponent {
     let x = e.clientX - rect.left;
     let y = e.clientY - rect.top;
 
-    let localPivot = this.pcs.vectorMapping[this.pcs.iPivot ?? 0]
+    let localPivot = this.pcs.templateMapping[this.pcs.iPivot ?? 0]
     // from matrix coord to indice linear (for matrix armature 1 x 5)
     return ((5 * Math.floor(x / this.CEL_WIDTH))
       + (Math.floor(y / this.CEL_WIDTH)) + localPivot) % this.pcs.nMapping
@@ -211,7 +211,7 @@ export class UiMusaicComponent {
   mouseMoveSetCursor(e: any) {
     if (this.canvas == undefined) return
     let index = this.fromMatrixPointerToIndexVector(e)
-    const cursorPointer = this.pcs.vectorMapping.includes(index)
+    const cursorPointer = this.pcs.templateMapping.includes(index)
 
     // always repaint... even if style cursor not set...
     if (cursorPointer) {
@@ -227,7 +227,7 @@ export class UiMusaicComponent {
     let index = this.fromMatrixPointerToIndexVector(e)
 
     // only select PCS in vectorMapping
-    if (!this.pcs.vectorMapping.includes(index)) {
+    if (!this.pcs.templateMapping.includes(index)) {
       return;
     }
 

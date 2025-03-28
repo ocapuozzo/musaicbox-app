@@ -176,7 +176,7 @@ export class UiClockComponent {
     let index = this.getIndexSelectedFromUIClock(e);
     if (index >= 0) {
       this.canvas.nativeElement.style.cursor =
-        this.pcs.vectorMapping.includes(index) ? 'pointer' : 'not-allowed'
+        this.pcs.templateMapping.includes(index) ? 'pointer' : 'not-allowed'
     } else {
       this.canvas.nativeElement.style.cursor = 'default'
     }

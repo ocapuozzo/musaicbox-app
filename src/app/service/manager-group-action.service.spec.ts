@@ -13,34 +13,42 @@ describe('ManagerGroupActionService', () => {
 
   it('ManagerGroupActionService initialized', () => {
     // static methods and data
-    expect(ManagerGroupActionService.GROUP_ACTION_INSTANCES).toBeTruthy()
+    expect(ManagerGroupActionService.GROUP_ACTION_INSTANCES).toBeDefined()
   })
 
   it('ManagerGroupActionService Trivial', () => {
     const groupAction = ManagerGroupActionService. getGroupActionFromGroupName("n=12 []")
     // REM  "n=12 []"  <>  "n=12 [M1]" because Mx are for all Mx-T1, so we note MX,
     // expect trivial group (only neutral op - M1-T0 is not represented)
-    expect(groupAction).toBeTruthy()
+    expect(groupAction).toBeDefined()
     expect(groupAction!.orbits.length).toEqual(4096)
   })
 
   it('ManagerGroupActionService Affine', () => {
     const groupAction = ManagerGroupActionService.getGroupActionFromGroupName("n=12 [M1 M5 M7 M11]")
-    expect(groupAction).toBeTruthy()
+    expect(groupAction).toBeDefined()
     expect(groupAction!.orbits.length).toEqual(158)
   })
 
   it('ManagerGroupActionService Dihedral', () => {
     const groupAction = ManagerGroupActionService.getGroupActionFromGroupName("n=12 [M1 M11]")
-    expect(groupAction).toBeTruthy()
+    expect(groupAction).toBeDefined()
     expect(groupAction!.orbits.length).toEqual(224)
   })
 
   it('ManagerGroupActionService get Affine by alias name', () => {
     const groupAction = ManagerGroupActionService.getGroupActionFromGroupAliasName("Affine")
-    expect(groupAction).toBeTruthy()
+    expect(groupAction).toBeDefined()
     expect(groupAction!.orbits.length).toEqual(158)
   })
+
+
+  it('ManagerGroupActionService n=7 [M1 M2]', () => {
+    const groupAction = ManagerGroupActionService.getGroupActionFromGroupName("n=7 [M1 M2]")
+    expect(groupAction).toBeDefined()
+    expect(groupAction!.powerset.size).toEqual(128)
+  })
+
 
   it('Cyclic prime form ', () => {
     const cyclicGroupAction = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")
@@ -63,7 +71,7 @@ describe('ManagerGroupActionService', () => {
     }
     const primeFormComputed = new IPcs({vectorPcs: min, iPivot: 0})
 
-    expect(primeFormFromGroupAction).toBeTruthy()
+    expect(primeFormFromGroupAction).toBeDefined()
     expect(pcsPrimeFormOfPcsId88.id).toEqual(primeFormFromGroupAction!.id)
     expect(primeFormFromGroupAction!.id).toEqual(primeFormComputed.id)
 
@@ -79,7 +87,7 @@ describe('ManagerGroupActionService', () => {
     const pcsCminor = new IPcs({strPcs: '0,3,7'})
 
     const primeFormDihedralGroupAction = dihedralGroupAction?.getOrbitOf(pcsDminor).getPcsMin()
-    expect(primeFormDihedralGroupAction).toBeTruthy()
+    expect(primeFormDihedralGroupAction).toBeDefined()
 
 
     const pcsCyclicPfOfDm = cyclicGroupAction?.getOrbitOf(pcsDminor).getPcsMin()

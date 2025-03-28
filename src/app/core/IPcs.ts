@@ -28,7 +28,7 @@
  *      strPcs: "[0, 2, 4]", // first 3-chord (C E G)
  *      n: 7,
  *      nMapping: 12,
- *      vectorMapping: [0, 2, 4, 5, 7, 9, 11]  // pcs mapped into [0,4,7]
+ *      templateMapping: [0, 2, 4, 5, 7, 9, 11]  // pcs mapped into [0,4,7]
  *    })
  *    expect(pcsDiatMajMapped.getMappedPcsStr()).toEqual('[0,4,7]')
  *    expect(pcsDiatMajMapped.is()).toEqual([4,3,5]);
@@ -115,18 +115,19 @@ export class IPcs {
 
   /**
    * mapping of this, for external/interface representation
-   * this.vectorMapping.length == this.n
+   * this.templateMapping.length == this.n
    * Example : this.n = 7
    *      strPcs: "[0, 2, 4]", // first 3-chord (C E G)
    *      nMapping: 12,
-   *      vectorMapping: [0, 2, 4, 5, 7, 9, 11]  // pcs [0, 2, 4] mapped into [0,4,7]
+   *      templateMapping: [0, 2, 4, 5, 7, 9, 11]  // length=7,  pcs [0, 2, 4] mapped into [0,4,7]
+   *         element values of templateMapping are in [0..nMapping[
    */
-  readonly vectorMapping: number[]
+  readonly templateMapping: number[]
 
   /**
-   * this is vectorPcs mapped
-   * Be careful : _mappedVectorPcs.length == n, not nMapping
-   * but element values of _mappedVectorPcs are in [0..nMapping[
+   * this is a vectorPcs mapped
+   * Be careful : _mappedVectorPcs.length == nMapping, not n
+   *
    * @private
    */
   private readonly _mappedVectorPcs: number[] = []
@@ -139,7 +140,7 @@ export class IPcs {
   orbit: Orbit;
 
   constructor(
-    {pidVal, strPcs, vectorPcs, n, iPivot, orbit, vectorMapping, nMapping}:
+    {pidVal, strPcs, vectorPcs, n, iPivot, orbit, templateMapping, nMapping}:
     {
       pidVal?: number,
       strPcs?: string,
@@ -147,7 +148,7 @@ export class IPcs {
       n?: number,
       iPivot?: number,
       orbit?: Orbit,
-      vectorMapping?: number[],
+      templateMapping?: number[],
       nMapping?: number
     } = {}) {
     if (n !== undefined && (n < 3 || n > 13)) {
@@ -228,10 +229,10 @@ export class IPcs {
     this.id = IPcs.id(this.vectorPcs)
 
     // default mapping on himself
-    if (!vectorMapping || vectorMapping.length != this.n) {
-      this.vectorMapping = Mapping.getAutoMapping(this.vectorPcs)
+    if (!templateMapping || templateMapping.length !== this.n) {
+      this.templateMapping = Mapping.getAutoMapping(this.vectorPcs)
     } else {
-      this.vectorMapping = vectorMapping
+      this.templateMapping = templateMapping
     }
 
     this.nMapping = nMapping ? nMapping : this.n
@@ -240,15 +241,18 @@ export class IPcs {
     if (this.nMapping < this.n) throw new Error("Invalid data mapping")
 
     // check mapping data
-    if (this.vectorMapping.some(value => value >= this.nMapping)) {
+    if (this.templateMapping.some(value => value >= this.nMapping)) {
       throw new Error("Invalid data mapping")
     }
 
     // @see method getMappedVectorPcs()
     // construct mappedVectorPcs (default mapping on himself)
+    // Example : this.vectorPcs = [1 0 1 0 1 0 0 0]
+    //           this.templateMapping = [0 2 4 5 7 9 11] // Diatonic major
+    //           this._mappedVectorPcs = [1 0 0 0 1 0 0 1 0 0 0 0]
     this._mappedVectorPcs = new Array<number>(this.nMapping).fill(0)
-    for (let i = 0; i < this.vectorMapping.length; i++) {
-      this._mappedVectorPcs[this.vectorMapping[i]] = this.vectorPcs[i];
+    for (let i = 0; i < this.templateMapping.length; i++) {
+      this._mappedVectorPcs[this.templateMapping[i]] = this.vectorPcs[i];
     }
   }
 
@@ -645,7 +649,7 @@ export class IPcs {
     const res: number[] = []
     const vectorPcsMapped = this.getMappedVectorPcs()
     const nMapped = this.nMapping
-    const pivotMapped = this.vectorMapping[this.iPivot ?? 0]
+    const pivotMapped = this.templateMapping[this.iPivot ?? 0]
 
     for (let i = 0; i < nMapped; i++) {
       if (vectorPcsMapped[(i + pivotMapped) % nMapped] === 1) {
@@ -900,6 +904,8 @@ export class IPcs {
   /** Add or remove index pitch class (ipc)
    *  if iPivot is remove, attempt to determine one
    *
+   * TODO refactor : a lot of instantiation of IPcs in its body
+   *
    * @param {number} ipc
    * @return {IPcs} a new instance (free, not attached to an orbit)
    */
@@ -919,7 +925,7 @@ export class IPcs {
         n: newVectorPcs.length,
         iPivot: this.iPivot,
         orbit: new Orbit(), // not same pcs (old orbit = this.orbit),
-        vectorMapping: this.vectorMapping,
+        templateMapping: this.templateMapping,
         nMapping: this.nMapping
       })
     } else {
@@ -933,7 +939,7 @@ export class IPcs {
           n: newVectorPcs.length,
           iPivot: undefined,
           orbit: new Orbit(), // not same pcs (old orbit = this.orbit)
-          vectorMapping: this.vectorMapping,
+          templateMapping: this.templateMapping,
           nMapping: this.nMapping
         })
       } else {
@@ -951,7 +957,7 @@ export class IPcs {
             n: newVectorPcs.length,
             iPivot: newIPivot,
             orbit: new Orbit(), // not same pcs (old orbit = this.orbit)
-            vectorMapping: this.vectorMapping,
+            templateMapping: this.templateMapping,
             nMapping: this.nMapping
           })
         } else {
@@ -961,7 +967,7 @@ export class IPcs {
             n: newVectorPcs.length,
             iPivot: this.iPivot,
             orbit: new Orbit(), // not same pcs (old orbit = this.orbit)
-            vectorMapping: this.vectorMapping,
+            templateMapping: this.templateMapping,
             nMapping: this.nMapping
           })
         }
@@ -971,7 +977,7 @@ export class IPcs {
   }
 
   /**
-   * set auto mapping from current vectorPcs which becomes vectorMapping.
+   * set auto mapping from current vectorPcs which becomes templateMapping.
    * Example :
    *   this = "0 4 7 10", n=12 => autoMap
    *      this becomes "0 1 2 3", with n = 4 and templateMapping : "0 4 7 10", n=12
@@ -987,7 +993,7 @@ export class IPcs {
         newvectorMapping[j++] = i;
       }
     } // end of loop : assert j === this.cardinal - 1
-    // assert value element of vectorMapping in [0..this.vectorPcs.length[
+    // assert value element of templateMapping in [0..this.vectorPcs.length[
 
     const new_nMapping: number = this.vectorPcs.length
     const pivot = this.getPivot() === undefined
@@ -999,7 +1005,7 @@ export class IPcs {
         vectorPcs: newVectorPcs,
         n: this.cardinal,
         iPivot: pivot,
-        vectorMapping: newvectorMapping,
+        templateMapping: newvectorMapping,
         nMapping: new_nMapping
       })
   }
@@ -1036,7 +1042,7 @@ export class IPcs {
   }
 
   getMappedPivot() {
-    return this.vectorMapping[this.iPivot ?? 0]
+    return this.templateMapping[this.iPivot ?? 0]
   }
 
 
@@ -1056,7 +1062,7 @@ export class IPcs {
    *       strPcs: "[0, 2, 4]", // first 3-chord
    *       n: 7,
    *       nMapping: 12,
-   *       vectorMapping: [0, 2, 4, 5, 7, 9, 11]  // pcs mapped into [0,4,7] {C E G}
+   *       templateMapping: [0, 2, 4, 5, 7, 9, 11]  // pcs mapped into [0,4,7] {C E G}
    *    })
    *    pcsDiatMajMapped.indexMappedToIndexInner(2) => 1
    *
@@ -1065,7 +1071,7 @@ export class IPcs {
    *         or -1 if indexMapped is not mapped
    */
   indexMappedToIndexInner(indexMapped: number): number {
-    return this.vectorMapping.findIndex(value => indexMapped == value) ?? -1
+    return this.templateMapping.findIndex(value => indexMapped == value) ?? -1
   }
 
   getChordName(): string {
@@ -1155,8 +1161,8 @@ export class IPcs {
       return undefined
     }
 
-    // be careful with odd n (Math.floor)
-    let newPivot = (pivot + Math.floor(this.n / 2)) % this.n
+    // be careful with odd n (Math.ceil match logically better than Math.floor)
+    let newPivot = (pivot + Math.ceil(this.n / 2)) % this.n
 
     let ok = this.vectorPcs[newPivot] === 0
     // note : if empty pcs, the ok === true, and do not entry into loop
@@ -1290,13 +1296,13 @@ export class IPcs {
    * General way to clone a PCS while retaining its identity (id is vectorPcs based, and it does not change)
    * @param param
    */
-  cloneWithData(param: { pivot?: number; nMapping?: number; vectorMapping?: number[]; orbit?: Orbit }) {
+  cloneWithData(param: { pivot?: number; nMapping?: number; templateMapping?: number[]; orbit?: Orbit }) {
     return new IPcs({
       n: this.n,
       vectorPcs: this.vectorPcs,
       iPivot: param.pivot ?? this.iPivot,
       nMapping: param.nMapping ?? this.nMapping,
-      vectorMapping: param.vectorMapping ?? this.vectorMapping,
+      templateMapping: param.templateMapping ?? this.templateMapping,
       orbit: param.orbit ?? this.orbit
     })
   }

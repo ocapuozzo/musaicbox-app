@@ -78,7 +78,7 @@ describe('MusaicPcsOperation', () => {
     expect(opCM9T4.equals(opCM3T10.compose(opM3T2))).toBeTrue();
   })
 
-    it("MusaicPcsOp testActionOn", () => {
+  it("MusaicPcsOp testActionOn", () => {
     let pcs = new IPcs({strPcs: "0,3,4,7,8,11"});
     let opCM7_T5 = new MusaicOperation(12, 7, 5, true);
     // n = 12, CM7_T5 is stabilizer for Pcs("0,3,4,7,8,11")
@@ -102,7 +102,7 @@ describe('MusaicPcsOperation', () => {
     let opM5_T0 = new MusaicOperation(12, 5, 0, false);
     let opCM1_T5 = new MusaicOperation(12, 1, 5, true);
 
-    let ops = [opM1_T3, opM1_T0,  opCM1_T5 , opM5_T0, opCM7_T8, opCM7_T3]
+    let ops = [opM1_T3, opM1_T0, opCM1_T5, opM5_T0, opCM7_T8, opCM7_T3]
 
     let opsSortedExpected = [opM1_T0, opM5_T0, opM1_T3, opCM7_T3, opCM1_T5, opCM7_T8]
 
@@ -168,8 +168,8 @@ describe('MusaicPcsOperation', () => {
     let opM8_T11 = new MusaicOperation(12, 8, 11, false);
 
     // associative ?  f . (g . h) = (f . g) . h
-    let left : MusaicOperation  = opM8_T2.compose(opM5_T11.compose(opM4_T3))
-    let right : MusaicOperation = opM8_T2.compose(opM5_T11).compose(opM4_T3)
+    let left: MusaicOperation = opM8_T2.compose(opM5_T11.compose(opM4_T3))
+    let right: MusaicOperation = opM8_T2.compose(opM5_T11).compose(opM4_T3)
     expect(right.equals(left)).toBeTrue()
 
     // commutative if t=0 (no transposition)
@@ -212,46 +212,46 @@ describe('MusaicPcsOperation', () => {
     // '[1,3,5,7,9,11]'
     // '[0,1,2,3,4,5,6,7,8,9,10,11]'
 
-    const ipcs : IPcs = op.getFixedPcs()[3]
+    const ipcs: IPcs = op.getFixedPcs()[3]
 
     expect(ipcs.getPcsStr()).toEqual('[0 1 2 3 4 5 6 7 8 9 10 11]')
   })
 
-  it('convertReprStringOfMusaicOperationsToArrayOfMusaicOperations', () =>{
+  it('convertReprStringOfMusaicOperationsToArrayOfMusaicOperations', () => {
     //["M1-T0", "CM5-T5"]
-    const opM1T0 = new MusaicOperation(12,1,0,false)
-    const opM11T9 = new MusaicOperation(12,11,9,false)
-    const opCM5T5 = new MusaicOperation(12,5,5,true)
+    const opM1T0 = new MusaicOperation(12, 1, 0, false)
+    const opM11T9 = new MusaicOperation(12, 11, 9, false)
+    const opCM5T5 = new MusaicOperation(12, 5, 5, true)
     let names = ["M1-T0", "M11-T9"]
     let opsexpected = [opM1T0, opM11T9]
-    let ops = MusaicOperation.convertArrayStringsToArrayOfMusaicOperations(12,names)
+    let ops = MusaicOperation.convertArrayStringsToArrayOfMusaicOperations(12, names)
 
     expect(opsexpected).toEqual(ops)
 
     names = ["M1-T0", "CM5-T5"]
     opsexpected = [opM1T0, opCM5T5]
-    ops = MusaicOperation.convertArrayStringsToArrayOfMusaicOperations(12,names)
+    ops = MusaicOperation.convertArrayStringsToArrayOfMusaicOperations(12, names)
     expect(opsexpected).toEqual(ops)
 
   })
 
-  it('temp verify reduction extended operation with pivot', () =>{
+  it('temp verify reduction extended operation with pivot', () => {
     // a(-(a'-1)p' + k') + (-(a-1)p + k))
-    const p=1
-    const pPrime=2
-    const a=5
-    const aPrime =7
-    const k=2
-    const kPrime=3
-    const res1 =  a * (-(aPrime-1) * pPrime + kPrime) + (-(a-1) * p + k)
+    const p = 1
+    const pPrime = 2
+    const a = 5
+    const aPrime = 7
+    const k = 2
+    const kPrime = 3
+    const res1 = a * (-(aPrime - 1) * pPrime + kPrime) + (-(a - 1) * p + k)
     // const res1bis =  a * ( -aPrime *  pPrime + pPrime + kPrime) + -a*p +p + k
     // const res1ter = -a * aPrime * pPrime + a * pPrime +a * kPrime -a*p + p + k
     //-aa'p' + ap' +ak' -ap + p + k
-    const res2 =  -a * pPrime * (a + 1) + p * (1 - a) + a*kPrime + k
+    const res2 = -a * pPrime * (a + 1) + p * (1 - a) + a * kPrime + k
     // -ap'(a + 1) + p(1-a) + ak' + k
     // console.log(`res1 = ${res1} resIbis = ${res1bis} resIter = ${res1ter} res2 = ${res2}`)
     const n = 12
-    const res3 =  (n - a) * pPrime * (a + 1) + p * (n + 1 - a) + a*kPrime + k
+    const res3 = (n - a) * pPrime * (a + 1) + p * (n + 1 - a) + a * kPrime + k
     // -ap'(a + 1) + p(1-a) + ak' + k
 
     // console.log(`res1 = ${res1} res2 = ${res2} res3 = ${res3} `)
@@ -259,6 +259,40 @@ describe('MusaicPcsOperation', () => {
     expect(res2).toEqual(-47)
     expect(negativeToPositiveModulo(res2, 12)).toEqual(1)
     expect(negativeToPositiveModulo(res3, 12)).toEqual(1)
+  })
+
+  it(' affine op when a > 1 with pcs mapped', () => {
+    const pcsTest = new IPcs({strPcs: "0 2 4", n: 7, nMapping: 12, templateMapping: [0, 9, 11, 2, 7, 5, 4]})
+    expect(pcsTest.getMappedPcsStr()).toEqual("[0 7 11]")
+
+    const pcs = new IPcs({strPcs: "0 2 4", n: 7, nMapping: 12, templateMapping: [0, 2, 4, 5, 7, 9, 11]})
+    const pcsInOrbit = ManagerGroupActionService.getGroupActionFromGroupName("n=7 [M1, M2]")?.getIPcsInOrbit(pcs)!
+    const opM11T0 = MusaicOperation.convertStringOpToMusaicOperation("M11-T0")
+    const opM11T3 = MusaicOperation.convertStringOpToMusaicOperation("M11-T3")
+
+    expect(pcs.n).toEqual(7)
+    expect(pcs.nMapping).toEqual(12)
+
+    expect(pcsInOrbit.n).toEqual(7)
+    expect(pcsInOrbit.nMapping).toEqual(12)
+
+    expect(pcs.getMappedPcsStr()).toEqual("[0 4 7]")
+    expect(pcsInOrbit.getMappedPcsStr()).toEqual("[0 4 7]")
+
+    let newPcs = opM11T0.actionOn(pcs)
+    expect(newPcs.isComingFromOrbit()).toBeFalse()
+    expect(newPcs.getMappedPcsStr()).toEqual("[0 5 8]")
+
+    newPcs = opM11T3.actionOn(pcs)
+    expect(newPcs.isComingFromOrbit()).toBeFalse()
+    expect(newPcs.getMappedPcsStr()).toEqual("[3 8 11]")
+
+    newPcs = opM11T3.actionOn(pcsInOrbit)
+    expect(newPcs.n).toEqual(7)
+    expect(newPcs.nMapping).toEqual(12)
+    expect(newPcs.isComingFromOrbit()).toBeTrue()
+    expect(newPcs.getMappedPcsStr()).toEqual("[3 8 11]")
+    
   })
 
 })

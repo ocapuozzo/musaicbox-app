@@ -42,7 +42,7 @@ describe('IPcs unit tests', () => {
         strPcs: "[0, 2, 7]",  // 7 not in [0..7[ but 7 Modulo 7 => 0
         n: 7,
         nMapping: 12,
-        vectorMapping: [0, 2, 4, 5, 7, 9, 11]
+        templateMapping: [0, 2, 4, 5, 7, 9, 11]
       })
       expect(ipcsDiatMajMapped.n).toEqual(7)
       expect(ipcsDiatMajMapped.vectorPcs).toEqual([1,0,1,0,0,0,0])
@@ -71,9 +71,9 @@ describe('IPcs unit tests', () => {
 
   it("IPcs constructor with nMapping ", () => {
     const pcs: IPcs = new IPcs({strPcs: "[0, 4, 7]"})
-    expect(pcs.vectorMapping.length).toEqual(12)
+    expect(pcs.templateMapping.length).toEqual(12)
     expect(pcs.getMappedVectorPcs().length).toEqual(12)
-    expect(pcs.vectorMapping.length).toEqual(12)
+    expect(pcs.templateMapping.length).toEqual(12)
 
     let nMapping = 12
     let templateMapping = undefined
@@ -83,20 +83,20 @@ describe('IPcs unit tests', () => {
       strPcs: "[0, 4, 7]",
       //n:12,
       nMapping: nMapping,
-      vectorMapping: templateMapping ?? [] //undefined
+      templateMapping: templateMapping ?? [] //undefined
     })
 
     expect(ipcsCMajor).toBeTruthy()
     expect(ipcsCMajor.n).toEqual(12)
     expect(ipcsCMajor.getPcsStr()).toEqual("[0 4 7]")
     expect(ipcsCMajor.getMappedVectorPcs().length).toEqual(12)
-    expect(ipcsCMajor.vectorMapping.length).toEqual(12)
+    expect(ipcsCMajor.templateMapping.length).toEqual(12)
 
     const chord = new IPcs({
       strPcs: "0 2 4",
       n:7,
       nMapping: 12,
-      vectorMapping: [0,2,4,5,7,9,11]
+      templateMapping: [0,2,4,5,7,9,11]
     })
     expect(chord.getPcsStr()).toEqual("[0 2 4]")
 
@@ -105,10 +105,10 @@ describe('IPcs unit tests', () => {
       iPivot: 0,
       n:7,
       nMapping: 12,
-      vectorMapping: [0,2,4,5,7,9,11]
+      templateMapping: [0,2,4,5,7,9,11]
     })
     expect(chord2.n).toEqual(7)
-    expect(chord2.vectorMapping).toEqual([0,2,4,5,7,9,11])
+    expect(chord2.templateMapping).toEqual([0,2,4,5,7,9,11])
 
   });
 
@@ -136,10 +136,10 @@ describe('IPcs unit tests', () => {
 
     let pcs = new IPcs({
       strPcs: "[0, 4, 7]",
-      vectorMapping: [0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3]
+      templateMapping: [0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3, 0, 2, 3]
     })
     // auto fix
-    expect(pcs.vectorMapping.length).toEqual(12)
+    expect(pcs.templateMapping.length).toEqual(12)
   })
 
   it("IPcs bad empty constructor", () => {
@@ -166,7 +166,7 @@ describe('IPcs unit tests', () => {
       strPcs: "[0, 2, 4]", // first 3-chord
       n: 7,
       nMapping: 12,
-      vectorMapping: [0, 2, 4, 5, 7, 9, 11]  // mapped into [0,4,7] {C E G}
+      templateMapping: [0, 2, 4, 5, 7, 9, 11]  // mapped into [0,4,7] {C E G}
     })
     expect(ipcsDiatMajMapped.getPcsStr()).toEqual('[0 2 4]')
     expect(ipcsDiatMajMapped.unMap().getPcsStr()).toEqual('[0 4 7]')
@@ -177,7 +177,7 @@ describe('IPcs unit tests', () => {
       strPcs: "[0, 2, 4]", // first 3-chord
       n: 7,
       nMapping: 12,
-      vectorMapping: [0, 2, 4, 5, 7, 9, 11]  // mapped into [0,4,7] {C E G}
+      templateMapping: [0, 2, 4, 5, 7, 9, 11]  // mapped into [0,4,7] {C E G}
     })
     expect(pcsDiatMajMapped.toString()).toEqual('[1,0,1,0,1,0,0] n = 7, iPivot = 0 Mapped on 12')
 
@@ -901,7 +901,7 @@ describe('IPcs unit tests', () => {
       strPcs: "[0, 2, 4]", // first 3-chord
       n: 7,
       nMapping: 12,
-      vectorMapping: [0, 2, 4, 5, 7, 9, 11]  // mapped in {C E G}
+      templateMapping: [0, 2, 4, 5, 7, 9, 11]  // mapped in {C E G}
     })
 
     // verify mapping 7 -> 12
@@ -914,7 +914,7 @@ describe('IPcs unit tests', () => {
 
     // default mapping is n
     expect(ipcsDiatMaj.nMapping).toEqual(12)
-    expect(ipcsDiatMaj.vectorMapping.length).toEqual(12)
+    expect(ipcsDiatMaj.templateMapping.length).toEqual(12)
 
     expect(ipcsDiatMaj.getMappedVectorPcs().length).toEqual(12)
   })
@@ -926,7 +926,7 @@ describe('IPcs unit tests', () => {
     })
     expect(ipcsDminor.nMapping).toEqual(ipcsDminor.n)
     expect(ipcsDminor.nMapping).toEqual(12)
-    expect(ipcsDminor.vectorMapping).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
+    expect(ipcsDminor.templateMapping).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
   })
 
 
@@ -949,7 +949,7 @@ describe('IPcs unit tests', () => {
       strPcs: "[0, 2, 4]", // first 3-chord
       n: 7,
       nMapping: 12,
-      vectorMapping: [0, 2, 4, 5, 7, 9, 11]  // mapped into [0,4,7] {C E G}
+      templateMapping: [0, 2, 4, 5, 7, 9, 11]  // mapped into [0,4,7] {C E G}
     })
     expect(ipcsDiatMajMapped.getPcsStr()).toEqual('[0 2 4]')
     expect(ipcsDiatMajMapped.getMappedPcsStr()).toEqual('[0 4 7]')
@@ -965,7 +965,7 @@ describe('IPcs unit tests', () => {
       strPcs: "[0, 2, 4]", // first 3-chord
       n: 7,
       nMapping: 12,
-      vectorMapping: [0, 2, 4, 5, 7, 9, 11]  // pcs mapped into [0,4,7] {C E G}
+      templateMapping: [0, 2, 4, 5, 7, 9, 11]  // pcs mapped into [0,4,7] {C E G}
     })
     expect(pcsDiatMajMapped.indexMappedToIndexInner(0)).toEqual(0)
     expect(pcsDiatMajMapped.indexMappedToIndexInner(2)).toEqual(1)
@@ -1023,7 +1023,7 @@ describe('IPcs unit tests', () => {
       strPcs: "[0, 2, 4]", // first 3-chord {C E G}
       n: 7,
       nMapping: 12,
-      vectorMapping: [0, 2, 4, 5, 7, 9, 11]  // pcs mapped into [0,4,7]
+      templateMapping: [0, 2, 4, 5, 7, 9, 11]  // pcs mapped into [0,4,7]
     })
     expect(pcsDiatMajMapped.getMappedPcsStr()).toEqual('[0 4 7]')
     expect(pcsDiatMajMapped.is()).toEqual([4, 3, 5]);
@@ -1221,12 +1221,12 @@ describe('IPcs unit tests', () => {
     expect(pcs.n).toEqual(7)
     expect(pcs.nMapping).toEqual(7) // self mapping
 
-    let clone = pcs.cloneWithData({pivot: 0, nMapping: 12, vectorMapping: [0,2,4,5,7,9,11]})
+    let clone = pcs.cloneWithData({pivot: 0, nMapping: 12, templateMapping: [0,2,4,5,7,9,11]})
 
     expect(clone.id).toEqual(pcs.id)
     expect(clone.n).toEqual(pcs.n)
     expect(clone.nMapping).toEqual(12)
-    expect(clone.vectorMapping).toEqual([0,2,4,5,7,9,11])
+    expect(clone.templateMapping).toEqual([0,2,4,5,7,9,11])
 
     expect(pcInOrbitCyclic!.isComingFromOrbit()).toBeTrue()
 
@@ -1234,6 +1234,17 @@ describe('IPcs unit tests', () => {
     expect(clone.isComingFromTrivialOrbit()).toBeFalse()
 
   });
+
+it(' getVector Mapped string ', ()=> {
+  /**
+   * In arg to reduce. Input array of 0|1, output array of integer [0..n-1]
+   * [1,0,0,0,1,0,0,1,0,0,0,0] => [0,4,7]
+   */
+   const mappedArray = [0, 2, 4, 5, 7, 9, 11]
+   const array = mappedArray.reduce(IPcs.vector2integerNamePcs, [])
+
+
+})
 
 
 })

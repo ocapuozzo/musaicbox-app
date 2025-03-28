@@ -167,7 +167,6 @@ export class GroupAction {
         }
       }) // en loop all pcs in current orbit
       // order operations and fixedPcs for each stabilizer in current orbit.
-      // rem : if CYCLIC group, stabilizers.length==1
       orbit.stabilizers.forEach(stab => {
         stab.operations.sort(MusaicOperation.compare)
         stab.fixedPcs.sort(IPcs.compare)
@@ -202,9 +201,9 @@ export class GroupAction {
   }
 
   /**
-   * this => instance is complete
+   * this => instance is complete (done)
    *
-   * Partitionne orbits list in "sets" of orbit. Each set is grouped by
+   * Partition orbits list in "sets" of orbit. Each set is grouped by
    * equivalence relation "have same stabilizer set"
    * @param byReduceStabilizerName as grouping criteria
    * @return {ISortedOrbits[]} array of ISortedOrbits
@@ -317,18 +316,17 @@ export class GroupAction {
     return this.orbitsSortedGroupedByStabilizer.reduce((sum, sortedOrbits) => sum + sortedOrbits.orbits.length, 0)
   }
 
+  getOrbitOf(pcs: IPcs): Orbit {
+    if (pcs.n !== this.n) throw new Error(`Invalid dimension : pcs.n and this.n : ${pcs.n} !== ${this.n}`)
 
-  getOrbitOf(ipcs: IPcs): Orbit {
-    if (ipcs.n !== this.n) throw new Error("Invalid dimension : pcs.n and this.n : " + ipcs.n + " !== " + this.n)
-    //let orbit : Orbit | undefined = this.orbits.find(o => o.ipcsset.find(ipcs2 => ipcs2.compareTo(pcs)==0))
-    let orbit: Orbit | undefined = this.powerset.get(ipcs.id)?.orbit
+    let orbit: Orbit | undefined = this.powerset.get(pcs.id)?.orbit
     if (!orbit)
-      throw new Error("Invalid pcs (is not in this group action)  ??? : " + ipcs)
+      throw new Error(`Invalid pcs (is not in this group action)  ??? : ${pcs} and ${this.group.name}`)
     return orbit
   }
 
   /**
-   * Get pcs into orbit from a pcs given. If not same pivot, then create new instance
+   * Get pcs into orbit from a pcs given. If not same state, then create new instance image
    * @param {IPcs} pcs
    * @return {IPcs}
    * @throws Error if not find pcs in this group action
@@ -336,21 +334,35 @@ export class GroupAction {
   getIPcsInOrbit(pcs: IPcs): IPcs {
     let pcsInOrbit: IPcs | undefined = this.powerset.get(pcs.id)
     if (!pcsInOrbit) {
-      throw new Error("Invalid pcs (is not in this group action)  ??? : " + pcs)
+      throw new Error(`Invalid pcs (is not in this group action)  ??? : ${pcs}`)
     }
+   if (pcs.nMapping !== pcsInOrbit.nMapping
+      || pcs.templateMapping !== pcsInOrbit.templateMapping
+      || pcs.iPivot !== pcsInOrbit.iPivot) {
 
-    if (pcs.cardinal > 0 && pcs.iPivot !== pcsInOrbit.iPivot) {
-      return pcsInOrbit.cloneWithNewPivot(pcs.iPivot!)  // <== force with ! operator
-         // because empty set is only pcs having iPivot undefined, and guard (pcs.cardinal > 0) warns of danger
-    }
+     pcsInOrbit = pcsInOrbit.cloneWithData( {
+       pivot: pcs.iPivot,
+       orbit: pcsInOrbit.orbit,
+       nMapping:pcs.nMapping,
+       templateMapping: pcs.templateMapping
+     })
 
-    return pcsInOrbit
+   }
+   return pcsInOrbit
   }
 
+  /**
+   *  Also named order
+   */
   get cardinal() {
     return this.operations.length
   }
 
+  /**
+   * Get the pcs having aa intervallic structure given
+   * @param intervallicStructure
+   * @return pcs or undefined if not found
+   */
   getPcsWithThisIS(intervallicStructure: string): IPcs | undefined {
     for (const orbit of this.orbits) {
       const pcs = orbit.getPcsWithThisIS(intervallicStructure)
@@ -359,12 +371,17 @@ export class GroupAction {
     return undefined
   }
 
-
+  /**
+   * Get the pcs having a pid given
+   * @param pid
+   * @return pcs or undefined if not found
+   */
   getPcsWithThisPid(pid: number): IPcs | undefined {
     for (const orbit of this.orbits) {
       const pcs = orbit.getPcsWithThisPid(pid)
       if (pcs) return pcs
     }
+
     // this.powerset.values() below create new iterator (cost to be verified)
     // while loop above use existing structures
     // so, it's preferred even if more loop structures are used

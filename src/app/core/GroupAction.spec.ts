@@ -6,6 +6,7 @@ import {GroupAction} from "./GroupAction"
 import {IPcs} from "./IPcs";
 import {MusaicOperation} from "./MusaicOperation";
 import {ManagerGroupActionService} from "../service/manager-group-action.service";
+import {ArrayUtil} from "../utils/ArrayUtil";
 
 describe('GroupAction unit tests', () => {
 
@@ -353,6 +354,28 @@ describe('GroupAction unit tests', () => {
     })
   })
 
-
-
+  it('Test if pcs with default pivot having same stabilizer than its orbit', () => {
+    const musaicGroup = ManagerGroupActionService.getGroupActionFromGroupAliasName('Musaic')
+    let cpt = 0
+    musaicGroup?.powerset.forEach(pcs => {
+      const operationStab = pcs.getStabilizerOperations()
+      let found = false
+      for (let i = 0; i < pcs.orbit.stabilizers.length; i++) {
+        if (ArrayUtil.objectsEqual(pcs.orbit.stabilizers[i].operations, operationStab)) {
+          found = true
+          break
+        }
+      }
+      if (!found) {
+        cpt++
+        // console.log(pcs.getPcsStr())
+        // console.log(`operationStab : ${operationStab}`)
+      }
+      expect(found).toBeTrue()
+    })
+    // console.log(cpt)
   })
+
+
+
+})

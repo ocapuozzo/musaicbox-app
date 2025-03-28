@@ -33,7 +33,7 @@ describe('ManagerPcsService', () => {
   });
 
   it('complement under pcs mapped', () => {
-    const cmaj7Mapped = new IPcs({strPcs: "0, 2, 4, 6", n:7, nMapping:12, vectorMapping:[0,2,4,5,7,9,11], iPivot: 0})
+    const cmaj7Mapped = new IPcs({strPcs: "0, 2, 4, 6", n:7, nMapping:12, templateMapping:[0,2,4,5,7,9,11], iPivot: 0})
     expect(cmaj7Mapped.n).toEqual(7)
     expect(cmaj7Mapped.vectorPcs).toEqual([1,0,1,0,1,0,1])
     expect(cmaj7Mapped.complement().vectorPcs).toEqual(cmaj7Mapped.vectorPcs.map(pc => pc === 1 ? 0 : 1))
