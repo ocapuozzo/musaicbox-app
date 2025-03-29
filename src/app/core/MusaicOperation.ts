@@ -44,7 +44,7 @@ import {Orbit} from "./Orbit";
  */
 export class MusaicOperation {
   a: number
-  t: number
+  k: number
   n: number
   complement: boolean
   _strRepr: string
@@ -54,20 +54,20 @@ export class MusaicOperation {
   _hashcode ?: number
 
   /**
-   *  ((ax + t) modulo n) . c
+   *  ((ax + k) modulo n) . c
    *
    * @param n number dimensional vector
    * @param a number coef mult
-   * @param t number transposition value
+   * @param k number transposition value
    * @param complement boolean
    */
-  constructor(n: number, a: number, t: number, complement = false) {
+  constructor(n: number, a: number, k: number, complement = false) {
     this.a = a;
-    this.t = t;
+    this.k = k;
     this.n = n;
     this.complement = complement;
     let prefix = this.complement ? "C" : "";
-    this._strRepr = prefix + "M" + this.a + "-T" + this.t; // n ? generally used into same Zn
+    this._strRepr = prefix + "M" + this.a + "-T" + this.k; // n ? generally used into same Zn
     this._strReprWithoutTransp = prefix + "M" + a;
     this.fixedPcs = []  // new ArrayList<Pcs>();
     this.getHashCode()
@@ -94,7 +94,7 @@ export class MusaicOperation {
     if (this.complement !== other.complement)
       return false;
 
-    return this.t === other.t;
+    return this.k === other.k;
 
   }
 
@@ -102,7 +102,7 @@ export class MusaicOperation {
    * Use for generate all operations from a subset of operations, inspired by Cayley
    * table algorithm : get a new operation by Law of composition of MusaicGroup :
    * <pre>
-   * (c,a,t) (c',a',t') = ( c xor c', aa', at' + t)
+   * (c,a,k) (c',a',k') = ( c xor c', aa', ak' + k)
    * </pre>
    * where :
    * <ul>
@@ -116,8 +116,8 @@ export class MusaicOperation {
    * -  CM1-T0.compose(M1-T0)  -> CM1-T0 (true !== false) => true
    * -  CM1-T0.compose(CM1-T0) -> M1-T0  (true !== true) => false
    *
-   * @param  other MusaicOperation (c',a',t')
-   * @return MusaicOperation (this.c,this.a,this.t) (c',a',t') = ( c xor c', aa', at' + t) (a new instance)
+   * @param  other MusaicOperation (c',a',k')
+   * @return MusaicOperation (this.c,this.a,this.k) (c',a',k') = ( c xor c', aa', ak' + k) (a new instance)
    */
   compose(other: MusaicOperation): MusaicOperation {
     if (this.n !== other.n)
@@ -126,7 +126,7 @@ export class MusaicOperation {
     return new MusaicOperation(
       this.n,
       (this.a * other.a) % this.n,
-      (this.a * other.t + this.t) % this.n,
+      (this.a * other.k + this.k) % this.n,
       this.complement !== other.complement // logical xor
     )
   }
@@ -143,7 +143,7 @@ export class MusaicOperation {
    * @return a new IPcs
    */
   actionOn(pcs: IPcs) {
-    return this.complement ? MusaicOperation.affineOp(pcs, this.a, this.t).complement() : MusaicOperation.affineOp(pcs, this.a, this.t);
+    return this.complement ? MusaicOperation.affineOp(pcs, this.a, this.k).complement() : MusaicOperation.affineOp(pcs, this.a, this.k);
   }
 
   toString() {
@@ -151,14 +151,14 @@ export class MusaicOperation {
   }
 
 // without transposition op
-  toStringWithoutTransp() {
+  toStringWithoutTransposition() {
     return this._strReprWithoutTransp;
   }
 
   /**
    * major sort as M, CM
    *   M1 M5 M7 M11 CM1 CM5 CM7 CM11
-   * minor sort as T
+   * minor sort as Tk
    *   M1-T1 M2-T2 ...
    * So:    M1-T3, M1-T0, CM1-T5, M5-T1, CM7-T8, CM7-T3
    * give : M1-T0, M1-T3, M5-T1, CM1-T5, CM7-T3, CM7-T8
@@ -174,7 +174,7 @@ export class MusaicOperation {
     let comp = (w1 + op1.a) - (w2 + op2.a);
 
     if (comp === 0) {
-      comp = op1.t - op2.t;
+      comp = op1.k - op2.k;
     }
     return comp;
   }
@@ -190,18 +190,18 @@ export class MusaicOperation {
    *       : M1-T0 M5-T0 M7-T6 M11-T6
    */
   static compareStabMajorTMinorA(op1: MusaicOperation, op2: MusaicOperation): number {
-    let w1 = op1.t;
-    let w2 = op2.t;
+    let wK1 = op1.k;
+    let wK2 = op2.k;
 
-    let comp = w1 - w2
+    let comp = wK1 - wK2
 
     if (comp === 0) {
       if (op1.complement)
-        w1 = op1.n;
+        wK1 = op1.n;
       if (op2.complement)
-        w2 = op1.n; // assume op1 & op2 having same n
+        wK2 = op1.n; // assume op1 & op2 having same n
 
-      comp = (w1 + op1.a) - (w2 + op2.a);
+      comp = (wK1 + op1.a) - (wK2 + op2.a);
     }
 
     return comp;
@@ -282,30 +282,21 @@ export class MusaicOperation {
    * Transformation affine of this
    * @param pcs
    * @param a
-   * @param t
+   * @param k
    * @returns {IPcs}
    */
-  static affineOp(pcs: IPcs, a: number, t: number): IPcs {
-    return MusaicOperation.permute(pcs, a, t)
-    // let pcsPermuted =  MusaicOperation.permute(pcs, a, t)
-    // const pivot = pcsPermuted.iPivot
-    //   if (pcs.orbit?.groupAction) {
-    //     pcsPermuted = pcs.orbit.groupAction.getIPcsInOrbit(pcsPermuted)
-    //     if (pcsPermuted.iPivot !== pivot) {
-    //       pcsPermuted = pcsPermuted.cloneWithNewPivot(pivot)
-    //     }
-    //   }
-    // return pcsPermuted
+  static affineOp(pcs: IPcs, a: number, k: number): IPcs {
+    return MusaicOperation.permute(pcs, a, k)
   }
 
   /**
    * Transposition of this, in n
    * @param pcs
-   * @param t step
+   * @param k step
    * @returns {IPcs}
    */
-  static transposition(pcs: IPcs, t: number): IPcs {
-    return this.affineOp(pcs, 1, t)
+  static transposition(pcs: IPcs, k: number): IPcs {
+    return this.affineOp(pcs, 1, k)
   }
 
   /**
@@ -320,29 +311,32 @@ export class MusaicOperation {
    *
    * @param pcs
    * @param  a : number   {number}
-   * @param  t : number   [0..11]
+   * @param  k : number   [0..11]
    * @return IPcs
    */
-  static permute(pcs: IPcs, a: number, t: number): IPcs {
+  static permute(pcs: IPcs, a: number, k: number): IPcs {
     if (pcs.cardinal === 0) {
       // empty set pcs, no change
       return pcs
     }
-    let newPivot
-    let newVectorPcs: number[]
-    let newTemplateMapping: number[]
+
+    // Three potential impacts :
+    let newPivot   // pcs.iPivot will be updated if k > 0
+    let newVectorPcs: number[] // updated, unless this is neutral operation (M1-T0)
+    let newTemplateMapping: number[] // pcs.templateMapping will be updated pcs.nMapping > pcs.n
 
     if (pcs.nMapping > pcs.n && a > 1) {
+      // templateMapping must follow the transformation of vectorPcs.
       // example :
-      //  n=7 vectorPcs = [0 2 4]
-      //  nMapping = 12 templateMapping = [0,2,4,5,7,9,11]
-      //  mapped on [0 4 7]
-      //  op = M11-T0
-      // this.mappedVectorPcs takes over this.vectorPcs
-      // this operation act on this.mappedVectorPcs, so templateMapping will also change
+      //   n=7 vectorPcs = [0 2 4]
+      //   nMapping = 12 templateMapping = [0,2,4,5,7,9,11]
+      //   mapped on [0 4 7]
+      //   op = M11-T0
+      //   this.mappedVectorPcs takes over this.vectorPcs
+      //   this operation act on this.mappedVectorPcs, so templateMapping will also change
 
-      newPivot = negativeToPositiveModulo(((pcs.getMappedPivot() ?? 0) + t), pcs.nMapping)
-      // newPivot = negativeToPositiveModulo(((pcs.iPivot ?? 0) + t), pcs.nMapping)
+      newPivot = negativeToPositiveModulo(((pcs.getMappedPivot() ?? 0) + k), pcs.nMapping)
+      // newPivot = negativeToPositiveModulo(((pcs.iPivot ?? 0) + k), pcs.nMapping)
 
       let currentTemplateMapping = pcs.templateMapping
       //"convert" currentTemplateMapping to currentVectorTemplateMapping  = [0,2,4,5,7,9,11] => [1,0,1,0,1...]
@@ -355,7 +349,7 @@ export class MusaicOperation {
 
       // permute currentVectorTemplateMapping
       const permutedVectorTemplateMapping
-        = this.getVectorPcsPermuted(a, t, newPivot, currentVectorTemplateMapping)
+        = this.getVectorPcsPermuted(a, k, newPivot, currentVectorTemplateMapping)
       // M11 * [1 0 1 0 1 1 0 1 0 1 0 1] =>  [1 1 0 1 0 1 0 1 1 0 0 1 0]  ([0 1 3 5 7 8 10])
 
       // inverse convert action, that begin permutedVectorTemplateMapping becomes new template mapping
@@ -366,7 +360,7 @@ export class MusaicOperation {
       // Resume : M11 * [0,2,4,5,7,9,11] => [0 1 3 5 7 8 10]
 
       // do same operation with pcs.getMappedVectorPcs() [1 0 0 0 1 0 0 1 0 0 0 0] or [0 4 7]
-      let newPermutedMappedVectorPcs = this.getVectorPcsPermuted(a, t, newPivot, pcs.getMappedVectorPcs())
+      let newPermutedMappedVectorPcs = this.getVectorPcsPermuted(a, k, newPivot, pcs.getMappedVectorPcs())
       // M11 * [0 4 7] => [0 5 8] [1 0 0 0 0 1 0 0 1 0 0 0]
 
       // now convert inverse mapping [1 0 0 0 0 1 0 0 1 0 0 0] nMapping to n
@@ -389,8 +383,8 @@ export class MusaicOperation {
     } else {
       // no mapping
       // if there is a transposition, then the pivot follows it.
-      newPivot = negativeToPositiveModulo(((pcs.iPivot ?? 0) + t), pcs.vectorPcs.length)
-      newVectorPcs = this.getVectorPcsPermuted(a, t, newPivot, pcs.vectorPcs)
+      newPivot = negativeToPositiveModulo(((pcs.iPivot ?? 0) + k), pcs.vectorPcs.length)
+      newVectorPcs = this.getVectorPcsPermuted(a, k, newPivot, pcs.vectorPcs)
       newTemplateMapping = pcs.templateMapping
     }
     // now make operation act
@@ -411,33 +405,33 @@ export class MusaicOperation {
   }
 
   /**
-   * general transformation from affine operation ax + t, but fixed on pivot (see "fixed zero problem" in doc)
+   * general transformation from affine operation ax + k, but fixed on pivot (see "fixed zero problem" in doc)
    * Version by permutation.
    * general idea (composition of basic affine operations):
    *  1/ translate :        - pivot
-   *  2/ affine operation : ax + t
+   *  2/ affine operation : ax + k
    *  3/ translate :        + pivot
-   *  so : ax + ( -(a-1) * pivot + t )
-   *  so : ax + pivot * (1 - a) + t
+   *  so : ax + ( -(a-1) * pivot + k )
+   *  so : ax + pivot * (1 - a) + k
    *
    * @see analysis/documentation : affPivot function
    *
    * @param  a : number
-   * @param  t : number  [0..this.n[
+   * @param  k : number  [0..this.n[
    * @param pivot : number [0..this.n[
    * @param vectorPcs : number[] array of int
    * @return {number[]}
    */
-  static getVectorPcsPermuted(a: number, t: number, pivot: number, vectorPcs: number[]): number[] {
+  static getVectorPcsPermuted(a: number, k: number, pivot: number, vectorPcs: number[]): number[] {
     let vectorPcsPermuted = vectorPcs.slice()
     const n = vectorPcs.length
     let j
     for (let i = 0; i < n; i++) {
       // focus on algebra expression affine extend with manage pivot  : ax + pivot(1 - a) + k)
       // ax + pivot(1 - a) + k)
-      // = ax + pivot(1 - a) + t
-      // = a*x - a*pivot + pivot  + t
-      // a * (x - pivot) + pivot  + t // <= 1 multiplication 1 subtraction 2 add : best implementation
+      // = ax + pivot(1 - a) + k
+      // = a*x - a*pivot + pivot  + k
+      // a * (x - pivot) + pivot  + k // <= 1 multiplication 1 subtraction 2 add : best implementation
       //
       // Let's take an example :
       //
@@ -446,21 +440,21 @@ export class MusaicOperation {
       //                             ^
       //  Example : array-in[10] == "e"
       //
-      //  if t = +2, array-out[10] becomes "c"
+      //  if k = +2, array-out[10] becomes "c"
       //
       // array-out :  [...,           c,  d,  e,  f,  g,  h,....]
       //               0,1,... 8,  9, 10, 11, 12, 13, ...
       //                               ^
-      //  if t = +2,  element "e" at index 10 becomes "c" (index of c = index of e - t)
+      //  if k = +2,  element "e" at index 10 becomes "c" (index of c = index of e - k)
       //                                                                           ^
-      // this is why, in permutation act, plus t became minus t at end of expression : [...] + t)  =>  [...] - t)
+      // this is why, in permutation act, plus k became minus k at end of expression : [...] + k)  =>  [...] - k)
       //
-      // j =  a (x - pivot) + pivot + t
+      // j =  a (x - pivot) + pivot + k
       //
       // (below i = x,  where index and pitch class are "merged" :))
       //   @see whats_wrong_with_operations in documentation
 
-      j = (n + (a * (i - pivot) + pivot - t) % n) % n
+      j = (n + (a * (i - pivot) + pivot - k) % n) % n
 
       // first j modulo n may be negative... so twice modulo : (n + ( j modulo n )) modulo n
       // @see https://stackoverflow.com/questions/4467539/javascript-modulo-gives-a-negative-result-for-negative-numbers

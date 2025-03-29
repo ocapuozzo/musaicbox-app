@@ -48,10 +48,10 @@ export class Stabilizer {
       let delta = this.operations[0].n / 2
 
       this.operations.forEach((op) => {
-        if (op.t > delta)
-          sum += op.n - op.t;
+        if (op.k > delta)
+          sum += op.n - op.k;
         else
-          sum += op.t;
+          sum += op.k;
         // T10 greater than T2 ? T6 = 6 see Orbit N°74
       })
     }
@@ -151,12 +151,12 @@ export class Stabilizer {
     let res = "";
     let prec: string | null = null
     this.operations.forEach(op => {
-      let metaOp = op.toStringWithoutTransp();
+      let metaOp = op.toStringWithoutTransposition();
       if (metaOp !== prec) {
         prec = metaOp;
         if (res.length > 0)
           res += ",";
-        res = res + op.toStringWithoutTransp();
+        res = res + op.toStringWithoutTransposition();
       }
     })
     return res;
@@ -280,8 +280,8 @@ export class Stabilizer {
         if (!cmt.has(nameOpWithoutT)) {
           cmt.set(nameOpWithoutT, []);
         }
-        if (!cmt.get(nameOpWithoutT)?.includes(op.t)) {
-          cmt.get(nameOpWithoutT)!.push(op.t);
+        if (!cmt.get(nameOpWithoutT)?.includes(op.k)) {
+          cmt.get(nameOpWithoutT)!.push(op.k);
           cmt.get(nameOpWithoutT)!.sort((a, b) => a - b)
         }
 

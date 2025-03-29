@@ -10,7 +10,7 @@
   z-index: 2000;
   box-shadow: none;
   transition: right 0.3s ease;
-  height: calc(100vh - 65px); /* get all window height - top */
+  height: calc(100vh - 72px); /* get all window height - top */
   display: flex;
   justify-content: flex-start; /* Align  */
   padding: 1px 0; /* add space top and bottom */

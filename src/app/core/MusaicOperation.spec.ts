@@ -102,17 +102,19 @@ describe('MusaicPcsOperation', () => {
     let opM5_T0 = new MusaicOperation(12, 5, 0, false);
     let opCM1_T5 = new MusaicOperation(12, 1, 5, true);
 
-    let ops = [opM1_T3, opM1_T0, opCM1_T5, opM5_T0, opCM7_T8, opCM7_T3]
+    let ops = [opCM1_T5, opM1_T3, opM1_T0, opM5_T0, opCM7_T8, opCM7_T3]
 
     let opsSortedExpected = [opM1_T0, opM5_T0, opM1_T3, opCM7_T3, opCM1_T5, opCM7_T8]
 
     expect(ops).not.toEqual(opsSortedExpected)
+    // expect(ArrayUtil.objectsEqual(ops, opsSortedExpected)).toBeFalse() <== redundant
 
     ops.sort(MusaicOperation.compareStabMajorTMinorA)
 
     // ops.forEach( (op) => console.log(op._strRepr) )
 
     expect(ops).toEqual(opsSortedExpected)
+    // expect(ArrayUtil.objectsEqual(ops, opsSortedExpected)).toBeTrue() <== redundant
   })
 
 
@@ -292,7 +294,7 @@ describe('MusaicPcsOperation', () => {
     expect(newPcs.nMapping).toEqual(12)
     expect(newPcs.isComingFromOrbit()).toBeTrue()
     expect(newPcs.getMappedPcsStr()).toEqual("[3 8 11]")
-    
+
   })
 
 })

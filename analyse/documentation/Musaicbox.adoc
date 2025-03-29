@@ -1741,7 +1741,20 @@ image::lattice-subgroups12.png[lattice-subgroups12]
 NOTE: 4 of its 5 known subgroups are located on the central vertical axis.
 
 
-== For better operations
+== PCS Revisited
+
+
+
+=== V1 : With _iPivot_ for better basic operations
+
+<<_for_better_basic_operations>>
+
+=== V2 : With _mapping_ for better projection
+
+<<_for_better_projection>>
+
+[#_for_better_basic_operations]
+== For better basic operations
 
 As they stand, the generally accepted basic operations of musical set theory pose a logic problem that we raise here.
 
@@ -1999,6 +2012,8 @@ image::big-major-cyclic-orbit.png[Major cyclic orbit]
 
 * Moreover, the _iPivot_ property allows us to take a particular look at a PCS, as a scale, a chord according to a reference note (tonic, root, etc.)
 
+It then remains for us to revisit the general affine which uses the iPivot property. This is what we will do now.
+
 [#design-affine-pivot]
 === Affine with pivot on Extended PCS
 
@@ -2009,11 +2024,11 @@ We have seen that when an transformation operation acts on an extended PCS, in o
 ====
 [.text-center]
 --
-*_AffPivot_~a,k~ : Composition of 3 affine operations*
+*_AffinePivot_~a,k~ : Composition of 3 affine operations*
 
-stem:["AffPivot"_(a,k)  : Extended\ PCS xx NN xx NN -> Extended\ PCS]
+stem:["AffinePivot"_(a,k)  : Extended\ PCS xx NN xx NN -> Extended\ PCS]
 
-stem:["AffPivot"_(a,k)(A) := M_1T_p(A) @ M_aT_k(A) @ M_1T_-p(A)]
+stem:["AffinePivot"_(a,k)(A) := M_1T_p(A) @ M_aT_k(A) @ M_1T_-p(A)]
 
 Where stem:[p] is _iPivot_ value of stem:[A]
 --
@@ -2023,7 +2038,7 @@ Where stem:[p] is _iPivot_ value of stem:[A]
 
 We are now preparing to establish a condensed version of the function.
 
-stem:["AffPivot"_(a,k)(A) := M_1T_p(A) @ M_aT_k(A) @ M_1T_-p(A)]
+stem:["AffinePivot"_(a,k)(A) := M_1T_p(A) @ M_aT_k(A) @ M_1T_-p(A)]
 
 Recall : The affine function stem:[M_aT_k] is defined by  stem:[(ax + k)] that we can denote stem:[(a, k)] for the sake of simplification.
 
@@ -2089,14 +2104,12 @@ _Where *a* is prime with |E|, *k* a step of transposition, *p* the iPivot of A_
 --
 ====
 
-CAUTION: Conceptually _AffPivot_ function does not replace the usual affine function since it refers to the affine function in its <<design-affine-pivot>>.
-
 [IMPORTANT]
 ====
-_MusaicBox_ works with Extended PCS and implements affine function with _iPivot_, as defined by _affinePivot_ algorithm.
+_MusaicBox_ works with Extended PCS and implements affine function with _iPivot_, as defined by _affinePivot_ algorithm, and implement as a permutation function stem:[P(E) -> P(E)].
 
 Although the affine function has replaced the usual affine functions in the project ... It should not be lost in sight that it is only a contraction of a composition of functions: `M1-T~p~ ∘ M~a~-T~k~ ∘ M~1~-T~-p~` or `M1-T~p~(M~a~-T~k~(M~1~-T~-p~( pcs )))`
-
+as explained here design-affine-pivot>>.
 ====
 
 
@@ -2159,7 +2172,7 @@ Examples of new transformations taking into account the pivot :
  +
  C#dim7
 
-|[1 4 7 10]|[1 4 7 10]|[1 4 7 10]|[1 4 7 10]| OK
+|[1 4 7 10]|[1 4 7 10]|[1 4 7 10]|[1 4 7 10]|OK
 +
 C#dim7 has same transformation types as Cdim7
 
@@ -2175,6 +2188,9 @@ C#dim7 has same transformation types as Cdim7
 
 |===
 
+
+[#_for_better_projection]
+== For better projection
 
 TODO Suite...
 

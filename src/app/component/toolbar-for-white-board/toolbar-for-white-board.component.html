@@ -40,30 +40,39 @@
   <button mat-icon-button matTooltip="M5"
           class="button-toolbar"
           [disabled]="numberSelectedComponents === 0"
-          (click)="doAffine(5, 0)">
+          (click)="doAffine(5, 0)"
+          style="padding-top: 3px"
+  >
 
-    <img src="assets/img/M5-thick.svg" width="30px" height="30px" alt="M5">
+    <img src="assets/img/M5-thick.svg"  alt="M5">
   </button>
 
   <button mat-icon-button matTooltip="M7"
           class="button-toolbar"
           [disabled]="numberSelectedComponents === 0"
-          (click)="doAffine(7, 0)">
-    <img src="assets/img/M7-thick.svg" width="30px" height="30px" alt="M7">
+          (click)="doAffine(7, 0)"
+          style="padding-top: 3px"
+  >
+    <img src="assets/img/M7-thick.svg"  alt="M7">
   </button>
   <button mat-icon-button
           class="button-toolbar"
           matTooltip="M11"
           [disabled]="numberSelectedComponents === 0"
-          (click)="doAffine(11, 0)">
-    <img src="assets/img/M11-thick.svg" width="30px" height="30px" alt="M11">
+          (click)="doAffine(11, 0)"
+          style="padding-top: 3px"
+  >
+    <img src="assets/img/M11-thick.svg"  alt="M11">
   </button>
   <button mat-icon-button
           class="button-toolbar"
           matTooltip="Complement"
           [disabled]="numberSelectedComponents === 0"
-          (click)="doComplement()">
-    <mat-icon>contrast</mat-icon>
+          (click)="doComplement()"
+          style="padding-top: 3px"
+  >
+<!--    <mat-icon>contrast</mat-icon>-->
+    <img src="assets/img/complement.svg"  alt="Complement">
   </button>
 
   <button mat-icon-button matTooltip="Pivot-1"
@@ -85,9 +94,9 @@
           [disabled]="numberSelectedComponents === 0"
           (click)="doChangeViewClock()"
           class="button-toolbar"
-          style="vertical-align: middle;"
+          style="padding-top: 3px"
   >
-    <img src="assets/img/clockV2.svg" width="30px" height="30px" alt="clock">
+    <img src="assets/img/clockV2.svg"  alt="clock">
   </button>
 
   <button mat-icon-button matTooltip="Score"
@@ -101,7 +110,8 @@
           [disabled]="numberSelectedComponents === 0"
           (click)="doChangeViewMusaic()"
           class="button-toolbar"
-          style="margin-top: 0.4em;"
+
+          style="padding-top: 3px"
   >
     <img src="assets/img/musaic.svg" width="26px" height="26px" alt="musaic">
   </button>
@@ -109,9 +119,9 @@
           [disabled]="numberSelectedComponents === 0"
           (click)="doChangeViewOctotrope()"
           class="button-toolbar"
-          style="margin-top: 0.4em;"
+          style="padding-top: 3px"
   >
-    <img src="assets/img/polytrope.svg" width="40px" height="40px" alt="octotrope">
+    <img src="assets/img/polytrope.svg"  alt="octotrope">
   </button>
 
 </mat-toolbar>

@@ -400,7 +400,7 @@ export class GroupAction {
    */
   private buildOpNameWithoutTxToString() {
     const isStabilizersMap = new Map<string, boolean>()
-    this.operations.forEach((o) => isStabilizersMap.set(o.toStringWithoutTransp(), true))
+    this.operations.forEach((o) => isStabilizersMap.set(o.toStringWithoutTransposition(), true))
     return Array.from(isStabilizersMap.keys()).join(" ")
   }
 

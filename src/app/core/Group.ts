@@ -75,9 +75,9 @@ export class Group {
             // 2 its prime with primes number, but is bad generator with multiplication, so additive way below
             if (newOp.a === 2) {
               for (let k = newOp.a * 2; k < newOp.n; k += newOp.a) {
-                const newOpBis = new MusaicOperation(newOp.n, k, newOp.t)
+                const newOpBis = new MusaicOperation(newOp.n, k, newOp.k)
                 if (!allOps.find(op => op.getHashCode() === newOpBis.getHashCode())) {
-                  allOps.push(new MusaicOperation(newOp.n, k, newOp.t))
+                  allOps.push(new MusaicOperation(newOp.n, k, newOp.k))
                   cardinalOp++
                 }
               }
@@ -153,12 +153,12 @@ export class Group {
   private buildGroupNameAndOpsNameWithoutTx() : { opsNamesWithoutTx: string[], name : string } {
     let opsNamesWithoutTx: string[] = []
 
-    if (this.operations.length === 1 && this.operations[0].a === 1 && this.operations[0].t === 0 && !this.operations[0].complement){
+    if (this.operations.length === 1 && this.operations[0].a === 1 && this.operations[0].k === 0 && !this.operations[0].complement){
       opsNamesWithoutTx.push("M1-T0")
     } else {
       // REM: this.operations is sorted
       for (const op of this.operations) {
-        const opNameWithoutT = op.toStringWithoutTransp()
+        const opNameWithoutT = op.toStringWithoutTransposition()
         if (!opsNamesWithoutTx.includes(opNameWithoutT)) {
           opsNamesWithoutTx.push(opNameWithoutT)
         }

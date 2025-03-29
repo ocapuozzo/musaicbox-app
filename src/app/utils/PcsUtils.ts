@@ -99,7 +99,7 @@ export class PcsUtils {
    * @param musOp - A musaic operation
    */
   static getInverse(musOp: MusaicOperation): MusaicOperation {
-    return new MusaicOperation(musOp.n, musOp.a, this.solveEquation(musOp.a, musOp.t, musOp.n), musOp.complement)
+    return new MusaicOperation(musOp.n, musOp.a, this.solveEquation(musOp.a, musOp.k, musOp.n), musOp.complement)
   }
 
   // sort operations Mx < Mx+1 < CMx < CMx+1 (without -Tx)
