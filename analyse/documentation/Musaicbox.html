@@ -685,6 +685,8 @@ td:has(>p>span[class="klein2"]) {
 <ul class="sectlevel2">
 <li><a href="#_mapping">Mapping</a></li>
 <li><a href="#_auto_mapping">Auto-Mapping</a></li>
+<li><a href="#_auto_mapping_inverse">Auto-Mapping inverse</a></li>
+<li><a href="#_conclusion_6">Conclusion</a></li>
 </ul>
 </li>
 <li><a href="#_appendix">Appendix</a>
@@ -4601,7 +4603,7 @@ Seven PCS of diatonic design as a circle divided into 7 equal parts
 <div class="paragraph">
 <p>Mapping system explained by figure below.</p>
 </div>
-<div class="imageblock">
+<div id="mapping-explained" class="imageblock">
 <div class="content">
 <img src="./assets/images/understand-mapping-system.svg" alt="understand-mapping-system 7 to 12">
 </div>
@@ -4696,32 +4698,120 @@ Seven PCS of diatonic design as a circle divided into 7 equal parts
 <p>Let&#8217;s take the example of a piano keyboard. Despite the predominance of N=7, the configuration integrates 7 into 12 (with the black keys). We say that this arrangement is a mapping of 7 over 12.</p>
 </div>
 <div class="paragraph">
-<p>The AutoMap function allows this mapping to be performed.
-It associates a PCS element of P(Z12) of cardinality x with a PCS element of P(Zx) associated with Z12.</p>
+<p>The AutoMap function can perform this mapping, and many more.</p>
 </div>
 <div class="paragraph">
-<p>Example without mapping with PCS [0 4 7 11] or [C E G B], and let us ask for pcs in its cyclic orbit.  We obtain :</p>
+<p>AutoMap transforms a given PCS <em>p</em> of cardinality <em>x</em>, belonging to \$P(ZZ_12)\$, into a PCS <em>p'</em> of \$P(ZZ_x)\$ mapped to \$P(ZZ_12)\$, having  <strong><em>p</em></strong> as <strong>template mapping</strong> - which explains the <strong>"auto"</strong> prefix of the function name. ( see <a href="#mapping-explained">Mapping 7 &#8594; 12 Explained mapping from [0 2 4] to [0 4 7]</a> )</p>
+</div>
+<div class="paragraph">
+<p>To get the CM7 mapped in figure below, we need to perform two steps:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Select Automap from Diatonic Major scale</p>
+</li>
+<li>
+<p>Select only 0 4 7 11 (by deselect 2 4 9)</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>And</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="3">
+<li>
+<p>Add to WB page</p>
+</li>
+</ol>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./assets/images/CM7-cyclic-orbit.png" alt="CM7-cyclic-orbit">
+<img src="./assets/images/CM7-mapped.png" alt="CM7 mapped">
 </div>
-<div class="title">Figure 20. CM7 orbit cyclic</div>
-</div>
-<div class="paragraph">
-<p>Now let&#8217;s consider CM7 as the PCS of \$P(ZZ_7)\$, with the C major diatonic scale as a reference. PCS [0 2 4 6] is mapped as [0 4 7 11].</p>
 </div>
 <div class="paragraph">
-<p>Cyclic orbit of CM7 (PCS [0 2 4 6]) is composed of 7 other PCS, each mapped :</p>
+<p>On WhiteBoard page, let&#8217;s consider CM7 as the PCS of \$P(ZZ_7)\$, with the C major diatonic scale as a reference. PCS [0 2 4 6] is mapped as [0 4 7 11].</p>
+</div>
+<div class="paragraph">
+<p>Right click on this PCS, then <em>orbits&#8594;Cyclic orbit</em>, you get 7 other PCS, each mapped :</p>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="./assets/images/CM7-mapped-diatonic-maj-cyclic-orbit.png" alt="CM7-mapped-diatonic-maj-cyclic-orbit">
 </div>
-<div class="title">Figure 21. CM7 mapped onto Diatonic Major orbit cyclic</div>
+<div class="title">Figure 20. CM7 mapped to Diatonic Major  (in orbit cyclic Z<sub>7</sub>)</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_auto_mapping_inverse">Auto-Mapping inverse</h3>
+<div class="paragraph">
+<p>Inverse of automap is the <em>unmap</em> function.</p>
 </div>
 <div class="paragraph">
-<p>TODO Suite&#8230;&#8203;</p>
+<p>From a PCS <em>p</em>, mapped to \$ZZ_12\$, UnMap transform templateMapping of <em>p</em>  to an new PCS <em>p'</em> <strong>mapped to itself</strong>. A PCS mapped to itself is considered as no mapped.</p>
+</div>
+<div class="paragraph">
+<p>Return to PCS page, Go back to the PCS page, normally you should have the CM7 PCS Mapped. If not, map it.</p>
+</div>
+<div class="paragraph">
+<p>Select UnMAp, you get a not mapped PCS [0 4 7 11] ([C E G B]), and let us ask for pcs in its cyclic orbit.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./assets/images/CM7-unmapped.png" alt="CM7-unmapped">
+</div>
+</div>
+<div class="paragraph">
+<p>Add it to WB page, and, again, do right click on this PCS, then <em>orbits&#8594;Cyclic orbit</em>, you get 12 other PCS :</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./assets/images/CM7-cyclic-orbit.png" alt="CM7-cyclic-orbit">
+</div>
+<div class="title">Figure 21. CM7 unmapped with its orbit cyclic (in Z<sub>12</sub>)</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+You can Undo/Redo at any time.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_conclusion_6">Conclusion</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>We introduced the concept of Mapping, which allows you to explore PCSs from a <strong>subgroup</strong> of \$ZZ_12\$.</p>
+</li>
+<li>
+<p>We introduced the autoMap and unMap functions.</p>
+</li>
+<li>
+<p>We discussed the use of the autoMap and unMap functions in the application and presented a use case involving the discovery of the natural chords, and their quality, from major diatonic scale.</p>
+</li>
+<li>
+<p>The mapping function extends the concept of PCS again.</p>
+</li>
+<li>
+<p>The mapping function further extends the concept of PCS.
+By default, a PCS is mapped to itself, and therefore considered "unmapped."</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Therefore, this new concept does not disrupt the basic concept of PCS defined by Musical Set Theory.</p>
+</div>
+<div class="paragraph">
+<p>We even believe that, beyond its practicality, the doubly extended PCS increases the exploration potential of its abstract descriptions.</p>
 </div>
 </div>
 </div>
@@ -5653,7 +5743,7 @@ Symmetry prime form concept is invented, specific to this project.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-04-01 11:51:20 +0200
+Last updated 2025-04-01 15:38:37 +0200
 </div>
 </div>
 <script type="text/x-mathjax-config">
