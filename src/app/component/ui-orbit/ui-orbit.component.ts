@@ -20,6 +20,7 @@ import {OctotropeComponent} from "../octotrope/octotrope.component";
     MusaicComponent,
     ClockComponent,
     OctotropeComponent,
+
   ],
   templateUrl: './ui-orbit.component.html',
   styleUrl: './ui-orbit.component.css'
@@ -44,9 +45,11 @@ export class UiOrbitComponent {
     this.textButtonViewMusaicClock = this.viewMusaic  ?  "View Clock" : "View Musaic"
   }
 
-  doPushToPcsPage(pcs: IPcs) {
-    this.managerPagePcsService.replaceBy(pcs)
-    this.router.navigateByUrl('/pcs');
+  doPushToPcsPageIf_N_is12(pcs: IPcs) {
+   if (pcs.n === 12) {
+     this.managerPagePcsService.replaceBy(pcs)
+     this.router.navigateByUrl('/pcs');
+   }
   }
 
   protected readonly EightyEight = EightyEight;

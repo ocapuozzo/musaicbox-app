@@ -870,27 +870,29 @@ describe('IPcs unit tests', () => {
 
 
   it("autoMap 7 diat maj => 12 - verify transposition", () => {
-    let ipcsDiatMaj = new IPcs({strPcs: "0, 2, 4, 5, 7, 9, 11", iPivot: 0})
-    let ipcsDiatMajMappedIn12 = ipcsDiatMaj.autoMap()
+    let pcsDiatonicMaj = new IPcs({strPcs: "0, 2, 4, 5, 7, 9, 11", iPivot: 0})
+    let pcsDiatonicMajMappedIn12 = pcsDiatonicMaj.autoMap()
 
-    let otherPics = ipcsDiatMajMappedIn12.toggleIndexPC(1)
-    otherPics = otherPics.toggleIndexPC(3)
-    otherPics = otherPics.toggleIndexPC(5)
-    let firstDegree = otherPics.toggleIndexPC(6)
+    // [0 2 4 5 7 9 11] => [0 4 7]
+    // [1, 1, 1, 1, 1, 1, 1] => [1, 0, 1, 0, 1, 0, 0]
+    let otherPcs = pcsDiatonicMajMappedIn12.toggleIndexPC(1)
+    otherPcs = otherPcs.toggleIndexPC(3)
+    otherPcs = otherPcs.toggleIndexPC(5)
+    let firstDegree = otherPcs.toggleIndexPC(6)
 
     expect(firstDegree.vectorPcs).toEqual([1, 0, 1, 0, 1, 0, 0])
 
     // verify mapping ok ?
     expect(firstDegree.getMappedVectorPcs())
-      .toEqual(new IPcs({strPcs: '[0, 4, 7]', n: 12}).getMappedVectorPcs())
+      .toEqual(new IPcs({strPcs: '[0 4 7]', n: 12}).getMappedVectorPcs())
 
     // now verify if transposition in 7 has a good impact in 12 mapped
-    let secondeDegreeIn7 = firstDegree.transposition(1) // C,E,G => D,F,A
+    let otherDegreeIn7 = firstDegree.transposition(1) // C,E,G => D,F,A
     expect(firstDegree.vectorPcs).toEqual([1, 0, 1, 0, 1, 0, 0])
-    expect(secondeDegreeIn7.vectorPcs).toEqual([0, 1, 0, 1, 0, 1, 0])
+    expect(otherDegreeIn7.vectorPcs).toEqual([0, 1, 0, 1, 0, 1, 0])
 
-    let expectedDminorIn12 = new IPcs({strPcs: "2,5,9", n: 12}) // D, F, A
-    expect(secondeDegreeIn7.getMappedVectorPcs()).toEqual(expectedDminorIn12.getMappedVectorPcs())
+    let expectedDminorIn12 = new IPcs({strPcs: "[2 5 9]", n: 12}) // D, F, A
+    expect(otherDegreeIn7.getMappedVectorPcs()).toEqual(expectedDminorIn12.getMappedVectorPcs())
 
     // good ! a little self-satisfaction can't hurt...
 

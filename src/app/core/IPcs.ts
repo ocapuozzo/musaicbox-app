@@ -1187,26 +1187,28 @@ export class IPcs {
   }
 
 
+
   /**
-   * Get intervals type of intervallic structure
+   * Get generic intervals of intervallic structure
    * Example : is:[2,2,1,2,2,2,1] => [1,2]
+   * @see https://en.wikipedia.org/wiki/Generic_and_specific_intervals
    */
-  getIntervalsTypeOfIS(): number[] {
+  getGenericIntervals(): number[] {
     const is = this.is()
     let feature: number[] = [...new Set(is)]
     return feature.sort()
   }
 
   /**
-   * Get array of pcs having same intervals type of this
+   * Get array of pcs having same generic intervals of this
    * Ex : [0,2,4,5,7,9,11] => [1,2] two type os interval : Half tone and Whole tone
    */
-  getPcsSameIntervalsType() {
+  getPcsSameGenericIntervals() {
     const groupCyclic = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!
     let pcsSameFeatureIS: IPcs[] = []
-    const featureIS = this.getIntervalsTypeOfIS()
+    const featureIS = this.getGenericIntervals()
     groupCyclic.orbits.forEach(orbit => {
-      if (ArrayUtil.compareTwoSortedArrays(orbit.getPcsMin().getIntervalsTypeOfIS(), featureIS)) {
+      if (ArrayUtil.compareTwoSortedArrays(orbit.getPcsMin().getGenericIntervals(), featureIS)) {
         pcsSameFeatureIS.push(orbit.getPcsMin())
       }
     })

@@ -33,17 +33,19 @@ export class Scales2048Name {
    * @return {IScaleName} containing name infos, may be to contain empty value
    */
   static getFirstScaleNameOrDerived(pcs: IPcs): INameDefLink  {
-    let cardinalMode = pcs.cardOrbitMode()
-    for (let i = 0; i < cardinalMode ; i++) {
-      let nameDefLink = Scales2048Name.getScale2048Name(pcs).sources[0]
-      let scaleName = nameDefLink.name
-      if (scaleName && i==0) return Scales2048Name.getScale2048Name(pcs).sources[0]
-      if (scaleName) return {
-        name :  `degree ${i+1} of ${scaleName}`,
-        url : nameDefLink.url,
-        type: nameDefLink.type
+    if (pcs.n === 12) {
+      let cardinalMode = pcs.cardOrbitMode()
+      for (let i = 0; i < cardinalMode; i++) {
+        let nameDefLink = Scales2048Name.getScale2048Name(pcs).sources[0]
+        let scaleName = nameDefLink.name
+        if (scaleName && i == 0) return Scales2048Name.getScale2048Name(pcs).sources[0]
+        if (scaleName) return {
+          name: `degree ${i + 1} of ${scaleName}`,
+          url: nameDefLink.url,
+          type: nameDefLink.type
+        }
+        pcs = pcs.modulation("Previous")
       }
-      pcs = pcs.modulation("Previous")
     }
     return {
       name: '',

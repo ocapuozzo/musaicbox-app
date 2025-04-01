@@ -1086,9 +1086,10 @@ export class ManagerPageWBService {
     let pcsDtoForTemplate =
       new UIPcsDto({
         ...this.uiPcsDtoList[index],
-        uiClock: {...this.uiPcsDtoList[index].uiClock /*, drawPivot: false*/}
+        showPivot:true,
+        uiClock: {...this.uiPcsDtoList[index].uiClock}
       })
-    pcsDtoForTemplate.showPivot = false
+
     this.addPcs({
       somePcs: pcsCyclicList,
       circularAlign: true,

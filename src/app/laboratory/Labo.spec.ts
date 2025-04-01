@@ -324,18 +324,31 @@ describe('Laboratory explorer', () => {
 
   it("intervallic structure feature", () => {
     const majScale = new IPcs({strPcs: "0,2,4,5,7,9,11"})
-    const featureIS = majScale.getIntervalsTypeOfIS()
-    const featureexpected = [1, 2]
-    expect(featureIS).toEqual(featureexpected)
+    const featureIS = majScale.getGenericIntervals()
+    const expectedFeature = [1, 2]
+    expect(featureIS).toEqual(expectedFeature)
   })
 
-  it("get all pcs having same interval types that Major scale", () => {
+  it("get all pcs having same generic intervals that Major scale", () => {
     const majScale = new IPcs({strPcs: "0,2,4,5,7,9,11"})
-    const pcsSameFeatureIS: IPcs[] = majScale.getPcsSameIntervalsType()
+    const pcsSameFeatureIS: IPcs[] = majScale.getPcsSameGenericIntervals().filter(pcs => pcs.cardinal > 4)
     expect(pcsSameFeatureIS.length).toEqual(29) // 30 - chromatic scale
-    
-    console.log("PCS having same intervals that Major Scale (" + pcsSameFeatureIS.length + ")")
-    pcsSameFeatureIS.forEach(pcs => console.log(pcs.is() + " Mus n° " + EightyEight.idNumberOf(pcs)))
+
+    let pcsList: [IPcs, number][] = pcsSameFeatureIS.map(pcs => [pcs, EightyEight.idNumberOf(pcs)])
+    const  pcsSorted  = pcsList.sort((a, b) => a[1] - b[1])
+
+    let numberMusaics = new Set(pcsSorted.map(p => p[1])).size
+    console.log("PCS having same intervals that Major Scale (" + pcsSameFeatureIS.length + ") for " + numberMusaics+ " musaics" )
+    pcsSorted.forEach(pcsSorted => console.log(`(${pcsSorted[0].is().toString().padEnd(22)}) in Mus n° ${pcsSorted[1]}`))
+
+
+    const pcsHavingCardinalIn5678 = pcsSameFeatureIS.filter(pcs => [5,6,7,8].includes(pcs.cardinal))
+    numberMusaics = new Set(pcsHavingCardinalIn5678.map(pcs => EightyEight.idNumberOf(pcs))).size
+    console.log("PCS having same intervals that Major Scale and cardinal in [5..8] (" + pcsHavingCardinalIn5678.length + ") for " + numberMusaics+ " musaics" )
+    pcsSorted
+      .filter(element => [5,6,7,8].includes(element[0].cardinal))
+      .forEach(pcsSorted => console.log(`(${pcsSorted[0].is().toString().padEnd(22)}) in Mus n° ${pcsSorted[1]}`))
+
 
   })
 

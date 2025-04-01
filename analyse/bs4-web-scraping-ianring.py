@@ -123,6 +123,7 @@ def webScrapping():
 if __name__ == "__main__":
   # webScrapping()
   # python3 ./bs4-web-scraping-ianring.py  > test.json
+  # TODO delete suffix "Ditone"
   updateJson()
 
 
