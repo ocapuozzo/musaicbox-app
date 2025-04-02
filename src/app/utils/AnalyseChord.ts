@@ -15,41 +15,46 @@ export class AnalyseChord {
     // unMap() if necessary, chords research work on n == 12
     let pcsWorking = pcs.n < 12 ? pcs.unMap() : pcs
     for (let nbDegree = 0; nbDegree < cardinal; nbDegree++) {
-      let keysChords: string[]
+      let pidChords: number[]
       if (nOfPitches === 3) {
-        keysChords = ChordNaming.getKeysChord(pcsWorking, 3, includeInversion)
+        pidChords = ChordNaming.getKeysChord(pcsWorking, 3, includeInversion)
       } else {
-        keysChords = ChordNaming.getKeysChord(pcsWorking, 4, includeInversion)
+        pidChords = ChordNaming.getKeysChord(pcsWorking, 4, includeInversion)
       }
-      if (keysChords.length === 0) {
+      if (pidChords.length === 0) {
         chordsByDegree.set(AnalyseChord.ROMAIN[nbDegree], [])
-      } else for (let keyChord of keysChords) {
+      } else {
+        for (let pid of pidChords) {
 
-        let chord = new IPcs({
-          strPcs:keyChord,
-        }).transposition(pcsWorking.iPivot ?? 0)
+          // get pcs and replace to origin by translation +pivot
+          let chord = new IPcs({
+            pidVal: pid,
+          }).transposition(pcsWorking.iPivot ?? 0)
 
-        if (pcs.nMapping > pcs.n) {
-          // pcs is Mapped, convert keyChordPcs from templateMapping
-          // 0 4 7 with n=7, nMapping=12, templateMapping[0, 2, 4, 5, 7, 9, 11]
-          // so "0 4 7" => unMappedPcs = "0 2 4" (and vector [1,0,1,0,1,0,0,0])
+          if (pcs.nMapping > pcs.n) {
+            // pcs is Mapped, convert keyChordPcs from templateMapping
+            // 0 4 7 with n=7, nMapping=12, templateMapping[0, 2, 4, 5, 7, 9, 11]
+            // so "0 4 7" => unMappedPcs = "0 2 4" (and vector [1,0,1,0,1,0,0,0])
 
-          const unMappedPcs = chord.getPcsStr(false).split(' ').map(pc => pcs.templateMapping.indexOf(Number(pc)))//.join(' ')
-          // if not compatible with mapping, pass
-          if (unMappedPcs.includes(-1)) {
-            continue
+            const unMappedPcs =
+                chord.getPcsStr(false).split(' ').map(pc => pcs.templateMapping.indexOf(Number(pc)))
+            // if not compatible with mapping, pass
+            if (unMappedPcs.includes(-1)) {
+              continue
+            }
+            // chord version with mapping
+            chord = new IPcs({
+              strPcs: unMappedPcs.join(' '),
+              iPivot: pcs.templateMapping.indexOf(chord.iPivot!),
+              n: pcs.n,
+              nMapping: pcs.nMapping,
+              templateMapping: pcs.templateMapping
+            })
           }
-          // chord version with mapping
-          chord = new IPcs({
-            strPcs:unMappedPcs.join(' '),
-            iPivot: pcs.templateMapping.indexOf(chord.iPivot!),
-            n:pcs.n,
-            nMapping: pcs.nMapping,
-            templateMapping: pcs.templateMapping
-          })
+
+          AnalyseChord.addPcs(chordsByDegree, nbDegree + 1, chord)
         }
 
-        AnalyseChord.addPcs(chordsByDegree, nbDegree + 1, chord)
       }
       pcsWorking = pcsWorking.modulation("Next")
     }
