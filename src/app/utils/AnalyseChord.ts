@@ -21,7 +21,7 @@ export class AnalyseChord {
       } else {
         keysChords = ChordNaming.getKeysChord(pcsWorking, 4, includeInversion)
       }
-      if (keysChords.length == 0) {
+      if (keysChords.length === 0) {
         chordsByDegree.set(AnalyseChord.ROMAIN[nbDegree], [])
       } else for (let keyChord of keysChords) {
 

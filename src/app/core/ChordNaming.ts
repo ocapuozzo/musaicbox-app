@@ -21,7 +21,7 @@ export class ChordNaming {
    *  the only operation to have chord recognized, or not.
    *
    */
-  static chordsModalPF = new Map<string, IChordNameOrder[]>([
+  static chordsZeroAsRoot = new Map<string, IChordNameOrder[]>([
     ///// 3-chords
     // Major
     ['0 4 7', [{name: 'Maj', sortOrder: 1, root: 0}]],
@@ -79,6 +79,221 @@ export class ChordNaming {
 
   ])
 
+  // key is pid
+  static chordsIntKeyWithZeroAsRoot = new Map<number, IChordNameOrder[]>([
+    //
+    // ///// 3-chords  ///// ///// ///// ///// ///// /////
+
+    // '0 4 7'  Really a 3 chord ???
+    [145, [{name: 'Maj', sortOrder: 1, root: 0}]],
+
+    // '0 4 10' 7 no 5
+    [1041, [{name: '7 no 5', sortOrder: 5, root: 0}]],
+
+    // '0 4 6' Maj ♭5
+    [81, [{name: 'Maj ♭5', sortOrder: 15, root: 0}]],
+
+    // '0 4 8' aug
+    [273, [{name: 'aug', sortOrder: 13, root: 0}]],
+
+    // '0 4 9' Maj6 no 5 or minor bass 3rd
+    [529, [{name: 'Maj6', sortOrder: 3, root: 0}, {name: 'm/3rd', sortOrder: 6, root: 9}]],
+
+    // '0 5 7' sus4
+    [161, [{name: 'sus4', sortOrder: 9, root: 0}]],
+
+    // '0 2 7' sus2
+    [133, [{name: 'sus2', sortOrder: 8, root: 0}]],
+
+    // '0 2 8' Maj ♭5 /3rd
+    [261, [{name: 'Maj ♭5 /3rd', sortOrder: 21, root: 8}, {name: '♯5 sus2', sortOrder: 22, root: 0}]],
+
+    // '0 2 6'
+    [69, [{name: '7 no 5 /7th', sortOrder: 10, root: 2}]],
+
+    //
+    // ******* minor 3chord *********************
+    //
+
+    // '0 3 7' minor
+    [137, [{name: 'm', sortOrder: 2, root: 0}]],
+
+    // '0 3 6' diminished
+    [73, [{name: 'dim', sortOrder: 3, root: 0}]],
+
+    // '0 3 8' minor ♭6 or Maj/3rd
+    [265, [{name: 'm ♭6', sortOrder: 6, root: 0}, {name: 'Maj/3rd', sortOrder: 6, root: 8}]],
+
+    //
+    //    history :  origin of test  chord inversion - experimental and approved !
+    // '0 5 9' Major bass 5th
+    [545, [{name: 'Maj/5th', sortOrder: 6, root: 5}]],
+
+    // '0 5 8' minor bass fifth
+    [289, [{name: 'm/5th', sortOrder: 6, root: 5}]],
+    // // => let chord third bass inversion are sixth chord considered ??
+    //
+
+    // ///// 4-chords  ///// ///// ///// ///// ///// /////
+
+
+
+    //
+    // ******* Major 4chord *********************
+    //
+
+    // '0 4 7 9' sixth chord or minor seventh bass third
+    [657, [{name: '6', sortOrder: 5, root: 0}, {name: 'm7/3rd', sortOrder: 6, root: 9}]],
+
+    // '0 4 7 11' Major 7
+    [2193, [{name: 'M7', sortOrder: 4, root: 0}]],
+
+    // '0 4 7 8' Major ♭6
+    [401, [{name: 'Maj ♭6', sortOrder: 6, root: 0}]],
+
+    // '0 2 4 9' Major 9 (no 7)
+    [149, [{name: 'Maj 9 (no 7)', sortOrder: 6, root: 0}]],
+
+
+    //
+    // // Seventh ///////////////////////////////////
+
+    // '0 4 7 10' 7
+    [1169, [{name: '7', sortOrder: 5, root: 0}]],
+
+    // '0 4 8 10' 7 ♯5
+    [1297, [{name: '7 ♯5', sortOrder: 8, root: 0}]],
+
+    // '0 4 6 10' 7 ♭5 // or 7 ♯11
+    [1105, [{name: '7 ♭5', sortOrder: 6, root: 0}, {name: '7 ♯11', sortOrder: 6, root: 0}]],
+
+    // '0 4 5 10' sus4 M7 bass 5
+    [1073, [{name: 'sus4 M7/5', sortOrder: 15, root: 5}]],
+
+    // '0 5 7 10' 7 sus4
+    [1185, [{name: '7 sus4', sortOrder: 15, root: 0}]],
+
+    // '0 5 7 11'  sus4 M7
+    [2209, [{name: 'sus4 M7', sortOrder: 15, root: 0}]],
+
+    // '0 4 8 11' Augmented Major 7
+    [2321, [{name: 'aug M7', sortOrder: 5, root: 0}]],
+
+    // '0 3 4 8' Maj ♭6/3rd
+    [281, [{name: 'Maj ♭6/3rd', sortOrder: 7, root: 8}]],
+
+    // '0 2 7 10'  7 sus2
+    [1157, [{name: '7 sus2', sortOrder: 7, root: 0}]],
+
+    // '0 2 6 10' 7 ♯11 sus2
+    [1093, [{name: '7 ♯11 sus2', sortOrder: 11, root: 0}]],
+
+    // '0 2 4 10' Seventh 9 no 5
+    [1045, [{name: '9 no 5', sortOrder: 8, root: 0}]],
+
+    // '0 2 4 6' 7 9 #11 (no 5 no 7)
+    [85, [{name: '7 9 #11', sortOrder: 20, root: 0}]],
+
+    //'0 2 8 10'  7 9 #11 / 3rd
+    [1285, [{name: ' 7 9 #11/3rd', sortOrder: 23, root: 8}]],
+
+    //
+    // // Minor ///////////////////////////////////
+    //
+
+    // '0 3 7 10'
+    [1161, [{name: 'm7', sortOrder: 2, root: 0}]],
+
+    // '0 3 7 11'
+    [2185, [{name: 'm M7', sortOrder: 6, root: 0}]],
+
+    // '0 3 8 10' minor ♯5 or ♭6
+    [1289, [{name: 'm7 ♯5', sortOrder: 8, root: 0}]],
+
+    // '0 3 7 9'
+    [649, [{name: 'm6', sortOrder: 5, root: 0}]],
+
+    // '0 3 7 8'
+    [393, [{name: 'm ♭6', sortOrder: 7, root: 0}, {name: 'M7/3rd', sortOrder: 7, root: 8}]],
+
+    // '0 2 5 10'
+    [1061, [{name: 'm7♯5/7th', sortOrder: 10, root: 2}]],
+
+    // '0 3 5 10' minor 7 add 11
+    [1065, [{name: 'm7 add 11', sortOrder: 6, root: 0}]],
+
+    // '0 3 6 10' Half-Diminished seventh or m6/6th
+    [1097, [{name: 'ø', sortOrder: 3, root: 0}, {name: 'm6/6th', sortOrder: 3, root: 0}]],
+
+    // '0 3 6 9'
+    [585, [{name: 'dim7', sortOrder: 3, root: 0}]],
+
+    //
+    // // chords without name, but inversion
+    //
+
+    // '0 4 5 9'
+    [561, [{name: 'M7/5th', sortOrder: 7, root: 5}]],
+
+    // '0 1 5 8'
+    [291, [{name: 'M7/7th', sortOrder: 7, root: 1}]],
+
+  ])
+
+
+
+  /**
+   * From pcs, get list of possible currents chords
+   * @param pcs
+   * @param nPitches 3 or 4 (3 or 4 pitches chords) to obtain
+   * @param includeInversion where .root > 0
+   * @return string[] list of pcs in string representation as '0 3 6 9' (cardinal = nPitches)
+   */
+  static newGetKeysChord(pcs: IPcs, nPitches: number, includeInversion: boolean = true): number[] {
+    let chordPcsList: number[] = []
+    if (pcs.cardinal < 3) return chordPcsList
+
+    const pivot = pcs.getMappedPivot() ?? 0
+    // experimentation
+    if (pcs.cardinal === nPitches) {
+
+      // translate where pivot = 0, for make a key
+      const pcsPid = pcs.transposition(-pivot).unMap().pid()
+
+      if (ChordNaming.chordsIntKeyWithZeroAsRoot.get(pcsPid)) {
+        if (ChordNaming.chordsIntKeyWithZeroAsRoot.get(pcsPid)![0].root === 0
+          || ChordNaming.chordsIntKeyWithZeroAsRoot.get(pcsPid)![0].root > 0
+          && includeInversion) {
+          chordPcsList.push(pcsPid)
+        }
+      }
+      // max one name
+      return chordPcsList
+    }
+
+    // search all possible chords (from predefined list)
+    // get pid from pcs translate for pivot = zero
+    const pcsPid = pcs.transposition(-pivot).unMap().pid()
+    ChordNaming.chordsIntKeyWithZeroAsRoot.forEach((value, pid) => {
+      if ( (pid & pcsPid) === pid) {
+        chordPcsList.push(pid)
+      }
+    })
+
+    // assert nMapping to be 12
+
+    // sort on sortOrder property
+    if (chordPcsList.length > 1) {
+      chordPcsList.sort((s1, s2) => {
+        const orderChord1 = ChordNaming.chordsIntKeyWithZeroAsRoot.get(s1)![0].sortOrder ?? 42  // normally sortOrder is set
+        const orderChord2 = ChordNaming.chordsIntKeyWithZeroAsRoot.get(s2)![0].sortOrder ?? 42  // idem
+        return orderChord1 - orderChord2
+      })
+    }
+    return chordPcsList
+  }
+
+
   /**
    * From pcs, get list of possible currents chords
    * @param pcs
@@ -91,16 +306,16 @@ export class ChordNaming {
 
     if (pcs.cardinal < 3) return chordPcsList
 
+    const pivot = pcs.getMappedPivot() ?? 0
+
     // experimentation
     if (pcs.cardinal === nPitches) {
-      let pcsPF = pcs
-      const pivot = pcsPF.getMappedPivot() ?? 0
       // translate where pivot = 0, for make a key
-      pcsPF = pcs.transposition(-pivot)
-      const keyChord = pcsPF.getMappedPcsStr(false)
-      if (ChordNaming.chordsModalPF.get(keyChord)) {
-        if (ChordNaming.chordsModalPF.get(keyChord)![0].root === 0
-          || ChordNaming.chordsModalPF.get(keyChord)![0].root > 0
+      const keyChord = pcs.transposition(-pivot).getMappedPcsStr(false)
+
+      if (ChordNaming.chordsZeroAsRoot.get(keyChord)) {
+        if (ChordNaming.chordsZeroAsRoot.get(keyChord)![0].root === 0
+          || ChordNaming.chordsZeroAsRoot.get(keyChord)![0].root > 0
           && includeInversion) {
             chordPcsList.push(keyChord)
         }
@@ -110,7 +325,7 @@ export class ChordNaming {
     }
 
     // assert nMapping to be 12
-    let pivot = pcs.getMappedPivot()
+
     let binPcs = pcs.getMappedVectorPcs()
     let n = pcs.nMapping // 12 expected
 
@@ -123,7 +338,7 @@ export class ChordNaming {
             // 3Chord
             let testKey = key + ' ' + (j - pivot)
             if (nPitches == 3) {
-              if (ChordNaming.chordsModalPF.has(testKey)) {
+              if (ChordNaming.chordsZeroAsRoot.has(testKey)) {
                 chordPcsList.push(testKey)
               }
             } else { // nPitches == 4
@@ -134,7 +349,7 @@ export class ChordNaming {
                 if (binPcs[k % n] == 1) {
                   // 4Chord
                   let testKey2 = testKey + ' ' + ((k - pivot) % n)
-                  if (ChordNaming.chordsModalPF.has(testKey2)) {
+                  if (ChordNaming.chordsZeroAsRoot.has(testKey2)) {
                     chordPcsList.push(testKey2)
                   }
                 }
@@ -154,20 +369,20 @@ export class ChordNaming {
             if (binPcs[(pivot + fifth) % n] == 1) {
               let testKey = key + ' ' + fifth
               if (nPitches == 3) {
-                if (ChordNaming.chordsModalPF.has(testKey)) {
+                if (ChordNaming.chordsZeroAsRoot.has(testKey)) {
                   chordPcsList.push(testKey)
                 }
               } else { // 4Chord
                 if (binPcs[(pivot + 10) % n] == 1) {
                   let testKey2 = testKey + ' 10'
-                  if (ChordNaming.chordsModalPF.has(testKey2)) {
+                  if (ChordNaming.chordsZeroAsRoot.has(testKey2)) {
                     // 7 sus
                     chordPcsList.push(testKey2)
                   }
                 }
                 if (binPcs[(pivot + 11) % n] == 1) {
                   let testKey2 = testKey + ' 11'
-                  if (ChordNaming.chordsModalPF.has(testKey2)) {
+                  if (ChordNaming.chordsZeroAsRoot.has(testKey2)) {
                     // sus2 or sus4 M7
                     chordPcsList.push(testKey2)
                   }
@@ -179,10 +394,11 @@ export class ChordNaming {
       }
     }
 
+    // sort on sortOrder property
     if (chordPcsList.length > 1) {
       chordPcsList.sort((s1, s2) => {
-        const orderChord1 = ChordNaming.chordsModalPF.get(s1)![0].sortOrder ?? 42  // normally sortOrder is set
-        const orderChord2 = ChordNaming.chordsModalPF.get(s2)![0].sortOrder ?? 42  // idem
+        const orderChord1 = ChordNaming.chordsZeroAsRoot.get(s1)![0].sortOrder ?? 42  // normally sortOrder is set
+        const orderChord2 = ChordNaming.chordsZeroAsRoot.get(s2)![0].sortOrder ?? 42  // idem
         return orderChord1 - orderChord2
       })
     }
@@ -203,7 +419,7 @@ export class ChordNaming {
     }
 
     let nameRoot = ''
-    const names = ChordNaming.chordsModalPF.get(chordsNPitches[0])
+    const names = ChordNaming.chordsZeroAsRoot.get(chordsNPitches[0])
 
     // experimental
     if (!names) return ''

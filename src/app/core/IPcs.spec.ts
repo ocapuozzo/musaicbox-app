@@ -898,8 +898,8 @@ describe('IPcs unit tests', () => {
 
   })
 
-  it("unMap 7 diat maj => 12", () => {
-    const ipcsDiatMajMapped = new IPcs({
+  it("unMap 7 diatonic maj => 12", () => {
+    const pcsDiatonicMajMapped = new IPcs({
       strPcs: "[0, 2, 4]", // first 3-chord
       n: 7,
       nMapping: 12,
@@ -907,18 +907,18 @@ describe('IPcs unit tests', () => {
     })
 
     // verify mapping 7 -> 12
-    expect(ipcsDiatMajMapped.n).toEqual(7)
-    expect(ipcsDiatMajMapped.nMapping).toEqual(12)
+    expect(pcsDiatonicMajMapped.n).toEqual(7)
+    expect(pcsDiatonicMajMapped.nMapping).toEqual(12)
 
     // now get unMap, as 12 -> 12
-    const ipcsDiatMaj = ipcsDiatMajMapped.unMap()
-    expect(ipcsDiatMaj.n).toEqual(12)
+    const pcsDiatonicMajUnMapped = pcsDiatonicMajMapped.unMap()
+    expect(pcsDiatonicMajUnMapped.n).toEqual(12)
 
     // default mapping is n
-    expect(ipcsDiatMaj.nMapping).toEqual(12)
-    expect(ipcsDiatMaj.templateMapping.length).toEqual(12)
+    expect(pcsDiatonicMajUnMapped.nMapping).toEqual(12)
+    expect(pcsDiatonicMajUnMapped.templateMapping.length).toEqual(12)
 
-    expect(ipcsDiatMaj.getMappedVectorPcs().length).toEqual(12)
+    expect(pcsDiatonicMajUnMapped.getMappedVectorPcs().length).toEqual(12)
   })
 
   it("Default Mapping", () => {

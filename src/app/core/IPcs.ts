@@ -1023,7 +1023,7 @@ export class IPcs {
       ? undefined
       : this.getMappedPivot()
 
-    return new IPcs({vectorPcs: this.getMappedVectorPcs(), iPivot: pivot})
+    return new IPcs({vectorPcs: this.getMappedVectorPcs(), n:this.nMapping, iPivot: pivot})
   }
 
   /**
