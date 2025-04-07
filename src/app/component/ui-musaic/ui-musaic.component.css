@@ -38,7 +38,7 @@
 }
 .rotateM11 {
   animation-duration: 1.5s;
-  animation-name: rotation;
+  animation-name: rotationM11;
 }
 
 .rotateM5 {
@@ -83,7 +83,7 @@
   }
 }
 
-@keyframes rotation {
+@keyframes rotationM11 {
   from {
     transform: rotate(0deg);
   }
@@ -91,6 +91,7 @@
     transform: rotate(180deg);
   }
 }
+
 
 .roundedImage, .roundedImageShadow, .roundedImageBorder{
   overflow:hidden;

@@ -5,7 +5,7 @@ interface IChordNameOrder {
   name: string   // name of chord
   cardinal: number,
   sortOrder: number  // sortOrder use by sort list of chords (min = prior)
-  root: number  // not used (intended for chord inversion)
+  root: number  // for chord inversion
 }
 
 export class ChordNaming {
@@ -141,6 +141,19 @@ export class ChordNaming {
     //'0 2 8 10'  7 9 #11 / 3rd
     [1285, [{name: ' 7 9 #11/3rd', cardinal: 4, sortOrder: 23, root: 8}]],
 
+    // '0 2 4 10'  7 b9 no 5 [JYF 2010]
+    [1043, [{name: '7 ♭9 no 5', cardinal: 4, sortOrder: 10, root: 0}]],
+
+    // '0 2 4 10'  7 b9 no 5 [JYF 2010]
+    [1043, [{name: '7 ♭9 no 5', cardinal: 4, sortOrder: 10, root: 0}]],
+
+    // '0 6 9 10'  7 ♭5 6 no 3 [JYF 2010]
+    [1601, [{name: '7 ♭5 6 no 3', cardinal: 4, sortOrder: 10, root: 0}]],
+
+    // '0 3 4 6'  ♭5 #9 no 7 [JYF 2010]
+    [89, [{name: '♭5 #9 no 7', cardinal: 4, sortOrder: 10, root: 0}]],
+
+
     //
     // // Minor ///////////////////////////////////
     //
@@ -181,6 +194,21 @@ export class ChordNaming {
 
     // '0 1 5 8'
     [291, [{name: 'M7/7th', cardinal: 4, sortOrder: 7, root: 1}]],
+
+    // '0 2 3 6'  7 b9 bass seventh no 5
+    [77, [{name: '7 ♭9/7 no 5', cardinal: 4, sortOrder: 10, root: 2}]],
+
+
+    // ///// 5-chords  ///// ///// ///// ///// ///// /////
+
+
+    // '0 1 4 7 10'
+    [1171, [{name: '7 ♭9', cardinal: 5, sortOrder: 7, root: 0}]],
+
+    // '0 2 4 7 10'
+    [1173, [{name: '7 9', cardinal: 5, sortOrder: 7, root: 0}]],
+
+
 
   ])
 
@@ -246,18 +274,24 @@ export class ChordNaming {
    */
   static getFirstChordName(pcs: IPcs, nbPitches: number = 3): string {
     let chordsNPitches: number[] = []
-    if (nbPitches >= 3 && nbPitches <= 4) {
+    if (nbPitches >= 3 && nbPitches <= 5) {
       chordsNPitches = ChordNaming.getKeysChord(pcs, nbPitches)
     }
 
-    let nameRoot = ''
+    if (chordsNPitches.length === 0) {
+      return ''
+    }
+
     const names = ChordNaming.chordsPidKeyWithZeroAsRoot.get(chordsNPitches[0])
 
-    // experimental
-    if (!names) return ''
+    if (!names) {
+      return ''
+    }
 
-    let theChordName = ''
+    let nameRoot = ''
+    let theChordNames = ''
 
+    // get different chord names and their root name
     for (const chordName of names) {
       const _chordName = chordName.name
       // which nameRoot name ?
@@ -272,7 +306,7 @@ export class ChordNaming {
           // FLAT_NAME
           nameRoot = ChordNaming.NOTE_NAMES_FLAT[indexNameRoot]
           // exception when chord
-          if ([3, 4].includes(pcs.cardinal)) {
+          if ([3, 4, 5].includes(pcs.cardinal)) {
             // based on score notation for set name root
             if (!ScoreDrawingAbcNotation.fromPcsToABCNotation(pcs).substring(0, 2).includes(nameRoot[0])) {
               nameRoot = ChordNaming.NOTE_NAMES_SHARP[indexNameRoot]
@@ -282,7 +316,7 @@ export class ChordNaming {
           // SHARP_NAME
           nameRoot = ChordNaming.NOTE_NAMES_SHARP[indexNameRoot]
           // exception when chord
-          if ([3, 4].includes(pcs.cardinal)) {
+          if ([3, 4, 5].includes(pcs.cardinal)) {
             // based on score notation for set name root
             if (!ScoreDrawingAbcNotation.fromPcsToABCNotation(pcs).substring(0, 2).includes(nameRoot[0])) {
               nameRoot = ChordNaming.NOTE_NAMES_FLAT[indexNameRoot]
@@ -294,11 +328,12 @@ export class ChordNaming {
         nameRoot = ChordNaming.NOTE_NAMES_SHARP[indexNameRoot] // or NOTE_NAMES_FLAT what does it matter
       }
       // add new name tp theChordName (some pcs have more than one name)
-      theChordName = theChordName
-        ? `${theChordName} ~ ${nameRoot}${_chordName}`
+      theChordNames = theChordNames
+        ? `${theChordNames} ~ ${nameRoot}${_chordName}`
         : `${nameRoot}${_chordName}`
     }
-    return theChordName
+
+    return theChordNames
   }
 
 }

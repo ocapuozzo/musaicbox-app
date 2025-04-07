@@ -36,6 +36,38 @@ The idea behind this application is to offer the user a UI/UX to concretely mani
 
 We hope that user will make use of this tool in his composition and instrumental practice activities.
 
+
+== 88 musaics
+
+What is _musaic_ et why there are 88 ? The response to these questions is in this document online : https://88musaics.org
+
+=== In summary
+
+The study takes place within the framework of equal temperament with 12 pitch classes.
+
+image::cicrleFullV2.png[circle chromatic]
+
+A Musaic is a matrix representation of all 12 pitch classes.
+
+.Matrix representation of 12 pitch classes
+image::musaic-matrix-pc-name.png[musaic-matrix-pc-name]
+//
+// Each cell refers to a pitch class in its abstract form, or a pitch, in the more concrete case of a musical instrument.
+//
+// .Example of space game with scientific notation
+// image::musaic-pc-space.png[500, 500]
+//
+// A musaic is a multifaceted geometric structure composed of four faces, not always distinct from each other. The faces are activated by the operations M1, M5, M7, and M11.
+
+The study focuses mainly on the abstract model of PCS (_Pitch Class Set_).
+
+In the context of equal temperament with 12 semitones, the canonical form of a musaic is 13x13 squares.
+
+Any harmonic structurefootnote:[Intervallic structure] defined within an octave prints a unique pattern on the matrix, which we call a Musaic. Since a musaic can be viewed from several angles, it is said to have multiple faces, it can carry up to 8 different harmonic structures. There are 88 musaics in total for 352 harmonic structures.
+
+.Example of musaic n°26 having seventh chord on one of its faces
+image::template-musaic-anatomy.png[template-musaic-anatomy]
+
 === For which audience ?
 
 Musician eager to add to his source of inspiration a muse of a scientific nature, based on idea of reducing any combination of sounds to a set of pitch classes, called _pitch class set_ (PCS).footnote:[provided that they accept the postulate of the decomposition of an octave into 12 "equal parts".]
