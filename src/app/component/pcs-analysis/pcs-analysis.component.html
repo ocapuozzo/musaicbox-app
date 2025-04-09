@@ -84,8 +84,20 @@
         Forte :
         <span class="analyse-pcs">{{ pcsMapped.forteNum() }}</span>
       </p>
+      <p *ngIf="{ltp:pcsMapped.isLimitedTransposition()} as data">
+        Limited Transposition :
+        @if (data.ltp) {
+          <span class="analyse-pcs">
+          <b>{{ data.ltp }}</b>
+          </span> (<span>{{ pcs.cyclicPrimeForm().orbit.reducedStabilizersName }}</span>)
+        } @else {
+          <span class="analyse-pcs">
+          {{ data.ltp }}
+          </span>
+        }
+      </p>
       <p>
-        Musaic Limited Meta-Transformation :
+        Musaic Limited Transformation :
         <span style="display: inline-flex; align-items: center;">
         <span class="analyse-pcs" *ngIf="{isLtf:pcsMapped.isLimitedTransformation()} as data">
           @if (data.isLtf) {
@@ -101,18 +113,7 @@
           }
         </span>
       </p>
-      <p *ngIf="{ltp:pcsMapped.isLimitedTransposition()} as data">
-        Limited Transposition :
-        @if (data.ltp) {
-          <span class="analyse-pcs">
-          <b>{{ data.ltp }}</b>
-          </span> (<span>{{ pcs.cyclicPrimeForm().orbit.reducedStabilizersName }}</span>)
-        } @else {
-          <span class="analyse-pcs">
-          {{ data.ltp }}
-          </span>
-        }
-      </p>
+
       <p style="max-width: 550px">
         @if (!pcs.isComingFromOrbit() || pcs.isComingFromTrivialOrbit() || pcsInMusaicGroup()) {
           (Musaic)
