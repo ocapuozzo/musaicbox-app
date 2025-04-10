@@ -211,9 +211,12 @@ We can easily establish a correspondence between the set of integers modulo 12 a
 
 This is the logic established by the Musical Set Theory and its leading authors such as <<Forte>> and <<Rahn>>.
 
-So, there are *12 pitch classes*, numerical represented  by integers from 0 to 11footnote:[Sometimes 10 and 11 are noted A, B or t, e (for ten and eleven)].
+So, there are *12 pitch classes*, represented in integer notation by number *from 0 to 11*.
 
-image::cicrleFullV2.png[]
+TIP: We also find 10 and 11 noted A, B or T, E (for ten and eleven). The idea is to avoid having 2 symbols (1 and 0 or 1).
+
+
+// image::cicrleFullV2.png[]
 
 === Enumeration
 
@@ -252,7 +255,7 @@ A _Pitch Set Class_ (PCS, or pcs) may have multiple representations.
 
 === Textual
 
-A PCS is, by definition, an unordered set of PC, even if, in practice, by convention, we always present them textually ordered, in ascending order.
+A PCS is, by definition, an unordered set of PC, even if, in practice, by convention, we always present them textually ordered, in ascending order, named _Normal Order_ (see <<_glossary>>)
 
 Let's take the PCS [0, 4, 7], C, E and G. Formally the textual representations below are all equal.
 
@@ -1982,9 +1985,11 @@ Example2 Major scale : `M11-T0` on  D Major `[1{nbsp}2{nbsp}4{nbsp}6{nbsp}7{nbsp
 
 . `[0{nbsp}1{nbsp}3{nbsp}5{nbsp}7{nbsp}8{nbsp}10]` transpose with `k = 2` => `#[0{nbsp}2{nbsp}3{nbsp}5{nbsp}7{nbsp}9{nbsp}10]#`
 
+// use instead [.nowrap]
+
 The solution consists of defining the value of _k_ to be applied, which will be used by all transformation operations.
 
-Choosing the "smallest PC" of the PCS is not decisive: it works in the case of C# dim7, but not on D major, [1{nbsp}2{nbsp}4{nbsp}6{nbsp}7{nbsp}9{nbsp}11], because its first and minimum PC is 1 (C#), the seventh of the scale, and not its root, as in C major.
+Choosing the "smallest PC" of the PCS is not decisive: it works in the case of C# dim7, but not on DMajor, [.nowrap]#[1 2 4 6 7 9 11]#, because its first and minimum PC is 1 (C#), the seventh of the scale, and not its root, as in C major.
 
 *We must therefore choose to add a new property to the very concept of PCS.*
 
@@ -2432,12 +2437,14 @@ Integer Notation::
 Normal order::
   A particular circular permutation of a pcs in ascending order <<Forte>>
 +
-Example : [4 0 7] -> [*0 4 7*]
+Example : [7 0 4] -> [*0 4 7*] (normal order))
 +
-NOTE: Into this project, all pcs are in normal order. However, entering a pcs accepts another order, it is a way to define a pivot value to the pcs to be created.
-+
-Example : `[4 0 7]` -> `[0 4 7]`~`*4*`~
+[NOTE]
+--
+Into this project, all pcs are in normal order. However, the search PCS function, on the top right of toolbar, accepts another order, it is *a way to define a pivot value* as first pc of the pcs.
 
+Example : *[4 0 7] -> +[0 4 7]+~4~*
+--
 
 Intervallic Structure::
   For a given PCS (in normal order), this is the ordered list of intervals separating one PC from the next PC in the chromatic circle, starting from the first PCS to the last PC and from the last PC to the first.

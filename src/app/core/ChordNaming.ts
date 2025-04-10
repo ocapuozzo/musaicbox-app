@@ -180,7 +180,7 @@ export class ChordNaming {
     [1065, [{name: 'm7 add 11', cardinal: 4, sortOrder: 6, root: 0}]],
 
     // '0 3 6 10' Half-Diminished seventh or m6/6th
-    [1097, [{name: 'ø', cardinal: 4, sortOrder: 3, root: 0}, {name: 'm6/6th', cardinal:4, sortOrder: 3, root: 0}]],
+    [1097, [{name: 'ø', cardinal: 4, sortOrder: 3, root: 0}, {name: 'm6/6th', cardinal:4, sortOrder: 3, root: 3}]],
 
     // '0 3 6 9'
     [585, [{name: 'dim7', cardinal: 4, sortOrder: 3, root: 0}]],

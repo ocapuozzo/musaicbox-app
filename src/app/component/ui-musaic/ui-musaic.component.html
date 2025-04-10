@@ -10,7 +10,7 @@
   <div [hidden]="pcs.n == 12" class="extra content text-center aligned">
     <p class="font-italic box-center">Mapping {{ pcs.n }} => {{ pcs.nMapping }}</p>
   </div>
-  <div [hidden]="pcs.n != 12" [class.box-center]="pcs.n == 12">
+  <div [hidden]="pcs.nMapping != 12" [class.box-center]="pcs.nMapping == 12">
     <figure style="max-width: 50px; min-width: 40px; margin: 0">
     <img
       (click)="m11Click()"

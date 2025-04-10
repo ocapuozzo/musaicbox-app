@@ -63,7 +63,7 @@ export class UiMusaicComponent {
     ]);
 
     layoutChanges.subscribe(() => {
-      if (this.containerCanvas) this.drawsMusaic(this.optionDrawPitchIndex)
+      if (this.containerCanvas) this.drawMusaic(this.optionDrawPitchIndex)
     });
   }
 
@@ -72,7 +72,7 @@ export class UiMusaicComponent {
     // console.log("onResize = ", window.innerWidth)
     if (this.containerCanvas) {
       setTimeout(() =>
-          this.drawsMusaic(this.optionDrawPitchIndex),
+          this.drawMusaic(this.optionDrawPitchIndex),
           500
       )
     }
@@ -104,11 +104,11 @@ export class UiMusaicComponent {
     // send by manager-home-pcs.service
     this.managerHomePcsService.updatePcsEvent.subscribe((pcs: IPcs) => {
       this.pcs = pcs
-      this.drawsMusaic(this.optionDrawPitchIndex)
+      this.drawMusaic(this.optionDrawPitchIndex)
     })
 
     // initial view
-    this.drawsMusaic(this.optionDrawPitchIndex)
+    this.drawMusaic(this.optionDrawPitchIndex)
   }
 
   /**
@@ -116,7 +116,7 @@ export class UiMusaicComponent {
    * (algebra) and draw its musaic representation (geometric)
    * so, no change visually if ok !
    */
-  drawsMusaic(withDrawPitchIndex: boolean = false) {
+  drawMusaic(withDrawPitchIndex: boolean = false) {
 
     let w = this.containerCanvas.nativeElement.clientWidth ?? 40
     let n = this.pcs.nMapping //getMappedVectorPcs().length;
@@ -245,32 +245,28 @@ export class UiMusaicComponent {
   isCursorWait() {
     return this.m11.nativeElement.style.cursor === "wait";
   }
-
-  m11Click() {
+  
+  operationClick(className: string) {
     if (this.isCursorWait()) return;
     if (this.optionDrawPitchIndex) {
-      this.drawsMusaic(false)
+      // hide pc names
+      this.drawMusaic(false)
     }
     this.disableButtons();
-    this.canvas.nativeElement.classList.add("rotateM11");
+    this.canvas.nativeElement.classList.add(className);
+  };
+
+
+  m11Click() {
+    this.operationClick("rotateM11");
   };
 
   m5Click() {
-    if (this.isCursorWait()) return;
-    if (this.optionDrawPitchIndex) {
-      this.drawsMusaic(false)
-    }
-    this.disableButtons();
-    this.canvas.nativeElement.classList.add("rotateM5");
+    this.operationClick("rotateM5");
   };
 
   m7Click() {
-    if (this.isCursorWait()) return;
-    if (this.optionDrawPitchIndex) {
-      this.drawsMusaic(false)
-    }
-    this.disableButtons();
-    this.canvas.nativeElement.classList.add("rotateM7");
+    this.operationClick("rotateM7");
   };
 
   complement() {
@@ -331,7 +327,7 @@ export class UiMusaicComponent {
     // transformed musaic with its transform (and delete its
     // class css from the past operation)
     this.managerHomePcsService.transformeByMxT0(opTransf)
-    this.drawsMusaic(this.optionDrawPitchIndex)
+    this.drawMusaic(this.optionDrawPitchIndex)
     this.enabledButtons();
   }
 
@@ -339,7 +335,7 @@ export class UiMusaicComponent {
 
   toggleDrawPitchesIndex(checked: boolean) {
     this.optionDrawPitchIndex = checked
-    this.drawsMusaic(this.optionDrawPitchIndex)
+    this.drawMusaic(this.optionDrawPitchIndex)
   }
 
   detachPcs() {
