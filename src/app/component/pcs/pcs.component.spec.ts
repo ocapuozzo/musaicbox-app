@@ -1,6 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {PcsComponent} from './pcs.component';
+import {provideAnimations} from "@angular/platform-browser/animations";
 
-import { PcsComponent } from './pcs.component';
 
 describe('PcsComponent', () => {
   let component: PcsComponent;
@@ -8,16 +9,17 @@ describe('PcsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PcsComponent]
+      imports: [PcsComponent],
+      providers: [provideAnimations()]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(PcsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+   expect(component).toBeTruthy();
   });
 });

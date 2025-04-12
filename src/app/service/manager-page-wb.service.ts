@@ -1174,16 +1174,50 @@ export class ManagerPageWBService {
   doTransformAffine(a: number, k: number) {
     this.uiPcsDtoList = [...this.uiPcsDtoList]
     let indexes = this.getSelectedPcsDtoIndexes()
-    indexes.forEach(index => {
-      if (index < 0 || index >= this.uiPcsDtoList.length) {
-        throw new Error("oops bad index : " + index)
+
+    const loopForAffineTrans = () => {
+      indexes.forEach(index => {
+        if (index < 0 || index >= this.uiPcsDtoList.length) {
+          throw new Error("oops bad index : " + index)
+        }
+        let pcsDto = new UIPcsDto({...this.uiPcsDtoList[index]})
+        pcsDto.pcs = this.managerPcsService.doTransformAffine(pcsDto.pcs, a, k)
+        // pcsDto.currentCSSAnimationTransformation = 'ID'
+        this.uiPcsDtoList[index] = pcsDto
+      })
+    }
+    let somePcsInMusaicView = false
+
+    if ([5, 7, 11].includes(a)) { // normally, always the case
+      // css animation for Musaic
+      indexes.forEach(index => {
+        if (index < 0 || index >= this.uiPcsDtoList.length) {
+          throw new Error("oops bad index : " + index)
+        }
+        let pcsDto = new UIPcsDto({...this.uiPcsDtoList[index]})
+        if (pcsDto.indexFormDrawer === UIPcsDto.MUSAIC) {
+          somePcsInMusaicView = true
+          // change state for animation
+          pcsDto.currentCSSAnimationTransformationState = `M${a}`
+          this.uiPcsDtoList[index] = pcsDto
+        }
+      })
+      if (somePcsInMusaicView) {
+        // update ui for animation
+        this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
+        this.emit()
+        // // wait 1 second for animation, then it is time to algebra transformation
+        setTimeout(() => {
+          loopForAffineTrans()
+          this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
+          this.emit()
+        }, 1000)
+      } else {
+        loopForAffineTrans()
+        this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
+        this.emit()
       }
-      let pcsDto = new UIPcsDto({...this.uiPcsDtoList[index]})
-      pcsDto.pcs = this.managerPcsService.doTransformAffine(pcsDto.pcs, a, k)
-      this.uiPcsDtoList[index] = pcsDto
-    })
-    this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
-    this.emit()
+    }
   }
 
   doComplement() {

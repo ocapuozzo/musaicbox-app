@@ -9,6 +9,7 @@ import {StringHash} from "../../utils/StringHash";
 import {OctotropeFormDraw} from "../../ui/OctotropeFormDraw";
 import {EightyEight} from "../../utils/EightyEight";
 import {MatTooltip} from "@angular/material/tooltip";
+import {animate, state, style, transition, trigger} from "@angular/animations";
 
 /**
  * Wrapper for various representation : musaic, clock, score... for whiteboard page
@@ -17,6 +18,40 @@ import {MatTooltip} from "@angular/material/tooltip";
 @Component({
   selector: 'app-pcs',
   standalone: true,
+  animations: [
+    // value of state come from pcsDto.currentCSSAnimationTransformationState
+    // and set by manager-page-wb.service (doTransformAffine method)
+    trigger('musaicTransformation', [
+      // ...
+      state(
+        'ID',
+        style({ }),
+      ),
+      state(
+        'M5',
+        style({
+          transform:'rotate3d(1, 1, 0, 180deg)'
+        }),
+      ),
+      state(
+        'M7',
+        style({
+          transform: 'rotate3d(-1, 1, 0, 180deg)'
+        }),
+      ),
+      state(
+        'M11',
+        style({
+          transform: 'rotate(180deg)',
+        }),
+      ),
+
+      transition('* => M11', [animate('1s')]),
+      transition('* => M5', [animate('1s')]),
+      transition('* => M7', [animate('1s')]),
+
+    ])
+  ],
   imports: [
     NgClass,
     MatTooltip
@@ -31,12 +66,9 @@ export class PcsComponent {
   private formDrawing: FormDraw
   _pcsDto = new UIPcsDto({colorPitchOff: 'white', colorPitchOn: 'black'})
 
+
   @Input() opaque: boolean = true
 
-  // /**
-  //  *  and if pcs cardinal is 3 or 4, and if chord name exists !
-  //  */
-  // @Input() showName: boolean = false
 
   // for template attribute
   get rounded(): boolean {
@@ -65,11 +97,6 @@ export class PcsComponent {
     this.drawForm()
   }
 
-  get scoreView(): boolean {
-    return this._pcsDto.indexFormDrawer === UIPcsDto.SCORE
-  }
-
-
   drawForm() {
     // if (!this.canvas) return
     const ALL_DRAWERS_INDEX = Array.from(UIPcsDto.ALL_DRAWERS.values())
@@ -95,14 +122,15 @@ export class PcsComponent {
     this.formDrawing.drawForm(this._pcsDto, this.canvas);
   }
 
-  protected readonly UIPcsDto = UIPcsDto;
-
-  protected readonly EightyEight = EightyEight;
-
   getPcsName() {
     if (this.pcsDto.showPivot && this.pcsDto.pcs.cardinal > 0) {
       return this.pcsDto.pcs.getMappedPcsStr() + "<sub>" + this.pcsDto.pcs.getMappedPivot() + "</sub>"
     }
     return this.pcsDto.pcs.getMappedPcsStr()
   }
+
+  protected readonly UIPcsDto = UIPcsDto;
+  protected readonly EightyEight = EightyEight;
+
+
 }

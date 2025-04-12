@@ -1,10 +1,10 @@
 @if (pcsDto.indexFormDrawer === UIPcsDto.FREE_TEXT) {
-  {{ ''// no canvas }}
+  {{ ''// no canvas  }}
   <div [ngClass]="{'e-selected': pcsDto.isSelected}">
     <p
-       [style.width]="pcsDto.width"
-       [style.font-size]="pcsDto.freeText.fontSize"
-       style="margin: 0; padding: 0; word-wrap:break-word; line-height: 1.2em;  ">{{ pcsDto.freeText.text }}</p>
+      [style.width]="pcsDto.width"
+      [style.font-size]="pcsDto.freeText.fontSize"
+      style="margin: 0; padding: 0; word-wrap:break-word; line-height: 1.2em;  ">{{ pcsDto.freeText.text }}</p>
   </div>
 } @else if (pcsDto.indexFormDrawer === UIPcsDto.SCORE) {
   <div #canvas id="paper-{{randomId}}"
@@ -12,6 +12,17 @@
        matTooltip="pcs : {{pcsDto.pcs.getPcsStr()}}"
        [ngClass]="{'e-selected': pcsDto.isSelected}">
   </div>
+} @else if (pcsDto.indexFormDrawer === UIPcsDto.MUSAIC) {
+  <canvas #canvas
+          [@musaicTransformation]='pcsDto.currentCSSAnimationTransformationState'
+          [matTooltipDisabled]="pcsDto.showPcs"
+          matTooltip="pcs : {{pcsDto.pcs.getPcsStr()}}"
+          [ngClass]="{
+        'musaic': pcsDto.indexFormDrawer === UIPcsDto.MUSAIC,
+        'rounded-musaic': rounded,
+        'e-selected': pcsDto.isSelected
+       }">
+  </canvas>
 } @else {
   <canvas #canvas
           [matTooltipDisabled]="pcsDto.showPcs"

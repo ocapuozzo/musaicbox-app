@@ -1,5 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { WhiteboardComponent } from './whiteboard.component';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {WhiteboardComponent} from './whiteboard.component';
+import {provideAnimations} from "@angular/platform-browser/animations";
 
 describe('WhiteboardComponent', () => {
   let component: WhiteboardComponent;
@@ -7,7 +8,8 @@ describe('WhiteboardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [WhiteboardComponent]
+      imports: [WhiteboardComponent],
+      providers: [provideAnimations()]
     })
     .compileComponents();
 

@@ -6,7 +6,17 @@ import {
   CdkMenuItemRadio,
   CdkMenuTrigger
 } from "@angular/cdk/menu";
-import {AfterViewInit, Component, ElementRef, HostListener, inject, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  HostListener,
+  inject,
+  OnDestroy,
+  OnInit,
+  Renderer2,
+  ViewChild
+} from '@angular/core';
 import {MatMenuContent, MatMenuTrigger} from "@angular/material/menu";
 import {MatIcon} from "@angular/material/icon";
 import {KeyValuePipe, NgClass, NgIf} from "@angular/common";
@@ -63,7 +73,7 @@ interface ElementMove {
   templateUrl: './whiteboard.component.html',
   styleUrl: './whiteboard.component.css'
 })
-export class WhiteboardComponent implements OnInit, AfterViewInit {
+export class WhiteboardComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(MatMenuTrigger, {static: true}) matMenuTrigger: MatMenuTrigger;
   @ViewChild('rectangleselector', {static: true}) rectangleSelector: ElementRef<SVGElement>;
 
@@ -301,7 +311,7 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
   }
 
   onMouseMove(e: any) {
-    e.preventDefault()
+    // e.preventDefault()
 
     if (this.isContextMenuOpened) {
       // do context menu modal
@@ -562,9 +572,9 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
     return (index >= 0 && index < this.pcsDtoList.length && this.pcsDtoList[index].uiMusaic.rounded)
   }
 
-  sizeCellWidth(index: number) {
-    return (index >= 0 && index < this.pcsDtoList.length && this.pcsDtoList[index].uiMusaic.widthCell)
-  }
+  // sizeCellWidth(index: number) {
+  //   return (index >= 0 && index < this.pcsDtoList.length && this.pcsDtoList[index].uiMusaic.widthCell)
+  // }
 
   doSelectAll() {
     this.managerPageWBService.doSelectAll()
@@ -649,12 +659,12 @@ export class WhiteboardComponent implements OnInit, AfterViewInit {
 
   ///// End persistence logic zone
 
-  canShowChordName(index: number) {
-    return this.pcsDtoList[index].showName
-    /*return this.pcsDtoList[index].indexFormDrawer === 1
-      && [3, 4].includes(this.pcsDtoList[index].pcs.cardinal)
-      && this.pcsDtoList[index].pcs.getChordName()*/
-  }
+  // canShowChordName(index: number) {
+  //   return this.pcsDtoList[index].showName
+  //   /*return this.pcsDtoList[index].indexFormDrawer === 1
+  //     && [3, 4].includes(this.pcsDtoList[index].pcs.cardinal)
+  //     && this.pcsDtoList[index].pcs.getChordName()*/
+  // }
 
   doToggleShowNames(index: number) {
     this.managerPageWBService.doToggleShowName(index)

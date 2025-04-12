@@ -12,6 +12,21 @@
 
   <!-- careful, pcs has 3 data context : element DOM, object himself and pcsDto -->
   @for (pcsDto of pcsDtoList; track pcsDto; let idx = $index) {
+    @if (pcsDto.currentCSSAnimationTransformationState && pcsDto.currentCSSAnimationTransformationState !== 'ID' && pcsDto.indexFormDrawer === UIPcsDto.MUSAIC) {
+      <!--  minimal for animation-->
+      <app-pcs
+        [ngClass]="{
+          'pcs-box': true,
+          'e-selected-marker': pcsDto.isSelected
+        }"
+        [pcsDto]="pcsDto"
+        [style.height.px]="pcsDto.height"
+        [style.width.px]="pcsDto.width"
+        [style.top.px]="pcsDto.position.y"
+        [style.left.px]="pcsDto.position.x"
+
+      ></app-pcs>
+    } @else {
       <app-pcs
         [ngClass]="{
           'pcs-box': true,
@@ -33,6 +48,7 @@
         (cdkContextMenuClosed)="doContextMenuClose()"
         (mousedown)="doToggleSelected($event,idx)"
       ></app-pcs>
+    }
   }
   <!--  (menuOpened)="contextMenuOpened()"-->
   <ng-template #menuPcs matMenuContent let-index="index" let-name="name" let-indexFormDrawer="indexFormDrawer">

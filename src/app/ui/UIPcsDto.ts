@@ -1,5 +1,8 @@
 import {IPcs} from "../core/IPcs";
 
+export const Transformation = ['ID', 'M5', 'M7', 'M11'] as const;
+export type TypeTransformation = typeof Transformation[number];
+
 
 export interface IFreeText {
   text:string
@@ -108,7 +111,9 @@ export class UIPcsDto {
   freeText : IFreeText
   // pcs will not be serialized (transient)
   pcs: IPcs = new IPcs({strPcs: "0, 4, 8"})
-  
+
+  currentCSSAnimationTransformationState : string /*TypeTransformation*/ = "ID"
+
   position: { x: number; y: number }
   colorPitchOn: string = 'black'
   colorPitchOff: string = 'white'
