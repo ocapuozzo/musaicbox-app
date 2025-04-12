@@ -1,7 +1,7 @@
 @if (pcsDto.indexFormDrawer === UIPcsDto.FREE_TEXT) {
   {{ ''// no canvas }}
   <div [ngClass]="{'e-selected': pcsDto.isSelected}">
-    <p id="paragraph"
+    <p
        [style.width]="pcsDto.width"
        [style.font-size]="pcsDto.freeText.fontSize"
        style="margin: 0; padding: 0; word-wrap:break-word; line-height: 1.2em;  ">{{ pcsDto.freeText.text }}</p>
@@ -23,10 +23,12 @@
        }">
   </canvas>
 }
-@if ((pcsDto.showName || pcsDto.showPcs) && pcsDto.indexFormDrawer !== UIPcsDto.FREE_TEXT && pcsDto.indexFormDrawer !== UIPcsDto.OCTOTROPE) {
+@if ((pcsDto.showName || pcsDto.showPcs)
+&& pcsDto.indexFormDrawer !== UIPcsDto.FREE_TEXT
+&& pcsDto.indexFormDrawer !== UIPcsDto.OCTOTROPE) {
   <p class="text-center"
      [style.width]="pcsDto.width"
-     [style.font-size]="pcsDto.width <= 39 ? '50%' : pcsDto.width < 143 ? '80%' : '100%'"
+     [style.font-size]="pcsDto.width <= 39 ? '50%' :  pcsDto.width < 100 ? '66%' : pcsDto.width < 143 ? '80%' : '100%'"
      style="margin: 0; padding: 0; word-wrap:break-word; line-height: 1.2em;"
      [innerHTML]="pcsDto.showPcs ? getPcsName() : ([3, 4].includes(pcsDto.pcs.cardinal))
        ? pcsDto.pcs.getChordName() || pcsDto.pcs.getFirstNameDetail()
@@ -34,6 +36,4 @@
   >
   </p>
 }
-<!--@if ([3, 4].includes(pcs.cardinal)) {-->
-<!--  <p class="chord-name-def" style="margin-top: 10px; padding: 0">{{ pcs.getChordName() }}</p>-->
-<!--}-->
+
