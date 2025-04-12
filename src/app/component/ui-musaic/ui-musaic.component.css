@@ -67,7 +67,8 @@
 
 @keyframes rotate-m5 {
   from {
-    transform: rotate3d(0, 0, 0, 180deg);
+    transform: rotate3d(0, 0, 0, 0)
+    /*transform: rotate3d(0, 0, 0, 180deg);*/
   }
   to {
     transform: rotate3d(1, 1, 0, 180deg);
@@ -76,7 +77,8 @@
 
 @keyframes rotate-m7 {
   from {
-    transform: rotate3d(0, 0, 0, 180deg);
+    transform: rotate3d(0, 0, 0, 0);
+    /*transform: rotate3d(0, 0, 0, 180deg);*/
   }
   to {
     transform: rotate3d(-1, 1, 0, 180deg);

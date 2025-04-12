@@ -245,7 +245,8 @@ export class UiMusaicComponent {
   isCursorWait() {
     return this.m11.nativeElement.style.cursor === "wait";
   }
-  
+
+  // where user click on M5/M7/M11, then animation CSS is launched
   operationClick(className: string) {
     if (this.isCursorWait()) return;
     if (this.optionDrawPitchIndex) {
@@ -315,17 +316,16 @@ export class UiMusaicComponent {
       // no transformation = id operation
       opTransf = 1;//this.opId;
     }
-    // send to listeners new pcs (or not...)
-    // clear css class
+
+    // clear css class rotate
     this.clearRotateClasses();
 
     // The geometric transformation is finished, and we have determined
     // the algebraic transformation operation (opTransformation) that exactly
-    // matches the geometrical transformation.
+    // matches the geometrical transformation (13x13)
     //
-    // Now we perform the algebraic operation to replaceBy the
-    // transformed musaic with its transform (and delete its
-    // class css from the past operation)
+    // Now we perform the algebraic operation to replace by the
+    // transformed musaic with its transform
     this.managerHomePcsService.transformeByMxT0(opTransf)
     this.drawMusaic(this.optionDrawPitchIndex)
     this.enabledButtons();
