@@ -1987,7 +1987,7 @@ Example2 Major scale : `M11-T0` on  D Major `[1{nbsp}2{nbsp}4{nbsp}6{nbsp}7{nbsp
 
 // use instead [.nowrap]
 
-The solution consists of defining the value of _k_ to be applied, which will be used by all transformation operations.
+The solution consists of defining the value of _k_, as transformation origin, to be applied for all affine transformation operations.
 
 Choosing the "smallest PC" of the PCS is not decisive: it works in the case of C# dim7, but not on DMajor, [.nowrap]#[1 2 4 6 7 9 11]#, because its first and minimum PC is 1 (C#), the seventh of the scale, and not its root, as in C major.
 
@@ -2301,9 +2301,9 @@ image::pcs-246-mapped-047.png[]
 When n is less than 12, interesting properties can be exploited. For example, with n=7, a prime number thus comprising many generating cycles. By examples:
 
 * Steps of 2: for constructing chords 0 2 4 6 8 10 12 modulo 7 -> 0 2 4 6 1 3 5 -> C E G B D F A
-* Steps of 3: chord progressions (C F B E A D G)
+* Steps of 3: chord progression (C F B E A D G)
 
-The major diatonic scale is special in that it is a sequence of 1 or 2 semitones : Major scale intervallic structure is (2,2,1,2,2,2,1)
+The diatonic scale is special in that it is a sequence of 1 or 2 semitones : Major scale intervallic structure is (2,2,1,2,2,2,1)
 
 Mapping system explained by figure below.
 
@@ -2348,6 +2348,19 @@ cardinal = 10
 cardinal = 5
 
 |===
+
+Although the diatonic scale is the most balanced geometric solution for distributing 7 notes within the 12-note chromatic circle, other scales would benefit from being explored.
+
+[NOTE]
+====
+Did you know that the *diatonic scale* is the most geometrically balanced of the 7-note scale on the 12-note chromatic circle?
+
+.Source: Timothy A. Johnson (<<Johnson>>)
+image::map-7-to-12-best-symmetryV2.jpg[]
+
+On the left, dots divide the circle into 7 equal parts, then on the right, these dots are distributed over the notes closest to the 12-note chromatic circle. This is _"the best compromise in terms of placing..._"
+
+====
 
 But Major Scale is not only one to have 7 pitches and only <1,2> as *generic interval* (see
 https://en.wikipedia.org/wiki/Diatonic_set_theory[Diatonic Set Theory on wikipedia].
@@ -2533,6 +2546,8 @@ NOTE: A musaic alone has a potential of *8* cyclic intervallic structures, somet
 
 * [[[Rahn]]] Rahn, John. 1980. Basic Atonal Theory. New York: Longman.
 
+* [[[Johnson]]] Johnson, Timothy, 2003. Foundations of diatonic theory. Key College Publishing
+
 * [[[DIS]]] Stephen C.Brown. Dual Interval Space in Twentieth-Century Music,  Musaic in armature 1-5 is DIS(1,5).
 
 * [[[PERLE]]] Perle, G. 1954. The possible Chords in Twelve Tone Music
@@ -2540,7 +2555,6 @@ NOTE: A musaic alone has a potential of *8* cyclic intervallic structures, somet
 * [[[LVERDI]]] Verdi, Luigi. In Autour de la Set Theory. Ircam / Delatour ed. 2003.
 
 * [[[TOPOS]]] Mazzola, Guerino. 2002. The Topos of Music. Birkhauser Verlag AG.
-
 
 
 == Appendix

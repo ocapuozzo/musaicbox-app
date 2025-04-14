@@ -160,6 +160,10 @@ export class ChordNaming {
 
     // '0 3 7 10'
     [1161, [{name: 'm7', cardinal: 4, sortOrder: 2, root: 0}]],
+    // bass third taken by major 6 - pid 657
+    [297, [{name: 'm7/5th', cardinal: 4, sortOrder: 5, root: 5}]],
+    [549, [{name: 'm7/7th', cardinal: 4, sortOrder: 5, root: 2}]],
+
 
     // '0 3 7 11'
     [2185, [{name: 'm M7', cardinal: 4, sortOrder: 6, root: 0}]],
