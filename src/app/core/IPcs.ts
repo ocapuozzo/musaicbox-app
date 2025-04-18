@@ -643,22 +643,22 @@ export class IPcs {
    * Example : is( "1,5,8", iPivot:5) > [3, 5, 4]
    * Example : is( "1,5,8", iPivot:1) > [4, 3, 5]
    *
-   * This function work on MappedVectorPcs, because this is interface of inner vectorPcs
+   * This function work on vectorPcs
    */
   is(): number[] {
     const res: number[] = []
-    const vectorPcsMapped = this.getMappedVectorPcs()
-    const nMapped = this.nMapping
-    const pivotMapped = this.templateMapping[this.iPivot ?? 0]
+    const vector = this.vectorPcs
+    const n = this.n
+    const pivot = this.iPivot ?? 0
 
-    for (let i = 0; i < nMapped; i++) {
-      if (vectorPcsMapped[(i + pivotMapped) % nMapped] === 1) {
+    for (let i = 0; i < n; i++) {
+      if (vector[(i + pivot) % n] === 1) {
         let j;
-        for (let k = 0; k < nMapped; k++) {
-          j = (k + i + 1) % nMapped
-          if (vectorPcsMapped[(j + pivotMapped) % nMapped] === 1) {
+        for (let k = 0; k < n; k++) {
+          j = (k + i + 1) % n
+          if (vector[(j + pivot) % n] === 1) {
             // offset iPivot is not necessary (TODO : say why)
-            res.push((nMapped + j - i) % nMapped)
+            res.push((n + j - i) % n)
             break
           }
         }
@@ -666,6 +666,7 @@ export class IPcs {
     }
     return res;
   }
+
 
   /**
    * interval vector (generalized on n)
@@ -696,26 +697,26 @@ export class IPcs {
    * Example : iv("0,3,7") => [0,0,1,1,1,0]
    */
   iv(): number[] {
-    const nMapped = this.nMapping// getMappedVectorPcs().length;
-    const vectorPcsMapped = this.getMappedVectorPcs()
+    const n = this.n
+    const vector = this.vectorPcs
 
-    let res = new Array(Math.ceil(nMapped / 2));
-    // Rem : So res.length is always even, even if n is odd
+    let res = new Array(Math.ceil(n / 2));
+    // Rem : So res.length is always even, even if n is odd (Math.ceil(7 / 2) => 4)
 
-    let max = nMapped / 2;
+    let max = n / 2;
     let v = 0;
     for (let i = 0; i < max; i++) {
       res[i] = 0;
       v++;
-      for (let j = 0; j < nMapped; j++) {
-        if (vectorPcsMapped[j] === 1 && vectorPcsMapped[(j + v) % nMapped] === 1)
+      for (let j = 0; j < n; j++) {
+        if (vector[j] === 1 && vector[(j + v) % n] === 1)
           res[i] = res[i] + 1;
       }
     }
     // div last value by 2 (n==12) tritone inversionally equivalent to itself
-    // TODO verify if correct when n is odd, with examples
-    res[res.length - 1] /= 2;
-
+    if (n % 2 === 0) {
+      res[res.length - 1] /= 2;
+    }
     return res;
   }
 
@@ -1371,4 +1372,11 @@ export class IPcs {
   }
 
 
+  isMaximalEven() {
+    return PcsUtils.isMaximalEven(this);
+  }
+
+  isSecondOrderMaximalEven() {
+    return PcsUtils.isSecondOrderMaximalEven(this);
+  }
 }

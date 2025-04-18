@@ -443,4 +443,85 @@ export class PcsUtils {
     const operations = ManagerGroupActionService.getGroupActionFromGroupAliasName('Musaic')?.operations!
     return operations.filter(op => op.actionOn(pcs).id === pcs.id)
   }
+
+  /**
+   * Maximal Evenness with "cardinality equals variety"
+   * as defined in book "Foundations of Diatonic Theory", Timothy A. Johnson, 2003, Key College Publishing
+   *
+   * @see source http://m.archive.bridgesmathart.org/2000/bridges2000-193.pdf
+   * @see https://en.wikipedia.org/wiki/Maximal_evenness
+   *
+   * @param pcs
+   */
+  static isMaximalEven(pcs : IPcs) : boolean {
+    const cDistance = this.getCDistanceTable(pcs)
+    return  cDistance.length > 0 && cDistance.every(cDistance =>
+      cDistance.length === 1 || cDistance.length === 2 && cDistance[0] === cDistance[1] - 1
+      // one or two distances with consecutive values ( 4,5 no 4,6 )
+    )
+  }
+
+  /**
+   * == Experimental ==
+   * Second Order Maximal Evenness
+   * as defined in book "Foundations of Diatonic Theory", Timothy A. Johnson, 2003, Key College Publishing
+   * as understand by me (Olivier Capuozzo)
+   * "Diatonic triads and seventh chords possess second-order maximal evenness, being maximally even in regard
+   *  to the maximally even diatonic scale—but are not maximally even with regard to the chromatic scale."
+   *  (in https://en.wikipedia.org/wiki/Maximal_evennes)
+   *
+   * @see https://en.wikipedia.org/wiki/Maximal_evenness
+   *
+   * @remarks Is there other algorithm based on n <> 12, based on idea :
+   *   A second order maximal evenness is maximal evenness in its dimension as {C E G} in 7
+   *   This idea was successfully tested in a unit, and unique :(, test
+   * @param pcs
+   */
+  static isSecondOrderMaximalEven(pcs : IPcs) : boolean {
+    const cDistance = this.getCDistanceTable(pcs)
+    return  cDistance.length > 0  && cDistance.every(cDistance =>
+        cDistance.length === 3
+        && cDistance[0] === cDistance[1] - 1
+        && cDistance[1] === cDistance[2] - 1
+      // 3 distances with consecutive values
+    )
+  }
+
+  /**
+   * c-distances of a pcs
+   * as defined in book "Foundations of Diatonic Theory", Timothy A. Johnson, 2003, Key College Publishing
+   * @example for pcs =  "0 2 5 7 10" (or 0 2 4 7 9) pentatonic major
+   *  result is : [ [2,3], [4,5], [7,8] ,[9,10] ] (see unit test)
+   * @param pcs
+   */
+  static getCDistanceTable = (pcs: IPcs) => {
+    let pcsCDistance: number[][] = []
+    const interStruct = pcs.is()
+    for (let i = 0; i < interStruct.length-1; i++) {
+      pcsCDistance[i] = []
+      let cDistance
+      for (let j = 0; j < interStruct.length; j++) {
+        cDistance = 0
+        for (let k = 0; k < (i+1); k++) {
+          cDistance += interStruct[(j+k) % interStruct.length]
+        }
+        if (!pcsCDistance[i].includes(cDistance)) {
+          pcsCDistance[i].push(cDistance)
+        }
+      }
+      pcsCDistance[i].sort((a, b) => a-b)
+    }
+    return pcsCDistance
+  }
+
+  /**
+   * Deep scale property as defined in book "Foundations of Diatonic Theory", Timothy A. Johnson, 2003,
+   * Key College Publishing, page 41
+   * deep scale when interval vector has no duplication values
+   * @param pcs
+   */
+  static deepScale(pcs : IPcs): boolean {
+    const intervalVector = pcs.iv()
+    return [... new Set(intervalVector)].length === intervalVector.length
+  }
 }

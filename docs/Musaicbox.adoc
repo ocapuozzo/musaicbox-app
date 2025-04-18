@@ -2399,9 +2399,9 @@ image::CM7-mapped.png[]
 
 On WhiteBoard page, let's consider CM7 as the PCS of stem:[P(ZZ_7)], with the C major diatonic scale as a reference. PCS [0 2 4 6] is mapped as [0 4 7 11].
 
-Right click on this PCS, then _orbits->Cyclic orbit_, you get 7 other PCS, each mapped :
+Right click on this PCS, then _orbits->Cyclic orbit_, you get 7 other PCS, obtained by https://en.wikipedia.org/wiki/Transposition_(music)#Diatonic_transposition[diatonic transposition] :
 
-.CM7 mapped to Diatonic Major  (in orbit cyclic Z~7~)
+.CM7 mapped to Diatonic Major (in orbit cyclic Z~7~)
 image::CM7-mapped-diatonic-maj-cyclic-orbit.png[CM7-mapped-diatonic-maj-cyclic-orbit]
 
 
@@ -3290,6 +3290,48 @@ Here are the set of scales that share this characteristic :
 '(1,2,2,1,2,2,2         ) in Mus n° 38'
 '(1,2,1,2,2,2,2         ) in Mus n° 44'
 '(1,1,2,2,2,2,2         ) in Mus n° 60'
+
+pcs in Maximal Evenness as Diatonic Major scale
+' cyclic orbit in Maximal Evenness : ', 11
+'(1,1,1,1,1,1,1,1,1,1,1,1) pcs : [0 1 2 3 4 5 6 7 8 9 10 11]  in Mus n° 1'
+'(1,1,1,1,1,1,1,1,1,1,2 ) pcs : [0 1 2 3 4 5 6 7 8 9 10]     in Mus n° 2'
+'(6,6                   ) pcs : [0 6]                        in Mus n° 7'
+'(1,1,1,1,2,1,1,1,1,2   ) pcs : [0 1 2 3 4 6 7 8 9 10]       in Mus n° 7'
+'(4,4,4                 ) pcs : [0 4 8]                      in Mus n° 16'
+'(1,1,2,1,1,2,1,1,2     ) pcs : [0 1 2 4 5 6 8 9 10]         in Mus n° 16'
+'(3,3,3,3               ) pcs : [0 3 6 9]                    in Mus n° 37'
+'(1,2,1,2,1,2,1,2       ) pcs : [0 1 3 4 6 7 9 10]           in Mus n° 37'
+'(2,2,3,2,3             ) pcs : [0 2 4 7 9]                  in Mus n° 38'
+'(1,2,2,1,2,2,2         ) pcs : [0 1 3 5 6 8 10]             in Mus n° 38'
+'(2,2,2,2,2,2           ) pcs : [0 2 4 6 8 10]               in Mus n° 88'
+
+' cyclic orbit in Second Order Maximal Evenness : ', 25
+'(3,4,5                 ) pcs : [0 3 7]                      in Mus n° 10'
+'(4,3,5                 ) pcs : [0 4 7]                      in Mus n° 10'
+'(1,1,1,1,2,1,1,1,3     ) pcs : [0 1 2 3 4 6 7 8 9]          in Mus n° 13'
+'(1,1,1,2,1,1,1,1,3     ) pcs : [0 1 2 3 5 6 7 8 9]          in Mus n° 13'
+'(1,1,1,2,2,1,1,3       ) pcs : [0 1 2 3 5 7 8 9]            in Mus n° 24'
+'(1,1,2,2,1,1,1,3       ) pcs : [0 1 2 4 6 7 8 9]            in Mus n° 24'
+'(2,3,3,4               ) pcs : [0 2 5 8]                    in Mus n° 26'
+'(3,3,2,4               ) pcs : [0 3 6 8]                    in Mus n° 26'
+'(1,1,2,1,1,2,1,3       ) pcs : [0 1 2 4 5 6 8 9]            in Mus n° 34'
+'(1,2,1,1,2,1,1,3       ) pcs : [0 1 3 4 5 7 8 9]            in Mus n° 34'
+'(1,3,2,3,3             ) pcs : [0 1 4 6 9]                  in Mus n° 49'
+'(2,3,1,3,3             ) pcs : [0 2 5 6 9]                  in Mus n° 49'
+'(1,1,2,2,2,1,3         ) pcs : [0 1 2 4 6 8 9]              in Mus n° 54'
+'(1,2,2,2,1,1,3         ) pcs : [0 1 3 5 7 8 9]              in Mus n° 54'
+'(1,1,3,1,2,1,3         ) pcs : [0 1 2 5 6 8 9]              in Mus n° 61'
+'(1,2,1,2,1,2,3         ) pcs : [0 1 3 4 6 7 9]              in Mus n° 62'
+'(2,1,2,1,2,1,3         ) pcs : [0 2 3 5 6 8 9]              in Mus n° 62'
+'(2,1,2,2,2,3           ) pcs : [0 2 3 5 7 9]                in Mus n° 64'
+'(2,2,2,1,2,3           ) pcs : [0 2 4 6 7 9]                in Mus n° 64'
+'(2,1,3,1,2,3           ) pcs : [0 2 3 6 7 9]                in Mus n° 73'
+'(1,3,2,1,2,3           ) pcs : [0 1 4 6 7 9]                in Mus n° 73'
+'(1,3,1,2,2,3           ) pcs : [0 1 4 5 7 9]                in Mus n° 75'
+'(2,2,1,3,1,3           ) pcs : [0 2 4 5 8 9]                in Mus n° 75'
+'(1,2,2,2,2,3           ) pcs : [0 1 3 5 7 9]                in Mus n° 78'
+'(2,2,2,2,1,3           ) pcs : [0 2 4 6 8 9]                in Mus n° 78'
+
 
 ----
 

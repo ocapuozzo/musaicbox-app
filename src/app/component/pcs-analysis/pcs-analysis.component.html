@@ -70,14 +70,18 @@
         <span class="analyse-pcs" style="margin-right: 10px">&lt;{{ pcsMapped.iv() }}&gt;</span>
         @if (pcsWithSameIVas.pcsList.length > 1) {
           shared by :
+          <ul>
           @for (pcsSameIV of pcsWithSameIVas.pcsList; track pcsSameIV.id) {
+            <li>
             <button mat-button [disabled]="pcs.n !== 12" (click)="doReplaceBy(pcsSameIV)">
              <span class="other-pcs-same-iv">
               {{ pcsSameIV.getPcsStr() }}
                @if (pcsSameIV.cyclicPrimeForm().id == pcsMapped.cyclicPrimeForm().id) { * }
              </span>
             </button>
+            </li>
           }
+        </ul>
         }
       </p>
       <p>

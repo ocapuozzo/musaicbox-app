@@ -168,4 +168,107 @@ describe('PcsUtils test', () => {
     expect(kMin).toEqual(0)
   })
 
+
+  it('static isMaximalEven(pcs : IPcs)  ', () => {
+    const diatonicMaj = new IPcs({strPcs: "0, 2, 4, 5, 7, 9, 11", iPivot: 0})
+    expect(PcsUtils.isMaximalEven(diatonicMaj)).toEqual(true)
+
+    const triadMaj = new IPcs({strPcs: "0, 4, 7", iPivot: 0})
+    expect(PcsUtils.isMaximalEven(triadMaj)).toEqual(false)
+
+    let pcs = new IPcs({strPcs: "0, 3, 6, 9", iPivot: 0})
+    expect(PcsUtils.isMaximalEven(pcs)).toEqual(true)
+
+    //page 30 figure 1.8 "Foundations of diatonic theory", Timothy A. Johnson
+    pcs = new IPcs({strPcs: "0, 3, 6, 10", iPivot: 0})
+    expect(PcsUtils.isMaximalEven(pcs)).toEqual(false)
+
+   // fig. 1.9 (pentatonic scale, dorian complement)
+    pcs = new IPcs({strPcs: "0 2 5 7 10", iPivot: 0})
+    expect(PcsUtils.isMaximalEven(pcs)).toEqual(true)
+  })
+
+  it('getCDistanceTable', () => {
+    //page 30 figure 1.8 "Foundations of diatonic theory", Timothy A. Johnson
+    //   // if (pcs.pid() === 293) {
+    //   //   console.log(`pcs name ${pcs.getFirstNameDetail()} array D-Distance :`)
+    //   //   pcsCDistance.forEach(tab => {
+    //   //     console.log(`tab[] : ${tab}`)
+    //   //   })
+    //   // }
+    //   // if (pcs.pid() === 5) {
+    //   //   console.log(`pcs name ${pcs.getFirstNameDetail()} array D-Distance :`)
+    //   //   console.log(`pcsCDistance : ${pcsCDistance.length}`)
+    //   //   pcsCDistance.forEach(tab => {
+    //   //     console.log(`tab[] : ${tab}`)
+    //   //   })
+    //   // }
+    let pcs = new IPcs({strPcs: "0 3 6 10", iPivot: 0})
+    let expectedTable = [
+      [2,3,4], [5,6,7], [8,9,10]
+    ]
+    expect(PcsUtils.getCDistanceTable(pcs)).toEqual(expectedTable)
+
+    pcs = new IPcs({strPcs: "0 2 5 7 10", iPivot: 0})
+    expectedTable = [
+      [2,3], [4,5], [7,8] ,[9,10]
+    ]
+    expect(PcsUtils.getCDistanceTable(pcs)).toEqual(expectedTable)
+
+    /// test with n = 7 mapped on Diatonic scale
+    // idea :  A second order maximal evenness is maximal evenness in its dimension, as {C E G} in 7
+    let pcsDiatMajMapped = new IPcs({
+      strPcs: "[0, 2, 4]", // first 3-chord {C E G}
+      n: 7,
+      nMapping: 12,
+      templateMapping: [0, 2, 4, 5, 7, 9, 11]  // pcs mapped into [0,4,7]
+    })
+
+    expectedTable = [
+      [2,3], [4,5]
+    ]
+    expect(PcsUtils.getCDistanceTable(pcsDiatMajMapped)).toEqual(expectedTable)
+
+    pcsDiatMajMapped = new IPcs({
+      strPcs: "[0, 2, 6]", // C E B
+      n: 7,
+      nMapping: 12,
+      templateMapping: [0, 2, 4, 5, 7, 9, 11]
+    })
+
+    expectedTable = [
+      [1,2,4], [3,5,6]
+    ]
+    expect(PcsUtils.getCDistanceTable(pcsDiatMajMapped)).toEqual(expectedTable)
+
+  })
+
+
+  it('deep scale property Diatonic Maj and Minor scales', () => {
+    const pcsDiatonicMaj = new IPcs({
+      n: 12,
+      strPcs: "[0 2 4 5 7 9 11]"
+    })
+    expect(PcsUtils.deepScale(pcsDiatonicMaj)).toEqual(true)
+
+    const pcsHarmonicMinorScale = new IPcs({
+      n: 12,
+      strPcs: "[0 2 3 5 7 8 11]"
+    })
+    expect(PcsUtils.deepScale(pcsHarmonicMinorScale)).toEqual(false)
+
+    const pcsMelodicAscMinorScale = new IPcs({
+      n: 12,
+      strPcs:"[0 2 3 5 7 9 11]"
+    })
+    expect(PcsUtils.deepScale(pcsMelodicAscMinorScale)).toEqual(false)
+
+    const pcsMelodicDescMinorScale = new IPcs({
+      n: 12,
+      strPcs: "[0 2 3 5 7 8 10]" // Aeolian mode, so same musical structure as Diatonic Major
+    })
+    expect(PcsUtils.deepScale(pcsMelodicDescMinorScale)).toEqual(true)
+
+  })
+
 })

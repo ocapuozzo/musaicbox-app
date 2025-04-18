@@ -5,6 +5,7 @@ import {MusaicOperation} from "../core/MusaicOperation";
 import {EightyEight} from "../utils/EightyEight";
 import {Orbit} from "../core/Orbit";
 import {ManagerGroupActionService} from "../service/manager-group-action.service";
+import {PcsUtils} from "../utils/PcsUtils";
 
 describe('Laboratory explorer', () => {
 
@@ -122,7 +123,7 @@ describe('Laboratory explorer', () => {
 
 
   it('Test powerset grouped by is() Pascal Triangle', () => {
-    const groupCyclic =  ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!
+    const groupCyclic = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!
 
     // this expect allows the group to be properly initialized.... ???
     expect(groupCyclic.operations.length).toEqual(12)
@@ -133,12 +134,12 @@ describe('Laboratory explorer', () => {
     for (const pcs of Array.from(groupCyclic.powerset.values())) {
       let pcsIs = pcs.is().toString().trim()
       if (mapIs.has(pcsIs)) {
-          mapIs.get(pcsIs)!.push(pcs)
+        mapIs.get(pcsIs)!.push(pcs)
       } else {
         mapIs.set(pcsIs, [pcs])
       }
     }
-    expect(mapIs.size).toEqual(groupCyclic.powerset.size / 2 +1) // empty matter 1 ??
+    expect(mapIs.size).toEqual(groupCyclic.powerset.size / 2 + 1) // empty matter 1 ??
 
     let arrayCard = Array(13).fill(0)
 
@@ -153,7 +154,7 @@ describe('Laboratory explorer', () => {
   })
 
   it('n=12 - Explore all sub-groups of musaic group - up to transposition', () => {
-    function orbitsOrderedByCardinal(orbits : Orbit[]) : Orbit[] {
+    function orbitsOrderedByCardinal(orbits: Orbit[]): Orbit[] {
       let orbitsSortedByCardinal = new Map() // k=name orbit based on his stabs, v=array of orbits
       orbits.forEach(orbit => {
         let card = Array.from(orbitsSortedByCardinal.keys()).find(card => card === orbit.getPcsMin().cardinal)
@@ -201,7 +202,7 @@ describe('Laboratory explorer', () => {
     let someOperations = [M1_T0]
     groupGenerators.set(group.name, [someOperations])
     // console.log("=> " + group.name)
-    let groupAction  = new GroupAction({n: 12, someMusaicOperations: someOperations})
+    let groupAction = new GroupAction({n: 12, someMusaicOperations: someOperations})
 
     // first, add trivial group
     groupComputed.set(group.name, groupAction)
@@ -242,17 +243,17 @@ describe('Laboratory explorer', () => {
     for (const e of groupComputed) {
       const orbitsByCard = orbitsOrderedByCardinal(e[1].orbits)
 
-      let  stringNumberOrbitByCardinal = orbitsByCard.join(';')
+      let stringNumberOrbitByCardinal = orbitsByCard.join(';')
       // complete by ';' if necessary
-      for (let i = 0; i <= 12-orbitsByCard.length; i++) {
-        stringNumberOrbitByCardinal +=";"
+      for (let i = 0; i <= 12 - orbitsByCard.length; i++) {
+        stringNumberOrbitByCardinal += ";"
       }
 
 
       //e[0] is group name, like "n=12 [M1-T0]"
       // so e[0].substring(5) avoid to get "n=12 ", therefore  "n=12 [M1-T0]" => "[M1-T0]"
       // cols : groupName; 12 entries (enum by cardinality) ; number orbits ; number ops in group ;  name (empty)
-      console.log(e[0].substring(5) + ";" + stringNumberOrbitByCardinal + ";" + e[1].orbits.length + ";" + e[1].cardinal+ ";")
+      console.log(e[0].substring(5) + ";" + stringNumberOrbitByCardinal + ";" + e[1].orbits.length + ";" + e[1].cardinal + ";")
     }
     console.log()
     console.log("== Generators family (subgroups) ===================================")
@@ -322,7 +323,7 @@ describe('Laboratory explorer', () => {
     expect(res.length).toEqual(3)
   })
 
-  it("intervallic structure feature", () => {
+  it("intervallic structure feature Diatonic scale", () => {
     const majScale = new IPcs({strPcs: "0,2,4,5,7,9,11"})
     const featureIS = majScale.getGenericIntervals()
     const expectedFeature = [1, 2]
@@ -335,22 +336,118 @@ describe('Laboratory explorer', () => {
     expect(pcsSameFeatureIS.length).toEqual(29) // 30 - chromatic scale
 
     let pcsList: [IPcs, number][] = pcsSameFeatureIS.map(pcs => [pcs, EightyEight.idNumberOf(pcs)])
-    const  pcsSorted  = pcsList.sort((a, b) => a[1] - b[1])
+    const pcsSorted = pcsList.sort((a, b) => a[1] - b[1])
 
     let numberMusaics = new Set(pcsSorted.map(p => p[1])).size
-    console.log("PCS having same intervals that Major Scale (" + pcsSameFeatureIS.length + ") for " + numberMusaics+ " musaics" )
-    pcsSorted.forEach(pcsSorted => console.log(`(${pcsSorted[0].is().toString().padEnd(22)}) in Mus n° ${pcsSorted[1]}`))
+    console.log("PCS having same intervals that Major Scale (" + pcsSameFeatureIS.length + ") for " + numberMusaics + " musaics")
+    pcsSorted.forEach(pcsSorted =>
+      console.log(`(${pcsSorted[0].is().toString().padEnd(22)}) pcs : ${pcsSorted[0].getPcsStr()} in Mus n° ${pcsSorted[1]}`))
 
-
-    const pcsHavingCardinalIn5678 = pcsSameFeatureIS.filter(pcs => [5,6,7,8].includes(pcs.cardinal))
+    const pcsHavingCardinalIn5678 = pcsSameFeatureIS.filter(pcs => [5, 6, 7, 8].includes(pcs.cardinal))
     numberMusaics = new Set(pcsHavingCardinalIn5678.map(pcs => EightyEight.idNumberOf(pcs))).size
-    console.log("PCS having same intervals that Major Scale and cardinal in [5..8] (" + pcsHavingCardinalIn5678.length + ") for " + numberMusaics+ " musaics" )
+    console.log("PCS having same intervals that Major Scale and cardinal in [5..8] (" + pcsHavingCardinalIn5678.length + ") for " + numberMusaics + " musaics")
     pcsSorted
-      .filter(element => [5,6,7,8].includes(element[0].cardinal))
-      .forEach(pcsSorted => console.log(`(${pcsSorted[0].is().toString().padEnd(22)}) in Mus n° ${pcsSorted[1]}`))
-
+      .filter(element => [5, 6, 7, 8].includes(element[0].cardinal))
+      .forEach(pcsSorted =>
+        console.log(`(${pcsSorted[0].is().toString().padEnd(22)}) in Mus n° ${pcsSorted[1]}`))
 
   })
+
+  it("get all pcs in Deep Scale as Diatonic Major scale", () => {
+    const groupCyclic = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!
+    let pcsHavingDeepScale: Orbit[] = []
+    groupCyclic.orbits.forEach(orbit => {
+      // Deep Scale has no repetition in their Interval Vector
+      if ([...new Set(orbit.getPcsMin().iv())].length === 6) pcsHavingDeepScale.push(orbit)
+    })
+    expect(pcsHavingDeepScale.length).toBeGreaterThan(0)
+    console.log(" pcsHavingDeepScale : ", pcsHavingDeepScale.length)
+
+    let pcsList: [IPcs, number][] = pcsHavingDeepScale.map(orbit => [orbit.getPcsMin(), EightyEight.idNumberOf(orbit.getPcsMin())])
+    const pcsSorted = pcsList.sort((a, b) => a[1] - b[1])
+
+    pcsSorted.forEach(pcsSorted =>
+      console.log(`(${pcsSorted[0].is().toString().padEnd(22)}) pcs : ${pcsSorted[0].getPcsStr()} in Mus n° ${pcsSorted[1]}`))
+
+    //
+    // pcsHavingDeepScale.forEach(orbit => {
+    //   console.log(` IV : ${orbit.getPcsMin().iv()} cyclic pcs PF : ${orbit.getPcsMin().getPcsStr()}  pcs name : ${orbit.getPcsMin().getNamesDetails()} in Mus n° ${EightyEight.idNumberOf(orbit.getPcsMin())} `)
+    // })
+  })
+
+  it("get all pcs in Maximal Evenness as Diatonic Major scale", () => {
+    const groupCyclic = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!
+
+    let pcsInMaxEven = groupCyclic.orbits
+      .filter(orbit => orbit.getPcsMin().isMaximalEven()
+      ) // one or two distances with consecutive values ( 4,5 no 4,6)
+
+    expect(pcsInMaxEven.length).toEqual(11)
+    console.log(" cyclic orbit in Maximal Evenness : ", pcsInMaxEven.length)
+
+    let pcsList: [IPcs, number][] = pcsInMaxEven.map(orbit => [orbit.getPcsMin(), EightyEight.idNumberOf(orbit.getPcsMin())])
+    const pcsSorted = pcsList.sort((a, b) => a[1] - b[1])
+
+    pcsSorted.forEach(pcsSorted =>
+      console.log(`(${pcsSorted[0].is().toString().padEnd(22)}) pcs : ${pcsSorted[0].getPcsStr().padEnd(28)} in Mus n° ${pcsSorted[1]}`))
+
+    //
+    // pcsInMaxEven.forEach(orbit => {
+    //   console.log(` IS : ${orbit.getPcsMin().is()}  cyclic pcs PF : ${orbit.getPcsMin().getPcsStr()}  pcs name : ${orbit.getPcsMin().getNamesDetails()} in Mus n° ${EightyEight.idNumberOf(orbit.getPcsMin())}`)
+    // })
+
+  })
+
+  it("get all pcs in Second Order Maximal Evenness", () => {
+    const groupCyclic = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!
+
+    let pcsInSecondOrderMaxEven = groupCyclic.orbits
+      .filter(orbit => orbit.getPcsMin().isSecondOrderMaximalEven())
+
+    expect(pcsInSecondOrderMaxEven.length).toEqual(25)
+    console.log(" cyclic orbit in Second Order Maximal Evenness : ", pcsInSecondOrderMaxEven.length)
+
+    let pcsList: [IPcs, number][] = pcsInSecondOrderMaxEven.map(orbit => [orbit.getPcsMin(), EightyEight.idNumberOf(orbit.getPcsMin())])
+    const pcsSorted = pcsList.sort((a, b) => a[1] - b[1])
+
+    pcsSorted.forEach(pcsSorted =>
+      console.log(`(${pcsSorted[0].is().toString().padEnd(22)}) pcs : ${pcsSorted[0].getPcsStr().padEnd(28)} in Mus n° ${pcsSorted[1]}`))
+    //
+    // pcsInSecondOrderMaxEven.forEach(orbit => {
+    //   console.log(` IS : ${orbit.getPcsMin().is()}  cyclic pcs PF : ${orbit.getPcsMin().getPcsStr()}  pcs name : ${orbit.getPcsMin().getNamesDetails()} in Mus n° ${EightyEight.idNumberOf(orbit.getPcsMin())}`)
+    // })
+
+    // other way (Maximal Even in 7) then compare with unMap
+    const triadInDiatonic7 = new IPcs({strPcs:"0 2 4", n:7, nMapping:12, templateMapping:[0,2,4,5,7,9,11]})
+    // triad in 7 is known to be Maximal Even with "cardinality equals variety"
+    expect(triadInDiatonic7.isMaximalEven()).toEqual(true)
+    // map to 12
+    const triadInDiatonic7MappedIn12 = triadInDiatonic7.unMap()
+    // major triad is not Maximal Even in n = 12
+    expect(triadInDiatonic7MappedIn12.isMaximalEven()).toEqual(false)
+    // but is in Second Order Maximal Even, because it is Maximal Even in its dimension (n = 7)
+    // even through algorithm to determine this property is different
+    expect(triadInDiatonic7MappedIn12.isSecondOrderMaximalEven()).toEqual(true)
+
+    // passed, cool :))
+  })
+
+
+  it("get all pcs in 'deep scale'", () => {
+    const groupCyclic = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!
+
+    let pcsInDeepScale = groupCyclic.orbits
+      .filter(orbit => PcsUtils.deepScale(orbit.getPcsMin())
+      )
+
+    expect(pcsInDeepScale.length).toEqual(4)
+    console.log(" cyclic orbit in Deep Scale : ", pcsInDeepScale.length)
+    pcsInDeepScale.forEach(orbit => {
+      console.log(` IS : ${orbit.getPcsMin().is()}  cyclic pcs PF : ${orbit.getPcsMin().getPcsStr()}  pcs name : ${orbit.getPcsMin().getNamesDetails()} `)
+    })
+
+  })
+
 
 
   /*
@@ -402,32 +499,32 @@ describe('Laboratory explorer', () => {
 
 
   /* test dynamic mutable */
-/*
-  type TNoMutable<T> = {
-    readonly [k in keyof T]: T[k];
-  };
+  /*
+    type TNoMutable<T> = {
+      readonly [k in keyof T]: T[k];
+    };
 
-  it ("test as const", ()=> {
-    let a = [0,2,4]
-    console.log(a.length, a[0])
-    a[0] = 42
-    const b = a
-    // let b = [...a] as const
-    // b[0] = 12
-    console.log(b.length, b[0])
+    it ("test as const", ()=> {
+      let a = [0,2,4]
+      console.log(a.length, a[0])
+      a[0] = 42
+      const b = a
+      // let b = [...a] as const
+      // b[0] = 12
+      console.log(b.length, b[0])
 
-    let pcs : IPcs = new IPcs({strPcs:"0,2,4,5,7,9,11"})
-    pcs.iPivot = 0
-    const majScale : TNoMutable<IPcs> = pcs
-    //majScale.iPivot = 1 // ok, no possible
-    // majScale.vectorPcs = [0] // impossible
-    majScale.vectorPcs[0] = 42 // possible
-    // console.log(majScale.getPcsStr())
-    let pcs2 = pcs as TNoMutable<IPcs>
-    // let pcs2 = readonly pcs // no possible
-    // pcs2.iPivot = 2
-  })
+      let pcs : IPcs = new IPcs({strPcs:"0,2,4,5,7,9,11"})
+      pcs.iPivot = 0
+      const majScale : TNoMutable<IPcs> = pcs
+      //majScale.iPivot = 1 // ok, no possible
+      // majScale.vectorPcs = [0] // impossible
+      majScale.vectorPcs[0] = 42 // possible
+      // console.log(majScale.getPcsStr())
+      let pcs2 = pcs as TNoMutable<IPcs>
+      // let pcs2 = readonly pcs // no possible
+      // pcs2.iPivot = 2
+    })
 
-*/
+  */
 
 })

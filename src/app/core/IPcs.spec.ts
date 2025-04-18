@@ -1028,10 +1028,10 @@ describe('IPcs unit tests', () => {
       templateMapping: [0, 2, 4, 5, 7, 9, 11]  // pcs mapped into [0,4,7]
     })
     expect(pcsDiatMajMapped.getMappedPcsStr()).toEqual('[0 4 7]')
-    expect(pcsDiatMajMapped.is()).toEqual([4, 3, 5]);
+    expect(pcsDiatMajMapped.is()).toEqual([2, 2, 3]); // in 7
 
-    // Sum of elements of IS is n
-    expect(pcsDiatMajMapped.is().reduce((sum, e) => e + sum)).toEqual(pcsDiatMajMapped.nMapping)
+    // Sum of elements of IS is n = 7
+    expect(pcsDiatMajMapped.is().reduce((sum, e) => e + sum)).toEqual(pcsDiatMajMapped.n)
   });
 
 
