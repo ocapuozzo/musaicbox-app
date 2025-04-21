@@ -359,11 +359,11 @@ export class ManagerPageWBService {
 
     })
 
-   if (updated) {
-     this.uiPcsDtoList = updatedThisUiPcsDtoList
-     this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
-     this.emit()
-   }
+    if (updated) {
+      this.uiPcsDtoList = updatedThisUiPcsDtoList
+      this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
+      this.emit()
+    }
   }
 
   doFinalPosition(finalMoveElements: FinalElementMove[]) {
@@ -1086,7 +1086,7 @@ export class ManagerPageWBService {
     let pcsDtoForTemplate =
       new UIPcsDto({
         ...this.uiPcsDtoList[index],
-        showPivot:true,
+        showPivot: true,
         uiClock: {...this.uiPcsDtoList[index].uiClock}
       })
 
@@ -1186,37 +1186,35 @@ export class ManagerPageWBService {
         this.uiPcsDtoList[index] = pcsDto
       })
     }
-    let somePcsInMusaicView = false
+    let somePcsInMusaicViewForAnimation = false
 
-    if ([5, 7, 11].includes(a)) { // normally, always the case
-      // css animation for Musaic
-      indexes.forEach(index => {
-        if (index < 0 || index >= this.uiPcsDtoList.length) {
-          throw new Error("oops bad index : " + index)
-        }
-        let pcsDto = new UIPcsDto({...this.uiPcsDtoList[index]})
-        if (pcsDto.indexFormDrawer === UIPcsDto.MUSAIC) {
-          somePcsInMusaicView = true
-          // change state for animation
-          pcsDto.currentCSSAnimationTransformationState = `M${a}`
-          this.uiPcsDtoList[index] = pcsDto
-        }
-      })
-      if (somePcsInMusaicView) {
-        // update ui for animation
-        this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
-        this.emit()
-        // // wait 1 second for animation, then it is time to algebra transformation
-        setTimeout(() => {
-          loopForAffineTrans()
-          this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
-          this.emit()
-        }, 1000)
-      } else {
+    // css animation for Musaic
+    indexes.forEach(index => {
+      if (index < 0 || index >= this.uiPcsDtoList.length) {
+        throw new Error("oops bad index : " + index)
+      }
+      let pcsDto = new UIPcsDto({...this.uiPcsDtoList[index]})
+      if (pcsDto.indexFormDrawer === UIPcsDto.MUSAIC) {
+        somePcsInMusaicViewForAnimation = a > 1 // animation
+        // change state for animation
+        pcsDto.currentCSSAnimationTransformationState = `M${a}`
+        this.uiPcsDtoList[index] = pcsDto
+      }
+    })
+    if (somePcsInMusaicViewForAnimation) {
+      // update ui for animation
+      this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
+      this.emit()
+      // // wait 1 second for animation, then it is time to algebra transformation
+      setTimeout(() => {
         loopForAffineTrans()
         this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
         this.emit()
-      }
+      }, 1000)
+    } else {
+      loopForAffineTrans()
+      this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
+      this.emit()
     }
   }
 
@@ -1234,7 +1232,6 @@ export class ManagerPageWBService {
     this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
     this.emit()
   }
-
 
 
   doChangePivot(d: TDirection) {
