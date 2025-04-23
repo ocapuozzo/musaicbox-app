@@ -92,4 +92,8 @@ export class ManagerPagePcsListService {
   isAlreadyComputeModes(pcs: IPcs) {
     return this.listModesGenerated.includes(pcs.id);
   }
+
+  clearLists3Chord() {
+    this.clearLists()
+  }
 }

@@ -22,7 +22,7 @@ describe('AnalyseChord chords list', () => {
       n: 12,
     })
 
-    const triadChords = AnalyseChord.getList3Chords(pcsDiatonicMaj)
+    const triadChords = AnalyseChord.getList3Chords(pcsDiatonicMaj, true)
 
     expect(triadChords.size).toEqual(7)
     expect(triadChords.get('I')?.length).toEqual(4)
@@ -38,7 +38,7 @@ describe('AnalyseChord chords list', () => {
       n: 12,
     })
 
-    const fourChords = AnalyseChord.getList4Chords(pcsDiatonicMaj)
+    const fourChords = AnalyseChord.getList4Chords(pcsDiatonicMaj, true)
 
     expect(fourChords.size).toEqual(7)
     expect(fourChords.get('I')?.length).toEqual(4)
@@ -54,7 +54,7 @@ describe('AnalyseChord chords list', () => {
       n: 12,
     })
 
-    const fourChords = AnalyseChord.getList4Chords(pcsDiatonicMaj)
+    const fourChords = AnalyseChord.getList4Chords(pcsDiatonicMaj, true)
 
     expect(fourChords.size).toEqual(7)
     expect(fourChords.get('I')?.length).toEqual(5)

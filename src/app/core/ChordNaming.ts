@@ -35,13 +35,13 @@ export class ChordNaming {
     [145, [{name: 'Maj', cardinal: 3, sortOrder: 3, root: 0}]],
 
     // '0 4 10' 7 no 5
-    [1041, [{name: '7 no 5', cardinal: 3, sortOrder: 5, root: 0}]],
+    [1041, [{name: '7 no 5', cardinal: 3, sortOrder: 6, root: 0}]],
 
     // '0 4 6' Maj ♭5
     [81, [{name: 'Maj ♭5', cardinal: 3, sortOrder: 15, root: 0}]],
 
     // '0 4 8' aug
-    [273, [{name: 'aug', cardinal: 3, sortOrder: 6, root: 0}]],
+    [273, [{name: 'aug', cardinal: 3, sortOrder: 5, root: 0}]],
 
     // '0 4 9' Maj6 no 5 or minor bass 3rd
     [529, [{name: 'Maj6', cardinal: 3, sortOrder: 3, root: 0}, {name: 'm/3rd', cardinal:3, sortOrder: 6, root: 9}]],
@@ -103,7 +103,7 @@ export class ChordNaming {
     // // Seventh ///////////////////////////////////
 
     // '0 4 7 10' 7
-    [1169, [{name: '7', cardinal: 4, sortOrder: 5, root: 0}]],
+    [1169, [{name: '7', cardinal: 4, sortOrder: 3, root: 0}]],
 
     // '0 4 8 10' 7 ♯5
     [1297, [{name: '7 ♯5', cardinal: 4, sortOrder: 8, root: 0}]],
@@ -217,6 +217,74 @@ export class ChordNaming {
   ])
 
 
+  /**
+   * From pcs, get list of possible currents chords, according to chordsPidKeyWithZeroAsRoot collection
+   * @param pcs
+   * @param conf
+   * @return string[] list of pcs in string representation as '0 3 6 9' (cardinal = nPitches)
+   */
+  static getKeysChord(pcs: IPcs,
+                           conf: {
+                             nPitches ?: number,
+                             includeInversion?: boolean,
+                             extended?: boolean }={}
+  ): number[] {
+
+    let chordPcsList: number[] = []
+    if (pcs.cardinal < 3) return chordPcsList
+
+    const nPitches = conf.nPitches ?? 3
+    const includeInversion = conf.includeInversion ?? false
+    const extendedChord = conf.extended ?? true
+
+    const pivot = pcs.getMappedPivot() ?? 0
+
+    // translate where pivot = 0, for make a key
+    const pidPcs = pcs.transposition(-pivot).unMap().pid()
+
+    // if pcs.cardinal === nPitches, there is zero or one chord possible
+    if (pcs.cardinal === nPitches) {
+      if (ChordNaming.chordsPidKeyWithZeroAsRoot.get(pidPcs)) {
+        if (ChordNaming.chordsPidKeyWithZeroAsRoot.get(pidPcs)![0].root === 0
+          || (ChordNaming.chordsPidKeyWithZeroAsRoot.get(pidPcs)![0].root > 0 && includeInversion)
+        ) {
+            chordPcsList.push(pidPcs)
+        }
+      }
+      // max one name
+      return chordPcsList
+    }
+
+    // search if possible chords predefined (pidChord) in list chordsPidKeyWithZeroAsRoot match with pcs (pidPcs)
+    ChordNaming.chordsPidKeyWithZeroAsRoot.forEach((value, pidChord) => {
+      // Applies bitwise operator AND between pidChord and pidPcs. If result is pidChord, then pcs includes chord
+      if ( (pidChord & pidPcs) === pidChord && value[0].cardinal === nPitches) {
+        if (value[0].root === 0 || value[0].root > 0 && includeInversion) {
+          if (extendedChord) {
+            // get all
+            chordPcsList.push(pidChord)
+          } else {
+            if (value[0].sortOrder <= 5) {
+              chordPcsList.push(pidChord)
+            }
+          }
+          // chordPcsList.push(pidChord)
+        }
+      }
+    })
+
+    // assert nMapping to be 12
+    // sort on sortOrder property
+    if (chordPcsList.length > 1) {
+      chordPcsList.sort((s1, s2) => {
+        const orderChord1 = ChordNaming.chordsPidKeyWithZeroAsRoot.get(s1)![0].sortOrder ?? 42  // normally sortOrder is set
+        const orderChord2 = ChordNaming.chordsPidKeyWithZeroAsRoot.get(s2)![0].sortOrder ?? 42  // idem
+        return orderChord1 - orderChord2
+      })
+    }
+    return chordPcsList
+  }
+
 
   /**
    * From pcs, get list of possible currents chords, according to chordsPidKeyWithZeroAsRoot collection
@@ -225,7 +293,7 @@ export class ChordNaming {
    * @param includeInversion where .root > 0
    * @return string[] list of pcs in string representation as '0 3 6 9' (cardinal = nPitches)
    */
-  static getKeysChord(pcs: IPcs, nPitches: number, includeInversion: boolean = true): number[] {
+  static _getKeysChord(pcs: IPcs, nPitches: number, includeInversion: boolean = true): number[] {
     let chordPcsList: number[] = []
     if (pcs.cardinal < 3) return chordPcsList
 
@@ -279,7 +347,7 @@ export class ChordNaming {
   static getFirstChordName(pcs: IPcs, nbPitches: number = 3): string {
     let chordsNPitches: number[] = []
     if (nbPitches >= 3 && nbPitches <= 5) {
-      chordsNPitches = ChordNaming.getKeysChord(pcs, nbPitches)
+      chordsNPitches = ChordNaming.getKeysChord(pcs, {nPitches:nbPitches, includeInversion:true, extended:true})
     }
 
     if (chordsNPitches.length === 0) {

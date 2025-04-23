@@ -11,6 +11,7 @@ import {DialogUpdateFreeTextService} from "./dialog-update-free-text.service";
 import {IDialogDataSaveFreeText} from "../component/dialog-free-text/IDialogDataSaveFreeText";
 import {ManagerPcsService} from "./manager-pcs.service";
 import {ManagerGroupActionService} from "./manager-group-action.service";
+import {AnalyseChord} from "../utils/AnalyseChord";
 
 export interface FinalElementMove {
   index: number,
@@ -1175,7 +1176,7 @@ export class ManagerPageWBService {
     this.uiPcsDtoList = [...this.uiPcsDtoList]
     let indexes = this.getSelectedPcsDtoIndexes()
 
-    const loopForAffineTrans = () => {
+    const loopForAffineTransfortmation = () => {
       indexes.forEach(index => {
         if (index < 0 || index >= this.uiPcsDtoList.length) {
           throw new Error("oops bad index : " + index)
@@ -1205,14 +1206,15 @@ export class ManagerPageWBService {
       // update ui for animation
       this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
       this.emit()
-      // // wait 1 second for animation, then it is time to algebra transformation
+      //// wait 1 second for animation, then it is time to algebra transformation
+      // so, avoid event listened end-animation
       setTimeout(() => {
-        loopForAffineTrans()
+        loopForAffineTransfortmation()
         this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
         this.emit()
       }, 1000)
     } else {
-      loopForAffineTrans()
+      loopForAffineTransfortmation()
       this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
       this.emit()
     }
@@ -1248,4 +1250,45 @@ export class ManagerPageWBService {
     this.pushPcsDtoListToHistoryAndSaveToLocalStorage()
     this.emit()
   }
+
+  doMake3Chords(index: number) {
+    this.doMakeChords(index, 3)
+  }
+
+  doMake4Chords(index: number) {
+    this.doMakeChords(index, 4)
+  }
+
+  /**
+   * Generate list of chords by degree,
+   * limited to the first chord of list obtained by AnalyseChord.getListChords() with extended: false,
+   * and, if not exists, get the first chord of list obtained by AnalyseChord.getListChords() with extended: true,
+   * if exists
+   * @param index
+   * @param nbPitches  3-chords or 4-chords
+   */
+  doMakeChords(index: number, nbPitches: number) {
+    const pcs = this.uiPcsDtoList[index].pcs
+    let pcsChordList = AnalyseChord.getListChords(pcs, {nPitches: nbPitches, extended: false})
+    const pcsExtChordList = AnalyseChord.getListChords(pcs, {nPitches: nbPitches, extended: true})
+    let pcsChords: IPcs[] = []
+    for (const chordListElement of pcsChordList) {
+      if (chordListElement[1].length === 0) {
+        // if empty, get first extended chord if exits
+        if (pcsExtChordList.get(chordListElement[0])) {
+          const chords = pcsExtChordList.get(chordListElement[0])
+          if (chords && chords.length > 0 ) {
+            pcsChords.push(chords[0])
+          }
+        }
+      } else {
+        pcsChords.push(chordListElement[1][0])
+      }
+    }
+    if (pcsChords.length > 0) {
+      this.pcsDtoForTemplate = this.uiPcsDtoList[index]
+      this.addPcs({somePcs: pcsChords, circularAlign: true, indexCenterElement: index})
+    }
+  }
+
 }

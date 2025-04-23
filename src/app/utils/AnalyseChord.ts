@@ -1,15 +1,24 @@
 import {IPcs} from "../core/IPcs";
 import {ChordNaming} from "../core/ChordNaming";
 
+export type TRoman = typeof AnalyseChord.ROMAN[number];
+
 export class AnalyseChord {
 
-  static ROMAIN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII']
+  static ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII']
 
-  static getListChords(pcs: IPcs, nOfPitches: number): Map<string, IPcs[]> {
-    const includeInversion = false
+  static getListChords(pcs: IPcs, conf: {
+    nPitches ?: number,
+    includeInversion?: boolean,
+    extended?: boolean }={}
+  ): Map<TRoman, IPcs[]> {
+    const includeInversion = conf.includeInversion ?? false
+    const extendedChord = conf.extended ?? true
+    const nOfPitches = conf.nPitches ?? 3
+
        // because each degree is processed separately
        // We don't want IV/5th to be added to the various chords of the 1st degree, for example.
-    const chordsByDegree = new Map<string, IPcs[]>()
+    const chordsByDegree = new Map<TRoman, IPcs[]>()
     const cardinal = pcs.cardinal
 
     // unMap() if necessary, chords research work on n == 12
@@ -17,12 +26,12 @@ export class AnalyseChord {
     for (let nbDegree = 0; nbDegree < cardinal; nbDegree++) {
       let pidChords: number[]
       if (nOfPitches === 3) {
-        pidChords = ChordNaming.getKeysChord(pcsWorking, 3, includeInversion)
+        pidChords = ChordNaming.getKeysChord(pcsWorking, {nPitches:3, includeInversion:includeInversion, extended:extendedChord})
       } else {
-        pidChords = ChordNaming.getKeysChord(pcsWorking, 4, includeInversion)
+        pidChords = ChordNaming.getKeysChord(pcsWorking, {nPitches:4, includeInversion:includeInversion, extended:extendedChord})
       }
       if (pidChords.length === 0) {
-        chordsByDegree.set(AnalyseChord.ROMAIN[nbDegree], [])
+        chordsByDegree.set(AnalyseChord.ROMAN[nbDegree], [])
       } else {
         for (let pid of pidChords) {
 
@@ -61,16 +70,16 @@ export class AnalyseChord {
     return chordsByDegree
   }
 
-  static getList4Chords(pcs: IPcs): Map<string, IPcs[]> {
-     return AnalyseChord.getListChords(pcs, 4)
+  static getList4Chords(pcs: IPcs, extendedChord: boolean = false): Map<string, IPcs[]> {
+     return AnalyseChord.getListChords(pcs, {nPitches:4, extended:extendedChord})
   }
 
-  static getList3Chords(pcs: IPcs): Map<string, IPcs[]> {
-    return AnalyseChord.getListChords(pcs, 3)
+  static getList3Chords(pcs: IPcs, extendedChord: boolean = false): Map<string, IPcs[]> {
+    return AnalyseChord.getListChords(pcs, {nPitches:3, extended:extendedChord})
   }
 
   static addPcs(chordsByDegree: Map<string, IPcs[]>, i: number, pcs: IPcs) {
-    const key = AnalyseChord.ROMAIN[i - 1]
+    const key = AnalyseChord.ROMAN[i - 1]
     if (!chordsByDegree.has(key)) {
       chordsByDegree.set(key, [pcs])
     } else {

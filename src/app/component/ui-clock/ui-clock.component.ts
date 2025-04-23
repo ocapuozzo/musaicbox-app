@@ -16,6 +16,7 @@ import {
 import {HtmlUtil} from "../../utils/HtmlUtil";
 import {MatButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
+import {MatCheckbox} from "@angular/material/checkbox";
 
 @Component({
   selector: 'app-ui-clock',
@@ -26,7 +27,8 @@ import {MatIcon} from "@angular/material/icon";
     NgIf,
     ModulationTranspositionControlComponent,
     MatButton,
-    MatIcon
+    MatIcon,
+    MatCheckbox
   ],
   templateUrl: './ui-clock.component.html',
   styleUrl: './ui-clock.component.css'
@@ -366,7 +368,7 @@ export class UiClockComponent {
   threeChordList() {
     if (this.managerPagePcsListService.isAlreadyCompute3Chords(this.pcs.id)) return
 
-    const list3Chords = AnalyseChord.getListChords(this.pcs, 3)
+    const list3Chords = AnalyseChord.getListChords(this.pcs, {nPitches:3, extended:this.extended3Chord})
     for (const list3Chord of list3Chords) {
       if (list3Chord[1].length == 0) {
         this.managerPagePcsListService.addPcs(list3Chord[0], null)
@@ -383,9 +385,9 @@ export class UiClockComponent {
   fourChordList() {
     if (this.managerPagePcsListService.isAlreadyCompute4Chords(this.pcs.id)) return
 
-    const listSeventhChords = AnalyseChord.getListChords(this.pcs, 4)
+    const listSeventhChords = AnalyseChord.getListChords(this.pcs, {nPitches:4, extended:this.extended4Chord})
     for (const fourChord of listSeventhChords) {
-      if (fourChord[1].length == 0) {
+      if (fourChord[1].length === 0) {
         this.managerPagePcsListService.addPcs(fourChord[0], null, true)
       } else for (let i = 0; i < fourChord[1].length; i++) {
         this.managerPagePcsListService.addPcs(fourChord[0], fourChord[1][i], true)
@@ -399,6 +401,8 @@ export class UiClockComponent {
   protected readonly ChordName = ChordNaming;
   protected readonly PcsNaming = ChordNaming;
   protected readonly Scales2048Name = Scales2048Name;
+  extended3Chord: boolean = false;
+  extended4Chord: boolean = false;
 
   getLinkName() {
     return Scales2048Name.getScale2048Name(this.pcs).sources[0]
@@ -408,5 +412,20 @@ export class UiClockComponent {
     return Scales2048Name.getLinksNameDefs(this.pcs)
   }
 
+  updateExtended3Chord() {
+    this.extended3Chord = !this.extended3Chord
+    if (this.managerPagePcsListService.isAlreadyCompute3Chords(this.pcs.id)) {
+      this.managerPagePcsListService.clearLists()
+      this.threeChordList()
+    }
+  }
+
+  updateExtended4Chord() {
+    this.extended4Chord = !this.extended4Chord
+    if (this.managerPagePcsListService.isAlreadyCompute4Chords(this.pcs.id)) {
+      this.managerPagePcsListService.clearLists()
+      this.fourChordList()
+    }
+  }
 
 }

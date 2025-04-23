@@ -869,6 +869,21 @@ export class WhiteboardComponent implements OnInit, OnDestroy, AfterViewInit {
     this.managerPageWBService.doToggleSelected(index)
   }
 
+  doMake4Chords(index: number) {
+    if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
+      throw new Error(`Invalid index : $ {index}`)
+    }
+    this.managerPageWBService.doMake4Chords(index)
+  }
+
+  doMake3Chords(index: any) {
+    if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
+      throw new Error(`Invalid index : $ {index}`)
+    }
+    this.managerPageWBService.doMake3Chords(index)
+  }
+
+
   doMakeComplement(index: any) {
     if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
       throw new Error(`Invalid index : $ {index}`)
@@ -914,6 +929,5 @@ export class WhiteboardComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     return this.pcsDtoList[index].showPivot;
   }
-
 
 }

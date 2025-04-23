@@ -72,9 +72,15 @@
         <div class="example-flex-container">
           <div class="example-button-row">
             <button (click)="threeChordList()" mat-raised-button style="font-size: smaller">3-chords</button>
+            <mat-checkbox style="display: block; margin-top: 5px" [checked]="extended3Chord" (click)="updateExtended3Chord()">
+              ext
+            </mat-checkbox>
           </div>
           <div class="example-button-row">
             <button (click)="fourChordList()" mat-raised-button style="font-size: smaller">4-chords</button>
+            <mat-checkbox style="display: block; margin-top: 5px" [checked]="extended4Chord" (click)="updateExtended4Chord()">
+              ext
+            </mat-checkbox>
           </div>
         </div>
       </fieldset>
