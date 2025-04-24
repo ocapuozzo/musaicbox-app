@@ -341,7 +341,7 @@ describe('Laboratory explorer', () => {
     let numberMusaics = new Set(pcsSorted.map(p => p[1])).size
     console.log("PCS having same intervals that Major Scale (" + pcsSameFeatureIS.length + ") for " + numberMusaics + " musaics")
     pcsSorted.forEach(pcsSorted =>
-      console.log(`(${pcsSorted[0].is().toString().padEnd(22)}) pcs : ${pcsSorted[0].getPcsStr()} in Mus n° ${pcsSorted[1]}`))
+      console.log(`(${pcsSorted[0].is().toString().padEnd(22)}) pcs : ${pcsSorted[0].getPcsStr()} in Mus n° ${pcsSorted[1]} : ${pcsSorted[0].getFirstNameDetail()}`))
 
     const pcsHavingCardinalIn5678 = pcsSameFeatureIS.filter(pcs => [5, 6, 7, 8].includes(pcs.cardinal))
     numberMusaics = new Set(pcsHavingCardinalIn5678.map(pcs => EightyEight.idNumberOf(pcs))).size
@@ -349,7 +349,7 @@ describe('Laboratory explorer', () => {
     pcsSorted
       .filter(element => [5, 6, 7, 8].includes(element[0].cardinal))
       .forEach(pcsSorted =>
-        console.log(`(${pcsSorted[0].is().toString().padEnd(22)}) in Mus n° ${pcsSorted[1]}`))
+        console.log(`(${pcsSorted[0].is().toString().padEnd(22)}) in Mus n° ${pcsSorted[1].toString().padEnd(2)} : ${pcsSorted[0].getFirstNameDetail()}`))
 
   })
 
@@ -389,7 +389,7 @@ describe('Laboratory explorer', () => {
     const pcsSorted = pcsList.sort((a, b) => a[1] - b[1])
 
     pcsSorted.forEach(pcsSorted =>
-      console.log(`(${pcsSorted[0].is().toString().padEnd(23)}) pcs : ${pcsSorted[0].getPcsStr().padEnd(28)} in Mus n° ${pcsSorted[1]} name : ${pcsSorted[0].getFirstNameDetail()}`))
+      console.log(`(${pcsSorted[0].is().toString().padEnd(23)}) pcs : ${pcsSorted[0].getPcsStr().padEnd(28)} in Mus n° ${pcsSorted[1]} : ${pcsSorted[0].getFirstNameDetail()}`))
 
     //
     // pcsInMaxEven.forEach(orbit => {
@@ -413,7 +413,7 @@ describe('Laboratory explorer', () => {
     const pcsSorted = pcsList.sort((a, b) => a[1] - b[1])
 
     pcsSorted.forEach(pcsSorted =>
-      console.log(`(${pcsSorted[0].is().toString().padEnd(22)}) pcs : ${pcsSorted[0].getPcsStr().padEnd(28)} in Mus n° ${pcsSorted[1]} name : ${pcsSorted[0].getFirstNameDetail()}`))
+      console.log(`(${pcsSorted[0].is().toString().padEnd(22)}) pcs : ${pcsSorted[0].getPcsStr().padEnd(20)} in Mus n° ${pcsSorted[1]} : ${pcsSorted[0].getFirstNameDetail()}`))
 
     // other way (Maximal Even in 7) then compare with unMap
     const triadInDiatonic7 = new IPcs({strPcs:"0 2 4", n:7, nMapping:12, templateMapping:[0,2,4,5,7,9,11]})

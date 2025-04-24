@@ -667,8 +667,8 @@ td:has(>p>span[class="klein2"]) {
 </li>
 <li><a href="#_pcs_revisited">PCS Revisited</a>
 <ul class="sectlevel2">
-<li><a href="#_v1_with_ipivot">V1 : With <em>iPivot</em></a></li>
-<li><a href="#_v2_with_mapping">V2 : With <em>mapping</em></a></li>
+<li><a href="#_proposition_a_with_ipivot">Proposition A : With <em>iPivot</em></a></li>
+<li><a href="#_proposition_b_with_mapping">Proposition B : With <em>mapping</em></a></li>
 </ul>
 </li>
 <li><a href="#_for_better_basic_operations">For better basic operations</a>
@@ -719,7 +719,13 @@ td:has(>p>span[class="klein2"]) {
 </ul>
 </li>
 <li><a href="#_subgroups_and_their_generators">Subgroups and their generators</a></li>
-<li><a href="#list-pcs-same-as-major-scale">PCS having same generic intervals as the Major Scale</a></li>
+<li><a href="#list-pcs-same-as-major-scale">PCS lists</a>
+<ul class="sectlevel3">
+<li><a href="#_having_generic_intervals_as_the_major_scale">Having generic intervals as the Major Scale</a></li>
+<li><a href="#_having_maximal_evenness">Having Maximal Evenness</a></li>
+<li><a href="#_having_strict_second_order_maximal_evenness_1">Having "Strict" Second Order Maximal Evenness <sup class="footnote">[1]</sup></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -776,7 +782,7 @@ td:has(>p>span[class="klein2"]) {
 <p>In the context of twelve-tone equal temperament, the canonical form of a musaic is 13x13 squares.</p>
 </div>
 <div class="paragraph">
-<p>Any intervallic structure defined within an octave prints a pattern on the matrix, which we call a <em>musaic-motif</em>. Since a musaic can be viewed from several angles, it is said to have multiple faces, it can carry up to 8 different musaic-motifs and therefore cyclic intervallic structures. There are 88 musaics in total for 352 cyclic intervallic structures.</p>
+<p>Any intervallic structure defined within an octave prints a pattern on the matrix, which we call a <em>musaic-motif</em>. Since a musaic can be viewed from several angles, it is said to have multiple faces, it can carry up to 8 different musaic-motifs and therefore cyclic intervallic structures. There are 88 musaics in total for 352 cyclic intervallic class.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -932,7 +938,7 @@ td:has(>p>span[class="klein2"]) {
 <div class="content">
 <div class="imageblock left text-center left">
 <div class="content">
-<img src="./assets/images/pageWhiteboard2.png" alt="Example Whiteboard page 2">
+<img src="./assets/images/example-WB-page.png" alt="Example Whiteboard page 2">
 </div>
 <div class="title">Figure 9. Example Whiteboard page 2</div>
 </div>
@@ -1133,7 +1139,7 @@ classifications.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>Example for C,E,G :  <code>[0,4,7]</code> or <code>[0 4 7]</code> (without comma)</p>
+<p>Example for C,E,G :  <code>[0,4,7]</code> or <code>[0 4 7]</code> (without comma), or <code>[047]</code> (without space)</p>
 </div>
 </div>
 <div class="sect2">
@@ -1573,7 +1579,7 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0 4
 <div class="sect2">
 <h3 id="_together">Together</h3>
 <div class="paragraph">
-<p>All PCS representations are interchangeable by bijective connections (one-to-one relationship).</p>
+<p>All PCS representations are interchangeable by bijective connections, one-to-one relationship, expect classical musical notation (enharmonic).</p>
 </div>
 <div class="openblock float-group">
 <div class="title">Example with Set, Integer, Vector, musaic, clock and score notation.</div>
@@ -1635,6 +1641,9 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0 4
 <div class="paragraph">
 <p>Operation name is &#160; \$T_k\$</p>
 </div>
+<div class="paragraph">
+<p>An operation which consists of moving by one step of <em>k</em> (in semitones) all PCs of a PCS</p>
+</div>
 <div class="exampleblock">
 <div class="content">
 <div class="openblock text-center">
@@ -1664,7 +1673,7 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0 4
 <p>Example1 : &#160; \$T_1("["0 4 7]) -&gt;"["1 5 8]\$ &#160; (C Maj &#8594; C# Maj)</p>
 </li>
 <li>
-<p>Example2 : &#160; \$T_5("["0 4 7]) -&gt; "["0 5 9]\$ &#160; (C Maj &#8594; F Maj - [5 9 12] = [5 9 0] = [0 5 9])</p>
+<p>Example2 : &#160; \$T_5("["0 4 7]) -&gt; "["0 5 9]\$ &#160; (C Maj &#8594; F Maj - [5 9 12] = [5 9 0] = [059])</p>
 </li>
 <li>
 <p>Example3 : &#160; \$T_0("["0 4 7]) -&gt;"["0 4 7]\$ &#160; (neutral operation)</p>
@@ -1692,10 +1701,6 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0 4
 <div class="title">Figure 12. Transformations by PCS page</div>
 </div>
 <div class="paragraph">
-<div class="title">[0 4 7]</div>
-<p><span class="image"><img src="./assets/images/T1-047-Mus.png" alt="T1-047 Musaic"></span></p>
-</div>
-<div class="paragraph">
 <div class="title">[1 5 8] after click on T right</div>
 <p><span class="image"><img src="./assets/images/T1-158-Mus.png" alt="T1-158 Musaic"></span></p>
 </div>
@@ -1705,6 +1710,9 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0 4
 <h3 id="_multiplication">Multiplication</h3>
 <div class="paragraph">
 <p>Operation name is &#160; \$M_a\$</p>
+</div>
+<div class="paragraph">
+<p>An operation which consists of moving by one step of \$k |-&gt; "indexPC" * a\$ (in semitones) all PCs of a PCS</p>
 </div>
 <div class="exampleblock">
 <div class="content">
@@ -1735,16 +1743,16 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0 4
 <div class="ulist">
 <ul>
 <li>
-<p>Example M11 : &#160; \$M_11("[0 4 7]") -&gt;"[0 5 8]"\$ &#160; (C Maj &#8594; Fm/5th - <strong>inversion</strong>)</p>
+<p>Example M11 : &#160; \$M_11("["0 4 7]) -&gt;"["0 5 8]\$ &#160; (C Maj &#8594; Fm/5th - <strong>inversion</strong>)</p>
 </li>
 <li>
-<p>Example M5 : &#160; \$M_5("[0 4 7]") -&gt;"[0 8 11]"\$ (<strong>M5 substitution</strong>)&#160;</p>
+<p>Example M5 : &#160; \$M_5("["0 4 7]) -&gt;"["0 8 11]\$ (<strong>M5 substitution</strong>)&#160;</p>
 </li>
 <li>
-<p>Example M7 : &#160; \$M_7("[0 4 7]") -&gt;"[0 1 4]"\$ &#160;(<strong>M7 substitution</strong>)</p>
+<p>Example M7 : &#160; \$M_7("["0 4 7]) -&gt;"["0 1 4]\$ &#160;(<strong>M7 substitution</strong>)</p>
 </li>
 <li>
-<p>Example id : &#160; \$M_1("[0 4 7]") -&gt;"[0 4 7]"\$ &#160; (<strong>neutral operation</strong>)</p>
+<p>Example id : &#160; \$M_1("["0 4 7]) -&gt;"["0 4 7]\$ &#160; (<strong>neutral operation</strong>)</p>
 </li>
 </ul>
 </div>
@@ -1753,7 +1761,7 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0 4
 <div class="ulist">
 <ul>
 <li>
-<p>Example M11 : &#160; \$M_11("[0 4 7]") -&gt;"[0 5 8]"\$ &#160; (C Maj &#8594; Fm/5th - <strong>inversion</strong>)</p>
+<p>Example M11 : &#160; \$M_11("["0 4 7]) -&gt;"["0 5 8]\$ &#160; (C Maj &#8594; Fm/5th - <strong>inversion</strong>)</p>
 </li>
 </ul>
 </div>
@@ -1768,7 +1776,7 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0 4
 <div class="ulist">
 <ul>
 <li>
-<p>Example M5 : &#160; \$M_5("[0 4 7]") -&gt;"[0 8 11]"\$ (<strong>M5 substitution</strong>)&#160;</p>
+<p>Example M5 : &#160; \$M_5("[0" 4 7]) -&gt;"["0 8 11]\$ (<strong>M5 substitution</strong>)&#160;</p>
 </li>
 </ul>
 </div>
@@ -1783,7 +1791,7 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0 4
 <div class="ulist">
 <ul>
 <li>
-<p>Example M7 : &#160; \$M_7("[0 4 7]") -&gt;"[0 1 4]"\$ &#160;(<strong>M7 substitution</strong>)</p>
+<p>Example M7 : &#160; \$M_7("["0 4 7]) -&gt;"["0 1 4]\$ &#160;(<strong>M7 substitution</strong>)</p>
 </li>
 </ul>
 </div>
@@ -3491,7 +3499,7 @@ Example : [M1-T1 M11-T1] &#8658; [M1 M11]
 <td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
 <td class="tableblock halign-right valign-top"><p class="tableblock"><strong>226</strong></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><em>24</em></p></td>
-<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">?</p></td>
 </tr>
 <tr>
 <th class="tableblock halign-left valign-top"><p class="tableblock">[M1 M11]</p></th>
@@ -3529,7 +3537,7 @@ Example : [M1-T1 M11-T1] &#8658; [M1 M11]
 <td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
 <td class="tableblock halign-right valign-top"><p class="tableblock"><strong>218</strong></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><em>24</em></p></td>
-<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">?</p></td>
 </tr>
 <tr>
 <th class="tableblock halign-left valign-top"><p class="tableblock">[M1 CM11]</p></th>
@@ -3548,7 +3556,7 @@ Example : [M1-T1 M11-T1] &#8658; [M1 M11]
 <td class="tableblock halign-center valign-top"><p class="tableblock">(1)</p></td>
 <td class="tableblock halign-right valign-top"><p class="tableblock"><strong>192</strong></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><em>24</em></p></td>
-<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">?</p></td>
 </tr>
 <tr>
 <th class="tableblock halign-left valign-top"><p class="tableblock">[M1 CM5]</p></th>
@@ -3567,7 +3575,7 @@ Example : [M1-T1 M11-T1] &#8658; [M1 M11]
 <td class="tableblock halign-center valign-top"><p class="tableblock">(1)</p></td>
 <td class="tableblock halign-right valign-top"><p class="tableblock"><strong>186</strong></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><em>24</em></p></td>
-<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">?</p></td>
 </tr>
 <tr>
 <th class="tableblock halign-left valign-top"><p class="tableblock">[M1 CM7]</p></th>
@@ -3586,7 +3594,7 @@ Example : [M1-T1 M11-T1] &#8658; [M1 M11]
 <td class="tableblock halign-center valign-top"><p class="tableblock">(1)</p></td>
 <td class="tableblock halign-right valign-top"><p class="tableblock"><strong>182</strong></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><em>24</em></p></td>
-<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">?</p></td>
 </tr>
 <tr>
 <th class="tableblock halign-left valign-top"><p class="tableblock">[M1 CM1]</p></th>
@@ -3605,7 +3613,7 @@ Example : [M1-T1 M11-T1] &#8658; [M1 M11]
 <td class="tableblock halign-center valign-top"><p class="tableblock">(1)</p></td>
 <td class="tableblock halign-right valign-top"><p class="tableblock"><strong>* 180</strong></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><em>24</em></p></td>
-<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">?</p></td>
 </tr>
 <tr>
 <th class="tableblock halign-left valign-top"><p class="tableblock">[M1 M5 M7 M11]</p></th>
@@ -3643,7 +3651,7 @@ Example : [M1-T1 M11-T1] &#8658; [M1 M11]
 <td class="tableblock halign-center valign-top"><p class="tableblock">(1)</p></td>
 <td class="tableblock halign-right valign-top"><p class="tableblock"><strong>126</strong></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><em>48</em></p></td>
-<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">?</p></td>
 </tr>
 <tr>
 <th class="tableblock halign-left valign-top"><p class="tableblock">[M1 M11 CM1 CM11]</p></th>
@@ -3662,7 +3670,7 @@ Example : [M1-T1 M11-T1] &#8658; [M1 M11]
 <td class="tableblock halign-center valign-top"><p class="tableblock">(1)</p></td>
 <td class="tableblock halign-right valign-top"><p class="tableblock"><strong>122</strong></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><em>48</em></p></td>
-<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">?</p></td>
 </tr>
 <tr>
 <th class="tableblock halign-left valign-top"><p class="tableblock">[M1 M11 CM5 CM7]</p></th>
@@ -3681,7 +3689,7 @@ Example : [M1-T1 M11-T1] &#8658; [M1 M11]
 <td class="tableblock halign-center valign-top"><p class="tableblock">(1)</p></td>
 <td class="tableblock halign-right valign-top"><p class="tableblock"><strong>120</strong></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><em>48</em></p></td>
-<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">?</p></td>
 </tr>
 <tr>
 <th class="tableblock halign-left valign-top"><p class="tableblock">[M1 M5 CM7 CM11]</p></th>
@@ -3700,7 +3708,7 @@ Example : [M1-T1 M11-T1] &#8658; [M1 M11]
 <td class="tableblock halign-center valign-top"><p class="tableblock">(1)</p></td>
 <td class="tableblock halign-right valign-top"><p class="tableblock"><strong>120</strong></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><em>48</em></p></td>
-<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">?</p></td>
 </tr>
 <tr>
 <th class="tableblock halign-left valign-top"><p class="tableblock">[M1 M7 CM1 CM7]</p></th>
@@ -3719,7 +3727,7 @@ Example : [M1-T1 M11-T1] &#8658; [M1 M11]
 <td class="tableblock halign-center valign-top"><p class="tableblock">(1)</p></td>
 <td class="tableblock halign-right valign-top"><p class="tableblock"><strong>118</strong></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><em>48</em></p></td>
-<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">?</p></td>
 </tr>
 <tr>
 <th class="tableblock halign-left valign-top"><p class="tableblock">[M1 M5 CM1 CM5]</p></th>
@@ -3738,7 +3746,7 @@ Example : [M1-T1 M11-T1] &#8658; [M1 M11]
 <td class="tableblock halign-center valign-top"><p class="tableblock">(1)</p></td>
 <td class="tableblock halign-right valign-top"><p class="tableblock"><strong>116</strong></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><em>48</em></p></td>
-<td class="tableblock halign-center valign-top"></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">?</p></td>
 </tr>
 <tr>
 <th class="tableblock halign-left valign-top"><p class="tableblock">[M1 M5 M7 M11 CM1 CM5 CM7 CM11]</p></th>
@@ -3792,13 +3800,13 @@ Example : [M1-T1 M11-T1] &#8658; [M1 M11]
 <h2 id="_pcs_revisited">PCS Revisited</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_v1_with_ipivot">V1 : With <em>iPivot</em></h3>
+<h3 id="_proposition_a_with_ipivot">Proposition A : With <em>iPivot</em></h3>
 <div class="paragraph">
 <p><a href="#_for_better_basic_operations">For better basic operations</a></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_v2_with_mapping">V2 : With <em>mapping</em></h3>
+<h3 id="_proposition_b_with_mapping">Proposition B : With <em>mapping</em></h3>
 <div class="paragraph">
 <p><a href="#_for_better_projection">For better projection</a></p>
 </div>
@@ -3943,7 +3951,7 @@ Example : [M1-T1 M11-T1] &#8658; [M1 M11]
 </div>
 </div>
 <div class="paragraph">
-<p><mark>⚠</mark> Oh!, how come the treatment of inversion for a C#/Db Major <strong>differs</strong> from that of a C Major?</p>
+<p><mark>⚠</mark> <strong>Oh!</strong>, how come the treatment of inversion for a C#/Db Major <strong>differs</strong> from that of a C Major?</p>
 </div>
 <div class="paragraph">
 <p>The expected correct answer of Inverse(<code>[0 1 3 5 6 8 10]</code>)  should have been <code>[<mark>1 2 4 6 8 9 11</mark>]</code>, III degree of A Major (the VIb Major of Db Major) and not <code>[0 2 4 6 7 9 11]</code>.</p>
@@ -4469,8 +4477,8 @@ We do not have integrated this property, <em>iPivot</em>, in the logical identit
 <p><em>MusaicBox</em> works with Extended PCS and implements affine function with <em>iPivot</em>, as defined by <em>affinePivot</em> algorithm, and implement as a permutation function \$P(E) -&gt; P(E)\$.</p>
 </div>
 <div class="paragraph">
-<p>Although the affine function has replaced the usual affine functions in the project &#8230;&#8203; It should not be lost in sight that it is only a contraction of a composition of functions: <code>M1-T<sub>p</sub> ∘ M<sub>a</sub>-T<sub>k</sub> ∘ M<sub>1</sub>-T<sub>-p</sub></code> or <code>M1-T<sub>p</sub>(M<sub>a</sub>-T<sub>k</sub>(M<sub>1</sub>-T<sub>-p</sub>( pcs )))</code>
-as explained here design-affine-pivot&gt;&gt;.</p>
+<p>Although the affine function has replaced the usual affine functions in the project &#8230;&#8203; It should not be lost in sight that it is only a contraction of a composition of functions: <span class="nowrap"><code>M1-T<sub>p</sub> ∘ M<sub>a</sub>-T<sub>k</sub> ∘ M<sub>1</sub>-T<sub>-p</sub></code></span> or <span class="nowrap"><code>M1-T<sub>p</sub>(M<sub>a</sub>-T<sub>k</sub>(M<sub>1</sub>-T<sub>-p</sub>( pcs )))</code></span>
+as explained here <a href="#design-affine-pivot">Affine with pivot on Extended PCS</a>.</p>
 </div>
 </td>
 </tr>
@@ -4652,7 +4660,7 @@ Seven PCS of diatonic design as a circle divided into 7 equal parts
 </ul>
 </div>
 <div class="paragraph">
-<p>The diatonic scale is special in that it is a sequence of 1 or 2 semitones : Major scale intervallic structure is (2,2,1,2,2,2,1)</p>
+<p>The diatonic scale is special in that it is a sequence of 1 or 2 semitones : Major scale intervallic structure is (2,2,1,2,2,2,1), it is Maximally Even and has <em>Myhill&#8217;s</em> property - (see below in this section)<a href="#Johnson">[Johnson]</a></p>
 </div>
 <div class="paragraph">
 <p>Mapping system explained by figure below.</p>
@@ -4753,7 +4761,11 @@ Seven PCS of diatonic design as a circle divided into 7 equal parts
 <a href="https://en.wikipedia.org/wiki/Diatonic_set_theory">Diatonic Set Theory on wikipedia</a>.</p>
 </div>
 <div class="paragraph">
-<p>There are 29 PCSs with this characteristic, 13 of which have a cardinality between 5 and 8. See <a href="#list-pcs-same-as-major-scale">PCS having same generic intervals as the Major Scale</a></p>
+<p>There are 29 cyclic orbits (or cyclic intervallic structure) with this characteristic, 13 of which have a cardinality between 5 and 8.</p>
+</div>
+<div class="paragraph">
+<p>There are 11 cyclic orbit in Maximal Evenness, 25 cyclic orbit in Strict Second Order Maximal Evenness : ',
+See <a href="#list-pcs-same-as-major-scale">PCS lists</a></p>
 </div>
 <div class="ulist">
 <ul>
@@ -5009,7 +5021,7 @@ This is an array of natural numbers which summarize the pitch class intervals ap
 </dd>
 <dt class="hdlist1">Musaic Orbit</dt>
 <dd>
-<p>Orbit having a group G composed only of transposition, inversions,  multiplication by 5 and 7 and complement operations</p>
+<p>Orbit having a group G composed only of transposition, inversions,  multiplication by 5 and 7 and complement operations (Affine operations + complement)</p>
 <div class="paragraph">
 <p>G = {M1-T0, M1-T1, M11-T1, M5-T1, M7-T1, CM1-T1, CM5-T1, CM7-T1, CM11-T1, &#8230;&#8203;}</p>
 </div>
@@ -5021,7 +5033,7 @@ This is an array of natural numbers which summarize the pitch class intervals ap
 <p>Example 2 pcs with same structure of polygon inscribed : <span class="image"><img src="./assets/images/pcsCM-FM.png" alt="CM and FM"></span></p>
 </div>
 <div class="paragraph">
-<p>Because all pcs in same cyclic orbit have same cyclic intervallic structure (transposition preserve intervallic structure), a cyclic intervallic structure of a given pcs is represented by the <em>Intervallic Structure</em> of its <em>cyclic prime form</em></p>
+<p>Because all pcs in same cyclic orbit have same cyclic intervallic structure (transposition preserve cyclic intervallic structure), a cyclic intervallic structure of a given pcs is represented by the <em>Intervallic Structure</em> of its <em>cyclic prime form</em></p>
 </div>
 <div class="paragraph">
 <p>Example : (CMaj) cis([0 4 7]) = (4 3 5)  (<em>cyclic prime form</em>)</p>
@@ -5906,7 +5918,9 @@ Symmetry prime form concept is invented, specific to this project.
 </div>
 </div>
 <div class="sect2">
-<h3 id="list-pcs-same-as-major-scale">PCS having same generic intervals as the Major Scale</h3>
+<h3 id="list-pcs-same-as-major-scale">PCS lists</h3>
+<div class="sect3">
+<h4 id="_having_generic_intervals_as_the_major_scale">Having generic intervals as the Major Scale</h4>
 <div class="paragraph">
 <p>Major scale having only 1 and 2 semitones has interval between 2 pitch classes neighboring.</p>
 </div>
@@ -5915,93 +5929,105 @@ Symmetry prime form concept is invented, specific to this project.
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>'PCS having same generic intervals that Major Scale (29) for 24 musaics'
+<pre>'PCS (cyclic orbit representants) having same generic intervals that Major Scale (29) for 24 musaics'
+'(1,1,1,1,1,1,1,1,1,1,2 ) pcs : [0 1 2 3 4 5 6 7 8 9 10] in Mus n° 2 : Chromatic Undecamode'
+'(1,1,1,1,1,2,1,1,1,2   ) pcs : [0 1 2 3 4 5 7 8 9 10] in Mus n° 3 : Rāga Khat'
+'(1,1,1,1,1,1,1,1,2,2   ) pcs : [0 1 2 3 4 5 6 7 8 10] in Mus n° 4 : Mixodyllian'
+'(1,1,1,1,1,1,1,2,1,2   ) pcs : [0 1 2 3 4 5 6 7 9 10] in Mus n° 5 : Aerygyllian'
+'(1,1,1,1,1,1,2,1,1,2   ) pcs : [0 1 2 3 4 5 6 8 9 10] in Mus n° 6 : Rocryllian'
+'(1,1,1,1,2,1,1,1,1,2   ) pcs : [0 1 2 3 4 6 7 8 9 10] in Mus n° 7 : Messiaen Mode 7 Rotation 4'
+'(1,1,1,2,1,1,1,2,2     ) pcs : [0 1 2 3 5 6 7 8 10] in Mus n° 8 : Locrian/Aeolian Mixed'
+'(1,1,1,1,1,2,1,2,2     ) pcs : [0 1 2 3 4 5 7 8 10] in Mus n° 9 : Rāga Abheri Todi'
+'(1,2,1,1,1,1,1,2,2     ) pcs : [0 1 3 4 5 6 7 8 10] in Mus n° 9 : Styptygic'
+'(1,1,1,2,1,1,2,1,2     ) pcs : [0 1 2 3 5 6 7 9 10] in Mus n° 10 : Lyrygic'
+'(1,1,2,1,1,1,2,1,2     ) pcs : [0 1 2 4 5 6 7 9 10] in Mus n° 10 : Youlan'
+'(1,1,1,1,1,1,2,2,2     ) pcs : [0 1 2 3 4 5 6 8 10] in Mus n° 11 : Tharygic'
+'(1,1,1,1,2,1,1,2,2     ) pcs : [0 1 2 3 4 6 7 8 10] in Mus n° 14 : Padygic'
+'(1,1,2,1,1,1,1,2,2     ) pcs : [0 1 2 4 5 6 7 8 10] in Mus n° 14 : Aeolyrygic'
+'(1,1,1,1,2,1,2,1,2     ) pcs : [0 1 2 3 4 6 7 9 10] in Mus n° 15 : Pylygic'
+'(1,1,2,1,1,2,1,1,2     ) pcs : [0 1 2 4 5 6 8 9 10] in Mus n° 16 : Triple Chromatic I'
+'(1,1,1,2,2,1,2,2       ) pcs : [0 1 2 3 5 7 8 10] in Mus n° 17 : Rāga Asavari'
+'(1,1,1,2,1,2,2,2       ) pcs : [0 1 2 3 5 6 8 10] in Mus n° 18 : Aeradyllic'
+'(1,2,1,1,1,2,2,2       ) pcs : [0 1 3 4 5 6 8 10] in Mus n° 18 : Esplá\'s Scale'
+'(1,2,1,1,2,1,2,2       ) pcs : [0 1 3 4 5 7 8 10] in Mus n° 19 : Spanish Phrygian'
+'(1,1,2,1,2,1,2,2       ) pcs : [0 1 2 4 5 7 8 10] in Mus n° 26 : Rāga Hijaj Bhairav'
+'(1,2,1,2,1,1,2,2       ) pcs : [0 1 3 4 6 7 8 10] in Mus n° 26 : Altered Dominant B'
+'(1,1,1,1,2,2,2,2       ) pcs : [0 1 2 3 4 6 8 10] in Mus n° 28 : Bothyllic'
+'(1,1,2,1,1,2,2,2       ) pcs : [0 1 2 4 5 6 8 10] in Mus n° 35 : Syryllic'
+'(1,1,2,2,1,1,2,2       ) pcs : [0 1 2 4 6 7 8 10] in Mus n° 36 : Messiaen Mode 6 Rotation 2'
+'(1,2,1,2,1,2,1,2       ) pcs : [0 1 3 4 6 7 9 10] in Mus n° 37 : Octatonic'
+'(1,2,2,1,2,2,2         ) pcs : [0 1 3 5 6 8 10] in Mus n° 38 : Locrian mode' (Major scale)
+'(1,2,1,2,2,2,2         ) pcs : [0 1 3 4 6 8 10] in Mus n° 44 : Superlocrian'
+'(1,1,2,2,2,2,2         ) pcs : [0 1 2 4 6 8 10] in Mus n° 60 : Leading Whole-Tone Inverse'
 
-'(1,1,1,1,1,1,1,1,1,1,2 )  in Mus n° 2'
-'(1,1,1,1,1,2,1,1,1,2   )  in Mus n° 3'
-'(1,1,1,1,1,1,1,1,2,2   )  in Mus n° 4'
-'(1,1,1,1,1,1,1,2,1,2   )  in Mus n° 5'
-'(1,1,1,1,1,1,2,1,1,2   )  in Mus n° 6'
-'(1,1,1,1,2,1,1,1,1,2   )  in Mus n° 7'
-'(1,1,1,2,1,1,1,2,2     )  in Mus n° 8'
-'(1,1,1,1,1,2,1,2,2     )  in Mus n° 9'
-'(1,2,1,1,1,1,1,2,2     )  in Mus n° 9'
-'(1,1,1,2,1,1,2,1,2     )  in Mus n° 10'
-'(1,1,2,1,1,1,2,1,2     )  in Mus n° 10'
-'(1,1,1,1,1,1,2,2,2     )  in Mus n° 11'
-'(1,1,1,1,2,1,1,2,2     )  in Mus n° 14'
-'(1,1,2,1,1,1,1,2,2     )  in Mus n° 14'
-'(1,1,1,1,2,1,2,1,2     )  in Mus n° 15'
-'(1,1,2,1,1,2,1,1,2     )  in Mus n° 16'
-'(1,1,1,2,2,1,2,2       )  in Mus n° 17'
-'(1,1,1,2,1,2,2,2       )  in Mus n° 18'
-'(1,2,1,1,1,2,2,2       )  in Mus n° 18'
-'(1,2,1,1,2,1,2,2       )  in Mus n° 19'
-'(1,1,2,1,2,1,2,2       )  in Mus n° 26'
-'(1,2,1,2,1,1,2,2       )  in Mus n° 26'
-'(1,1,1,1,2,2,2,2       )  in Mus n° 28'
-'(1,1,2,1,1,2,2,2       )  in Mus n° 35'
-'(1,1,2,2,1,1,2,2       )  in Mus n° 36'
-'(1,2,1,2,1,2,1,2       )  in Mus n° 37'
-'(1,2,2,1,2,2,2         )  in Mus n° 38' &lt;- Major scale switched
-'(1,2,1,2,2,2,2         )  in Mus n° 44'
-'(1,1,2,2,2,2,2         )  in Mus n° 60'
-
-'PCS having same generic intervals that Major Scale and cardinal in [5..8] (13) for 11 musaics'
-'(1,1,1,2,2,1,2,2       ) in Mus n° 17'
-'(1,1,1,2,1,2,2,2       ) in Mus n° 18'
-'(1,2,1,1,1,2,2,2       ) in Mus n° 18'
-'(1,2,1,1,2,1,2,2       ) in Mus n° 19'
-'(1,1,2,1,2,1,2,2       ) in Mus n° 26'
-'(1,2,1,2,1,1,2,2       ) in Mus n° 26'
-'(1,1,1,1,2,2,2,2       ) in Mus n° 28'
-'(1,1,2,1,1,2,2,2       ) in Mus n° 35'
-'(1,1,2,2,1,1,2,2       ) in Mus n° 36'
-'(1,2,1,2,1,2,1,2       ) in Mus n° 37'
-'(1,2,2,1,2,2,2         ) in Mus n° 38'
-'(1,2,1,2,2,2,2         ) in Mus n° 44'
-'(1,1,2,2,2,2,2         ) in Mus n° 60'
-
-pcs in Maximal Evenness as Diatonic Major scale
+'PCS having same intervals that Major Scale and cardinal in [5..8] (13) for 11 musaics'
+'(1,1,1,2,2,1,2,2       ) in Mus n° 17 name : Rāga Asavari'
+'(1,1,1,2,1,2,2,2       ) in Mus n° 18 name : Aeradyllic'
+'(1,2,1,1,1,2,2,2       ) in Mus n° 18 name : Esplá Scale'
+'(1,2,1,1,2,1,2,2       ) in Mus n° 19 name : Spanish Phrygian'
+'(1,1,2,1,2,1,2,2       ) in Mus n° 26 name : Rāga Hijaj Bhairav'
+'(1,2,1,2,1,1,2,2       ) in Mus n° 26 name : Altered Dominant B'
+'(1,1,1,1,2,2,2,2       ) in Mus n° 28 name : Bothyllic'
+'(1,1,2,1,1,2,2,2       ) in Mus n° 35 name : Syryllic'
+'(1,1,2,2,1,1,2,2       ) in Mus n° 36 name : Messiaen Mode 6 Rotation 2'
+'(1,2,1,2,1,2,1,2       ) in Mus n° 37 name : Octatonic'
+'(1,2,2,1,2,2,2         ) in Mus n° 38 name : Locrian mode'
+'(1,2,1,2,2,2,2         ) in Mus n° 44 name : Superlocrian'
+'(1,1,2,2,2,2,2         ) in Mus n° 60 name : Leading Whole-Tone Inverse'</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_having_maximal_evenness">Having Maximal Evenness</h4>
+<div class="listingblock">
+<div class="content">
+<pre>PCS (cyclic orbit representants) in Maximal Evenness as Diatonic Major scale
 ' cyclic orbit in Maximal Evenness : ', 11
-'(1,1,1,1,1,1,1,1,1,1,1,1) pcs : [0 1 2 3 4 5 6 7 8 9 10 11]  in Mus n° 1'
-'(1,1,1,1,1,1,1,1,1,1,2 ) pcs : [0 1 2 3 4 5 6 7 8 9 10]     in Mus n° 2'
-'(6,6                   ) pcs : [0 6]                        in Mus n° 7'
-'(1,1,1,1,2,1,1,1,1,2   ) pcs : [0 1 2 3 4 6 7 8 9 10]       in Mus n° 7'
-'(4,4,4                 ) pcs : [0 4 8]                      in Mus n° 16'
-'(1,1,2,1,1,2,1,1,2     ) pcs : [0 1 2 4 5 6 8 9 10]         in Mus n° 16'
-'(3,3,3,3               ) pcs : [0 3 6 9]                    in Mus n° 37'
-'(1,2,1,2,1,2,1,2       ) pcs : [0 1 3 4 6 7 9 10]           in Mus n° 37'
-'(2,2,3,2,3             ) pcs : [0 2 4 7 9]                  in Mus n° 38'
-'(1,2,2,1,2,2,2         ) pcs : [0 1 3 5 6 8 10]             in Mus n° 38'
-'(2,2,2,2,2,2           ) pcs : [0 2 4 6 8 10]               in Mus n° 88'
-
-' cyclic orbit in Second Order Maximal Evenness : ', 25
-'(3,4,5                 ) pcs : [0 3 7]                      in Mus n° 10'
-'(4,3,5                 ) pcs : [0 4 7]                      in Mus n° 10'
-'(1,1,1,1,2,1,1,1,3     ) pcs : [0 1 2 3 4 6 7 8 9]          in Mus n° 13'
-'(1,1,1,2,1,1,1,1,3     ) pcs : [0 1 2 3 5 6 7 8 9]          in Mus n° 13'
-'(1,1,1,2,2,1,1,3       ) pcs : [0 1 2 3 5 7 8 9]            in Mus n° 24'
-'(1,1,2,2,1,1,1,3       ) pcs : [0 1 2 4 6 7 8 9]            in Mus n° 24'
-'(2,3,3,4               ) pcs : [0 2 5 8]                    in Mus n° 26'
-'(3,3,2,4               ) pcs : [0 3 6 8]                    in Mus n° 26'
-'(1,1,2,1,1,2,1,3       ) pcs : [0 1 2 4 5 6 8 9]            in Mus n° 34'
-'(1,2,1,1,2,1,1,3       ) pcs : [0 1 3 4 5 7 8 9]            in Mus n° 34'
-'(1,3,2,3,3             ) pcs : [0 1 4 6 9]                  in Mus n° 49'
-'(2,3,1,3,3             ) pcs : [0 2 5 6 9]                  in Mus n° 49'
-'(1,1,2,2,2,1,3         ) pcs : [0 1 2 4 6 8 9]              in Mus n° 54'
-'(1,2,2,2,1,1,3         ) pcs : [0 1 3 5 7 8 9]              in Mus n° 54'
-'(1,1,3,1,2,1,3         ) pcs : [0 1 2 5 6 8 9]              in Mus n° 61'
-'(1,2,1,2,1,2,3         ) pcs : [0 1 3 4 6 7 9]              in Mus n° 62'
-'(2,1,2,1,2,1,3         ) pcs : [0 2 3 5 6 8 9]              in Mus n° 62'
-'(2,1,2,2,2,3           ) pcs : [0 2 3 5 7 9]                in Mus n° 64'
-'(2,2,2,1,2,3           ) pcs : [0 2 4 6 7 9]                in Mus n° 64'
-'(2,1,3,1,2,3           ) pcs : [0 2 3 6 7 9]                in Mus n° 73'
-'(1,3,2,1,2,3           ) pcs : [0 1 4 6 7 9]                in Mus n° 73'
-'(1,3,1,2,2,3           ) pcs : [0 1 4 5 7 9]                in Mus n° 75'
-'(2,2,1,3,1,3           ) pcs : [0 2 4 5 8 9]                in Mus n° 75'
-'(1,2,2,2,2,3           ) pcs : [0 1 3 5 7 9]                in Mus n° 78'
-'(2,2,2,2,1,3           ) pcs : [0 2 4 6 8 9]                in Mus n° 78'</pre>
+'(1,1,1,1,1,1,1,1,1,1,1,1) pcs : [0 1 2 3 4 5 6 7 8 9 10 11]  in Mus n° 1 : Chromatic'
+'(1,1,1,1,1,1,1,1,1,1,2  ) pcs : [0 1 2 3 4 5 6 7 8 9 10]     in Mus n° 2 : Chromatic Undecamode'
+'(6,6                    ) pcs : [0 6]                        in Mus n° 7 : Tritone'
+'(1,1,1,1,2,1,1,1,1,2    ) pcs : [0 1 2 3 4 6 7 8 9 10]       in Mus n° 7 : Messiaen Mode 7 Rotation 4'
+'(4,4,4                  ) pcs : [0 4 8]                      in Mus n° 16 : Augmented Triad'
+'(1,1,2,1,1,2,1,1,2      ) pcs : [0 1 2 4 5 6 8 9 10]         in Mus n° 16 : Triple Chromatic I'
+'(3,3,3,3                ) pcs : [0 3 6 9]                    in Mus n° 37 : Diminished Seventh'
+'(1,2,1,2,1,2,1,2        ) pcs : [0 1 3 4 6 7 9 10]           in Mus n° 37 : Octatonic'
+'(2,2,3,2,3              ) pcs : [0 2 4 7 9]                  in Mus n° 38 : Major Pentatonic'
+'(1,2,2,1,2,2,2          ) pcs : [0 1 3 5 6 8 10]             in Mus n° 38 : Locrian mode'
+'(2,2,2,2,2,2            ) pcs : [0 2 4 6 8 10]               in Mus n° 88 : whole tone scale'</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_having_strict_second_order_maximal_evenness_1">Having "Strict" Second Order Maximal Evenness <sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup></h4>
+<div class="listingblock">
+<div class="content">
+<pre>' PCS (cyclic orbit representants) in Second Order Maximal Evenness : ', 25
+'(3,4,5                 ) pcs : [0 3 7]              in Mus n° 10 : Minor Triad'
+'(4,3,5                 ) pcs : [0 4 7]              in Mus n° 10 : Major Triad'
+'(1,1,1,1,2,1,1,1,3     ) pcs : [0 1 2 3 4 6 7 8 9]  in Mus n° 13 : Aeolygic'
+'(1,1,1,2,1,1,1,1,3     ) pcs : [0 1 2 3 5 6 7 8 9]  in Mus n° 13 : Ionycrygic'
+'(1,1,1,2,2,1,1,3       ) pcs : [0 1 2 3 5 7 8 9]    in Mus n° 24 : Aerygyllic'
+'(1,1,2,2,1,1,1,3       ) pcs : [0 1 2 4 6 7 8 9]    in Mus n° 24 : Epygyllic'
+'(2,3,3,4               ) pcs : [0 2 5 8]            in Mus n° 26 : Rāga Haripriya'
+'(3,3,2,4               ) pcs : [0 3 6 8]            in Mus n° 26 : Lonic'
+'(1,1,2,1,1,2,1,3       ) pcs : [0 1 2 4 5 6 8 9]    in Mus n° 34 : Sathyllic'
+'(1,2,1,1,2,1,1,3       ) pcs : [0 1 3 4 5 7 8 9]    in Mus n° 34 : Ionogyllic'
+'(1,3,2,3,3             ) pcs : [0 1 4 6 9]          in Mus n° 49 : Pentatonic Major ♭2♭5'
+'(2,3,1,3,3             ) pcs : [0 2 5 6 9]          in Mus n° 49 : Phralitonic'
+'(1,1,2,2,2,1,3         ) pcs : [0 1 2 4 6 8 9]      in Mus n° 54 : Alt 𝄫37'
+'(1,2,2,2,1,1,3         ) pcs : [0 1 3 5 7 8 9]      in Mus n° 54 : Rāga Malini'
+'(1,1,3,1,2,1,3         ) pcs : [0 1 2 5 6 8 9]      in Mus n° 61 : Hungarian Romani Minor Mode IV'
+'(1,2,1,2,1,2,3         ) pcs : [0 1 3 4 6 7 9]      in Mus n° 62 : Alternating Heptamode'
+'(2,1,2,1,2,1,3         ) pcs : [0 2 3 5 6 8 9]      in Mus n° 62 : Locrian ♮2𝄫7'
+'(2,1,2,2,2,3           ) pcs : [0 2 3 5 7 9]        in Mus n° 64 : Rāga Gauri Velavali'
+'(2,2,2,1,2,3           ) pcs : [0 2 4 6 7 9]        in Mus n° 64 : Rāga Airavati'
+'(2,1,3,1,2,3           ) pcs : [0 2 3 6 7 9]        in Mus n° 73 : Rāga Shivawanti'
+'(1,3,2,1,2,3           ) pcs : [0 1 4 6 7 9]        in Mus n° 73 : Rāga Malavi'
+'(1,3,1,2,2,3           ) pcs : [0 1 4 5 7 9]        in Mus n° 75 : Rāga Rāgamalini'
+'(2,2,1,3,1,3           ) pcs : [0 2 4 5 8 9]        in Mus n° 75 : Aeranimic'
+'(1,2,2,2,2,3           ) pcs : [0 1 3 5 7 9]        in Mus n° 78 : Stogimic'
+'(2,2,2,2,1,3           ) pcs : [0 2 4 6 8 9]        in Mus n° 78 : Inuit Hexatonic'</pre>
+</div>
 </div>
 </div>
 </div>
@@ -6010,6 +6036,9 @@ pcs in Maximal Evenness as Diatonic Major scale
 </div>
 <div id="footnotes">
 <hr>
+<div class="footnote" id="_footnotedef_1">
+<a href="#_footnoteref_1">1</a>. where d-distance must be consecutive and their number between 1 and 3
+</div>
 <div class="footnote" id="_footnotedef_1">
 <a href="#_footnoteref_1">1</a>. provided that they accept the postulate of the decomposition of an octave into 12 "equal parts".
 </div>
@@ -6022,7 +6051,7 @@ pcs in Maximal Evenness as Diatonic Major scale
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-04-18 20:57:48 +0200
+Last updated 2025-04-24 19:19:54 +0200
 </div>
 </div>
 <script type="text/x-mathjax-config">
