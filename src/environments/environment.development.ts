@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  buildVersion:"0.1.2--2025-04-23--15-17"
+  buildVersion:"0.1.2--2025-04-24--11-56"
 };

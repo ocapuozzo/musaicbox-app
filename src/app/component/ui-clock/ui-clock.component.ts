@@ -17,6 +17,7 @@ import {HtmlUtil} from "../../utils/HtmlUtil";
 import {MatButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {MatCheckbox} from "@angular/material/checkbox";
+import {ManagerLocalStorageService} from "../../service/manager-local-storage.service";
 
 @Component({
   selector: 'app-ui-clock',
@@ -71,6 +72,7 @@ export class UiClockComponent {
     private managerPagePcsService: ManagerPagePcsService,
     private managerPagePcsListService: ManagerPagePcsListService,
     private managerAnimPitchService: ManagerAnimPitchService,
+    private managerLocalStorageService : ManagerLocalStorageService,
     private ngZone: NgZone,
     private renderer2: Renderer2) {
 
@@ -93,6 +95,9 @@ export class UiClockComponent {
     })
 
     this.pcs = this.managerPagePcsService.pcs
+    const data = this.managerLocalStorageService.restorePagePCS()
+    this.extended3Chord = data.extended3Chord
+    this.extended4Chord = data.extended4Chord
   }
 
   ngAfterViewInit() {
@@ -414,6 +419,7 @@ export class UiClockComponent {
 
   updateExtended3Chord() {
     this.extended3Chord = !this.extended3Chord
+    this.managerLocalStorageService.savePagePCS({extended3Chord: this.extended3Chord, extended4Chord: this.extended4Chord})
     if (this.managerPagePcsListService.isAlreadyCompute3Chords(this.pcs.id)) {
       this.managerPagePcsListService.clearLists()
       this.threeChordList()
@@ -422,6 +428,7 @@ export class UiClockComponent {
 
   updateExtended4Chord() {
     this.extended4Chord = !this.extended4Chord
+    this.managerLocalStorageService.savePagePCS({extended3Chord: this.extended3Chord, extended4Chord: this.extended4Chord})
     if (this.managerPagePcsListService.isAlreadyCompute4Chords(this.pcs.id)) {
       this.managerPagePcsListService.clearLists()
       this.fourChordList()

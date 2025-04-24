@@ -389,7 +389,7 @@ describe('Laboratory explorer', () => {
     const pcsSorted = pcsList.sort((a, b) => a[1] - b[1])
 
     pcsSorted.forEach(pcsSorted =>
-      console.log(`(${pcsSorted[0].is().toString().padEnd(22)}) pcs : ${pcsSorted[0].getPcsStr().padEnd(28)} in Mus n° ${pcsSorted[1]}`))
+      console.log(`(${pcsSorted[0].is().toString().padEnd(23)}) pcs : ${pcsSorted[0].getPcsStr().padEnd(28)} in Mus n° ${pcsSorted[1]} name : ${pcsSorted[0].getFirstNameDetail()}`))
 
     //
     // pcsInMaxEven.forEach(orbit => {
@@ -413,7 +413,7 @@ describe('Laboratory explorer', () => {
     const pcsSorted = pcsList.sort((a, b) => a[1] - b[1])
 
     pcsSorted.forEach(pcsSorted =>
-      console.log(`(${pcsSorted[0].is().toString().padEnd(22)}) pcs : ${pcsSorted[0].getPcsStr().padEnd(28)} in Mus n° ${pcsSorted[1]}`))
+      console.log(`(${pcsSorted[0].is().toString().padEnd(22)}) pcs : ${pcsSorted[0].getPcsStr().padEnd(28)} in Mus n° ${pcsSorted[1]} name : ${pcsSorted[0].getFirstNameDetail()}`))
 
     // other way (Maximal Even in 7) then compare with unMap
     const triadInDiatonic7 = new IPcs({strPcs:"0 2 4", n:7, nMapping:12, templateMapping:[0,2,4,5,7,9,11]})
@@ -441,7 +441,7 @@ describe('Laboratory explorer', () => {
     expect(pcsInDeepScale.length).toEqual(4)
     console.log(" cyclic orbit in Deep Scale : ", pcsInDeepScale.length)
     pcsInDeepScale.forEach(orbit => {
-      console.log(` IS : ${orbit.getPcsMin().is()}  cyclic pcs PF : ${orbit.getPcsMin().getPcsStr()}  pcs name : ${orbit.getPcsMin().getNamesDetails()} `)
+      console.log(` IS : ${orbit.getPcsMin().is()}  cyclic pcs PF : ${orbit.getPcsMin().getPcsStr()} in Mus n° ${EightyEight.idNumberOf(orbit.getPcsMin())}   pcs name : ${orbit.getPcsMin().getNamesDetails()} `)
     })
 
   })

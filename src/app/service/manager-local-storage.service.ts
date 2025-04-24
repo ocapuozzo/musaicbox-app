@@ -6,6 +6,7 @@ import {ClipboardService} from "./clipboard.service";
 import {ManagerGroupActionService} from "./manager-group-action.service";
 import {IStoragePage88} from "./IDataState";
 
+// serial version of a PCS, if come form group action, then only group name is serialized
 export interface ISerializedPcs {
   strPcs: string
   n ?: number
@@ -13,6 +14,11 @@ export interface ISerializedPcs {
   nMapping: number
   templateMapping ?: number[]
   groupName: string
+}
+
+export interface IPagePcs {
+  extended3Chord : boolean
+  extended4Chord : boolean
 }
 
 @Injectable({
@@ -150,4 +156,21 @@ export class ManagerLocalStorageService {
   isEmptyClipboard() {
     return this.clipboard.isEmpty()
   }
+
+  savePagePCS(data: IPagePcs) {
+    localStorage.setItem("pagePCS", JSON.stringify(data))
+  }
+
+  restorePagePCS(): IPagePcs {
+    // get op selected with filter (hack)
+    let inStorage: IPagePcs
+    try {
+      // @ts-ignore
+      inStorage = JSON.parse(localStorage.getItem('pagePCS')) || {extended3Chord : false, extended4Chord : false}
+    } catch (e: any) {
+      inStorage = {extended3Chord : false, extended4Chord : false}
+    }
+    return inStorage
+  }
+
 }
