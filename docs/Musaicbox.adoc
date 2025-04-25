@@ -74,9 +74,9 @@ Musician eager to add to his source of inspiration a muse of a scientific nature
 
 === Use Cases
 
-4 entries (four main pages)
+Four entries (main pages)
 
-* PCS page (with undo/redo.footnote:redo[redo:Back to the future only possible if the past has not been updated])
+* PCS page (with undo/redo.footnote:[redo:Back to the future only possible if the past has not been updated])
 ====
 Useful from one PCS, explore modes, possible chords and other PCS in geometrical transformation relationship (with animation), Forte number, invariant class, and more....
 [.float-group]
@@ -2523,7 +2523,9 @@ Orbit having a group G composed only of transposition, inversions,  multiplicati
 G = {M1-T0, M1-T1, M11-T1, M5-T1, M7-T1, CM1-T1, CM5-T1, CM7-T1, CM11-T1, ...}
 
 Cyclic Intervallic Structure (cis)::
-Is the Intervallic Structure up to circular shift. In other words, it is the *structure of polygon inscribed* by a pcs into chromatic circle (see <<_clock_chromatic_circle>>)
+Is the Intervallic Structure up to circular shift. In other words, it is the *structure of polygon inscribed* by a pcs into chromatic circle (see <<_clock_chromatic_circle>>).
++
+There are 352 cyclic intervallic structures in twelve-tone equal temperament.
 +
 Example 2 pcs with same structure of polygon inscribed : image:pcsCM-FM.png[CM and FM]
 +
@@ -3315,7 +3317,9 @@ PCS (cyclic orbit representants) in Maximal Evenness as Diatonic Major scale
 '(2,2,2,2,2,2            ) pcs : [0 2 4 6 8 10]               in Mus n° 88 : whole tone scale'
 ----
 
-==== Having "Strict" Second Order Maximal Evenness footnote:[where d-distance must be consecutive and their number between 1 and 3]
+==== Having "Strict" Second Order Maximal Evenness
+
+We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecutive and their number is between 1 and 3.
 
 ----
 
@@ -3348,3 +3352,803 @@ PCS (cyclic orbit representants) in Maximal Evenness as Diatonic Major scale
 
 ----
 
+=== 88 Musaics - generating of _P(Z~12~)_
+
+[cols=".^1,.^2,.^3a,.^4"]
+|===
+
+|Musaic |Distinct Motifs|Cyclic Intervallic Structure|Meta-Stabilizer
+
+|image:88musaics/_1.png[Mus n° 1]
+| 2
+|
+* ()
+* (1 1 1 1 1 1 1 1 1 1 1 1)
+| M1 M5 M7 M11
+
+|image:88musaics/_2.png[Mus n° 2]
+| 2
+|
+* (0)
+* (1 1 1 1 1 2 1 1 1 1 1)
+| M1 M5 M7 M11
+
+|image:88musaics/_3.png[Mus n° 3]
+| 4
+|
+* (1 11)
+* (5 7)
+* (1 1 1 1 1 3 1 1 1 1)
+* (1 1 1 1 1 2 1 1 1 2)
+| M1 M11
+
+|image:88musaics/_4.png[Mus n° 4]
+| 2
+|
+* (2 10)
+* (1 1 1 1 1 2 2 1 1 1)
+| M1 M5 M7 M11
+
+|image:88musaics/_5.png[Mus n° 5]
+| 2
+|
+* (3 9)
+* (1 1 1 1 1 2 1 2 1 1)
+| M1 M5 M7 M11
+
+|image:88musaics/_6.png[Mus n° 6]
+| 2
+|
+* (4 8)
+* (1 1 1 1 1 2 1 1 2 1)
+| M1 M5 M7 M11
+
+|image:88musaics/_7.png[Mus n° 7]
+| 2
+|
+* (6 6)
+* (2 1 1 1 1 2 1 1 1 1)
+| M1 M5 M7 M11
+
+|image:88musaics/_8.png[Mus n° 8]
+| 4
+|
+* (1 1 10)
+* (5 5 2)
+* (1 1 1 1 1 4 1 1 1)
+* (1 1 1 2 2 1 1 1 2)
+| M1 M11
+
+|image:88musaics/_9.png[Mus n° 9]
+| 8
+|
+* (1 2 9)
+* (3 2 7)
+* (7 2 3)
+* (9 2 1)
+* (1 1 1 1 1 3 2 1 1)
+* (1 1 1 1 1 2 1 2 2)
+* (2 2 1 2 1 1 1 1 1)
+* (1 1 2 3 1 1 1 1 1)
+| M1
+
+|image:88musaics/_10.png[Mus n° 10]
+| 8
+|
+* (1 3 8)
+* (5 3 4)
+* (4 3 5)
+* (8 3 1)
+* (1 1 1 1 1 3 1 2 1)
+* (1 2 1 1 2 1 1 1 2)
+* (2 1 1 1 2 1 1 2 1)
+* (1 2 1 3 1 1 1 1 1)
+| M1
+
+|image:88musaics/_11.png[Mus n° 11]
+| 2
+|
+* (2 2 8)
+* (1 1 1 1 1 2 2 2 1)
+| M1 M5 M7 M11
+
+|image:88musaics/_12.png[Mus n° 12]
+| 4
+|
+* (1 4 7)
+* (7 4 1)
+* (1 1 1 1 1 3 1 1 2)
+* (2 1 1 3 1 1 1 1 1)
+| M1 M5
+
+|image:88musaics/_13.png[Mus n° 13]
+| 4
+|
+* (1 5 6)
+* (5 1 6)
+* (2 1 1 1 1 3 1 1 1)
+* (1 1 1 3 1 1 1 1 2)
+| M1 M7
+
+|image:88musaics/_14.png[Mus n° 14]
+| 4
+|
+* (2 4 6)
+* (6 4 2)
+* (2 1 1 1 1 2 2 1 1)
+* (1 1 1 1 2 1 1 2 2)
+| M1 M7
+
+|image:88musaics/_15.png[Mus n° 15]
+| 2
+|
+* (3 3 6)
+* (2 1 1 1 1 2 1 2 1)
+| M1 M5 M7 M11
+
+|image:88musaics/_16.png[Mus n° 16]
+| 2
+|
+* (4 4 4)
+* (1 2 1 1 2 1 1 2 1)
+| M1 M5 M7 M11
+
+|image:88musaics/_17.png[Mus n° 17]
+| 4
+|
+* (1 1 1 9)
+* (3 2 5 2)
+* (1 1 1 1 1 5 1 1)
+* (1 1 1 2 2 1 2 2)
+| M1 M11
+
+|image:88musaics/_18.png[Mus n° 18]
+| 8
+|
+* (1 1 2 8)
+* (5 3 2 2)
+* (2 2 3 5)
+* (8 2 1 1)
+* (1 1 1 1 1 4 2 1)
+* (1 2 2 2 1 1 1 2)
+* (2 1 1 1 2 2 2 1)
+* (1 2 4 1 1 1 1 1)
+| M1
+
+|image:88musaics/_19.png[Mus n° 19]
+| 4
+|
+* (1 2 1 8)
+* (3 2 3 4)
+* (1 1 1 1 1 3 3 1)
+* (1 2 1 1 2 1 2 2)
+| M1 M11
+
+|image:88musaics/_20.png[Mus n° 20]
+| 8
+|
+* (1 1 3 7)
+* (1 4 5 2)
+* (2 5 4 1)
+* (7 3 1 1)
+* (1 1 1 1 1 4 1 2)
+* (1 1 1 2 3 1 1 2)
+* (2 1 1 3 2 1 1 1)
+* (2 1 4 1 1 1 1 1)
+| M1
+
+|image:88musaics/_21.png[Mus n° 21]
+| 4
+|
+* (1 2 2 7)
+* (7 2 2 1)
+* (1 1 1 1 1 3 2 2)
+* (2 2 3 1 1 1 1 1)
+| M1 M5
+
+|image:88musaics/_22.png[Mus n° 22]
+| 2
+|
+* (2 1 2 7)
+* (1 1 1 1 1 2 3 2)
+| M1 M5 M7 M11
+
+|image:88musaics/_23.png[Mus n° 23]
+| 4
+|
+* (1 3 1 7)
+* (1 4 3 4)
+* (1 1 1 1 1 3 1 3)
+* (1 2 1 1 3 1 1 2)
+| M1 M11
+
+|image:88musaics/_24.png[Mus n° 24]
+| 8
+|
+* (1 1 4 6)
+* (5 1 4 2)
+* (2 4 1 5)
+* (6 4 1 1)
+* (2 1 1 1 1 4 1 1)
+* (1 1 1 3 1 1 2 2)
+* (2 2 1 1 3 1 1 1)
+* (1 1 4 1 1 1 1 2)
+| M1
+
+|image:88musaics/_25.png[Mus n° 25]
+| 4
+|
+* (1 2 3 6)
+* (3 2 1 6)
+* (2 1 1 1 1 3 2 1)
+* (1 2 3 1 1 1 1 2)
+| M1 M7
+
+|image:88musaics/_26.png[Mus n° 26]
+| 8
+|
+* (2 1 3 6)
+* (3 3 4 2)
+* (2 4 3 3)
+* (6 3 1 2)
+* (2 1 1 1 1 2 3 1)
+* (1 2 1 2 1 1 2 2)
+* (2 2 1 1 2 1 2 1)
+* (1 3 2 1 1 1 1 2)
+| M1
+
+|image:88musaics/_27.png[Mus n° 27]
+| 8
+|
+* (1 3 2 6)
+* (5 1 2 4)
+* (4 2 1 5)
+* (6 2 3 1)
+* (2 1 1 1 1 3 1 2)
+* (1 1 1 3 2 1 1 2)
+* (2 1 1 2 3 1 1 1)
+* (2 1 3 1 1 1 1 2)
+| M1
+
+|image:88musaics/_28.png[Mus n° 28]
+| 2
+|
+* (2 2 2 6)
+* (2 1 1 1 1 2 2 2)
+| M1 M5 M7 M11
+
+|image:88musaics/_29.png[Mus n° 29]
+| 2
+|
+* (1 4 1 6)
+* (1 1 1 1 3 1 1 3)
+| M1 M5 M7 M11
+
+|image:88musaics/_30.png[Mus n° 30]
+| 2
+|
+* (1 1 5 5)
+* (2 1 1 1 4 1 1 1)
+| M1 M5 M7 M11
+
+|image:88musaics/_31.png[Mus n° 31]
+| 4
+|
+* (1 3 3 5)
+* (5 3 3 1)
+* (2 1 1 1 3 1 2 1)
+* (1 2 1 3 1 1 1 2)
+| M1 M7
+
+|image:88musaics/_32.png[Mus n° 32]
+| 2
+|
+* (3 1 3 5)
+* (2 1 1 1 2 1 3 1)
+| M1 M5 M7 M11
+
+|image:88musaics/_33.png[Mus n° 33]
+| 2
+|
+* (1 5 1 5)
+* (3 1 1 1 3 1 1 1)
+| M1 M5 M7 M11
+
+|image:88musaics/_34.png[Mus n° 34]
+| 4
+|
+* (1 3 4 4)
+* (4 3 1 4)
+* (1 2 1 1 3 1 2 1)
+* (3 1 1 2 1 1 2 1)
+| M1 M5
+
+|image:88musaics/_35.png[Mus n° 35]
+| 2
+|
+* (2 2 4 4)
+* (1 2 1 1 2 2 2 1)
+| M1 M5 M7 M11
+
+|image:88musaics/_36.png[Mus n° 36]
+| 2
+|
+* (2 4 2 4)
+* (2 2 1 1 2 2 1 1)
+| M1 M5 M7 M11
+
+|image:88musaics/_37.png[Mus n° 37]
+| 2
+|
+* (3 3 3 3)
+* (2 1 2 1 2 1 2 1)
+| M1 M5 M7 M11
+
+|image:88musaics/_38.png[Mus n° 38]
+| 4
+|
+* (1 1 1 1 8)
+* (3 2 3 2 2)
+* (1 1 1 1 1 6 1)
+* (1 2 2 2 1 2 2)
+| M1 M11
+
+|image:88musaics/_39.png[Mus n° 39]
+| 8
+|
+* (1 1 1 2 7)
+* (1 2 2 5 2)
+* (2 5 2 2 1)
+* (7 2 1 1 1)
+* (1 1 1 1 1 5 2)
+* (1 1 1 2 3 2 2)
+* (2 2 3 2 1 1 1)
+* (2 5 1 1 1 1 1)
+| M1
+
+|image:88musaics/_40.png[Mus n° 40]
+| 8
+|
+* (1 1 2 1 7)
+* (1 4 3 2 2)
+* (2 2 3 4 1)
+* (7 1 2 1 1)
+* (1 1 1 1 1 4 3)
+* (1 2 2 3 1 1 2)
+* (2 1 1 3 2 2 1)
+* (3 4 1 1 1 1 1)
+| M1
+
+|image:88musaics/_41.png[Mus n° 41]
+| 8
+|
+* (1 1 1 3 6)
+* (3 2 1 4 2)
+* (2 4 1 2 3)
+* (6 3 1 1 1)
+* (2 1 1 1 1 5 1)
+* (1 2 3 1 1 2 2)
+* (2 2 1 1 3 2 1)
+* (1 5 1 1 1 1 2)
+| M1
+
+|image:88musaics/_42.png[Mus n° 42]
+| 8
+|
+* (1 1 2 2 6)
+* (5 1 2 2 2)
+* (2 2 2 1 5)
+* (6 2 2 1 1)
+* (2 1 1 1 1 4 2)
+* (1 1 1 3 2 2 2)
+* (2 2 2 3 1 1 1)
+* (2 4 1 1 1 1 2)
+| M1
+
+|image:88musaics/_43.png[Mus n° 43]
+| 8
+|
+* (1 2 1 2 6)
+* (3 2 1 2 4)
+* (4 2 1 2 3)
+* (6 2 1 2 1)
+* (2 1 1 1 1 3 3)
+* (1 2 3 2 1 1 2)
+* (2 1 1 2 3 2 1)
+* (3 3 1 1 1 1 2)
+| M1
+
+|image:88musaics/_44.png[Mus n° 44]
+| 4
+|
+* (2 1 1 2 6)
+* (3 3 2 2 2)
+* (2 1 1 1 1 2 4)
+* (1 2 1 2 2 2 2)
+| M1 M11
+
+|image:88musaics/_45.png[Mus n° 45]
+| 8
+|
+* (1 1 3 1 6)
+* (1 4 1 4 2)
+* (2 4 1 4 1)
+* (6 1 3 1 1)
+* (1 1 1 1 4 1 3)
+* (3 1 1 3 1 1 2)
+* (2 1 1 3 1 1 3)
+* (3 1 4 1 1 1 1)
+| M1
+
+|image:88musaics/_46.png[Mus n° 46]
+| 2
+|
+* (1 2 2 1 6)
+* (1 1 1 1 3 2 3)
+| M1 M5 M7 M11
+
+|image:88musaics/_47.png[Mus n° 47]
+| 8
+|
+* (1 1 1 4 5)
+* (3 2 5 1 1)
+* (1 1 5 2 3)
+* (5 4 1 1 1)
+* (2 1 1 1 5 1 1)
+* (1 1 1 4 1 2 2)
+* (2 2 1 4 1 1 1)
+* (1 1 5 1 1 1 2)
+| M1
+
+|image:88musaics/_48.png[Mus n° 48]
+| 4
+|
+* (1 1 2 3 5)
+* (5 3 2 1 1)
+* (2 1 1 1 4 2 1)
+* (1 2 4 1 1 1 2)
+| M1 M7
+
+|image:88musaics/_49.png[Mus n° 49]
+| 8
+|
+* (1 2 1 3 5)
+* (3 2 3 3 1)
+* (1 3 3 2 3)
+* (5 3 1 2 1)
+* (2 1 1 1 3 3 1)
+* (1 2 1 3 1 2 2)
+* (2 2 1 3 1 2 1)
+* (1 3 3 1 1 1 2)
+| M1
+
+|image:88musaics/_50.png[Mus n° 50]
+| 4
+|
+* (2 1 1 3 5)
+* (1 1 2 5 3)
+* (2 1 1 1 2 4 1)
+* (1 1 2 1 4 2 1)
+| M1 M5
+
+|image:88musaics/_51.png[Mus n° 51]
+| 8
+|
+* (1 3 1 2 5)
+* (1 4 3 3 1)
+* (1 3 3 4 1)
+* (5 2 1 3 1)
+* (2 1 1 1 3 1 3)
+* (1 2 1 4 1 1 2)
+* (2 1 1 4 1 2 1)
+* (3 1 3 1 1 1 2)
+| M1
+
+|image:88musaics/_52.png[Mus n° 52]
+| 4
+|
+* (1 1 4 1 5)
+* (5 1 4 1 1)
+* (3 1 1 1 4 1 1)
+* (1 1 1 3 1 1 4)
+| M1 M7
+
+|image:88musaics/_53.png[Mus n° 53]
+| 4
+|
+* (1 2 3 1 5)
+* (3 2 1 5 1)
+* (3 1 1 1 3 2 1)
+* (1 2 3 1 1 1 3)
+| M1 M7
+
+|image:88musaics/_54.png[Mus n° 54]
+| 8
+|
+* (1 1 2 4 4)
+* (4 1 3 2 2)
+* (2 2 3 1 4)
+* (4 4 2 1 1)
+* (1 2 1 1 4 2 1)
+* (1 2 2 2 1 1 3)
+* (3 1 1 2 2 2 1)
+* (1 2 4 1 1 2 1)
+| M1
+
+|image:88musaics/_55.png[Mus n° 55]
+| 4
+|
+* (1 2 1 4 4)
+* (3 1 1 3 4)
+* (1 2 1 1 3 3 1)
+* (1 2 1 1 2 1 4)
+| M1 M11
+
+|image:88musaics/_56.png[Mus n° 56]
+| 4
+|
+* (1 3 1 3 4)
+* (4 3 1 3 1)
+* (1 2 1 1 3 1 3)
+* (3 1 3 1 1 2 1)
+| M1 M5
+
+|image:88musaics/_57.png[Mus n° 57]
+| 4
+|
+* (2 2 1 3 4)
+* (2 2 4 3 1)
+* (1 2 1 1 2 2 3)
+* (1 2 1 3 2 2 1)
+| M1 M5
+
+|image:88musaics/_58.png[Mus n° 58]
+| 2
+|
+* (1 1 4 2 4)
+* (2 2 1 1 4 1 1)
+| M1 M5 M7 M11
+
+|image:88musaics/_59.png[Mus n° 59]
+| 4
+|
+* (2 1 3 2 4)
+* (3 1 2 4 2)
+* (2 2 1 1 2 3 1)
+* (1 3 2 1 1 2 2)
+| M1 M7
+
+|image:88musaics/_60.png[Mus n° 60]
+| 2
+|
+* (2 2 2 2 4)
+* (2 2 1 1 2 2 2)
+| M1 M5 M7 M11
+
+|image:88musaics/_61.png[Mus n° 61]
+| 2
+|
+* (1 3 3 1 4)
+* (3 1 1 3 1 2 1)
+| M1 M5 M7 M11
+
+|image:88musaics/_62.png[Mus n° 62]
+| 4
+|
+* (1 2 3 3 3)
+* (3 2 1 3 3)
+* (2 1 2 1 3 2 1)
+* (1 2 3 1 2 1 2)
+| M1 M7
+
+|image:88musaics/_63.png[Mus n° 63]
+| 2
+|
+* (1 1 1 1 1 7)
+* (1 2 2 3 2 2)
+| M1 M11 CM1 CM11
+
+|image:88musaics/_64.png[Mus n° 64]
+| 4
+|
+* (1 1 1 1 2 6)
+* (3 2 1 2 2 2)
+* (2 2 2 1 2 3)
+* (6 2 1 1 1 1)
+| M1 CM11
+
+|image:88musaics/_65.png[Mus n° 65]
+| 8
+|
+* (1 1 1 2 1 6)
+* (1 2 2 1 4 2)
+* (2 4 1 2 2 1)
+* (6 1 2 1 1 1)
+* (1 1 1 1 5 3)
+* (3 2 3 1 1 2)
+* (2 1 1 3 2 3)
+* (3 5 1 1 1 1)
+| M1
+
+|image:88musaics/_66.png[Mus n° 66]
+| 4
+|
+* (1 1 2 1 1 6)
+* (1 4 1 2 2 2)
+* (1 1 1 1 4 4)
+* (3 1 1 3 2 2)
+| M1 M11
+
+|image:88musaics/_67.png[Mus n° 67]
+| 2
+|
+* (1 1 1 2 2 5)
+* (1 1 5 2 2 1)
+| M1 M5 CM7 CM11
+
+|image:88musaics/_68.png[Mus n° 68]
+| 4
+|
+* (1 1 2 1 2 5)
+* (1 4 3 2 1 1)
+* (1 1 2 3 4 1)
+* (5 2 1 2 1 1)
+| M1 CM5
+
+|image:88musaics/_69.png[Mus n° 69]
+| 8
+|
+* (1 2 1 1 2 5)
+* (1 2 2 3 3 1)
+* (1 3 3 2 2 1)
+* (5 2 1 1 2 1)
+* (2 1 1 1 3 4)
+* (1 2 1 4 2 2)
+* (2 2 4 1 2 1)
+* (4 3 1 1 1 2)
+| M1
+
+|image:88musaics/_70.png[Mus n° 70]
+| 1
+|
+* (2 1 1 1 2 5)
+| M1 M5 M7 M11 CM1 CM5 CM7 CM11
+
+|image:88musaics/_71.png[Mus n° 71]
+| 4
+|
+* (1 1 1 3 1 5)
+* (3 2 1 4 1 1)
+* (1 1 4 1 2 3)
+* (5 1 3 1 1 1)
+| M1 CM11
+
+|image:88musaics/_72.png[Mus n° 72]
+| 4
+|
+* (1 1 2 2 1 5)
+* (5 1 2 2 1 1)
+* (3 1 1 1 4 2)
+* (1 1 1 3 2 4)
+| M1 M7
+
+|image:88musaics/_73.png[Mus n° 73]
+| 4
+|
+* (1 2 1 2 1 5)
+* (3 2 1 2 3 1)
+* (3 1 1 1 3 3)
+* (1 2 3 2 1 3)
+| M1 M11
+
+|image:88musaics/_74.png[Mus n° 74]
+| 2
+|
+* (1 1 3 1 1 5)
+* (1 4 1 4 1 1)
+| M1 M11 CM5 CM7
+
+|image:88musaics/_75.png[Mus n° 75]
+| 4
+|
+* (1 1 2 1 3 4)
+* (1 3 1 3 2 2)
+* (2 2 3 1 3 1)
+* (4 3 1 2 1 1)
+| M1 CM11
+
+|image:88musaics/_76.png[Mus n° 76]
+| 2
+|
+* (1 2 1 1 3 4)
+* (4 3 1 1 2 1)
+| M1 M5 CM1 CM5
+
+|image:88musaics/_77.png[Mus n° 77]
+| 2
+|
+* (1 1 2 2 2 4)
+* (2 2 2 1 1 4)
+| M1 M5 CM7 CM11
+
+|image:88musaics/_78.png[Mus n° 78]
+| 4
+|
+* (2 1 1 2 2 4)
+* (3 1 2 2 2 2)
+* (2 2 2 2 1 3)
+* (4 2 2 1 1 2)
+| M1 CM11
+
+|image:88musaics/_79.png[Mus n° 79]
+| 4
+|
+* (1 1 3 1 2 4)
+* (1 3 1 1 4 2)
+* (2 1 1 4 1 3)
+* (3 1 4 1 1 2)
+| M1 M7
+
+|image:88musaics/_80.png[Mus n° 80]
+| 2
+|
+* (2 1 2 1 2 4)
+* (2 1 1 2 3 3)
+| M1 M5 M7 M11
+
+|image:88musaics/_81.png[Mus n° 81]
+| 2
+|
+* (1 3 1 1 2 4)
+* (4 2 1 1 3 1)
+| M1 M5 CM7 CM11
+
+|image:88musaics/_82.png[Mus n° 82]
+| 4
+|
+* (1 2 1 3 1 4)
+* (3 1 1 3 3 1)
+* (1 3 3 1 1 3)
+* (4 1 3 1 2 1)
+| M1 CM5
+
+|image:88musaics/_83.png[Mus n° 83]
+| 1
+|
+* (1 1 4 1 1 4)
+| M1 M5 M7 M11 CM1 CM5 CM7 CM11
+
+|image:88musaics/_84.png[Mus n° 84]
+| 2
+|
+* (1 2 1 2 3 3)
+* (3 2 1 2 1 3)
+| M1 M7 CM5 CM11
+
+|image:88musaics/_85.png[Mus n° 85]
+| 2
+|
+* (1 2 2 1 3 3)
+* (1 2 1 3 2 3)
+| M1 M5 M7 M11
+
+|image:88musaics/_86.png[Mus n° 86]
+| 2
+|
+* (1 2 3 1 2 3)
+* (3 2 1 3 2 1)
+| M1 M7 CM5 CM11
+
+|image:88musaics/_87.png[Mus n° 87]
+| 1
+|
+* (1 3 1 3 1 3)
+| M1 M5 M7 M11 CM1 CM5 CM7 CM11
+
+|image:88musaics/_88.png[Mus n° 88]
+| 1
+|
+* (2 2 2 2 2 2)
+| M1 M5 M7 M11 CM1 CM5 CM7 CM11
+
+|===
