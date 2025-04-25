@@ -13,7 +13,7 @@ import {StringHash} from "../utils/StringHash";
 export class MetaStabilizer {
 
   name: string
-  metaStabOperations: string[]
+  metaStabOperations: string[] // example: ['M1', 'CM5']
   _hashCode : number
 
   static nullMetaStabilizer = new MetaStabilizer("")

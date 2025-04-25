@@ -524,4 +524,32 @@ export class PcsUtils {
     const intervalVector = pcs.iv()
     return [... new Set(intervalVector)].length === intervalVector.length
   }
-}
+
+
+  static getAffineMotifsOf(pcs: IPcs, distinct : boolean = false) : IPcs[] {
+    let motifRepresentatives : IPcs[] = [pcs]
+    const aMultiplicative = [5,7,11]
+    aMultiplicative.forEach((a:number) => {
+      const newPcs = pcs.affineOp(a,0)
+      if ( !distinct || !motifRepresentatives.find(pcs => pcs.id === newPcs.id)) {
+        motifRepresentatives.push(newPcs)
+      }
+    })
+    return motifRepresentatives
+  }
+
+  static getMusaicMotifsOf(pcs: IPcs, distinct : boolean = false) : IPcs[] {
+    const motifRepresentatives: IPcs[] =
+      [...this.getAffineMotifsOf(pcs, distinct), ...this.getAffineMotifsOf(pcs.complement(), distinct)]
+
+    if (distinct) {
+      return motifRepresentatives.reduce((unique: IPcs[], currentPcs) =>
+        unique.find(pcs =>
+          pcs.cyclicPrimeForm().pid() === currentPcs.cyclicPrimeForm().pid()) ? unique : [...unique, currentPcs], [])
+    }
+
+    return motifRepresentatives
+  }
+
+
+  }

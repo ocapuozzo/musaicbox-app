@@ -97,7 +97,7 @@ export class The88Component implements OnInit, AfterViewInit {
       {
         pcsDto: makePcsDto(orbit.getPcsMin().symmetryPrimeForm()),
         metaStabilizerNames: orbit.metaStabilizer.name.split(' '),
-        // color: PcsColor.getColor(orbit.metaStabilizer.name),
+        color: PcsColor.getColor(orbit.metaStabilizer.name),
         cardinal: orbit.cardinal,
         // musaic.pcsDto.pcs.orbit.metaStabilizer.hashCode()
         date: new Date()
@@ -212,13 +212,16 @@ export class The88Component implements OnInit, AfterViewInit {
           if (this.matTabGroup.selectedIndex === 0) { // select operation
             color = PcsColor.getColor(this.currentSelectedOps.join(' '));
           } else { // by octotrope
-            color = PcsColor.getColor(this.indexSelectedOctotrope)
+            color = PcsColor.getColor(this.octotropes[i].pcs.orbit.metaStabilizer.name)// this.indexSelectedOctotrope)
           }
           break
         }
       }
       if (musaic.pcsDto.colorPitchOn !== color) {
-        musaic.pcsDto.colorPitchOn = color
+        // console.log("color :", color)
+        let pcsDto = new UIPcsDto({...musaic.pcsDto, colorPitchOn: color})
+        // pcsDto.colorPitchOn = color
+        musaic.pcsDto = pcsDto
         musaic.date = new Date() // for auto update template
       }
     })
@@ -295,8 +298,12 @@ export class The88Component implements OnInit, AfterViewInit {
           break
         }
       }
-      musaic.pcsDto.colorPitchOn = color
-      newMusaicOrbits.push({...musaic})
+      let pcsDto = new UIPcsDto({...musaic.pcsDto})
+      pcsDto.colorPitchOn = color
+      musaic.pcsDto = pcsDto
+      musaic.date = new Date()
+      // newMusaicOrbits.push({...musaic})
+      newMusaicOrbits.push(musaic)
     })
     // for auto update template
     this.musaicOrbits = newMusaicOrbits

@@ -369,10 +369,6 @@ describe('Laboratory explorer', () => {
     pcsSorted.forEach(pcsSorted =>
       console.log(`(${pcsSorted[0].is().toString().padEnd(22)}) pcs : ${pcsSorted[0].getPcsStr()} in Mus n° ${pcsSorted[1]}`))
 
-    //
-    // pcsHavingDeepScale.forEach(orbit => {
-    //   console.log(` IV : ${orbit.getPcsMin().iv()} cyclic pcs PF : ${orbit.getPcsMin().getPcsStr()}  pcs name : ${orbit.getPcsMin().getNamesDetails()} in Mus n° ${EightyEight.idNumberOf(orbit.getPcsMin())} `)
-    // })
   })
 
   it("get all pcs in Maximal Evenness as Diatonic Major scale", () => {
@@ -391,10 +387,6 @@ describe('Laboratory explorer', () => {
     pcsSorted.forEach(pcsSorted =>
       console.log(`(${pcsSorted[0].is().toString().padEnd(23)}) pcs : ${pcsSorted[0].getPcsStr().padEnd(28)} in Mus n° ${pcsSorted[1]} : ${pcsSorted[0].getFirstNameDetail()}`))
 
-    //
-    // pcsInMaxEven.forEach(orbit => {
-    //   console.log(` IS : ${orbit.getPcsMin().is()}  cyclic pcs PF : ${orbit.getPcsMin().getPcsStr()}  pcs name : ${orbit.getPcsMin().getNamesDetails()} in Mus n° ${EightyEight.idNumberOf(orbit.getPcsMin())}`)
-    // })
 
   })
 
@@ -441,8 +433,28 @@ describe('Laboratory explorer', () => {
     expect(pcsInDeepScale.length).toEqual(4)
     console.log(" cyclic orbit in Deep Scale : ", pcsInDeepScale.length)
     pcsInDeepScale.forEach(orbit => {
-      console.log(` IS : ${orbit.getPcsMin().is()}  cyclic pcs PF : ${orbit.getPcsMin().getPcsStr()} in Mus n° ${EightyEight.idNumberOf(orbit.getPcsMin())}   pcs name : ${orbit.getPcsMin().getNamesDetails()} `)
+      console.log(` IS : ${orbit.getPcsMin().is()}  cyclic pcs PF : ${orbit.getPcsMin().getPcsStr()} in Mus n° ${EightyEight.idNumberOf(orbit.getPcsMin())} : ${orbit.getPcsMin().symmetryPrimeForm().getNamesDetails()} `)
     })
+
+  })
+
+
+  it("88 musaics list with PCS representing distinct motifs", () => {
+    const groupMusaic = ManagerGroupActionService.getGroupActionFromGroupAliasName("Musaic")!
+
+    expect(groupMusaic.orbits.length).toEqual(88)
+    console.log(" 88 musaics and distinct motifs : ")
+    let countMotifs = 0
+    groupMusaic.orbits.forEach(orbit => {
+      const motifs = PcsUtils.getMusaicMotifsOf(orbit.getPcsMin(), true).map(pcs => `(${pcs.is().join(' ')})`)
+      countMotifs += motifs.length
+      const motifsEnum = motifs.map(motif => `\n* ${motif}`).join(' ')
+      const countDistinctMotifs = 8 / orbit.metaStabilizer.metaStabOperations.length
+      // console.log(`Mus n° ${EightyEight.idNumberOf(orbit.getPcsMin())} ; ${motifs} ; ${orbit.metaStabilizer.name} `)
+      console.log(` \n|image:88musaics/_${EightyEight.idNumberOf(orbit.getPcsMin())}.png[Mus n° ${EightyEight.idNumberOf(orbit.getPcsMin())}]\n| ${countDistinctMotifs} \n|${motifsEnum}\n| ${orbit.metaStabilizer.name} `)
+    })
+    // 352 cyclic intervallic structures
+    expect(countMotifs).toEqual(352)
 
   })
 

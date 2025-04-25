@@ -12,6 +12,7 @@ import {IDialogDataSaveFreeText} from "../component/dialog-free-text/IDialogData
 import {ManagerPcsService} from "./manager-pcs.service";
 import {ManagerGroupActionService} from "./manager-group-action.service";
 import {AnalyseChord} from "../utils/AnalyseChord";
+import {PcsUtils} from "../utils/PcsUtils";
 
 export interface FinalElementMove {
   index: number,
@@ -898,23 +899,21 @@ export class ManagerPageWBService {
     this.emit()
   }
 
+  /**
+   * Get motif images of pcs in Affine or Musaic version, so 1 to 8 PCS representing their orbit
+   * @param pcs
+   * @param groupName Affine or Musaic
+   * @param distinct if true, may be result is less than 8 representative PCS
+   */
   doFromPcsGetImages(pcs: IPcs, groupName: string, distinct: boolean = false): IPcs[] {
-    const pcsList: IPcs[] = []
+    let pcsList: IPcs[] = []
     if (['Affine', 'Musaic'].includes(groupName)) {
       // default Affine
       const pcsSelected = pcs.unMap()
-
-      pcsList.push(pcsSelected)
-      pcsList.push(this.managerPcsService.doTransformAffine(pcsSelected, 7, 0)) // .affineOp(7, 0))
-      pcsList.push(this.managerPcsService.doTransformAffine(pcsSelected, 11, 0)) //pcsSelected.affineOp(11, 0))
-      pcsList.push(this.managerPcsService.doTransformAffine(pcsSelected, 5, 0)) //pcsSelected.affineOp(5, 0))
-
+      pcsList = PcsUtils.getAffineMotifsOf(pcsSelected, distinct)
       if (groupName === 'Musaic') {
         const pcsSelectedCplt = this.managerPcsService.complement(pcsSelected) // for set pivot
-        pcsList.push(pcsSelectedCplt)
-        pcsList.push(this.managerPcsService.doTransformAffine(pcsSelectedCplt, 7, 0))
-        pcsList.push(this.managerPcsService.doTransformAffine(pcsSelectedCplt, 11, 0))
-        pcsList.push(this.managerPcsService.doTransformAffine(pcsSelectedCplt, 5, 0))
+        pcsList = [...pcsList, ...PcsUtils.getAffineMotifsOf(pcsSelectedCplt, distinct) ]
       }
     }
     if (distinct) {

@@ -19,15 +19,15 @@ export class ManagerPcsService {
   }
 
   complement(pcs: IPcs): IPcs {
-    let pcsComplement =   pcs.complement()
-    const pivot = pcsComplement.iPivot
-    if (pcs.orbit?.groupAction) {
-      pcsComplement = pcs.orbit.groupAction.getIPcsInOrbit(pcsComplement)
-      if (pcsComplement.iPivot !== pivot) {
-        pcsComplement = pcsComplement.cloneWithNewPivot(pivot)
-      }
-    }
-    return pcsComplement
+    // let pcsComplement =   pcs.complement()
+    // const pivot = pcsComplement.iPivot
+    // if (pcs.orbit?.groupAction) {
+    //   pcsComplement = pcs.orbit.groupAction.getIPcsInOrbit(pcsComplement)
+    //   if (pcsComplement.iPivot !== pivot) {
+    //     pcsComplement = pcsComplement.cloneWithNewPivot(pivot)
+    //   }
+    // }
+    return pcs.complement()
   }
 
   /**
