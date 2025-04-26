@@ -450,8 +450,10 @@ describe('Laboratory explorer', () => {
       countMotifs += motifs.length
       const motifsEnum = motifs.map(motif => `\n* ${motif}`).join(' ')
       const countDistinctMotifs = 8 / orbit.metaStabilizer.metaStabOperations.length
-      // console.log(`Mus n° ${EightyEight.idNumberOf(orbit.getPcsMin())} ; ${motifs} ; ${orbit.metaStabilizer.name} `)
-      console.log(` \n|image:88musaics/_${EightyEight.idNumberOf(orbit.getPcsMin())}.png[Mus n° ${EightyEight.idNumberOf(orbit.getPcsMin())}]\n| ${countDistinctMotifs} \n|${motifsEnum}\n| ${orbit.metaStabilizer.name} `)
+      const idMus = EightyEight.idNumberOf(orbit.getPcsMin())
+      const octotrope = orbit.metaStabilizer.name.toLowerCase().split(' ').join('-')
+      const imageOctotrope = ` image:octotropes/${octotrope}.png[width=50]` //  image:octotropes/m1-m5-m7-m11.png[] asciidoc
+      console.log(` \n|${idMus}\n|image:88musaics/_${idMus}.png[Mus n° ${idMus}]\n| ${countDistinctMotifs} \n|${motifsEnum}\n| ${imageOctotrope} ${orbit.metaStabilizer.name} `)
     })
     // 352 cyclic intervallic structures
     expect(countMotifs).toEqual(352)

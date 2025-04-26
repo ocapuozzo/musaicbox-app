@@ -454,11 +454,92 @@ td:has(>p>span[class="klein2"]) {
    background-color: red;
  }
 
-  p>span[class="note"] {
+ p>span[class="note"] {
   background-color: lightgray;
 }
 
+
+
+  /*#idTable88 tr:first-child td*/
+  #idTable88 th
+  {
+    cursor: pointer;
+    background-color: lightgreen;
+  }
+
 </style>
+<script src="https://www.w3schools.com/lib/w3.js"></script>
+<script>
+
+  // source : https://stackoverflow.com/questions/10683712/html-table-sort
+  function init(){
+    document.querySelectorAll('#idTable88 th').forEach((element) => { // Table headers
+      element.addEventListener('click', function() {
+        let table = this.closest('table');
+
+        // If the column is sortable
+        if (this.querySelector('span')) {
+          let order_icon = this.querySelector('span');
+          let order      = encodeURI(order_icon.innerHTML).includes('%E2%86%91') ? 'desc' : 'asc';
+          let separator  = '-----'; // Separate the value of it's index, so data keeps intact
+
+          let value_list = {}; // <tr> Object
+          let obj_key    = []; // Values of selected column
+
+          let string_count = 0;
+          let number_count = 0;
+
+          // <tbody> rows
+          table.querySelectorAll('tbody tr').forEach((line, index_line) => {
+            // Value of each field
+            let key = line.children[element.cellIndex].textContent.toUpperCase();
+
+            // Check if value is date, numeric or string
+            if (line.children[element.cellIndex].hasAttribute('data-timestamp')) {
+              // if value is date, we store it's timestamp, so we can sort like a number
+              key = line.children[element.cellIndex].getAttribute('data-timestamp');
+            }
+            else if (key.replace('-', '').match(/^[0-9,.]*$/g)) {
+              number_count++;
+            }
+            else {
+              string_count++;
+            }
+
+            value_list[key + separator + index_line] = line.outerHTML.replace(/(\t)|(\n)/g, ''); // Adding <tr> to object
+            obj_key.push(key + separator + index_line);
+          });
+          if (string_count === 0) { // If all values are numeric
+            obj_key.sort(function(a, b) {
+              return a.split(separator)[0] - b.split(separator)[0];
+            });
+          }
+          else {
+            obj_key.sort();
+          }
+
+          if (order === 'desc') {
+            obj_key.reverse();
+            order_icon.innerHTML = '&darr;';
+          }
+          else {
+            order_icon.innerHTML = '&uarr;';
+          }
+
+          let html = '';
+          obj_key.forEach(function(chave) {
+            html += value_list[chave];
+          });
+          table.getElementsByTagName('tbody')[0].innerHTML = html;
+        }
+      });
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", function(){
+    init()
+  });
+</script>
 <style>
 /*! Asciidoctor Tabs | Copyright (c) 2018-present Dan Allen | MIT License */
 .tabs {
@@ -806,7 +887,7 @@ td:has(>p>span[class="klein2"]) {
 <div class="ulist">
 <ul>
 <li>
-<p>PCS page (with undo/redo.<sup class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup>)</p>
+<p>PCS page (with undo/redo.<sup class="footnote" id="_footnote_redo">[<a id="_footnoteref_2" class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup>)</p>
 </li>
 </ul>
 </div>
@@ -913,7 +994,7 @@ td:has(>p>span[class="klein2"]) {
 <div class="ulist">
 <ul>
 <li>
-<p>whiteboard page (with Undo/Redo.<sup class="footnoteref red" title="Unresolved footnote reference.">[redo]</sup> and Copy/Cut/Paste)</p>
+<p>whiteboard page (with Undo/Redo.<sup class="footnoteref">[<a class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup> and Copy/Cut/Paste)</p>
 </li>
 </ul>
 </div>
@@ -4872,7 +4953,7 @@ See <a href="#list-pcs-same-as-major-scale">PCS lists</a></p>
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-You can Undo/Redo at any time.
+You can Undo/Redo.<sup class="footnoteref">[<a class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup> at any time.
 </td>
 </tr>
 </table>
@@ -5302,12 +5383,12 @@ A meta-stabilizer can be represented by a geometric figure, a polytrope :</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm5.png" alt="m1 cm5"></span></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm11.png" alt="m1 cm11"></span></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11"></span></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm1-m5-cm5.png" alt="m1 cm1 m5 cm5"></span></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm7-cm11-m5.png" alt="m1 cm7 cm11 m5"></span></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7-cm11-cm5.png" alt="m1 m7 cm11 cm5"></span></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm1-m11-cm11.png" alt="m1 cm1 m11 cm11"></span></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm7-m11-cm5.png" alt="m1 cm7 m11 cm5"></span></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm1-m7-cm7-m11-cm11-m5-cm5.png" alt="m1 cm1 m7 cm7 m11 cm11 m5 cm5"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-cm1-cm5.png" alt="m1 m5 cm1 cm5"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-cm7-cm11.png" alt="m1 m5 cm7 cm11"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7-cm5-cm11.png" alt="m1 m7 cm5 cm11"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11-cm1-cm11.png" alt="m1 m11 cm1 cm11"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11-cm5-cm7.png" alt="m1 m11 cm5 cm7"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11-cm1-cm5-cm7-cm11.png" alt="m1 m5 m7 m11 cm1 cm5 cm7 cm11"></span></p></td>
 </tr>
 </tbody>
 </table>
@@ -6040,23 +6121,26 @@ Symmetry prime form concept is invented, specific to this project.
 </div>
 <div class="sect2">
 <h3 id="_88_musaics_generating_of_pz12">88 Musaics - generating of <em>P(Z<sub>12</sub>)</em></h3>
-<table class="tableblock frame-all grid-all stretch">
+<table id="idTable88" class="tableblock frame-all grid-all fit-content">
 <colgroup>
-<col style="width: 10%;">
-<col style="width: 20%;">
-<col style="width: 30%;">
-<col style="width: 40%;">
+<col>
+<col>
+<col>
+<col>
+<col>
 </colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-middle">N° <span class="head">&uarr;</span></th>
+<th class="tableblock halign-left valign-middle">Musaic</th>
+<th class="tableblock halign-left valign-middle">Motifs <span class="head">&uarr;</span></th>
+<th class="tableblock halign-left valign-middle">Cyclic Intervallic Structure</th>
+<th class="tableblock halign-left valign-middle">Meta-Stabilizer</th>
+</tr>
+</thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">Musaic</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">Distinct Motifs</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="paragraph">
-<p>Cyclic Intervallic Structure</p>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">Meta-Stabilizer</p></td>
-</tr>
-<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">1</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_1.png" alt="Mus n° 1"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6069,9 +6153,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M5 M7 M11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_2.png" alt="Mus n° 2"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6084,9 +6169,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M5 M7 M11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">3</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_3.png" alt="Mus n° 3"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6105,9 +6191,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_4.png" alt="Mus n° 4"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6120,9 +6207,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M5 M7 M11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">5</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_5.png" alt="Mus n° 5"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6135,9 +6223,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M5 M7 M11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">6</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_6.png" alt="Mus n° 6"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6150,9 +6239,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M5 M7 M11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">7</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_7.png" alt="Mus n° 7"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6165,9 +6255,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M5 M7 M11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_8.png" alt="Mus n° 8"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6186,9 +6277,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">9</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_9.png" alt="Mus n° 9"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6219,9 +6311,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">10</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_10.png" alt="Mus n° 10"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6252,9 +6345,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">11</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_11.png" alt="Mus n° 11"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6267,9 +6361,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M5 M7 M11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">12</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_12.png" alt="Mus n° 12"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6288,9 +6383,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M5</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5.png" alt="m1 m5" width="50"></span> M1 M5</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">13</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_13.png" alt="Mus n° 13"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6309,9 +6405,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M7</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">14</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_14.png" alt="Mus n° 14"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6330,9 +6427,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M7</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">15</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_15.png" alt="Mus n° 15"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6345,9 +6443,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M5 M7 M11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">16</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_16.png" alt="Mus n° 16"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6360,9 +6459,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M5 M7 M11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">17</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_17.png" alt="Mus n° 17"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6381,9 +6481,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">18</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_18.png" alt="Mus n° 18"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6414,9 +6515,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">19</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_19.png" alt="Mus n° 19"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6435,9 +6537,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">20</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_20.png" alt="Mus n° 20"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6468,9 +6571,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">21</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_21.png" alt="Mus n° 21"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6489,9 +6593,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M5</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5.png" alt="m1 m5" width="50"></span> M1 M5</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">22</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_22.png" alt="Mus n° 22"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6504,9 +6609,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M5 M7 M11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">23</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_23.png" alt="Mus n° 23"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6525,9 +6631,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">24</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_24.png" alt="Mus n° 24"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6558,9 +6665,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">25</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_25.png" alt="Mus n° 25"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6579,9 +6687,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M7</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">26</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_26.png" alt="Mus n° 26"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6612,9 +6721,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">27</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_27.png" alt="Mus n° 27"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6645,9 +6755,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">28</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_28.png" alt="Mus n° 28"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6660,9 +6771,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M5 M7 M11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">29</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_29.png" alt="Mus n° 29"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6675,9 +6787,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M5 M7 M11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">30</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_30.png" alt="Mus n° 30"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6690,9 +6803,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M5 M7 M11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">31</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_31.png" alt="Mus n° 31"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6711,9 +6825,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M7</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">32</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_32.png" alt="Mus n° 32"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6726,9 +6841,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M5 M7 M11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">33</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_33.png" alt="Mus n° 33"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6741,9 +6857,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M5 M7 M11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">34</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_34.png" alt="Mus n° 34"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6762,9 +6879,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M5</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5.png" alt="m1 m5" width="50"></span> M1 M5</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">35</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_35.png" alt="Mus n° 35"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6777,9 +6895,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M5 M7 M11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">36</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_36.png" alt="Mus n° 36"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6792,9 +6911,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M5 M7 M11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">37</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_37.png" alt="Mus n° 37"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6807,9 +6927,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M5 M7 M11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">38</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_38.png" alt="Mus n° 38"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6828,9 +6949,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">39</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_39.png" alt="Mus n° 39"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6861,9 +6983,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">40</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_40.png" alt="Mus n° 40"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6894,9 +7017,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">41</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_41.png" alt="Mus n° 41"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6927,9 +7051,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">42</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_42.png" alt="Mus n° 42"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6960,9 +7085,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">43</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_43.png" alt="Mus n° 43"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -6993,9 +7119,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">44</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_44.png" alt="Mus n° 44"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7014,9 +7141,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">45</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_45.png" alt="Mus n° 45"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7047,9 +7175,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">46</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_46.png" alt="Mus n° 46"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7062,9 +7191,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M5 M7 M11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">47</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_47.png" alt="Mus n° 47"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7095,9 +7225,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">48</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_48.png" alt="Mus n° 48"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7116,9 +7247,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M7</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">49</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_49.png" alt="Mus n° 49"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7149,9 +7281,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">50</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_50.png" alt="Mus n° 50"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7170,9 +7303,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M5</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5.png" alt="m1 m5" width="50"></span> M1 M5</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">51</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_51.png" alt="Mus n° 51"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7203,9 +7337,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">52</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_52.png" alt="Mus n° 52"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7224,9 +7359,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M7</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">53</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_53.png" alt="Mus n° 53"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7245,9 +7381,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M7</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">54</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_54.png" alt="Mus n° 54"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7278,9 +7415,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">55</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_55.png" alt="Mus n° 55"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7299,9 +7437,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">56</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_56.png" alt="Mus n° 56"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7320,9 +7459,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M5</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5.png" alt="m1 m5" width="50"></span> M1 M5</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">57</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_57.png" alt="Mus n° 57"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7341,9 +7481,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M5</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5.png" alt="m1 m5" width="50"></span> M1 M5</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">58</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_58.png" alt="Mus n° 58"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7356,9 +7497,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M5 M7 M11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">59</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_59.png" alt="Mus n° 59"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7377,9 +7519,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M7</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">60</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_60.png" alt="Mus n° 60"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7392,9 +7535,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M5 M7 M11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">61</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_61.png" alt="Mus n° 61"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7407,9 +7551,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M5 M7 M11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">62</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_62.png" alt="Mus n° 62"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7428,9 +7573,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M7</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">63</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_63.png" alt="Mus n° 63"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7443,9 +7589,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M11 CM1 CM11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11-cm1-cm11.png" alt="m1 m11 cm1 cm11" width="50"></span> M1 M11 CM1 CM11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">64</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_64.png" alt="Mus n° 64"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7464,9 +7611,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 CM11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm11.png" alt="m1 cm11" width="50"></span> M1 CM11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">65</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_65.png" alt="Mus n° 65"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7497,9 +7645,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">66</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_66.png" alt="Mus n° 66"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7518,9 +7667,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">67</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_67.png" alt="Mus n° 67"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7533,9 +7683,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M5 CM7 CM11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-cm7-cm11.png" alt="m1 m5 cm7 cm11" width="50"></span> M1 M5 CM7 CM11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">68</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_68.png" alt="Mus n° 68"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7554,9 +7705,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 CM5</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm5.png" alt="m1 cm5" width="50"></span> M1 CM5</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">69</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_69.png" alt="Mus n° 69"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7587,9 +7739,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">70</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_70.png" alt="Mus n° 70"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">1</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7599,9 +7752,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M5 M7 M11 CM1 CM5 CM7 CM11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11-cm1-cm5-cm7-cm11.png" alt="m1 m5 m7 m11 cm1 cm5 cm7 cm11" width="50"></span> M1 M5 M7 M11 CM1 CM5 CM7 CM11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">71</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_71.png" alt="Mus n° 71"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7620,9 +7774,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 CM11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm11.png" alt="m1 cm11" width="50"></span> M1 CM11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">72</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_72.png" alt="Mus n° 72"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7641,9 +7796,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M7</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">73</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_73.png" alt="Mus n° 73"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7662,9 +7818,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">74</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_74.png" alt="Mus n° 74"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7677,9 +7834,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M11 CM5 CM7</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11-cm5-cm7.png" alt="m1 m11 cm5 cm7" width="50"></span> M1 M11 CM5 CM7</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">75</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_75.png" alt="Mus n° 75"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7698,9 +7856,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 CM11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm11.png" alt="m1 cm11" width="50"></span> M1 CM11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">76</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_76.png" alt="Mus n° 76"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7713,9 +7872,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M5 CM1 CM5</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-cm1-cm5.png" alt="m1 m5 cm1 cm5" width="50"></span> M1 M5 CM1 CM5</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">77</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_77.png" alt="Mus n° 77"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7728,9 +7888,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M5 CM7 CM11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-cm7-cm11.png" alt="m1 m5 cm7 cm11" width="50"></span> M1 M5 CM7 CM11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">78</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_78.png" alt="Mus n° 78"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7749,9 +7910,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 CM11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm11.png" alt="m1 cm11" width="50"></span> M1 CM11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">79</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_79.png" alt="Mus n° 79"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7770,9 +7932,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M7</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">80</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_80.png" alt="Mus n° 80"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7785,9 +7948,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M5 M7 M11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">81</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_81.png" alt="Mus n° 81"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7800,9 +7964,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M5 CM7 CM11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-cm7-cm11.png" alt="m1 m5 cm7 cm11" width="50"></span> M1 M5 CM7 CM11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">82</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_82.png" alt="Mus n° 82"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7821,9 +7986,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 CM5</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm5.png" alt="m1 cm5" width="50"></span> M1 CM5</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">83</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_83.png" alt="Mus n° 83"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">1</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7833,9 +7999,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M5 M7 M11 CM1 CM5 CM7 CM11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11-cm1-cm5-cm7-cm11.png" alt="m1 m5 m7 m11 cm1 cm5 cm7 cm11" width="50"></span> M1 M5 M7 M11 CM1 CM5 CM7 CM11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">84</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_84.png" alt="Mus n° 84"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7848,9 +8015,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M7 CM5 CM11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7-cm5-cm11.png" alt="m1 m7 cm5 cm11" width="50"></span> M1 M7 CM5 CM11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">85</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_85.png" alt="Mus n° 85"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7863,9 +8031,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M5 M7 M11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">86</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_86.png" alt="Mus n° 86"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7878,9 +8047,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M7 CM5 CM11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7-cm5-cm11.png" alt="m1 m7 cm5 cm11" width="50"></span> M1 M7 CM5 CM11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">87</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_87.png" alt="Mus n° 87"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">1</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7890,9 +8060,10 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M5 M7 M11 CM1 CM5 CM7 CM11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11-cm1-cm5-cm7-cm11.png" alt="m1 m5 m7 m11 cm1 cm5 cm7 cm11" width="50"></span> M1 M5 M7 M11 CM1 CM5 CM7 CM11</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">88</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/_88.png" alt="Mus n° 88"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">1</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
@@ -7902,7 +8073,7 @@ Symmetry prime form concept is invented, specific to this project.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1 M5 M7 M11 CM1 CM5 CM7 CM11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11-cm1-cm5-cm7-cm11.png" alt="m1 m5 m7 m11 cm1 cm5 cm7 cm11" width="50"></span> M1 M5 M7 M11 CM1 CM5 CM7 CM11</p></td>
 </tr>
 </tbody>
 </table>
@@ -7916,7 +8087,7 @@ Symmetry prime form concept is invented, specific to this project.
 <a href="#_footnoteref_1">1</a>. provided that they accept the postulate of the decomposition of an octave into 12 "equal parts".
 </div>
 <div class="footnote" id="_footnotedef_2">
-<a href="#_footnoteref_2">2</a>. redo:Back to the future only possible if the past has not been updated
+<a href="#_footnoteref_2">2</a>. Back to the future only possible if the past has not been updated
 </div>
 <div class="footnote" id="_footnotedef_3">
 <a href="#_footnoteref_3">3</a>. A stabilizing operation is a transformation operation which conserve intervallic structure
@@ -7924,7 +8095,7 @@ Symmetry prime form concept is invented, specific to this project.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-04-25 21:00:53 +0200
+Last updated 2025-04-26 15:17:05 +0200
 </div>
 </div>
 <script type="text/x-mathjax-config">
