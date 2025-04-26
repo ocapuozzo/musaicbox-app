@@ -61,9 +61,11 @@ image::musaic-matrix-pc-name.png[musaic-matrix-pc-name]
 
 The study focuses mainly on the abstract model of PCS (_Pitch Class Set_).
 
-In the context of twelve-tone equal temperament, the canonical form of a musaic is 13x13 squares.
+In the context of twelve-tone equal temperament, the canonical form of a musaic is 13x13 squares.footnote:[In this configuration, the geometric transformation operations presented in this document match the usual algebraic transformations of the Musical Set Theory]
 
-Any intervallic structure defined within an octave prints a pattern on the matrix, which we call a _musaic-motif_. Since a musaic can be viewed from several angles, it is said to have multiple faces, it can carry up to 8 different musaic-motifs and therefore cyclic intervallic structures. There are 88 musaics in total for 352 cyclic intervallic class.
+Any intervallic structure defined within an octave prints a pattern on the matrix, and thereby reveals a musical structure that we call <<Musaic-Motif>>.
+
+Since a musaic can be viewed from several angles, it is said to have multiple faces, it can carry up to 8 different musaic-motifs and therefore cyclic intervallic structures. There are 88 musaics in total for 352 cyclic intervallic vectors.
 
 .Example of musaic n°26 having seventh chord on one of its "faces"
 image::template-musaic-anatomy.png[template-musaic-anatomy]
@@ -451,7 +453,7 @@ Examples : DIS(y,x) where y is row interval and x is column interval. Violin is 
 
 === Together
 
-All PCS representations are interchangeable by bijective connections, one-to-one relationship, expect classical musical notation (enharmonic).
+All PCS representations are interchangeable by bijective connections, one-to-one relationship, expect classical musical notation (because there are several possible notations for a pitch class : flat, sharp and others enharmonic notations).
 
 .Example with Set, Integer, Vector, musaic, clock and score notation.
 [.float-group]
@@ -465,7 +467,7 @@ Here we are interested in transformation operations that transform any PCS into 
 
 [TIP]
 ====
-PCS are elements stem:[P(E)]. So writing stem:[P(E) -> P(E)] means that transformation operations take a pcs and return a pcs.
+PCS are elements stem:[P(E)]. So writing stem:[P(E) -> P(E)] means that transformation operations take a pcs from a set given and return a pcs of from the same set.
 ====
 
 We will retain the following operations:
@@ -2537,6 +2539,7 @@ Example : (FMaj) cis([0 5 9]) = (4 3 5) (CMaj is its cyclic prime form)
 +
 CMaj and FMaj have same structure of polygon inscribed, so have same cis, have same musaic-motif
 
+[#Musaic-Motif]
 Musaic-Motif::
   A face of a musaic. It is a geometric figure of a cyclic intervallic structure of a given pcs, and, potentially, its complement.
 +
