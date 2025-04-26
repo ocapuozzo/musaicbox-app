@@ -4225,4 +4225,12 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 * (2 2 2 2 2 2)
 |  image:octotropes/m1-m5-m7-m11-cm1-cm5-cm7-cm11.png[width=50] M1 M5 M7 M11 CM1 CM5 CM7 CM11
 
+|
+| _4096 PCS_
+| _352 motifs_
+| _352 CIS_
+| _13 distinct_ +
+_meta-stabilizers_
+
+
 |===
