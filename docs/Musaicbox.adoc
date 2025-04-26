@@ -3344,6 +3344,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |===
 |N° [.head]#&uarr;#|Musaic  |Motifs [.head]#&uarr;#|Cyclic Intervallic Structure |Meta-Stabilizer
 
+
 |1
 |image:88musaics/mus_1.png[Mus n° 1]
 | 2
@@ -3353,7 +3354,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
 |2
-|image:88musaics/_2.png[Mus n° 2]
+|image:88musaics/mus_2.png[Mus n° 2]
 | 2
 |
 * (0)
@@ -3361,7 +3362,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
 |3
-|image:88musaics/_3.png[Mus n° 3]
+|image:88musaics/mus_3.png[Mus n° 3]
 | 4
 |
 * (1 11)
@@ -3371,7 +3372,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m11.png[width=50] M1 M11
 
 |4
-|image:88musaics/_4.png[Mus n° 4]
+|image:88musaics/mus_4.png[Mus n° 4]
 | 2
 |
 * (2 10)
@@ -3379,7 +3380,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
 |5
-|image:88musaics/_5.png[Mus n° 5]
+|image:88musaics/mus_5.png[Mus n° 5]
 | 2
 |
 * (3 9)
@@ -3387,7 +3388,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
 |6
-|image:88musaics/_6.png[Mus n° 6]
+|image:88musaics/mus_6.png[Mus n° 6]
 | 2
 |
 * (4 8)
@@ -3395,7 +3396,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
 |7
-|image:88musaics/_7.png[Mus n° 7]
+|image:88musaics/mus_7.png[Mus n° 7]
 | 2
 |
 * (6 6)
@@ -3403,7 +3404,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
 |8
-|image:88musaics/_8.png[Mus n° 8]
+|image:88musaics/mus_8.png[Mus n° 8]
 | 4
 |
 * (1 1 10)
@@ -3413,7 +3414,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m11.png[width=50] M1 M11
 
 |9
-|image:88musaics/_9.png[Mus n° 9]
+|image:88musaics/mus_9.png[Mus n° 9]
 | 8
 |
 * (1 2 9)
@@ -3427,7 +3428,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1.png[width=50] M1
 
 |10
-|image:88musaics/_10.png[Mus n° 10]
+|image:88musaics/mus_10.png[Mus n° 10]
 | 8
 |
 * (1 3 8)
@@ -3441,7 +3442,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1.png[width=50] M1
 
 |11
-|image:88musaics/_11.png[Mus n° 11]
+|image:88musaics/mus_11.png[Mus n° 11]
 | 2
 |
 * (2 2 8)
@@ -3449,7 +3450,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
 |12
-|image:88musaics/_12.png[Mus n° 12]
+|image:88musaics/mus_12.png[Mus n° 12]
 | 4
 |
 * (1 4 7)
@@ -3459,7 +3460,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m5.png[width=50] M1 M5
 
 |13
-|image:88musaics/_13.png[Mus n° 13]
+|image:88musaics/mus_13.png[Mus n° 13]
 | 4
 |
 * (1 5 6)
@@ -3469,7 +3470,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
 |14
-|image:88musaics/_14.png[Mus n° 14]
+|image:88musaics/mus_14.png[Mus n° 14]
 | 4
 |
 * (2 4 6)
@@ -3479,7 +3480,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
 |15
-|image:88musaics/_15.png[Mus n° 15]
+|image:88musaics/mus_15.png[Mus n° 15]
 | 2
 |
 * (3 3 6)
@@ -3487,7 +3488,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
 |16
-|image:88musaics/_16.png[Mus n° 16]
+|image:88musaics/mus_16.png[Mus n° 16]
 | 2
 |
 * (4 4 4)
@@ -3495,7 +3496,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
 |17
-|image:88musaics/_17.png[Mus n° 17]
+|image:88musaics/mus_17.png[Mus n° 17]
 | 4
 |
 * (1 1 1 9)
@@ -3505,7 +3506,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m11.png[width=50] M1 M11
 
 |18
-|image:88musaics/_18.png[Mus n° 18]
+|image:88musaics/mus_18.png[Mus n° 18]
 | 8
 |
 * (1 1 2 8)
@@ -3519,7 +3520,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1.png[width=50] M1
 
 |19
-|image:88musaics/_19.png[Mus n° 19]
+|image:88musaics/mus_19.png[Mus n° 19]
 | 4
 |
 * (1 2 1 8)
@@ -3529,7 +3530,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m11.png[width=50] M1 M11
 
 |20
-|image:88musaics/_20.png[Mus n° 20]
+|image:88musaics/mus_20.png[Mus n° 20]
 | 8
 |
 * (1 1 3 7)
@@ -3543,7 +3544,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1.png[width=50] M1
 
 |21
-|image:88musaics/_21.png[Mus n° 21]
+|image:88musaics/mus_21.png[Mus n° 21]
 | 4
 |
 * (1 2 2 7)
@@ -3553,7 +3554,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m5.png[width=50] M1 M5
 
 |22
-|image:88musaics/_22.png[Mus n° 22]
+|image:88musaics/mus_22.png[Mus n° 22]
 | 2
 |
 * (2 1 2 7)
@@ -3561,7 +3562,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
 |23
-|image:88musaics/_23.png[Mus n° 23]
+|image:88musaics/mus_23.png[Mus n° 23]
 | 4
 |
 * (1 3 1 7)
@@ -3571,7 +3572,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m11.png[width=50] M1 M11
 
 |24
-|image:88musaics/_24.png[Mus n° 24]
+|image:88musaics/mus_24.png[Mus n° 24]
 | 8
 |
 * (1 1 4 6)
@@ -3585,7 +3586,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1.png[width=50] M1
 
 |25
-|image:88musaics/_25.png[Mus n° 25]
+|image:88musaics/mus_25.png[Mus n° 25]
 | 4
 |
 * (1 2 3 6)
@@ -3595,7 +3596,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
 |26
-|image:88musaics/_26.png[Mus n° 26]
+|image:88musaics/mus_26.png[Mus n° 26]
 | 8
 |
 * (2 1 3 6)
@@ -3609,7 +3610,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1.png[width=50] M1
 
 |27
-|image:88musaics/_27.png[Mus n° 27]
+|image:88musaics/mus_27.png[Mus n° 27]
 | 8
 |
 * (1 3 2 6)
@@ -3623,7 +3624,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1.png[width=50] M1
 
 |28
-|image:88musaics/_28.png[Mus n° 28]
+|image:88musaics/mus_28.png[Mus n° 28]
 | 2
 |
 * (2 2 2 6)
@@ -3631,7 +3632,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
 |29
-|image:88musaics/_29.png[Mus n° 29]
+|image:88musaics/mus_29.png[Mus n° 29]
 | 2
 |
 * (1 4 1 6)
@@ -3639,7 +3640,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
 |30
-|image:88musaics/_30.png[Mus n° 30]
+|image:88musaics/mus_30.png[Mus n° 30]
 | 2
 |
 * (1 1 5 5)
@@ -3647,7 +3648,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
 |31
-|image:88musaics/_31.png[Mus n° 31]
+|image:88musaics/mus_31.png[Mus n° 31]
 | 4
 |
 * (1 3 3 5)
@@ -3657,7 +3658,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
 |32
-|image:88musaics/_32.png[Mus n° 32]
+|image:88musaics/mus_32.png[Mus n° 32]
 | 2
 |
 * (3 1 3 5)
@@ -3665,7 +3666,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
 |33
-|image:88musaics/_33.png[Mus n° 33]
+|image:88musaics/mus_33.png[Mus n° 33]
 | 2
 |
 * (1 5 1 5)
@@ -3673,7 +3674,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
 |34
-|image:88musaics/_34.png[Mus n° 34]
+|image:88musaics/mus_34.png[Mus n° 34]
 | 4
 |
 * (1 3 4 4)
@@ -3683,7 +3684,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m5.png[width=50] M1 M5
 
 |35
-|image:88musaics/_35.png[Mus n° 35]
+|image:88musaics/mus_35.png[Mus n° 35]
 | 2
 |
 * (2 2 4 4)
@@ -3691,7 +3692,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
 |36
-|image:88musaics/_36.png[Mus n° 36]
+|image:88musaics/mus_36.png[Mus n° 36]
 | 2
 |
 * (2 4 2 4)
@@ -3699,7 +3700,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
 |37
-|image:88musaics/_37.png[Mus n° 37]
+|image:88musaics/mus_37.png[Mus n° 37]
 | 2
 |
 * (3 3 3 3)
@@ -3707,7 +3708,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
 |38
-|image:88musaics/_38.png[Mus n° 38]
+|image:88musaics/mus_38.png[Mus n° 38]
 | 4
 |
 * (1 1 1 1 8)
@@ -3717,7 +3718,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m11.png[width=50] M1 M11
 
 |39
-|image:88musaics/_39.png[Mus n° 39]
+|image:88musaics/mus_39.png[Mus n° 39]
 | 8
 |
 * (1 1 1 2 7)
@@ -3731,7 +3732,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1.png[width=50] M1
 
 |40
-|image:88musaics/_40.png[Mus n° 40]
+|image:88musaics/mus_40.png[Mus n° 40]
 | 8
 |
 * (1 1 2 1 7)
@@ -3745,7 +3746,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1.png[width=50] M1
 
 |41
-|image:88musaics/_41.png[Mus n° 41]
+|image:88musaics/mus_41.png[Mus n° 41]
 | 8
 |
 * (1 1 1 3 6)
@@ -3759,7 +3760,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1.png[width=50] M1
 
 |42
-|image:88musaics/_42.png[Mus n° 42]
+|image:88musaics/mus_42.png[Mus n° 42]
 | 8
 |
 * (1 1 2 2 6)
@@ -3773,7 +3774,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1.png[width=50] M1
 
 |43
-|image:88musaics/_43.png[Mus n° 43]
+|image:88musaics/mus_43.png[Mus n° 43]
 | 8
 |
 * (1 2 1 2 6)
@@ -3787,7 +3788,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1.png[width=50] M1
 
 |44
-|image:88musaics/_44.png[Mus n° 44]
+|image:88musaics/mus_44.png[Mus n° 44]
 | 4
 |
 * (2 1 1 2 6)
@@ -3797,7 +3798,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m11.png[width=50] M1 M11
 
 |45
-|image:88musaics/_45.png[Mus n° 45]
+|image:88musaics/mus_45.png[Mus n° 45]
 | 8
 |
 * (1 1 3 1 6)
@@ -3811,7 +3812,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1.png[width=50] M1
 
 |46
-|image:88musaics/_46.png[Mus n° 46]
+|image:88musaics/mus_46.png[Mus n° 46]
 | 2
 |
 * (1 2 2 1 6)
@@ -3819,7 +3820,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
 |47
-|image:88musaics/_47.png[Mus n° 47]
+|image:88musaics/mus_47.png[Mus n° 47]
 | 8
 |
 * (1 1 1 4 5)
@@ -3833,7 +3834,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1.png[width=50] M1
 
 |48
-|image:88musaics/_48.png[Mus n° 48]
+|image:88musaics/mus_48.png[Mus n° 48]
 | 4
 |
 * (1 1 2 3 5)
@@ -3843,7 +3844,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
 |49
-|image:88musaics/_49.png[Mus n° 49]
+|image:88musaics/mus_49.png[Mus n° 49]
 | 8
 |
 * (1 2 1 3 5)
@@ -3857,7 +3858,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1.png[width=50] M1
 
 |50
-|image:88musaics/_50.png[Mus n° 50]
+|image:88musaics/mus_50.png[Mus n° 50]
 | 4
 |
 * (2 1 1 3 5)
@@ -3867,7 +3868,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m5.png[width=50] M1 M5
 
 |51
-|image:88musaics/_51.png[Mus n° 51]
+|image:88musaics/mus_51.png[Mus n° 51]
 | 8
 |
 * (1 3 1 2 5)
@@ -3881,7 +3882,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1.png[width=50] M1
 
 |52
-|image:88musaics/_52.png[Mus n° 52]
+|image:88musaics/mus_52.png[Mus n° 52]
 | 4
 |
 * (1 1 4 1 5)
@@ -3891,7 +3892,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
 |53
-|image:88musaics/_53.png[Mus n° 53]
+|image:88musaics/mus_53.png[Mus n° 53]
 | 4
 |
 * (1 2 3 1 5)
@@ -3901,7 +3902,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
 |54
-|image:88musaics/_54.png[Mus n° 54]
+|image:88musaics/mus_54.png[Mus n° 54]
 | 8
 |
 * (1 1 2 4 4)
@@ -3915,7 +3916,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1.png[width=50] M1
 
 |55
-|image:88musaics/_55.png[Mus n° 55]
+|image:88musaics/mus_55.png[Mus n° 55]
 | 4
 |
 * (1 2 1 4 4)
@@ -3925,7 +3926,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m11.png[width=50] M1 M11
 
 |56
-|image:88musaics/_56.png[Mus n° 56]
+|image:88musaics/mus_56.png[Mus n° 56]
 | 4
 |
 * (1 3 1 3 4)
@@ -3935,7 +3936,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m5.png[width=50] M1 M5
 
 |57
-|image:88musaics/_57.png[Mus n° 57]
+|image:88musaics/mus_57.png[Mus n° 57]
 | 4
 |
 * (2 2 1 3 4)
@@ -3945,7 +3946,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m5.png[width=50] M1 M5
 
 |58
-|image:88musaics/_58.png[Mus n° 58]
+|image:88musaics/mus_58.png[Mus n° 58]
 | 2
 |
 * (1 1 4 2 4)
@@ -3953,7 +3954,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
 |59
-|image:88musaics/_59.png[Mus n° 59]
+|image:88musaics/mus_59.png[Mus n° 59]
 | 4
 |
 * (2 1 3 2 4)
@@ -3963,7 +3964,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
 |60
-|image:88musaics/_60.png[Mus n° 60]
+|image:88musaics/mus_60.png[Mus n° 60]
 | 2
 |
 * (2 2 2 2 4)
@@ -3971,7 +3972,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
 |61
-|image:88musaics/_61.png[Mus n° 61]
+|image:88musaics/mus_61.png[Mus n° 61]
 | 2
 |
 * (1 3 3 1 4)
@@ -3979,7 +3980,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
 |62
-|image:88musaics/_62.png[Mus n° 62]
+|image:88musaics/mus_62.png[Mus n° 62]
 | 4
 |
 * (1 2 3 3 3)
@@ -3989,7 +3990,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
 |63
-|image:88musaics/_63.png[Mus n° 63]
+|image:88musaics/mus_63.png[Mus n° 63]
 | 2
 |
 * (1 1 1 1 1 7)
@@ -3997,7 +3998,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m11-cm1-cm11.png[width=50] M1 M11 CM1 CM11
 
 |64
-|image:88musaics/_64.png[Mus n° 64]
+|image:88musaics/mus_64.png[Mus n° 64]
 | 4
 |
 * (1 1 1 1 2 6)
@@ -4007,7 +4008,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-cm11.png[width=50] M1 CM11
 
 |65
-|image:88musaics/_65.png[Mus n° 65]
+|image:88musaics/mus_65.png[Mus n° 65]
 | 8
 |
 * (1 1 1 2 1 6)
@@ -4021,7 +4022,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1.png[width=50] M1
 
 |66
-|image:88musaics/_66.png[Mus n° 66]
+|image:88musaics/mus_66.png[Mus n° 66]
 | 4
 |
 * (1 1 2 1 1 6)
@@ -4031,7 +4032,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m11.png[width=50] M1 M11
 
 |67
-|image:88musaics/_67.png[Mus n° 67]
+|image:88musaics/mus_67.png[Mus n° 67]
 | 2
 |
 * (1 1 1 2 2 5)
@@ -4039,7 +4040,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m5-cm7-cm11.png[width=50] M1 M5 CM7 CM11
 
 |68
-|image:88musaics/_68.png[Mus n° 68]
+|image:88musaics/mus_68.png[Mus n° 68]
 | 4
 |
 * (1 1 2 1 2 5)
@@ -4049,7 +4050,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-cm5.png[width=50] M1 CM5
 
 |69
-|image:88musaics/_69.png[Mus n° 69]
+|image:88musaics/mus_69.png[Mus n° 69]
 | 8
 |
 * (1 2 1 1 2 5)
@@ -4063,14 +4064,14 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1.png[width=50] M1
 
 |70
-|image:88musaics/_70.png[Mus n° 70]
+|image:88musaics/mus_70.png[Mus n° 70]
 | 1
 |
 * (2 1 1 1 2 5)
 |  image:octotropes/m1-m5-m7-m11-cm1-cm5-cm7-cm11.png[width=50] M1 M5 M7 M11 CM1 CM5 CM7 CM11
 
 |71
-|image:88musaics/_71.png[Mus n° 71]
+|image:88musaics/mus_71.png[Mus n° 71]
 | 4
 |
 * (1 1 1 3 1 5)
@@ -4080,7 +4081,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-cm11.png[width=50] M1 CM11
 
 |72
-|image:88musaics/_72.png[Mus n° 72]
+|image:88musaics/mus_72.png[Mus n° 72]
 | 4
 |
 * (1 1 2 2 1 5)
@@ -4090,7 +4091,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
 |73
-|image:88musaics/_73.png[Mus n° 73]
+|image:88musaics/mus_73.png[Mus n° 73]
 | 4
 |
 * (1 2 1 2 1 5)
@@ -4100,7 +4101,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m11.png[width=50] M1 M11
 
 |74
-|image:88musaics/_74.png[Mus n° 74]
+|image:88musaics/mus_74.png[Mus n° 74]
 | 2
 |
 * (1 1 3 1 1 5)
@@ -4108,7 +4109,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m11-cm5-cm7.png[width=50] M1 M11 CM5 CM7
 
 |75
-|image:88musaics/_75.png[Mus n° 75]
+|image:88musaics/mus_75.png[Mus n° 75]
 | 4
 |
 * (1 1 2 1 3 4)
@@ -4118,7 +4119,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-cm11.png[width=50] M1 CM11
 
 |76
-|image:88musaics/_76.png[Mus n° 76]
+|image:88musaics/mus_76.png[Mus n° 76]
 | 2
 |
 * (1 2 1 1 3 4)
@@ -4126,7 +4127,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m5-cm1-cm5.png[width=50] M1 M5 CM1 CM5
 
 |77
-|image:88musaics/_77.png[Mus n° 77]
+|image:88musaics/mus_77.png[Mus n° 77]
 | 2
 |
 * (1 1 2 2 2 4)
@@ -4134,7 +4135,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m5-cm7-cm11.png[width=50] M1 M5 CM7 CM11
 
 |78
-|image:88musaics/_78.png[Mus n° 78]
+|image:88musaics/mus_78.png[Mus n° 78]
 | 4
 |
 * (2 1 1 2 2 4)
@@ -4144,7 +4145,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-cm11.png[width=50] M1 CM11
 
 |79
-|image:88musaics/_79.png[Mus n° 79]
+|image:88musaics/mus_79.png[Mus n° 79]
 | 4
 |
 * (1 1 3 1 2 4)
@@ -4154,7 +4155,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
 |80
-|image:88musaics/_80.png[Mus n° 80]
+|image:88musaics/mus_80.png[Mus n° 80]
 | 2
 |
 * (2 1 2 1 2 4)
@@ -4162,7 +4163,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
 |81
-|image:88musaics/_81.png[Mus n° 81]
+|image:88musaics/mus_81.png[Mus n° 81]
 | 2
 |
 * (1 3 1 1 2 4)
@@ -4170,7 +4171,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m5-cm7-cm11.png[width=50] M1 M5 CM7 CM11
 
 |82
-|image:88musaics/_82.png[Mus n° 82]
+|image:88musaics/mus_82.png[Mus n° 82]
 | 4
 |
 * (1 2 1 3 1 4)
@@ -4180,14 +4181,14 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-cm5.png[width=50] M1 CM5
 
 |83
-|image:88musaics/_83.png[Mus n° 83]
+|image:88musaics/mus_83.png[Mus n° 83]
 | 1
 |
 * (1 1 4 1 1 4)
 |  image:octotropes/m1-m5-m7-m11-cm1-cm5-cm7-cm11.png[width=50] M1 M5 M7 M11 CM1 CM5 CM7 CM11
 
 |84
-|image:88musaics/_84.png[Mus n° 84]
+|image:88musaics/mus_84.png[Mus n° 84]
 | 2
 |
 * (1 2 1 2 3 3)
@@ -4195,7 +4196,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m7-cm5-cm11.png[width=50] M1 M7 CM5 CM11
 
 |85
-|image:88musaics/_85.png[Mus n° 85]
+|image:88musaics/mus_85.png[Mus n° 85]
 | 2
 |
 * (1 2 2 1 3 3)
@@ -4203,7 +4204,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
 |86
-|image:88musaics/_86.png[Mus n° 86]
+|image:88musaics/mus_86.png[Mus n° 86]
 | 2
 |
 * (1 2 3 1 2 3)
@@ -4211,14 +4212,14 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |  image:octotropes/m1-m7-cm5-cm11.png[width=50] M1 M7 CM5 CM11
 
 |87
-|image:88musaics/_87.png[Mus n° 87]
+|image:88musaics/mus_87.png[Mus n° 87]
 | 1
 |
 * (1 3 1 3 1 3)
 |  image:octotropes/m1-m5-m7-m11-cm1-cm5-cm7-cm11.png[width=50] M1 M5 M7 M11 CM1 CM5 CM7 CM11
 
 |88
-|image:88musaics/_88.png[Mus n° 88]
+|image:88musaics/mus_88.png[Mus n° 88]
 | 1
 |
 * (2 2 2 2 2 2)
