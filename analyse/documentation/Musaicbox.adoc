@@ -3345,7 +3345,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 |N° [.head]#&uarr;#|Musaic  |Motifs [.head]#&uarr;#|Cyclic Intervallic Structure |Meta-Stabilizer
 
 |1
-|image:88musaics/_1.png[Mus n° 1]
+|image:88musaics/mus_1.png[Mus n° 1]
 | 2
 |
 * ()
