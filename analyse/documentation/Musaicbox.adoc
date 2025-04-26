@@ -3342,7 +3342,7 @@ We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecu
 [%autowidth]
 [cols=".^1,.^2,.^3,.^4a, .^5"]
 |===
-|N° [.head]#&uarr;#|Musaic  |Motifs [.head]#&uarr;#|Cyclic Intervallic Structure |Meta-Stabilizer
+|N° [.head]#&uarr;#|Musaic  |Motifs [.head]#&uarr;#|Cyclic Intervallic Structure |Meta-Stabilizer [.head]#&uarr;#
 
 
 |1
