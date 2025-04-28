@@ -1376,7 +1376,7 @@ export class IPcs {
     return PcsUtils.isMaximalEven(this);
   }
 
-  isSecondOrderMaximalEven() {
-    return PcsUtils.isSecondOrderMaximalEven(this);
+  isStrictSecondOrderMaximalEven() {
+    return PcsUtils.isStrictSecondOrderMaximalEven(this);
   }
 }

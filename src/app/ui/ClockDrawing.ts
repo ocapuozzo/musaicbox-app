@@ -79,7 +79,8 @@ export class ClockDrawing {
     if (pcs) this.pcs = pcs
     let ox = this.width / 2;
     let oy = this.height / 2;
-    let radius = Math.round(ox * .74);
+    // let radius = Math.round(ox * .74);
+    let radius = Math.round(this.width * (3/8));
     this.computePitchesRegion(ox, oy, radius);
     this.ctx.save()
     this.ctx.clearRect(0, 0, this.width, this.height);
@@ -98,15 +99,19 @@ export class ClockDrawing {
 
     ctx.arc(0, 0, radius, 0, 2 * Math.PI);
     ctx.stroke()
-    // console.log("index : " + index + " selected : " + this.isSelected(index));
-    ctx.fillStyle =
-      (this.isSelected(index))
-        ? (index === this.pcs.templateMapping[this.pcs.iPivot ?? 0])
-          ? this.drawPivot ? this.pc_pivot_color : this.pc_color_fill
-          : this.pc_color_fill
-        : this.pcs.templateMapping.includes(index) ? 'white' : 'lightgray' ;
 
-    ctx.fill();
+    if (radius  > 1 ) {
+      
+      // console.log("index : " + index + " selected : " + this.isSelected(index));
+      ctx.fillStyle =
+        (this.isSelected(index))
+          ? (index === this.pcs.templateMapping[this.pcs.iPivot ?? 0])
+            ? this.drawPivot ? this.pc_pivot_color : this.pc_color_fill
+            : this.pc_color_fill
+          : this.pcs.templateMapping.includes(index) ? 'white' : 'lightgray';
+
+      ctx.fill();
+    }
     if (radius >= 6) {
       // draw text
       grad = ctx.createRadialGradient(0, 0, radius * 0.8, 0, 0, radius * 1.2);
@@ -136,7 +141,7 @@ export class ClockDrawing {
     }
 
     // console.log("this.indexPlaying, index  ", this.indexPlaying, index)
-    if (this.indexPlaying === index) {
+    if (this.indexPlaying === index && radius > 1) {
       ctx.beginPath();
       ctx.arc(0, 0, radius, 0, 2 * Math.PI);
       ctx.fillStyle = "rgb(0 0 255 /30%)"
@@ -150,6 +155,7 @@ export class ClockDrawing {
     let ang;
     ctx.font = Math.round(radius * 0.1) + "px arial";
     let radiusPitch = Math.round(radius / 9);
+
     ctx.strokeStyle = this.pc_color_stroke
     for (let index = 0; index < this.n; index++) {
       ang = index * Math.PI / (this.n / 2);

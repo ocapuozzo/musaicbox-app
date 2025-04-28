@@ -674,6 +674,9 @@ Examples when stem:[E = {0, 1, ..., 11}]  (cardinal of stem:[E\ is\ |E| = 12])
 
 . Example M5-T5 : {nbsp} stem:[M_5T_5("[0 4 7\]") -> "[1 4 5\]"] {nbsp} Multiplication and Transposition
 
+NOTE: stem:[M_aT_k] is also known as _TTO_ operators (for _Twelve Tone Operators_) and it's defined affine group (<<Morris>>, <<TOPOS>>).
+
+
 === Extended Special Affine Operation
 
 If we add the complementarity operation to the special affine function, we obtain the following operation: *stem:[c * (ax + k)]* that operates on stem:[P(E)]. It is with this unified operation that we will work.
@@ -1408,1168 +1411,7 @@ An orbit can be characterized by the set of stabilizers of its PCS.
 
 The cyclic group is not the only possible subgroup of G. It's time to take inventory of G subgroups.
 
-== Inventory of subgroups
-
-We have seen that stem:[G] extend special affine group with complementarity : stem:[c * (ax + k)]
-
-Where stem:[G] actes on stem:[P(ZZ_12)], stem:[G] is composed of 96 operations :
-
-[.text-center]
-{ T0, T1, …​, T11 } x { M1, M5, M7, M11, CM1, CM5, CM7, CM11 }
-
-The smallest subgroup of G is `M1-T0`  and the largest is `G` itself.
-
-For generate stem:[G], a restricted set of *generator operations* is sufficient (ref. Caley table algorithm), the same goes for its subgroups.
-
-For example, cyclic sous-group of G can be denote by this *subgroup generator* `M1-T1`, because is one of the 4 generators of the cyclic group `{M1-T0, M1-T1, M1-T2, ..., M1-T11}`
-
-NOTE: The four generators are `M1-T1`, `M1-T5`, `M1-T7`, `M1-T11`, and by convention, it is "the smallest" that takes precedence, as for prime form of an orbit.
-
-Some common and remarkable subgroups and one subgroup generator selected:
-
-- Trivial  subgroup : `M1-T0` (4096 orbits)
-- Dihedral subgroup : `M11-T1` (224 orbits)
-- Affine subgroup : `M5-T1, M7-T1` (158 orbits)
-- G extended affine group : `M5-T1, M7-T1, CM1-T1` (88 orbits)
-
-The classification of pcs allows the implementation multiple equivalence relations, beyond the well-known "up to one transposition".
-
-[#classification-table]
-=== A classification table of P(Z~12~)
-
-Here is an inventory published in the collective work "Autour de la Set Theory".
-
-_"The table [below] shows the 13 different classifications of sets determined by the different definitions of the term "equivalence". The list includes all sets, the empty set, and the so-called trivial cardinalities 1, 2 (and 10, 11), as well as the aggregate. The classification problem posed by trivial cardinalities was widely discussed in the 1950s <<PERLE>>" ( source : <<LVERDI>>)._
-
-[#LVerdi-Table]
-.From "Autour de la Set Theory" (<<LVERDI>>), page 41 (author Luigi Verdi)
-image:tableau-sous-groupes-ircam.png[tableau-sous-groupes-ircam]
-
-//
-// .From https://www.emis.de/journals/SLC/opapers/s26fripert.pdf (Andreatta ircam)
-// image:common-groups.png[common groups]
-
-=== 17 subgroups computed
-
-A calculation was carried out in order to inventory all possible subgroups of our reference group stem:[G] with its 96 operations. This results in 16+1 subgroups (+ 1 for trivial group), visible in the appendix (<<_subgroups_and_their_generators>>) and listed below.
-
-NOTE: All operation are with suffixe -T1, for include all steps of transposition and to be sure to inject the neutral operation (M1-T0) into the group.
- +
- As any subgroup includes the neutral operation in its elements, suffixe "-T1", being implied, is omitted.
- +
-Example : [M1-T1 M11-T1] => [M1 M11]
-
-.Enumeration of subgroups, by cardinality
-[%header,frame=ends,grid=rows, cols="8h,^1,^1,^1,^1,^1,^1,^1,^1,^1,^1,^1,^1,^1,>1s,^1e,^4"]
-|===
-.^|SubGroup/Card .^|0 .^|1 .^|2 .^|3 .^|4 .^|5 .^|6 .^|7 .^|8 .^|9 .^|10 .^|11 .^|12 .^|stem:[sum_("orbits")] .^|#Ops .^|name
-
-|[M1-T0]
-|1
-|12
-|66
-|220
-|495
-|792
-|924
-|792
-|495
-|220
-|66
-|12
-|1
-|4096
-|1
-|Trivialstem:[""_(ZZ_12)]
-
-|[M1]
-|1
-|1
-|6
-|19
-|43
-|66
-|80
-|66
-|43
-|19
-|6
-|1
-|1
-|* 352
-|12
-|Cyclicstem:[""_(ZZ_12)]
-
-|[M1 M7]
-|1
-|1
-|5
-|13
-|28
-|40
-|50
-|40
-|28
-|13
-|5
-|1
-|1
-|226
-|24
-|?
-
-|[M1 M11]
-|1
-|1
-|6
-|12
-|29
-|38
-|50
-|38
-|29
-|12
-|6
-|1
-|1
-|* 224
-|24
-|Dihedralstem:[""_(ZZ_12)]
-
-|[M1 M5]
-|1
-|1
-|5
-|12
-|28
-|38
-|48
-|38
-|28
-|12
-|5
-|1
-|1
-|218
-|24
-|?
-
-|[M1 CM11]
-|1
-|1
-|6
-|19
-|43
-|66
-|56
-|(66)
-|(43)
-|(19)
-|(6)
-|(1)
-|(1)
-|192
-|24
-|?
-
-|[M1 CM5]
-|1
-|1
-|6
-|19
-|43
-|66
-|50
-|(66)
-|(43)
-|(19)
-|(6)
-|(1)
-|(1)
-|186
-|24
-|?
-
-|[M1 CM7]
-|1
-|1
-|6
-|19
-|43
-|66
-|46
-|(66)
-|(43)
-|(19)
-|(6)
-|(1)
-|(1)
-|182
-|24
-|?
-
-|[M1 CM1]
-|1
-|1
-|6
-|19
-|43
-|66
-|44
-|(66)
-|(43)
-|(19)
-|(6)
-|(1)
-|(1)
-|* 180
-|24
-|?
-
-|[M1 M5 M7 M11]
-|1
-|1
-|5
-|9
-|21
-|25
-|34
-|25
-|21
-|9
-|5
-|1
-|1
-|* 158
-|48
-|Affinestem:[""_(ZZ_12)]
-
-|[M1 M7 CM5 CM11]
-|1
-|1
-|5
-|13
-|28
-|40
-|38
-|(40)
-|(28)
-|(13)
-|(5)
-|(1)
-|(1)
-|126
-|48
-|?
-
-
-|[M1 M11 CM1 CM11]
-|1
-|1
-|6
-|12
-|29
-|38
-|35
-|(38)
-|(29)
-|(12)
-|(6)
-|(1)
-|(1)
-|122
-|48
-|?
-
-|[M1 M11 CM5 CM7]
-|1
-|1
-|6
-|12
-|29
-|38
-|33
-|(38)
-|(29)
-|(12)
-|(6)
-|(1)
-|(1)
-|120
-|48
-|?
-
-|[M1 M5 CM7 CM11]
-|1
-|1
-|5
-|12
-|28
-|38
-|35
-|(38)
-|(28)
-|(12)
-|(5)
-|(1)
-|(1)
-|120
-|48
-|?
-
-|[M1 M7 CM1 CM7]
-|1
-|1
-|5
-|13
-|28
-|40
-|30
-|(40)
-|(28)
-|(13)
-|(5)
-|(1)
-|(1)
-|118
-|48
-|?
-
-|[M1 M5 CM1 CM5]
-|1
-|1
-|5
-|12
-|28
-|38
-|31
-|(38)
-|(28)
-|(12)
-|(5)
-|(1)
-|(1)
-|116
-|48
-|?
-
-|[M1 M5 M7 M11 CM1 CM5 CM7 CM11]
-|1
-|1
-|5
-|9
-|21
-|25
-|26
-|(25)
-|(21)
-|(9)
-|(5)
-|(1)
-|(1)
-|* 88
-|96
-|G = stem:[Aff_cZZ_12]
-|===
-
-Only 5 are identified out of the 13 classifications in the table : <<LVerdi-Table>>.
-
-Other view, the lattice of subgroups, without trivial group, identified by their cardinality.
-
-.Subgroups lattice - prefix "M" and "M1" are omitted (M1 CM11 => C11) (J-Y. Fusil - 2009)
-image::lattice-subgroups12.png[lattice-subgroups12]
-
-NOTE: 4 of its 5 known subgroups are located on the central vertical axis.
-
-
-== PCS Revisited
-
-=== Proposition A : With _iPivot_
-
-<<_for_better_basic_operations>>
-
-=== Proposition B : With _mapping_
-
-<<_for_better_projection>>
-
-[#_for_better_basic_operations]
-== For better basic operations
-
-As they stand, the generally accepted basic operations of musical set theory pose a logic problem that we raise here.
-
-=== Understanding what's wrong
-
-Let's take the inversion operation as an example.
-
-In the literature on post-tonal analysis, inversion operation can be found expressed in two forms :
-
-- stem:[InverseA(Pcs) = { (n - x) mod n | x ∈ Pcs }] // basic version <<Forte>>
-
-- stem:[InverseB(Pcs) = { (n - 1) * x mod n | x ∈ Pcs }] // https://en.wikipedia.org/wiki/Multiplication_(music)[multiplicative version M11]
-
-Example : C Major scale `[0 2 4 5 7 9 11]`
-
-* InverseA(`[0 2 4 5 7 9 11]`) :
-
-`0` -> `12 - 0` -> `#0#`
-
-`2` -> `12 - 2` -> `#10#`
-
-`4` -> `12 - 4` -> `#8#`
-
-`5` -> `12 - 5` -> `#7#`
-
-`7` -> `12 - 7` -> `#5#`
-
-`9` -> `12 - 3` -> `#3#`
-
-`11` -> `12 - 11` -> `#1#`
-
-This gives : InverseA(`[0 2 4 5 7 9 11]`) -> `[#0 1 3 5 7 8 10#]`
-
-
-* InverseB(`[0 2 4 5 7 9 11]`) :
-
-`0` -> `11 x 0` -> `#0#`
-
-`2` -> `11 x 2` -> 22 mod 12 -> `#10#`
-
-`4` -> `11 x 4` -> 44 mod 12 -> `#8#`
-
-`5` -> `11 x 5` -> 55 mod 12 -> `#7#`
-
-`7` -> `11 x 7` -> 77 mod 12 -> `#5#`
-
-`9` -> `11 x 3` -> 33 mod 12 -> `#3#`
-
-`11` -> `11 x 11` -> 121 mod 12 -> `#1#`
-
-This gives : InverseB(`[0 2 4 5 7 9 11]`) -> `[#0 1 3 5 7 8 10#]`
-
-As expected, _inverseA_ and _inverseB_ are *same logic* : [.underline]#CMajor is transformed in III degree of its VIb Major# (Ab Major)
-
-.M11 on C Major = III degree of VIb Major
-image::CMajor-M11-noPivot.png[CMajor-M11]
-
-Now that we have seen how the PCS Do Diatonic Major behaves, let's take C# Major / Db Major : `[0 1 3 5 6 8 10]`
-
-
-* The inverse of C# Major, _inverse_(`[0 1 3 5 6 8 10]`) :
-
-`0` -> `12 - 0` -> `#0#`
-
-`1` -> `12 - 1` -> `#11#`
-
-`3` -> `12 - 3` -> `#9#`
-
-`5` -> `12 - 5` -> `#7#`
-
-`6` -> `12 - 6` -> `#6#`
-
-`8` -> `12 - 8` -> `#4#`
-
-`10` -> `12 - 10` -> `#2#`
-
-InverseA(`[0 1 3 5 6 8 10]`) = InverseB(`[0 1 3 5 6 8 10]`) -> `[#0 2 4 6 7 9 11#]`
-
-image::DbMajor-M11-noPivot.png[DbMajor-M11]
-
-#⚠# *Oh!*, how come the treatment of inversion for a C#/Db Major *differs* from that of a C Major?
-
-The expected correct answer of Inverse(`[0 1 3 5 6 8 10]`)  should have been `[#1 2 4 6 8 9 11#]`, III degree of A Major (the VIb Major of Db Major) and not `[0 2 4 6 7 9 11]`.
-
-Other example, with a _Limited Transposition_ scale : _C Dim7_
-
-image::CDim7-infos.png[CDim7-infos]
-
-As you might expect, a diminished seventh chord is *very strongly symmetrical*. Observe its stabilizers, there are 16 of them and 4 are in T0 (highlighted in yellow in the screenshot above) : `#M1-T0#` of course, and  `#M5-T0#`, `#M7-T0#` and `#M11-T0#`.
-
-// docinfo.html has a rule css for error red
-
-[.text-center]
---
-
-[#zero-fixed-problem]
-.Basic operations in Musical Set Theory
-[%header,cols="^,^,^,^,^"]
-|===
-|Scale|M11-T0 (inversion) |M5-T0|M7-T0|Dim7 waiting as strongly invariant
-
-|image:clock-0369.png[]|image:clock-0369.png[]|image:clock-0369.png[]|image:clock-0369.png[]| #OK#
-
-|[0 3 6 9]|[0 3 6 9]|[0 3 6 9]|[0 3 6 9]| #OK#
-
-|image:clock-14710.png[]|image:clock-25811.png[]|image:clock-25811.png[]|image:clock-14710.png[]|  #[2 5 8 11] should be [1{nbsp}4{nbsp}7{nbsp}10]#
-
-|[1 4 7 10]|#[2 5 8 11]#|#[2 5 8 11]#|[1 4 7 10]| #???!#
-|===
-
---
-
-Obviously [2 5 8 11] is an intruder! business logic is not good. But then why is he here???
-
-=== The "fixed zero problem"
-
-The basic operations of musical set theory, which are the standard in the field, have a peculiarity: *they are always centered on 0 (zero)*, thus defining it as a fixed point we call the *_"fixed zero problem"_*.
-
-The bad result we observed comes from the fact that the algorithms confuse index and Pitch Class name, both being expressed by integers (a very useful confusion, by the way).
-
-Calculations performed directly with these values leads to a falsely controlled side effect.
-
-Example : `[1 4 7 10] x 11 = [11 44 70 110] modulo 12 = [11 8 5 2] => #[2 5 8 11]#`
-
-
-====
-[.text-center]
-*_"fixed zero problem"_*.
-
-This inconsistency doesn't seem to bother the people who gravitate toward the _Musical Set Theory_ (?).
-
-This can be explained by :
-
-* An approach guided by the results pre-determined by the authors, authors who do not attach importance to the logic of the tools they use.
-
-* The fact that the "intruder PCS", resulting from bad calculation logic, are, however, *part of the same orbit as the reference PCS*. So, result is "up to transformation", which is not precise enough, not fair enough for our needs.
-
-In our case, this is a problem, because we want :
-
-* *Consistency between geometric transformations and algebraic transformations*
-* Maintain integrity of a PCS along its affine transformations. The main rule is the pivot must be a PC *belonging* to the PCS, and this is not the case when the pivot is always set to zero.
-// * *That what an instrumentalist observes in fingering of phrasing must echo a harmonic structure*
-
-====
-
-As any musician would expect, the main characteristics of a PCS *should be insensitive to the transposition step* : the characteristics of a PCS remain unchanged compared to those of the same PCS transposed by a _k-step_.
-
-D-Major PCS shares same structural characteristics as any Major PCS.
-
-These characteristics include:
-_Interval structure, Interval vector, Forte number, limited meta-transposition status, limited transposition status, stabilizer_...
-
-[NOTE]
---
-Let's note that the "fixed zero problem" does not exist on PCS in Prime Form, because, expect the empty element, all PCS in Prime form have zero as their first pitch class.
-
-We also do not know whether solving the _fixed-zero-problem_ can have repercussions on transformational theory (David Lewin), which, we think, is not limited to PCS in Prime Form.
-
---
-
-[#understand-fixed-point-algorithm]
-=== Idea of solution
-
-The points fixed by the transformation operations depend essentially on _n_. For _n_ = 12, these fixed points are represented by this figure :
-
-.Template of fixed points (n = 12)
-image::fixed-indexes-n12.png[fixed-indexes-n12]
-
-**
-It therefore becomes necessary to use this fixed points template wisely.
-**
-
-Without questioning everything, especially the arithmetic of PCs, a general solution would be to transpose any PC undergoing a transformation operation, by a step _k_ that brings it back to the zero origin point, BEFORE the transformation, to perform the transformation, then to return to its starting point, transposition of _k-inverse_, AFTER the transformation. That is three operations instead of just one. This is the price to pay for good consistency. That is :
-
-. Transpose, by a step ok _-k_, the PCS to make one of its PCs coincide with zero
-. Apply the requested transformation (_ax + t_)
-. perform an inverse transposition (_k_)
-
-Some examples :
-
-Example1 Dim7 : `M11-T0` on `[1 4 7 10]`
-
-. `[1 4 7 10]` transpose with `k = -1` => `[0{nbsp}3{nbsp}6{nbsp}9]`
-.  `[0 3 6 9]` x 11 modulo 12 => `[0{nbsp}3{nbsp}6{nbsp}9]`
-. `[0 3 6 9]` transpose with `k = 1` => `#[1{nbsp}4{nbsp}7{nbsp}10]#`
-
-Example2 Major scale : `M11-T0` on  D Major `[1{nbsp}2{nbsp}4{nbsp}6{nbsp}7{nbsp}9{nbsp}11]`
-
-. `[1{nbsp}2{nbsp}4{nbsp}6{nbsp}7{nbsp}9{nbsp}11]` transpose with `k = -2` => `[0{nbsp}2{nbsp}4{nbsp}5{nbsp}7{nbsp}9{nbsp}11]`
-. `[0{nbsp}2{nbsp}4{nbsp}5{nbsp}7{nbsp}9{nbsp}11]` x 11 modulo 12 =>
-`[{nbsp}1{nbsp}3{nbsp}5{nbsp}7{nbsp}8{nbsp}10]`
-
-. `[0{nbsp}1{nbsp}3{nbsp}5{nbsp}7{nbsp}8{nbsp}10]` transpose with `k = 2` => `#[0{nbsp}2{nbsp}3{nbsp}5{nbsp}7{nbsp}9{nbsp}10]#`
-
-// use instead [.nowrap]
-
-The solution consists of defining the value of _k_, as transformation origin, to be applied for all affine transformation operations.
-
-Choosing the "smallest PC" of the PCS is not decisive: it works in the case of C# dim7, but not on DMajor, [.nowrap]#[1 2 4 6 7 9 11]#, because its first and minimum PC is 1 (C#), the seventh of the scale, and not its root, as in C major.
-
-*We must therefore choose to add a new property to the very concept of PCS.*
-
-=== Extended PCS with pivot
-
-Solution to resolve mismatch basic operations is to add a mobile pivot property to PCS (Extended PCS)
-
-The solution consists, for a PCS given, of selecting a Pitch Class that :
-
-- Serves as a _index pivot_ (not necessary "zero")
-- Belongs to the PCS being studied
-- Doesn't change the nature of a PCS, just expands the concept by making it *slightly less abstract*.
-- Default "the smallest PC" of PCS, or undefined if PCS is empty set. By correlation, PCS in prime form have zero as their pivot value by default.
-
-For this, we are going to add a new feature to the PCS, what we call  *_iPivot_* (pivot index or pivot pitch class, or fixed pitch class, or root pitch class...)
-
-This property can be *optionally* brought to the user's attention by mentioning it in *suffix*, as subscript, after the textual representation of the PCS. Ex : `[0 4 7]`~`4`~
-
-The presence of a movable pivot allows us to answer questions like: _How do you represent a G Major with a PCS?_
-The answer consists of giving the PCS that includes only the PCs of the expected scale (`[0 2 4 6 7 9 11]`), and positioning the pivot on the root (G = 7), so : `[0 2 4 6 7 9 11]`~`7`~
-
-Other examples :
-
-.PCS with pivot
-[%header,cols="^,^,^,^"]
-|===
-|PCS|Textual|Clock|Comment
-
-|CDim7 (iPivot = 0)
-|`[0 3 6 9]`~`0`~
-|image:pcs-0369-pivot0.png[pcs-0369-pivot0]
-|The pivot is indicated by a red color
-
-|EbDim7 (iPivot = 3)
-|`[0 3 6 9]`~`3`~
-|image:pcs-0369-pivot3.png[pcs-0369-pivot3]
-|idem
-
-|C#Dim7 (iPivot = 1)
-|`[1 4 7 10]`~`1`~
-|image:pcs-14710-pivot1.png[pcs-14710-pivot1]
-|idem
-
-|D Major (iPivot = 2)
-|`[1{nbsp}2{nbsp}4{nbsp}6{nbsp}7{nbsp}9{nbsp}11]`~`2`~
-|image:pcs-DMajor-pivot2.png[pcs-DMajor-pivot2]
-|idem
-|===
-
-IMPORTANT: We do not have integrated this property, _iPivot_, in the logical identity. Thus, `[0{nbsp}3{nbsp}6{nbsp}9]`~`0`~ and `[0{nbsp}3{nbsp}6{nbsp}9]`~`3`~ will be considered identical PCS `[0{nbsp}3{nbsp}6{nbsp}9]` (same id)
-+
-+
-*Therefore an extended PCS remains a (common) PCS.*
-
-.Red Pitch Class, in Clock view, denote _iPivot_ property
-image::big-major-cyclic-orbit.png[Major cyclic orbit]
-
-=== Resume
-
-* Extended PCS is a classic PCS augmented by _iPivot_ property.
-
-* This property will allow to fix a PC, pointed by _iPivot_, like the traditional "zero fixed", in order to make the transformation operations more consistent.
-
-* Moreover, the _iPivot_ property allows us to take a particular look at a PCS, as a scale, a chord according to a reference note (tonic, root, etc.)
-
-It then remains for us to revisit the general affine which uses the iPivot property. This is what we will do now.
-
-[#design-affine-pivot]
-=== Affine with pivot on Extended PCS
-
-Now that we have a property that allows us to designate a transformation pivot, we can get on with enriching the affine transformation function.
-
-We have seen that when an transformation operation acts on an extended PCS, in order to take into account a particular fixed point (and not just zero), it will involve a series of three operations instead of a single one (M1-Tp, Ma-Tk then M1-T-p). We call this operation _"AffinePivot"_
-
-====
-[.text-center]
---
-*_AffinePivot_~a,k~ : Composition of 3 affine operations*
-
-stem:["AffinePivot"_(a,k)  : Extended\ PCS xx NN xx NN -> Extended\ PCS]
-
-stem:["AffinePivot"_(a,k)(A) := M_1T_p(A) @ M_aT_k(A) @ M_1T_-p(A)]
-
-Where stem:[p] is _iPivot_ value of stem:[A]
---
-====
-
-=== AffinePivot reduced
-
-We are now preparing to establish a condensed version of the function.
-
-stem:["AffinePivot"_(a,k)(A) := M_1T_p(A) @ M_aT_k(A) @ M_1T_-p(A)]
-
-Recall : The affine function stem:[M_aT_k] is defined by  stem:[(ax + k)] that we can denote stem:[(a, k)] for the sake of simplification.
-
-The affine composition function, that define one single function from composition of two functions, is well known, is : stem:[(a, k) @ (a', k') = (aa', ak' + k)].
-
-We will use this reduction to reduce the composition of 3 functions, stem:[M_1T_p(A) @ M_aT_k(A) @ M_1T_-p(A)], to a single one.
-
-* = stem:[(1, p) @ (a, k) @ (1,-p)]
-* = stem:[(1, p) @ (a, -ap + k)]
-* = stem:[(a, -ap + k + p)]
-* = stem:[(a, -(a-1)p + k)]
-* = #stem:[(a, p(1 - a) + k)]#  <= solution
-
-// a * (x - pivot) + pivot + t // 1 mut 1 sous 2 add
-
-
-Unsurprisingly, only the transposition step is affected.
-
-
-.Examples
---
-
-* With _p_ = 0
-
-- stem:[(a, p(1 - a) + k)]
-- stem:[(a, k)]  // ok this is initial function composition affine
-
-* With _p_ = 0 and _a_ = 1
-
-- stem:[(a, p(1 - a) + k)]
-- stem:[(1, k)]  // ok, simple transposition
-
-* With _p_ = _0_ and _a_ = _1_ and _k_ = _0_
-
-- stem:[(a, p(1 - a) + k)]
-- stem:[(1, 0)]  // ok, neutral operation (id)
-
-* With _p_ = 2 and _a_ = 11  and _k_ = _3_
-
-- stem:[(a, p(1 - a) + k)]
-- stem:[(11, 2 * (1 - 11) + 3)]
-- stem:[(11, -17)]
-- stem:[(5, 7)] // modulo 12
-
---
-We can now define the operation that acts on Extended PCS.
-
-====
-[.text-center]
---
-*AffPivot : An action on Extended PCS*
-
-stem:["AffPivot"_(a,k)(A) := {\ (ax + p(1 - a) + k) mod |E| \ },  forall  x in A]
-
-or better (with minimum operations)
-
-stem:["AffPivot"_(a,k)(A) := {\  a(x - p) + p + k mod |E| \ },  forall  x in A]
-
-// a * (x - pivot) + pivot + t // 1 mut 1 sous 2 add
-
-_Where *a* is prime with |E|, *k* a step of transposition, *p* the iPivot of A_
-
---
-====
-
-[IMPORTANT]
-====
-_MusaicBox_ works with Extended PCS and implements affine function with _iPivot_, as defined by _affinePivot_ algorithm, and implement as a permutation function stem:[P(E) -> P(E)].
-
-Although the affine function has replaced the usual affine functions in the project ... It should not be lost in sight that it is only a contraction of a composition of functions: [.nowrap]#`M1-T~p~ ∘ M~a~-T~k~ ∘ M~1~-T~-p~`# or [.nowrap]#`M1-T~p~(M~a~-T~k~(M~1~-T~-p~( pcs )))`#
-as explained here <<design-affine-pivot>>.
-====
-
-
-// And yet, the AffineMivot function has taken the place of the usual Affine functions in the project... Obviously to be clarified...
-
-//
-// === Composition function of (a, p(1 - a) + k)
-//
-// Composition function of traditional affine operation is
-//
-// stem:[(a,k) @ (a',k') = (aa', ak' + k)]
-//
-// which we apply to our extended function.
-//
-// Function composition stem:[@] is :
-//
-// - = stem:[(a, p(1 - a) + k) @ (a', p'(1 - a') + k')]
-// - = stem:[(aa', a * (p'(1 - a') + k') + p(1 - a) + k)]
-// - = stem:[(aa', -aa'p' + ap' +ak' -ap + p + k)]
-// - = #stem:[(aa', -ap'(a + 1) + p(1-a) + ak' + k)]# <= solution
-//
-// Examples
-//
-// * With _p_ = 0 and p' = 0:
-//
-// - stem:[(aa', -ap'(a + 1) + p(1-a) + ak' + k)]
-// - stem:[(aa', ak' + k)]  // ok this is initial function composition affine
-//
-// * With _p_ = _p'_ = 0 and _a_ = 1 and _a'_ = 1
-//
-// - stem:[(aa', -ap'(a + 1) + p(1-a) + ak' + k)]
-// - stem:[(1, k' + k)]  // ok, simple transposition
-//
-// * With _p_ = _p'_ = _0_ and _a_ = _a'_ = _1_ and _k_ = _k'_ = _0_
-//
-// - stem:[(aa', -ap'(a + 1) + p(1-a) + ak' + k)]
-// - stem:[(1, 0)]  // ok, neutral (or id) operation
-//
-// * With _p_ = 1 _p'_ = 2 and _a_ = 5  _a'_ = 7 and _k_ = 2 _k'_ = _3_
-//
-// - stem:[(aa', -ap'(a + 1) + p(1-a) + ak' + k)]
-// - stem:[(35, -10(5 + 1) + (1-5) + 15 + 2)]
-// - stem:[(11, 1)] // modulo 12
-
-Examples of new transformations taking into account the pivot :
-
-.Revisited operations of Musical Set Theory
-[%header,cols="^,^,^,^,^"]
-|===
-|Scale|M11-T0 (inversion) |M5-T0|M7-T0|Dim7 waiting as strongly invariant
-
-|image:pcs-0369-pivot0.png[]|image:pcs-0369-pivot0.png[]|image:pcs-0369-pivot0.png[]|image:pcs-0369-pivot0.png[]| #OK#
- +
- +
- Cdim7
-
-|[0 3 6 9]|[0 3 6 9]|[0 3 6 9]|[0 3 6 9]| #OK#
-
-|image:pcs-14710-pivot1.png[]|image:pcs-14710-pivot1.png[]|image:pcs-14710-pivot1.png[]|image:pcs-14710-pivot1.png[]|{nbsp}
- +
- C#dim7
-
-|[1 4 7 10]|[1 4 7 10]|[1 4 7 10]|[1 4 7 10]|OK
-+
-C#dim7 has same transformation types as Cdim7
-
-
-|image:pcs-CMaj-pivot0.png[]|image:pcs-CMaj-M11-pivot0.png[]|image:pcs-CMaj-M5-pivot0.png[]|image:pcs-CMaj-M7-pivot0.png[]| CMajor transformations
-
-|[0 2 4 5 7 9 11]|[0 1 3 5 7 8 10]|[0 1 7 8 9 10 11]|[0 1 2 3 4 5 11]|ok
-
-
-|image:pcs-DMajor-pivot2.png[]|image:pcsDMaj-M11-Pivot2.png[]|image:pcsDMaj-M5-Pivot2.png[]|image:pcsDMaj-M7-Pivot2.png[]| DMajor transformations
-
-|[1 2 4 6 7 9 11]|[0 2 3 5 7 9 10]|[0 1 2 3 9 10 11]|[1 2 3 4 5 6 7]| DMajor has same transformation types as CMajor
-
-|===
-
-=== Conclusion
-
-* After observing the so-called "fixed zero problem", we were led to introduce a new property to the PCS concept, called _iPivot_, to improve the consistency of affine transformation operations (inversion, M5, and M7).
-
-* The concept of default value for iPivot has been introduced, which allows for consistency and determinism in the group action (construction of P(E), orbits and stabilizers).
-
-* The value of the iPivot property has no impact on the identity of a PCS, as defined in <<identity-pcs>>.
-
-* The PCS, equipped with the iPivot property, made it possible to define the general affine function (for inversion, M5, M7) more precise, more coherent.
-
-* These two features (iPivot and new affine function) enrich the concept of PCS, which we call _Extended PCS_ (100% compatible with the basic PCS concept).
-
-
-////
-
-Abstract général
-  idée d'un POC du projet 88musaics.org
-  Le POC, en retour, nous a obligé à résoudre des problèmes qui nous a amené à proposer une évolution du concept même de PCS et de ses opérations de bases associées (affine et complément)
-
-https://www.reddit.com/r/AskAcademia/comments/2m64qo/what_is_the_difference_between_an_abstract_and_a/?tl=fr
-
-Un résumé est un résumé de l'article et vous présentez le contexte et le raisonnement derrière le travail :
-
-X est un problème parce que Y, nous avons donc fait Z et trouvé K.
-
-X : Opérations affine de base
-Y : inconsitence des opérations
-Z : ajout au PCS une propriété nommées iPivot.
-K : ... nous avons donc redéfini l'opération affine afin qu'elle exploite la donnée de pivot portée par le PCS sur lequel elle agit.
-
-
-
-Une conclusion est ce que vous avez retenu de votre travail :
-
-Après avoir fait Z et les expériences A, B et C, nous montrons K.
-
-////
-
-[#_for_better_projection]
-== For better projection
-
-For now, let's look at the configuration of the piano keyboard, over an octave.
-
-Piano keyboard gives pride of place to n = 7, embodied by the C major diatonic scale.
-
-.Piano keyboard configuration
-image::clavier7notes.svg[]
-
-.Other view of piano keyboard
-image::clavier7notesCircle.svg[]
-
-TIP: Seven PCS of diatonic design as a circle divided into 7 equal parts
-
-
-Physically, *the white keys are equidistant from each other, but musically, this is not the case*. Example: C-D = 2 semitones, the same for D-E, but E-F = 1 semitone.
-
-This is so, because the piano keyboard made is designed *to map 7 into 12*.
-
-When user simultaneously presses the white keys C E G, that is, the keys [0 2 4], it produces the chord [0 4 7]. Such a system is an automatic correspondence of stem:[ZZ_7] to stem:[ZZ_12] ( characteristic of some chromatic instruments as piano).
-
-.Regularity of 7 broken in 12 mapped
-image::pcs-246-mapped-047.png[]
-
-
-=== Mapping
-
-
-When n is less than 12, interesting properties can be exploited. For example, with n=7, a prime number thus comprising many generating cycles. By examples:
-
-* Steps of 2: for constructing chords 0 2 4 6 8 10 12 modulo 7 -> 0 2 4 6 1 3 5 -> C E G B D F A
-* Steps of 3: chord progression (C F B E A D G)
-
-The diatonic scale is special in that it is a sequence of 1 or 2 semitones : Major scale intervallic structure is (2,2,1,2,2,2,1), it is Maximally Even and has _Myhill's_ property - (see below in this section)<<Johnson>>
-
-Mapping system explained by figure below.
-
-[#mapping-explained]
-.Mapping 7 -> 12 Explained mapping from [0 2 4] to [0 4 7]
-image::understand-mapping-system.svg[understand-mapping-system 7 to 12]
-
-From there, studying n=7 as we did for n=12 is a short step. The number of possible combinations is 2^7 = 128.
-
-* Trial group has 128 orbits
-* Cyclic group has 20 orbits
-* Affine group has 10 orbits
-* Musaic (Complement+Affine) group has 5 orbits
-
-.N=7
-[cols="1,1,^3"]
-|===
-|Group name|Group operations|Orbits
-
-|Trial group
-|`M1-T0`
-| cardinal = 128
-
-
-|Cyclic group
-|`M1`
-|image:cyclic-group-n7.png[]
-
-cardinal = 20
-
-
-|Affine group
-|`M1 M2 M3 M4 M5 M6`
-|image:affine-group-n7.png[]
-
-cardinal = 10
-
-|Musaic group (Complement+Affine)
-|`M1 M2 M3 M4 M5 M6 CM1 CM2 CM3 CM4 CM5 CM6`
-|image:musaic-group-n7.png[]
-
-cardinal = 5
-
-|===
-
-Although the diatonic scale is the most balanced geometric solution for distributing 7 notes within the 12-note chromatic circle, other scales would benefit from being explored.
-
-[NOTE]
-====
-Did you know that the *diatonic scale* is the most geometrically balanced of the 7-note scale on the 12-note chromatic circle?
-
-.Source: Timothy A. Johnson (<<Johnson>>)
-image::map-7-to-12-best-symmetryV2.jpg[]
-
-On the left, dots divide the circle into 7 equal parts, then on the right, these dots are distributed over the notes closest to the 12-note chromatic circle. This is _"the best compromise in terms of placing..._"
-
-====
-
-But Major Scale is not only one to have 7 pitches and only <1,2> as *generic interval* (see
-https://en.wikipedia.org/wiki/Diatonic_set_theory[Diatonic Set Theory on wikipedia].
-
-There are 29 cyclic orbits (or cyclic intervallic structure) with this characteristic, 13 of which have a cardinality between 5 and 8.
-
-There are 11 cyclic orbit in Maximal Evenness, 25 cyclic orbit in Strict Second Order Maximal Evenness : ',
-See <<list-pcs-same-as-major-scale>>
-
-* Why not focus on another major scale, like D Major, for example?
-
-* Why focus only on this PCS with cardinality = 7?
-
-* Why not explore other values of N?
-
-This is how the idea of considering a PCS in a constant mapping situation came about.
-
-=== Auto-Mapping
-
-Let's take the example of a piano keyboard. Despite the predominance of N=7, the configuration integrates 7 into 12 (with the black keys). We say that this arrangement is a mapping of 7 over 12.
-
-The AutoMap function can perform this mapping, and many more.
-
-AutoMap transforms a given PCS _p_ of cardinality _x_, belonging to stem:[P(ZZ_12)], into a PCS _p'_ of stem:[P(ZZ_x)] mapped to stem:[P(ZZ_12)], having  *_p_* as *template mapping* - which explains the *"auto"* prefix of the function name. ( see <<mapping-explained>> )
-
-To get the CM7 mapped in figure below, we need to perform two steps:
-
-.  Select Automap from Diatonic Major scale
-.  Select only 0 4 7 11 (by deselect 2 4 9)
-
-And
-
-[start=3]
-. Add to WB page
-
-
-image::CM7-mapped.png[]
-
-
-On WhiteBoard page, let's consider CM7 as the PCS of stem:[P(ZZ_7)], with the C major diatonic scale as a reference. PCS [0 2 4 6] is mapped as [0 4 7 11].
-
-Right click on this PCS, then _orbits->Cyclic orbit_, you get 7 other PCS, obtained by https://en.wikipedia.org/wiki/Transposition_(music)#Diatonic_transposition[diatonic transposition] :
-
-.CM7 mapped to Diatonic Major (in orbit cyclic Z~7~)
-image::CM7-mapped-diatonic-maj-cyclic-orbit.png[CM7-mapped-diatonic-maj-cyclic-orbit]
-
-
-=== Auto-Mapping inverse
-
-Inverse of automap is the _unmap_ function.
-
-From a PCS _p_, mapped to stem:[ZZ_12], UnMap transform templateMapping of _p_  to an new PCS _p'_ *mapped to itself*. A PCS mapped to itself is considered as no mapped.
-
-Return to PCS page, Go back to the PCS page, normally you should have the CM7 PCS Mapped. If not, map it.
-
-Select UnMAp, you get a not mapped PCS [0 4 7 11] ([C E G B]), and let us ask for pcs in its cyclic orbit.
-
-image::CM7-unmapped.png[CM7-unmapped]
-
-Add it to WB page, and, again, do right click on this PCS, then _orbits->Cyclic orbit_, you get 12 other PCS :
-
-.CM7 unmapped with its orbit cyclic (in Z~12~)
-image::CM7-cyclic-orbit.png[CM7-cyclic-orbit]
-
-TIP: You can Undo/Redo.footnote:redo[] at any time.
-
-=== Conclusion
-
-* We introduced the concept of Mapping, which allows you to explore PCSs from a *subgroup* of stem:[ZZ_12].
-
-* We introduced the autoMap and unMap functions.
-
-* We discussed the use of the autoMap and unMap functions in the application and presented a use case involving the discovery of the natural chords, and their quality, from major diatonic scale.
-
-* The mapping function extends the concept of PCS again.
-
-* The mapping function further extends the concept of PCS.
-By default, a PCS is mapped to itself, and therefore considered "unmapped."
-
-Therefore, this new concept does not disrupt the basic concept of PCS defined by Musical Set Theory.
-
-We even believe that, beyond its practicality, the doubly extended PCS increases the exploration potential of its abstract descriptions.
-
-[glossary]
-== Glossary
-
-Integer Notation::
-  The representation of pitch class by the integers 0 through 11 (pc integers) <<Forte>>
-
-Normal order::
-  A particular circular permutation of a pcs in ascending order <<Forte>>
-+
-Example : [7 0 4] -> [*0 4 7*] (normal order))
-+
-[NOTE]
---
-Into this project, all pcs are in normal order. However, the search PCS function, on the top right of toolbar, accepts another order, it is *a way to define a pivot value* as first pc of the pcs.
-
-Example : *[4 0 7] -> +[0 4 7]+~4~*
---
-
-Intervallic Structure::
-  For a given PCS (in normal order), this is the ordered list of intervals separating one PC from the next PC in the chromatic circle, starting from the first PCS to the last PC and from the last PC to the first.
-
-+
-Example : (CMaj) IS([0 4 7]) = (4 3 5), because
-+
-* 0 to 4 -> 4 semitones
-* 4 to 7 -> 3 semitones
-* 7 to 0 -> 5 semitones
-+
-Particularity : Sum of intervals is always equals to _n_ (12)
-+
-Not to be confused with Interval Vector
-
-Pitch Class Interval::
-Other name : _Interval Class_
-+
-Is the smaller distance, in semitone, between two pitch classes in chromatic circle representation (Z~12~).
-+
-ic(a,b) = the smaller of i<a,b> and i<b,a>,
-   where i<a,b> is an ordered pitch-class interval <<Rahn>>
-+
-Example: ic(0, 10) = 2,  because i<0, 10> = 10 and i<10, 0> = 2
-
-
-Interval Vector::
-  (or _Interval Class Vector_)
-  This is an array of natural numbers which summarize the pitch class intervals appears in a pcs. (see https://en.wikipedia.org/wiki/Interval_vector)
-
-
-Cyclic Prime Form::
-  For a given pcs, it is the *minimum pcs* of its cyclic orbit
-
-Prime Form::
-  For a given pcs, it is the *minimum pcs of its orbit*, or it-self if its orbit is empty.
-
-Orbit::
-  For a given pcs, if pcs come from a group action G, it is all images of pcs by action of G under pcs
-
-Cyclic Orbit::
-Orbit having a group G composed only of transposition operations.
-+
-G = {M1-T0, M1-T1, M1-T2,..., M1-T11}
-
-Dihedral Orbit::
-Orbit having a group G composed only of transposition and inversion operations
-+
-G = {M1-T0, M1-T1, ..., M1-T11, M11-T0, M11-T1,..., M11-T11,}
-
-Affine Orbit::
-Orbit having a group G composed only of transposition, inversions and multiplication by 5 and 7 operations
-+
-G = {M1-T0, M1-T1,..., M11-T0, M11-T1,..., M5-T0,...,M7-T11,}
-
-Musaic Orbit::
-Orbit having a group G composed only of transposition, inversions,  multiplication by 5 and 7 and complement operations (Affine operations + complement)
-+
-G = {M1-T0, M1-T1, M11-T1, M5-T1, M7-T1, CM1-T1, CM5-T1, CM7-T1, CM11-T1, ...}
-
-Cyclic Intervallic Structure (cis)::
-Is the Intervallic Structure up to circular shift. In other words, it is the *structure of polygon inscribed* by a pcs into chromatic circle (see <<_clock_chromatic_circle>>).
-+
-There are 352 cyclic intervallic structures in twelve-tone equal temperament.
-+
-Example 2 pcs with same structure of polygon inscribed : image:pcsCM-FM.png[CM and FM]
-+
-Because all pcs in same cyclic orbit have same cyclic intervallic structure (transposition preserve cyclic intervallic structure), a cyclic intervallic structure of a given pcs is represented by the _Intervallic Structure_ of its _cyclic prime form_
-+
-Example : (CMaj) cis([0 4 7]) = (4 3 5)  (_cyclic prime form_)
-+
-Example : (FMaj) cis([0 5 9]) = (4 3 5) (CMaj is its cyclic prime form)
-+
-CMaj and FMaj have same structure of polygon inscribed, so have same cis, have same musaic-motif
-
-[#Musaic-Motif]
-Musaic-Motif::
-  A face of a musaic. It is a geometric figure of a cyclic intervallic structure of a given pcs, and, potentially, its complement.
-+
-Example : image:pcs-03579.png[03579 and complement] is : (2,2,2,3,3) in black, and, potentially (1,2,1,2,2,2,2) in white color
-+
-NOTE: A musaic alone has a potential of *8* cyclic intervallic structures, sometimes less as in the example provided.image:pcs-musaic-motif-4.png[musaic-motif-4 only]
-
-
-[bibliography]
-== References
-
-* [[[Forte]]] Forte, Allen. 1973. The Structure of Atonal Music. New Haven: Yale University Press.
-
-* [[[Rahn]]] Rahn, John. 1980. Basic Atonal Theory. New York: Longman.
-
-* [[[Johnson]]] Johnson, Timothy, 2003. Foundations of diatonic theory. Key College Publishing
-
-* [[[DIS]]] Stephen C.Brown. Dual Interval Space in Twentieth-Century Music,  Musaic in armature 1-5 is DIS(1,5).
-
-* [[[PERLE]]] Perle, G. 1954. The possible Chords in Twelve Tone Music
-
-* [[[LVERDI]]] Verdi, Luigi. In Autour de la Set Theory. Ircam / Delatour ed. 2003.
-
-* [[[TOPOS]]] Mazzola, Guerino. 2002. The Topos of Music. Birkhauser Verlag AG.
-
-
-== Appendix
-
-
-=== Stabilizer naming
+== Stabilizer
 
 As specified in the chapter <<_stabilizer_and_fixed_pcs>>, a stabilizer is inseparable from an orbit, it is even one of its components.
 
@@ -2585,7 +1427,7 @@ Stabilizers of cyclic group are : `M1-T0~2*, M1-T0~1*, M1-T0~3*, M1-T0~4*, M1-T0
 
 Operations of stabilizer are here represented in a _reduced name format_.
 
-==== Reduced Name
+=== Reduced Name
 
 `M1-T0~1*` : Here represents the different transposed versions of the operation `M1`.
 
@@ -2619,7 +1461,7 @@ Examples :
 This type of representation increases the readability of a stabilizer. Empty pcs is the best case, because the set of stabilizer of G~[∅]~ is composed of 48 operations, and denoted M1-T0~1* M5-T0~1* M7-T0~1* M11-T0~1*, only 4 reduced names vs 48, a nice saving!
 
 
-==== Meta-Stabilizer
+=== Meta-Stabilizer
 
 A "meta-stabilizer" is a stabilizer "up to transposition", so, suffix `-Tk` is omitted.
 
@@ -2644,25 +1486,25 @@ A "meta-stabilizer" is a stabilizer "up to transposition", so, suffix `-Tk` is o
 |===
 
 With stem:[n=12], there are 8 meta-stabilizers : M1, M5, M7, M11, CM1, CM5, CM7, CM11.
-A meta-stabilizer can be represented by a geometric figure, a polytrope :
+A meta-stabilizer can be represented by a geometric figure, an 8-vertex polytrope (octotrope).
 
-==== Octotrope
+=== Octotrope
 Octotrope, a geometric figure for a combination of meta-stabilizers.
 
---
-[.left]
-image::octotrope.png["Octotrope def" float="left",align="center"]
---
+Two options were chosen: either a 3D representation (the 8 vertices of a cube) or a "flattened" projection of the cube where the vertices are represented by 2 superimposed discs (the largest for the complementary). For ease of representation, we have opted for this second representation
+
+image::octotrope.png["Octotrope def",align="center"]
 
 An orbit can be fixed by one or more meta-stabilizer. Example, Diatonic major scale is meta-fixed by M1 and M11 (i.e. inverse of diatonic scale is also a diatonic structure) See Musaic n° 38. Set of meta-stabilizers linked to a musaic (an orbit) is represented by a octotrope. Examples :
 
 * Major scale [0 2 4 5 7 9 11]  is meta-invariant by M1 and M11, represented by octotrope : image:octotropes/m1-m11.png[m1-m11]
 * Diminished scale [0 3 6 9] is meta-invariant by M1, M5, M5 and M11 : image:octotropes/m1-m5-m7-m11.png[m1-m5-m7-m11]
 
-With stem:[n=12], 88 orbits may be partitioned in 13 octotrope classes :
+With stem:[n=12], 88 orbits may be partitioned in 13 octotrope classes (last row : number of musaics meta-stabilized)
 
+[cols="13*^"]
 |===
-|M1|M1 M5|M1 M7|M1 M11|M1 CM5|M1 CM11|M1 M5 M7 M11|M1 M5 CM1 CM5|M1 M5 CM7 CM11|M1 M7 CM5 CM11|M1 M11 CM1 CM11|M1 M11 CM5 CM7|M1 M5 M7 M11 CM1 CM5 CM7 CM11
+<|M1 <|M1 M5 <|M1 M7 <|M1 M11 <|M1 CM5 <|M1 CM11 <|M1 M5 M7 M11 <|M1 M5 CM1 CM5 <|M1 M5 CM7 CM11 <|M1 M7 CM5 CM11 <|M1 M11 CM1 CM11 <|M1 M11 CM5 CM7 <|M1 M5 M7 M11 CM1 CM5 CM7 CM11
 
 |image:octotropes/m1.png[]
 |image:octotropes/m1-m5.png[]
@@ -2678,9 +1520,24 @@ With stem:[n=12], 88 orbits may be partitioned in 13 octotrope classes :
 |image:octotropes/m1-m11-cm5-cm7.png[]
 |image:octotropes/m1-m5-m7-m11-cm1-cm5-cm7-cm11.png[]
 
+|#19
+|#6
+|#11
+|#10
+|#2
+|#4
+|#24
+|#1
+|#3
+|#2
+|#1
+|#1
+|#4
+
+
 |===
 
-Un octotrope permet d'identifier rapidement la classe des invariants d'une gamme.
+An octotrope allows you to quickly identify the class of invariants of a PCS.
 
 Example (PCS page https://musaicbox.org/pcs/pid/1613[0 2 3 6 9 10] ) : image:limited-transf-octotrope.png[]
 
@@ -2688,659 +1545,13 @@ Example (PCS page https://musaicbox.org/pcs/pid/1613[0 2 3 6 9 10] ) : image:lim
 
 TIP: On the MusaicBox app, go to page https://musaicbox.org/the88[88 Musaics] to see the different musaics related to their octotrope.
 
-'''
+== 88 Musaics
 
-=== Order relation
-
-It would be useful to be able to sort the pcs among themselves. To do this, we need to define a total order relation that verifies:
-
-// stem:[ ∀ x, y ∈ P(E), ( "id"(x) ≤ "id"(y) and "id"(y) ≤ "id"(x) ) => x = y ]
-
-//see syntax https://asciimath.org/
-stem:[ AA A, B in P(E)", " \   "id"(A) <= "id"(B) and "id"(B) <= "id"(A)  => A = B ]
-
-In others all, if two PCS have same identity value, then we are dealing with the same PCS.
-
-Question is : How to represent the identity relationship (id function)?
-
-==== State
-By definition, a PCS is a collection of PC. Type is not atomic, and may have some algorithmic efficiency problem, so we prefer a scalar identity.
-
-==== Integer
-
-To implement order relation, we use integer representation, to go through the order of natural integer.
-
-==== Polynomial function pid()
-
-Polynomial function (_pid_) is a good candidate for sorting the PCS among themselves.
-
-stem:["pid("pcs")" = sum_(i=0)^(n-1) ""pcs""_"v[i\]" 2^i ] {nbsp} _(exploits the vector representation of a PCS - see PCS representation <<Integer>>)_
-
-
-However, there remains a bias.
-
-Examples with some pairs of pcs (pcs1 and pcs2), let's compare pid(pcs1) and pid(pcs2) to determine if pcs1 "is less than" pcs2 :
-
-[%header]
-.Example problem when compare identity with Polynomial Identifier
-|===
-|pcs1| pcs2| pid(pcs1) | pid(pcs2)| pcs1 < pcs2
-| [ ]| [0]| _0_ | _1_ | **_true_**
-|[0 4 7]| [1 5 8]| _145_ | _290_ | **_true_**
-|[0 3 7]| [2 6 11]| _137_ | _2116_ | **_true_**
-|[0 11] | [0 3 7] | _2049_ |_137_ | **_false_** (???)
-
-#_waiting true_#
-|===
-
-In the first line, we admitted that a pcs with a smaller cardinal than another pcs will be considered smaller than the latter. But this is contradicted by the last line, counterintuitive.
-
-We admit that when two PCS are compared, the one with the smaller cardinality will always be considered inferior to the other, which can be defined by :
-
-stem:[forall (pcsA, pcsB) in P(Z_n)^2, |pcsA| < |pcsB| => pcsA  < pcsB]
-
-We have seen, on an example, that _pid_ does not respect this property : stem:["pid"_("[0, 11\]") >  "pid"_("[0, 3, 7\]")]
-
-We need to find another function.
-
-[#identity-pcs]
-==== Identity of PCS : id()
-
-To take into account the cardinal in the general order relation that we are looking for, we introduce, independently of _pid_ , a function stem:[w] : stem:[ P(Z_12) -> NN ] {nbsp} defined by :
-
-stem:[w(A) = m cdot |A| ]
-
-In order to give significant weight to _w_ function, independently of _pid_, we take as the value of _m_ (the multiplicative coefficient of the cardinal of _A_) a value greater than the upper limit of the domain of _pid_ which is stem:[\[0..2^12[] {nbsp}, so the first next value outside _pid_ domain is  stem:[m=2^12].
-
-So,  stem:[w(A) = 2^n cdot |A| ]
-
-Augmented polynomial function, which called _id_, taked into account the cardinal, is :
-
-// stem:[id_A = "pid"_A + w_A = "pid"_A + 2^n * |A| ]
-
-====
-
-[.text-center]
---
-*id function*
-
-stem:["id" : {0,1}^12 -> N]  {nbsp} defined by :
-
-stem:["id("v")" = "pid"_A + w_A = sum_(i=0)^(n-1) v_i 2^i + 2^n * sum_(i=0)^(n-1) v_i   ]
---
-====
-
-[NOTE]
-====
-Since there exists a function (toVector) which gives the vector image of any PCS, we can also define function _id_ with this domain of definition  stem:["id" : P(ZZ_12) -> N]
-
-Total order relation is definitely implemented by id function :
-stem:[forall (pcsA, pcsB) in P(Z_n)^2, "id"(pcsA) <= "id"(pcsB) and "id"(pcsB) <= "id"(pcsA) => pcsA = pcsB]
-
-====
-
-The lower bound is stem:[0] obtained for the vector stem:[[0, 0, ... ,0\]]
-
-The upper bound is stem:[2^n -1 + n2^n = 2^n(n+1)-1], for stem:[n=12], we obtain the vector stem:[[1, 1, ... ,1\]] and value stem:[53247].
-
-An order relation on P(Zn) can be established, which is based on the order relation of natural numbers:
-
-stem:[AA (A, B) in P(ZZ_n)^2 \ \ A <= B <=> "id"(A) <= "id"(B)]
-
-Some properties :
-
-stem:[AA (A, B) in P(ZZ_n)^2 \ \ A <= B and B <= A => "id"(A) = "id"(B)] {nbsp} so stem:[A = B] {nbsp} (_total order_)
-
-stem:[AA (A, B) in P(ZZ_n)^2 \ \ A sube B => id(A) <= id(B) ] {nbsp} (_inclusion compatible_, note : inverse is not true).
-
-stem:[forall (A, B) in P(ZZ_n)^2, |A| <= |B| <=> id(A) <= id(B)] {nbsp} (_cardinality compatible_)
-
-[%header]
-.Example Compare with Augmented Polynomial Identifier (id)
-|===
-|pcs1| pcs2| id(pcs1) | id(pcs2)| pcs1 < pcs1
-| [ ]| [0]| _0_ | _4097_ | **_true_**
-|[0 4 7]| [1 5 8]| _12433_ | _12578_ | **_true_**
-|[0 3 7]| [2 6 11]| _12425_ | _14404_ | **_true_**
-|[0 11] | [0 3 7] | _10241_ |_12425_ | **_true_** (ok)
-|===
-
-NOTE: In MusaicBox code, Augmented Polynomial Identifier is called _id_, and _pid_ is kept because is commonly used.
-
-==== Application example
-
-Example of application of the id function on a finite set: stem:[E = { "do, "mi", sol" }]
-
-The set of subsets of E is :
-
-[.text-center]
---
-stem:[P(E) = { O/, {do},{mi},{sol},{do,mi},{do,sol},{mi,sol}, E }]
---
-
-The figure below, presents (thin black arrow) the set inclusion relation, for example stem:[{do} sube {do, mi}], in minimal coverage, that is to say without transitivities, (for example the relation stem:[{do} sube {do, mi, sol}] is not arrowed - it is a lattice).
-
-The *total order relation* is represented by the black arrow *and* the red arrow.
-
-It is the minimal coverage of the relation defined by the _id_ function. Example: stem:[{do} < {mi} < {sol}].
-
-.Minimal coverage of the relation id in lattice
-image:relationOrdreTreilliV3.png[total order relation]
-
-////
-== Orbit
-
-
-Example of _proposition_ : "_To be a major triad_"
-
-There are only 12 pcs, among the 4096 pcs, where this proposition is true.
-
-[%header]
-.Different representations of _major triad_
-|===
-|structure name| intervals | clock | musaic
-| Major triad | major third then perfect fifth then perfect forth |specific inscribed polygon image:major-triad-polygone.png[major-triad-polygone]|specific motif image:major-triad-motif.png[major triad motif]
-|===
-
-Such proposition can take form of an _equivalence relation_ : _R_ = "_to share same structure_"
-
-Some characteristics of _R_ :
-
-* symmetric : stem:[∀ x, y ∈ P(E), x\ R\ y => y\ R\ x ]
-
-* reflexive : stem:[∀ x ∈ P(E), x\ R\ x ]
-
-* transitive : stem:[∀ x, y, z ∈ P(E), (x\ R\ y and y\ R\ z) => x\ R\ z ]
-
-=== Orbit
-Orbit is a set where all of its elements (pcs) are connected by the same equivalence relation.footnote:[see _setoid_ or _bishop set_]
-
-Example : Orbit cyclic of major triad as `{ C,E,G }` is a set with equivalence relations "_having same structure of major triad_". This set is composed of 12 elements (`{ C, E, G }, { Cb, F, Ab }, ..., { B, D#, F# }`)
-
-[.float-group]
---
-[.left]
-.Orbit Cyclic in score view and Major Triad Motif
-image::maj-triad-orbit-score.png["Orbit cyclic" float="left",align="center"]
---
-
-Below, same, with clock representation.
-
-[.float-group]
---
-[.left]
-.Orbit Cyclic in clock view and their inscribed polygon
-image::maj-orbit-clock2.png["Orbit cyclic", float="left", align="center"]
---
-
-If we organize the 4096 pcs set into subsets with equivalence relation "_having same structure (of inscribed polygon)_", we obtain 352 types of polygonsfootnote:[and not 4096/12, because some pcs have less than 12 transposed - limited transposition] therefore 352 subsets (orbits) forming a partition of 4096 pcs set.
-
-[%header]
-.Enumeration via line 12 of Pascal triangle
-|===
-|PCS cardinal|Orbit cardinal 6+^|_Coefficient of Transposition_|Pascal triangle line 12
-|||1|2|3|4|6|12|_line 12_
-|0|1|1||||||1
-|1|1||||||1|12
-|2|6|||||1|5|66
-|3|19||||1||18|220
-|4|43|||1||2|40|495
-|5|66||||||66|792
-|6|80||1||1|3|75|924
-|7|66||||||66|792
-|8|43|||1||2|40|495
-|9|19||||1||18|220
-|10|6|||||1|5|66
-|11|1||||||1|12
-|12|1|1||||||1
-|total|*352*|2|1|2|3|9|335|*4096*
-||352 orbits of cyclic group (17 + 335) 5+^|_17 cyclic orbits PCS in Limited Transposition_ (cardinal < 12)| 335 orbits of cardinal 12|4096 orbits of cardinal 1 (trivial group)
-
-|===
-
-Set of all these sets is known as `_P(E)_` (*power set*), and `cardinal(_P(E)_) = 2^n^ = *4096*`, cardinality ordered by line 12 of Pascal triangle.
-
-// More formally, orbits are the result of the action of a group (cyclic, affine, dihedral, ..., musaic) on Z/nZ.
-
-// By example : A4 (440 hz) and their lower and upper octaves share same characteristic : "having a frequency related to be a multiple of 2 of 440 Hz"
-//
-
-Pour partitionner l'ensemble des 4096 PCS,
-
-En musique, il est généralement admis que nous pouvons changer la hauteur d'une oeuvre sans en changer fondamentalement sa nature. Dans la musique tonale, cette action est appelée "changement de tonalité".
-
-Exemple : petite mélodie en 2 tonalités
-
-On peut avoir 12 versions de cette mélodie (dans les 12 tonalités). L'ensemble de ces 12 versions est
-
-Equivalence relation : "Having same prime form"
-
-En identifiant n'importe quel son à une meme classe de hauteur (octave), modulo _n_, nous pouvons réduire tout extrait musical à un ensemble classes de hauteur.
-
-It is about gathering all the elements sharing the same characteristic, in the same set called *equivalence orbit*, or *X orbit*, or *orbit* if equivalence context is clear.
-
-TIP: An orbit is a set which can be empty (contains empty pcs) or contain all elements. For a given equivalence relation, an element belongs to only one orbit. Orbits, as a result of a group action, form  a partition of the set on which it acts (4096 PCS).
-
-=== Octave/Enharmonic equivalence
-
-Reduce to 12 pitches class and its 4096 PCS combinaisons (2^12^).
-
-*Trivial group* has *4096* orbits, each orbit has max only one pcs (cardinal = 1)
-
-=== Intervallic structure equivalence up to shift
-
-This is form a cyclic group (group action on Z12).
-
-All pcs of a given orbit share *same intervallic structure up to circular shift*, *obtained by transposition*.
-
-In other words, PCS in clock representation having the *same inscribed polygon*.
-
-Cyclic group has *352* orbits.footnote:[352 > 4096 / 12, because somme pcs are there cardinal cyclic orbit smaller than 12 (pcs in *limited transposition*)]
-
-=== Dihedral equivalence
-
-In this group, all PCs of a given orbit share the same interval structure of itself or its *inverse*.
-
-Dihedral group has *224* orbits.
-
-=== Affine equivalence
-
-In this group, any pcs of a given orbit share with others pcs into this orbit, same intervallic structure of itself or this inverse or this transformed by *multiplication by 5 or 7 and their inverse*.
-
-Affine group has *156* orbits.
-
-=== Musaic equivalence
-
-In this group, any pcs of a given orbit are in affine equivalence with itself or *affine complement*.
-
-Musaic group has *88* orbits.
-////
-
-=== Prime Form
-
-A quality that allows, without ambiguity, to designate a representative among the elements of an orbit.
-
-To put it simply, it is the *smallest element of an orbit*.
-
-////
-TIP: Can be represented by a function PrimeForm : EquivalenceRelation x pcs -> pcs (from an equivalence relation and a pcs given we obtain one and oly one pcs representative of equivalence relation orbit.
- +
- +
-Given R, an equivalence relation, and pcs1, pcs2 (two pcs), if PrimeForm(R, pcs1) == PrimeForm(R, pcs2), then pcs1 and pcs2 belong to the same R equivalence orbit.
-////
-
-==== What Prime Form is
-
-Given an equivalence relation orbit (of pcs), there will always be a unique pcs _smaller_ than others into same orbit (thanks to the order relation).
-
-Originally <<Forte>>, prime denotes a pcs in normal form and "most packed on the left (0)"
-
-<<Rahn>> John Rahn proposes a more rational approach, based on vector representation of a pcs (and its image function in an integer result of polynomial function)
-
-*From there to saying that Prime Form quality is the minimum of an orbit, there is only one step, which we are taking !*
-
-So, we cannot talk about Prime Form without giving its context.
-
-NOTE: In musical set theory, historically, the default context of Prime Form is the dihedral group and prime form of the cyclic group is called Normal Form.
-
-==== What Prime Form is not
-
-Prime form is a "technical" characteristic of one element into an orbit, *without musical resonance*.
-
-In absolute terms, any pcs into an orbit can be a representative of their orbit. By convention, we select the _minimal element_
-
-==== Symmetry prime form
-
-A symmetry prime form of a given pcs, is a minimum pcs of its cyclic orbit that, if possible, highlights its axial symmetries (else is cyclic prime form).
-
-NOTE: Symmetry prime form concept is invented, specific to this project.
-
-Example on pcs : [2 3 5 7 8] :
-
-[.float-group]
---
-[.left]
-.Symmetry and cyclic prime form
-image::pcs_2_3_5_7_8_V3.png["Symmetry and cyclic prime form" float="left",align="center"]
---
-
-[.float-group]
---
-[.left]
-.Cyclic prime form
-image::pcs_2_3_5_7_8-PF-V3.png["Cyclic prime form" float="left",align="center"]
---
-
-[.float-group]
---
-[.left]
-.Symmetry prime form
-image::pcs_2_3_5_7_8-MPF-V3.png["Symmetry prime form" float="left",align="center"]
---
-
-Below, cyclic orbit of [2 3 5 7 8], or [0 2 3 9 10], or ... 12 choices !
-
-[.float-group]
---
-[.left]
-.Cyclic orbit and his symmetry and prime form
-image::pcs_023910-cyclic-symmetry-pf.png["Symmetry and cyclic prime form" float="left",align="center"]
---
-
-Same orbit, in other views and order :
-
-[.float-group]
---
-[.left]
-.Cyclic orbit and his modal and prime form
-image::pcs_2_3_5_7_8-wb2.png["Modal and cyclic prime form" float="left",align="center"]
---
-
-=== Subgroups and their generators
-
-From folder `src/app/laboratory` folder, unit test : _it('n=12 - Explore all sub-groups of musaic group - up to transposition'_
-
-[literal]
-----
-
-'== Generators family (subgroups) ==================================='
-'n=12 [M1-T0] card = 1'
-' generators (1) ='
-['M1-T0']
-'====================================='
-'n=12 [M1] card = 12'
-' generators (1) ='
-['M1-T1']
-'====================================='
-'n=12 [M1 M7] card = 24'
-' generators (1) ='
-['M1-T1', 'M7-T1']
-'====================================='
-'n=12 [M1 M11] card = 24'
-' generators (1) ='
-['M1-T1', 'M11-T1']
-'====================================='
-'n=12 [M1 M5] card = 24'
-' generators (1) ='
-['M1-T1', 'M5-T1']
-'====================================='
-'n=12 [M1 CM11] card = 24'
-' generators (1) ='
-['M1-T1', 'CM11-T1']
-'====================================='
-'n=12 [M1 CM5] card = 24'
-' generators (1) ='
-['M1-T1', 'CM5-T1']
-'====================================='
-'n=12 [M1 CM7] card = 24'
-' generators (1) ='
-['M1-T1', 'CM7-T1']
-'====================================='
-'n=12 [M1 CM1] card = 24'
-' generators (1) ='
-['M1-T1', 'CM1-T1']
-'====================================='
-'n=12 [M1 M5 M7 M11] card = 48'
-' generators (4) ='
-['M1-T1', 'M5-T1', 'M7-T1']
-['M1-T1', 'M5-T1', 'M11-T1']
-['M1-T1', 'M7-T1', 'M11-T1']
-['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1']
-'====================================='
-'n=12 [M1 M7 CM5 CM11] card = 48'
-' generators (4) ='
-['M1-T1', 'M7-T1', 'CM11-T1']
-['M1-T1', 'M7-T1', 'CM5-T1']
-['M1-T1', 'CM5-T1', 'CM11-T1']
-['M1-T1', 'M7-T1', 'CM5-T1', 'CM11-T1']
-'====================================='
-'n=12 [M1 M11 CM1 CM11] card = 48'
-' generators (4) ='
-['M1-T1', 'CM1-T1', 'CM11-T1']
-['M1-T1', 'M11-T1', 'CM11-T1']
-['M1-T1', 'M11-T1', 'CM1-T1']
-['M1-T1', 'M11-T1', 'CM1-T1', 'CM11-T1']
-'====================================='
-'n=12 [M1 M11 CM5 CM7] card = 48'
-' generators (4) ='
-['M1-T1', 'CM5-T1', 'CM7-T1']
-['M1-T1', 'M11-T1', 'CM5-T1']
-['M1-T1', 'M11-T1', 'CM7-T1']
-['M1-T1', 'M11-T1', 'CM5-T1', 'CM7-T1']
-'====================================='
-'n=12 [M1 M5 CM7 CM11] card = 48'
-' generators (4) ='
-['M1-T1', 'M5-T1', 'CM11-T1']
-['M1-T1', 'M5-T1', 'CM7-T1']
-['M1-T1', 'CM7-T1', 'CM11-T1']
-['M1-T1', 'M5-T1', 'CM7-T1', 'CM11-T1']
-'====================================='
-'n=12 [M1 M7 CM1 CM7] card = 48'
-' generators (4) ='
-['M1-T1', 'M7-T1', 'CM1-T1']
-['M1-T1', 'M7-T1', 'CM7-T1']
-['M1-T1', 'CM1-T1', 'CM7-T1']
-['M1-T1', 'M7-T1', 'CM1-T1', 'CM7-T1']
-'====================================='
-'n=12 [M1 M5 CM1 CM5] card = 48'
-' generators (4) ='
-['M1-T1', 'M5-T1', 'CM1-T1']
-['M1-T1', 'M5-T1', 'CM5-T1']
-['M1-T1', 'CM1-T1', 'CM5-T1']
-['M1-T1', 'M5-T1', 'CM1-T1', 'CM5-T1']
-'====================================='
-'n=12 [M1 M5 M7 M11 CM1 CM5 CM7 CM11] card = 96'
-' generators (92) ='
-['M1-T1', 'M5-T1', 'M7-T1', 'CM11-T1']
-['M1-T1', 'M5-T1', 'M7-T1', 'CM1-T1']
-['M1-T1', 'M5-T1', 'M7-T1', 'CM5-T1']
-['M1-T1', 'M5-T1', 'M7-T1', 'CM7-T1']
-['M1-T1', 'M5-T1', 'CM1-T1', 'CM11-T1']
-['M1-T1', 'M7-T1', 'CM1-T1', 'CM11-T1']
-['M1-T1', 'M5-T1', 'CM5-T1', 'CM11-T1']
-['M1-T1', 'M7-T1', 'CM7-T1', 'CM11-T1']
-['M1-T1', 'M5-T1', 'M11-T1', 'CM11-T1']
-['M1-T1', 'M7-T1', 'M11-T1', 'CM11-T1']
-['M1-T1', 'M7-T1', 'CM1-T1', 'CM5-T1']
-['M1-T1', 'M5-T1', 'CM1-T1', 'CM7-T1']
-['M1-T1', 'M5-T1', 'CM5-T1', 'CM7-T1']
-['M1-T1', 'M7-T1', 'CM5-T1', 'CM7-T1']
-['M1-T1', 'M5-T1', 'M11-T1', 'CM1-T1']
-['M1-T1', 'M7-T1', 'M11-T1', 'CM1-T1']
-['M1-T1', 'M5-T1', 'M11-T1', 'CM5-T1']
-['M1-T1', 'M7-T1', 'M11-T1', 'CM5-T1']
-['M1-T1', 'M5-T1', 'M11-T1', 'CM7-T1']
-['M1-T1', 'M7-T1', 'M11-T1', 'CM7-T1']
-['M1-T1', 'CM1-T1', 'CM5-T1', 'CM11-T1']
-['M1-T1', 'CM1-T1', 'CM7-T1', 'CM11-T1']
-['M1-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
-['M1-T1', 'M11-T1', 'CM5-T1', 'CM11-T1']
-['M1-T1', 'M11-T1', 'CM7-T1', 'CM11-T1']
-['M1-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1']
-['M1-T1', 'M11-T1', 'CM1-T1', 'CM5-T1']
-['M1-T1', 'M11-T1', 'CM1-T1', 'CM7-T1']
-['M1-T1', 'M5-T1', 'M7-T1', 'CM1-T1', 'CM11-T1']
-['M1-T1', 'M5-T1', 'M7-T1', 'CM5-T1', 'CM11-T1']
-['M1-T1', 'M5-T1', 'M7-T1', 'CM7-T1', 'CM11-T1']
-['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM11-T1']
-['M1-T1', 'M5-T1', 'M7-T1', 'CM1-T1', 'CM5-T1']
-['M1-T1', 'M5-T1', 'M7-T1', 'CM1-T1', 'CM7-T1']
-['M1-T1', 'M5-T1', 'M7-T1', 'CM5-T1', 'CM7-T1']
-['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM1-T1']
-['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM5-T1']
-['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM7-T1']
-['M1-T1', 'M5-T1', 'CM1-T1', 'CM5-T1', 'CM11-T1']
-['M1-T1', 'M7-T1', 'CM1-T1', 'CM5-T1', 'CM11-T1']
-['M1-T1', 'M5-T1', 'CM1-T1', 'CM7-T1', 'CM11-T1']
-['M1-T1', 'M7-T1', 'CM1-T1', 'CM7-T1', 'CM11-T1']
-['M1-T1', 'M5-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
-['M1-T1', 'M7-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
-['M1-T1', 'M5-T1', 'M11-T1', 'CM1-T1', 'CM11-T1']
-['M1-T1', 'M7-T1', 'M11-T1', 'CM1-T1', 'CM11-T1']
-['M1-T1', 'M5-T1', 'M11-T1', 'CM5-T1', 'CM11-T1']
-['M1-T1', 'M7-T1', 'M11-T1', 'CM5-T1', 'CM11-T1']
-['M1-T1', 'M5-T1', 'M11-T1', 'CM7-T1', 'CM11-T1']
-['M1-T1', 'M7-T1', 'M11-T1', 'CM7-T1', 'CM11-T1']
-['M1-T1', 'M5-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1']
-['M1-T1', 'M7-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1']
-['M1-T1', 'M5-T1', 'M11-T1', 'CM1-T1', 'CM5-T1']
-['M1-T1', 'M7-T1', 'M11-T1', 'CM1-T1', 'CM5-T1']
-['M1-T1', 'M5-T1', 'M11-T1', 'CM1-T1', 'CM7-T1']
-['M1-T1', 'M7-T1', 'M11-T1', 'CM1-T1', 'CM7-T1']
-['M1-T1', 'M5-T1', 'M11-T1', 'CM5-T1', 'CM7-T1']
-['M1-T1', 'M7-T1', 'M11-T1', 'CM5-T1', 'CM7-T1']
-['M1-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
-['M1-T1', 'M11-T1', 'CM1-T1', 'CM5-T1', 'CM11-T1']
-['M1-T1', 'M11-T1', 'CM1-T1', 'CM7-T1', 'CM11-T1']
-['M1-T1', 'M11-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
-['M1-T1', 'M11-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1']
-['M1-T1', 'M5-T1', 'M7-T1', 'CM1-T1', 'CM5-T1', 'CM11-T1']
-['M1-T1', 'M5-T1', 'M7-T1', 'CM1-T1', 'CM7-T1', 'CM11-T1']
-['M1-T1', 'M5-T1', 'M7-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
-['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM1-T1', 'CM11-T1']
-['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM5-T1', 'CM11-T1']
-['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM7-T1', 'CM11-T1']
-['M1-T1', 'M5-T1', 'M7-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1']
-['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM1-T1', 'CM5-T1']
-['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM1-T1', 'CM7-T1']
-['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM5-T1', 'CM7-T1']
-['M1-T1', 'M5-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
-['M1-T1', 'M7-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
-['M1-T1', 'M5-T1', 'M11-T1', 'CM1-T1', 'CM5-T1', 'CM11-T1']
-['M1-T1', 'M7-T1', 'M11-T1', 'CM1-T1', 'CM5-T1', 'CM11-T1']
-['M1-T1', 'M5-T1', 'M11-T1', 'CM1-T1', 'CM7-T1', 'CM11-T1']
-['M1-T1', 'M7-T1', 'M11-T1', 'CM1-T1', 'CM7-T1', 'CM11-T1']
-['M1-T1', 'M5-T1', 'M11-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
-['M1-T1', 'M7-T1', 'M11-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
-['M1-T1', 'M5-T1', 'M11-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1']
-['M1-T1', 'M7-T1', 'M11-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1']
-['M1-T1', 'M11-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
-['M1-T1', 'M5-T1', 'M7-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
-['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM1-T1', 'CM5-T1', 'CM11-T1']
-['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM1-T1', 'CM7-T1', 'CM11-T1']
-['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
-['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1']
-['M1-T1', 'M5-T1', 'M11-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
-['M1-T1', 'M7-T1', 'M11-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
-['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
-
-----
-
-[#list-pcs-same-as-major-scale]
-=== PCS lists
-
-==== Having generic intervals as the Major Scale
-
-Major scale having only 1 and 2 semitones has interval between 2 pitch classes neighboring.
-
-Here are the set of scales that share this characteristic :
-
-----
-'PCS (cyclic orbit representants) having same generic intervals that Major Scale (29) for 24 musaics'
-'(1,1,1,1,1,1,1,1,1,1,2 ) pcs : [0 1 2 3 4 5 6 7 8 9 10] in Mus n° 2 : Chromatic Undecamode'
-'(1,1,1,1,1,2,1,1,1,2   ) pcs : [0 1 2 3 4 5 7 8 9 10] in Mus n° 3 : Rāga Khat'
-'(1,1,1,1,1,1,1,1,2,2   ) pcs : [0 1 2 3 4 5 6 7 8 10] in Mus n° 4 : Mixodyllian'
-'(1,1,1,1,1,1,1,2,1,2   ) pcs : [0 1 2 3 4 5 6 7 9 10] in Mus n° 5 : Aerygyllian'
-'(1,1,1,1,1,1,2,1,1,2   ) pcs : [0 1 2 3 4 5 6 8 9 10] in Mus n° 6 : Rocryllian'
-'(1,1,1,1,2,1,1,1,1,2   ) pcs : [0 1 2 3 4 6 7 8 9 10] in Mus n° 7 : Messiaen Mode 7 Rotation 4'
-'(1,1,1,2,1,1,1,2,2     ) pcs : [0 1 2 3 5 6 7 8 10] in Mus n° 8 : Locrian/Aeolian Mixed'
-'(1,1,1,1,1,2,1,2,2     ) pcs : [0 1 2 3 4 5 7 8 10] in Mus n° 9 : Rāga Abheri Todi'
-'(1,2,1,1,1,1,1,2,2     ) pcs : [0 1 3 4 5 6 7 8 10] in Mus n° 9 : Styptygic'
-'(1,1,1,2,1,1,2,1,2     ) pcs : [0 1 2 3 5 6 7 9 10] in Mus n° 10 : Lyrygic'
-'(1,1,2,1,1,1,2,1,2     ) pcs : [0 1 2 4 5 6 7 9 10] in Mus n° 10 : Youlan'
-'(1,1,1,1,1,1,2,2,2     ) pcs : [0 1 2 3 4 5 6 8 10] in Mus n° 11 : Tharygic'
-'(1,1,1,1,2,1,1,2,2     ) pcs : [0 1 2 3 4 6 7 8 10] in Mus n° 14 : Padygic'
-'(1,1,2,1,1,1,1,2,2     ) pcs : [0 1 2 4 5 6 7 8 10] in Mus n° 14 : Aeolyrygic'
-'(1,1,1,1,2,1,2,1,2     ) pcs : [0 1 2 3 4 6 7 9 10] in Mus n° 15 : Pylygic'
-'(1,1,2,1,1,2,1,1,2     ) pcs : [0 1 2 4 5 6 8 9 10] in Mus n° 16 : Triple Chromatic I'
-'(1,1,1,2,2,1,2,2       ) pcs : [0 1 2 3 5 7 8 10] in Mus n° 17 : Rāga Asavari'
-'(1,1,1,2,1,2,2,2       ) pcs : [0 1 2 3 5 6 8 10] in Mus n° 18 : Aeradyllic'
-'(1,2,1,1,1,2,2,2       ) pcs : [0 1 3 4 5 6 8 10] in Mus n° 18 : Esplá\'s Scale'
-'(1,2,1,1,2,1,2,2       ) pcs : [0 1 3 4 5 7 8 10] in Mus n° 19 : Spanish Phrygian'
-'(1,1,2,1,2,1,2,2       ) pcs : [0 1 2 4 5 7 8 10] in Mus n° 26 : Rāga Hijaj Bhairav'
-'(1,2,1,2,1,1,2,2       ) pcs : [0 1 3 4 6 7 8 10] in Mus n° 26 : Altered Dominant B'
-'(1,1,1,1,2,2,2,2       ) pcs : [0 1 2 3 4 6 8 10] in Mus n° 28 : Bothyllic'
-'(1,1,2,1,1,2,2,2       ) pcs : [0 1 2 4 5 6 8 10] in Mus n° 35 : Syryllic'
-'(1,1,2,2,1,1,2,2       ) pcs : [0 1 2 4 6 7 8 10] in Mus n° 36 : Messiaen Mode 6 Rotation 2'
-'(1,2,1,2,1,2,1,2       ) pcs : [0 1 3 4 6 7 9 10] in Mus n° 37 : Octatonic'
-'(1,2,2,1,2,2,2         ) pcs : [0 1 3 5 6 8 10] in Mus n° 38 : Locrian mode' (Major scale)
-'(1,2,1,2,2,2,2         ) pcs : [0 1 3 4 6 8 10] in Mus n° 44 : Superlocrian'
-'(1,1,2,2,2,2,2         ) pcs : [0 1 2 4 6 8 10] in Mus n° 60 : Leading Whole-Tone Inverse'
-
-'PCS having same intervals that Major Scale and cardinal in [5..8] (13) for 11 musaics'
-'(1,1,1,2,2,1,2,2       ) in Mus n° 17 name : Rāga Asavari'
-'(1,1,1,2,1,2,2,2       ) in Mus n° 18 name : Aeradyllic'
-'(1,2,1,1,1,2,2,2       ) in Mus n° 18 name : Esplá Scale'
-'(1,2,1,1,2,1,2,2       ) in Mus n° 19 name : Spanish Phrygian'
-'(1,1,2,1,2,1,2,2       ) in Mus n° 26 name : Rāga Hijaj Bhairav'
-'(1,2,1,2,1,1,2,2       ) in Mus n° 26 name : Altered Dominant B'
-'(1,1,1,1,2,2,2,2       ) in Mus n° 28 name : Bothyllic'
-'(1,1,2,1,1,2,2,2       ) in Mus n° 35 name : Syryllic'
-'(1,1,2,2,1,1,2,2       ) in Mus n° 36 name : Messiaen Mode 6 Rotation 2'
-'(1,2,1,2,1,2,1,2       ) in Mus n° 37 name : Octatonic'
-'(1,2,2,1,2,2,2         ) in Mus n° 38 name : Locrian mode'
-'(1,2,1,2,2,2,2         ) in Mus n° 44 name : Superlocrian'
-'(1,1,2,2,2,2,2         ) in Mus n° 60 name : Leading Whole-Tone Inverse'
-----
-
-==== Having Maximal Evenness
-
-----
-PCS (cyclic orbit representants) in Maximal Evenness as Diatonic Major scale
-' cyclic orbit in Maximal Evenness : ', 11
-'(1,1,1,1,1,1,1,1,1,1,1,1) pcs : [0 1 2 3 4 5 6 7 8 9 10 11]  in Mus n° 1 : Chromatic'
-'(1,1,1,1,1,1,1,1,1,1,2  ) pcs : [0 1 2 3 4 5 6 7 8 9 10]     in Mus n° 2 : Chromatic Undecamode'
-'(6,6                    ) pcs : [0 6]                        in Mus n° 7 : Tritone'
-'(1,1,1,1,2,1,1,1,1,2    ) pcs : [0 1 2 3 4 6 7 8 9 10]       in Mus n° 7 : Messiaen Mode 7 Rotation 4'
-'(4,4,4                  ) pcs : [0 4 8]                      in Mus n° 16 : Augmented Triad'
-'(1,1,2,1,1,2,1,1,2      ) pcs : [0 1 2 4 5 6 8 9 10]         in Mus n° 16 : Triple Chromatic I'
-'(3,3,3,3                ) pcs : [0 3 6 9]                    in Mus n° 37 : Diminished Seventh'
-'(1,2,1,2,1,2,1,2        ) pcs : [0 1 3 4 6 7 9 10]           in Mus n° 37 : Octatonic'
-'(2,2,3,2,3              ) pcs : [0 2 4 7 9]                  in Mus n° 38 : Major Pentatonic'
-'(1,2,2,1,2,2,2          ) pcs : [0 1 3 5 6 8 10]             in Mus n° 38 : Locrian mode'
-'(2,2,2,2,2,2            ) pcs : [0 2 4 6 8 10]               in Mus n° 88 : whole tone scale'
-----
-
-==== Having "Strict" Second Order Maximal Evenness
-
-We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecutive and their number is between 1 and 3.
-
-----
-
-' PCS (cyclic orbit representants) in Second Order Maximal Evenness : ', 25
-'(3,4,5                 ) pcs : [0 3 7]              in Mus n° 10 : Minor Triad'
-'(4,3,5                 ) pcs : [0 4 7]              in Mus n° 10 : Major Triad'
-'(1,1,1,1,2,1,1,1,3     ) pcs : [0 1 2 3 4 6 7 8 9]  in Mus n° 13 : Aeolygic'
-'(1,1,1,2,1,1,1,1,3     ) pcs : [0 1 2 3 5 6 7 8 9]  in Mus n° 13 : Ionycrygic'
-'(1,1,1,2,2,1,1,3       ) pcs : [0 1 2 3 5 7 8 9]    in Mus n° 24 : Aerygyllic'
-'(1,1,2,2,1,1,1,3       ) pcs : [0 1 2 4 6 7 8 9]    in Mus n° 24 : Epygyllic'
-'(2,3,3,4               ) pcs : [0 2 5 8]            in Mus n° 26 : Rāga Haripriya'
-'(3,3,2,4               ) pcs : [0 3 6 8]            in Mus n° 26 : Lonic'
-'(1,1,2,1,1,2,1,3       ) pcs : [0 1 2 4 5 6 8 9]    in Mus n° 34 : Sathyllic'
-'(1,2,1,1,2,1,1,3       ) pcs : [0 1 3 4 5 7 8 9]    in Mus n° 34 : Ionogyllic'
-'(1,3,2,3,3             ) pcs : [0 1 4 6 9]          in Mus n° 49 : Pentatonic Major ♭2♭5'
-'(2,3,1,3,3             ) pcs : [0 2 5 6 9]          in Mus n° 49 : Phralitonic'
-'(1,1,2,2,2,1,3         ) pcs : [0 1 2 4 6 8 9]      in Mus n° 54 : Alt 𝄫37'
-'(1,2,2,2,1,1,3         ) pcs : [0 1 3 5 7 8 9]      in Mus n° 54 : Rāga Malini'
-'(1,1,3,1,2,1,3         ) pcs : [0 1 2 5 6 8 9]      in Mus n° 61 : Hungarian Romani Minor Mode IV'
-'(1,2,1,2,1,2,3         ) pcs : [0 1 3 4 6 7 9]      in Mus n° 62 : Alternating Heptamode'
-'(2,1,2,1,2,1,3         ) pcs : [0 2 3 5 6 8 9]      in Mus n° 62 : Locrian ♮2𝄫7'
-'(2,1,2,2,2,3           ) pcs : [0 2 3 5 7 9]        in Mus n° 64 : Rāga Gauri Velavali'
-'(2,2,2,1,2,3           ) pcs : [0 2 4 6 7 9]        in Mus n° 64 : Rāga Airavati'
-'(2,1,3,1,2,3           ) pcs : [0 2 3 6 7 9]        in Mus n° 73 : Rāga Shivawanti'
-'(1,3,2,1,2,3           ) pcs : [0 1 4 6 7 9]        in Mus n° 73 : Rāga Malavi'
-'(1,3,1,2,2,3           ) pcs : [0 1 4 5 7 9]        in Mus n° 75 : Rāga Rāgamalini'
-'(2,2,1,3,1,3           ) pcs : [0 2 4 5 8 9]        in Mus n° 75 : Aeranimic'
-'(1,2,2,2,2,3           ) pcs : [0 1 3 5 7 9]        in Mus n° 78 : Stogimic'
-'(2,2,2,2,1,3           ) pcs : [0 2 4 6 8 9]        in Mus n° 78 : Inuit Hexatonic'
-
-----
-
-=== 88 Musaics - generating of _P(Z~12~)_
+List of 88 musaics generating of _P(Z~12~)_
 
 [#idTable88]
 [%autowidth]
-[cols=".^1,.^2,.^3,.^4a, .^5"]
+[cols=".^1,.^2,.^3,.^4a, .^5", options="footer"]
 |===
 |N° [.head]#&uarr;#|Musaic  |Motifs [.head]#&uarr;#|Cyclic Intervallic Structure |Meta-Stabilizer [.head]#&uarr;#
 
@@ -4234,3 +2445,1820 @@ _meta-stabilizers_
 
 
 |===
+
+
+
+== Inventory of subgroups
+
+We have seen that stem:[G] extend special affine group with complementarity : stem:[c * (ax + k)]
+
+Where stem:[G] actes on stem:[P(ZZ_12)], stem:[G] is composed of 96 operations :
+
+[.text-center]
+{ T0, T1, …​, T11 } x { M1, M5, M7, M11, CM1, CM5, CM7, CM11 }
+
+The smallest subgroup of G is `M1-T0`  and the largest is `G` itself.
+
+For generate stem:[G], a restricted set of *generator operations* is sufficient (ref. Caley table algorithm), the same goes for its subgroups.
+
+For example, cyclic sous-group of G can be denote by this *subgroup generator* `M1-T1`, because is one of the 4 generators of the cyclic group `{M1-T0, M1-T1, M1-T2, ..., M1-T11}`
+
+NOTE: The four generators are `M1-T1`, `M1-T5`, `M1-T7`, `M1-T11`, and by convention, it is "the smallest" that takes precedence, as for prime form of an orbit.
+
+Some common and remarkable subgroups and one subgroup generator selected:
+
+- Trivial  subgroup : `M1-T0` (4096 orbits)
+- Dihedral subgroup : `M11-T1` (224 orbits)
+- Affine subgroup : `M5-T1, M7-T1` (158 orbits)
+- G extended affine group : `M5-T1, M7-T1, CM1-T1` (88 orbits)
+
+The classification of pcs allows the implementation multiple equivalence relations, beyond the well-known "up to one transposition".
+
+[#classification-table]
+=== A classification table of P(Z~12~)
+
+Here is an inventory published in the collective work "Autour de la Set Theory".
+
+_"The table [below] shows the 13 different classifications of sets determined by the different definitions of the term "equivalence". The list includes all sets, the empty set, and the so-called trivial cardinalities 1, 2 (and 10, 11), as well as the aggregate. The classification problem posed by trivial cardinalities was widely discussed in the 1950s <<PERLE>>" ( source : <<LVERDI>>)._
+
+[#LVerdi-Table]
+.From "Autour de la Set Theory" (<<LVERDI>>), page 41 (author Luigi Verdi)
+image:tableau-sous-groupes-ircam.png[tableau-sous-groupes-ircam]
+
+//
+// .From https://www.emis.de/journals/SLC/opapers/s26fripert.pdf (Andreatta ircam)
+// image:common-groups.png[common groups]
+
+=== 17 subgroups computed
+
+A calculation was carried out in order to inventory all possible subgroups of our reference group stem:[G] with its 96 operations. This results in 16+1 subgroups (+ 1 for trivial group), visible in the appendix (<<_subgroups_and_their_generators>>) and listed below.
+
+NOTE: All operation are with suffixe -T1, for include all steps of transposition and to be sure to inject the neutral operation (M1-T0) into the group.
+ +
+ As any subgroup includes the neutral operation in its elements, suffixe "-T1", being implied, is omitted.
+ +
+Example : [M1-T1 M11-T1] => [M1 M11]
+
+TIP: By definition, a stabilizer is also a subgroup (isotropy subgroup). +
+ +
+ We can see that the set of 13 meta-stabilizers is included, *but not equal*, to the set of subgroups of Z_12
+
+
+.Enumeration of subgroups, by cardinality
+[%header,frame=ends,grid=rows, cols="8h,^1,^1,^1,^1,^1,^1,^1,^1,^1,^1,^1,^1,^1,>1s,^1e,^4"]
+|===
+.^|SubGroup/Card .^|0 .^|1 .^|2 .^|3 .^|4 .^|5 .^|6 .^|7 .^|8 .^|9 .^|10 .^|11 .^|12 .^|stem:[sum_("orbits")] .^|#Ops .^|name
+
+|[M1-T0]
+|1
+|12
+|66
+|220
+|495
+|792
+|924
+|792
+|495
+|220
+|66
+|12
+|1
+|4096
+|1
+|Trivialstem:[""_(ZZ_12)]
+
+|[M1]
+|1
+|1
+|6
+|19
+|43
+|66
+|80
+|66
+|43
+|19
+|6
+|1
+|1
+|* 352
+|12
+|Cyclicstem:[""_(ZZ_12)]
+
+|[M1 M7]
+|1
+|1
+|5
+|13
+|28
+|40
+|50
+|40
+|28
+|13
+|5
+|1
+|1
+|226
+|24
+|?
+
+|[M1 M11]
+|1
+|1
+|6
+|12
+|29
+|38
+|50
+|38
+|29
+|12
+|6
+|1
+|1
+|* 224
+|24
+|Dihedralstem:[""_(ZZ_12)]
+
+|[M1 M5]
+|1
+|1
+|5
+|12
+|28
+|38
+|48
+|38
+|28
+|12
+|5
+|1
+|1
+|218
+|24
+|?
+
+|[M1 CM11]
+|1
+|1
+|6
+|19
+|43
+|66
+|56
+|(66)
+|(43)
+|(19)
+|(6)
+|(1)
+|(1)
+|192
+|24
+|?
+
+|[M1 CM5]
+|1
+|1
+|6
+|19
+|43
+|66
+|50
+|(66)
+|(43)
+|(19)
+|(6)
+|(1)
+|(1)
+|186
+|24
+|?
+
+|[M1 CM7]
+|1
+|1
+|6
+|19
+|43
+|66
+|46
+|(66)
+|(43)
+|(19)
+|(6)
+|(1)
+|(1)
+|182
+|24
+|?
+
+|[M1 CM1]
+|1
+|1
+|6
+|19
+|43
+|66
+|44
+|(66)
+|(43)
+|(19)
+|(6)
+|(1)
+|(1)
+|* 180
+|24
+|?
+
+|[M1 M5 M7 M11]
+|1
+|1
+|5
+|9
+|21
+|25
+|34
+|25
+|21
+|9
+|5
+|1
+|1
+|* 158
+|48
+|Affinestem:[""_(ZZ_12)]
+
+|[M1 M7 CM5 CM11]
+|1
+|1
+|5
+|13
+|28
+|40
+|38
+|(40)
+|(28)
+|(13)
+|(5)
+|(1)
+|(1)
+|126
+|48
+|?
+
+
+|[M1 M11 CM1 CM11]
+|1
+|1
+|6
+|12
+|29
+|38
+|35
+|(38)
+|(29)
+|(12)
+|(6)
+|(1)
+|(1)
+|122
+|48
+|?
+
+|[M1 M11 CM5 CM7]
+|1
+|1
+|6
+|12
+|29
+|38
+|33
+|(38)
+|(29)
+|(12)
+|(6)
+|(1)
+|(1)
+|120
+|48
+|?
+
+|[M1 M5 CM7 CM11]
+|1
+|1
+|5
+|12
+|28
+|38
+|35
+|(38)
+|(28)
+|(12)
+|(5)
+|(1)
+|(1)
+|120
+|48
+|?
+
+|[M1 M7 CM1 CM7]
+|1
+|1
+|5
+|13
+|28
+|40
+|30
+|(40)
+|(28)
+|(13)
+|(5)
+|(1)
+|(1)
+|118
+|48
+|?
+
+|[M1 M5 CM1 CM5]
+|1
+|1
+|5
+|12
+|28
+|38
+|31
+|(38)
+|(28)
+|(12)
+|(5)
+|(1)
+|(1)
+|116
+|48
+|?
+
+|[M1 M5 M7 M11 CM1 CM5 CM7 CM11]
+|1
+|1
+|5
+|9
+|21
+|25
+|26
+|(25)
+|(21)
+|(9)
+|(5)
+|(1)
+|(1)
+|* 88
+|96
+|Affine+Complement stem:[""_(ZZ_12)]
+|===
+
+Only 5 subgroups are identified out of the 13 classifications in the table : <<LVerdi-Table>>.
+
+Other view, the lattice of subgroups, without trivial group, identified by their cardinality.
+
+.Subgroups lattice - prefix "M" and "M1" are omitted (M1 CM11 => C11) (J-Y. Fusil - 2009)
+image::lattice-subgroups12.png[lattice-subgroups12]
+
+NOTE: 4 of its 5 known subgroups are located on the central vertical axis.
+
+
+== PCS Revisited
+
+=== Proposition A : With _iPivot_
+
+<<_for_better_basic_operations>>
+
+=== Proposition B : With _mapping_
+
+<<_for_better_projection>>
+
+[#_for_better_basic_operations]
+== For better basic operations
+
+As they stand, the generally accepted basic operations of musical set theory pose a logic problem that we raise here.
+
+=== Understanding what's wrong
+
+Let's take the inversion operation as an example.
+
+In the literature on post-tonal analysis, inversion operation can be found expressed in two forms :
+
+- stem:[InverseA(Pcs) = { (n - x) mod n | x ∈ Pcs }] // basic version <<Forte>>
+
+- stem:[InverseB(Pcs) = { (n - 1) * x mod n | x ∈ Pcs }] // https://en.wikipedia.org/wiki/Multiplication_(music)[multiplicative version M11]
+
+Example : C Major scale `[0 2 4 5 7 9 11]`
+
+* InverseA(`[0 2 4 5 7 9 11]`) :
+
+`0` -> `12 - 0` -> `#0#`
+
+`2` -> `12 - 2` -> `#10#`
+
+`4` -> `12 - 4` -> `#8#`
+
+`5` -> `12 - 5` -> `#7#`
+
+`7` -> `12 - 7` -> `#5#`
+
+`9` -> `12 - 3` -> `#3#`
+
+`11` -> `12 - 11` -> `#1#`
+
+This gives : InverseA(`[0 2 4 5 7 9 11]`) -> `[#0 1 3 5 7 8 10#]`
+
+
+* InverseB(`[0 2 4 5 7 9 11]`) :
+
+`0` -> `11 x 0` -> `#0#`
+
+`2` -> `11 x 2` -> 22 mod 12 -> `#10#`
+
+`4` -> `11 x 4` -> 44 mod 12 -> `#8#`
+
+`5` -> `11 x 5` -> 55 mod 12 -> `#7#`
+
+`7` -> `11 x 7` -> 77 mod 12 -> `#5#`
+
+`9` -> `11 x 3` -> 33 mod 12 -> `#3#`
+
+`11` -> `11 x 11` -> 121 mod 12 -> `#1#`
+
+This gives : InverseB(`[0 2 4 5 7 9 11]`) -> `[#0 1 3 5 7 8 10#]`
+
+As expected, _inverseA_ and _inverseB_ are *same logic* : [.underline]#CMajor is transformed in III degree of its VIb Major# (Ab Major)
+
+.M11 on C Major = III degree of VIb Major
+image::CMajor-M11-noPivot.png[CMajor-M11]
+
+Now that we have seen how the PCS Do Diatonic Major behaves, let's take C# Major / Db Major : `[0 1 3 5 6 8 10]`
+
+
+* The inverse of C# Major, _inverse_(`[0 1 3 5 6 8 10]`) :
+
+`0` -> `12 - 0` -> `#0#`
+
+`1` -> `12 - 1` -> `#11#`
+
+`3` -> `12 - 3` -> `#9#`
+
+`5` -> `12 - 5` -> `#7#`
+
+`6` -> `12 - 6` -> `#6#`
+
+`8` -> `12 - 8` -> `#4#`
+
+`10` -> `12 - 10` -> `#2#`
+
+InverseA(`[0 1 3 5 6 8 10]`) = InverseB(`[0 1 3 5 6 8 10]`) -> `[#0 2 4 6 7 9 11#]`
+
+image::DbMajor-M11-noPivot.png[DbMajor-M11]
+
+#⚠# *Oh!*, how come the treatment of inversion for a C#/Db Major *differs* from that of a C Major?
+
+The expected correct answer of Inverse(`[0 1 3 5 6 8 10]`)  should have been `[#1 2 4 6 8 9 11#]`, III degree of A Major (the VIb Major of Db Major) and not `[0 2 4 6 7 9 11]`.
+
+Other example, with a _Limited Transposition_ scale : _C Dim7_
+
+image::CDim7-infos.png[CDim7-infos]
+
+As you might expect, a diminished seventh chord is *very strongly symmetrical*. Observe its stabilizers, there are 16 of them and 4 are in T0 (highlighted in yellow in the screenshot above) : `#M1-T0#` of course, and  `#M5-T0#`, `#M7-T0#` and `#M11-T0#`.
+
+// docinfo.html has a rule css for error red
+
+[.text-center]
+--
+
+[#zero-fixed-problem]
+.Basic operations in Musical Set Theory
+[%header,cols="^,^,^,^,^"]
+|===
+|Scale|M11-T0 (inversion) |M5-T0|M7-T0|Dim7 waiting as strongly invariant
+
+|image:clock-0369.png[]|image:clock-0369.png[]|image:clock-0369.png[]|image:clock-0369.png[]| #OK#
+
+|[0 3 6 9]|[0 3 6 9]|[0 3 6 9]|[0 3 6 9]| #OK#
+
+|image:clock-14710.png[]|image:clock-25811.png[]|image:clock-25811.png[]|image:clock-14710.png[]|  #[2 5 8 11] should be [1{nbsp}4{nbsp}7{nbsp}10]#
+
+|[1 4 7 10]|#[2 5 8 11]#|#[2 5 8 11]#|[1 4 7 10]| #???!#
+|===
+
+--
+
+Obviously [2 5 8 11] is an intruder! business logic is not good. But then why is he here???
+
+=== The "fixed zero problem"
+
+The basic operations of musical set theory, which are the standard in the field, have a peculiarity: *they are always centered on 0 (zero)*, thus defining it as a fixed point we call the *_"fixed zero problem"_*.
+
+The bad result we observed comes from the fact that the algorithms confuse index and Pitch Class name, both being expressed by integers (a very useful confusion, by the way).
+
+Calculations performed directly with these values leads to a falsely controlled side effect.
+
+Example : `[1 4 7 10] x 11 = [11 44 70 110] modulo 12 = [11 8 5 2] => #[2 5 8 11]#`
+
+
+====
+[.text-center]
+*_"fixed zero problem"_*.
+
+This inconsistency doesn't seem to bother the people who gravitate toward the _Musical Set Theory_ (?).
+
+This can be explained by :
+
+* An approach guided by the results pre-determined by the authors, authors who do not attach importance to the logic of the tools they use.
+
+* The fact that the "intruder PCS", resulting from bad calculation logic, are, however, *part of the same orbit as the reference PCS*. So, result is "up to transformation", which is not precise enough, not fair enough for our needs.
+
+In our case, this is a problem, because we want :
+
+* *Consistency between geometric transformations and algebraic transformations*
+* Maintain integrity of a PCS along its affine transformations. The main rule is the pivot must be a PC *belonging* to the PCS, and this is not the case when the pivot is always set to zero.
+// * *That what an instrumentalist observes in fingering of phrasing must echo a harmonic structure*
+
+====
+
+As any musician would expect, the main characteristics of a PCS *should be insensitive to the transposition step* : the characteristics of a PCS remain unchanged compared to those of the same PCS transposed by a _k-step_.
+
+D-Major PCS shares same structural characteristics as any Major PCS.
+
+These characteristics include:
+_Interval structure, Interval vector, Forte number, limited meta-transposition status, limited transposition status, stabilizer_...
+
+[NOTE]
+--
+Let's note that the "fixed zero problem" does not exist on PCS in Prime Form, because, expect the empty element, all PCS in Prime form have zero as their first pitch class.
+
+We also do not know whether solving the _fixed-zero-problem_ can have repercussions on transformational theory (David Lewin), which, we think, is not limited to PCS in Prime Form.
+
+--
+
+[#understand-fixed-point-algorithm]
+=== Idea of solution
+
+The points fixed by the transformation operations depend essentially on _n_. For _n_ = 12, these fixed points are represented by this figure :
+
+.Template of fixed points (n = 12)
+image::fixed-indexes-n12.png[fixed-indexes-n12]
+
+**
+It therefore becomes necessary to use this fixed points template wisely.
+**
+
+Without questioning everything, especially the arithmetic of PCs, a general solution would be to transpose any PC undergoing a transformation operation, by a step _k_ that brings it back to the zero origin point, BEFORE the transformation, to perform the transformation, then to return to its starting point, transposition of _k-inverse_, AFTER the transformation. That is three operations instead of just one. This is the price to pay for good consistency. That is :
+
+. Transpose, by a step ok _-k_, the PCS to make one of its PCs coincide with zero
+. Apply the requested transformation (_ax + t_)
+. perform an inverse transposition (_k_)
+
+Some examples :
+
+Example1 Dim7 : `M11-T0` on `[1 4 7 10]`
+
+. `[1 4 7 10]` transpose with `k = -1` => `[0{nbsp}3{nbsp}6{nbsp}9]`
+.  `[0 3 6 9]` x 11 modulo 12 => `[0{nbsp}3{nbsp}6{nbsp}9]`
+. `[0 3 6 9]` transpose with `k = 1` => `#[1{nbsp}4{nbsp}7{nbsp}10]#`
+
+Example2 Major scale : `M11-T0` on  D Major `[1{nbsp}2{nbsp}4{nbsp}6{nbsp}7{nbsp}9{nbsp}11]`
+
+. `[1{nbsp}2{nbsp}4{nbsp}6{nbsp}7{nbsp}9{nbsp}11]` transpose with `k = -2` => `[0{nbsp}2{nbsp}4{nbsp}5{nbsp}7{nbsp}9{nbsp}11]`
+. `[0{nbsp}2{nbsp}4{nbsp}5{nbsp}7{nbsp}9{nbsp}11]` x 11 modulo 12 =>
+`[{nbsp}1{nbsp}3{nbsp}5{nbsp}7{nbsp}8{nbsp}10]`
+
+. `[0{nbsp}1{nbsp}3{nbsp}5{nbsp}7{nbsp}8{nbsp}10]` transpose with `k = 2` => `#[0{nbsp}2{nbsp}3{nbsp}5{nbsp}7{nbsp}9{nbsp}10]#`
+
+// use instead [.nowrap]
+
+The solution consists of defining the value of _k_, as transformation origin, to be applied for all affine transformation operations.
+
+Choosing the "smallest PC" of the PCS is not decisive: it works in the case of C# dim7, but not on DMajor, [.nowrap]#[1 2 4 6 7 9 11]#, because its first and minimum PC is 1 (C#), the seventh of the scale, and not its root, as in C major.
+
+*We must therefore choose to add a new property to the very concept of PCS.*
+
+=== Extended PCS with pivot
+
+Solution to resolve mismatch basic operations is to add a mobile pivot property to PCS (Extended PCS)
+
+The solution consists, for a PCS given, of selecting a Pitch Class that :
+
+- Serves as a _index pivot_ (not necessary "zero")
+- Belongs to the PCS being studied
+- Doesn't change the nature of a PCS, just expands the concept by making it *slightly less abstract*.
+- Default "the smallest PC" of PCS, or undefined if PCS is empty set. By correlation, PCS in prime form have zero as their pivot value by default.
+
+For this, we are going to add a new feature to the PCS, what we call  *_iPivot_* (pivot index or pivot pitch class, or fixed pitch class, or root pitch class...)
+
+This property can be *optionally* brought to the user's attention by mentioning it in *suffix*, as subscript, after the textual representation of the PCS. Ex : `[0 4 7]`~`4`~
+
+The presence of a movable pivot allows us to answer questions like: _How do you represent a G Major with a PCS?_
+The answer consists of giving the PCS that includes only the PCs of the expected scale (`[0 2 4 6 7 9 11]`), and positioning the pivot on the root (G = 7), so : `[0 2 4 6 7 9 11]`~`7`~
+
+Other examples :
+
+.PCS with pivot
+[%header,cols="^,^,^,^"]
+|===
+|PCS|Textual|Clock|Comment
+
+|CDim7 (iPivot = 0)
+|`[0 3 6 9]`~`0`~
+|image:pcs-0369-pivot0.png[pcs-0369-pivot0]
+|The pivot is indicated by a red color
+
+|EbDim7 (iPivot = 3)
+|`[0 3 6 9]`~`3`~
+|image:pcs-0369-pivot3.png[pcs-0369-pivot3]
+|idem
+
+|C#Dim7 (iPivot = 1)
+|`[1 4 7 10]`~`1`~
+|image:pcs-14710-pivot1.png[pcs-14710-pivot1]
+|idem
+
+|D Major (iPivot = 2)
+|`[1{nbsp}2{nbsp}4{nbsp}6{nbsp}7{nbsp}9{nbsp}11]`~`2`~
+|image:pcs-DMajor-pivot2.png[pcs-DMajor-pivot2]
+|idem
+|===
+
+IMPORTANT: We do not have integrated this property, _iPivot_, in the logical identity. Thus, `[0{nbsp}3{nbsp}6{nbsp}9]`~`0`~ and `[0{nbsp}3{nbsp}6{nbsp}9]`~`3`~ will be considered identical PCS `[0{nbsp}3{nbsp}6{nbsp}9]` (same id)
++
++
+*Therefore an extended PCS remains a (common) PCS.*
+
+.Red Pitch Class, in Clock view, denote _iPivot_ property
+image::big-major-cyclic-orbit.png[Major cyclic orbit]
+
+=== Resume
+
+* Extended PCS is a classic PCS augmented by _iPivot_ property.
+
+* This property will allow to fix a PC, pointed by _iPivot_, like the traditional "zero fixed", in order to make the transformation operations more consistent.
+
+* Moreover, the _iPivot_ property allows us to take a particular look at a PCS, as a scale, a chord according to a reference note (tonic, root, etc.)
+
+It then remains for us to revisit the general affine which uses the iPivot property. This is what we will do now.
+
+[#design-affine-pivot]
+=== Affine with pivot on Extended PCS
+
+Now that we have a property that allows us to designate a transformation pivot, we can get on with enriching the affine transformation function.
+
+We have seen that when an transformation operation acts on an extended PCS, in order to take into account a particular fixed point (and not just zero), it will involve a series of three operations instead of a single one (M1-Tp, Ma-Tk then M1-T-p). We call this operation _"AffinePivot"_
+
+====
+[.text-center]
+--
+*_AffinePivot_~a,k~ : Composition of 3 affine operations*
+
+stem:["AffinePivot"_(a,k)  : Extended\ PCS xx NN xx NN -> Extended\ PCS]
+
+stem:["AffinePivot"_(a,k)(A) := M_1T_p(A) @ M_aT_k(A) @ M_1T_-p(A)]
+
+Where stem:[p] is _iPivot_ value of stem:[A]
+--
+====
+
+=== AffinePivot reduced
+
+We are now preparing to establish a condensed version of the function.
+
+stem:["AffinePivot"_(a,k)(A) := M_1T_p(A) @ M_aT_k(A) @ M_1T_-p(A)]
+
+Recall : The affine function stem:[M_aT_k] is defined by  stem:[(ax + k)] that we can denote stem:[(a, k)] for the sake of simplification.
+
+The affine composition function, that define one single function from composition of two functions, is well known, is : stem:[(a, k) @ (a', k') = (aa', ak' + k)].
+
+We will use this reduction to reduce the composition of 3 functions, stem:[M_1T_p(A) @ M_aT_k(A) @ M_1T_-p(A)], to a single one.
+
+* = stem:[(1, p) @ (a, k) @ (1,-p)]
+* = stem:[(1, p) @ (a, -ap + k)]
+* = stem:[(a, -ap + k + p)]
+* = stem:[(a, -(a-1)p + k)]
+* = #stem:[(a, p(1 - a) + k)]#  <= solution
+
+// a * (x - pivot) + pivot + t // 1 mut 1 sous 2 add
+
+
+Unsurprisingly, only the transposition step is affected.
+
+
+.Examples
+--
+
+* With _p_ = 0
+
+- stem:[(a, p(1 - a) + k)]
+- stem:[(a, k)]  // ok this is initial function composition affine
+
+* With _p_ = 0 and _a_ = 1
+
+- stem:[(a, p(1 - a) + k)]
+- stem:[(1, k)]  // ok, simple transposition
+
+* With _p_ = _0_ and _a_ = _1_ and _k_ = _0_
+
+- stem:[(a, p(1 - a) + k)]
+- stem:[(1, 0)]  // ok, neutral operation (id)
+
+* With _p_ = 2 and _a_ = 11  and _k_ = _3_
+
+- stem:[(a, p(1 - a) + k)]
+- stem:[(11, 2 * (1 - 11) + 3)]
+- stem:[(11, -17)]
+- stem:[(5, 7)] // modulo 12
+
+--
+We can now define the operation that acts on Extended PCS.
+
+====
+[.text-center]
+--
+*AffPivot : An action on Extended PCS*
+
+stem:["AffPivot"_(a,k)(A) := {\ (ax + p(1 - a) + k) mod |E| \ },  forall  x in A]
+
+or better (with minimum operations)
+
+stem:["AffPivot"_(a,k)(A) := {\  a(x - p) + p + k mod |E| \ },  forall  x in A]
+
+// a * (x - pivot) + pivot + t // 1 mut 1 sous 2 add
+
+_Where *a* is prime with |E|, *k* a step of transposition, *p* the iPivot of A_
+
+--
+====
+
+[IMPORTANT]
+====
+_MusaicBox_ works with Extended PCS and implements affine function with _iPivot_, as defined by _affinePivot_ algorithm, and implement as a permutation function stem:[P(E) -> P(E)].
+
+Although the affine function has replaced the usual affine functions in the project ... It should not be lost in sight that it is only a contraction of a composition of functions: [.nowrap]#`M1-T~p~ ∘ M~a~-T~k~ ∘ M~1~-T~-p~`# or [.nowrap]#`M1-T~p~(M~a~-T~k~(M~1~-T~-p~( pcs )))`#
+as explained here <<design-affine-pivot>>.
+====
+
+
+// And yet, the AffineMivot function has taken the place of the usual Affine functions in the project... Obviously to be clarified...
+
+//
+// === Composition function of (a, p(1 - a) + k)
+//
+// Composition function of traditional affine operation is
+//
+// stem:[(a,k) @ (a',k') = (aa', ak' + k)]
+//
+// which we apply to our extended function.
+//
+// Function composition stem:[@] is :
+//
+// - = stem:[(a, p(1 - a) + k) @ (a', p'(1 - a') + k')]
+// - = stem:[(aa', a * (p'(1 - a') + k') + p(1 - a) + k)]
+// - = stem:[(aa', -aa'p' + ap' +ak' -ap + p + k)]
+// - = #stem:[(aa', -ap'(a + 1) + p(1-a) + ak' + k)]# <= solution
+//
+// Examples
+//
+// * With _p_ = 0 and p' = 0:
+//
+// - stem:[(aa', -ap'(a + 1) + p(1-a) + ak' + k)]
+// - stem:[(aa', ak' + k)]  // ok this is initial function composition affine
+//
+// * With _p_ = _p'_ = 0 and _a_ = 1 and _a'_ = 1
+//
+// - stem:[(aa', -ap'(a + 1) + p(1-a) + ak' + k)]
+// - stem:[(1, k' + k)]  // ok, simple transposition
+//
+// * With _p_ = _p'_ = _0_ and _a_ = _a'_ = _1_ and _k_ = _k'_ = _0_
+//
+// - stem:[(aa', -ap'(a + 1) + p(1-a) + ak' + k)]
+// - stem:[(1, 0)]  // ok, neutral (or id) operation
+//
+// * With _p_ = 1 _p'_ = 2 and _a_ = 5  _a'_ = 7 and _k_ = 2 _k'_ = _3_
+//
+// - stem:[(aa', -ap'(a + 1) + p(1-a) + ak' + k)]
+// - stem:[(35, -10(5 + 1) + (1-5) + 15 + 2)]
+// - stem:[(11, 1)] // modulo 12
+
+Examples of new transformations taking into account the pivot :
+
+.Revisited operations of Musical Set Theory
+[%header,cols="^,^,^,^,^"]
+|===
+|Scale|M11-T0 (inversion) |M5-T0|M7-T0|Dim7 waiting as strongly invariant
+
+|image:pcs-0369-pivot0.png[]|image:pcs-0369-pivot0.png[]|image:pcs-0369-pivot0.png[]|image:pcs-0369-pivot0.png[]| #OK#
+ +
+ +
+ Cdim7
+
+|[0 3 6 9]|[0 3 6 9]|[0 3 6 9]|[0 3 6 9]| #OK#
+
+|image:pcs-14710-pivot1.png[]|image:pcs-14710-pivot1.png[]|image:pcs-14710-pivot1.png[]|image:pcs-14710-pivot1.png[]|{nbsp}
+ +
+ C#dim7
+
+|[1 4 7 10]|[1 4 7 10]|[1 4 7 10]|[1 4 7 10]|OK
++
+C#dim7 has same transformation types as Cdim7
+
+
+|image:pcs-CMaj-pivot0.png[]|image:pcs-CMaj-M11-pivot0.png[]|image:pcs-CMaj-M5-pivot0.png[]|image:pcs-CMaj-M7-pivot0.png[]| CMajor transformations
+
+|[0 2 4 5 7 9 11]|[0 1 3 5 7 8 10]|[0 1 7 8 9 10 11]|[0 1 2 3 4 5 11]|ok
+
+
+|image:pcs-DMajor-pivot2.png[]|image:pcsDMaj-M11-Pivot2.png[]|image:pcsDMaj-M5-Pivot2.png[]|image:pcsDMaj-M7-Pivot2.png[]| DMajor transformations
+
+|[1 2 4 6 7 9 11]|[0 2 3 5 7 9 10]|[0 1 2 3 9 10 11]|[1 2 3 4 5 6 7]| DMajor has same transformation types as CMajor
+
+|===
+
+=== Conclusion
+
+* After observing the so-called "fixed zero problem", we were led to introduce a new property to the PCS concept, called _iPivot_, to improve the consistency of affine transformation operations (inversion, M5, and M7).
+
+* The concept of default value for iPivot has been introduced, which allows for consistency and determinism in the group action (construction of P(E), orbits and stabilizers).
+
+* The value of the iPivot property has no impact on the identity of a PCS, as defined in <<identity-pcs>>.
+
+* The PCS, equipped with the iPivot property, made it possible to define the general affine function (for inversion, M5, M7) more precise, more coherent.
+
+* These two features (iPivot and new affine function) enrich the concept of PCS, which we call _Extended PCS_ (100% compatible with the basic PCS concept).
+
+
+////
+
+Abstract général
+  idée d'un POC du projet 88musaics.org
+  Le POC, en retour, nous a obligé à résoudre des problèmes qui nous a amené à proposer une évolution du concept même de PCS et de ses opérations de bases associées (affine et complément)
+
+https://www.reddit.com/r/AskAcademia/comments/2m64qo/what_is_the_difference_between_an_abstract_and_a/?tl=fr
+
+Un résumé est un résumé de l'article et vous présentez le contexte et le raisonnement derrière le travail :
+
+X est un problème parce que Y, nous avons donc fait Z et trouvé K.
+
+X : Opérations affine de base
+Y : inconsitence des opérations
+Z : ajout au PCS une propriété nommées iPivot.
+K : ... nous avons donc redéfini l'opération affine afin qu'elle exploite la donnée de pivot portée par le PCS sur lequel elle agit.
+
+
+
+Une conclusion est ce que vous avez retenu de votre travail :
+
+Après avoir fait Z et les expériences A, B et C, nous montrons K.
+
+////
+
+[#_for_better_projection]
+== For better projection
+
+For now, let's look at the configuration of the piano keyboard, over an octave.
+
+Piano keyboard gives pride of place to n = 7, embodied by the C major diatonic scale.
+
+.Piano keyboard configuration
+image::clavier7notes.svg[]
+
+.Other view of piano keyboard
+image::clavier7notesCircle.svg[]
+
+TIP: Seven PCS of diatonic design as a circle divided into 7 equal parts
+
+
+Physically, *the white keys are equidistant from each other, but musically, this is not the case*. Example: C-D = 2 semitones, the same for D-E, but E-F = 1 semitone.
+
+This is so, because the piano keyboard made is designed *to map 7 into 12*.
+
+When user simultaneously presses the white keys C E G, that is, the keys [0 2 4], it produces the chord [0 4 7]. Such a system is an automatic correspondence of stem:[ZZ_7] to stem:[ZZ_12] ( characteristic of some chromatic instruments as piano).
+
+.Regularity of 7 broken in 12 mapped
+image::pcs-246-mapped-047.png[]
+
+
+=== Mapping
+
+
+When n is less than 12, interesting properties can be exploited. For example, with n=7, a prime number thus comprising many generating cycles. By examples:
+
+* Steps of 2: for constructing chords 0 2 4 6 8 10 12 modulo 7 -> 0 2 4 6 1 3 5 -> C E G B D F A
+* Steps of 3: chord progression (C F B E A D G)
+
+The diatonic scale is special in that it is a sequence of 1 or 2 semitones : Major scale intervallic structure is (2,2,1,2,2,2,1), it is Maximally Even and has _Myhill's_ property - (see below in this section)<<Johnson>>
+
+Mapping system explained by figure below.
+
+[#mapping-explained]
+.Mapping 7 -> 12 Explained mapping from [0 2 4] to [0 4 7]
+image::understand-mapping-system.svg[understand-mapping-system 7 to 12]
+
+From there, studying n=7 as we did for n=12 is a short step. The number of possible combinations is 2^7 = 128.
+
+* Trial group has 128 orbits
+* Cyclic group has 20 orbits
+* Affine group has 10 orbits
+* Musaic (Complement+Affine) group has 5 orbits
+
+.N=7
+[cols="1,1,^3"]
+|===
+|Group name|Group operations|Orbits
+
+|Trial group
+|`M1-T0`
+| cardinal = 128
+
+
+|Cyclic group
+|`M1`
+|image:cyclic-group-n7.png[]
+
+cardinal = 20
+
+
+|Affine group
+|`M1 M2 M3 M4 M5 M6`
+|image:affine-group-n7.png[]
+
+cardinal = 10
+
+|Musaic group (Complement+Affine)
+|`M1 M2 M3 M4 M5 M6 CM1 CM2 CM3 CM4 CM5 CM6`
+|image:musaic-group-n7.png[]
+
+cardinal = 5
+
+|===
+
+Although the diatonic scale is the most balanced geometric solution for distributing 7 notes within the 12-note chromatic circle, other scales would benefit from being explored.
+
+[NOTE]
+====
+Did you know that the *diatonic scale* is the most geometrically balanced of the 7-note scale on the 12-note chromatic circle?
+
+.Source: Timothy A. Johnson (<<Johnson>>)
+image::map-7-to-12-best-symmetryV2.jpg[]
+
+On the left, dots divide the circle into 7 equal parts, then on the right, these dots are distributed over the notes closest to the 12-note chromatic circle. This is _"the best compromise in terms of placing..._"
+
+====
+
+But Major Scale is not only one to have 7 pitches and only <1,2> as *generic interval* (see
+https://en.wikipedia.org/wiki/Diatonic_set_theory[Diatonic Set Theory on wikipedia].
+
+There are 29 cyclic orbits (or cyclic intervallic structure) with this characteristic, 13 of which have a cardinality between 5 and 8.
+
+There are 11 cyclic orbit in Maximal Evenness, 25 cyclic orbit in Strict Second Order Maximal Evenness : ',
+See <<list-pcs-same-as-major-scale>>
+
+* Why not focus on another major scale, like D Major, for example?
+
+* Why focus only on this PCS with cardinality = 7?
+
+* Why not explore other values of N?
+
+This is how the idea of considering a PCS in a constant mapping situation came about.
+
+=== Auto-Mapping
+
+Let's take the example of a piano keyboard. Despite the predominance of N=7, the configuration integrates 7 into 12 (with the black keys). We say that this arrangement is a mapping of 7 over 12.
+
+The AutoMap function can perform this mapping, and many more.
+
+AutoMap transforms a given PCS _p_ of cardinality _x_, belonging to stem:[P(ZZ_12)], into a PCS _p'_ of stem:[P(ZZ_x)] mapped to stem:[P(ZZ_12)], having  *_p_* as *template mapping* - which explains the *"auto"* prefix of the function name. ( see <<mapping-explained>> )
+
+To get the CM7 mapped in figure below, we need to perform two steps:
+
+.  Select Automap from Diatonic Major scale
+.  Select only 0 4 7 11 (by deselect 2 4 9)
+
+And
+
+[start=3]
+. Add to WB page
+
+
+image::CM7-mapped.png[]
+
+
+On WhiteBoard page, let's consider CM7 as the PCS of stem:[P(ZZ_7)], with the C major diatonic scale as a reference. PCS [0 2 4 6] is mapped as [0 4 7 11].
+
+Right click on this PCS, then _orbits->Cyclic orbit_, you get 7 other PCS, obtained by https://en.wikipedia.org/wiki/Transposition_(music)#Diatonic_transposition[diatonic transposition] :
+
+.CM7 mapped to Diatonic Major (in orbit cyclic Z~7~)
+image::CM7-mapped-diatonic-maj-cyclic-orbit.png[CM7-mapped-diatonic-maj-cyclic-orbit]
+
+
+=== Auto-Mapping inverse
+
+Inverse of automap is the _unmap_ function.
+
+From a PCS _p_, mapped to stem:[ZZ_12], UnMap transform templateMapping of _p_  to an new PCS _p'_ *mapped to itself*. A PCS mapped to itself is considered as no mapped.
+
+Return to PCS page, Go back to the PCS page, normally you should have the CM7 PCS Mapped. If not, map it.
+
+Select UnMAp, you get a not mapped PCS [0 4 7 11] ([C E G B]), and let us ask for pcs in its cyclic orbit.
+
+image::CM7-unmapped.png[CM7-unmapped]
+
+Add it to WB page, and, again, do right click on this PCS, then _orbits->Cyclic orbit_, you get 12 other PCS :
+
+.CM7 unmapped with its orbit cyclic (in Z~12~)
+image::CM7-cyclic-orbit.png[CM7-cyclic-orbit]
+
+TIP: You can Undo/Redo.footnote:redo[] at any time.
+
+=== Conclusion
+
+* We introduced the concept of Mapping, which allows you to explore PCSs from a *subgroup* of stem:[ZZ_12].
+
+* We introduced the autoMap and unMap functions.
+
+* We discussed the use of the autoMap and unMap functions in the application and presented a use case involving the discovery of the natural chords, and their quality, from major diatonic scale.
+
+* The mapping function extends the concept of PCS again.
+
+* The mapping function further extends the concept of PCS.
+By default, a PCS is mapped to itself, and therefore considered "unmapped."
+
+Therefore, this new concept does not disrupt the basic concept of PCS defined by Musical Set Theory.
+
+We even believe that, beyond its practicality, the doubly extended PCS increases the exploration potential of its abstract descriptions.
+
+[glossary]
+== Glossary
+
+Integer Notation::
+  The representation of pitch class by the integers 0 through 11 (pc integers) <<Forte>>
+
+Normal order::
+  A particular circular permutation of a pcs in ascending order <<Forte>>
++
+Example : [7 0 4] -> [*0 4 7*] (normal order))
++
+[NOTE]
+--
+Into this project, all pcs are in normal order. However, the search PCS function, on the top right of toolbar, accepts another order, it is *a way to define a pivot value* as first pc of the pcs.
+
+Example : *[4 0 7] -> +[0 4 7]+~4~*
+--
+
+Intervallic Structure::
+  For a given PCS (in normal order), this is the ordered list of intervals separating one PC from the next PC in the chromatic circle, starting from the first PCS to the last PC and from the last PC to the first.
+
++
+Example : (CMaj) IS([0 4 7]) = (4 3 5), because
++
+* 0 to 4 -> 4 semitones
+* 4 to 7 -> 3 semitones
+* 7 to 0 -> 5 semitones
++
+Particularity : Sum of intervals is always equals to _n_ (12)
++
+Not to be confused with Interval Vector
+
+Pitch Class Interval::
+Other name : _Interval Class_
++
+Is the smaller distance, in semitone, between two pitch classes in chromatic circle representation (Z~12~).
++
+ic(a,b) = the smaller of i<a,b> and i<b,a>,
+   where i<a,b> is an ordered pitch-class interval <<Rahn>>
++
+Example: ic(0, 10) = 2,  because i<0, 10> = 10 and i<10, 0> = 2
+
+
+Interval Vector::
+  (or _Interval Class Vector_)
+  This is an array of natural numbers which summarize the pitch class intervals appears in a pcs. (see https://en.wikipedia.org/wiki/Interval_vector)
+
+
+Cyclic Prime Form::
+  For a given pcs, it is the *minimum pcs* of its cyclic orbit
+
+Prime Form::
+  For a given pcs, it is the *minimum pcs of its orbit*, or it-self if its orbit is empty.
+
+Orbit::
+  For a given pcs, if pcs come from a group action G, it is all images of pcs by action of G under pcs
+
+Cyclic Orbit::
+Orbit having a group G composed only of transposition operations.
++
+G = {M1-T0, M1-T1, M1-T2,..., M1-T11}
+
+Dihedral Orbit::
+Orbit having a group G composed only of transposition and inversion operations
++
+G = {M1-T0, M1-T1, ..., M1-T11, M11-T0, M11-T1,..., M11-T11,}
+
+Affine Orbit::
+Orbit having a group G composed only of transposition, inversions and multiplication by 5 and 7 operations
++
+G = {M1-T0, M1-T1,..., M11-T0, M11-T1,..., M5-T0,...,M7-T11,}
+
+Musaic Orbit::
+Orbit having a group G composed only of transposition, inversions,  multiplication by 5 and 7 and complement operations (Affine operations + complement)
++
+G = {M1-T0, M1-T1, M11-T1, M5-T1, M7-T1, CM1-T1, CM5-T1, CM7-T1, CM11-T1, ...}
+
+Cyclic Intervallic Structure (cis)::
+Is the Intervallic Structure up to circular shift. In other words, it is the *structure of polygon inscribed* by a pcs into chromatic circle (see <<_clock_chromatic_circle>>).
++
+There are 352 cyclic intervallic structures in twelve-tone equal temperament.
++
+Example 2 pcs with same structure of polygon inscribed : image:pcsCM-FM.png[CM and FM]
++
+Because all pcs in same cyclic orbit have same cyclic intervallic structure (transposition preserve cyclic intervallic structure), a cyclic intervallic structure of a given pcs is represented by the _Intervallic Structure_ of its _cyclic prime form_
++
+Example : (CMaj) cis([0 4 7]) = (4 3 5)  (_cyclic prime form_)
++
+Example : (FMaj) cis([0 5 9]) = (4 3 5) (CMaj is its cyclic prime form)
++
+CMaj and FMaj have same structure of polygon inscribed, so have same cis, have same musaic-motif
+
+[#Musaic-Motif]
+Musaic-Motif::
+  A face of a musaic. It is a geometric figure of a cyclic intervallic structure of a given pcs, and, potentially, its complement.
++
+Example : image:pcs-03579.png[03579 and complement] is : (2,2,2,3,3) in black, and, potentially (1,2,1,2,2,2,2) in white color
++
+NOTE: A musaic alone has a potential of *8* cyclic intervallic structures, sometimes less as in the example provided.image:pcs-musaic-motif-4.png[musaic-motif-4 only]
+
+
+[bibliography]
+== References
+
+* [[[Forte]]] Forte, Allen. 1973. The Structure of Atonal Music. New Haven: Yale University Press.
+
+* [[[Rahn]]] Rahn, John. 1980. Basic Atonal Theory. New York: Longman.
+
+* [[[Johnson]]] Johnson, Timothy, 2003. Foundations of diatonic theory. Key College Publishing
+
+* [[[DIS]]] Stephen C.Brown. Dual Interval Space in Twentieth-Century Music,  Musaic in armature 1-5 is DIS(1,5).
+
+* [[[PERLE]]] Perle, G. 1954. The possible Chords in Twelve Tone Music
+
+* [[[LVERDI]]] Verdi, Luigi. In Autour de la Set Theory. Ircam / Delatour ed. 2003.
+
+* [[[TOPOS]]] Mazzola, Guerino. 2002. The Topos of Music. Birkhauser Verlag AG.
+
+* [[[Morris]]] Moris, Robert. Elementary Twelve-Tone Theory. on line : https://ecmc.rochester.edu/rdm/pdflib/el.12ttth.pdf
+
+
+== Appendix
+
+
+
+=== Order relation
+
+It would be useful to be able to sort the pcs among themselves. To do this, we need to define a total order relation that verifies:
+
+// stem:[ ∀ x, y ∈ P(E), ( "id"(x) ≤ "id"(y) and "id"(y) ≤ "id"(x) ) => x = y ]
+
+//see syntax https://asciimath.org/
+stem:[ AA A, B in P(E)", " \   "id"(A) <= "id"(B) and "id"(B) <= "id"(A)  => A = B ]
+
+In others all, if two PCS have same identity value, then we are dealing with the same PCS.
+
+Question is : How to represent the identity relationship (id function)?
+
+==== State
+By definition, a PCS is a collection of PC. Type is not atomic, and may have some algorithmic efficiency problem, so we prefer a scalar identity.
+
+==== Integer
+
+To implement order relation, we use integer representation, to go through the order of natural integer.
+
+==== Polynomial function pid()
+
+Polynomial function (_pid_) is a good candidate for sorting the PCS among themselves.
+
+stem:["pid("pcs")" = sum_(i=0)^(n-1) ""pcs""_"v[i\]" 2^i ] {nbsp} _(exploits the vector representation of a PCS - see PCS representation <<Integer>>)_
+
+
+However, there remains a bias.
+
+Examples with some pairs of pcs (pcs1 and pcs2), let's compare pid(pcs1) and pid(pcs2) to determine if pcs1 "is less than" pcs2 :
+
+[%header]
+.Example problem when compare identity with Polynomial Identifier
+|===
+|pcs1| pcs2| pid(pcs1) | pid(pcs2)| pcs1 < pcs2
+| [ ]| [0]| _0_ | _1_ | **_true_**
+|[0 4 7]| [1 5 8]| _145_ | _290_ | **_true_**
+|[0 3 7]| [2 6 11]| _137_ | _2116_ | **_true_**
+|[0 11] | [0 3 7] | _2049_ |_137_ | **_false_** (???)
+
+#_waiting true_#
+|===
+
+In the first line, we admitted that a pcs with a smaller cardinal than another pcs will be considered smaller than the latter. But this is contradicted by the last line, counterintuitive.
+
+We admit that when two PCS are compared, the one with the smaller cardinality will always be considered inferior to the other, which can be defined by :
+
+stem:[forall (pcsA, pcsB) in P(Z_n)^2, |pcsA| < |pcsB| => pcsA  < pcsB]
+
+We have seen, on an example, that _pid_ does not respect this property : stem:["pid"_("[0, 11\]") >  "pid"_("[0, 3, 7\]")]
+
+We need to find another function.
+
+[#identity-pcs]
+==== Identity of PCS : id()
+
+To take into account the cardinal in the general order relation that we are looking for, we introduce, independently of _pid_ , a function stem:[w] : stem:[ P(Z_12) -> NN ] {nbsp} defined by :
+
+stem:[w(A) = m cdot |A| ]
+
+In order to give significant weight to _w_ function, independently of _pid_, we take as the value of _m_ (the multiplicative coefficient of the cardinal of _A_) a value greater than the upper limit of the domain of _pid_ which is stem:[\[0..2^12[] {nbsp}, so the first next value outside _pid_ domain is  stem:[m=2^12].
+
+So,  stem:[w(A) = 2^n cdot |A| ]
+
+Augmented polynomial function, which called _id_, taked into account the cardinal, is :
+
+// stem:[id_A = "pid"_A + w_A = "pid"_A + 2^n * |A| ]
+
+====
+
+[.text-center]
+--
+*id function*
+
+stem:["id" : {0,1}^12 -> N]  {nbsp} defined by :
+
+stem:["id("v")" = "pid"_A + w_A = sum_(i=0)^(n-1) v_i 2^i + 2^n * sum_(i=0)^(n-1) v_i   ]
+--
+====
+
+[NOTE]
+====
+Since there exists a function (toVector) which gives the vector image of any PCS, we can also define function _id_ with this domain of definition  stem:["id" : P(ZZ_12) -> N]
+
+Total order relation is definitely implemented by id function :
+stem:[forall (pcsA, pcsB) in P(Z_n)^2, "id"(pcsA) <= "id"(pcsB) and "id"(pcsB) <= "id"(pcsA) => pcsA = pcsB]
+
+====
+
+The lower bound is stem:[0] obtained for the vector stem:[[0, 0, ... ,0\]]
+
+The upper bound is stem:[2^n -1 + n2^n = 2^n(n+1)-1], for stem:[n=12], we obtain the vector stem:[[1, 1, ... ,1\]] and value stem:[53247].
+
+An order relation on P(Zn) can be established, which is based on the order relation of natural numbers:
+
+stem:[AA (A, B) in P(ZZ_n)^2 \ \ A <= B <=> "id"(A) <= "id"(B)]
+
+Some properties :
+
+stem:[AA (A, B) in P(ZZ_n)^2 \ \ A <= B and B <= A => "id"(A) = "id"(B)] {nbsp} so stem:[A = B] {nbsp} (_total order_)
+
+stem:[AA (A, B) in P(ZZ_n)^2 \ \ A sube B => id(A) <= id(B) ] {nbsp} (_inclusion compatible_, note : inverse is not true).
+
+stem:[forall (A, B) in P(ZZ_n)^2, |A| <= |B| <=> id(A) <= id(B)] {nbsp} (_cardinality compatible_)
+
+[%header]
+.Example Compare with Augmented Polynomial Identifier (id)
+|===
+|pcs1| pcs2| id(pcs1) | id(pcs2)| pcs1 < pcs1
+| [ ]| [0]| _0_ | _4097_ | **_true_**
+|[0 4 7]| [1 5 8]| _12433_ | _12578_ | **_true_**
+|[0 3 7]| [2 6 11]| _12425_ | _14404_ | **_true_**
+|[0 11] | [0 3 7] | _10241_ |_12425_ | **_true_** (ok)
+|===
+
+NOTE: In MusaicBox code, Augmented Polynomial Identifier is called _id_, and _pid_ is kept because is commonly used.
+
+==== Application example
+
+Example of application of the id function on a finite set: stem:[E = { "do, "mi", sol" }]
+
+The set of subsets of E is :
+
+[.text-center]
+--
+stem:[P(E) = { O/, {do},{mi},{sol},{do,mi},{do,sol},{mi,sol}, E }]
+--
+
+The figure below, presents (thin black arrow) the set inclusion relation, for example stem:[{do} sube {do, mi}], in minimal coverage, that is to say without transitivities, (for example the relation stem:[{do} sube {do, mi, sol}] is not arrowed - it is a lattice).
+
+The *total order relation* is represented by the black arrow *and* the red arrow.
+
+It is the minimal coverage of the relation defined by the _id_ function. Example: stem:[{do} < {mi} < {sol}].
+
+.Minimal coverage of the relation id in lattice
+image:relationOrdreTreilliV3.png[total order relation]
+
+////
+== Orbit
+
+
+Example of _proposition_ : "_To be a major triad_"
+
+There are only 12 pcs, among the 4096 pcs, where this proposition is true.
+
+[%header]
+.Different representations of _major triad_
+|===
+|structure name| intervals | clock | musaic
+| Major triad | major third then perfect fifth then perfect forth |specific inscribed polygon image:major-triad-polygone.png[major-triad-polygone]|specific motif image:major-triad-motif.png[major triad motif]
+|===
+
+Such proposition can take form of an _equivalence relation_ : _R_ = "_to share same structure_"
+
+Some characteristics of _R_ :
+
+* symmetric : stem:[∀ x, y ∈ P(E), x\ R\ y => y\ R\ x ]
+
+* reflexive : stem:[∀ x ∈ P(E), x\ R\ x ]
+
+* transitive : stem:[∀ x, y, z ∈ P(E), (x\ R\ y and y\ R\ z) => x\ R\ z ]
+
+=== Orbit
+Orbit is a set where all of its elements (pcs) are connected by the same equivalence relation.footnote:[see _setoid_ or _bishop set_]
+
+Example : Orbit cyclic of major triad as `{ C,E,G }` is a set with equivalence relations "_having same structure of major triad_". This set is composed of 12 elements (`{ C, E, G }, { Cb, F, Ab }, ..., { B, D#, F# }`)
+
+[.float-group]
+--
+[.left]
+.Orbit Cyclic in score view and Major Triad Motif
+image::maj-triad-orbit-score.png["Orbit cyclic" float="left",align="center"]
+--
+
+Below, same, with clock representation.
+
+[.float-group]
+--
+[.left]
+.Orbit Cyclic in clock view and their inscribed polygon
+image::maj-orbit-clock2.png["Orbit cyclic", float="left", align="center"]
+--
+
+If we organize the 4096 pcs set into subsets with equivalence relation "_having same structure (of inscribed polygon)_", we obtain 352 types of polygonsfootnote:[and not 4096/12, because some pcs have less than 12 transposed - limited transposition] therefore 352 subsets (orbits) forming a partition of 4096 pcs set.
+
+[%header]
+.Enumeration via line 12 of Pascal triangle
+|===
+|PCS cardinal|Orbit cardinal 6+^|_Coefficient of Transposition_|Pascal triangle line 12
+|||1|2|3|4|6|12|_line 12_
+|0|1|1||||||1
+|1|1||||||1|12
+|2|6|||||1|5|66
+|3|19||||1||18|220
+|4|43|||1||2|40|495
+|5|66||||||66|792
+|6|80||1||1|3|75|924
+|7|66||||||66|792
+|8|43|||1||2|40|495
+|9|19||||1||18|220
+|10|6|||||1|5|66
+|11|1||||||1|12
+|12|1|1||||||1
+|total|*352*|2|1|2|3|9|335|*4096*
+||352 orbits of cyclic group (17 + 335) 5+^|_17 cyclic orbits PCS in Limited Transposition_ (cardinal < 12)| 335 orbits of cardinal 12|4096 orbits of cardinal 1 (trivial group)
+
+|===
+
+Set of all these sets is known as `_P(E)_` (*power set*), and `cardinal(_P(E)_) = 2^n^ = *4096*`, cardinality ordered by line 12 of Pascal triangle.
+
+// More formally, orbits are the result of the action of a group (cyclic, affine, dihedral, ..., musaic) on Z/nZ.
+
+// By example : A4 (440 hz) and their lower and upper octaves share same characteristic : "having a frequency related to be a multiple of 2 of 440 Hz"
+//
+
+Pour partitionner l'ensemble des 4096 PCS,
+
+En musique, il est généralement admis que nous pouvons changer la hauteur d'une oeuvre sans en changer fondamentalement sa nature. Dans la musique tonale, cette action est appelée "changement de tonalité".
+
+Exemple : petite mélodie en 2 tonalités
+
+On peut avoir 12 versions de cette mélodie (dans les 12 tonalités). L'ensemble de ces 12 versions est
+
+Equivalence relation : "Having same prime form"
+
+En identifiant n'importe quel son à une meme classe de hauteur (octave), modulo _n_, nous pouvons réduire tout extrait musical à un ensemble classes de hauteur.
+
+It is about gathering all the elements sharing the same characteristic, in the same set called *equivalence orbit*, or *X orbit*, or *orbit* if equivalence context is clear.
+
+TIP: An orbit is a set which can be empty (contains empty pcs) or contain all elements. For a given equivalence relation, an element belongs to only one orbit. Orbits, as a result of a group action, form  a partition of the set on which it acts (4096 PCS).
+
+=== Octave/Enharmonic equivalence
+
+Reduce to 12 pitches class and its 4096 PCS combinaisons (2^12^).
+
+*Trivial group* has *4096* orbits, each orbit has max only one pcs (cardinal = 1)
+
+=== Intervallic structure equivalence up to shift
+
+This is form a cyclic group (group action on Z12).
+
+All pcs of a given orbit share *same intervallic structure up to circular shift*, *obtained by transposition*.
+
+In other words, PCS in clock representation having the *same inscribed polygon*.
+
+Cyclic group has *352* orbits.footnote:[352 > 4096 / 12, because somme pcs are there cardinal cyclic orbit smaller than 12 (pcs in *limited transposition*)]
+
+=== Dihedral equivalence
+
+In this group, all PCs of a given orbit share the same interval structure of itself or its *inverse*.
+
+Dihedral group has *224* orbits.
+
+=== Affine equivalence
+
+In this group, any pcs of a given orbit share with others pcs into this orbit, same intervallic structure of itself or this inverse or this transformed by *multiplication by 5 or 7 and their inverse*.
+
+Affine group has *156* orbits.
+
+=== Musaic equivalence
+
+In this group, any pcs of a given orbit are in affine equivalence with itself or *affine complement*.
+
+Musaic group has *88* orbits.
+////
+
+=== Prime Form
+
+A quality that allows, without ambiguity, to designate a representative among the elements of an orbit.
+
+To put it simply, it is the *smallest element of an orbit*.
+
+////
+TIP: Can be represented by a function PrimeForm : EquivalenceRelation x pcs -> pcs (from an equivalence relation and a pcs given we obtain one and oly one pcs representative of equivalence relation orbit.
+ +
+ +
+Given R, an equivalence relation, and pcs1, pcs2 (two pcs), if PrimeForm(R, pcs1) == PrimeForm(R, pcs2), then pcs1 and pcs2 belong to the same R equivalence orbit.
+////
+
+==== What Prime Form is
+
+Given an equivalence relation orbit (of pcs), there will always be a unique pcs _smaller_ than others into same orbit (thanks to the order relation).
+
+Originally <<Forte>>, prime denotes a pcs in normal form and "most packed on the left (0)"
+
+<<Rahn>> John Rahn proposes a more rational approach, based on vector representation of a pcs (and its image function in an integer result of polynomial function)
+
+*From there to saying that Prime Form quality is the minimum of an orbit, there is only one step, which we are taking !*
+
+So, we cannot talk about Prime Form without giving its context.
+
+NOTE: In musical set theory, historically, the default context of Prime Form is the dihedral group and prime form of the cyclic group is called Normal Form.
+
+==== What Prime Form is not
+
+Prime form is a "technical" characteristic of one element into an orbit, *without musical resonance*.
+
+In absolute terms, any pcs into an orbit can be a representative of their orbit. By convention, we select the _minimal element_
+
+==== Symmetry prime form
+
+A symmetry prime form of a given pcs, is a minimum pcs of its cyclic orbit that, if possible, highlights its axial symmetries (else is cyclic prime form).
+
+NOTE: Symmetry prime form concept is invented, specific to this project.
+
+Example on pcs : [2 3 5 7 8] :
+
+[.float-group]
+--
+[.left]
+.Symmetry and cyclic prime form
+image::pcs_2_3_5_7_8_V3.png["Symmetry and cyclic prime form" float="left",align="center"]
+--
+
+[.float-group]
+--
+[.left]
+.Cyclic prime form
+image::pcs_2_3_5_7_8-PF-V3.png["Cyclic prime form" float="left",align="center"]
+--
+
+[.float-group]
+--
+[.left]
+.Symmetry prime form
+image::pcs_2_3_5_7_8-MPF-V3.png["Symmetry prime form" float="left",align="center"]
+--
+
+Below, cyclic orbit of [2 3 5 7 8], or [0 2 3 9 10], or ... 12 choices !
+
+[.float-group]
+--
+[.left]
+.Cyclic orbit and his symmetry and prime form
+image::pcs_023910-cyclic-symmetry-pf.png["Symmetry and cyclic prime form" float="left",align="center"]
+--
+
+Same orbit, in other views and order :
+
+[.float-group]
+--
+[.left]
+.Cyclic orbit and his modal and prime form
+image::pcs_2_3_5_7_8-wb2.png["Modal and cyclic prime form" float="left",align="center"]
+--
+
+=== Subgroups and their generators
+
+From folder `src/app/laboratory` folder, unit test : _it('n=12 - Explore all sub-groups of musaic group - up to transposition'_
+
+[literal]
+----
+
+'== Generators family (subgroups) ==================================='
+'n=12 [M1-T0] card = 1'
+' generators (1) ='
+['M1-T0']
+'====================================='
+'n=12 [M1] card = 12'
+' generators (1) ='
+['M1-T1']
+'====================================='
+'n=12 [M1 M7] card = 24'
+' generators (1) ='
+['M1-T1', 'M7-T1']
+'====================================='
+'n=12 [M1 M11] card = 24'
+' generators (1) ='
+['M1-T1', 'M11-T1']
+'====================================='
+'n=12 [M1 M5] card = 24'
+' generators (1) ='
+['M1-T1', 'M5-T1']
+'====================================='
+'n=12 [M1 CM11] card = 24'
+' generators (1) ='
+['M1-T1', 'CM11-T1']
+'====================================='
+'n=12 [M1 CM5] card = 24'
+' generators (1) ='
+['M1-T1', 'CM5-T1']
+'====================================='
+'n=12 [M1 CM7] card = 24'
+' generators (1) ='
+['M1-T1', 'CM7-T1']
+'====================================='
+'n=12 [M1 CM1] card = 24'
+' generators (1) ='
+['M1-T1', 'CM1-T1']
+'====================================='
+'n=12 [M1 M5 M7 M11] card = 48'
+' generators (4) ='
+['M1-T1', 'M5-T1', 'M7-T1']
+['M1-T1', 'M5-T1', 'M11-T1']
+['M1-T1', 'M7-T1', 'M11-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1']
+'====================================='
+'n=12 [M1 M7 CM5 CM11] card = 48'
+' generators (4) ='
+['M1-T1', 'M7-T1', 'CM11-T1']
+['M1-T1', 'M7-T1', 'CM5-T1']
+['M1-T1', 'CM5-T1', 'CM11-T1']
+['M1-T1', 'M7-T1', 'CM5-T1', 'CM11-T1']
+'====================================='
+'n=12 [M1 M11 CM1 CM11] card = 48'
+' generators (4) ='
+['M1-T1', 'CM1-T1', 'CM11-T1']
+['M1-T1', 'M11-T1', 'CM11-T1']
+['M1-T1', 'M11-T1', 'CM1-T1']
+['M1-T1', 'M11-T1', 'CM1-T1', 'CM11-T1']
+'====================================='
+'n=12 [M1 M11 CM5 CM7] card = 48'
+' generators (4) ='
+['M1-T1', 'CM5-T1', 'CM7-T1']
+['M1-T1', 'M11-T1', 'CM5-T1']
+['M1-T1', 'M11-T1', 'CM7-T1']
+['M1-T1', 'M11-T1', 'CM5-T1', 'CM7-T1']
+'====================================='
+'n=12 [M1 M5 CM7 CM11] card = 48'
+' generators (4) ='
+['M1-T1', 'M5-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'CM7-T1']
+['M1-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'CM7-T1', 'CM11-T1']
+'====================================='
+'n=12 [M1 M7 CM1 CM7] card = 48'
+' generators (4) ='
+['M1-T1', 'M7-T1', 'CM1-T1']
+['M1-T1', 'M7-T1', 'CM7-T1']
+['M1-T1', 'CM1-T1', 'CM7-T1']
+['M1-T1', 'M7-T1', 'CM1-T1', 'CM7-T1']
+'====================================='
+'n=12 [M1 M5 CM1 CM5] card = 48'
+' generators (4) ='
+['M1-T1', 'M5-T1', 'CM1-T1']
+['M1-T1', 'M5-T1', 'CM5-T1']
+['M1-T1', 'CM1-T1', 'CM5-T1']
+['M1-T1', 'M5-T1', 'CM1-T1', 'CM5-T1']
+'====================================='
+'n=12 [M1 M5 M7 M11 CM1 CM5 CM7 CM11] card = 96'
+' generators (92) ='
+['M1-T1', 'M5-T1', 'M7-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'CM1-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'CM5-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'CM7-T1']
+['M1-T1', 'M5-T1', 'CM1-T1', 'CM11-T1']
+['M1-T1', 'M7-T1', 'CM1-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'CM5-T1', 'CM11-T1']
+['M1-T1', 'M7-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M11-T1', 'CM11-T1']
+['M1-T1', 'M7-T1', 'M11-T1', 'CM11-T1']
+['M1-T1', 'M7-T1', 'CM1-T1', 'CM5-T1']
+['M1-T1', 'M5-T1', 'CM1-T1', 'CM7-T1']
+['M1-T1', 'M5-T1', 'CM5-T1', 'CM7-T1']
+['M1-T1', 'M7-T1', 'CM5-T1', 'CM7-T1']
+['M1-T1', 'M5-T1', 'M11-T1', 'CM1-T1']
+['M1-T1', 'M7-T1', 'M11-T1', 'CM1-T1']
+['M1-T1', 'M5-T1', 'M11-T1', 'CM5-T1']
+['M1-T1', 'M7-T1', 'M11-T1', 'CM5-T1']
+['M1-T1', 'M5-T1', 'M11-T1', 'CM7-T1']
+['M1-T1', 'M7-T1', 'M11-T1', 'CM7-T1']
+['M1-T1', 'CM1-T1', 'CM5-T1', 'CM11-T1']
+['M1-T1', 'CM1-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M11-T1', 'CM5-T1', 'CM11-T1']
+['M1-T1', 'M11-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1']
+['M1-T1', 'M11-T1', 'CM1-T1', 'CM5-T1']
+['M1-T1', 'M11-T1', 'CM1-T1', 'CM7-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'CM1-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'CM5-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'CM1-T1', 'CM5-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'CM1-T1', 'CM7-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'CM5-T1', 'CM7-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM1-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM5-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM7-T1']
+['M1-T1', 'M5-T1', 'CM1-T1', 'CM5-T1', 'CM11-T1']
+['M1-T1', 'M7-T1', 'CM1-T1', 'CM5-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'CM1-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M7-T1', 'CM1-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M7-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M11-T1', 'CM1-T1', 'CM11-T1']
+['M1-T1', 'M7-T1', 'M11-T1', 'CM1-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M11-T1', 'CM5-T1', 'CM11-T1']
+['M1-T1', 'M7-T1', 'M11-T1', 'CM5-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M11-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M7-T1', 'M11-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1']
+['M1-T1', 'M7-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1']
+['M1-T1', 'M5-T1', 'M11-T1', 'CM1-T1', 'CM5-T1']
+['M1-T1', 'M7-T1', 'M11-T1', 'CM1-T1', 'CM5-T1']
+['M1-T1', 'M5-T1', 'M11-T1', 'CM1-T1', 'CM7-T1']
+['M1-T1', 'M7-T1', 'M11-T1', 'CM1-T1', 'CM7-T1']
+['M1-T1', 'M5-T1', 'M11-T1', 'CM5-T1', 'CM7-T1']
+['M1-T1', 'M7-T1', 'M11-T1', 'CM5-T1', 'CM7-T1']
+['M1-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M11-T1', 'CM1-T1', 'CM5-T1', 'CM11-T1']
+['M1-T1', 'M11-T1', 'CM1-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M11-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M11-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'CM1-T1', 'CM5-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'CM1-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM1-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM5-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM1-T1', 'CM5-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM1-T1', 'CM7-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM5-T1', 'CM7-T1']
+['M1-T1', 'M5-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M7-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M11-T1', 'CM1-T1', 'CM5-T1', 'CM11-T1']
+['M1-T1', 'M7-T1', 'M11-T1', 'CM1-T1', 'CM5-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M11-T1', 'CM1-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M7-T1', 'M11-T1', 'CM1-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M11-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M7-T1', 'M11-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M11-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1']
+['M1-T1', 'M7-T1', 'M11-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1']
+['M1-T1', 'M11-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM1-T1', 'CM5-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM1-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1']
+['M1-T1', 'M5-T1', 'M11-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M7-T1', 'M11-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
+['M1-T1', 'M5-T1', 'M7-T1', 'M11-T1', 'CM1-T1', 'CM5-T1', 'CM7-T1', 'CM11-T1']
+
+----
+
+[#list-pcs-same-as-major-scale]
+=== PCS lists
+
+==== Having generic intervals as the Major Scale
+
+Major scale having only 1 and 2 semitones has interval between 2 pitch classes neighboring.
+
+Here are the set of scales that share this characteristic :
+
+----
+'PCS (cyclic orbit representants) having same generic intervals that Major Scale (29) for 24 musaics'
+'(1,1,1,1,1,1,1,1,1,1,2 ) pcs : [0 1 2 3 4 5 6 7 8 9 10] in Mus n° 2 : Chromatic Undecamode'
+'(1,1,1,1,1,2,1,1,1,2   ) pcs : [0 1 2 3 4 5 7 8 9 10] in Mus n° 3 : Rāga Khat'
+'(1,1,1,1,1,1,1,1,2,2   ) pcs : [0 1 2 3 4 5 6 7 8 10] in Mus n° 4 : Mixodyllian'
+'(1,1,1,1,1,1,1,2,1,2   ) pcs : [0 1 2 3 4 5 6 7 9 10] in Mus n° 5 : Aerygyllian'
+'(1,1,1,1,1,1,2,1,1,2   ) pcs : [0 1 2 3 4 5 6 8 9 10] in Mus n° 6 : Rocryllian'
+'(1,1,1,1,2,1,1,1,1,2   ) pcs : [0 1 2 3 4 6 7 8 9 10] in Mus n° 7 : Messiaen Mode 7 Rotation 4'
+'(1,1,1,2,1,1,1,2,2     ) pcs : [0 1 2 3 5 6 7 8 10] in Mus n° 8 : Locrian/Aeolian Mixed'
+'(1,1,1,1,1,2,1,2,2     ) pcs : [0 1 2 3 4 5 7 8 10] in Mus n° 9 : Rāga Abheri Todi'
+'(1,2,1,1,1,1,1,2,2     ) pcs : [0 1 3 4 5 6 7 8 10] in Mus n° 9 : Styptygic'
+'(1,1,1,2,1,1,2,1,2     ) pcs : [0 1 2 3 5 6 7 9 10] in Mus n° 10 : Lyrygic'
+'(1,1,2,1,1,1,2,1,2     ) pcs : [0 1 2 4 5 6 7 9 10] in Mus n° 10 : Youlan'
+'(1,1,1,1,1,1,2,2,2     ) pcs : [0 1 2 3 4 5 6 8 10] in Mus n° 11 : Tharygic'
+'(1,1,1,1,2,1,1,2,2     ) pcs : [0 1 2 3 4 6 7 8 10] in Mus n° 14 : Padygic'
+'(1,1,2,1,1,1,1,2,2     ) pcs : [0 1 2 4 5 6 7 8 10] in Mus n° 14 : Aeolyrygic'
+'(1,1,1,1,2,1,2,1,2     ) pcs : [0 1 2 3 4 6 7 9 10] in Mus n° 15 : Pylygic'
+'(1,1,2,1,1,2,1,1,2     ) pcs : [0 1 2 4 5 6 8 9 10] in Mus n° 16 : Triple Chromatic I'
+'(1,1,1,2,2,1,2,2       ) pcs : [0 1 2 3 5 7 8 10] in Mus n° 17 : Rāga Asavari'
+'(1,1,1,2,1,2,2,2       ) pcs : [0 1 2 3 5 6 8 10] in Mus n° 18 : Aeradyllic'
+'(1,2,1,1,1,2,2,2       ) pcs : [0 1 3 4 5 6 8 10] in Mus n° 18 : Esplá\'s Scale'
+'(1,2,1,1,2,1,2,2       ) pcs : [0 1 3 4 5 7 8 10] in Mus n° 19 : Spanish Phrygian'
+'(1,1,2,1,2,1,2,2       ) pcs : [0 1 2 4 5 7 8 10] in Mus n° 26 : Rāga Hijaj Bhairav'
+'(1,2,1,2,1,1,2,2       ) pcs : [0 1 3 4 6 7 8 10] in Mus n° 26 : Altered Dominant B'
+'(1,1,1,1,2,2,2,2       ) pcs : [0 1 2 3 4 6 8 10] in Mus n° 28 : Bothyllic'
+'(1,1,2,1,1,2,2,2       ) pcs : [0 1 2 4 5 6 8 10] in Mus n° 35 : Syryllic'
+'(1,1,2,2,1,1,2,2       ) pcs : [0 1 2 4 6 7 8 10] in Mus n° 36 : Messiaen Mode 6 Rotation 2'
+'(1,2,1,2,1,2,1,2       ) pcs : [0 1 3 4 6 7 9 10] in Mus n° 37 : Octatonic'
+'(1,2,2,1,2,2,2         ) pcs : [0 1 3 5 6 8 10] in Mus n° 38 : Locrian mode' (Major scale)
+'(1,2,1,2,2,2,2         ) pcs : [0 1 3 4 6 8 10] in Mus n° 44 : Superlocrian'
+'(1,1,2,2,2,2,2         ) pcs : [0 1 2 4 6 8 10] in Mus n° 60 : Leading Whole-Tone Inverse'
+
+'PCS having same intervals that Major Scale and cardinal in [5..8] (13) for 11 musaics'
+'(1,1,1,2,2,1,2,2       ) in Mus n° 17 name : Rāga Asavari'
+'(1,1,1,2,1,2,2,2       ) in Mus n° 18 name : Aeradyllic'
+'(1,2,1,1,1,2,2,2       ) in Mus n° 18 name : Esplá Scale'
+'(1,2,1,1,2,1,2,2       ) in Mus n° 19 name : Spanish Phrygian'
+'(1,1,2,1,2,1,2,2       ) in Mus n° 26 name : Rāga Hijaj Bhairav'
+'(1,2,1,2,1,1,2,2       ) in Mus n° 26 name : Altered Dominant B'
+'(1,1,1,1,2,2,2,2       ) in Mus n° 28 name : Bothyllic'
+'(1,1,2,1,1,2,2,2       ) in Mus n° 35 name : Syryllic'
+'(1,1,2,2,1,1,2,2       ) in Mus n° 36 name : Messiaen Mode 6 Rotation 2'
+'(1,2,1,2,1,2,1,2       ) in Mus n° 37 name : Octatonic'
+'(1,2,2,1,2,2,2         ) in Mus n° 38 name : Locrian mode'
+'(1,2,1,2,2,2,2         ) in Mus n° 44 name : Superlocrian'
+'(1,1,2,2,2,2,2         ) in Mus n° 60 name : Leading Whole-Tone Inverse'
+----
+
+==== Having Maximal Evenness
+
+----
+PCS (cyclic orbit representants) in Maximal Evenness as Diatonic Major scale
+' cyclic orbit in Maximal Evenness : ', 11
+'(1,1,1,1,1,1,1,1,1,1,1,1) pcs : [0 1 2 3 4 5 6 7 8 9 10 11]  in Mus n° 1 : Chromatic'
+'(1,1,1,1,1,1,1,1,1,1,2  ) pcs : [0 1 2 3 4 5 6 7 8 9 10]     in Mus n° 2 : Chromatic Undecamode'
+'(6,6                    ) pcs : [0 6]                        in Mus n° 7 : Tritone'
+'(1,1,1,1,2,1,1,1,1,2    ) pcs : [0 1 2 3 4 6 7 8 9 10]       in Mus n° 7 : Messiaen Mode 7 Rotation 4'
+'(4,4,4                  ) pcs : [0 4 8]                      in Mus n° 16 : Augmented Triad'
+'(1,1,2,1,1,2,1,1,2      ) pcs : [0 1 2 4 5 6 8 9 10]         in Mus n° 16 : Triple Chromatic I'
+'(3,3,3,3                ) pcs : [0 3 6 9]                    in Mus n° 37 : Diminished Seventh'
+'(1,2,1,2,1,2,1,2        ) pcs : [0 1 3 4 6 7 9 10]           in Mus n° 37 : Octatonic'
+'(2,2,3,2,3              ) pcs : [0 2 4 7 9]                  in Mus n° 38 : Major Pentatonic'
+'(1,2,2,1,2,2,2          ) pcs : [0 1 3 5 6 8 10]             in Mus n° 38 : Locrian mode'
+'(2,2,2,2,2,2            ) pcs : [0 2 4 6 8 10]               in Mus n° 88 : whole tone scale'
+----
+
+==== Having "Strict" Second Order Maximal Evenness
+
+We mean by _"Strict" Second Order Maximal Evenness_, where d-distance is consecutive and their number is between 1 and 3.
+
+----
+
+' PCS (cyclic orbit representants) in Second Order Maximal Evenness : ', 25
+'(3,4,5                 ) pcs : [0 3 7]              in Mus n° 10 : Minor Triad'
+'(4,3,5                 ) pcs : [0 4 7]              in Mus n° 10 : Major Triad'
+'(1,1,1,1,2,1,1,1,3     ) pcs : [0 1 2 3 4 6 7 8 9]  in Mus n° 13 : Aeolygic'
+'(1,1,1,2,1,1,1,1,3     ) pcs : [0 1 2 3 5 6 7 8 9]  in Mus n° 13 : Ionycrygic'
+'(1,1,1,2,2,1,1,3       ) pcs : [0 1 2 3 5 7 8 9]    in Mus n° 24 : Aerygyllic'
+'(1,1,2,2,1,1,1,3       ) pcs : [0 1 2 4 6 7 8 9]    in Mus n° 24 : Epygyllic'
+'(2,3,3,4               ) pcs : [0 2 5 8]            in Mus n° 26 : Rāga Haripriya'
+'(3,3,2,4               ) pcs : [0 3 6 8]            in Mus n° 26 : Lonic'
+'(1,1,2,1,1,2,1,3       ) pcs : [0 1 2 4 5 6 8 9]    in Mus n° 34 : Sathyllic'
+'(1,2,1,1,2,1,1,3       ) pcs : [0 1 3 4 5 7 8 9]    in Mus n° 34 : Ionogyllic'
+'(1,3,2,3,3             ) pcs : [0 1 4 6 9]          in Mus n° 49 : Pentatonic Major ♭2♭5'
+'(2,3,1,3,3             ) pcs : [0 2 5 6 9]          in Mus n° 49 : Phralitonic'
+'(1,1,2,2,2,1,3         ) pcs : [0 1 2 4 6 8 9]      in Mus n° 54 : Alt 𝄫37'
+'(1,2,2,2,1,1,3         ) pcs : [0 1 3 5 7 8 9]      in Mus n° 54 : Rāga Malini'
+'(1,1,3,1,2,1,3         ) pcs : [0 1 2 5 6 8 9]      in Mus n° 61 : Hungarian Romani Minor Mode IV'
+'(1,2,1,2,1,2,3         ) pcs : [0 1 3 4 6 7 9]      in Mus n° 62 : Alternating Heptamode'
+'(2,1,2,1,2,1,3         ) pcs : [0 2 3 5 6 8 9]      in Mus n° 62 : Locrian ♮2𝄫7'
+'(2,1,2,2,2,3           ) pcs : [0 2 3 5 7 9]        in Mus n° 64 : Rāga Gauri Velavali'
+'(2,2,2,1,2,3           ) pcs : [0 2 4 6 7 9]        in Mus n° 64 : Rāga Airavati'
+'(2,1,3,1,2,3           ) pcs : [0 2 3 6 7 9]        in Mus n° 73 : Rāga Shivawanti'
+'(1,3,2,1,2,3           ) pcs : [0 1 4 6 7 9]        in Mus n° 73 : Rāga Malavi'
+'(1,3,1,2,2,3           ) pcs : [0 1 4 5 7 9]        in Mus n° 75 : Rāga Rāgamalini'
+'(2,2,1,3,1,3           ) pcs : [0 2 4 5 8 9]        in Mus n° 75 : Aeranimic'
+'(1,2,2,2,2,3           ) pcs : [0 1 3 5 7 9]        in Mus n° 78 : Stogimic'
+'(2,2,2,2,1,3           ) pcs : [0 2 4 6 8 9]        in Mus n° 78 : Inuit Hexatonic'
+
+----

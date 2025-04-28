@@ -461,23 +461,39 @@ export class PcsUtils {
     )
   }
 
-  /**
+/**
+* == Experimental ==
+  * Second Order Maximal Evenness
+  * as defined in book "Foundations of Diatonic Theory", Timothy A. Johnson, 2003, Key College Publishing
+  * as understand by me (Olivier Capuozzo)
+  * "Diatonic triads and seventh chords possess second-order maximal evenness, being maximally even in regard
+  *  to the maximally even diatonic scale—but are not maximally even with regard to the chromatic scale."
+*  (in https://en.wikipedia.org/wiki/Maximal_evennes)
+    *
+* @see https://en.wikipedia.org/wiki/Maximal_evenness
+    *
+* @remarks Is there other algorithm based on n <> 12, based on idea :
+    *   A second order maximal evenness is maximal evenness in its dimension as {C E G} in 7
+*   This idea was successfully tested in a unit, and unique :(, test
+* @param pcs
+*/
+static isSecondOrderMaximalEven(pcs : IPcs) : boolean {
+  const cDistance = this.getCDistanceTable(pcs)
+  // TODO
+
+  return false
+}
+
+
+/**
    * == Experimental ==
-   * Second Order Maximal Evenness
-   * as defined in book "Foundations of Diatonic Theory", Timothy A. Johnson, 2003, Key College Publishing
-   * as understand by me (Olivier Capuozzo)
-   * "Diatonic triads and seventh chords possess second-order maximal evenness, being maximally even in regard
-   *  to the maximally even diatonic scale—but are not maximally even with regard to the chromatic scale."
-   *  (in https://en.wikipedia.org/wiki/Maximal_evennes)
+   * "Strict" Second Order Maximal Evenness
+   * From definition of Maximal Evenness in book "Foundations of Diatonic Theory", Timothy A. Johnson, 2003, Key College Publishing
+   * extended to 3 consecutive c-distances
    *
-   * @see https://en.wikipedia.org/wiki/Maximal_evenness
-   *
-   * @remarks Is there other algorithm based on n <> 12, based on idea :
-   *   A second order maximal evenness is maximal evenness in its dimension as {C E G} in 7
-   *   This idea was successfully tested in a unit, and unique :(, test
    * @param pcs
    */
-  static isSecondOrderMaximalEven(pcs : IPcs) : boolean {
+  static isStrictSecondOrderMaximalEven(pcs : IPcs) : boolean {
     const cDistance = this.getCDistanceTable(pcs)
     return  cDistance.length > 0  && cDistance.every(cDistance =>
         cDistance.length === 3

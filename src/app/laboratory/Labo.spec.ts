@@ -387,14 +387,13 @@ describe('Laboratory explorer', () => {
     pcsSorted.forEach(pcsSorted =>
       console.log(`(${pcsSorted[0].is().toString().padEnd(23)}) pcs : ${pcsSorted[0].getPcsStr().padEnd(28)} in Mus n° ${pcsSorted[1]} : ${pcsSorted[0].getFirstNameDetail()}`))
 
-
   })
 
-  it("get all pcs in Second Order Maximal Evenness", () => {
+  it("get all pcs in Strict Second Order Maximal Evenness", () => {
     const groupCyclic = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!
 
     let pcsInSecondOrderMaxEven = groupCyclic.orbits
-      .filter(orbit => orbit.getPcsMin().isSecondOrderMaximalEven())
+      .filter(orbit => orbit.getPcsMin().isStrictSecondOrderMaximalEven())
 
     expect(pcsInSecondOrderMaxEven.length).toEqual(25)
     console.log(" cyclic orbit in Second Order Maximal Evenness : ", pcsInSecondOrderMaxEven.length)
@@ -417,7 +416,7 @@ describe('Laboratory explorer', () => {
     expect(triadInDiatonic7MappedIn12.isMaximalEven()).toEqual(false)
     // but is in Second Order Maximal Even, because it is Maximal Even in its dimension (n = 7)
     // even through algorithm to determine this property is different
-    expect(triadInDiatonic7MappedIn12.isSecondOrderMaximalEven()).toEqual(true)
+    expect(triadInDiatonic7MappedIn12.isStrictSecondOrderMaximalEven()).toEqual(true)
 
     // passed, cool :))
   })
@@ -439,7 +438,7 @@ describe('Laboratory explorer', () => {
   })
 
 
-  it("88 musaics list with PCS representing distinct motifs", () => {
+  it("for documentation : 88 musaics list with PCS representing distinct motifs", () => {
     const groupMusaic = ManagerGroupActionService.getGroupActionFromGroupAliasName("Musaic")!
 
     expect(groupMusaic.orbits.length).toEqual(88)
@@ -510,8 +509,8 @@ describe('Laboratory explorer', () => {
 */
 
 
-  /* test dynamic mutable */
-  /*
+  /* test dynamic immutable */
+
     type TNoMutable<T> = {
       readonly [k in keyof T]: T[k];
     };
@@ -521,9 +520,14 @@ describe('Laboratory explorer', () => {
       console.log(a.length, a[0])
       a[0] = 42
       const b = a
-      // let b = [...a] as const
-      // b[0] = 12
+      let b2 = [...a] as const
+      let b3 : readonly number[] = [...a]
+      b[0] = 12
       console.log(b.length, b[0])
+      // b2[0] = 12   <== impossible
+      console.log(b.length, b2[0])
+      // b3[0] = 12    <== impossible
+      console.log(b.length, b3[0])
 
       let pcs : IPcs = new IPcs({strPcs:"0,2,4,5,7,9,11"})
       pcs.iPivot = 0
@@ -533,10 +537,12 @@ describe('Laboratory explorer', () => {
       majScale.vectorPcs[0] = 42 // possible
       // console.log(majScale.getPcsStr())
       let pcs2 = pcs as TNoMutable<IPcs>
-      // let pcs2 = readonly pcs // no possible
-      // pcs2.iPivot = 2
+      let pcs3 : TNoMutable<IPcs> = pcs
+      // let pcs4 = readonly pcs // no possible
+      // let pcs4: readonly IPcs = pcs // no possible
+      // pcs2.iPivot = 2 // no possible
     })
 
-  */
+
 
 })

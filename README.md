@@ -15,7 +15,7 @@ Illustrates how geometry can highlight relationships between PCS.
 
 May be use as
 
-- Compositional tool
+- Helper compositional tool
 - Application example of Group Theory (Zx Affine Group). Develop with group theory concepts and implemented by permutation operations (inside a vector).
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.10, migrate to angular 18
