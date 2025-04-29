@@ -24,10 +24,12 @@
         [style.width.px]="pcsDto.width"
         [style.top.px]="pcsDto.position.y"
         [style.left.px]="pcsDto.position.x"
-
       ></app-pcs>
     } @else {
+<!--      <div #pcsComponent>-->
+      <div class="e-component" >
       <app-pcs
+
         [ngClass]="{
           'pcs-box': true,
           'e-selected-marker': pcsDto.isSelected
@@ -48,6 +50,7 @@
         (cdkContextMenuClosed)="doContextMenuClose()"
         (mousedown)="doToggleSelected($event,idx)"
       ></app-pcs>
+      </div>
     }
   }
   <!--  (menuOpened)="contextMenuOpened()"-->

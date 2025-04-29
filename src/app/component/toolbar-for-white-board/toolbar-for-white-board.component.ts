@@ -6,6 +6,8 @@ import {ManagerPageWBService} from "../../service/manager-page-wb.service";
 import {ManagerToolbarService} from "../../service/manager-toolbar.service";
 import {MatTooltip} from "@angular/material/tooltip";
 import {TDirection} from "../../core/IPcs";
+import {HtmlUtil} from "../../utils/HtmlUtil";
+import {MatBadge} from "@angular/material/badge";
 
 @Component({
   selector: 'app-toolbar-for-white-board',
@@ -14,7 +16,8 @@ import {TDirection} from "../../core/IPcs";
     MatToolbar,
     MatIconButton,
     MatIcon,
-    MatTooltip
+    MatTooltip,
+    MatBadge
   ],
   templateUrl: './toolbar-for-white-board.component.html',
   styleUrl: './toolbar-for-white-board.component.css'
@@ -81,5 +84,11 @@ export class ToolbarForWhiteBoardComponent {
 
   doComplement() {
     this.managerPageWBService.doComplement()
+  }
+
+  protected readonly HtmlUtil = HtmlUtil;
+
+  getNumberComponentsSelected() {
+    return this.managerPageWBService.getSelectedPcsDtoIndexes().length
   }
 }

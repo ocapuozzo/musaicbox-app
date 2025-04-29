@@ -39,8 +39,10 @@ export class UIMusaic {
     this.nbCellsPerLine = nbCellsPerLine ?? 13;
     this.nbCellsPerRow = nbCellsPerRow ?? 13;
     this.widthCell = widthCell ?? 7;   // 13, 7 and 91 match together
-    this.width = width ?? 91;
-    this.height = height ?? 91;
+    // this.width = width ?? 91;
+    // this.height = height ?? 91;
+    this.width = this.nbCellsPerLine * this.widthCell;
+    this.height = this.nbCellsPerRow * this.widthCell;
   }
 }
 

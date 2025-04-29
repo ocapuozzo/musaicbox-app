@@ -10,6 +10,10 @@
   cursor: move;
 }
 
+e-component {
+
+}
+
 .e-selected {
   z-index: 1000;
 }

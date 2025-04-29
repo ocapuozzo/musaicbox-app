@@ -2501,7 +2501,7 @@ Example : [M1-T1 M11-T1] => [M1 M11]
 
 TIP: By definition, a stabilizer is also a subgroup (isotropy subgroup). +
  +
- We can see that the set of 13 meta-stabilizers is included, *but not equal*, to the set of subgroups of Z_12
+ We can see that the set of 13 meta-stabilizers is included, *but not equal*, to the set of subgroups of Z~12~
 
 
 .Enumeration of subgroups, by cardinality

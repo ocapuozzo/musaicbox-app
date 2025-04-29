@@ -3,7 +3,7 @@
   position: fixed;
   top: 60px;
   right: 0;
-  width: 60px;
+  width: 70px;
 
   flex-direction: column;
   background-color: rgba(200, 200, 227, 0.95);
@@ -17,7 +17,7 @@
 }
 
 .floating-toolbar.retracted {
-  right: -60px;
+  right: -70px;
 }
 
 .button-toolbar {

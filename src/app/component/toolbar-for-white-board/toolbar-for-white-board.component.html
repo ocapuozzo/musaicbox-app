@@ -110,8 +110,7 @@
           [disabled]="numberSelectedComponents === 0"
           (click)="doChangeViewMusaic()"
           class="button-toolbar"
-
-          style="padding-top: 3px"
+          style="margin-top: 10px"
   >
     <img src="assets/img/musaic.svg" width="26px" height="26px" alt="musaic">
   </button>
@@ -119,9 +118,23 @@
           [disabled]="numberSelectedComponents === 0"
           (click)="doChangeViewOctotrope()"
           class="button-toolbar"
-          style="padding-top: 3px"
+          style="margin-top: 4px"
   >
     <img src="assets/img/polytrope.svg"  alt="octotrope">
+  </button>
+
+  <span style="font-size:small; opacity: 0.4; margin-top: 3em; padding: 0.3em 0; line-height: 0.125;">-------</span>
+
+  <button mat-icon-button matTooltip="Export PNG"
+          [matBadgeHidden]="getNumberComponentsSelected() === 0"
+          matBadge="{{getNumberComponentsSelected()}}" matBadgePosition="after"
+          [disabled]="numberSelectedComponents === 0"
+          (click)="HtmlUtil.captureAllPcsComponentSelected()"
+          class="button-toolbar"
+          style="margin-top: 15px"
+  >
+<mat-icon>file_download</mat-icon>
+    <p style="font-size: small; " >Export</p>
   </button>
 
 </mat-toolbar>

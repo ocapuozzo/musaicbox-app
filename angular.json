@@ -15,7 +15,8 @@
           "options": {
             "allowedCommonJsDependencies": [
               "lodash",
-              "abcjs"
+              "abcjs",
+              "html2canvas"
             ],
             "outputPath": {
               "base": "docs",
