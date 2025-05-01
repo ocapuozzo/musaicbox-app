@@ -3,7 +3,7 @@
 <div class="row" style="margin: auto; width: 80%">
   @for (musaic of musaicOrbits; track musaic.date; let index = $index) {
     <div
-      class="box88" style="width: 60px;"
+      class="box88" style="width: 70px;"
       [ngClass]="{'box88': true,
                    'box-selected': musaic.pcsDto.colorPitchOn !== 'black',
                    'box-not-selected' : musaic.pcsDto.colorPitchOn === 'black'

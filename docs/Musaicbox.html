@@ -701,12 +701,12 @@ td:has(>p>span[class="klein2"]) {
 </li>
 <li><a href="#_multiplication">Multiplication</a>
 <ul class="sectlevel3">
-<li><a href="#_illustration_2">Illustration</a></li>
+<li><a href="#_illustrations">Illustrations</a></li>
 </ul>
 </li>
 <li><a href="#_complement">Complement</a>
 <ul class="sectlevel3">
-<li><a href="#_illustration_3">Illustration</a></li>
+<li><a href="#_illustration_2">Illustration</a></li>
 </ul>
 </li>
 <li><a href="#_conclusion">Conclusion</a></li>
@@ -1797,7 +1797,10 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0 4
 <p>Operation name is &#160; \$M_a\$</p>
 </div>
 <div class="paragraph">
-<p>An operation which consists of moving by one step of \$k |-&gt; "indexPC" * a\$ (in semitones) all PCs of a PCS</p>
+<p>Multiplication is an operation which consists of moving all PCs of a PCS by  step of \$k\$ where \$k\$ is obtained by multiplying <em>PC</em> by a value prime with <em>n</em> (in semitones)</p>
+</div>
+<div class="paragraph">
+<p>This operation generates inversion and circle of fifths and fourths transformation.</p>
 </div>
 <div class="exampleblock">
 <div class="content">
@@ -1823,7 +1826,31 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0 4
 <p>Motivation: allows to establish an equivalence relation "up to a symmetry", <strong>including inversion and other substitutions.</strong></p>
 </div>
 <div class="paragraph">
-<p>Examples when \$E = {0, 1, ..., 11}\$  (cardinal of \$E\ is\ |E| = 12\$)</p>
+<p>Examples when \$E = {0, 1, ..., 11}\$ (cardinal of \$E\ is\ |E| = 12\$), number primes with 12 are : {1, 5, 7, 11}</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>  x (0  1  2  3  4  5  6  7  8  9 10 11)
+1.x (0  1  2  3  4  5  6  7  8  9 10 11) &lt;- identity</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>   x (0  1  2  3  4  5  6  7  8  9 10 11)
+11.x (0 11 10  9  8  7  6  5  4  3  2  1) &lt;- inversion</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>  x (0  1  2  3  4  5  6  7  8  9 10 11)
+5.x (0  5 10  3  8  1  6 11  4  9  2  7) &lt;- fourths cycle</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>  x (0  1  2  3  4  5  6  7  8  9 10 11)
+7.x (0  7  2  9  4 11  6  1  8  3 10  5) &lt;- fifths cycle</pre>
+</div>
 </div>
 <div class="ulist">
 <ul>
@@ -1831,18 +1858,33 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0 4
 <p>Example M11 : &#160; \$M_11("["0 4 7]) -&gt;"["0 5 8]\$ &#160; (C Maj &#8594; Fm/5th - <strong>inversion</strong>)</p>
 </li>
 <li>
-<p>Example M5 : &#160; \$M_5("["0 4 7]) -&gt;"["0 8 11]\$ (<strong>M5 substitution</strong>)&#160;</p>
+<p>Example M5 : &#160; \$M_5("["0 4 7]) -&gt;"["0 8 11]\$ (<strong>M5 substitution</strong> - <em>circle of fourths transform</em>)&#160;</p>
 </li>
 <li>
-<p>Example M7 : &#160; \$M_7("["0 4 7]) -&gt;"["0 1 4]\$ &#160;(<strong>M7 substitution</strong>)</p>
+<p>Example M7 : &#160; \$M_7("["0 4 7]) -&gt;"["0 1 4]\$ &#160;(<strong>M7 substitution</strong> - <em>circle of fifths transform</em>)</p>
 </li>
 <li>
 <p>Example id : &#160; \$M_1("["0 4 7]) -&gt;"["0 4 7]\$ &#160; (<strong>neutral operation</strong>)</p>
 </li>
 </ul>
 </div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Regarding circle of fifths and fourths transformations : "<em>Since middle 1950s many composers have found useful these operations</em>" (<a href="#Rahn">[Rahn]</a>, page 53-55). See also <a href="https://en.wikipedia.org/wiki/Multiplication_(music" class="bare">https://en.wikipedia.org/wiki/Multiplication_(music</a>)
+<br>
+<br>
+ Other regards on these permutations in 12-ET<sup class="footnote">[<a id="_footnoteref_5" class="footnote" href="#_footnotedef_5" title="View footnote.">5</a>]</sup>  : <span class="image"><img src="./assets/images/affine-permuations.png" alt="affine-permuations"></span>
+</td>
+</tr>
+</table>
+</div>
 <div class="sect3">
-<h4 id="_illustration_2">Illustration</h4>
+<h4 id="_illustrations">Illustrations</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -1932,7 +1974,7 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0 4
 </ul>
 </div>
 <div class="sect3">
-<h4 id="_illustration_3">Illustration</h4>
+<h4 id="_illustration_2">Illustration</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -2457,7 +2499,7 @@ Extended Special Affine Operation is called <em>MusaicOperation</em> into Musaic
 <div class="paragraph">
 <p>Into Musaicbox application project (<a href="https://musaicbox.org/" class="bare">https://musaicbox.org/</a>) , primitives operations are implemented by permutations of values into vector representation of PCS, i.e. \$ NN^n -&gt; NN^n\$.</p>
 </div>
-<div class="imageblock">
+<div id="affine-operations" class="imageblock">
 <div class="content">
 <img src="./assets/images/diff-4operations.png" alt="diff-4operations">
 </div>
@@ -3676,8 +3718,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_1.png" alt="Mus n° 1"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">1-0-1</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/1-0-1.png" alt="1-0-1"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -3692,8 +3734,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_2.png" alt="Mus n° 2"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2-1-1</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/2-1-1.png" alt="2-1-1"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -3708,8 +3750,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">3</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_3.png" alt="Mus n° 3"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">3-2-1</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/3-2-1.png" alt="3-2-1"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -3730,8 +3772,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_4.png" alt="Mus n° 4"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">4-2-2</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/4-2-2.png" alt="4-2-2"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -3746,8 +3788,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">5</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_5.png" alt="Mus n° 5"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">5-2-3</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/5-2-3.png" alt="5-2-3"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -3762,8 +3804,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">6</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_6.png" alt="Mus n° 6"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">6-2-4</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/6-2-4.png" alt="6-2-4"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -3778,8 +3820,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">7</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_7.png" alt="Mus n° 7"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">7-2-5</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/7-2-5.png" alt="7-2-5"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -3794,8 +3836,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_8.png" alt="Mus n° 8"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">8-3-1</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/8-3-1.png" alt="8-3-1"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -3816,8 +3858,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">9</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_9.png" alt="Mus n° 9"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">9-3-2</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/9-3-2.png" alt="9-3-2"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -3850,8 +3892,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">10</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_10.png" alt="Mus n° 10"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">10-3-3</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/10-3-3.png" alt="10-3-3"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -3884,8 +3926,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">11</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_11.png" alt="Mus n° 11"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">11-3-4</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/11-3-4.png" alt="11-3-4"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -3900,8 +3942,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">12</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_12.png" alt="Mus n° 12"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">12-3-5</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/12-3-5.png" alt="12-3-5"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -3922,8 +3964,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5.png" alt="m1 m5" width="50"></span> M1 M5</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">13</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_13.png" alt="Mus n° 13"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">13-3-6</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/13-3-6.png" alt="13-3-6"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -3944,8 +3986,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">14</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_14.png" alt="Mus n° 14"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">14-3-7</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/14-3-7.png" alt="14-3-7"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -3966,8 +4008,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">15</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_15.png" alt="Mus n° 15"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">15-3-8</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/15-3-8.png" alt="15-3-8"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -3982,8 +4024,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">16</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_16.png" alt="Mus n° 16"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">16-3-9</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/16-3-9.png" alt="16-3-9"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -3998,8 +4040,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">17</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_17.png" alt="Mus n° 17"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">17-4-1</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/17-4-1.png" alt="17-4-1"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -4020,8 +4062,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">18</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_18.png" alt="Mus n° 18"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">18-4-2</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/18-4-2.png" alt="18-4-2"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -4054,8 +4096,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">19</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_19.png" alt="Mus n° 19"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">19-4-3</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/19-4-3.png" alt="19-4-3"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -4076,8 +4118,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">20</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_20.png" alt="Mus n° 20"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">20-4-4</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/20-4-4.png" alt="20-4-4"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -4110,8 +4152,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">21</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_21.png" alt="Mus n° 21"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">21-4-5</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/21-4-5.png" alt="21-4-5"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -4132,8 +4174,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5.png" alt="m1 m5" width="50"></span> M1 M5</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">22</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_22.png" alt="Mus n° 22"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">22-4-6</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/22-4-6.png" alt="22-4-6"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -4148,8 +4190,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">23</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_23.png" alt="Mus n° 23"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">23-4-7</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/23-4-7.png" alt="23-4-7"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -4170,8 +4212,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">24</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_24.png" alt="Mus n° 24"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">24-4-8</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/24-4-8.png" alt="24-4-8"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -4204,8 +4246,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">25</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_25.png" alt="Mus n° 25"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">25-4-9</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/25-4-9.png" alt="25-4-9"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -4226,8 +4268,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">26</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_26.png" alt="Mus n° 26"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">26-4-10</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/26-4-10.png" alt="26-4-10"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -4260,8 +4302,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">27</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_27.png" alt="Mus n° 27"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">27-4-11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/27-4-11.png" alt="27-4-11"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -4294,8 +4336,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">28</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_28.png" alt="Mus n° 28"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">28-4-12</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/28-4-12.png" alt="28-4-12"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -4310,8 +4352,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">29</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_29.png" alt="Mus n° 29"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">29-4-13</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/29-4-13.png" alt="29-4-13"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -4326,8 +4368,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">30</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_30.png" alt="Mus n° 30"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">30-4-14</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/30-4-14.png" alt="30-4-14"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -4342,8 +4384,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">31</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_31.png" alt="Mus n° 31"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">31-4-15</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/31-4-15.png" alt="31-4-15"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -4364,8 +4406,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">32</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_32.png" alt="Mus n° 32"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">32-4-16</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/32-4-16.png" alt="32-4-16"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -4380,8 +4422,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">33</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_33.png" alt="Mus n° 33"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">33-4-17</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/33-4-17.png" alt="33-4-17"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -4396,8 +4438,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">34</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_34.png" alt="Mus n° 34"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">34-4-18</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/34-4-18.png" alt="34-4-18"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -4418,8 +4460,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5.png" alt="m1 m5" width="50"></span> M1 M5</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">35</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_35.png" alt="Mus n° 35"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">35-4-19</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/35-4-19.png" alt="35-4-19"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -4434,8 +4476,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">36</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_36.png" alt="Mus n° 36"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">36-4-20</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/36-4-20.png" alt="36-4-20"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -4450,8 +4492,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">37</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_37.png" alt="Mus n° 37"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">37-4-21</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/37-4-21.png" alt="37-4-21"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -4466,8 +4508,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">38</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_38.png" alt="Mus n° 38"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">38-5-1</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/38-5-1.png" alt="38-5-1"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -4488,8 +4530,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">39</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_39.png" alt="Mus n° 39"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">39-5-2</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/39-5-2.png" alt="39-5-2"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -4522,8 +4564,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">40</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_40.png" alt="Mus n° 40"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">40-5-3</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/40-5-3.png" alt="40-5-3"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -4556,8 +4598,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">41</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_41.png" alt="Mus n° 41"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">41-5-4</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/41-5-4.png" alt="41-5-4"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -4590,8 +4632,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">42</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_42.png" alt="Mus n° 42"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">42-5-5</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/42-5-5.png" alt="42-5-5"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -4624,8 +4666,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">43</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_43.png" alt="Mus n° 43"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">43-5-6</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/43-5-6.png" alt="43-5-6"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -4658,8 +4700,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">44</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_44.png" alt="Mus n° 44"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">44-5-7</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/44-5-7.png" alt="44-5-7"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -4680,8 +4722,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">45</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_45.png" alt="Mus n° 45"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">45-5-8</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/45-5-8.png" alt="45-5-8"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -4714,8 +4756,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">46</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_46.png" alt="Mus n° 46"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">46-5-9</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/46-5-9.png" alt="46-5-9"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -4730,8 +4772,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">47</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_47.png" alt="Mus n° 47"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">47-5-10</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/47-5-10.png" alt="47-5-10"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -4764,8 +4806,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">48</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_48.png" alt="Mus n° 48"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">48-5-11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/48-5-11.png" alt="48-5-11"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -4786,8 +4828,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">49</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_49.png" alt="Mus n° 49"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">49-5-12</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/49-5-12.png" alt="49-5-12"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -4820,8 +4862,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">50</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_50.png" alt="Mus n° 50"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">50-5-13</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/50-5-13.png" alt="50-5-13"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -4842,8 +4884,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5.png" alt="m1 m5" width="50"></span> M1 M5</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">51</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_51.png" alt="Mus n° 51"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">51-5-14</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/51-5-14.png" alt="51-5-14"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -4876,8 +4918,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">52</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_52.png" alt="Mus n° 52"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">52-5-15</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/52-5-15.png" alt="52-5-15"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -4898,8 +4940,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">53</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_53.png" alt="Mus n° 53"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">53-5-16</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/53-5-16.png" alt="53-5-16"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -4920,8 +4962,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">54</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_54.png" alt="Mus n° 54"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">54-5-17</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/54-5-17.png" alt="54-5-17"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -4954,8 +4996,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">55</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_55.png" alt="Mus n° 55"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">55-5-18</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/55-5-18.png" alt="55-5-18"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -4976,8 +5018,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">56</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_56.png" alt="Mus n° 56"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">56-5-19</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/56-5-19.png" alt="56-5-19"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -4998,8 +5040,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5.png" alt="m1 m5" width="50"></span> M1 M5</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">57</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_57.png" alt="Mus n° 57"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">57-5-20</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/57-5-20.png" alt="57-5-20"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -5020,8 +5062,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5.png" alt="m1 m5" width="50"></span> M1 M5</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">58</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_58.png" alt="Mus n° 58"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">58-5-21</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/58-5-21.png" alt="58-5-21"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -5036,8 +5078,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">59</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_59.png" alt="Mus n° 59"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">59-5-22</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/59-5-22.png" alt="59-5-22"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -5058,8 +5100,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">60</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_60.png" alt="Mus n° 60"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">60-5-23</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/60-5-23.png" alt="60-5-23"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -5074,8 +5116,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">61</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_61.png" alt="Mus n° 61"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">61-5-24</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/61-5-24.png" alt="61-5-24"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -5090,8 +5132,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">62</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_62.png" alt="Mus n° 62"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">62-5-25</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/62-5-25.png" alt="62-5-25"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -5112,8 +5154,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">63</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_63.png" alt="Mus n° 63"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">63-6-1</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/63-6-1.png" alt="63-6-1"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -5128,8 +5170,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11-cm1-cm11.png" alt="m1 m11 cm1 cm11" width="50"></span> M1 M11 CM1 CM11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">64</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_64.png" alt="Mus n° 64"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">64-6-2</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/64-6-2.png" alt="64-6-2"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -5150,8 +5192,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm11.png" alt="m1 cm11" width="50"></span> M1 CM11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">65</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_65.png" alt="Mus n° 65"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">65-6-3</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/65-6-3.png" alt="65-6-3"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -5184,8 +5226,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">66</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_66.png" alt="Mus n° 66"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">66-6-4</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/66-6-4.png" alt="66-6-4"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -5206,8 +5248,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">67</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_67.png" alt="Mus n° 67"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">67-6-5</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/67-6-5.png" alt="67-6-5"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -5222,8 +5264,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-cm7-cm11.png" alt="m1 m5 cm7 cm11" width="50"></span> M1 M5 CM7 CM11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">68</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_68.png" alt="Mus n° 68"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">68-6-6</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/68-6-6.png" alt="68-6-6"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -5244,8 +5286,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm5.png" alt="m1 cm5" width="50"></span> M1 CM5</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">69</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_69.png" alt="Mus n° 69"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">69-6-7</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/69-6-7.png" alt="69-6-7"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -5278,8 +5320,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">70</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_70.png" alt="Mus n° 70"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">70-6-8</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/70-6-8.png" alt="70-6-8"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">1</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -5291,8 +5333,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11-cm1-cm5-cm7-cm11.png" alt="m1 m5 m7 m11 cm1 cm5 cm7 cm11" width="50"></span> M1 M5 M7 M11 CM1 CM5 CM7 CM11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">71</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_71.png" alt="Mus n° 71"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">71-6-9</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/71-6-9.png" alt="71-6-9"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -5313,8 +5355,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm11.png" alt="m1 cm11" width="50"></span> M1 CM11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">72</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_72.png" alt="Mus n° 72"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">72-6-10</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/72-6-10.png" alt="72-6-10"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -5335,8 +5377,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">73</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_73.png" alt="Mus n° 73"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">73-6-11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/73-6-11.png" alt="73-6-11"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -5357,8 +5399,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">74</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_74.png" alt="Mus n° 74"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">74-6-12</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/74-6-12.png" alt="74-6-12"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -5373,8 +5415,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11-cm5-cm7.png" alt="m1 m11 cm5 cm7" width="50"></span> M1 M11 CM5 CM7</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">75</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_75.png" alt="Mus n° 75"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">75-6-13</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/75-6-13.png" alt="75-6-13"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -5395,8 +5437,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm11.png" alt="m1 cm11" width="50"></span> M1 CM11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">76</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_76.png" alt="Mus n° 76"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">76-6-14</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/76-6-14.png" alt="76-6-14"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -5411,8 +5453,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-cm1-cm5.png" alt="m1 m5 cm1 cm5" width="50"></span> M1 M5 CM1 CM5</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">77</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_77.png" alt="Mus n° 77"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">77-6-15</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/77-6-15.png" alt="77-6-15"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -5427,8 +5469,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-cm7-cm11.png" alt="m1 m5 cm7 cm11" width="50"></span> M1 M5 CM7 CM11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">78</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_78.png" alt="Mus n° 78"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">78-6-16</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/78-6-16.png" alt="78-6-16"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -5449,8 +5491,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm11.png" alt="m1 cm11" width="50"></span> M1 CM11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">79</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_79.png" alt="Mus n° 79"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">79-6-17</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/79-6-17.png" alt="79-6-17"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -5471,8 +5513,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">80</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_80.png" alt="Mus n° 80"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">80-6-18</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/80-6-18.png" alt="80-6-18"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -5487,8 +5529,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">81</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_81.png" alt="Mus n° 81"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">81-6-19</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/81-6-19.png" alt="81-6-19"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -5503,8 +5545,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-cm7-cm11.png" alt="m1 m5 cm7 cm11" width="50"></span> M1 M5 CM7 CM11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">82</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_82.png" alt="Mus n° 82"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">82-6-20</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/82-6-20.png" alt="82-6-20"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -5525,8 +5567,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm5.png" alt="m1 cm5" width="50"></span> M1 CM5</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">83</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_83.png" alt="Mus n° 83"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">83-6-21</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/83-6-21.png" alt="83-6-21"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">1</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -5538,8 +5580,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11-cm1-cm5-cm7-cm11.png" alt="m1 m5 m7 m11 cm1 cm5 cm7 cm11" width="50"></span> M1 M5 M7 M11 CM1 CM5 CM7 CM11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">84</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_84.png" alt="Mus n° 84"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">84-6-22</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/84-6-22.png" alt="84-6-22"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -5554,8 +5596,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7-cm5-cm11.png" alt="m1 m7 cm5 cm11" width="50"></span> M1 M7 CM5 CM11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">85</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_85.png" alt="Mus n° 85"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">85-6-23</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/85-6-23.png" alt="85-6-23"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -5570,8 +5612,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">86</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_86.png" alt="Mus n° 86"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">86-6-24</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/86-6-24.png" alt="86-6-24"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -5586,8 +5628,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7-cm5-cm11.png" alt="m1 m7 cm5 cm11" width="50"></span> M1 M7 CM5 CM11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">87</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_87.png" alt="Mus n° 87"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">87-6-25</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/87-6-25.png" alt="87-6-25"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">1</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -5599,8 +5641,8 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11-cm1-cm5-cm7-cm11.png" alt="m1 m5 m7 m11 cm1 cm5 cm7 cm11" width="50"></span> M1 M5 M7 M11 CM1 CM5 CM7 CM11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">88</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/mus_88.png" alt="Mus n° 88"></span></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">88-6-26</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/88-6-26.png" alt="88-6-26"></span></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">1</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
@@ -7400,6 +7442,10 @@ A musaic alone has a potential of <strong>8</strong> cyclic intervallic structur
 </table>
 </div>
 </dd>
+<dt class="hdlist1">12-ET</dt>
+<dd>
+<p>12 equal temperament</p>
+</dd>
 </dl>
 </div>
 </div>
@@ -8163,10 +8209,13 @@ Symmetry prime form concept is invented, specific to this project.
 <div class="footnote" id="_footnotedef_4">
 <a href="#_footnoteref_4">4</a>. A stabilizing operation is a transformation operation which conserve intervallic structure
 </div>
+<div class="footnote" id="_footnotedef_5">
+<a href="#_footnoteref_5">5</a>. 12 equal temperament
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-04-28 16:02:16 +0200
+Last updated 2025-05-01 22:54:07 +0200
 </div>
 </div>
 <script type="text/x-mathjax-config">

@@ -129,7 +129,7 @@
           [matBadgeHidden]="getNumberComponentsSelected() === 0"
           matBadge="{{getNumberComponentsSelected()}}" matBadgePosition="after"
           [disabled]="numberSelectedComponents === 0"
-          (click)="HtmlUtil.captureAllPcsComponentSelected()"
+          (click)="HtmlUtil.captureAllPcsComponentSelected(true)"
           class="button-toolbar"
           style="margin-top: 15px"
   >

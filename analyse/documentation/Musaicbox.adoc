@@ -534,7 +534,9 @@ image:T1-158-Mus.png[T1-158 Musaic]
 
 Operation name is {nbsp} stem:[M_a]
 
-An operation which consists of moving by one step of stem:[k |-> "indexPC" * a] (in semitones) all PCs of a PCS
+Multiplication is an operation which consists of moving all PCs of a PCS by  step of stem:[k] where stem:[k] is obtained by multiplying _PC_ by a value prime with _n_ (in semitones)
+
+This operation generates inversion and circle of fifths and fourths transformation.
 
 ====
 
@@ -558,17 +560,37 @@ _Where a is prime with |E|, and stem:[*] is multiplication operator_.
 
 Motivation: allows to establish an equivalence relation "up to a symmetry", *including inversion and other substitutions.*
 
-Examples when stem:[E = {0, 1, ..., 11}]  (cardinal of stem:[E\ is\ |E| = 12])
+Examples when stem:[E = {0, 1, ..., 11}] (cardinal of stem:[E\ is\ |E| = 12]), number primes with 12 are : {1, 5, 7, 11}
+
+    x (0  1  2  3  4  5  6  7  8  9 10 11)
+  1.x (0  1  2  3  4  5  6  7  8  9 10 11) <- identity
+
+    x (0  1  2  3  4  5  6  7  8  9 10 11)
+ 11.x (0 11 10  9  8  7  6  5  4  3  2  1) <- inversion
+
+    x (0  1  2  3  4  5  6  7  8  9 10 11)
+  5.x (0  5 10  3  8  1  6 11  4  9  2  7) <- fourths cycle
+
+    x (0  1  2  3  4  5  6  7  8  9 10 11)
+  7.x (0  7  2  9  4 11  6  1  8  3 10  5) <- fifths cycle
+
+
 
 * Example M11 : {nbsp} stem:[M_11("["0 4 7\]) ->"["0 5 8\]] {nbsp} (C Maj -> Fm/5th - *inversion*)
 
-* Example M5 : {nbsp} stem:[M_5("["0 4 7\]) ->"["0 8 11\]] (*M5 substitution*){nbsp}
+* Example M5 : {nbsp} stem:[M_5("["0 4 7\]) ->"["0 8 11\]] (*M5 substitution* - _circle of fourths transform_){nbsp}
 
-* Example M7 : {nbsp} stem:[M_7("["0 4 7\]) ->"["0 1 4\]] {nbsp}(*M7 substitution*)
+* Example M7 : {nbsp} stem:[M_7("["0 4 7\]) ->"["0 1 4\]] {nbsp}(*M7 substitution* - _circle of fifths transform_)
 
 * Example id : {nbsp} stem:[M_1("["0 4 7\]) ->"["0 4 7\]] {nbsp} (*neutral operation*)
 
-==== Illustration
+TIP: Regarding circle of fifths and fourths transformations : "_Since middle 1950s many composers have found useful these operations_" (<<Rahn>>, page 53-55). See also https://en.wikipedia.org/wiki/Multiplication_(music)
+ +
+ +
+ Other regards on these permutations in 12-ETfootnote:[12 equal temperament]  : image:affine-permuations.png[affine-permuations]
+
+
+==== Illustrations
 
 * Example M11 : {nbsp} stem:[M_11("["0 4 7\]) ->"["0 5 8\]] {nbsp} (C Maj -> Fm/5th - *inversion*)
 
@@ -936,6 +958,7 @@ https://88musaics.org/[88musaics project] presents different operations, when n 
 
 Into Musaicbox application project (https://musaicbox.org/) , primitives operations are implemented by permutations of values into vector representation of PCS, i.e. stem:[ NN^n -> NN^n].
 
+[#affine-operations]
 .Example of different points of view of basics transformation operations
 image::diff-4operations.png[diff-4operations]
 
@@ -1556,24 +1579,24 @@ List of 88 musaics generating of _P(Z~12~)_
 |N° [.head]#&uarr;#|Musaic  |Motifs [.head]#&uarr;#|Cyclic Intervallic Structure |Meta-Stabilizer [.head]#&uarr;#
 
 
-|1
-|image:88musaics/mus_1.png[Mus n° 1]
+|1-0-1
+|image:88musaics/1-0-1.png[1-0-1]
 | 2
 |
 * ()
 * (1 1 1 1 1 1 1 1 1 1 1 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|2
-|image:88musaics/mus_2.png[Mus n° 2]
+|2-1-1
+|image:88musaics/2-1-1.png[2-1-1]
 | 2
 |
 * (0)
 * (1 1 1 1 1 2 1 1 1 1 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|3
-|image:88musaics/mus_3.png[Mus n° 3]
+|3-2-1
+|image:88musaics/3-2-1.png[3-2-1]
 | 4
 |
 * (1 11)
@@ -1582,40 +1605,40 @@ List of 88 musaics generating of _P(Z~12~)_
 * (1 1 1 1 1 2 1 1 1 2)
 |  image:octotropes/m1-m11.png[width=50] M1 M11
 
-|4
-|image:88musaics/mus_4.png[Mus n° 4]
+|4-2-2
+|image:88musaics/4-2-2.png[4-2-2]
 | 2
 |
 * (2 10)
 * (1 1 1 1 1 2 2 1 1 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|5
-|image:88musaics/mus_5.png[Mus n° 5]
+|5-2-3
+|image:88musaics/5-2-3.png[5-2-3]
 | 2
 |
 * (3 9)
 * (1 1 1 1 1 2 1 2 1 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|6
-|image:88musaics/mus_6.png[Mus n° 6]
+|6-2-4
+|image:88musaics/6-2-4.png[6-2-4]
 | 2
 |
 * (4 8)
 * (1 1 1 1 1 2 1 1 2 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|7
-|image:88musaics/mus_7.png[Mus n° 7]
+|7-2-5
+|image:88musaics/7-2-5.png[7-2-5]
 | 2
 |
 * (6 6)
 * (2 1 1 1 1 2 1 1 1 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|8
-|image:88musaics/mus_8.png[Mus n° 8]
+|8-3-1
+|image:88musaics/8-3-1.png[8-3-1]
 | 4
 |
 * (1 1 10)
@@ -1624,8 +1647,8 @@ List of 88 musaics generating of _P(Z~12~)_
 * (1 1 1 2 2 1 1 1 2)
 |  image:octotropes/m1-m11.png[width=50] M1 M11
 
-|9
-|image:88musaics/mus_9.png[Mus n° 9]
+|9-3-2
+|image:88musaics/9-3-2.png[9-3-2]
 | 8
 |
 * (1 2 9)
@@ -1638,8 +1661,8 @@ List of 88 musaics generating of _P(Z~12~)_
 * (1 1 2 3 1 1 1 1 1)
 |  image:octotropes/m1.png[width=50] M1
 
-|10
-|image:88musaics/mus_10.png[Mus n° 10]
+|10-3-3
+|image:88musaics/10-3-3.png[10-3-3]
 | 8
 |
 * (1 3 8)
@@ -1652,16 +1675,16 @@ List of 88 musaics generating of _P(Z~12~)_
 * (1 2 1 3 1 1 1 1 1)
 |  image:octotropes/m1.png[width=50] M1
 
-|11
-|image:88musaics/mus_11.png[Mus n° 11]
+|11-3-4
+|image:88musaics/11-3-4.png[11-3-4]
 | 2
 |
 * (2 2 8)
 * (1 1 1 1 1 2 2 2 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|12
-|image:88musaics/mus_12.png[Mus n° 12]
+|12-3-5
+|image:88musaics/12-3-5.png[12-3-5]
 | 4
 |
 * (1 4 7)
@@ -1670,8 +1693,8 @@ List of 88 musaics generating of _P(Z~12~)_
 * (2 1 1 3 1 1 1 1 1)
 |  image:octotropes/m1-m5.png[width=50] M1 M5
 
-|13
-|image:88musaics/mus_13.png[Mus n° 13]
+|13-3-6
+|image:88musaics/13-3-6.png[13-3-6]
 | 4
 |
 * (1 5 6)
@@ -1680,8 +1703,8 @@ List of 88 musaics generating of _P(Z~12~)_
 * (1 1 1 3 1 1 1 1 2)
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
-|14
-|image:88musaics/mus_14.png[Mus n° 14]
+|14-3-7
+|image:88musaics/14-3-7.png[14-3-7]
 | 4
 |
 * (2 4 6)
@@ -1690,24 +1713,24 @@ List of 88 musaics generating of _P(Z~12~)_
 * (1 1 1 1 2 1 1 2 2)
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
-|15
-|image:88musaics/mus_15.png[Mus n° 15]
+|15-3-8
+|image:88musaics/15-3-8.png[15-3-8]
 | 2
 |
 * (3 3 6)
 * (2 1 1 1 1 2 1 2 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|16
-|image:88musaics/mus_16.png[Mus n° 16]
+|16-3-9
+|image:88musaics/16-3-9.png[16-3-9]
 | 2
 |
 * (4 4 4)
 * (1 2 1 1 2 1 1 2 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|17
-|image:88musaics/mus_17.png[Mus n° 17]
+|17-4-1
+|image:88musaics/17-4-1.png[17-4-1]
 | 4
 |
 * (1 1 1 9)
@@ -1716,8 +1739,8 @@ List of 88 musaics generating of _P(Z~12~)_
 * (1 1 1 2 2 1 2 2)
 |  image:octotropes/m1-m11.png[width=50] M1 M11
 
-|18
-|image:88musaics/mus_18.png[Mus n° 18]
+|18-4-2
+|image:88musaics/18-4-2.png[18-4-2]
 | 8
 |
 * (1 1 2 8)
@@ -1730,8 +1753,8 @@ List of 88 musaics generating of _P(Z~12~)_
 * (1 2 4 1 1 1 1 1)
 |  image:octotropes/m1.png[width=50] M1
 
-|19
-|image:88musaics/mus_19.png[Mus n° 19]
+|19-4-3
+|image:88musaics/19-4-3.png[19-4-3]
 | 4
 |
 * (1 2 1 8)
@@ -1740,8 +1763,8 @@ List of 88 musaics generating of _P(Z~12~)_
 * (1 2 1 1 2 1 2 2)
 |  image:octotropes/m1-m11.png[width=50] M1 M11
 
-|20
-|image:88musaics/mus_20.png[Mus n° 20]
+|20-4-4
+|image:88musaics/20-4-4.png[20-4-4]
 | 8
 |
 * (1 1 3 7)
@@ -1754,8 +1777,8 @@ List of 88 musaics generating of _P(Z~12~)_
 * (2 1 4 1 1 1 1 1)
 |  image:octotropes/m1.png[width=50] M1
 
-|21
-|image:88musaics/mus_21.png[Mus n° 21]
+|21-4-5
+|image:88musaics/21-4-5.png[21-4-5]
 | 4
 |
 * (1 2 2 7)
@@ -1764,16 +1787,16 @@ List of 88 musaics generating of _P(Z~12~)_
 * (2 2 3 1 1 1 1 1)
 |  image:octotropes/m1-m5.png[width=50] M1 M5
 
-|22
-|image:88musaics/mus_22.png[Mus n° 22]
+|22-4-6
+|image:88musaics/22-4-6.png[22-4-6]
 | 2
 |
 * (2 1 2 7)
 * (1 1 1 1 1 2 3 2)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|23
-|image:88musaics/mus_23.png[Mus n° 23]
+|23-4-7
+|image:88musaics/23-4-7.png[23-4-7]
 | 4
 |
 * (1 3 1 7)
@@ -1782,8 +1805,8 @@ List of 88 musaics generating of _P(Z~12~)_
 * (1 2 1 1 3 1 1 2)
 |  image:octotropes/m1-m11.png[width=50] M1 M11
 
-|24
-|image:88musaics/mus_24.png[Mus n° 24]
+|24-4-8
+|image:88musaics/24-4-8.png[24-4-8]
 | 8
 |
 * (1 1 4 6)
@@ -1796,8 +1819,8 @@ List of 88 musaics generating of _P(Z~12~)_
 * (1 1 4 1 1 1 1 2)
 |  image:octotropes/m1.png[width=50] M1
 
-|25
-|image:88musaics/mus_25.png[Mus n° 25]
+|25-4-9
+|image:88musaics/25-4-9.png[25-4-9]
 | 4
 |
 * (1 2 3 6)
@@ -1806,8 +1829,8 @@ List of 88 musaics generating of _P(Z~12~)_
 * (1 2 3 1 1 1 1 2)
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
-|26
-|image:88musaics/mus_26.png[Mus n° 26]
+|26-4-10
+|image:88musaics/26-4-10.png[26-4-10]
 | 8
 |
 * (2 1 3 6)
@@ -1820,8 +1843,8 @@ List of 88 musaics generating of _P(Z~12~)_
 * (1 3 2 1 1 1 1 2)
 |  image:octotropes/m1.png[width=50] M1
 
-|27
-|image:88musaics/mus_27.png[Mus n° 27]
+|27-4-11
+|image:88musaics/27-4-11.png[27-4-11]
 | 8
 |
 * (1 3 2 6)
@@ -1834,32 +1857,32 @@ List of 88 musaics generating of _P(Z~12~)_
 * (2 1 3 1 1 1 1 2)
 |  image:octotropes/m1.png[width=50] M1
 
-|28
-|image:88musaics/mus_28.png[Mus n° 28]
+|28-4-12
+|image:88musaics/28-4-12.png[28-4-12]
 | 2
 |
 * (2 2 2 6)
 * (2 1 1 1 1 2 2 2)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|29
-|image:88musaics/mus_29.png[Mus n° 29]
+|29-4-13
+|image:88musaics/29-4-13.png[29-4-13]
 | 2
 |
 * (1 4 1 6)
 * (1 1 1 1 3 1 1 3)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|30
-|image:88musaics/mus_30.png[Mus n° 30]
+|30-4-14
+|image:88musaics/30-4-14.png[30-4-14]
 | 2
 |
 * (1 1 5 5)
 * (2 1 1 1 4 1 1 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|31
-|image:88musaics/mus_31.png[Mus n° 31]
+|31-4-15
+|image:88musaics/31-4-15.png[31-4-15]
 | 4
 |
 * (1 3 3 5)
@@ -1868,24 +1891,24 @@ List of 88 musaics generating of _P(Z~12~)_
 * (1 2 1 3 1 1 1 2)
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
-|32
-|image:88musaics/mus_32.png[Mus n° 32]
+|32-4-16
+|image:88musaics/32-4-16.png[32-4-16]
 | 2
 |
 * (3 1 3 5)
 * (2 1 1 1 2 1 3 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|33
-|image:88musaics/mus_33.png[Mus n° 33]
+|33-4-17
+|image:88musaics/33-4-17.png[33-4-17]
 | 2
 |
 * (1 5 1 5)
 * (3 1 1 1 3 1 1 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|34
-|image:88musaics/mus_34.png[Mus n° 34]
+|34-4-18
+|image:88musaics/34-4-18.png[34-4-18]
 | 4
 |
 * (1 3 4 4)
@@ -1894,32 +1917,32 @@ List of 88 musaics generating of _P(Z~12~)_
 * (3 1 1 2 1 1 2 1)
 |  image:octotropes/m1-m5.png[width=50] M1 M5
 
-|35
-|image:88musaics/mus_35.png[Mus n° 35]
+|35-4-19
+|image:88musaics/35-4-19.png[35-4-19]
 | 2
 |
 * (2 2 4 4)
 * (1 2 1 1 2 2 2 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|36
-|image:88musaics/mus_36.png[Mus n° 36]
+|36-4-20
+|image:88musaics/36-4-20.png[36-4-20]
 | 2
 |
 * (2 4 2 4)
 * (2 2 1 1 2 2 1 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|37
-|image:88musaics/mus_37.png[Mus n° 37]
+|37-4-21
+|image:88musaics/37-4-21.png[37-4-21]
 | 2
 |
 * (3 3 3 3)
 * (2 1 2 1 2 1 2 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|38
-|image:88musaics/mus_38.png[Mus n° 38]
+|38-5-1
+|image:88musaics/38-5-1.png[38-5-1]
 | 4
 |
 * (1 1 1 1 8)
@@ -1928,8 +1951,8 @@ List of 88 musaics generating of _P(Z~12~)_
 * (1 2 2 2 1 2 2)
 |  image:octotropes/m1-m11.png[width=50] M1 M11
 
-|39
-|image:88musaics/mus_39.png[Mus n° 39]
+|39-5-2
+|image:88musaics/39-5-2.png[39-5-2]
 | 8
 |
 * (1 1 1 2 7)
@@ -1942,8 +1965,8 @@ List of 88 musaics generating of _P(Z~12~)_
 * (2 5 1 1 1 1 1)
 |  image:octotropes/m1.png[width=50] M1
 
-|40
-|image:88musaics/mus_40.png[Mus n° 40]
+|40-5-3
+|image:88musaics/40-5-3.png[40-5-3]
 | 8
 |
 * (1 1 2 1 7)
@@ -1956,8 +1979,8 @@ List of 88 musaics generating of _P(Z~12~)_
 * (3 4 1 1 1 1 1)
 |  image:octotropes/m1.png[width=50] M1
 
-|41
-|image:88musaics/mus_41.png[Mus n° 41]
+|41-5-4
+|image:88musaics/41-5-4.png[41-5-4]
 | 8
 |
 * (1 1 1 3 6)
@@ -1970,8 +1993,8 @@ List of 88 musaics generating of _P(Z~12~)_
 * (1 5 1 1 1 1 2)
 |  image:octotropes/m1.png[width=50] M1
 
-|42
-|image:88musaics/mus_42.png[Mus n° 42]
+|42-5-5
+|image:88musaics/42-5-5.png[42-5-5]
 | 8
 |
 * (1 1 2 2 6)
@@ -1984,8 +2007,8 @@ List of 88 musaics generating of _P(Z~12~)_
 * (2 4 1 1 1 1 2)
 |  image:octotropes/m1.png[width=50] M1
 
-|43
-|image:88musaics/mus_43.png[Mus n° 43]
+|43-5-6
+|image:88musaics/43-5-6.png[43-5-6]
 | 8
 |
 * (1 2 1 2 6)
@@ -1998,8 +2021,8 @@ List of 88 musaics generating of _P(Z~12~)_
 * (3 3 1 1 1 1 2)
 |  image:octotropes/m1.png[width=50] M1
 
-|44
-|image:88musaics/mus_44.png[Mus n° 44]
+|44-5-7
+|image:88musaics/44-5-7.png[44-5-7]
 | 4
 |
 * (2 1 1 2 6)
@@ -2008,8 +2031,8 @@ List of 88 musaics generating of _P(Z~12~)_
 * (1 2 1 2 2 2 2)
 |  image:octotropes/m1-m11.png[width=50] M1 M11
 
-|45
-|image:88musaics/mus_45.png[Mus n° 45]
+|45-5-8
+|image:88musaics/45-5-8.png[45-5-8]
 | 8
 |
 * (1 1 3 1 6)
@@ -2022,16 +2045,16 @@ List of 88 musaics generating of _P(Z~12~)_
 * (3 1 4 1 1 1 1)
 |  image:octotropes/m1.png[width=50] M1
 
-|46
-|image:88musaics/mus_46.png[Mus n° 46]
+|46-5-9
+|image:88musaics/46-5-9.png[46-5-9]
 | 2
 |
 * (1 2 2 1 6)
 * (1 1 1 1 3 2 3)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|47
-|image:88musaics/mus_47.png[Mus n° 47]
+|47-5-10
+|image:88musaics/47-5-10.png[47-5-10]
 | 8
 |
 * (1 1 1 4 5)
@@ -2044,8 +2067,8 @@ List of 88 musaics generating of _P(Z~12~)_
 * (1 1 5 1 1 1 2)
 |  image:octotropes/m1.png[width=50] M1
 
-|48
-|image:88musaics/mus_48.png[Mus n° 48]
+|48-5-11
+|image:88musaics/48-5-11.png[48-5-11]
 | 4
 |
 * (1 1 2 3 5)
@@ -2054,8 +2077,8 @@ List of 88 musaics generating of _P(Z~12~)_
 * (1 2 4 1 1 1 2)
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
-|49
-|image:88musaics/mus_49.png[Mus n° 49]
+|49-5-12
+|image:88musaics/49-5-12.png[49-5-12]
 | 8
 |
 * (1 2 1 3 5)
@@ -2068,8 +2091,8 @@ List of 88 musaics generating of _P(Z~12~)_
 * (1 3 3 1 1 1 2)
 |  image:octotropes/m1.png[width=50] M1
 
-|50
-|image:88musaics/mus_50.png[Mus n° 50]
+|50-5-13
+|image:88musaics/50-5-13.png[50-5-13]
 | 4
 |
 * (2 1 1 3 5)
@@ -2078,8 +2101,8 @@ List of 88 musaics generating of _P(Z~12~)_
 * (1 1 2 1 4 2 1)
 |  image:octotropes/m1-m5.png[width=50] M1 M5
 
-|51
-|image:88musaics/mus_51.png[Mus n° 51]
+|51-5-14
+|image:88musaics/51-5-14.png[51-5-14]
 | 8
 |
 * (1 3 1 2 5)
@@ -2092,8 +2115,8 @@ List of 88 musaics generating of _P(Z~12~)_
 * (3 1 3 1 1 1 2)
 |  image:octotropes/m1.png[width=50] M1
 
-|52
-|image:88musaics/mus_52.png[Mus n° 52]
+|52-5-15
+|image:88musaics/52-5-15.png[52-5-15]
 | 4
 |
 * (1 1 4 1 5)
@@ -2102,8 +2125,8 @@ List of 88 musaics generating of _P(Z~12~)_
 * (1 1 1 3 1 1 4)
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
-|53
-|image:88musaics/mus_53.png[Mus n° 53]
+|53-5-16
+|image:88musaics/53-5-16.png[53-5-16]
 | 4
 |
 * (1 2 3 1 5)
@@ -2112,8 +2135,8 @@ List of 88 musaics generating of _P(Z~12~)_
 * (1 2 3 1 1 1 3)
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
-|54
-|image:88musaics/mus_54.png[Mus n° 54]
+|54-5-17
+|image:88musaics/54-5-17.png[54-5-17]
 | 8
 |
 * (1 1 2 4 4)
@@ -2126,8 +2149,8 @@ List of 88 musaics generating of _P(Z~12~)_
 * (1 2 4 1 1 2 1)
 |  image:octotropes/m1.png[width=50] M1
 
-|55
-|image:88musaics/mus_55.png[Mus n° 55]
+|55-5-18
+|image:88musaics/55-5-18.png[55-5-18]
 | 4
 |
 * (1 2 1 4 4)
@@ -2136,8 +2159,8 @@ List of 88 musaics generating of _P(Z~12~)_
 * (1 2 1 1 2 1 4)
 |  image:octotropes/m1-m11.png[width=50] M1 M11
 
-|56
-|image:88musaics/mus_56.png[Mus n° 56]
+|56-5-19
+|image:88musaics/56-5-19.png[56-5-19]
 | 4
 |
 * (1 3 1 3 4)
@@ -2146,8 +2169,8 @@ List of 88 musaics generating of _P(Z~12~)_
 * (3 1 3 1 1 2 1)
 |  image:octotropes/m1-m5.png[width=50] M1 M5
 
-|57
-|image:88musaics/mus_57.png[Mus n° 57]
+|57-5-20
+|image:88musaics/57-5-20.png[57-5-20]
 | 4
 |
 * (2 2 1 3 4)
@@ -2156,16 +2179,16 @@ List of 88 musaics generating of _P(Z~12~)_
 * (1 2 1 3 2 2 1)
 |  image:octotropes/m1-m5.png[width=50] M1 M5
 
-|58
-|image:88musaics/mus_58.png[Mus n° 58]
+|58-5-21
+|image:88musaics/58-5-21.png[58-5-21]
 | 2
 |
 * (1 1 4 2 4)
 * (2 2 1 1 4 1 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|59
-|image:88musaics/mus_59.png[Mus n° 59]
+|59-5-22
+|image:88musaics/59-5-22.png[59-5-22]
 | 4
 |
 * (2 1 3 2 4)
@@ -2174,24 +2197,24 @@ List of 88 musaics generating of _P(Z~12~)_
 * (1 3 2 1 1 2 2)
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
-|60
-|image:88musaics/mus_60.png[Mus n° 60]
+|60-5-23
+|image:88musaics/60-5-23.png[60-5-23]
 | 2
 |
 * (2 2 2 2 4)
 * (2 2 1 1 2 2 2)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|61
-|image:88musaics/mus_61.png[Mus n° 61]
+|61-5-24
+|image:88musaics/61-5-24.png[61-5-24]
 | 2
 |
 * (1 3 3 1 4)
 * (3 1 1 3 1 2 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|62
-|image:88musaics/mus_62.png[Mus n° 62]
+|62-5-25
+|image:88musaics/62-5-25.png[62-5-25]
 | 4
 |
 * (1 2 3 3 3)
@@ -2200,16 +2223,16 @@ List of 88 musaics generating of _P(Z~12~)_
 * (1 2 3 1 2 1 2)
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
-|63
-|image:88musaics/mus_63.png[Mus n° 63]
+|63-6-1
+|image:88musaics/63-6-1.png[63-6-1]
 | 2
 |
 * (1 1 1 1 1 7)
 * (1 2 2 3 2 2)
 |  image:octotropes/m1-m11-cm1-cm11.png[width=50] M1 M11 CM1 CM11
 
-|64
-|image:88musaics/mus_64.png[Mus n° 64]
+|64-6-2
+|image:88musaics/64-6-2.png[64-6-2]
 | 4
 |
 * (1 1 1 1 2 6)
@@ -2218,8 +2241,8 @@ List of 88 musaics generating of _P(Z~12~)_
 * (6 2 1 1 1 1)
 |  image:octotropes/m1-cm11.png[width=50] M1 CM11
 
-|65
-|image:88musaics/mus_65.png[Mus n° 65]
+|65-6-3
+|image:88musaics/65-6-3.png[65-6-3]
 | 8
 |
 * (1 1 1 2 1 6)
@@ -2232,8 +2255,8 @@ List of 88 musaics generating of _P(Z~12~)_
 * (3 5 1 1 1 1)
 |  image:octotropes/m1.png[width=50] M1
 
-|66
-|image:88musaics/mus_66.png[Mus n° 66]
+|66-6-4
+|image:88musaics/66-6-4.png[66-6-4]
 | 4
 |
 * (1 1 2 1 1 6)
@@ -2242,16 +2265,16 @@ List of 88 musaics generating of _P(Z~12~)_
 * (3 1 1 3 2 2)
 |  image:octotropes/m1-m11.png[width=50] M1 M11
 
-|67
-|image:88musaics/mus_67.png[Mus n° 67]
+|67-6-5
+|image:88musaics/67-6-5.png[67-6-5]
 | 2
 |
 * (1 1 1 2 2 5)
 * (1 1 5 2 2 1)
 |  image:octotropes/m1-m5-cm7-cm11.png[width=50] M1 M5 CM7 CM11
 
-|68
-|image:88musaics/mus_68.png[Mus n° 68]
+|68-6-6
+|image:88musaics/68-6-6.png[68-6-6]
 | 4
 |
 * (1 1 2 1 2 5)
@@ -2260,8 +2283,8 @@ List of 88 musaics generating of _P(Z~12~)_
 * (5 2 1 2 1 1)
 |  image:octotropes/m1-cm5.png[width=50] M1 CM5
 
-|69
-|image:88musaics/mus_69.png[Mus n° 69]
+|69-6-7
+|image:88musaics/69-6-7.png[69-6-7]
 | 8
 |
 * (1 2 1 1 2 5)
@@ -2274,15 +2297,15 @@ List of 88 musaics generating of _P(Z~12~)_
 * (4 3 1 1 1 2)
 |  image:octotropes/m1.png[width=50] M1
 
-|70
-|image:88musaics/mus_70.png[Mus n° 70]
+|70-6-8
+|image:88musaics/70-6-8.png[70-6-8]
 | 1
 |
 * (2 1 1 1 2 5)
 |  image:octotropes/m1-m5-m7-m11-cm1-cm5-cm7-cm11.png[width=50] M1 M5 M7 M11 CM1 CM5 CM7 CM11
 
-|71
-|image:88musaics/mus_71.png[Mus n° 71]
+|71-6-9
+|image:88musaics/71-6-9.png[71-6-9]
 | 4
 |
 * (1 1 1 3 1 5)
@@ -2291,8 +2314,8 @@ List of 88 musaics generating of _P(Z~12~)_
 * (5 1 3 1 1 1)
 |  image:octotropes/m1-cm11.png[width=50] M1 CM11
 
-|72
-|image:88musaics/mus_72.png[Mus n° 72]
+|72-6-10
+|image:88musaics/72-6-10.png[72-6-10]
 | 4
 |
 * (1 1 2 2 1 5)
@@ -2301,8 +2324,8 @@ List of 88 musaics generating of _P(Z~12~)_
 * (1 1 1 3 2 4)
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
-|73
-|image:88musaics/mus_73.png[Mus n° 73]
+|73-6-11
+|image:88musaics/73-6-11.png[73-6-11]
 | 4
 |
 * (1 2 1 2 1 5)
@@ -2311,16 +2334,16 @@ List of 88 musaics generating of _P(Z~12~)_
 * (1 2 3 2 1 3)
 |  image:octotropes/m1-m11.png[width=50] M1 M11
 
-|74
-|image:88musaics/mus_74.png[Mus n° 74]
+|74-6-12
+|image:88musaics/74-6-12.png[74-6-12]
 | 2
 |
 * (1 1 3 1 1 5)
 * (1 4 1 4 1 1)
 |  image:octotropes/m1-m11-cm5-cm7.png[width=50] M1 M11 CM5 CM7
 
-|75
-|image:88musaics/mus_75.png[Mus n° 75]
+|75-6-13
+|image:88musaics/75-6-13.png[75-6-13]
 | 4
 |
 * (1 1 2 1 3 4)
@@ -2329,24 +2352,24 @@ List of 88 musaics generating of _P(Z~12~)_
 * (4 3 1 2 1 1)
 |  image:octotropes/m1-cm11.png[width=50] M1 CM11
 
-|76
-|image:88musaics/mus_76.png[Mus n° 76]
+|76-6-14
+|image:88musaics/76-6-14.png[76-6-14]
 | 2
 |
 * (1 2 1 1 3 4)
 * (4 3 1 1 2 1)
 |  image:octotropes/m1-m5-cm1-cm5.png[width=50] M1 M5 CM1 CM5
 
-|77
-|image:88musaics/mus_77.png[Mus n° 77]
+|77-6-15
+|image:88musaics/77-6-15.png[77-6-15]
 | 2
 |
 * (1 1 2 2 2 4)
 * (2 2 2 1 1 4)
 |  image:octotropes/m1-m5-cm7-cm11.png[width=50] M1 M5 CM7 CM11
 
-|78
-|image:88musaics/mus_78.png[Mus n° 78]
+|78-6-16
+|image:88musaics/78-6-16.png[78-6-16]
 | 4
 |
 * (2 1 1 2 2 4)
@@ -2355,8 +2378,8 @@ List of 88 musaics generating of _P(Z~12~)_
 * (4 2 2 1 1 2)
 |  image:octotropes/m1-cm11.png[width=50] M1 CM11
 
-|79
-|image:88musaics/mus_79.png[Mus n° 79]
+|79-6-17
+|image:88musaics/79-6-17.png[79-6-17]
 | 4
 |
 * (1 1 3 1 2 4)
@@ -2365,24 +2388,24 @@ List of 88 musaics generating of _P(Z~12~)_
 * (3 1 4 1 1 2)
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
-|80
-|image:88musaics/mus_80.png[Mus n° 80]
+|80-6-18
+|image:88musaics/80-6-18.png[80-6-18]
 | 2
 |
 * (2 1 2 1 2 4)
 * (2 1 1 2 3 3)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|81
-|image:88musaics/mus_81.png[Mus n° 81]
+|81-6-19
+|image:88musaics/81-6-19.png[81-6-19]
 | 2
 |
 * (1 3 1 1 2 4)
 * (4 2 1 1 3 1)
 |  image:octotropes/m1-m5-cm7-cm11.png[width=50] M1 M5 CM7 CM11
 
-|82
-|image:88musaics/mus_82.png[Mus n° 82]
+|82-6-20
+|image:88musaics/82-6-20.png[82-6-20]
 | 4
 |
 * (1 2 1 3 1 4)
@@ -2391,50 +2414,51 @@ List of 88 musaics generating of _P(Z~12~)_
 * (4 1 3 1 2 1)
 |  image:octotropes/m1-cm5.png[width=50] M1 CM5
 
-|83
-|image:88musaics/mus_83.png[Mus n° 83]
+|83-6-21
+|image:88musaics/83-6-21.png[83-6-21]
 | 1
 |
 * (1 1 4 1 1 4)
 |  image:octotropes/m1-m5-m7-m11-cm1-cm5-cm7-cm11.png[width=50] M1 M5 M7 M11 CM1 CM5 CM7 CM11
 
-|84
-|image:88musaics/mus_84.png[Mus n° 84]
+|84-6-22
+|image:88musaics/84-6-22.png[84-6-22]
 | 2
 |
 * (1 2 1 2 3 3)
 * (3 2 1 2 1 3)
 |  image:octotropes/m1-m7-cm5-cm11.png[width=50] M1 M7 CM5 CM11
 
-|85
-|image:88musaics/mus_85.png[Mus n° 85]
+|85-6-23
+|image:88musaics/85-6-23.png[85-6-23]
 | 2
 |
 * (1 2 2 1 3 3)
 * (1 2 1 3 2 3)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|86
-|image:88musaics/mus_86.png[Mus n° 86]
+|86-6-24
+|image:88musaics/86-6-24.png[86-6-24]
 | 2
 |
 * (1 2 3 1 2 3)
 * (3 2 1 3 2 1)
 |  image:octotropes/m1-m7-cm5-cm11.png[width=50] M1 M7 CM5 CM11
 
-|87
-|image:88musaics/mus_87.png[Mus n° 87]
+|87-6-25
+|image:88musaics/87-6-25.png[87-6-25]
 | 1
 |
 * (1 3 1 3 1 3)
 |  image:octotropes/m1-m5-m7-m11-cm1-cm5-cm7-cm11.png[width=50] M1 M5 M7 M11 CM1 CM5 CM7 CM11
 
-|88
-|image:88musaics/mus_88.png[Mus n° 88]
+|88-6-26
+|image:88musaics/88-6-26.png[88-6-26]
 | 1
 |
 * (2 2 2 2 2 2)
 |  image:octotropes/m1-m5-m7-m11-cm1-cm5-cm7-cm11.png[width=50] M1 M5 M7 M11 CM1 CM5 CM7 CM11
+
 
 |
 | _4096 PCS_
@@ -3591,6 +3615,9 @@ Musaic-Motif::
 Example : image:pcs-03579.png[03579 and complement] is : (2,2,2,3,3) in black, and, potentially (1,2,1,2,2,2,2) in white color
 +
 NOTE: A musaic alone has a potential of *8* cyclic intervallic structures, sometimes less as in the example provided.image:pcs-musaic-motif-4.png[musaic-motif-4 only]
+
+12-ET::
+ 12 equal temperament
 
 
 [bibliography]

@@ -1,4 +1,6 @@
 import html2canvas from "html2canvas";
+import {IPcs} from "../core/IPcs";
+import {EightyEight} from "./EightyEight";
 
 interface TSelectElementExport {
   elt: HTMLElement
@@ -30,7 +32,7 @@ export class HtmlUtil {
     }
 
 
-  static async captureAllPcsComponentSelected() {
+  static async captureAllPcsComponentSelected(musaicName:boolean = false) {
     const scale = window.devicePixelRatio || 1;
     let selectedElements: TSelectElementExport[] = []
 
@@ -41,9 +43,14 @@ export class HtmlUtil {
       const canvas = parents[i].getElementsByTagName("canvas")
       if (canvas.length > 0) {
         let fileName = canvas[0].getAttribute("ng-reflect-message") ?? `pcs-component-${i + 1}`;
-        console.log(`fileName = ${fileName}`)
+        // console.log(`fileName = ${fileName}`)
         // remove spaces and ( ) [ ]
         fileName = fileName.replace(/[\])}[{(\s+]/g, '');
+        if (musaicName) {
+          const pcsName = fileName.split('-')[0]
+          const pcs = new IPcs({strPcs:pcsName})
+          fileName = EightyEight.idNumberOf(pcs)
+        }
         selectedElements.push({elt: canvas[0], fileName: fileName})
       }
       const divScore = parents[i].getElementsByTagName("div")
@@ -54,6 +61,11 @@ export class HtmlUtil {
           let fileName = divScore[0].getAttribute("ng-reflect-message") ?? `pcs-component-${i + 1}`;
           // remove spaces and ( ) [ ]
           fileName = fileName.replace(/[\])}[{(\s+]/g, '');
+          if (musaicName) {
+            const pcsName = fileName.split('-')[0]
+            const pcs = new IPcs({strPcs:pcsName})
+            fileName = EightyEight.idNumberOf(pcs)
+          }
           selectedElements.push({elt: divScore[0], fileName: fileName})
         }
       }
