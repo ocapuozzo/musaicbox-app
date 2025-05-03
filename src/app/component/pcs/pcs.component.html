@@ -18,10 +18,10 @@
           [matTooltipDisabled]="pcsDto.showPcs"
           matTooltip="pcs : {{pcsDto.pcs.getPcsStr()}}"
           [ngClass]="{
-        'musaic': pcsDto.indexFormDrawer === UIPcsDto.MUSAIC,
-        'rounded-musaic': rounded,
+        'musaic': pcsDto.indexFormDrawer === UIPcsDto.MUSAIC && !pcsDto.uiMusaic.rounded,
         'e-selected': pcsDto.isSelected
        }">
+
   </canvas>
 } @else {
   <canvas #canvas

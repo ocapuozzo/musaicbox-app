@@ -30,11 +30,34 @@ export class MusaicDrawing {
 
 
   drawMusaic() {
-
     let opaque = this.pcsDto.uiMusaic.opaque
-    let n = this.pcsDto.pcs.nMapping //getMappedVectorPcs().length;
+    let rounded = this.pcsDto.uiMusaic.rounded
+    const scale = window.devicePixelRatio || 1;
+    const borderRadius = 1
+
+    let n = this.pcsDto.pcs.nMapping
 
     let ctx = this.ctx
+
+    const width = this.pcsDto.uiMusaic.width
+    const height = this.pcsDto.uiMusaic.height
+    const delta = 1
+    if (rounded) {
+      ctx.beginPath()
+      // const path = new Path2D();
+      // ctx.rect(delta, delta, width/3 - delta * 2, height - delta * 2);
+      ctx.roundRect(delta, delta, width - delta * 2, height - delta * 2, width/2);
+      // path.roundRect(delta, delta, width - delta * 2, height - delta * 2, borderRadius * scale);
+      // ctx.clip(path);
+      ctx.stroke()
+      ctx.clip();
+      // ctx.arc(10, 10, 50, 0, Math.PI * 2);
+      // ctx.clip();
+      // console.log("rounded")
+    }
+
+    const CEL_WIDTH = this.pcsDto.uiMusaic.widthCell ?? 20
+
     ctx.fillStyle = this.pcsDto.colorPitchOff
     if (opaque) {
       // pre fill paint background with off pitches color
@@ -42,8 +65,6 @@ export class MusaicDrawing {
       ctx.fillStyle = this.pcsDto.colorPitchOff
       ctx.fillRect(0, 0, this.pcsDto.uiMusaic.width, this.pcsDto.uiMusaic.height)
     }
-
-    let CEL_WIDTH = this.pcsDto.uiMusaic.widthCell ?? 20
 
     // Draws musaic
     // loop n+1 for exact correlation between geometry ops and algebra ops
@@ -53,7 +74,6 @@ export class MusaicDrawing {
     //   pcs : ({1, 4, 7, 10}, iPivot=1)
     // are same IS, are same Musaic representation
     // let iPivot = this.pcs.iPivot ?? 0
-
 
     const pivotMapped = this.pcsDto.pcs.templateMapping[this.pcsDto.pcs.iPivot ?? 0]
     for (let i = 0; i <= n; i++) {
@@ -71,8 +91,18 @@ export class MusaicDrawing {
         }
       }
     }
+    const borderWidth: number = 1
+    const borderColor: string = '#333'
     // border draw by musaic.css : outline: 1px solid back;
     // ctx.strokeStyle = this.pcsDto.colorPitchOn
-   // ctx.strokeRect(0,0, CEL_WIDTH * (n+1) -1, CEL_WIDTH * (n+1) -1)
+    // ctx.strokeRect(0,0, CEL_WIDTH * (n+1) -1, CEL_WIDTH * (n+1) -1)
+    //Draw the border if rounded
+    
+    //   if (rounded){
+    //     ctx.lineWidth = borderWidth;
+    //     ctx.strokeStyle = borderColor;
+    //     ctx.roundRect(delta, delta, width - delta * 2, height - delta * 2, borderRadius * scale);
+    //     ctx.stroke();
+    //   }
   }
 }
