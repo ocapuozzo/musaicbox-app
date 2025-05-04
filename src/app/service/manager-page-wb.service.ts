@@ -1290,4 +1290,18 @@ export class ManagerPageWBService {
     }
   }
 
+  doOpenLocalFile() {
+    let element: HTMLElement = document.querySelector('input[type="file"]') as HTMLElement;
+    element.click();
+  }
+
+  //https://stackoverflow.com/questions/47581687/read-a-file-and-parse-its-content
+  uploadDocument(file: File) {
+    let fileReader = new FileReader();
+    fileReader.onload = () => {
+      this.doReplaceContentBy(fileReader.result + "")
+    }
+    fileReader.readAsText(file);
+  }
+
 }

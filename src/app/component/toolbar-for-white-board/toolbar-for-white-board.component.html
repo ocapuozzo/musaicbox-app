@@ -123,18 +123,33 @@
     <img src="assets/img/polytrope.svg"  alt="octotrope">
   </button>
 
-  <span style="font-size:small; opacity: 0.4; margin-top: 3em; padding: 0.3em 0; line-height: 0.125;">-------</span>
+  <span style="font-size:small; opacity: 0.4; margin-bottom: 3px; padding: 0.3em 0; line-height: 0.125;">-------</span>
+
+  <button mat-icon-button matTooltip="Save to file..."
+          (click)="saveToFile()"
+          class="button-toolbar">
+    <mat-icon>save</mat-icon>
+  </button>
+
+  <button mat-icon-button matTooltip="Open file..."
+          (click)="fileOpen()"
+          class="button-toolbar">
+    <mat-icon>file_open</mat-icon>
+  </button>
+
 
   <button mat-icon-button matTooltip="Export PNG"
           [matBadgeHidden]="getNumberComponentsSelected() === 0"
           matBadge="{{getNumberComponentsSelected()}}" matBadgePosition="after"
           [disabled]="numberSelectedComponents === 0"
-          (click)="HtmlUtil.captureAllPcsComponentSelected(true)"
+          (click)="HtmlUtil.captureAllPcsComponentSelected(false)"
           class="button-toolbar"
-          style="margin-top: 15px"
+          style="margin-top: 10px"
+
   >
 <mat-icon>file_download</mat-icon>
-    <p style="font-size: small; " >Export</p>
+<!--    <p style="font-size: small; " >Export</p>-->
   </button>
+
 
 </mat-toolbar>

@@ -1,12 +1,13 @@
 
 .musaic {
-  overflow:hidden;
-  outline: 1px solid black;
+  /*overflow:auto;*/
+  /*outline: 1px solid black;*/
 }
 
+/* radius when selected ? finally no */
 .rounded-musaic {
-  -webkit-border-radius:50%;
-  -moz-border-radius: 50%;
+  /*-webkit-border-radius:50%;*/
+  /*-moz-border-radius: 50%;*/
   /*border-radius:50px;*/
   /*outline: 1px solid back;*/
 }

@@ -31,8 +31,8 @@ export class HtmlUtil {
       }
     }
 
-
-  static async captureAllPcsComponentSelected(musaicName:boolean = false) {
+/*
+  static async sav_captureAllPcsComponentSelected(musaicName:boolean = false) {
     const scale = window.devicePixelRatio || 1;
     let selectedElements: TSelectElementExport[] = []
 
@@ -120,6 +120,66 @@ export class HtmlUtil {
       await this.sleep(300);
     }
   }
+*/
+
+  static async captureAllPcsComponentSelected(musaicName:boolean = false) {
+    const scale = window.devicePixelRatio || 1;
+    let selectedElements: TSelectElementExport[] = []
+
+    function getFileName(elt: HTMLElement, index :number) {
+      let fileName = elt.getAttribute("ng-reflect-message") ?? `pcs-component-${index + 1}`;
+      // console.log(`fileName = ${fileName}`)
+      // remove spaces and ( ) [ ]
+      fileName = fileName.replace(/[\])}[{(\s+]/g, '');
+      if (musaicName) {
+        const pcsName = fileName.split('-')[0]
+        const pcs = new IPcs({strPcs:pcsName})
+        fileName = EightyEight.idNumberOf(pcs)
+      }
+      return fileName;
+    }
+
+    const parents = document.querySelectorAll("app-pcs.e-selected-marker")
+    // console.log(`parents.length = ${parents.length}`)
+    for (let i = 0; i < parents.length; i++) {
+      let message = ''
+      const canvas = parents[i].getElementsByTagName("canvas")
+      if (canvas.length > 0 && canvas[0]) {
+        const fileName = getFileName(canvas[0], i)
+        selectedElements.push({elt: canvas[0], fileName: fileName})
+      } else {
+        const divScore = parents[i].getElementsByTagName("div")
+        if (divScore.length > 0 && divScore[0]) {
+          const id = divScore[0].getAttribute("id");
+          // a musical score ?
+          if (id?.startsWith('paper-')) {
+            const fileName = getFileName(divScore[0], i)
+            selectedElements.push({elt: divScore[0], fileName: fileName})
+          }
+        }
+      }
+    }
+
+    for (let i = 0; i < selectedElements.length; i++) {
+      const element = selectedElements[i] // as HTMLElement //.nativeElement
+
+      const canvas = await html2canvas(element.elt, {
+        backgroundColor: null,
+        scale: scale,
+        useCORS: true
+      });
+
+      // download directly
+      const link = document.createElement('a');
+      link.download = `${element.fileName}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+
+      // Optional: pause briefly to avoid overlapping downloads
+      await this.sleep(100);
+    }
+  }
+
 
   static sleep(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));

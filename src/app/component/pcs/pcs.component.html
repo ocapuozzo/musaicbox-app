@@ -18,7 +18,7 @@
           [matTooltipDisabled]="pcsDto.showPcs"
           matTooltip="pcs : {{pcsDto.pcs.getPcsStr()}}"
           [ngClass]="{
-        'musaic': pcsDto.indexFormDrawer === UIPcsDto.MUSAIC && !pcsDto.uiMusaic.rounded,
+        'rounded-musaic': pcsDto.indexFormDrawer === UIPcsDto.MUSAIC ,
         'e-selected': pcsDto.isSelected
        }">
 
@@ -28,8 +28,6 @@
           [matTooltipDisabled]="pcsDto.showPcs"
           matTooltip="pcs : {{pcsDto.pcs.getPcsStr()}}"
           [ngClass]="{
-        'musaic': pcsDto.indexFormDrawer === UIPcsDto.MUSAIC,
-        'rounded-musaic': rounded,
         'e-selected': pcsDto.isSelected
        }">
   </canvas>

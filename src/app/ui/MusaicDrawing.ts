@@ -92,17 +92,16 @@ export class MusaicDrawing {
       }
     }
     const borderWidth: number = 1
-    const borderColor: string = '#333'
+    const borderColor: string = 'black' // '#333'
     // border draw by musaic.css : outline: 1px solid back;
     // ctx.strokeStyle = this.pcsDto.colorPitchOn
     // ctx.strokeRect(0,0, CEL_WIDTH * (n+1) -1, CEL_WIDTH * (n+1) -1)
     //Draw the border if rounded
+
+    ctx.lineWidth = borderWidth;
+    ctx.strokeStyle = borderColor;
+    ctx.roundRect(delta, delta, width - delta * 2, height - delta * 2, rounded ? width/2 :  0);
+    ctx.stroke();
     
-    //   if (rounded){
-    //     ctx.lineWidth = borderWidth;
-    //     ctx.strokeStyle = borderColor;
-    //     ctx.roundRect(delta, delta, width - delta * 2, height - delta * 2, borderRadius * scale);
-    //     ctx.stroke();
-    //   }
   }
 }

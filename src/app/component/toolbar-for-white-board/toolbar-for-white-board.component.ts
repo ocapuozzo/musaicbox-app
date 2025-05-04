@@ -91,4 +91,12 @@ export class ToolbarForWhiteBoardComponent {
   getNumberComponentsSelected() {
     return this.managerPageWBService.getSelectedPcsDtoIndexes().length
   }
+
+  saveToFile() {
+    this.managerPageWBService.doOpenDialogAndSaveContentToFile()
+  }
+
+  fileOpen() {
+    this.managerPageWBService.doOpenLocalFile()
+  }
 }
