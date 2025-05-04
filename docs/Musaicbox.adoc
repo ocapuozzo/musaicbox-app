@@ -1576,7 +1576,7 @@ List of 88 musaics generating of _P(Z~12~)_
 [%autowidth]
 [cols=".^1,.^2,.^3,.^4a, .^5", options="footer"]
 |===
-|N° [.head]#&uarr;#|Musaic  |Motifs [.head]#&uarr;#|Cyclic Intervallic Structure |Meta-Stabilizer [.head]#&uarr;#
+|N° [.head]#&uarr;#|Musaic  |Motifs |Cyclic Intervallic Structure |Meta-Stabilizer [.head]#&uarr;#
 
 
 |1-0-1

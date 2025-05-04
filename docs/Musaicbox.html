@@ -493,7 +493,7 @@ td:has(>p>span[class="klein2"]) {
           table.querySelectorAll('tbody tr').forEach((line, index_line) => {
             // Value of each field
             let key = line.children[element.cellIndex].textContent.toUpperCase();
-
+// console.log('key ', key)
             // Check if value is date, numeric or string
             if (line.children[element.cellIndex].hasAttribute('data-timestamp')) {
               // if value is date, we store it's timestamp, so we can sort like a number
@@ -511,11 +511,26 @@ td:has(>p>span[class="klein2"]) {
           });
           if (string_count === 0) { // If all values are numeric
             obj_key.sort(function(a, b) {
-              return a.split(separator)[0] - b.split(separator)[0];
+              // const res =  a.split(separator)[0] - b.split(separator)[0];
+              // if (res === 0) {
+              //   console.log('a', a, 'b', b)
+              //   return a.split(separator)[2] - b.split(separator)[2];
+              // }
+              // return res;
+              return  a.split(separator)[0] - b.split(separator)[0];
             });
-          }
-          else {
-            obj_key.sort();
+          } else {
+              obj_key.sort(function (a, b) {
+                  let ka = a.split(separator)[0];
+                  let kb = b.split(separator)[0];
+                  if (ka.split('-').length === 3) {
+                    ka = parseInt(ka.split('-')[0])
+                    kb = parseInt(kb.split('-')[0])
+                    return ka - kb;
+                  }
+                  // console.log('ka', ka, 'kb', kb)
+                  return ka.localeCompare(kb);
+              });
           }
 
           if (order === 'desc') {
@@ -3711,7 +3726,7 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 <tr>
 <th class="tableblock halign-left valign-middle">N° <span class="head">&uarr;</span></th>
 <th class="tableblock halign-left valign-middle">Musaic</th>
-<th class="tableblock halign-left valign-middle">Motifs <span class="head">&uarr;</span></th>
+<th class="tableblock halign-left valign-middle">Motifs</th>
 <th class="tableblock halign-left valign-middle">Cyclic Intervallic Structure</th>
 <th class="tableblock halign-left valign-middle">Meta-Stabilizer <span class="head">&uarr;</span></th>
 </tr>
@@ -8215,7 +8230,7 @@ Symmetry prime form concept is invented, specific to this project.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-05-01 22:54:07 +0200
+Last updated 2025-05-03 19:36:33 +0200
 </div>
 </div>
 <script type="text/x-mathjax-config">
