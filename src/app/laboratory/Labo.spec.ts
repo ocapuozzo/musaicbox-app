@@ -443,6 +443,9 @@ describe('Laboratory explorer', () => {
     const groupMusaic = ManagerGroupActionService.getGroupActionFromGroupAliasName("Musaic")!
 
     expect(groupMusaic.orbits.length).toEqual(88)
+
+    // do paste as plain text (idea editor) for preserve space before '+' character
+
     console.log(" 88 musaics and distinct motifs : ")
     let countMotifs = 0
     let currentMusaicCard = 1
@@ -461,7 +464,7 @@ describe('Laboratory explorer', () => {
       const idMus = EightyEight.idNumberOf(orbit.getPcsMin())
       const octotrope = orbit.metaStabilizer.name.toLowerCase().split(' ').join('-')
       const imageOctotrope = ` image:octotropes/${octotrope}.png[width=50]` //  image:octotropes/m1-m5-m7-m11.png[] asciidoc
-      console.log(` \n|${idMus}\n|image:88musaics/${idMus}.png[${idMus}]\n| ${countDistinctMotifs} \n|${motifsEnum}\n| ${imageOctotrope} ${orbit.metaStabilizer.name} `)
+      console.log(` \n|${idMus}\n|image:88musaics/${idMus}.png[${idMus}]\n +\n#${orbit.cardinal}\n| ${countDistinctMotifs} \n|${motifsEnum}\n| ${imageOctotrope} ${orbit.metaStabilizer.name} `)
     })
     // 352 cyclic intervallic structures
     expect(countMotifs).toEqual(352)

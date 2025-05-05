@@ -408,10 +408,6 @@ export class IPcs {
     // Now we have best pcsSymmetryAxial, search for a pivot with the best symmetry in -T0
     // get pivot that max symmetry -T0 for pcsSymmetry, from ops M5-T0, M7-T0, M11-T0 and complement
     const pivotBestSymmetry = PcsUtils.getPivotBestSymmetryInT0(pcsSymmetry) ?? pcsSymmetry.iPivot
-    //
-    // if (pivotBestSymmetry) {
-    //   pcsSymmetry = pcsSymmetry.cloneWithNewPivot(pivotBestSymmetry)
-    // }
 
     // new pcs to be relocated in its initial orbit, with good pivot
     if (this.isComingFromOrbit()) {

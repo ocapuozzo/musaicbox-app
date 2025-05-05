@@ -516,37 +516,20 @@ td:has(>p>span[class="klein2"]) {
             });
           } else {
             if (metaStabilizer) {
-              // from PcsUtils static compareOpCMaWithoutTk(o1: string, o2: string)
               obj_key.sort(function (o1, o2) {
-                // o1 :  M1 M5 M7 M11 CM1 CM5 CM7 CM11-----86 => M1 M5 M7 M9 CM1 CM5 CM7 CM9-----86
-                // console.log('o1 : ', o1, 'o2 : ', o2)
                 o1 = o1.split(separator)[0].replaceAll("11", "9");
                 o2 = o2.split(separator)[0].replaceAll("11", "9");
+                // change 11 by 9 for "natural sort"
+                // o1 :  M1 M5 M7 M11 CM1 CM5 CM7 CM11-----86 => M1 M5 M7 M9 CM1 CM5 CM7 CM9
+                // console.log('o1 : ', o1, 'o2 : ', o2)
+
+                // first on length because synchro with nb motifs
                 const lenCompare = o1.length - o2.length;
+                // then on meta-stabilizer name
                 if (lenCompare === 0) {
                   return o1.localeCompare(o2);
                 }
                 return lenCompare;
-                // console.log('AFTER o1 : ', o1, 'o2 : ', o2)
-                // return o1.localeCompare(o2);
-                //
-                // // console.log('o1 : ', o1, 'o2 : ', o2)
-                // let complement1 = o1.charAt(0) === 'C';
-                // let complement2 = o2.charAt(0) === 'C';
-                // let w1;
-                // let w2;
-                // if (complement1)
-                //   w1 = 100 + parseInt(o1.substring(2));
-                // else
-                //   w1 = parseInt(o1.substring(1));
-                //
-                // if (complement2)
-                //   w2 = 100 + parseInt(o2.substring(2));
-                // else
-                //   w2 = parseInt(o2.substring(1));
-                //
-                // return w1 - w2;
-
               })
             } else {
               obj_key.sort(function (a, b) {
@@ -792,20 +775,21 @@ td:has(>p>span[class="klein2"]) {
 <li><a href="#_octotrope">Octotrope</a></li>
 </ul>
 </li>
-<li><a href="#_88_musaics_2">88 Musaics</a></li>
 <li><a href="#_inventory_of_subgroups">Inventory of subgroups</a>
 <ul class="sectlevel2">
 <li><a href="#classification-table">A classification table of P(Z<sub>12</sub>)</a></li>
 <li><a href="#_17_subgroups_computed">17 subgroups computed</a></li>
 </ul>
 </li>
+<li><a href="#_88_musaics_2">88 Musaics</a></li>
+<li><a href="#_2048_scales">2048 scales</a></li>
 <li><a href="#_pcs_revisited">PCS Revisited</a>
 <ul class="sectlevel2">
 <li><a href="#_proposition_a_with_ipivot">Proposition A : With <em>iPivot</em></a></li>
 <li><a href="#_proposition_b_with_mapping">Proposition B : With <em>mapping</em></a></li>
 </ul>
 </li>
-<li><a href="#_for_better_basic_operations">For better basic operations</a>
+<li><a href="#_pcs_with_pivot">PCS with pivot property</a>
 <ul class="sectlevel2">
 <li><a href="#_understanding_whats_wrong">Understanding what&#8217;s wrong</a></li>
 <li><a href="#_the_fixed_zero_problem">The "fixed zero problem"</a></li>
@@ -817,7 +801,7 @@ td:has(>p>span[class="klein2"]) {
 <li><a href="#_conclusion_5">Conclusion</a></li>
 </ul>
 </li>
-<li><a href="#_for_better_projection">For better projection</a>
+<li><a href="#_for_better_projection">PCS for better projection</a>
 <ul class="sectlevel2">
 <li><a href="#_mapping">Mapping</a></li>
 <li><a href="#_auto_mapping">Auto-Mapping</a></li>
@@ -1626,7 +1610,7 @@ As each pcs into the 4096 is unique, each of these pcs has a unique integer valu
 <p>Polygon inscribed into circle denote the cyclic intervallic structure of the PCS.</p>
 </div>
 <div class="paragraph">
-<p>Other example, a minor 7 and its intervallic structure (3, 4, 3, 2) :</p>
+<p>Other example, a minor 7 and its <strong>intervallic structure</strong> (3, 4, 3, 2) :</p>
 </div>
 <div class="paragraph">
 <p><span class="image"><img src="./assets/images/minor7-circle-is.png" alt="minor7-circle-is"></span></p>
@@ -3739,1982 +3723,6 @@ On the MusaicBox app, go to page <a href="https://musaicbox.org/the88">88 Musaic
 </div>
 </div>
 <div class="sect1">
-<h2 id="_88_musaics_2">88 Musaics</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>List of 88 musaics generating of <em>P(Z<sub>12</sub>)</em></p>
-</div>
-<table id="idTable88" class="tableblock frame-all grid-all fit-content">
-<colgroup>
-<col>
-<col>
-<col>
-<col>
-<col>
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-middle">N° <span class="head">&uarr;</span></th>
-<th class="tableblock halign-left valign-middle">Musaic</th>
-<th class="tableblock halign-left valign-middle">Motifs</th>
-<th class="tableblock halign-left valign-middle">Cyclic Intervallic Structure</th>
-<th class="tableblock halign-left valign-middle">Meta-Stabilizer <span class="head">&uarr;</span></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">1-0-1</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/1-0-1.png" alt="1-0-1"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>()</p>
-</li>
-<li>
-<p>(1 1 1 1 1 1 1 1 1 1 1 1)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">2-1-1</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/2-1-1.png" alt="2-1-1"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(0)</p>
-</li>
-<li>
-<p>(1 1 1 1 1 2 1 1 1 1 1)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">3-2-1</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/3-2-1.png" alt="3-2-1"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 11)</p>
-</li>
-<li>
-<p>(5 7)</p>
-</li>
-<li>
-<p>(1 1 1 1 1 3 1 1 1 1)</p>
-</li>
-<li>
-<p>(1 1 1 1 1 2 1 1 1 2)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">4-2-2</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/4-2-2.png" alt="4-2-2"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(2 10)</p>
-</li>
-<li>
-<p>(1 1 1 1 1 2 2 1 1 1)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">5-2-3</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/5-2-3.png" alt="5-2-3"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(3 9)</p>
-</li>
-<li>
-<p>(1 1 1 1 1 2 1 2 1 1)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">6-2-4</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/6-2-4.png" alt="6-2-4"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(4 8)</p>
-</li>
-<li>
-<p>(1 1 1 1 1 2 1 1 2 1)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">7-2-5</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/7-2-5.png" alt="7-2-5"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(6 6)</p>
-</li>
-<li>
-<p>(2 1 1 1 1 2 1 1 1 1)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">8-3-1</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/8-3-1.png" alt="8-3-1"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 1 10)</p>
-</li>
-<li>
-<p>(5 5 2)</p>
-</li>
-<li>
-<p>(1 1 1 1 1 4 1 1 1)</p>
-</li>
-<li>
-<p>(1 1 1 2 2 1 1 1 2)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">9-3-2</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/9-3-2.png" alt="9-3-2"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 2 9)</p>
-</li>
-<li>
-<p>(3 2 7)</p>
-</li>
-<li>
-<p>(7 2 3)</p>
-</li>
-<li>
-<p>(9 2 1)</p>
-</li>
-<li>
-<p>(1 1 1 1 1 3 2 1 1)</p>
-</li>
-<li>
-<p>(1 1 1 1 1 2 1 2 2)</p>
-</li>
-<li>
-<p>(2 2 1 2 1 1 1 1 1)</p>
-</li>
-<li>
-<p>(1 1 2 3 1 1 1 1 1)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">10-3-3</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/10-3-3.png" alt="10-3-3"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 3 8)</p>
-</li>
-<li>
-<p>(5 3 4)</p>
-</li>
-<li>
-<p>(4 3 5)</p>
-</li>
-<li>
-<p>(8 3 1)</p>
-</li>
-<li>
-<p>(1 1 1 1 1 3 1 2 1)</p>
-</li>
-<li>
-<p>(1 2 1 1 2 1 1 1 2)</p>
-</li>
-<li>
-<p>(2 1 1 1 2 1 1 2 1)</p>
-</li>
-<li>
-<p>(1 2 1 3 1 1 1 1 1)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">11-3-4</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/11-3-4.png" alt="11-3-4"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(2 2 8)</p>
-</li>
-<li>
-<p>(1 1 1 1 1 2 2 2 1)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">12-3-5</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/12-3-5.png" alt="12-3-5"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 4 7)</p>
-</li>
-<li>
-<p>(7 4 1)</p>
-</li>
-<li>
-<p>(1 1 1 1 1 3 1 1 2)</p>
-</li>
-<li>
-<p>(2 1 1 3 1 1 1 1 1)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5.png" alt="m1 m5" width="50"></span> M1 M5</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">13-3-6</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/13-3-6.png" alt="13-3-6"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 5 6)</p>
-</li>
-<li>
-<p>(5 1 6)</p>
-</li>
-<li>
-<p>(2 1 1 1 1 3 1 1 1)</p>
-</li>
-<li>
-<p>(1 1 1 3 1 1 1 1 2)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">14-3-7</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/14-3-7.png" alt="14-3-7"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(2 4 6)</p>
-</li>
-<li>
-<p>(6 4 2)</p>
-</li>
-<li>
-<p>(2 1 1 1 1 2 2 1 1)</p>
-</li>
-<li>
-<p>(1 1 1 1 2 1 1 2 2)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">15-3-8</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/15-3-8.png" alt="15-3-8"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(3 3 6)</p>
-</li>
-<li>
-<p>(2 1 1 1 1 2 1 2 1)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">16-3-9</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/16-3-9.png" alt="16-3-9"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(4 4 4)</p>
-</li>
-<li>
-<p>(1 2 1 1 2 1 1 2 1)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">17-4-1</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/17-4-1.png" alt="17-4-1"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 1 1 9)</p>
-</li>
-<li>
-<p>(3 2 5 2)</p>
-</li>
-<li>
-<p>(1 1 1 1 1 5 1 1)</p>
-</li>
-<li>
-<p>(1 1 1 2 2 1 2 2)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">18-4-2</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/18-4-2.png" alt="18-4-2"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 1 2 8)</p>
-</li>
-<li>
-<p>(5 3 2 2)</p>
-</li>
-<li>
-<p>(2 2 3 5)</p>
-</li>
-<li>
-<p>(8 2 1 1)</p>
-</li>
-<li>
-<p>(1 1 1 1 1 4 2 1)</p>
-</li>
-<li>
-<p>(1 2 2 2 1 1 1 2)</p>
-</li>
-<li>
-<p>(2 1 1 1 2 2 2 1)</p>
-</li>
-<li>
-<p>(1 2 4 1 1 1 1 1)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">19-4-3</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/19-4-3.png" alt="19-4-3"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 2 1 8)</p>
-</li>
-<li>
-<p>(3 2 3 4)</p>
-</li>
-<li>
-<p>(1 1 1 1 1 3 3 1)</p>
-</li>
-<li>
-<p>(1 2 1 1 2 1 2 2)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">20-4-4</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/20-4-4.png" alt="20-4-4"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 1 3 7)</p>
-</li>
-<li>
-<p>(1 4 5 2)</p>
-</li>
-<li>
-<p>(2 5 4 1)</p>
-</li>
-<li>
-<p>(7 3 1 1)</p>
-</li>
-<li>
-<p>(1 1 1 1 1 4 1 2)</p>
-</li>
-<li>
-<p>(1 1 1 2 3 1 1 2)</p>
-</li>
-<li>
-<p>(2 1 1 3 2 1 1 1)</p>
-</li>
-<li>
-<p>(2 1 4 1 1 1 1 1)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">21-4-5</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/21-4-5.png" alt="21-4-5"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 2 2 7)</p>
-</li>
-<li>
-<p>(7 2 2 1)</p>
-</li>
-<li>
-<p>(1 1 1 1 1 3 2 2)</p>
-</li>
-<li>
-<p>(2 2 3 1 1 1 1 1)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5.png" alt="m1 m5" width="50"></span> M1 M5</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">22-4-6</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/22-4-6.png" alt="22-4-6"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(2 1 2 7)</p>
-</li>
-<li>
-<p>(1 1 1 1 1 2 3 2)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">23-4-7</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/23-4-7.png" alt="23-4-7"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 3 1 7)</p>
-</li>
-<li>
-<p>(1 4 3 4)</p>
-</li>
-<li>
-<p>(1 1 1 1 1 3 1 3)</p>
-</li>
-<li>
-<p>(1 2 1 1 3 1 1 2)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">24-4-8</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/24-4-8.png" alt="24-4-8"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 1 4 6)</p>
-</li>
-<li>
-<p>(5 1 4 2)</p>
-</li>
-<li>
-<p>(2 4 1 5)</p>
-</li>
-<li>
-<p>(6 4 1 1)</p>
-</li>
-<li>
-<p>(2 1 1 1 1 4 1 1)</p>
-</li>
-<li>
-<p>(1 1 1 3 1 1 2 2)</p>
-</li>
-<li>
-<p>(2 2 1 1 3 1 1 1)</p>
-</li>
-<li>
-<p>(1 1 4 1 1 1 1 2)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">25-4-9</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/25-4-9.png" alt="25-4-9"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 2 3 6)</p>
-</li>
-<li>
-<p>(3 2 1 6)</p>
-</li>
-<li>
-<p>(2 1 1 1 1 3 2 1)</p>
-</li>
-<li>
-<p>(1 2 3 1 1 1 1 2)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">26-4-10</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/26-4-10.png" alt="26-4-10"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(2 1 3 6)</p>
-</li>
-<li>
-<p>(3 3 4 2)</p>
-</li>
-<li>
-<p>(2 4 3 3)</p>
-</li>
-<li>
-<p>(6 3 1 2)</p>
-</li>
-<li>
-<p>(2 1 1 1 1 2 3 1)</p>
-</li>
-<li>
-<p>(1 2 1 2 1 1 2 2)</p>
-</li>
-<li>
-<p>(2 2 1 1 2 1 2 1)</p>
-</li>
-<li>
-<p>(1 3 2 1 1 1 1 2)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">27-4-11</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/27-4-11.png" alt="27-4-11"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 3 2 6)</p>
-</li>
-<li>
-<p>(5 1 2 4)</p>
-</li>
-<li>
-<p>(4 2 1 5)</p>
-</li>
-<li>
-<p>(6 2 3 1)</p>
-</li>
-<li>
-<p>(2 1 1 1 1 3 1 2)</p>
-</li>
-<li>
-<p>(1 1 1 3 2 1 1 2)</p>
-</li>
-<li>
-<p>(2 1 1 2 3 1 1 1)</p>
-</li>
-<li>
-<p>(2 1 3 1 1 1 1 2)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">28-4-12</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/28-4-12.png" alt="28-4-12"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(2 2 2 6)</p>
-</li>
-<li>
-<p>(2 1 1 1 1 2 2 2)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">29-4-13</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/29-4-13.png" alt="29-4-13"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 4 1 6)</p>
-</li>
-<li>
-<p>(1 1 1 1 3 1 1 3)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">30-4-14</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/30-4-14.png" alt="30-4-14"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 1 5 5)</p>
-</li>
-<li>
-<p>(2 1 1 1 4 1 1 1)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">31-4-15</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/31-4-15.png" alt="31-4-15"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 3 3 5)</p>
-</li>
-<li>
-<p>(5 3 3 1)</p>
-</li>
-<li>
-<p>(2 1 1 1 3 1 2 1)</p>
-</li>
-<li>
-<p>(1 2 1 3 1 1 1 2)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">32-4-16</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/32-4-16.png" alt="32-4-16"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(3 1 3 5)</p>
-</li>
-<li>
-<p>(2 1 1 1 2 1 3 1)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">33-4-17</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/33-4-17.png" alt="33-4-17"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 5 1 5)</p>
-</li>
-<li>
-<p>(3 1 1 1 3 1 1 1)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">34-4-18</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/34-4-18.png" alt="34-4-18"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 3 4 4)</p>
-</li>
-<li>
-<p>(4 3 1 4)</p>
-</li>
-<li>
-<p>(1 2 1 1 3 1 2 1)</p>
-</li>
-<li>
-<p>(3 1 1 2 1 1 2 1)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5.png" alt="m1 m5" width="50"></span> M1 M5</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">35-4-19</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/35-4-19.png" alt="35-4-19"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(2 2 4 4)</p>
-</li>
-<li>
-<p>(1 2 1 1 2 2 2 1)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">36-4-20</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/36-4-20.png" alt="36-4-20"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(2 4 2 4)</p>
-</li>
-<li>
-<p>(2 2 1 1 2 2 1 1)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">37-4-21</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/37-4-21.png" alt="37-4-21"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(3 3 3 3)</p>
-</li>
-<li>
-<p>(2 1 2 1 2 1 2 1)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">38-5-1</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/38-5-1.png" alt="38-5-1"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 1 1 1 8)</p>
-</li>
-<li>
-<p>(3 2 3 2 2)</p>
-</li>
-<li>
-<p>(1 1 1 1 1 6 1)</p>
-</li>
-<li>
-<p>(1 2 2 2 1 2 2)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">39-5-2</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/39-5-2.png" alt="39-5-2"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 1 1 2 7)</p>
-</li>
-<li>
-<p>(1 2 2 5 2)</p>
-</li>
-<li>
-<p>(2 5 2 2 1)</p>
-</li>
-<li>
-<p>(7 2 1 1 1)</p>
-</li>
-<li>
-<p>(1 1 1 1 1 5 2)</p>
-</li>
-<li>
-<p>(1 1 1 2 3 2 2)</p>
-</li>
-<li>
-<p>(2 2 3 2 1 1 1)</p>
-</li>
-<li>
-<p>(2 5 1 1 1 1 1)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">40-5-3</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/40-5-3.png" alt="40-5-3"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 1 2 1 7)</p>
-</li>
-<li>
-<p>(1 4 3 2 2)</p>
-</li>
-<li>
-<p>(2 2 3 4 1)</p>
-</li>
-<li>
-<p>(7 1 2 1 1)</p>
-</li>
-<li>
-<p>(1 1 1 1 1 4 3)</p>
-</li>
-<li>
-<p>(1 2 2 3 1 1 2)</p>
-</li>
-<li>
-<p>(2 1 1 3 2 2 1)</p>
-</li>
-<li>
-<p>(3 4 1 1 1 1 1)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">41-5-4</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/41-5-4.png" alt="41-5-4"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 1 1 3 6)</p>
-</li>
-<li>
-<p>(3 2 1 4 2)</p>
-</li>
-<li>
-<p>(2 4 1 2 3)</p>
-</li>
-<li>
-<p>(6 3 1 1 1)</p>
-</li>
-<li>
-<p>(2 1 1 1 1 5 1)</p>
-</li>
-<li>
-<p>(1 2 3 1 1 2 2)</p>
-</li>
-<li>
-<p>(2 2 1 1 3 2 1)</p>
-</li>
-<li>
-<p>(1 5 1 1 1 1 2)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">42-5-5</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/42-5-5.png" alt="42-5-5"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 1 2 2 6)</p>
-</li>
-<li>
-<p>(5 1 2 2 2)</p>
-</li>
-<li>
-<p>(2 2 2 1 5)</p>
-</li>
-<li>
-<p>(6 2 2 1 1)</p>
-</li>
-<li>
-<p>(2 1 1 1 1 4 2)</p>
-</li>
-<li>
-<p>(1 1 1 3 2 2 2)</p>
-</li>
-<li>
-<p>(2 2 2 3 1 1 1)</p>
-</li>
-<li>
-<p>(2 4 1 1 1 1 2)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">43-5-6</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/43-5-6.png" alt="43-5-6"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 2 1 2 6)</p>
-</li>
-<li>
-<p>(3 2 1 2 4)</p>
-</li>
-<li>
-<p>(4 2 1 2 3)</p>
-</li>
-<li>
-<p>(6 2 1 2 1)</p>
-</li>
-<li>
-<p>(2 1 1 1 1 3 3)</p>
-</li>
-<li>
-<p>(1 2 3 2 1 1 2)</p>
-</li>
-<li>
-<p>(2 1 1 2 3 2 1)</p>
-</li>
-<li>
-<p>(3 3 1 1 1 1 2)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">44-5-7</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/44-5-7.png" alt="44-5-7"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(2 1 1 2 6)</p>
-</li>
-<li>
-<p>(3 3 2 2 2)</p>
-</li>
-<li>
-<p>(2 1 1 1 1 2 4)</p>
-</li>
-<li>
-<p>(1 2 1 2 2 2 2)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">45-5-8</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/45-5-8.png" alt="45-5-8"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 1 3 1 6)</p>
-</li>
-<li>
-<p>(1 4 1 4 2)</p>
-</li>
-<li>
-<p>(2 4 1 4 1)</p>
-</li>
-<li>
-<p>(6 1 3 1 1)</p>
-</li>
-<li>
-<p>(1 1 1 1 4 1 3)</p>
-</li>
-<li>
-<p>(3 1 1 3 1 1 2)</p>
-</li>
-<li>
-<p>(2 1 1 3 1 1 3)</p>
-</li>
-<li>
-<p>(3 1 4 1 1 1 1)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">46-5-9</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/46-5-9.png" alt="46-5-9"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 2 2 1 6)</p>
-</li>
-<li>
-<p>(1 1 1 1 3 2 3)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">47-5-10</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/47-5-10.png" alt="47-5-10"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 1 1 4 5)</p>
-</li>
-<li>
-<p>(3 2 5 1 1)</p>
-</li>
-<li>
-<p>(1 1 5 2 3)</p>
-</li>
-<li>
-<p>(5 4 1 1 1)</p>
-</li>
-<li>
-<p>(2 1 1 1 5 1 1)</p>
-</li>
-<li>
-<p>(1 1 1 4 1 2 2)</p>
-</li>
-<li>
-<p>(2 2 1 4 1 1 1)</p>
-</li>
-<li>
-<p>(1 1 5 1 1 1 2)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">48-5-11</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/48-5-11.png" alt="48-5-11"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 1 2 3 5)</p>
-</li>
-<li>
-<p>(5 3 2 1 1)</p>
-</li>
-<li>
-<p>(2 1 1 1 4 2 1)</p>
-</li>
-<li>
-<p>(1 2 4 1 1 1 2)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">49-5-12</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/49-5-12.png" alt="49-5-12"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 2 1 3 5)</p>
-</li>
-<li>
-<p>(3 2 3 3 1)</p>
-</li>
-<li>
-<p>(1 3 3 2 3)</p>
-</li>
-<li>
-<p>(5 3 1 2 1)</p>
-</li>
-<li>
-<p>(2 1 1 1 3 3 1)</p>
-</li>
-<li>
-<p>(1 2 1 3 1 2 2)</p>
-</li>
-<li>
-<p>(2 2 1 3 1 2 1)</p>
-</li>
-<li>
-<p>(1 3 3 1 1 1 2)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">50-5-13</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/50-5-13.png" alt="50-5-13"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(2 1 1 3 5)</p>
-</li>
-<li>
-<p>(1 1 2 5 3)</p>
-</li>
-<li>
-<p>(2 1 1 1 2 4 1)</p>
-</li>
-<li>
-<p>(1 1 2 1 4 2 1)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5.png" alt="m1 m5" width="50"></span> M1 M5</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">51-5-14</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/51-5-14.png" alt="51-5-14"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 3 1 2 5)</p>
-</li>
-<li>
-<p>(1 4 3 3 1)</p>
-</li>
-<li>
-<p>(1 3 3 4 1)</p>
-</li>
-<li>
-<p>(5 2 1 3 1)</p>
-</li>
-<li>
-<p>(2 1 1 1 3 1 3)</p>
-</li>
-<li>
-<p>(1 2 1 4 1 1 2)</p>
-</li>
-<li>
-<p>(2 1 1 4 1 2 1)</p>
-</li>
-<li>
-<p>(3 1 3 1 1 1 2)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">52-5-15</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/52-5-15.png" alt="52-5-15"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 1 4 1 5)</p>
-</li>
-<li>
-<p>(5 1 4 1 1)</p>
-</li>
-<li>
-<p>(3 1 1 1 4 1 1)</p>
-</li>
-<li>
-<p>(1 1 1 3 1 1 4)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">53-5-16</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/53-5-16.png" alt="53-5-16"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 2 3 1 5)</p>
-</li>
-<li>
-<p>(3 2 1 5 1)</p>
-</li>
-<li>
-<p>(3 1 1 1 3 2 1)</p>
-</li>
-<li>
-<p>(1 2 3 1 1 1 3)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">54-5-17</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/54-5-17.png" alt="54-5-17"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 1 2 4 4)</p>
-</li>
-<li>
-<p>(4 1 3 2 2)</p>
-</li>
-<li>
-<p>(2 2 3 1 4)</p>
-</li>
-<li>
-<p>(4 4 2 1 1)</p>
-</li>
-<li>
-<p>(1 2 1 1 4 2 1)</p>
-</li>
-<li>
-<p>(1 2 2 2 1 1 3)</p>
-</li>
-<li>
-<p>(3 1 1 2 2 2 1)</p>
-</li>
-<li>
-<p>(1 2 4 1 1 2 1)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">55-5-18</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/55-5-18.png" alt="55-5-18"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 2 1 4 4)</p>
-</li>
-<li>
-<p>(3 1 1 3 4)</p>
-</li>
-<li>
-<p>(1 2 1 1 3 3 1)</p>
-</li>
-<li>
-<p>(1 2 1 1 2 1 4)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">56-5-19</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/56-5-19.png" alt="56-5-19"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 3 1 3 4)</p>
-</li>
-<li>
-<p>(4 3 1 3 1)</p>
-</li>
-<li>
-<p>(1 2 1 1 3 1 3)</p>
-</li>
-<li>
-<p>(3 1 3 1 1 2 1)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5.png" alt="m1 m5" width="50"></span> M1 M5</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">57-5-20</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/57-5-20.png" alt="57-5-20"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(2 2 1 3 4)</p>
-</li>
-<li>
-<p>(2 2 4 3 1)</p>
-</li>
-<li>
-<p>(1 2 1 1 2 2 3)</p>
-</li>
-<li>
-<p>(1 2 1 3 2 2 1)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5.png" alt="m1 m5" width="50"></span> M1 M5</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">58-5-21</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/58-5-21.png" alt="58-5-21"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 1 4 2 4)</p>
-</li>
-<li>
-<p>(2 2 1 1 4 1 1)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">59-5-22</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/59-5-22.png" alt="59-5-22"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(2 1 3 2 4)</p>
-</li>
-<li>
-<p>(3 1 2 4 2)</p>
-</li>
-<li>
-<p>(2 2 1 1 2 3 1)</p>
-</li>
-<li>
-<p>(1 3 2 1 1 2 2)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">60-5-23</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/60-5-23.png" alt="60-5-23"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(2 2 2 2 4)</p>
-</li>
-<li>
-<p>(2 2 1 1 2 2 2)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">61-5-24</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/61-5-24.png" alt="61-5-24"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 3 3 1 4)</p>
-</li>
-<li>
-<p>(3 1 1 3 1 2 1)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">62-5-25</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/62-5-25.png" alt="62-5-25"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 2 3 3 3)</p>
-</li>
-<li>
-<p>(3 2 1 3 3)</p>
-</li>
-<li>
-<p>(2 1 2 1 3 2 1)</p>
-</li>
-<li>
-<p>(1 2 3 1 2 1 2)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">63-6-1</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/63-6-1.png" alt="63-6-1"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 1 1 1 1 7)</p>
-</li>
-<li>
-<p>(1 2 2 3 2 2)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11-cm1-cm11.png" alt="m1 m11 cm1 cm11" width="50"></span> M1 M11 CM1 CM11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">64-6-2</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/64-6-2.png" alt="64-6-2"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 1 1 1 2 6)</p>
-</li>
-<li>
-<p>(3 2 1 2 2 2)</p>
-</li>
-<li>
-<p>(2 2 2 1 2 3)</p>
-</li>
-<li>
-<p>(6 2 1 1 1 1)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm11.png" alt="m1 cm11" width="50"></span> M1 CM11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">65-6-3</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/65-6-3.png" alt="65-6-3"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 1 1 2 1 6)</p>
-</li>
-<li>
-<p>(1 2 2 1 4 2)</p>
-</li>
-<li>
-<p>(2 4 1 2 2 1)</p>
-</li>
-<li>
-<p>(6 1 2 1 1 1)</p>
-</li>
-<li>
-<p>(1 1 1 1 5 3)</p>
-</li>
-<li>
-<p>(3 2 3 1 1 2)</p>
-</li>
-<li>
-<p>(2 1 1 3 2 3)</p>
-</li>
-<li>
-<p>(3 5 1 1 1 1)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">66-6-4</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/66-6-4.png" alt="66-6-4"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 1 2 1 1 6)</p>
-</li>
-<li>
-<p>(1 4 1 2 2 2)</p>
-</li>
-<li>
-<p>(1 1 1 1 4 4)</p>
-</li>
-<li>
-<p>(3 1 1 3 2 2)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">67-6-5</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/67-6-5.png" alt="67-6-5"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 1 1 2 2 5)</p>
-</li>
-<li>
-<p>(1 1 5 2 2 1)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-cm7-cm11.png" alt="m1 m5 cm7 cm11" width="50"></span> M1 M5 CM7 CM11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">68-6-6</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/68-6-6.png" alt="68-6-6"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 1 2 1 2 5)</p>
-</li>
-<li>
-<p>(1 4 3 2 1 1)</p>
-</li>
-<li>
-<p>(1 1 2 3 4 1)</p>
-</li>
-<li>
-<p>(5 2 1 2 1 1)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm5.png" alt="m1 cm5" width="50"></span> M1 CM5</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">69-6-7</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/69-6-7.png" alt="69-6-7"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 2 1 1 2 5)</p>
-</li>
-<li>
-<p>(1 2 2 3 3 1)</p>
-</li>
-<li>
-<p>(1 3 3 2 2 1)</p>
-</li>
-<li>
-<p>(5 2 1 1 2 1)</p>
-</li>
-<li>
-<p>(2 1 1 1 3 4)</p>
-</li>
-<li>
-<p>(1 2 1 4 2 2)</p>
-</li>
-<li>
-<p>(2 2 4 1 2 1)</p>
-</li>
-<li>
-<p>(4 3 1 1 1 2)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">70-6-8</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/70-6-8.png" alt="70-6-8"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(2 1 1 1 2 5)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11-cm1-cm5-cm7-cm11.png" alt="m1 m5 m7 m11 cm1 cm5 cm7 cm11" width="50"></span> M1 M5 M7 M11 CM1 CM5 CM7 CM11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">71-6-9</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/71-6-9.png" alt="71-6-9"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 1 1 3 1 5)</p>
-</li>
-<li>
-<p>(3 2 1 4 1 1)</p>
-</li>
-<li>
-<p>(1 1 4 1 2 3)</p>
-</li>
-<li>
-<p>(5 1 3 1 1 1)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm11.png" alt="m1 cm11" width="50"></span> M1 CM11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">72-6-10</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/72-6-10.png" alt="72-6-10"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 1 2 2 1 5)</p>
-</li>
-<li>
-<p>(5 1 2 2 1 1)</p>
-</li>
-<li>
-<p>(3 1 1 1 4 2)</p>
-</li>
-<li>
-<p>(1 1 1 3 2 4)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">73-6-11</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/73-6-11.png" alt="73-6-11"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 2 1 2 1 5)</p>
-</li>
-<li>
-<p>(3 2 1 2 3 1)</p>
-</li>
-<li>
-<p>(3 1 1 1 3 3)</p>
-</li>
-<li>
-<p>(1 2 3 2 1 3)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">74-6-12</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/74-6-12.png" alt="74-6-12"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 1 3 1 1 5)</p>
-</li>
-<li>
-<p>(1 4 1 4 1 1)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11-cm5-cm7.png" alt="m1 m11 cm5 cm7" width="50"></span> M1 M11 CM5 CM7</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">75-6-13</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/75-6-13.png" alt="75-6-13"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 1 2 1 3 4)</p>
-</li>
-<li>
-<p>(1 3 1 3 2 2)</p>
-</li>
-<li>
-<p>(2 2 3 1 3 1)</p>
-</li>
-<li>
-<p>(4 3 1 2 1 1)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm11.png" alt="m1 cm11" width="50"></span> M1 CM11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">76-6-14</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/76-6-14.png" alt="76-6-14"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 2 1 1 3 4)</p>
-</li>
-<li>
-<p>(4 3 1 1 2 1)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-cm1-cm5.png" alt="m1 m5 cm1 cm5" width="50"></span> M1 M5 CM1 CM5</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">77-6-15</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/77-6-15.png" alt="77-6-15"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 1 2 2 2 4)</p>
-</li>
-<li>
-<p>(2 2 2 1 1 4)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-cm7-cm11.png" alt="m1 m5 cm7 cm11" width="50"></span> M1 M5 CM7 CM11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">78-6-16</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/78-6-16.png" alt="78-6-16"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(2 1 1 2 2 4)</p>
-</li>
-<li>
-<p>(3 1 2 2 2 2)</p>
-</li>
-<li>
-<p>(2 2 2 2 1 3)</p>
-</li>
-<li>
-<p>(4 2 2 1 1 2)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm11.png" alt="m1 cm11" width="50"></span> M1 CM11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">79-6-17</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/79-6-17.png" alt="79-6-17"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 1 3 1 2 4)</p>
-</li>
-<li>
-<p>(1 3 1 1 4 2)</p>
-</li>
-<li>
-<p>(2 1 1 4 1 3)</p>
-</li>
-<li>
-<p>(3 1 4 1 1 2)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">80-6-18</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/80-6-18.png" alt="80-6-18"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(2 1 2 1 2 4)</p>
-</li>
-<li>
-<p>(2 1 1 2 3 3)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">81-6-19</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/81-6-19.png" alt="81-6-19"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 3 1 1 2 4)</p>
-</li>
-<li>
-<p>(4 2 1 1 3 1)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-cm7-cm11.png" alt="m1 m5 cm7 cm11" width="50"></span> M1 M5 CM7 CM11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">82-6-20</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/82-6-20.png" alt="82-6-20"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 2 1 3 1 4)</p>
-</li>
-<li>
-<p>(3 1 1 3 3 1)</p>
-</li>
-<li>
-<p>(1 3 3 1 1 3)</p>
-</li>
-<li>
-<p>(4 1 3 1 2 1)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm5.png" alt="m1 cm5" width="50"></span> M1 CM5</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">83-6-21</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/83-6-21.png" alt="83-6-21"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 1 4 1 1 4)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11-cm1-cm5-cm7-cm11.png" alt="m1 m5 m7 m11 cm1 cm5 cm7 cm11" width="50"></span> M1 M5 M7 M11 CM1 CM5 CM7 CM11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">84-6-22</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/84-6-22.png" alt="84-6-22"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 2 1 2 3 3)</p>
-</li>
-<li>
-<p>(3 2 1 2 1 3)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7-cm5-cm11.png" alt="m1 m7 cm5 cm11" width="50"></span> M1 M7 CM5 CM11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">85-6-23</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/85-6-23.png" alt="85-6-23"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 2 2 1 3 3)</p>
-</li>
-<li>
-<p>(1 2 1 3 2 3)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">86-6-24</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/86-6-24.png" alt="86-6-24"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 2 3 1 2 3)</p>
-</li>
-<li>
-<p>(3 2 1 3 2 1)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7-cm5-cm11.png" alt="m1 m7 cm5 cm11" width="50"></span> M1 M7 CM5 CM11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">87-6-25</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/87-6-25.png" alt="87-6-25"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(1 3 1 3 1 3)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11-cm1-cm5-cm7-cm11.png" alt="m1 m5 m7 m11 cm1 cm5 cm7 cm11" width="50"></span> M1 M5 M7 M11 CM1 CM5 CM7 CM11</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">88-6-26</p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/88-6-26.png" alt="88-6-26"></span></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>(2 2 2 2 2 2)</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11-cm1-cm5-cm7-cm11.png" alt="m1 m5 m7 m11 cm1 cm5 cm7 cm11" width="50"></span> M1 M5 M7 M11 CM1 CM5 CM7 CM11</p></td>
-</tr>
-</tbody>
-<tfoot>
-<tr>
-<td class="tableblock halign-left valign-middle"></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><em>4096 PCS</em></p></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><em>352 motifs</em></p></td>
-<td class="tableblock halign-left valign-middle"><div class="content"><div class="paragraph">
-<p><em>352 CIS</em></p>
-</div></div></td>
-<td class="tableblock halign-left valign-middle"><p class="tableblock"><em>13 distinct</em><br>
-<em>meta-stabilizers</em></p></td>
-</tr>
-</tfoot>
-</table>
-</div>
-</div>
-<div class="sect1">
 <h2 id="_inventory_of_subgroups">Inventory of subgroups</h2>
 <div class="sectionbody">
 <div class="paragraph">
@@ -6213,25 +4221,2188 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 </div>
 </div>
 <div class="sect1">
+<h2 id="_88_musaics_2">88 Musaics</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>List of 88 Aff+Cplt orbits (naming musaics) generating of <em>P(Z<sub>12</sub>)</em></p>
+</div>
+<table id="idTable88" class="tableblock frame-all grid-all fit-content">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-middle">N° <span class="head">&uarr;</span></th>
+<th class="tableblock halign-center valign-middle">Musaic orbit</th>
+<th class="tableblock halign-left valign-middle">Motifs</th>
+<th class="tableblock halign-left valign-middle">Cyclic Intervallic Structure</th>
+<th class="tableblock halign-left valign-middle">Meta-Stabilizer <span class="head">&uarr;</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">1-0-1</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/1-0-1.png" alt="1-0-1"></span>
+<br>
+#2</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>()</p>
+</li>
+<li>
+<p>(1 1 1 1 1 1 1 1 1 1 1 1)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2-1-1</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/2-1-1.png" alt="2-1-1"></span>
+<br>
+#24</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(0)</p>
+</li>
+<li>
+<p>(1 1 1 1 1 2 1 1 1 1 1)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">3-2-1</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/3-2-1.png" alt="3-2-1"></span>
+<br>
+#48</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 11)</p>
+</li>
+<li>
+<p>(5 7)</p>
+</li>
+<li>
+<p>(1 1 1 1 1 3 1 1 1 1)</p>
+</li>
+<li>
+<p>(1 1 1 1 1 2 1 1 1 2)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">4-2-2</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/4-2-2.png" alt="4-2-2"></span>
+<br>
+#24</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(2 10)</p>
+</li>
+<li>
+<p>(1 1 1 1 1 2 2 1 1 1)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">5-2-3</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/5-2-3.png" alt="5-2-3"></span>
+<br>
+#24</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(3 9)</p>
+</li>
+<li>
+<p>(1 1 1 1 1 2 1 2 1 1)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">6-2-4</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/6-2-4.png" alt="6-2-4"></span>
+<br>
+#24</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(4 8)</p>
+</li>
+<li>
+<p>(1 1 1 1 1 2 1 1 2 1)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">7-2-5</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/7-2-5.png" alt="7-2-5"></span>
+<br>
+#12</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(6 6)</p>
+</li>
+<li>
+<p>(2 1 1 1 1 2 1 1 1 1)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">8-3-1</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/8-3-1.png" alt="8-3-1"></span>
+<br>
+#48</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 1 10)</p>
+</li>
+<li>
+<p>(5 5 2)</p>
+</li>
+<li>
+<p>(1 1 1 1 1 4 1 1 1)</p>
+</li>
+<li>
+<p>(1 1 1 2 2 1 1 1 2)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">9-3-2</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/9-3-2.png" alt="9-3-2"></span>
+<br>
+#96</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 2 9)</p>
+</li>
+<li>
+<p>(3 2 7)</p>
+</li>
+<li>
+<p>(7 2 3)</p>
+</li>
+<li>
+<p>(9 2 1)</p>
+</li>
+<li>
+<p>(1 1 1 1 1 3 2 1 1)</p>
+</li>
+<li>
+<p>(1 1 1 1 1 2 1 2 2)</p>
+</li>
+<li>
+<p>(2 2 1 2 1 1 1 1 1)</p>
+</li>
+<li>
+<p>(1 1 2 3 1 1 1 1 1)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">10-3-3</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/10-3-3.png" alt="10-3-3"></span>
+<br>
+#96</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 3 8)</p>
+</li>
+<li>
+<p>(5 3 4)</p>
+</li>
+<li>
+<p>(4 3 5)</p>
+</li>
+<li>
+<p>(8 3 1)</p>
+</li>
+<li>
+<p>(1 1 1 1 1 3 1 2 1)</p>
+</li>
+<li>
+<p>(1 2 1 1 2 1 1 1 2)</p>
+</li>
+<li>
+<p>(2 1 1 1 2 1 1 2 1)</p>
+</li>
+<li>
+<p>(1 2 1 3 1 1 1 1 1)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">11-3-4</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/11-3-4.png" alt="11-3-4"></span>
+<br>
+#24</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(2 2 8)</p>
+</li>
+<li>
+<p>(1 1 1 1 1 2 2 2 1)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">12-3-5</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/12-3-5.png" alt="12-3-5"></span>
+<br>
+#48</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 4 7)</p>
+</li>
+<li>
+<p>(7 4 1)</p>
+</li>
+<li>
+<p>(1 1 1 1 1 3 1 1 2)</p>
+</li>
+<li>
+<p>(2 1 1 3 1 1 1 1 1)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5.png" alt="m1 m5" width="50"></span> M1 M5</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">13-3-6</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/13-3-6.png" alt="13-3-6"></span>
+<br>
+#48</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 5 6)</p>
+</li>
+<li>
+<p>(5 1 6)</p>
+</li>
+<li>
+<p>(2 1 1 1 1 3 1 1 1)</p>
+</li>
+<li>
+<p>(1 1 1 3 1 1 1 1 2)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">14-3-7</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/14-3-7.png" alt="14-3-7"></span>
+<br>
+#48</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(2 4 6)</p>
+</li>
+<li>
+<p>(6 4 2)</p>
+</li>
+<li>
+<p>(2 1 1 1 1 2 2 1 1)</p>
+</li>
+<li>
+<p>(1 1 1 1 2 1 1 2 2)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">15-3-8</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/15-3-8.png" alt="15-3-8"></span>
+<br>
+#24</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(3 3 6)</p>
+</li>
+<li>
+<p>(2 1 1 1 1 2 1 2 1)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">16-3-9</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/16-3-9.png" alt="16-3-9"></span>
+<br>
+#8</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(4 4 4)</p>
+</li>
+<li>
+<p>(1 2 1 1 2 1 1 2 1)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">17-4-1</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/17-4-1.png" alt="17-4-1"></span>
+<br>
+#48</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 1 1 9)</p>
+</li>
+<li>
+<p>(3 2 5 2)</p>
+</li>
+<li>
+<p>(1 1 1 1 1 5 1 1)</p>
+</li>
+<li>
+<p>(1 1 1 2 2 1 2 2)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">18-4-2</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/18-4-2.png" alt="18-4-2"></span>
+<br>
+#96</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 1 2 8)</p>
+</li>
+<li>
+<p>(5 3 2 2)</p>
+</li>
+<li>
+<p>(2 2 3 5)</p>
+</li>
+<li>
+<p>(8 2 1 1)</p>
+</li>
+<li>
+<p>(1 1 1 1 1 4 2 1)</p>
+</li>
+<li>
+<p>(1 2 2 2 1 1 1 2)</p>
+</li>
+<li>
+<p>(2 1 1 1 2 2 2 1)</p>
+</li>
+<li>
+<p>(1 2 4 1 1 1 1 1)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">19-4-3</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/19-4-3.png" alt="19-4-3"></span>
+<br>
+#48</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 2 1 8)</p>
+</li>
+<li>
+<p>(3 2 3 4)</p>
+</li>
+<li>
+<p>(1 1 1 1 1 3 3 1)</p>
+</li>
+<li>
+<p>(1 2 1 1 2 1 2 2)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">20-4-4</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/20-4-4.png" alt="20-4-4"></span>
+<br>
+#96</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 1 3 7)</p>
+</li>
+<li>
+<p>(1 4 5 2)</p>
+</li>
+<li>
+<p>(2 5 4 1)</p>
+</li>
+<li>
+<p>(7 3 1 1)</p>
+</li>
+<li>
+<p>(1 1 1 1 1 4 1 2)</p>
+</li>
+<li>
+<p>(1 1 1 2 3 1 1 2)</p>
+</li>
+<li>
+<p>(2 1 1 3 2 1 1 1)</p>
+</li>
+<li>
+<p>(2 1 4 1 1 1 1 1)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">21-4-5</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/21-4-5.png" alt="21-4-5"></span>
+<br>
+#48</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 2 2 7)</p>
+</li>
+<li>
+<p>(7 2 2 1)</p>
+</li>
+<li>
+<p>(1 1 1 1 1 3 2 2)</p>
+</li>
+<li>
+<p>(2 2 3 1 1 1 1 1)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5.png" alt="m1 m5" width="50"></span> M1 M5</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">22-4-6</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/22-4-6.png" alt="22-4-6"></span>
+<br>
+#24</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(2 1 2 7)</p>
+</li>
+<li>
+<p>(1 1 1 1 1 2 3 2)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">23-4-7</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/23-4-7.png" alt="23-4-7"></span>
+<br>
+#48</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 3 1 7)</p>
+</li>
+<li>
+<p>(1 4 3 4)</p>
+</li>
+<li>
+<p>(1 1 1 1 1 3 1 3)</p>
+</li>
+<li>
+<p>(1 2 1 1 3 1 1 2)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">24-4-8</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/24-4-8.png" alt="24-4-8"></span>
+<br>
+#96</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 1 4 6)</p>
+</li>
+<li>
+<p>(5 1 4 2)</p>
+</li>
+<li>
+<p>(2 4 1 5)</p>
+</li>
+<li>
+<p>(6 4 1 1)</p>
+</li>
+<li>
+<p>(2 1 1 1 1 4 1 1)</p>
+</li>
+<li>
+<p>(1 1 1 3 1 1 2 2)</p>
+</li>
+<li>
+<p>(2 2 1 1 3 1 1 1)</p>
+</li>
+<li>
+<p>(1 1 4 1 1 1 1 2)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">25-4-9</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/25-4-9.png" alt="25-4-9"></span>
+<br>
+#48</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 2 3 6)</p>
+</li>
+<li>
+<p>(3 2 1 6)</p>
+</li>
+<li>
+<p>(2 1 1 1 1 3 2 1)</p>
+</li>
+<li>
+<p>(1 2 3 1 1 1 1 2)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">26-4-10</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/26-4-10.png" alt="26-4-10"></span>
+<br>
+#96</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(2 1 3 6)</p>
+</li>
+<li>
+<p>(3 3 4 2)</p>
+</li>
+<li>
+<p>(2 4 3 3)</p>
+</li>
+<li>
+<p>(6 3 1 2)</p>
+</li>
+<li>
+<p>(2 1 1 1 1 2 3 1)</p>
+</li>
+<li>
+<p>(1 2 1 2 1 1 2 2)</p>
+</li>
+<li>
+<p>(2 2 1 1 2 1 2 1)</p>
+</li>
+<li>
+<p>(1 3 2 1 1 1 1 2)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">27-4-11</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/27-4-11.png" alt="27-4-11"></span>
+<br>
+#96</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 3 2 6)</p>
+</li>
+<li>
+<p>(5 1 2 4)</p>
+</li>
+<li>
+<p>(4 2 1 5)</p>
+</li>
+<li>
+<p>(6 2 3 1)</p>
+</li>
+<li>
+<p>(2 1 1 1 1 3 1 2)</p>
+</li>
+<li>
+<p>(1 1 1 3 2 1 1 2)</p>
+</li>
+<li>
+<p>(2 1 1 2 3 1 1 1)</p>
+</li>
+<li>
+<p>(2 1 3 1 1 1 1 2)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">28-4-12</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/28-4-12.png" alt="28-4-12"></span>
+<br>
+#24</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(2 2 2 6)</p>
+</li>
+<li>
+<p>(2 1 1 1 1 2 2 2)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">29-4-13</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/29-4-13.png" alt="29-4-13"></span>
+<br>
+#24</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 4 1 6)</p>
+</li>
+<li>
+<p>(1 1 1 1 3 1 1 3)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">30-4-14</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/30-4-14.png" alt="30-4-14"></span>
+<br>
+#24</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 1 5 5)</p>
+</li>
+<li>
+<p>(2 1 1 1 4 1 1 1)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">31-4-15</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/31-4-15.png" alt="31-4-15"></span>
+<br>
+#48</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 3 3 5)</p>
+</li>
+<li>
+<p>(5 3 3 1)</p>
+</li>
+<li>
+<p>(2 1 1 1 3 1 2 1)</p>
+</li>
+<li>
+<p>(1 2 1 3 1 1 1 2)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">32-4-16</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/32-4-16.png" alt="32-4-16"></span>
+<br>
+#24</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(3 1 3 5)</p>
+</li>
+<li>
+<p>(2 1 1 1 2 1 3 1)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">33-4-17</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/33-4-17.png" alt="33-4-17"></span>
+<br>
+#12</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 5 1 5)</p>
+</li>
+<li>
+<p>(3 1 1 1 3 1 1 1)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">34-4-18</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/34-4-18.png" alt="34-4-18"></span>
+<br>
+#48</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 3 4 4)</p>
+</li>
+<li>
+<p>(4 3 1 4)</p>
+</li>
+<li>
+<p>(1 2 1 1 3 1 2 1)</p>
+</li>
+<li>
+<p>(3 1 1 2 1 1 2 1)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5.png" alt="m1 m5" width="50"></span> M1 M5</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">35-4-19</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/35-4-19.png" alt="35-4-19"></span>
+<br>
+#24</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(2 2 4 4)</p>
+</li>
+<li>
+<p>(1 2 1 1 2 2 2 1)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">36-4-20</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/36-4-20.png" alt="36-4-20"></span>
+<br>
+#12</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(2 4 2 4)</p>
+</li>
+<li>
+<p>(2 2 1 1 2 2 1 1)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">37-4-21</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/37-4-21.png" alt="37-4-21"></span>
+<br>
+#6</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(3 3 3 3)</p>
+</li>
+<li>
+<p>(2 1 2 1 2 1 2 1)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">38-5-1</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/38-5-1.png" alt="38-5-1"></span>
+<br>
+#48</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 1 1 1 8)</p>
+</li>
+<li>
+<p>(3 2 3 2 2)</p>
+</li>
+<li>
+<p>(1 1 1 1 1 6 1)</p>
+</li>
+<li>
+<p>(1 2 2 2 1 2 2)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">39-5-2</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/39-5-2.png" alt="39-5-2"></span>
+<br>
+#96</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 1 1 2 7)</p>
+</li>
+<li>
+<p>(1 2 2 5 2)</p>
+</li>
+<li>
+<p>(2 5 2 2 1)</p>
+</li>
+<li>
+<p>(7 2 1 1 1)</p>
+</li>
+<li>
+<p>(1 1 1 1 1 5 2)</p>
+</li>
+<li>
+<p>(1 1 1 2 3 2 2)</p>
+</li>
+<li>
+<p>(2 2 3 2 1 1 1)</p>
+</li>
+<li>
+<p>(2 5 1 1 1 1 1)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">40-5-3</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/40-5-3.png" alt="40-5-3"></span>
+<br>
+#96</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 1 2 1 7)</p>
+</li>
+<li>
+<p>(1 4 3 2 2)</p>
+</li>
+<li>
+<p>(2 2 3 4 1)</p>
+</li>
+<li>
+<p>(7 1 2 1 1)</p>
+</li>
+<li>
+<p>(1 1 1 1 1 4 3)</p>
+</li>
+<li>
+<p>(1 2 2 3 1 1 2)</p>
+</li>
+<li>
+<p>(2 1 1 3 2 2 1)</p>
+</li>
+<li>
+<p>(3 4 1 1 1 1 1)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">41-5-4</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/41-5-4.png" alt="41-5-4"></span>
+<br>
+#96</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 1 1 3 6)</p>
+</li>
+<li>
+<p>(3 2 1 4 2)</p>
+</li>
+<li>
+<p>(2 4 1 2 3)</p>
+</li>
+<li>
+<p>(6 3 1 1 1)</p>
+</li>
+<li>
+<p>(2 1 1 1 1 5 1)</p>
+</li>
+<li>
+<p>(1 2 3 1 1 2 2)</p>
+</li>
+<li>
+<p>(2 2 1 1 3 2 1)</p>
+</li>
+<li>
+<p>(1 5 1 1 1 1 2)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">42-5-5</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/42-5-5.png" alt="42-5-5"></span>
+<br>
+#96</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 1 2 2 6)</p>
+</li>
+<li>
+<p>(5 1 2 2 2)</p>
+</li>
+<li>
+<p>(2 2 2 1 5)</p>
+</li>
+<li>
+<p>(6 2 2 1 1)</p>
+</li>
+<li>
+<p>(2 1 1 1 1 4 2)</p>
+</li>
+<li>
+<p>(1 1 1 3 2 2 2)</p>
+</li>
+<li>
+<p>(2 2 2 3 1 1 1)</p>
+</li>
+<li>
+<p>(2 4 1 1 1 1 2)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">43-5-6</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/43-5-6.png" alt="43-5-6"></span>
+<br>
+#96</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 2 1 2 6)</p>
+</li>
+<li>
+<p>(3 2 1 2 4)</p>
+</li>
+<li>
+<p>(4 2 1 2 3)</p>
+</li>
+<li>
+<p>(6 2 1 2 1)</p>
+</li>
+<li>
+<p>(2 1 1 1 1 3 3)</p>
+</li>
+<li>
+<p>(1 2 3 2 1 1 2)</p>
+</li>
+<li>
+<p>(2 1 1 2 3 2 1)</p>
+</li>
+<li>
+<p>(3 3 1 1 1 1 2)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">44-5-7</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/44-5-7.png" alt="44-5-7"></span>
+<br>
+#48</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(2 1 1 2 6)</p>
+</li>
+<li>
+<p>(3 3 2 2 2)</p>
+</li>
+<li>
+<p>(2 1 1 1 1 2 4)</p>
+</li>
+<li>
+<p>(1 2 1 2 2 2 2)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">45-5-8</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/45-5-8.png" alt="45-5-8"></span>
+<br>
+#96</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 1 3 1 6)</p>
+</li>
+<li>
+<p>(1 4 1 4 2)</p>
+</li>
+<li>
+<p>(2 4 1 4 1)</p>
+</li>
+<li>
+<p>(6 1 3 1 1)</p>
+</li>
+<li>
+<p>(1 1 1 1 4 1 3)</p>
+</li>
+<li>
+<p>(3 1 1 3 1 1 2)</p>
+</li>
+<li>
+<p>(2 1 1 3 1 1 3)</p>
+</li>
+<li>
+<p>(3 1 4 1 1 1 1)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">46-5-9</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/46-5-9.png" alt="46-5-9"></span>
+<br>
+#24</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 2 2 1 6)</p>
+</li>
+<li>
+<p>(1 1 1 1 3 2 3)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">47-5-10</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/47-5-10.png" alt="47-5-10"></span>
+<br>
+#96</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 1 1 4 5)</p>
+</li>
+<li>
+<p>(3 2 5 1 1)</p>
+</li>
+<li>
+<p>(1 1 5 2 3)</p>
+</li>
+<li>
+<p>(5 4 1 1 1)</p>
+</li>
+<li>
+<p>(2 1 1 1 5 1 1)</p>
+</li>
+<li>
+<p>(1 1 1 4 1 2 2)</p>
+</li>
+<li>
+<p>(2 2 1 4 1 1 1)</p>
+</li>
+<li>
+<p>(1 1 5 1 1 1 2)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">48-5-11</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/48-5-11.png" alt="48-5-11"></span>
+<br>
+#48</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 1 2 3 5)</p>
+</li>
+<li>
+<p>(5 3 2 1 1)</p>
+</li>
+<li>
+<p>(2 1 1 1 4 2 1)</p>
+</li>
+<li>
+<p>(1 2 4 1 1 1 2)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">49-5-12</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/49-5-12.png" alt="49-5-12"></span>
+<br>
+#96</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 2 1 3 5)</p>
+</li>
+<li>
+<p>(3 2 3 3 1)</p>
+</li>
+<li>
+<p>(1 3 3 2 3)</p>
+</li>
+<li>
+<p>(5 3 1 2 1)</p>
+</li>
+<li>
+<p>(2 1 1 1 3 3 1)</p>
+</li>
+<li>
+<p>(1 2 1 3 1 2 2)</p>
+</li>
+<li>
+<p>(2 2 1 3 1 2 1)</p>
+</li>
+<li>
+<p>(1 3 3 1 1 1 2)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">50-5-13</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/50-5-13.png" alt="50-5-13"></span>
+<br>
+#48</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(2 1 1 3 5)</p>
+</li>
+<li>
+<p>(1 1 2 5 3)</p>
+</li>
+<li>
+<p>(2 1 1 1 2 4 1)</p>
+</li>
+<li>
+<p>(1 1 2 1 4 2 1)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5.png" alt="m1 m5" width="50"></span> M1 M5</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">51-5-14</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/51-5-14.png" alt="51-5-14"></span>
+<br>
+#96</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 3 1 2 5)</p>
+</li>
+<li>
+<p>(1 4 3 3 1)</p>
+</li>
+<li>
+<p>(1 3 3 4 1)</p>
+</li>
+<li>
+<p>(5 2 1 3 1)</p>
+</li>
+<li>
+<p>(2 1 1 1 3 1 3)</p>
+</li>
+<li>
+<p>(1 2 1 4 1 1 2)</p>
+</li>
+<li>
+<p>(2 1 1 4 1 2 1)</p>
+</li>
+<li>
+<p>(3 1 3 1 1 1 2)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">52-5-15</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/52-5-15.png" alt="52-5-15"></span>
+<br>
+#48</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 1 4 1 5)</p>
+</li>
+<li>
+<p>(5 1 4 1 1)</p>
+</li>
+<li>
+<p>(3 1 1 1 4 1 1)</p>
+</li>
+<li>
+<p>(1 1 1 3 1 1 4)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">53-5-16</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/53-5-16.png" alt="53-5-16"></span>
+<br>
+#48</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 2 3 1 5)</p>
+</li>
+<li>
+<p>(3 2 1 5 1)</p>
+</li>
+<li>
+<p>(3 1 1 1 3 2 1)</p>
+</li>
+<li>
+<p>(1 2 3 1 1 1 3)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">54-5-17</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/54-5-17.png" alt="54-5-17"></span>
+<br>
+#96</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 1 2 4 4)</p>
+</li>
+<li>
+<p>(4 1 3 2 2)</p>
+</li>
+<li>
+<p>(2 2 3 1 4)</p>
+</li>
+<li>
+<p>(4 4 2 1 1)</p>
+</li>
+<li>
+<p>(1 2 1 1 4 2 1)</p>
+</li>
+<li>
+<p>(1 2 2 2 1 1 3)</p>
+</li>
+<li>
+<p>(3 1 1 2 2 2 1)</p>
+</li>
+<li>
+<p>(1 2 4 1 1 2 1)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">55-5-18</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/55-5-18.png" alt="55-5-18"></span>
+<br>
+#48</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 2 1 4 4)</p>
+</li>
+<li>
+<p>(3 1 1 3 4)</p>
+</li>
+<li>
+<p>(1 2 1 1 3 3 1)</p>
+</li>
+<li>
+<p>(1 2 1 1 2 1 4)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">56-5-19</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/56-5-19.png" alt="56-5-19"></span>
+<br>
+#48</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 3 1 3 4)</p>
+</li>
+<li>
+<p>(4 3 1 3 1)</p>
+</li>
+<li>
+<p>(1 2 1 1 3 1 3)</p>
+</li>
+<li>
+<p>(3 1 3 1 1 2 1)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5.png" alt="m1 m5" width="50"></span> M1 M5</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">57-5-20</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/57-5-20.png" alt="57-5-20"></span>
+<br>
+#48</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(2 2 1 3 4)</p>
+</li>
+<li>
+<p>(2 2 4 3 1)</p>
+</li>
+<li>
+<p>(1 2 1 1 2 2 3)</p>
+</li>
+<li>
+<p>(1 2 1 3 2 2 1)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5.png" alt="m1 m5" width="50"></span> M1 M5</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">58-5-21</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/58-5-21.png" alt="58-5-21"></span>
+<br>
+#24</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 1 4 2 4)</p>
+</li>
+<li>
+<p>(2 2 1 1 4 1 1)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">59-5-22</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/59-5-22.png" alt="59-5-22"></span>
+<br>
+#48</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(2 1 3 2 4)</p>
+</li>
+<li>
+<p>(3 1 2 4 2)</p>
+</li>
+<li>
+<p>(2 2 1 1 2 3 1)</p>
+</li>
+<li>
+<p>(1 3 2 1 1 2 2)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">60-5-23</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/60-5-23.png" alt="60-5-23"></span>
+<br>
+#24</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(2 2 2 2 4)</p>
+</li>
+<li>
+<p>(2 2 1 1 2 2 2)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">61-5-24</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/61-5-24.png" alt="61-5-24"></span>
+<br>
+#24</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 3 3 1 4)</p>
+</li>
+<li>
+<p>(3 1 1 3 1 2 1)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">62-5-25</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/62-5-25.png" alt="62-5-25"></span>
+<br>
+#48</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 2 3 3 3)</p>
+</li>
+<li>
+<p>(3 2 1 3 3)</p>
+</li>
+<li>
+<p>(2 1 2 1 3 2 1)</p>
+</li>
+<li>
+<p>(1 2 3 1 2 1 2)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">63-6-1</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/63-6-1.png" alt="63-6-1"></span>
+<br>
+#24</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 1 1 1 1 7)</p>
+</li>
+<li>
+<p>(1 2 2 3 2 2)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11-cm1-cm11.png" alt="m1 m11 cm1 cm11" width="50"></span> M1 M11 CM1 CM11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">64-6-2</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/64-6-2.png" alt="64-6-2"></span>
+<br>
+#48</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 1 1 1 2 6)</p>
+</li>
+<li>
+<p>(3 2 1 2 2 2)</p>
+</li>
+<li>
+<p>(2 2 2 1 2 3)</p>
+</li>
+<li>
+<p>(6 2 1 1 1 1)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm11.png" alt="m1 cm11" width="50"></span> M1 CM11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">65-6-3</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/65-6-3.png" alt="65-6-3"></span>
+<br>
+#96</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 1 1 2 1 6)</p>
+</li>
+<li>
+<p>(1 2 2 1 4 2)</p>
+</li>
+<li>
+<p>(2 4 1 2 2 1)</p>
+</li>
+<li>
+<p>(6 1 2 1 1 1)</p>
+</li>
+<li>
+<p>(1 1 1 1 5 3)</p>
+</li>
+<li>
+<p>(3 2 3 1 1 2)</p>
+</li>
+<li>
+<p>(2 1 1 3 2 3)</p>
+</li>
+<li>
+<p>(3 5 1 1 1 1)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">66-6-4</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/66-6-4.png" alt="66-6-4"></span>
+<br>
+#48</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 1 2 1 1 6)</p>
+</li>
+<li>
+<p>(1 4 1 2 2 2)</p>
+</li>
+<li>
+<p>(1 1 1 1 4 4)</p>
+</li>
+<li>
+<p>(3 1 1 3 2 2)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">67-6-5</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/67-6-5.png" alt="67-6-5"></span>
+<br>
+#24</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 1 1 2 2 5)</p>
+</li>
+<li>
+<p>(1 1 5 2 2 1)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-cm7-cm11.png" alt="m1 m5 cm7 cm11" width="50"></span> M1 M5 CM7 CM11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">68-6-6</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/68-6-6.png" alt="68-6-6"></span>
+<br>
+#48</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 1 2 1 2 5)</p>
+</li>
+<li>
+<p>(1 4 3 2 1 1)</p>
+</li>
+<li>
+<p>(1 1 2 3 4 1)</p>
+</li>
+<li>
+<p>(5 2 1 2 1 1)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm5.png" alt="m1 cm5" width="50"></span> M1 CM5</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">69-6-7</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/69-6-7.png" alt="69-6-7"></span>
+<br>
+#96</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 2 1 1 2 5)</p>
+</li>
+<li>
+<p>(1 2 2 3 3 1)</p>
+</li>
+<li>
+<p>(1 3 3 2 2 1)</p>
+</li>
+<li>
+<p>(5 2 1 1 2 1)</p>
+</li>
+<li>
+<p>(2 1 1 1 3 4)</p>
+</li>
+<li>
+<p>(1 2 1 4 2 2)</p>
+</li>
+<li>
+<p>(2 2 4 1 2 1)</p>
+</li>
+<li>
+<p>(4 3 1 1 1 2)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">70-6-8</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/70-6-8.png" alt="70-6-8"></span>
+<br>
+#12</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(2 1 1 1 2 5)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11-cm1-cm5-cm7-cm11.png" alt="m1 m5 m7 m11 cm1 cm5 cm7 cm11" width="50"></span> M1 M5 M7 M11 CM1 CM5 CM7 CM11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">71-6-9</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/71-6-9.png" alt="71-6-9"></span>
+<br>
+#48</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 1 1 3 1 5)</p>
+</li>
+<li>
+<p>(3 2 1 4 1 1)</p>
+</li>
+<li>
+<p>(1 1 4 1 2 3)</p>
+</li>
+<li>
+<p>(5 1 3 1 1 1)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm11.png" alt="m1 cm11" width="50"></span> M1 CM11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">72-6-10</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/72-6-10.png" alt="72-6-10"></span>
+<br>
+#48</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 1 2 2 1 5)</p>
+</li>
+<li>
+<p>(5 1 2 2 1 1)</p>
+</li>
+<li>
+<p>(3 1 1 1 4 2)</p>
+</li>
+<li>
+<p>(1 1 1 3 2 4)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">73-6-11</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/73-6-11.png" alt="73-6-11"></span>
+<br>
+#48</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 2 1 2 1 5)</p>
+</li>
+<li>
+<p>(3 2 1 2 3 1)</p>
+</li>
+<li>
+<p>(3 1 1 1 3 3)</p>
+</li>
+<li>
+<p>(1 2 3 2 1 3)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">74-6-12</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/74-6-12.png" alt="74-6-12"></span>
+<br>
+#24</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 1 3 1 1 5)</p>
+</li>
+<li>
+<p>(1 4 1 4 1 1)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11-cm5-cm7.png" alt="m1 m11 cm5 cm7" width="50"></span> M1 M11 CM5 CM7</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">75-6-13</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/75-6-13.png" alt="75-6-13"></span>
+<br>
+#48</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 1 2 1 3 4)</p>
+</li>
+<li>
+<p>(1 3 1 3 2 2)</p>
+</li>
+<li>
+<p>(2 2 3 1 3 1)</p>
+</li>
+<li>
+<p>(4 3 1 2 1 1)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm11.png" alt="m1 cm11" width="50"></span> M1 CM11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">76-6-14</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/76-6-14.png" alt="76-6-14"></span>
+<br>
+#24</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 2 1 1 3 4)</p>
+</li>
+<li>
+<p>(4 3 1 1 2 1)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-cm1-cm5.png" alt="m1 m5 cm1 cm5" width="50"></span> M1 M5 CM1 CM5</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">77-6-15</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/77-6-15.png" alt="77-6-15"></span>
+<br>
+#24</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 1 2 2 2 4)</p>
+</li>
+<li>
+<p>(2 2 2 1 1 4)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-cm7-cm11.png" alt="m1 m5 cm7 cm11" width="50"></span> M1 M5 CM7 CM11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">78-6-16</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/78-6-16.png" alt="78-6-16"></span>
+<br>
+#48</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(2 1 1 2 2 4)</p>
+</li>
+<li>
+<p>(3 1 2 2 2 2)</p>
+</li>
+<li>
+<p>(2 2 2 2 1 3)</p>
+</li>
+<li>
+<p>(4 2 2 1 1 2)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm11.png" alt="m1 cm11" width="50"></span> M1 CM11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">79-6-17</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/79-6-17.png" alt="79-6-17"></span>
+<br>
+#48</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 1 3 1 2 4)</p>
+</li>
+<li>
+<p>(1 3 1 1 4 2)</p>
+</li>
+<li>
+<p>(2 1 1 4 1 3)</p>
+</li>
+<li>
+<p>(3 1 4 1 1 2)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">80-6-18</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/80-6-18.png" alt="80-6-18"></span>
+<br>
+#24</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(2 1 2 1 2 4)</p>
+</li>
+<li>
+<p>(2 1 1 2 3 3)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">81-6-19</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/81-6-19.png" alt="81-6-19"></span>
+<br>
+#24</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 3 1 1 2 4)</p>
+</li>
+<li>
+<p>(4 2 1 1 3 1)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-cm7-cm11.png" alt="m1 m5 cm7 cm11" width="50"></span> M1 M5 CM7 CM11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">82-6-20</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/82-6-20.png" alt="82-6-20"></span>
+<br>
+#48</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 2 1 3 1 4)</p>
+</li>
+<li>
+<p>(3 1 1 3 3 1)</p>
+</li>
+<li>
+<p>(1 3 3 1 1 3)</p>
+</li>
+<li>
+<p>(4 1 3 1 2 1)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm5.png" alt="m1 cm5" width="50"></span> M1 CM5</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">83-6-21</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/83-6-21.png" alt="83-6-21"></span>
+<br>
+#6</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 1 4 1 1 4)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11-cm1-cm5-cm7-cm11.png" alt="m1 m5 m7 m11 cm1 cm5 cm7 cm11" width="50"></span> M1 M5 M7 M11 CM1 CM5 CM7 CM11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">84-6-22</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/84-6-22.png" alt="84-6-22"></span>
+<br>
+#24</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 2 1 2 3 3)</p>
+</li>
+<li>
+<p>(3 2 1 2 1 3)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7-cm5-cm11.png" alt="m1 m7 cm5 cm11" width="50"></span> M1 M7 CM5 CM11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">85-6-23</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/85-6-23.png" alt="85-6-23"></span>
+<br>
+#24</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 2 2 1 3 3)</p>
+</li>
+<li>
+<p>(1 2 1 3 2 3)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">86-6-24</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/86-6-24.png" alt="86-6-24"></span>
+<br>
+#12</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 2 3 1 2 3)</p>
+</li>
+<li>
+<p>(3 2 1 3 2 1)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7-cm5-cm11.png" alt="m1 m7 cm5 cm11" width="50"></span> M1 M7 CM5 CM11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">87-6-25</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/87-6-25.png" alt="87-6-25"></span>
+<br>
+#4</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(1 3 1 3 1 3)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11-cm1-cm5-cm7-cm11.png" alt="m1 m5 m7 m11 cm1 cm5 cm7 cm11" width="50"></span> M1 M5 M7 M11 CM1 CM5 CM7 CM11</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">88-6-26</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/88-6-26.png" alt="88-6-26"></span>
+<br>
+#2</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(2 2 2 2 2 2)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11-cm1-cm5-cm7-cm11.png" alt="m1 m5 m7 m11 cm1 cm5 cm7 cm11" width="50"></span> M1 M5 M7 M11 CM1 CM5 CM7 CM11</p></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="tableblock halign-left valign-middle"></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><em>4096 PCS</em></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><em>352 motifs</em></p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="paragraph">
+<p><em>352 CIS</em></p>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><em>13 distinct</em><br>
+<em>meta-stabilizers</em></p></td>
+</tr>
+</tfoot>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_2048_scales">2048 scales</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>88 &#8658; 352 &#8658; 2048</p>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="_pcs_revisited">PCS Revisited</h2>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_proposition_a_with_ipivot">Proposition A : With <em>iPivot</em></h3>
 <div class="paragraph">
-<p><a href="#_for_better_basic_operations">For better basic operations</a></p>
+<p><a href="#_pcs_with_pivot">PCS with pivot property</a></p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_proposition_b_with_mapping">Proposition B : With <em>mapping</em></h3>
 <div class="paragraph">
-<p><a href="#_for_better_projection">For better projection</a></p>
+<p><a href="#_for_better_projection">PCS for better projection</a></p>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_for_better_basic_operations">For better basic operations</h2>
+<h2 id="_pcs_with_pivot">PCS with pivot property</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>(or pivot property for better basic operations)</p>
+</div>
 <div class="paragraph">
 <p>As they stand, the generally accepted basic operations of musical set theory pose a logic problem that we raise here.</p>
 </div>
@@ -7013,7 +7184,7 @@ C#dim7 has same transformation types as Cdim7</p></td>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_for_better_projection">For better projection</h2>
+<h2 id="_for_better_projection">PCS for better projection</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>For now, let&#8217;s look at the configuration of the piano keyboard, over an octave.</p>
@@ -7412,13 +7583,25 @@ This is an array of natural numbers which summarize the pitch class intervals ap
 </dd>
 <dt class="hdlist1">Orbit</dt>
 <dd>
-<p>For a given pcs, if pcs come from a group action G, it is all images of pcs by action of G under pcs</p>
+<p>G⋅p : Set of pcs deducible from each other under the action of transformation operations of <em>G</em> under <em>p</em></p>
+<div class="paragraph">
+<p>For a given PCS <em>p</em>, if <em>p</em> come from a group action G, orbit of <em>p</em> is all images of <em>p</em> by action of G under <em>p</em></p>
+</div>
+<div class="paragraph">
+<p>Two pcs pcsA and pcsB are equivalent if and only if their orbits are the same, that is, G⋅pcsA = G⋅pcsB.</p>
+</div>
+<div class="paragraph">
+<p>Orbit is an equivalence class.</p>
+</div>
 </dd>
 <dt class="hdlist1">Cyclic Orbit</dt>
 <dd>
 <p>Orbit having a group G composed only of transposition operations.</p>
 <div class="paragraph">
 <p>G = {M1-T0, M1-T1, M1-T2,&#8230;&#8203;, M1-T11}</p>
+</div>
+<div class="paragraph">
+<p>It is the equivalence class "up to transposition"</p>
 </div>
 </dd>
 <dt class="hdlist1">Dihedral Orbit</dt>
@@ -7427,6 +7610,9 @@ This is an array of natural numbers which summarize the pitch class intervals ap
 <div class="paragraph">
 <p>G = {M1-T0, M1-T1, &#8230;&#8203;, M1-T11, M11-T0, M11-T1,&#8230;&#8203;, M11-T11,}</p>
 </div>
+<div class="paragraph">
+<p>It is the equivalence class "up to transposition and/od inversion"</p>
+</div>
 </dd>
 <dt class="hdlist1">Affine Orbit</dt>
 <dd>
@@ -7434,7 +7620,11 @@ This is an array of natural numbers which summarize the pitch class intervals ap
 <div class="paragraph">
 <p>G = {M1-T0, M1-T1,&#8230;&#8203;, M11-T0, M11-T1,&#8230;&#8203;, M5-T0,&#8230;&#8203;,M7-T11,}</p>
 </div>
+<div class="paragraph">
+<p>It is the equivalence class "up to transposition and/or inversion and/or M5 or M7 transformation"</p>
+</div>
 </dd>
+<dt class="hdlist1">Aff+Cplt Orbit</dt>
 <dt class="hdlist1">Musaic Orbit</dt>
 <dd>
 <p>Orbit having a group G composed only of transposition, inversions,  multiplication by 5 and 7 and complement operations (Affine operations + complement)</p>
@@ -7442,6 +7632,13 @@ This is an array of natural numbers which summarize the pitch class intervals ap
 <p>G = {M1-T0, M1-T1, M11-T1, M5-T1, M7-T1, CM1-T1, CM5-T1, CM7-T1, CM11-T1, &#8230;&#8203;}</p>
 </div>
 </dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>It is the equivalence class "up to affine and/or affine complement"</p>
+</div>
+<div class="dlist">
+<dl>
 <dt class="hdlist1">Cyclic Intervallic Structure (cis)</dt>
 <dd>
 <p>Is the Intervallic Structure up to circular shift. In other words, it is the <strong>structure of polygon inscribed</strong> by a pcs into chromatic circle (see <a href="#_clock_chromatic_circle">Clock / Chromatic circle</a>).</p>
@@ -8260,7 +8457,7 @@ Symmetry prime form concept is invented, specific to this project.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-05-03 19:36:33 +0200
+Last updated 2025-05-05 11:42:33 +0200
 </div>
 </div>
 <script type="text/x-mathjax-config">

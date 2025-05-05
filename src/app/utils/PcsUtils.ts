@@ -235,7 +235,7 @@ export class PcsUtils {
       // delete duplicate values
       const tempArr = res.split(separator)
       res = tempArr.filter((item, pos, self) => {
-        return self.indexOf(item) === pos
+        return self.indexOf(item) === pos  // indexOf return the first index that matches, ignore others elements
       }).join(separator)
     }
     return res
@@ -291,7 +291,7 @@ export class PcsUtils {
 
 
   /**
-   * get pivot that max symmetry -T0 for pcsSymmetry, from ops M5-T0, M7-T0, M11-T0 and cplt
+   * get pivot that max symmetry -T0 for pcsSymmetry, from ops M5-T0, M7-T0, M11-T0 and complement
    * @param pcs
    */
   static getPivotBestSymmetryInT0(pcs: IPcs) : number | undefined {
@@ -314,7 +314,7 @@ export class PcsUtils {
     let temPcs = pcs.cloneDetached()
     possiblePivots.forEach(pivot => {
       temPcs.setPivot(pivot) // controlled side effect (tempPcs is local)
-      // Get list of stabilizing operations in T0
+      // Get list of stabilizing operations in T0 (include complement operations)
       pivotAndTheirStabOperations.set(pivot, this.getMusaicStabOperationsInT0(temPcs))
     })
 
@@ -340,7 +340,7 @@ export class PcsUtils {
 
     // when choice, pcs.iPivot is preferred because by default
     // pcs.iPivot is the first PC, then its IntervStruct is not shifted
-    // Ex : symmetryPrimeForme of [0 1 5 6] => [2 3 9 10] 2  (and not [2 3 9 10] 10)
+    // Ex : symmetryPrimeForm of [0 1 5 6] => [2 3 9 10] 2  (and not [2 3 9 10] 10)
     if (pcs.iPivot // not "empty pcs"
       && sortedPivotsOnStabMx.has(pcs.iPivot) // exists as pivot stab ?
       && sortedPivotsOnStabMx.get(pcs.iPivot) === sortedPivotsOnStabMx.get(firstPivotMaxStab)) // same stab in T0
@@ -405,7 +405,8 @@ static isSecondOrderMaximalEven(pcs : IPcs) : boolean {
 /**
    * == Experimental ==
    * "Strict" Second Order Maximal Evenness
-   * From definition of Maximal Evenness in book "Foundations of Diatonic Theory", Timothy A. Johnson, 2003, Key College Publishing
+   * From definition of Maximal Evenness in book
+   * "Foundations of Diatonic Theory", Timothy A. Johnson, 2003, Key College Publishing
    * extended to 3 consecutive c-distances
    *
    * @param pcs
@@ -459,6 +460,11 @@ static isSecondOrderMaximalEven(pcs : IPcs) : boolean {
   }
 
 
+  /**
+   * Get affine images of a PCS
+   * @param pcs
+   * @param distinct
+   */
   static getAffineMotifsOf(pcs: IPcs, distinct : boolean = false) : IPcs[] {
     let motifRepresentatives : IPcs[] = [pcs]
     const aMultiplicative = [5,7,11]
@@ -471,6 +477,11 @@ static isSecondOrderMaximalEven(pcs : IPcs) : boolean {
     return motifRepresentatives
   }
 
+  /**
+   * Get Musaic images of a PCS
+   * @param pcs
+   * @param distinct
+   */
   static getMusaicMotifsOf(pcs: IPcs, distinct : boolean = false) : IPcs[] {
     const motifRepresentatives: IPcs[] =
       [...this.getAffineMotifsOf(pcs, distinct), ...this.getAffineMotifsOf(pcs.complement(), distinct)]
