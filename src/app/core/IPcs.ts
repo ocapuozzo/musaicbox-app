@@ -722,14 +722,15 @@ export class IPcs {
    * For PCS NOT LT (LT = limited transposition), it's this.cardinal, but this observation
    * hides a more complex formula which is : this.cardinal divided by n/orbitCyclic.cardinal
    *
-   * As for PCS NOT LT, n/orbitCyclic.cardinal == 1, so it is this.cardinal
+   * As for majority PCS NOT LT, n/orbitCyclic.cardinal == 1, so it is this.cardinal
    *
    * Examples :
    * <pre>
+   * { 0, 4, 7} => 3 (PCS NOT LT, orbit cyclic card = 12, so 3 /(12/12) = 3)
    * { 0, 3, 6, 9} => 1 (PCS is LT, orbit cyclic card = 3, so 4 /(12/3) = 1)
    * { 0, 4, 8}    => 1 (PCS is LT, orbit cyclic card = 4, so 3 /(12/4) = 1)
    * { 0, 1, 6, 7} => 2 (PCS is LT, orbit cyclic card = 6, so 4 /(12/6) = 2)
-   * { 0, 1, 2, 3} => 4 (PCS NOT is LT => orbit cyclic card = 12, so 4 /(12/12) = 4)
+   * { 0, 1, 2, 3} => 4 (PCS NOT LT => orbit cyclic card = 12, so 4 /(12/12) = 4)
    * </pre>
    * @return {number}
    */
@@ -744,7 +745,7 @@ export class IPcs {
     }
 
     // because groupAction Cyclic is always set
-    // and cardinal orbit always divise n (Lagrange's theorem)
+    // and cardinal orbit always divides n (Lagrange's theorem)
     // return this.cardinal / (this.n / this.cyclicPrimeForm().orbit.cardinal)
     // implementation avoid two divisions
     return this._cardModesOrbits = (this.cardinal * this.cyclicPrimeForm().orbit.cardinal) / this.n

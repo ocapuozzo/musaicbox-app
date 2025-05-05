@@ -127,12 +127,12 @@ export class HtmlUtil {
     let selectedElements: TSelectElementExport[] = []
 
     function getFileName(elt: HTMLElement, index :number) {
-      let fileName = elt.getAttribute("ng-reflect-message") ?? `pcs-component-${index + 1}`;
+      let fileName = "pcs-" + (elt.getAttribute("data-message") ?? `component-${index + 1}`);
       // console.log(`fileName = ${fileName}`)
       // remove spaces and ( ) [ ]
       fileName = fileName.replace(/[\])}[{(\s+]/g, '');
       if (musaicName) {
-        const pcsName = fileName.split('-')[0]
+        const pcsName = fileName.split('-')[1]
         const pcs = new IPcs({strPcs:pcsName})
         fileName = EightyEight.idNumberOf(pcs)
       }
@@ -176,7 +176,7 @@ export class HtmlUtil {
       link.click();
 
       // Optional: pause briefly to avoid overlapping downloads
-      await this.sleep(100);
+      await this.sleep(200);
     }
   }
 

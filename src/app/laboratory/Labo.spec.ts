@@ -444,7 +444,8 @@ describe('Laboratory explorer', () => {
 
     expect(groupMusaic.orbits.length).toEqual(88)
 
-    // do paste as plain text (idea editor) for preserve space before '+' character
+    // after copy result on terminal, do paste as plain text (idea editor)
+    // into Musaicbox.adoc, for preserve space before '+' character
 
     console.log(" 88 musaics and distinct motifs : ")
     let countMotifs = 0

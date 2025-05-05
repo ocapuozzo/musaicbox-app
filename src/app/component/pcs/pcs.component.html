@@ -10,23 +10,26 @@
   <div #canvas id="paper-{{randomId}}"
        [matTooltipDisabled]="pcsDto.showPcs"
        matTooltip="pcs : {{pcsDto.pcs.getPcsStr()}}"
-       [ngClass]="{'e-selected': pcsDto.isSelected}">
+       [attr.data-message]="pcsDto.pcs.getPcsStr()"
+       [ngClass]="{'e-selected': pcsDto.isSelected}"
+  >
   </div>
 } @else if (pcsDto.indexFormDrawer === UIPcsDto.MUSAIC) {
   <canvas #canvas
           [@musaicTransformation]='pcsDto.currentCSSAnimationTransformationState'
           [matTooltipDisabled]="pcsDto.showPcs"
           matTooltip="pcs : {{pcsDto.pcs.getPcsStr()}}"
+          [attr.data-message]="pcsDto.pcs.getPcsStr()"
           [ngClass]="{
-        'rounded-musaic': pcsDto.indexFormDrawer === UIPcsDto.MUSAIC ,
+        'rounded-musaic': pcsDto.indexFormDrawer === UIPcsDto.MUSAIC,
         'e-selected': pcsDto.isSelected
        }">
-
   </canvas>
 } @else {
   <canvas #canvas
           [matTooltipDisabled]="pcsDto.showPcs"
           matTooltip="pcs : {{pcsDto.pcs.getPcsStr()}}"
+          [attr.data-message]="pcsDto.pcs.getPcsStr()"
           [ngClass]="{
         'e-selected': pcsDto.isSelected
        }">
