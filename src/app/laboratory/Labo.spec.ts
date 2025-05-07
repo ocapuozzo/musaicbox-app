@@ -319,7 +319,7 @@ describe('Laboratory explorer', () => {
       return cpt2successive > 0 || cpt1successive > 0
     })
     res.forEach(orbit =>
-      console.log(orbit.getPcsMin().is() + " Mus n° " + EightyEight.idNumberOf(orbit.getPcsMin())))
+      console.log(orbit.getPcsMin().is() + " Mus n° " + EightyEight.idMusaicOf(orbit.getPcsMin())))
     expect(res.length).toEqual(3)
   })
 
@@ -336,7 +336,7 @@ describe('Laboratory explorer', () => {
     const pcsSameFeatureIS: IPcs[] = majScale.getPcsSameGenericIntervals().filter(pcs => pcs.cardinal > 4)
     expect(pcsSameFeatureIS.length).toEqual(29) // 30 - chromatic scale
 
-    let pcsList: [IPcs, string][] = pcsSameFeatureIS.map(pcs => [pcs, EightyEight.idNumberOf(pcs)])
+    let pcsList: [IPcs, string][] = pcsSameFeatureIS.map(pcs => [pcs, EightyEight.idMusaicOf(pcs)])
     const pcsSorted = pcsList.sort((a, b) => EightyEight.indexMusaic(a[1]) - EightyEight.indexMusaic(b[1]))
 
     let numberMusaics = new Set(pcsSorted.map(p => p[1])).size
@@ -345,7 +345,7 @@ describe('Laboratory explorer', () => {
       console.log(`(${pcsSorted[0].is().toString().padEnd(22)}) pcs : ${pcsSorted[0].getPcsStr()} in Mus n° ${pcsSorted[1]} : ${pcsSorted[0].getFirstNameDetail()}`))
 
     const pcsHavingCardinalIn5678 = pcsSameFeatureIS.filter(pcs => [5, 6, 7, 8].includes(pcs.cardinal))
-    numberMusaics = new Set(pcsHavingCardinalIn5678.map(pcs => EightyEight.idNumberOf(pcs))).size
+    numberMusaics = new Set(pcsHavingCardinalIn5678.map(pcs => EightyEight.idMusaicOf(pcs))).size
     console.log("PCS having same intervals that Major Scale and cardinal in [5..8] (" + pcsHavingCardinalIn5678.length + ") for " + numberMusaics + " musaics")
     pcsSorted
       .filter(element => [5, 6, 7, 8].includes(element[0].cardinal))
@@ -364,7 +364,7 @@ describe('Laboratory explorer', () => {
     expect(pcsHavingDeepScale.length).toBeGreaterThan(0)
     console.log(" pcsHavingDeepScale : ", pcsHavingDeepScale.length)
 
-    let pcsList: [IPcs, string][] = pcsHavingDeepScale.map(orbit => [orbit.getPcsMin(), EightyEight.idNumberOf(orbit.getPcsMin())])
+    let pcsList: [IPcs, string][] = pcsHavingDeepScale.map(orbit => [orbit.getPcsMin(), EightyEight.idMusaicOf(orbit.getPcsMin())])
     const pcsSorted = pcsList.sort((a, b) => EightyEight.indexMusaic(a[1]) - EightyEight.indexMusaic(b[1]))
 
     pcsSorted.forEach(pcsSorted =>
@@ -382,7 +382,7 @@ describe('Laboratory explorer', () => {
     expect(pcsInMaxEven.length).toEqual(11)
     console.log(" cyclic orbit in Maximal Evenness : ", pcsInMaxEven.length)
 
-    let pcsList: [IPcs, string][] = pcsInMaxEven.map(orbit => [orbit.getPcsMin(), EightyEight.idNumberOf(orbit.getPcsMin())])
+    let pcsList: [IPcs, string][] = pcsInMaxEven.map(orbit => [orbit.getPcsMin(), EightyEight.idMusaicOf(orbit.getPcsMin())])
     const pcsSorted = pcsList.sort((a, b) => EightyEight.indexMusaic(a[1]) - EightyEight.indexMusaic(b[1]))
 
     pcsSorted.forEach(pcsSorted =>
@@ -400,7 +400,7 @@ describe('Laboratory explorer', () => {
     console.log(" cyclic orbit in Second Order Maximal Evenness : ", pcsInSecondOrderMaxEven.length)
 
     let pcsList: [IPcs, string][] =
-      pcsInSecondOrderMaxEven.map(orbit => [orbit.getPcsMin(), EightyEight.idNumberOf(orbit.getPcsMin())])
+      pcsInSecondOrderMaxEven.map(orbit => [orbit.getPcsMin(), EightyEight.idMusaicOf(orbit.getPcsMin())])
 
     const pcsSorted = pcsList.sort((a, b) => EightyEight.indexMusaic(a[1]) - EightyEight.indexMusaic(b[1]))
 
@@ -433,7 +433,7 @@ describe('Laboratory explorer', () => {
     expect(pcsInDeepScale.length).toEqual(4)
     console.log(" cyclic orbit in Deep Scale : ", pcsInDeepScale.length)
     pcsInDeepScale.forEach(orbit => {
-      console.log(` IS : ${orbit.getPcsMin().is()}  cyclic pcs PF : ${orbit.getPcsMin().getPcsStr()} in Mus n° ${EightyEight.idNumberOf(orbit.getPcsMin())} : ${orbit.getPcsMin().symmetryPrimeForm().getNamesDetails()} `)
+      console.log(` IS : ${orbit.getPcsMin().is()}  cyclic pcs PF : ${orbit.getPcsMin().getPcsStr()} in Mus n° ${EightyEight.idMusaicOf(orbit.getPcsMin())} : ${orbit.getPcsMin().symmetryPrimeForm().getNamesDetails()} `)
     })
 
   })
@@ -462,7 +462,7 @@ describe('Laboratory explorer', () => {
       } else {
         currentMusaicCardIndex++
       }
-      const idMus = EightyEight.idNumberOf(orbit.getPcsMin())
+      const idMus = EightyEight.idMusaicOf(orbit.getPcsMin())
       const octotrope = orbit.metaStabilizer.name.toLowerCase().split(' ').join('-')
       const imageOctotrope = ` image:octotropes/${octotrope}.png[width=50]` //  image:octotropes/m1-m5-m7-m11.png[] asciidoc
       console.log(` \n|${idMus}\n|image:88musaics/${idMus}.png[${idMus}]\n +\n#${orbit.cardinal}\n| ${countDistinctMotifs} \n|${motifsEnum}\n| ${imageOctotrope} ${orbit.metaStabilizer.name} `)

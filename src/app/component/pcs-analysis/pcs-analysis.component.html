@@ -252,8 +252,8 @@
         <hr>
         <div class="row">
           @for (pcsRepr of data.primeFormWithSameMetaStabilizer; track pcsRepr.id) {
-            <div class="boxPcs" style="max-width: 60px; margin-left: 10px; text-align: center;">
-              <span class="text-center label-pcs">{{EightyEight.idNumberOf(pcsRepr)}}</span>
+            <div class="boxPcs" style="max-width: 80px; margin-left: 10px; margin-bottom: 10px; text-align: center;">
+              <span class="text-center label-pcs">{{EightyEight.idMusaicOf(pcsRepr)}}</span>
               <app-musaic
                 [w]="54"
                 [ipcs]="pcsRepr"
@@ -264,7 +264,7 @@
                 style="cursor: pointer"
               >
               </app-musaic>
-              <span class="text-center label-pcs">#{{ pcsRepr.orbit.cardinal }}</span>
+<!--              <span class="text-center label-pcs">#{{ pcsRepr.orbit.cardinal }}</span>-->
             </div>
           }
         </div>

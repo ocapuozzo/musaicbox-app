@@ -22,7 +22,7 @@
     @for (orbit of orbitsGroup?.orbits; track orbit.getPcsMin().id) {
       @if (viewMusaic) {
         <div class="boxPcs" style="width: 60px; "
-             matTooltip="Musaic ref: {{EightyEight.idNumberOf(orbit.getPcsMin())}}">
+             matTooltip="Musaic ref: {{EightyEight.idMusaicOf(orbit.getPcsMin())}}">
           <app-musaic
             [w]="52"
             [ipcs]="orbit.getPcsMin()"
@@ -35,7 +35,7 @@
         </div>
       } @else {
         <div class="boxPcs"
-             matTooltip="{{orbit.getPcsMin().n == 12 ? 'Musaic ref: ' + EightyEight.idNumberOf(orbit.getPcsMin()): ''}}">
+             matTooltip="{{orbit.getPcsMin().n == 12 ? 'Musaic ref: ' + EightyEight.idMusaicOf(orbit.getPcsMin()): ''}}">
           <app-clock
             [w]="60"
             [ipcs]="orbit.getPcsMin()"

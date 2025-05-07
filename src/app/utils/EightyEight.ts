@@ -12,21 +12,25 @@ export class EightyEight {
 
   /**
    * Get id of musaic, which is based on
+   * - M prefix
    * - the index of this orbit into group88.orbits
    * - cardinal of orbit.min
-   * - index of orbit.min relative to others orbit.mins with same cardinal
+   * - index of orbit relative to others orbits having same cardinal of their orbit.min
+   * - #number of distinct isc (motifs)
+   * (- number of pcs into orbit - deduce from number of isc)
    *
-   * Example: 1-2-1 => musaic 1, last 1 is the position of musaic/orbit relative to orbits of cardinal 2
+   * Example: M10-3-3-#8 => musaic 10, card 3/9, 3rd among same card musaics, 8 isc and 96 pcs into orbit
    *
    * @param pcs
    */
-  static idNumberOf(pcs : IPcs) : string {
-    let currentMusaicCard = 1
-    let currentMusaicCardIndex = 1
+  static idMusaicOf(pcs : IPcs) : string {
     if (pcs.n !== 12) {
       pcs = new IPcs({strPcs:pcs.getMappedPcsStr()})
     }
     const group88 = ManagerGroupActionService.getGroupActionFromGroupAliasName("Musaic")!
+    let currentMusaicCard = 1
+    let currentMusaicCardIndex = 1
+
     for (let i = 0; i < group88.orbits.length; i++) {
       const orbit = group88.orbits[i]
       if (orbit.getPcsMin().cardinal !== currentMusaicCard) {
@@ -35,8 +39,9 @@ export class EightyEight {
       } else {
         currentMusaicCardIndex++
       }
-      if (group88.orbits[i].has(pcs)) {
-        return `${i+1}-${currentMusaicCard}-${currentMusaicCardIndex}`
+      if (orbit.has(pcs)) {
+        const countDistinctMotifs = 8 / orbit.metaStabilizer.metaStabOperations.length
+        return `M${i+1}-${currentMusaicCard}-${currentMusaicCardIndex}-${countDistinctMotifs}-${orbit.cardinal}`
       }
     }
     throw new Error('Invalid PCS ! (' + pcs.toString() + ')')
@@ -49,7 +54,7 @@ export class EightyEight {
    */
   static getMusaic(pcs : IPcs): IPcs {
     const group88 = ManagerGroupActionService.getGroupActionFromGroupAliasName("Musaic")!
-    const idxMusaic = this.indexMusaic(EightyEight.idNumberOf(pcs))
+    const idxMusaic = this.indexMusaic(EightyEight.idMusaicOf(pcs))
     return group88.orbits[idxMusaic -1].getPcsMin()
   }
 

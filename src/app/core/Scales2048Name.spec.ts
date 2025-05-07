@@ -63,7 +63,7 @@ describe('test getFirstScaleName from 2048pcs.json', () => {
       Array.from(isDict, ([isValue, pcsValue]) => ({
         is: isValue,
         pcs: pcsValue,
-        id88: EightyEight.idNumberOf(new IPcs({strPcs: pcsValue})),
+        id88: EightyEight.idMusaicOf(new IPcs({strPcs: pcsValue})),
         sources: [
           {
             "name": '',

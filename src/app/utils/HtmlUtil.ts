@@ -134,7 +134,7 @@ export class HtmlUtil {
       if (musaicName) {
         const pcsName = fileName.split('-')[1]
         const pcs = new IPcs({strPcs:pcsName})
-        fileName = EightyEight.idNumberOf(pcs)
+        fileName = EightyEight.idMusaicOf(pcs)
       }
       return fileName;
     }

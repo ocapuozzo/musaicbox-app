@@ -493,7 +493,7 @@ td:has(>p>span[class="klein2"]) {
           table.querySelectorAll('tbody tr').forEach((line, index_line) => {
             // Value of each field
             let key = line.children[element.cellIndex].textContent.toUpperCase().trim();
-            if (key.startsWith('M') && !metaStabilizer ) metaStabilizer = true;
+            if (key === 'M1' || key.startsWith('M1 ')  && !metaStabilizer ) metaStabilizer = true;
 // console.log('key ', key)
             // Check if value is date, numeric or string
             if (line.children[element.cellIndex].hasAttribute('data-timestamp')) {
@@ -522,7 +522,6 @@ td:has(>p>span[class="klein2"]) {
                 // change 11 by 9 for "natural sort"
                 // o1 :  M1 M5 M7 M11 CM1 CM5 CM7 CM11-----86 => M1 M5 M7 M9 CM1 CM5 CM7 CM9
                 // console.log('o1 : ', o1, 'o2 : ', o2)
-
                 // first on length because synchro with nb motifs
                 const lenCompare = o1.length - o2.length;
                 // then on meta-stabilizer name
@@ -535,10 +534,12 @@ td:has(>p>span[class="klein2"]) {
               obj_key.sort(function (a, b) {
                 let ka = a.split(separator)[0];
                 let kb = b.split(separator)[0];
-                // id musaic ? then sort on numero, example: 88-6-26 (sort only with numero 88)
-                if (ka.split('-').length === 3) {
-                  ka = parseInt(ka.split('-')[0])
-                  kb = parseInt(kb.split('-')[0])
+                const idParts = ka.split('-')
+                console.log('BEFORE ka : ', ka, 'kb : ', kb)
+                // id musaic ? then sort on numero, example: M88-6-26-1-2 (sort only with numero 88)
+                if (idParts.length === 5) {
+                  ka = parseInt(idParts[0].substring(1)) // skip M (M88 => 88)
+                  kb = parseInt(kb.split('-')[0].substring(1))
                   return ka - kb;
                 }
                 return ka.localeCompare(kb);
@@ -896,7 +897,7 @@ td:has(>p>span[class="klein2"]) {
 <p>Any intervallic structure defined within an octave prints a pattern on the matrix, and thereby reveals a musical structure that we call <a href="#Musaic-Motif">[Musaic-Motif]</a>.</p>
 </div>
 <div class="paragraph">
-<p>Since a musaic can be viewed from several angles, it is said to have multiple faces, it can carry up to 8 different musaic-motifs and therefore cyclic intervallic structures. There are 88 musaics in total for 352 cyclic intervallic vectors.</p>
+<p>Since a musaic can be viewed from several angles, it is said to have multiple faces, it can carry up to 8 different musaic-motifs and therefore intervallic structure classes. There are 88 musaics in total for 352 intervallic structure classes.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -1607,7 +1608,7 @@ As each pcs into the 4096 is unique, each of these pcs has a unique integer valu
 </div>
 </div>
 <div class="paragraph">
-<p>Polygon inscribed into circle denote the cyclic intervallic structure of the PCS.</p>
+<p>Polygon inscribed into circle denote an intervallic structure class.</p>
 </div>
 <div class="paragraph">
 <p>Other example, a minor 7 and its <strong>intervallic structure</strong> (3, 4, 3, 2) :</p>
@@ -4226,6 +4227,53 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <div class="paragraph">
 <p>List of 88 Aff+Cplt orbits (naming musaics) generating of <em>P(Z<sub>12</sub>)</em></p>
 </div>
+<div class="paragraph">
+<p>ID is composed of five parts:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>M prefix</p>
+</li>
+<li>
+<p>Orbit index, among the 88, based on the <em>id</em> value of the minimum pcs of the orbit</p>
+</li>
+<li>
+<p>The cardinality of the minimal element of the orbit</p>
+</li>
+<li>
+<p>Index of orbit relative to other orbits having same cardinality of their minimum pcs</p>
+</li>
+<li>
+<p>number of distinct isc (motifs)</p>
+</li>
+<li>
+<p>number of pcs into orbits</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>M1-0-1-2-2</code> is first musaic orbit (first 1), cardinality zero/12, first of this group (composed of one element), has 2 isc and 2 pcs into orbit (empty and chromatic scale)</p>
+</li>
+<li>
+<p><code>M88-6-26-1</code> is the last musaic orbit (88), cardinality 6, 26th of its group (composed of 26 elements) and only one isc (whole tone pcs)</p>
+</li>
+<li>
+<p><code>M10-3-3-8</code> is musaic 10, cardinality 3/9, 3rd among same card musaics, 8 isc (and 96 pcs into orbit)</p>
+</li>
+<li>
+<p><code>M61-5-24-2</code> is 65th musaic orbit, cardinality 5/7, 24th of this group of cardinality and has 2 isc</p>
+</li>
+<li>
+<p><code>M7-2-5-2</code> is 7th musaic orbit, cardinality 2/10, 2d of this group of cardinality and has 2 isc (and 12 pcs into orbit, not 24)</p>
+</li>
+</ul>
+</div>
 <table id="idTable88" class="tableblock frame-all grid-all fit-content">
 <colgroup>
 <col>
@@ -4236,17 +4284,17 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-middle">N° <span class="head">&uarr;</span></th>
+<th class="tableblock halign-left valign-middle">ID <span class="head">&uarr;</span></th>
 <th class="tableblock halign-center valign-middle">Musaic orbit</th>
 <th class="tableblock halign-left valign-middle">Motifs</th>
-<th class="tableblock halign-left valign-middle">Cyclic Intervallic Structure</th>
+<th class="tableblock halign-left valign-middle">Intervallic Structure Class</th>
 <th class="tableblock halign-left valign-middle">Meta-Stabilizer <span class="head">&uarr;</span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">1-0-1</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/1-0-1.png" alt="1-0-1"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M1-0-1-2-2</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M1-0-1-2-2.png" alt="M1-0-1-2-2"></span>
 <br>
 #2</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
@@ -4263,8 +4311,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">2-1-1</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/2-1-1.png" alt="2-1-1"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M2-1-1-2-24</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M2-1-1-2-24.png" alt="M2-1-1-2-24"></span>
 <br>
 #24</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
@@ -4281,8 +4329,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">3-2-1</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/3-2-1.png" alt="3-2-1"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M3-2-1-4-48</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M3-2-1-4-48.png" alt="M3-2-1-4-48"></span>
 <br>
 #48</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
@@ -4305,8 +4353,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">4-2-2</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/4-2-2.png" alt="4-2-2"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M4-2-2-2-24</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M4-2-2-2-24.png" alt="M4-2-2-2-24"></span>
 <br>
 #24</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
@@ -4323,8 +4371,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">5-2-3</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/5-2-3.png" alt="5-2-3"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M5-2-3-2-24</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M5-2-3-2-24.png" alt="M5-2-3-2-24"></span>
 <br>
 #24</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
@@ -4341,8 +4389,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">6-2-4</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/6-2-4.png" alt="6-2-4"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M6-2-4-2-24</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M6-2-4-2-24.png" alt="M6-2-4-2-24"></span>
 <br>
 #24</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
@@ -4359,8 +4407,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">7-2-5</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/7-2-5.png" alt="7-2-5"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M7-2-5-2-12</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M7-2-5-2-12.png" alt="M7-2-5-2-12"></span>
 <br>
 #12</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
@@ -4377,8 +4425,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">8-3-1</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/8-3-1.png" alt="8-3-1"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M8-3-1-4-48</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M8-3-1-4-48.png" alt="M8-3-1-4-48"></span>
 <br>
 #48</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
@@ -4401,8 +4449,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">9-3-2</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/9-3-2.png" alt="9-3-2"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M9-3-2-8-96</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M9-3-2-8-96.png" alt="M9-3-2-8-96"></span>
 <br>
 #96</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
@@ -4437,8 +4485,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">10-3-3</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/10-3-3.png" alt="10-3-3"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M10-3-3-8-96</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M10-3-3-8-96.png" alt="M10-3-3-8-96"></span>
 <br>
 #96</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
@@ -4473,8 +4521,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">11-3-4</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/11-3-4.png" alt="11-3-4"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M11-3-4-2-24</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M11-3-4-2-24.png" alt="M11-3-4-2-24"></span>
 <br>
 #24</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
@@ -4491,8 +4539,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">12-3-5</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/12-3-5.png" alt="12-3-5"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M12-3-5-4-48</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M12-3-5-4-48.png" alt="M12-3-5-4-48"></span>
 <br>
 #48</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
@@ -4515,8 +4563,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5.png" alt="m1 m5" width="50"></span> M1 M5</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">13-3-6</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/13-3-6.png" alt="13-3-6"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M13-3-6-4-48</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M13-3-6-4-48.png" alt="M13-3-6-4-48"></span>
 <br>
 #48</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
@@ -4539,8 +4587,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">14-3-7</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/14-3-7.png" alt="14-3-7"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M14-3-7-4-48</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M14-3-7-4-48.png" alt="M14-3-7-4-48"></span>
 <br>
 #48</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
@@ -4563,8 +4611,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">15-3-8</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/15-3-8.png" alt="15-3-8"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M15-3-8-2-24</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M15-3-8-2-24.png" alt="M15-3-8-2-24"></span>
 <br>
 #24</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
@@ -4581,8 +4629,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">16-3-9</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/16-3-9.png" alt="16-3-9"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M16-3-9-2-8</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M16-3-9-2-8.png" alt="M16-3-9-2-8"></span>
 <br>
 #8</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
@@ -4599,8 +4647,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">17-4-1</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/17-4-1.png" alt="17-4-1"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M17-4-1-4-48</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M17-4-1-4-48.png" alt="M17-4-1-4-48"></span>
 <br>
 #48</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
@@ -4623,8 +4671,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">18-4-2</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/18-4-2.png" alt="18-4-2"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M18-4-2-8-96</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M18-4-2-8-96.png" alt="M18-4-2-8-96"></span>
 <br>
 #96</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
@@ -4659,8 +4707,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">19-4-3</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/19-4-3.png" alt="19-4-3"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M19-4-3-4-48</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M19-4-3-4-48.png" alt="M19-4-3-4-48"></span>
 <br>
 #48</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
@@ -4683,8 +4731,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">20-4-4</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/20-4-4.png" alt="20-4-4"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M20-4-4-8-96</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M20-4-4-8-96.png" alt="M20-4-4-8-96"></span>
 <br>
 #96</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
@@ -4719,8 +4767,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">21-4-5</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/21-4-5.png" alt="21-4-5"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M21-4-5-4-48</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M21-4-5-4-48.png" alt="M21-4-5-4-48"></span>
 <br>
 #48</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
@@ -4743,8 +4791,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5.png" alt="m1 m5" width="50"></span> M1 M5</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">22-4-6</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/22-4-6.png" alt="22-4-6"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M22-4-6-2-24</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M22-4-6-2-24.png" alt="M22-4-6-2-24"></span>
 <br>
 #24</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
@@ -4761,8 +4809,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">23-4-7</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/23-4-7.png" alt="23-4-7"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M23-4-7-4-48</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M23-4-7-4-48.png" alt="M23-4-7-4-48"></span>
 <br>
 #48</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
@@ -4785,8 +4833,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">24-4-8</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/24-4-8.png" alt="24-4-8"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M24-4-8-8-96</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M24-4-8-8-96.png" alt="M24-4-8-8-96"></span>
 <br>
 #96</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
@@ -4821,8 +4869,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">25-4-9</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/25-4-9.png" alt="25-4-9"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M25-4-9-4-48</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M25-4-9-4-48.png" alt="M25-4-9-4-48"></span>
 <br>
 #48</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
@@ -4845,8 +4893,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">26-4-10</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/26-4-10.png" alt="26-4-10"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M26-4-10-8-96</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M26-4-10-8-96.png" alt="M26-4-10-8-96"></span>
 <br>
 #96</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
@@ -4881,8 +4929,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">27-4-11</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/27-4-11.png" alt="27-4-11"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M27-4-11-8-96</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M27-4-11-8-96.png" alt="M27-4-11-8-96"></span>
 <br>
 #96</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
@@ -4917,8 +4965,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">28-4-12</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/28-4-12.png" alt="28-4-12"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M28-4-12-2-24</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M28-4-12-2-24.png" alt="M28-4-12-2-24"></span>
 <br>
 #24</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
@@ -4935,8 +4983,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">29-4-13</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/29-4-13.png" alt="29-4-13"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M29-4-13-2-24</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M29-4-13-2-24.png" alt="M29-4-13-2-24"></span>
 <br>
 #24</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
@@ -4953,8 +5001,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">30-4-14</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/30-4-14.png" alt="30-4-14"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M30-4-14-2-24</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M30-4-14-2-24.png" alt="M30-4-14-2-24"></span>
 <br>
 #24</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
@@ -4971,8 +5019,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">31-4-15</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/31-4-15.png" alt="31-4-15"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M31-4-15-4-48</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M31-4-15-4-48.png" alt="M31-4-15-4-48"></span>
 <br>
 #48</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
@@ -4995,8 +5043,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">32-4-16</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/32-4-16.png" alt="32-4-16"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M32-4-16-2-24</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M32-4-16-2-24.png" alt="M32-4-16-2-24"></span>
 <br>
 #24</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
@@ -5013,8 +5061,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">33-4-17</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/33-4-17.png" alt="33-4-17"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M33-4-17-2-12</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M33-4-17-2-12.png" alt="M33-4-17-2-12"></span>
 <br>
 #12</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
@@ -5031,8 +5079,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">34-4-18</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/34-4-18.png" alt="34-4-18"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M34-4-18-4-48</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M34-4-18-4-48.png" alt="M34-4-18-4-48"></span>
 <br>
 #48</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
@@ -5055,8 +5103,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5.png" alt="m1 m5" width="50"></span> M1 M5</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">35-4-19</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/35-4-19.png" alt="35-4-19"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M35-4-19-2-24</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M35-4-19-2-24.png" alt="M35-4-19-2-24"></span>
 <br>
 #24</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
@@ -5073,8 +5121,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">36-4-20</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/36-4-20.png" alt="36-4-20"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M36-4-20-2-12</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M36-4-20-2-12.png" alt="M36-4-20-2-12"></span>
 <br>
 #12</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
@@ -5091,8 +5139,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">37-4-21</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/37-4-21.png" alt="37-4-21"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M37-4-21-2-6</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M37-4-21-2-6.png" alt="M37-4-21-2-6"></span>
 <br>
 #6</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
@@ -5109,8 +5157,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">38-5-1</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/38-5-1.png" alt="38-5-1"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M38-5-1-4-48</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M38-5-1-4-48.png" alt="M38-5-1-4-48"></span>
 <br>
 #48</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
@@ -5133,8 +5181,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">39-5-2</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/39-5-2.png" alt="39-5-2"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M39-5-2-8-96</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M39-5-2-8-96.png" alt="M39-5-2-8-96"></span>
 <br>
 #96</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
@@ -5169,8 +5217,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">40-5-3</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/40-5-3.png" alt="40-5-3"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M40-5-3-8-96</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M40-5-3-8-96.png" alt="M40-5-3-8-96"></span>
 <br>
 #96</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
@@ -5205,8 +5253,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">41-5-4</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/41-5-4.png" alt="41-5-4"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M41-5-4-8-96</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M41-5-4-8-96.png" alt="M41-5-4-8-96"></span>
 <br>
 #96</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
@@ -5241,8 +5289,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">42-5-5</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/42-5-5.png" alt="42-5-5"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M42-5-5-8-96</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M42-5-5-8-96.png" alt="M42-5-5-8-96"></span>
 <br>
 #96</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
@@ -5277,8 +5325,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">43-5-6</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/43-5-6.png" alt="43-5-6"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M43-5-6-8-96</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M43-5-6-8-96.png" alt="M43-5-6-8-96"></span>
 <br>
 #96</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
@@ -5313,8 +5361,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">44-5-7</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/44-5-7.png" alt="44-5-7"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M44-5-7-4-48</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M44-5-7-4-48.png" alt="M44-5-7-4-48"></span>
 <br>
 #48</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
@@ -5337,8 +5385,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">45-5-8</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/45-5-8.png" alt="45-5-8"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M45-5-8-8-96</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M45-5-8-8-96.png" alt="M45-5-8-8-96"></span>
 <br>
 #96</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
@@ -5373,8 +5421,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">46-5-9</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/46-5-9.png" alt="46-5-9"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M46-5-9-2-24</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M46-5-9-2-24.png" alt="M46-5-9-2-24"></span>
 <br>
 #24</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
@@ -5391,8 +5439,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">47-5-10</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/47-5-10.png" alt="47-5-10"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M47-5-10-8-96</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M47-5-10-8-96.png" alt="M47-5-10-8-96"></span>
 <br>
 #96</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
@@ -5427,8 +5475,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">48-5-11</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/48-5-11.png" alt="48-5-11"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M48-5-11-4-48</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M48-5-11-4-48.png" alt="M48-5-11-4-48"></span>
 <br>
 #48</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
@@ -5451,8 +5499,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">49-5-12</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/49-5-12.png" alt="49-5-12"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M49-5-12-8-96</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M49-5-12-8-96.png" alt="M49-5-12-8-96"></span>
 <br>
 #96</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
@@ -5487,8 +5535,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">50-5-13</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/50-5-13.png" alt="50-5-13"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M50-5-13-4-48</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M50-5-13-4-48.png" alt="M50-5-13-4-48"></span>
 <br>
 #48</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
@@ -5511,8 +5559,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5.png" alt="m1 m5" width="50"></span> M1 M5</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">51-5-14</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/51-5-14.png" alt="51-5-14"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M51-5-14-8-96</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M51-5-14-8-96.png" alt="M51-5-14-8-96"></span>
 <br>
 #96</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
@@ -5547,8 +5595,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">52-5-15</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/52-5-15.png" alt="52-5-15"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M52-5-15-4-48</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M52-5-15-4-48.png" alt="M52-5-15-4-48"></span>
 <br>
 #48</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
@@ -5571,8 +5619,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">53-5-16</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/53-5-16.png" alt="53-5-16"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M53-5-16-4-48</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M53-5-16-4-48.png" alt="M53-5-16-4-48"></span>
 <br>
 #48</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
@@ -5595,8 +5643,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">54-5-17</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/54-5-17.png" alt="54-5-17"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M54-5-17-8-96</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M54-5-17-8-96.png" alt="M54-5-17-8-96"></span>
 <br>
 #96</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
@@ -5631,8 +5679,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">55-5-18</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/55-5-18.png" alt="55-5-18"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M55-5-18-4-48</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M55-5-18-4-48.png" alt="M55-5-18-4-48"></span>
 <br>
 #48</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
@@ -5655,8 +5703,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">56-5-19</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/56-5-19.png" alt="56-5-19"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M56-5-19-4-48</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M56-5-19-4-48.png" alt="M56-5-19-4-48"></span>
 <br>
 #48</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
@@ -5679,8 +5727,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5.png" alt="m1 m5" width="50"></span> M1 M5</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">57-5-20</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/57-5-20.png" alt="57-5-20"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M57-5-20-4-48</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M57-5-20-4-48.png" alt="M57-5-20-4-48"></span>
 <br>
 #48</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
@@ -5703,8 +5751,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5.png" alt="m1 m5" width="50"></span> M1 M5</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">58-5-21</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/58-5-21.png" alt="58-5-21"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M58-5-21-2-24</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M58-5-21-2-24.png" alt="M58-5-21-2-24"></span>
 <br>
 #24</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
@@ -5721,8 +5769,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">59-5-22</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/59-5-22.png" alt="59-5-22"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M59-5-22-4-48</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M59-5-22-4-48.png" alt="M59-5-22-4-48"></span>
 <br>
 #48</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
@@ -5745,8 +5793,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">60-5-23</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/60-5-23.png" alt="60-5-23"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M60-5-23-2-24</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M60-5-23-2-24.png" alt="M60-5-23-2-24"></span>
 <br>
 #24</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
@@ -5763,8 +5811,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">61-5-24</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/61-5-24.png" alt="61-5-24"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M61-5-24-2-24</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M61-5-24-2-24.png" alt="M61-5-24-2-24"></span>
 <br>
 #24</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
@@ -5781,8 +5829,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">62-5-25</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/62-5-25.png" alt="62-5-25"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M62-5-25-4-48</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M62-5-25-4-48.png" alt="M62-5-25-4-48"></span>
 <br>
 #48</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
@@ -5805,8 +5853,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">63-6-1</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/63-6-1.png" alt="63-6-1"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M63-6-1-2-24</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M63-6-1-2-24.png" alt="M63-6-1-2-24"></span>
 <br>
 #24</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
@@ -5823,8 +5871,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11-cm1-cm11.png" alt="m1 m11 cm1 cm11" width="50"></span> M1 M11 CM1 CM11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">64-6-2</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/64-6-2.png" alt="64-6-2"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M64-6-2-4-48</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M64-6-2-4-48.png" alt="M64-6-2-4-48"></span>
 <br>
 #48</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
@@ -5847,8 +5895,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm11.png" alt="m1 cm11" width="50"></span> M1 CM11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">65-6-3</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/65-6-3.png" alt="65-6-3"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M65-6-3-8-96</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M65-6-3-8-96.png" alt="M65-6-3-8-96"></span>
 <br>
 #96</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
@@ -5883,8 +5931,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">66-6-4</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/66-6-4.png" alt="66-6-4"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M66-6-4-4-48</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M66-6-4-4-48.png" alt="M66-6-4-4-48"></span>
 <br>
 #48</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
@@ -5907,8 +5955,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">67-6-5</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/67-6-5.png" alt="67-6-5"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M67-6-5-2-24</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M67-6-5-2-24.png" alt="M67-6-5-2-24"></span>
 <br>
 #24</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
@@ -5925,8 +5973,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-cm7-cm11.png" alt="m1 m5 cm7 cm11" width="50"></span> M1 M5 CM7 CM11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">68-6-6</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/68-6-6.png" alt="68-6-6"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M68-6-6-4-48</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M68-6-6-4-48.png" alt="M68-6-6-4-48"></span>
 <br>
 #48</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
@@ -5949,8 +5997,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm5.png" alt="m1 cm5" width="50"></span> M1 CM5</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">69-6-7</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/69-6-7.png" alt="69-6-7"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M69-6-7-8-96</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M69-6-7-8-96.png" alt="M69-6-7-8-96"></span>
 <br>
 #96</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">8</p></td>
@@ -5985,8 +6033,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1.png" alt="m1" width="50"></span> M1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">70-6-8</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/70-6-8.png" alt="70-6-8"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M70-6-8-1-12</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M70-6-8-1-12.png" alt="M70-6-8-1-12"></span>
 <br>
 #12</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">1</p></td>
@@ -6000,8 +6048,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11-cm1-cm5-cm7-cm11.png" alt="m1 m5 m7 m11 cm1 cm5 cm7 cm11" width="50"></span> M1 M5 M7 M11 CM1 CM5 CM7 CM11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">71-6-9</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/71-6-9.png" alt="71-6-9"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M71-6-9-4-48</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M71-6-9-4-48.png" alt="M71-6-9-4-48"></span>
 <br>
 #48</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
@@ -6024,8 +6072,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm11.png" alt="m1 cm11" width="50"></span> M1 CM11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">72-6-10</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/72-6-10.png" alt="72-6-10"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M72-6-10-4-48</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M72-6-10-4-48.png" alt="M72-6-10-4-48"></span>
 <br>
 #48</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
@@ -6048,8 +6096,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">73-6-11</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/73-6-11.png" alt="73-6-11"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M73-6-11-4-48</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M73-6-11-4-48.png" alt="M73-6-11-4-48"></span>
 <br>
 #48</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
@@ -6072,8 +6120,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11.png" alt="m1 m11" width="50"></span> M1 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">74-6-12</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/74-6-12.png" alt="74-6-12"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M74-6-12-2-24</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M74-6-12-2-24.png" alt="M74-6-12-2-24"></span>
 <br>
 #24</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
@@ -6090,8 +6138,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11-cm5-cm7.png" alt="m1 m11 cm5 cm7" width="50"></span> M1 M11 CM5 CM7</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">75-6-13</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/75-6-13.png" alt="75-6-13"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M75-6-13-4-48</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M75-6-13-4-48.png" alt="M75-6-13-4-48"></span>
 <br>
 #48</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
@@ -6114,8 +6162,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm11.png" alt="m1 cm11" width="50"></span> M1 CM11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">76-6-14</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/76-6-14.png" alt="76-6-14"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M76-6-14-2-24</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M76-6-14-2-24.png" alt="M76-6-14-2-24"></span>
 <br>
 #24</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
@@ -6132,8 +6180,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-cm1-cm5.png" alt="m1 m5 cm1 cm5" width="50"></span> M1 M5 CM1 CM5</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">77-6-15</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/77-6-15.png" alt="77-6-15"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M77-6-15-2-24</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M77-6-15-2-24.png" alt="M77-6-15-2-24"></span>
 <br>
 #24</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
@@ -6150,8 +6198,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-cm7-cm11.png" alt="m1 m5 cm7 cm11" width="50"></span> M1 M5 CM7 CM11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">78-6-16</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/78-6-16.png" alt="78-6-16"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M78-6-16-4-48</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M78-6-16-4-48.png" alt="M78-6-16-4-48"></span>
 <br>
 #48</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
@@ -6174,8 +6222,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm11.png" alt="m1 cm11" width="50"></span> M1 CM11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">79-6-17</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/79-6-17.png" alt="79-6-17"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M79-6-17-4-48</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M79-6-17-4-48.png" alt="M79-6-17-4-48"></span>
 <br>
 #48</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
@@ -6198,8 +6246,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7.png" alt="m1 m7" width="50"></span> M1 M7</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">80-6-18</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/80-6-18.png" alt="80-6-18"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M80-6-18-2-24</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M80-6-18-2-24.png" alt="M80-6-18-2-24"></span>
 <br>
 #24</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
@@ -6216,8 +6264,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">81-6-19</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/81-6-19.png" alt="81-6-19"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M81-6-19-2-24</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M81-6-19-2-24.png" alt="M81-6-19-2-24"></span>
 <br>
 #24</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
@@ -6234,8 +6282,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-cm7-cm11.png" alt="m1 m5 cm7 cm11" width="50"></span> M1 M5 CM7 CM11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">82-6-20</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/82-6-20.png" alt="82-6-20"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M82-6-20-4-48</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M82-6-20-4-48.png" alt="M82-6-20-4-48"></span>
 <br>
 #48</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">4</p></td>
@@ -6258,8 +6306,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm5.png" alt="m1 cm5" width="50"></span> M1 CM5</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">83-6-21</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/83-6-21.png" alt="83-6-21"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M83-6-21-1-6</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M83-6-21-1-6.png" alt="M83-6-21-1-6"></span>
 <br>
 #6</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">1</p></td>
@@ -6273,8 +6321,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11-cm1-cm5-cm7-cm11.png" alt="m1 m5 m7 m11 cm1 cm5 cm7 cm11" width="50"></span> M1 M5 M7 M11 CM1 CM5 CM7 CM11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">84-6-22</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/84-6-22.png" alt="84-6-22"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M84-6-22-2-24</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M84-6-22-2-24.png" alt="M84-6-22-2-24"></span>
 <br>
 #24</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
@@ -6291,8 +6339,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7-cm5-cm11.png" alt="m1 m7 cm5 cm11" width="50"></span> M1 M7 CM5 CM11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">85-6-23</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/85-6-23.png" alt="85-6-23"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M85-6-23-2-24</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M85-6-23-2-24.png" alt="M85-6-23-2-24"></span>
 <br>
 #24</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
@@ -6309,8 +6357,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">86-6-24</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/86-6-24.png" alt="86-6-24"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M86-6-24-2-12</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M86-6-24-2-12.png" alt="M86-6-24-2-12"></span>
 <br>
 #12</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
@@ -6327,8 +6375,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7-cm5-cm11.png" alt="m1 m7 cm5 cm11" width="50"></span> M1 M7 CM5 CM11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">87-6-25</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/87-6-25.png" alt="87-6-25"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M87-6-25-1-4</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M87-6-25-1-4.png" alt="M87-6-25-1-4"></span>
 <br>
 #4</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">1</p></td>
@@ -6342,8 +6390,8 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11-cm1-cm5-cm7-cm11.png" alt="m1 m5 m7 m11 cm1 cm5 cm7 cm11" width="50"></span> M1 M5 M7 M11 CM1 CM5 CM7 CM11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">88-6-26</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/88-6-26.png" alt="88-6-26"></span>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M88-6-26-1-2</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M88-6-26-1-2.png" alt="M88-6-26-1-2"></span>
 <br>
 #2</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">1</p></td>
@@ -7348,7 +7396,7 @@ Seven PCS of diatonic design as a circle divided into 7 equal parts
 <a href="https://en.wikipedia.org/wiki/Diatonic_set_theory">Diatonic Set Theory on wikipedia</a>.</p>
 </div>
 <div class="paragraph">
-<p>There are 29 cyclic orbits (or cyclic intervallic structure) with this characteristic, 13 of which have a cardinality between 5 and 8.</p>
+<p>There are 29 cyclic orbits (or intervallic structure classes) with this characteristic, 13 of which have a cardinality between 5 and 8.</p>
 </div>
 <div class="paragraph">
 <p>There are 11 cyclic orbit in Maximal Evenness, 25 cyclic orbit in Strict Second Order Maximal Evenness : ',
@@ -7639,23 +7687,23 @@ This is an array of natural numbers which summarize the pitch class intervals ap
 </div>
 <div class="dlist">
 <dl>
-<dt class="hdlist1">Cyclic Intervallic Structure (cis)</dt>
+<dt class="hdlist1">Intervallic Structure Class (isc)</dt>
 <dd>
-<p>Is the Intervallic Structure up to circular shift. In other words, it is the <strong>structure of polygon inscribed</strong> by a pcs into chromatic circle (see <a href="#_clock_chromatic_circle">Clock / Chromatic circle</a>).</p>
+<p>Is the Intervallic Structure up to circular shift. In other words, it is the <strong>structure type of polygon inscribed</strong> by a pcs into chromatic circle (see <a href="#_clock_chromatic_circle">Clock / Chromatic circle</a>).</p>
 <div class="paragraph">
-<p>There are 352 cyclic intervallic structures in twelve-tone equal temperament.</p>
+<p>There are 352 intervallic structure classes in twelve-tone equal temperament.</p>
 </div>
 <div class="paragraph">
 <p>Example 2 pcs with same structure of polygon inscribed : <span class="image"><img src="./assets/images/pcsCM-FM.png" alt="CM and FM"></span></p>
 </div>
 <div class="paragraph">
-<p>Because all pcs in same cyclic orbit have same cyclic intervallic structure (transposition preserve cyclic intervallic structure), a cyclic intervallic structure of a given pcs is represented by the <em>Intervallic Structure</em> of its <em>cyclic prime form</em></p>
+<p>Because all pcs in same cyclic orbit have same intervallic structure class (transposition preserve intervallic structure class), a intervallic structure class of a given pcs is represented by the <em>Intervallic Structure</em> of its <em>cyclic prime form</em>.</p>
 </div>
 <div class="paragraph">
-<p>Example : (CMaj) cis([0 4 7]) = (4 3 5)  (<em>cyclic prime form</em>)</p>
+<p>Example : (CMaj) isc([0 4 7]) = (4 3 5)  (<em>cyclic prime form</em>)</p>
 </div>
 <div class="paragraph">
-<p>Example : (FMaj) cis([0 5 9]) = (4 3 5) (CMaj is its cyclic prime form)</p>
+<p>Example : (FMaj) isc([0 5 9]) = (4 3 5) (CMaj is its cyclic prime form)</p>
 </div>
 <div class="paragraph">
 <p>CMaj and FMaj have same structure of polygon inscribed, so have same cis, have same musaic-motif</p>
@@ -7678,7 +7726,7 @@ This is an array of natural numbers which summarize the pitch class intervals ap
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-A musaic alone has a potential of <strong>8</strong> cyclic intervallic structures, sometimes less as in the example provided.<span class="image"><img src="./assets/images/pcs-musaic-motif-4.png" alt="musaic-motif-4 only"></span>
+A musaic alone has a potential of <strong>8</strong> intervallic structure classes, sometimes less as in the example provided.<span class="image"><img src="./assets/images/pcs-musaic-motif-4.png" alt="musaic-motif-4 only"></span>
 </td>
 </tr>
 </table>
@@ -8457,7 +8505,7 @@ Symmetry prime form concept is invented, specific to this project.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-05-05 11:45:30 +0200
+Last updated 2025-05-07 22:31:56 +0200
 </div>
 </div>
 <script type="text/x-mathjax-config">

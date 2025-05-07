@@ -65,7 +65,7 @@ In the context of twelve-tone equal temperament, the canonical form of a musaic 
 
 Any intervallic structure defined within an octave prints a pattern on the matrix, and thereby reveals a musical structure that we call <<Musaic-Motif>>.
 
-Since a musaic can be viewed from several angles, it is said to have multiple faces, it can carry up to 8 different musaic-motifs and therefore cyclic intervallic structures. There are 88 musaics in total for 352 cyclic intervallic vectors.
+Since a musaic can be viewed from several angles, it is said to have multiple faces, it can carry up to 8 different musaic-motifs and therefore intervallic structure classes. There are 88 musaics in total for 352 intervallic structure classes.
 
 .Example of musaic n°26 having seventh chord on one of its "faces"
 image::template-musaic-anatomy.png[template-musaic-anatomy]
@@ -403,7 +403,7 @@ image::pcs-047.png["_0_4_7_clock-names",float="left",align="center"]
 image::clock-047.png["_0_4_7_clock",float="left",align="center" ]
 --
 
-Polygon inscribed into circle denote the cyclic intervallic structure of the PCS.
+Polygon inscribed into circle denote an intervallic structure class.
 
 Other example, a minor 7 and its *intervallic structure* (3, 4, 3, 2) :
 
@@ -1952,14 +1952,34 @@ NOTE: 4 of its 5 known subgroups are located on the central vertical axis.
 
 List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
+ID is composed of five parts:
+
+* M prefix
+* Orbit index, among the 88, based on the _id_ value of the minimum pcs of the orbit
+* The cardinality of the minimal element of the orbit
+* Index of orbit relative to other orbits having same cardinality of their minimum pcs
+* number of distinct isc (motifs)
+* number of pcs into orbits
+
+Examples:
+
+* `M1-0-1-2-2` is first musaic orbit (first 1), cardinality zero/12, first of this group (composed of one element), has 2 isc and 2 pcs into orbit (empty and chromatic scale)
+* `M88-6-26-1-2` is the last musaic orbit (88), cardinality 6, 26th of its group (composed of 26 elements) and only one isc (whole tone pcs)
+* `M10-3-3-8-96` is musaic 10, cardinality 3/9, 3rd among same card musaics, 8 isc (and 96 pcs into orbit)
+* `M61-5-24-2-24` is 65th musaic orbit, cardinality 5/7, 24th of this group of cardinality and has 2 isc
+* `M7-2-5-2-12` is 7th musaic orbit, cardinality 2/10, 2d of this group of cardinality and has 2 isc (and 12 pcs into orbit, not 24)
+
+
 [#idTable88]
 [%autowidth]
 [cols=".^1,^.^2,.^3,.^4a, .^5", options="footer"]
 |===
-|N° [.head]#&uarr;#|Musaic orbit  |Motifs |Cyclic Intervallic Structure |Meta-Stabilizer [.head]#&uarr;#
+|ID [.head]#&uarr;#|Musaic orbit  |Motifs |Intervallic Structure Class |Meta-Stabilizer [.head]#&uarr;#
 
-|1-0-1
-|image:88musaics/1-0-1.png[1-0-1]
+// special paste as plain text
+
+|M1-0-1-2-2
+|image:88musaics/M1-0-1-2-2.png[M1-0-1-2-2]
  +
 #2
 | 2
@@ -1968,8 +1988,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 1 1 1 1 1 1 1 1 1 1 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|2-1-1
-|image:88musaics/2-1-1.png[2-1-1]
+|M2-1-1-2-24
+|image:88musaics/M2-1-1-2-24.png[M2-1-1-2-24]
  +
 #24
 | 2
@@ -1978,8 +1998,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 1 1 1 1 2 1 1 1 1 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|3-2-1
-|image:88musaics/3-2-1.png[3-2-1]
+|M3-2-1-4-48
+|image:88musaics/M3-2-1-4-48.png[M3-2-1-4-48]
  +
 #48
 | 4
@@ -1990,8 +2010,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 1 1 1 1 2 1 1 1 2)
 |  image:octotropes/m1-m11.png[width=50] M1 M11
 
-|4-2-2
-|image:88musaics/4-2-2.png[4-2-2]
+|M4-2-2-2-24
+|image:88musaics/M4-2-2-2-24.png[M4-2-2-2-24]
  +
 #24
 | 2
@@ -2000,8 +2020,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 1 1 1 1 2 2 1 1 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|5-2-3
-|image:88musaics/5-2-3.png[5-2-3]
+|M5-2-3-2-24
+|image:88musaics/M5-2-3-2-24.png[M5-2-3-2-24]
  +
 #24
 | 2
@@ -2010,8 +2030,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 1 1 1 1 2 1 2 1 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|6-2-4
-|image:88musaics/6-2-4.png[6-2-4]
+|M6-2-4-2-24
+|image:88musaics/M6-2-4-2-24.png[M6-2-4-2-24]
  +
 #24
 | 2
@@ -2020,8 +2040,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 1 1 1 1 2 1 1 2 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|7-2-5
-|image:88musaics/7-2-5.png[7-2-5]
+|M7-2-5-2-12
+|image:88musaics/M7-2-5-2-12.png[M7-2-5-2-12]
  +
 #12
 | 2
@@ -2030,8 +2050,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (2 1 1 1 1 2 1 1 1 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|8-3-1
-|image:88musaics/8-3-1.png[8-3-1]
+|M8-3-1-4-48
+|image:88musaics/M8-3-1-4-48.png[M8-3-1-4-48]
  +
 #48
 | 4
@@ -2042,8 +2062,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 1 1 2 2 1 1 1 2)
 |  image:octotropes/m1-m11.png[width=50] M1 M11
 
-|9-3-2
-|image:88musaics/9-3-2.png[9-3-2]
+|M9-3-2-8-96
+|image:88musaics/M9-3-2-8-96.png[M9-3-2-8-96]
  +
 #96
 | 8
@@ -2058,8 +2078,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 1 2 3 1 1 1 1 1)
 |  image:octotropes/m1.png[width=50] M1
 
-|10-3-3
-|image:88musaics/10-3-3.png[10-3-3]
+|M10-3-3-8-96
+|image:88musaics/M10-3-3-8-96.png[M10-3-3-8-96]
  +
 #96
 | 8
@@ -2074,8 +2094,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 2 1 3 1 1 1 1 1)
 |  image:octotropes/m1.png[width=50] M1
 
-|11-3-4
-|image:88musaics/11-3-4.png[11-3-4]
+|M11-3-4-2-24
+|image:88musaics/M11-3-4-2-24.png[M11-3-4-2-24]
  +
 #24
 | 2
@@ -2084,8 +2104,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 1 1 1 1 2 2 2 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|12-3-5
-|image:88musaics/12-3-5.png[12-3-5]
+|M12-3-5-4-48
+|image:88musaics/M12-3-5-4-48.png[M12-3-5-4-48]
  +
 #48
 | 4
@@ -2096,8 +2116,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (2 1 1 3 1 1 1 1 1)
 |  image:octotropes/m1-m5.png[width=50] M1 M5
 
-|13-3-6
-|image:88musaics/13-3-6.png[13-3-6]
+|M13-3-6-4-48
+|image:88musaics/M13-3-6-4-48.png[M13-3-6-4-48]
  +
 #48
 | 4
@@ -2108,8 +2128,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 1 1 3 1 1 1 1 2)
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
-|14-3-7
-|image:88musaics/14-3-7.png[14-3-7]
+|M14-3-7-4-48
+|image:88musaics/M14-3-7-4-48.png[M14-3-7-4-48]
  +
 #48
 | 4
@@ -2120,8 +2140,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 1 1 1 2 1 1 2 2)
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
-|15-3-8
-|image:88musaics/15-3-8.png[15-3-8]
+|M15-3-8-2-24
+|image:88musaics/M15-3-8-2-24.png[M15-3-8-2-24]
  +
 #24
 | 2
@@ -2130,8 +2150,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (2 1 1 1 1 2 1 2 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|16-3-9
-|image:88musaics/16-3-9.png[16-3-9]
+|M16-3-9-2-8
+|image:88musaics/M16-3-9-2-8.png[M16-3-9-2-8]
  +
 #8
 | 2
@@ -2140,8 +2160,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 2 1 1 2 1 1 2 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|17-4-1
-|image:88musaics/17-4-1.png[17-4-1]
+|M17-4-1-4-48
+|image:88musaics/M17-4-1-4-48.png[M17-4-1-4-48]
  +
 #48
 | 4
@@ -2152,8 +2172,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 1 1 2 2 1 2 2)
 |  image:octotropes/m1-m11.png[width=50] M1 M11
 
-|18-4-2
-|image:88musaics/18-4-2.png[18-4-2]
+|M18-4-2-8-96
+|image:88musaics/M18-4-2-8-96.png[M18-4-2-8-96]
  +
 #96
 | 8
@@ -2168,8 +2188,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 2 4 1 1 1 1 1)
 |  image:octotropes/m1.png[width=50] M1
 
-|19-4-3
-|image:88musaics/19-4-3.png[19-4-3]
+|M19-4-3-4-48
+|image:88musaics/M19-4-3-4-48.png[M19-4-3-4-48]
  +
 #48
 | 4
@@ -2180,8 +2200,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 2 1 1 2 1 2 2)
 |  image:octotropes/m1-m11.png[width=50] M1 M11
 
-|20-4-4
-|image:88musaics/20-4-4.png[20-4-4]
+|M20-4-4-8-96
+|image:88musaics/M20-4-4-8-96.png[M20-4-4-8-96]
  +
 #96
 | 8
@@ -2196,8 +2216,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (2 1 4 1 1 1 1 1)
 |  image:octotropes/m1.png[width=50] M1
 
-|21-4-5
-|image:88musaics/21-4-5.png[21-4-5]
+|M21-4-5-4-48
+|image:88musaics/M21-4-5-4-48.png[M21-4-5-4-48]
  +
 #48
 | 4
@@ -2208,8 +2228,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (2 2 3 1 1 1 1 1)
 |  image:octotropes/m1-m5.png[width=50] M1 M5
 
-|22-4-6
-|image:88musaics/22-4-6.png[22-4-6]
+|M22-4-6-2-24
+|image:88musaics/M22-4-6-2-24.png[M22-4-6-2-24]
  +
 #24
 | 2
@@ -2218,8 +2238,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 1 1 1 1 2 3 2)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|23-4-7
-|image:88musaics/23-4-7.png[23-4-7]
+|M23-4-7-4-48
+|image:88musaics/M23-4-7-4-48.png[M23-4-7-4-48]
  +
 #48
 | 4
@@ -2230,8 +2250,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 2 1 1 3 1 1 2)
 |  image:octotropes/m1-m11.png[width=50] M1 M11
 
-|24-4-8
-|image:88musaics/24-4-8.png[24-4-8]
+|M24-4-8-8-96
+|image:88musaics/M24-4-8-8-96.png[M24-4-8-8-96]
  +
 #96
 | 8
@@ -2246,8 +2266,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 1 4 1 1 1 1 2)
 |  image:octotropes/m1.png[width=50] M1
 
-|25-4-9
-|image:88musaics/25-4-9.png[25-4-9]
+|M25-4-9-4-48
+|image:88musaics/M25-4-9-4-48.png[M25-4-9-4-48]
  +
 #48
 | 4
@@ -2258,8 +2278,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 2 3 1 1 1 1 2)
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
-|26-4-10
-|image:88musaics/26-4-10.png[26-4-10]
+|M26-4-10-8-96
+|image:88musaics/M26-4-10-8-96.png[M26-4-10-8-96]
  +
 #96
 | 8
@@ -2274,8 +2294,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 3 2 1 1 1 1 2)
 |  image:octotropes/m1.png[width=50] M1
 
-|27-4-11
-|image:88musaics/27-4-11.png[27-4-11]
+|M27-4-11-8-96
+|image:88musaics/M27-4-11-8-96.png[M27-4-11-8-96]
  +
 #96
 | 8
@@ -2290,8 +2310,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (2 1 3 1 1 1 1 2)
 |  image:octotropes/m1.png[width=50] M1
 
-|28-4-12
-|image:88musaics/28-4-12.png[28-4-12]
+|M28-4-12-2-24
+|image:88musaics/M28-4-12-2-24.png[M28-4-12-2-24]
  +
 #24
 | 2
@@ -2300,8 +2320,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (2 1 1 1 1 2 2 2)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|29-4-13
-|image:88musaics/29-4-13.png[29-4-13]
+|M29-4-13-2-24
+|image:88musaics/M29-4-13-2-24.png[M29-4-13-2-24]
  +
 #24
 | 2
@@ -2310,8 +2330,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 1 1 1 3 1 1 3)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|30-4-14
-|image:88musaics/30-4-14.png[30-4-14]
+|M30-4-14-2-24
+|image:88musaics/M30-4-14-2-24.png[M30-4-14-2-24]
  +
 #24
 | 2
@@ -2320,8 +2340,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (2 1 1 1 4 1 1 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|31-4-15
-|image:88musaics/31-4-15.png[31-4-15]
+|M31-4-15-4-48
+|image:88musaics/M31-4-15-4-48.png[M31-4-15-4-48]
  +
 #48
 | 4
@@ -2332,8 +2352,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 2 1 3 1 1 1 2)
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
-|32-4-16
-|image:88musaics/32-4-16.png[32-4-16]
+|M32-4-16-2-24
+|image:88musaics/M32-4-16-2-24.png[M32-4-16-2-24]
  +
 #24
 | 2
@@ -2342,8 +2362,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (2 1 1 1 2 1 3 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|33-4-17
-|image:88musaics/33-4-17.png[33-4-17]
+|M33-4-17-2-12
+|image:88musaics/M33-4-17-2-12.png[M33-4-17-2-12]
  +
 #12
 | 2
@@ -2352,8 +2372,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (3 1 1 1 3 1 1 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|34-4-18
-|image:88musaics/34-4-18.png[34-4-18]
+|M34-4-18-4-48
+|image:88musaics/M34-4-18-4-48.png[M34-4-18-4-48]
  +
 #48
 | 4
@@ -2364,8 +2384,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (3 1 1 2 1 1 2 1)
 |  image:octotropes/m1-m5.png[width=50] M1 M5
 
-|35-4-19
-|image:88musaics/35-4-19.png[35-4-19]
+|M35-4-19-2-24
+|image:88musaics/M35-4-19-2-24.png[M35-4-19-2-24]
  +
 #24
 | 2
@@ -2374,8 +2394,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 2 1 1 2 2 2 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|36-4-20
-|image:88musaics/36-4-20.png[36-4-20]
+|M36-4-20-2-12
+|image:88musaics/M36-4-20-2-12.png[M36-4-20-2-12]
  +
 #12
 | 2
@@ -2384,8 +2404,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (2 2 1 1 2 2 1 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|37-4-21
-|image:88musaics/37-4-21.png[37-4-21]
+|M37-4-21-2-6
+|image:88musaics/M37-4-21-2-6.png[M37-4-21-2-6]
  +
 #6
 | 2
@@ -2394,8 +2414,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (2 1 2 1 2 1 2 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|38-5-1
-|image:88musaics/38-5-1.png[38-5-1]
+|M38-5-1-4-48
+|image:88musaics/M38-5-1-4-48.png[M38-5-1-4-48]
  +
 #48
 | 4
@@ -2406,8 +2426,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 2 2 2 1 2 2)
 |  image:octotropes/m1-m11.png[width=50] M1 M11
 
-|39-5-2
-|image:88musaics/39-5-2.png[39-5-2]
+|M39-5-2-8-96
+|image:88musaics/M39-5-2-8-96.png[M39-5-2-8-96]
  +
 #96
 | 8
@@ -2422,8 +2442,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (2 5 1 1 1 1 1)
 |  image:octotropes/m1.png[width=50] M1
 
-|40-5-3
-|image:88musaics/40-5-3.png[40-5-3]
+|M40-5-3-8-96
+|image:88musaics/M40-5-3-8-96.png[M40-5-3-8-96]
  +
 #96
 | 8
@@ -2438,8 +2458,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (3 4 1 1 1 1 1)
 |  image:octotropes/m1.png[width=50] M1
 
-|41-5-4
-|image:88musaics/41-5-4.png[41-5-4]
+|M41-5-4-8-96
+|image:88musaics/M41-5-4-8-96.png[M41-5-4-8-96]
  +
 #96
 | 8
@@ -2454,8 +2474,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 5 1 1 1 1 2)
 |  image:octotropes/m1.png[width=50] M1
 
-|42-5-5
-|image:88musaics/42-5-5.png[42-5-5]
+|M42-5-5-8-96
+|image:88musaics/M42-5-5-8-96.png[M42-5-5-8-96]
  +
 #96
 | 8
@@ -2470,8 +2490,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (2 4 1 1 1 1 2)
 |  image:octotropes/m1.png[width=50] M1
 
-|43-5-6
-|image:88musaics/43-5-6.png[43-5-6]
+|M43-5-6-8-96
+|image:88musaics/M43-5-6-8-96.png[M43-5-6-8-96]
  +
 #96
 | 8
@@ -2486,8 +2506,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (3 3 1 1 1 1 2)
 |  image:octotropes/m1.png[width=50] M1
 
-|44-5-7
-|image:88musaics/44-5-7.png[44-5-7]
+|M44-5-7-4-48
+|image:88musaics/M44-5-7-4-48.png[M44-5-7-4-48]
  +
 #48
 | 4
@@ -2498,8 +2518,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 2 1 2 2 2 2)
 |  image:octotropes/m1-m11.png[width=50] M1 M11
 
-|45-5-8
-|image:88musaics/45-5-8.png[45-5-8]
+|M45-5-8-8-96
+|image:88musaics/M45-5-8-8-96.png[M45-5-8-8-96]
  +
 #96
 | 8
@@ -2514,8 +2534,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (3 1 4 1 1 1 1)
 |  image:octotropes/m1.png[width=50] M1
 
-|46-5-9
-|image:88musaics/46-5-9.png[46-5-9]
+|M46-5-9-2-24
+|image:88musaics/M46-5-9-2-24.png[M46-5-9-2-24]
  +
 #24
 | 2
@@ -2524,8 +2544,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 1 1 1 3 2 3)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|47-5-10
-|image:88musaics/47-5-10.png[47-5-10]
+|M47-5-10-8-96
+|image:88musaics/M47-5-10-8-96.png[M47-5-10-8-96]
  +
 #96
 | 8
@@ -2540,8 +2560,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 1 5 1 1 1 2)
 |  image:octotropes/m1.png[width=50] M1
 
-|48-5-11
-|image:88musaics/48-5-11.png[48-5-11]
+|M48-5-11-4-48
+|image:88musaics/M48-5-11-4-48.png[M48-5-11-4-48]
  +
 #48
 | 4
@@ -2552,8 +2572,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 2 4 1 1 1 2)
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
-|49-5-12
-|image:88musaics/49-5-12.png[49-5-12]
+|M49-5-12-8-96
+|image:88musaics/M49-5-12-8-96.png[M49-5-12-8-96]
  +
 #96
 | 8
@@ -2568,8 +2588,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 3 3 1 1 1 2)
 |  image:octotropes/m1.png[width=50] M1
 
-|50-5-13
-|image:88musaics/50-5-13.png[50-5-13]
+|M50-5-13-4-48
+|image:88musaics/M50-5-13-4-48.png[M50-5-13-4-48]
  +
 #48
 | 4
@@ -2580,8 +2600,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 1 2 1 4 2 1)
 |  image:octotropes/m1-m5.png[width=50] M1 M5
 
-|51-5-14
-|image:88musaics/51-5-14.png[51-5-14]
+|M51-5-14-8-96
+|image:88musaics/M51-5-14-8-96.png[M51-5-14-8-96]
  +
 #96
 | 8
@@ -2596,8 +2616,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (3 1 3 1 1 1 2)
 |  image:octotropes/m1.png[width=50] M1
 
-|52-5-15
-|image:88musaics/52-5-15.png[52-5-15]
+|M52-5-15-4-48
+|image:88musaics/M52-5-15-4-48.png[M52-5-15-4-48]
  +
 #48
 | 4
@@ -2608,8 +2628,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 1 1 3 1 1 4)
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
-|53-5-16
-|image:88musaics/53-5-16.png[53-5-16]
+|M53-5-16-4-48
+|image:88musaics/M53-5-16-4-48.png[M53-5-16-4-48]
  +
 #48
 | 4
@@ -2620,8 +2640,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 2 3 1 1 1 3)
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
-|54-5-17
-|image:88musaics/54-5-17.png[54-5-17]
+|M54-5-17-8-96
+|image:88musaics/M54-5-17-8-96.png[M54-5-17-8-96]
  +
 #96
 | 8
@@ -2636,8 +2656,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 2 4 1 1 2 1)
 |  image:octotropes/m1.png[width=50] M1
 
-|55-5-18
-|image:88musaics/55-5-18.png[55-5-18]
+|M55-5-18-4-48
+|image:88musaics/M55-5-18-4-48.png[M55-5-18-4-48]
  +
 #48
 | 4
@@ -2648,8 +2668,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 2 1 1 2 1 4)
 |  image:octotropes/m1-m11.png[width=50] M1 M11
 
-|56-5-19
-|image:88musaics/56-5-19.png[56-5-19]
+|M56-5-19-4-48
+|image:88musaics/M56-5-19-4-48.png[M56-5-19-4-48]
  +
 #48
 | 4
@@ -2660,8 +2680,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (3 1 3 1 1 2 1)
 |  image:octotropes/m1-m5.png[width=50] M1 M5
 
-|57-5-20
-|image:88musaics/57-5-20.png[57-5-20]
+|M57-5-20-4-48
+|image:88musaics/M57-5-20-4-48.png[M57-5-20-4-48]
  +
 #48
 | 4
@@ -2672,8 +2692,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 2 1 3 2 2 1)
 |  image:octotropes/m1-m5.png[width=50] M1 M5
 
-|58-5-21
-|image:88musaics/58-5-21.png[58-5-21]
+|M58-5-21-2-24
+|image:88musaics/M58-5-21-2-24.png[M58-5-21-2-24]
  +
 #24
 | 2
@@ -2682,8 +2702,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (2 2 1 1 4 1 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|59-5-22
-|image:88musaics/59-5-22.png[59-5-22]
+|M59-5-22-4-48
+|image:88musaics/M59-5-22-4-48.png[M59-5-22-4-48]
  +
 #48
 | 4
@@ -2694,8 +2714,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 3 2 1 1 2 2)
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
-|60-5-23
-|image:88musaics/60-5-23.png[60-5-23]
+|M60-5-23-2-24
+|image:88musaics/M60-5-23-2-24.png[M60-5-23-2-24]
  +
 #24
 | 2
@@ -2704,8 +2724,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (2 2 1 1 2 2 2)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|61-5-24
-|image:88musaics/61-5-24.png[61-5-24]
+|M61-5-24-2-24
+|image:88musaics/M61-5-24-2-24.png[M61-5-24-2-24]
  +
 #24
 | 2
@@ -2714,8 +2734,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (3 1 1 3 1 2 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|62-5-25
-|image:88musaics/62-5-25.png[62-5-25]
+|M62-5-25-4-48
+|image:88musaics/M62-5-25-4-48.png[M62-5-25-4-48]
  +
 #48
 | 4
@@ -2726,8 +2746,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 2 3 1 2 1 2)
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
-|63-6-1
-|image:88musaics/63-6-1.png[63-6-1]
+|M63-6-1-2-24
+|image:88musaics/M63-6-1-2-24.png[M63-6-1-2-24]
  +
 #24
 | 2
@@ -2736,8 +2756,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 2 2 3 2 2)
 |  image:octotropes/m1-m11-cm1-cm11.png[width=50] M1 M11 CM1 CM11
 
-|64-6-2
-|image:88musaics/64-6-2.png[64-6-2]
+|M64-6-2-4-48
+|image:88musaics/M64-6-2-4-48.png[M64-6-2-4-48]
  +
 #48
 | 4
@@ -2748,8 +2768,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (6 2 1 1 1 1)
 |  image:octotropes/m1-cm11.png[width=50] M1 CM11
 
-|65-6-3
-|image:88musaics/65-6-3.png[65-6-3]
+|M65-6-3-8-96
+|image:88musaics/M65-6-3-8-96.png[M65-6-3-8-96]
  +
 #96
 | 8
@@ -2764,8 +2784,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (3 5 1 1 1 1)
 |  image:octotropes/m1.png[width=50] M1
 
-|66-6-4
-|image:88musaics/66-6-4.png[66-6-4]
+|M66-6-4-4-48
+|image:88musaics/M66-6-4-4-48.png[M66-6-4-4-48]
  +
 #48
 | 4
@@ -2776,8 +2796,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (3 1 1 3 2 2)
 |  image:octotropes/m1-m11.png[width=50] M1 M11
 
-|67-6-5
-|image:88musaics/67-6-5.png[67-6-5]
+|M67-6-5-2-24
+|image:88musaics/M67-6-5-2-24.png[M67-6-5-2-24]
  +
 #24
 | 2
@@ -2786,8 +2806,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 1 5 2 2 1)
 |  image:octotropes/m1-m5-cm7-cm11.png[width=50] M1 M5 CM7 CM11
 
-|68-6-6
-|image:88musaics/68-6-6.png[68-6-6]
+|M68-6-6-4-48
+|image:88musaics/M68-6-6-4-48.png[M68-6-6-4-48]
  +
 #48
 | 4
@@ -2798,8 +2818,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (5 2 1 2 1 1)
 |  image:octotropes/m1-cm5.png[width=50] M1 CM5
 
-|69-6-7
-|image:88musaics/69-6-7.png[69-6-7]
+|M69-6-7-8-96
+|image:88musaics/M69-6-7-8-96.png[M69-6-7-8-96]
  +
 #96
 | 8
@@ -2814,8 +2834,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (4 3 1 1 1 2)
 |  image:octotropes/m1.png[width=50] M1
 
-|70-6-8
-|image:88musaics/70-6-8.png[70-6-8]
+|M70-6-8-1-12
+|image:88musaics/M70-6-8-1-12.png[M70-6-8-1-12]
  +
 #12
 | 1
@@ -2823,8 +2843,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (2 1 1 1 2 5)
 |  image:octotropes/m1-m5-m7-m11-cm1-cm5-cm7-cm11.png[width=50] M1 M5 M7 M11 CM1 CM5 CM7 CM11
 
-|71-6-9
-|image:88musaics/71-6-9.png[71-6-9]
+|M71-6-9-4-48
+|image:88musaics/M71-6-9-4-48.png[M71-6-9-4-48]
  +
 #48
 | 4
@@ -2835,8 +2855,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (5 1 3 1 1 1)
 |  image:octotropes/m1-cm11.png[width=50] M1 CM11
 
-|72-6-10
-|image:88musaics/72-6-10.png[72-6-10]
+|M72-6-10-4-48
+|image:88musaics/M72-6-10-4-48.png[M72-6-10-4-48]
  +
 #48
 | 4
@@ -2847,8 +2867,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 1 1 3 2 4)
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
-|73-6-11
-|image:88musaics/73-6-11.png[73-6-11]
+|M73-6-11-4-48
+|image:88musaics/M73-6-11-4-48.png[M73-6-11-4-48]
  +
 #48
 | 4
@@ -2859,8 +2879,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 2 3 2 1 3)
 |  image:octotropes/m1-m11.png[width=50] M1 M11
 
-|74-6-12
-|image:88musaics/74-6-12.png[74-6-12]
+|M74-6-12-2-24
+|image:88musaics/M74-6-12-2-24.png[M74-6-12-2-24]
  +
 #24
 | 2
@@ -2869,8 +2889,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 4 1 4 1 1)
 |  image:octotropes/m1-m11-cm5-cm7.png[width=50] M1 M11 CM5 CM7
 
-|75-6-13
-|image:88musaics/75-6-13.png[75-6-13]
+|M75-6-13-4-48
+|image:88musaics/M75-6-13-4-48.png[M75-6-13-4-48]
  +
 #48
 | 4
@@ -2881,8 +2901,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (4 3 1 2 1 1)
 |  image:octotropes/m1-cm11.png[width=50] M1 CM11
 
-|76-6-14
-|image:88musaics/76-6-14.png[76-6-14]
+|M76-6-14-2-24
+|image:88musaics/M76-6-14-2-24.png[M76-6-14-2-24]
  +
 #24
 | 2
@@ -2891,8 +2911,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (4 3 1 1 2 1)
 |  image:octotropes/m1-m5-cm1-cm5.png[width=50] M1 M5 CM1 CM5
 
-|77-6-15
-|image:88musaics/77-6-15.png[77-6-15]
+|M77-6-15-2-24
+|image:88musaics/M77-6-15-2-24.png[M77-6-15-2-24]
  +
 #24
 | 2
@@ -2901,8 +2921,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (2 2 2 1 1 4)
 |  image:octotropes/m1-m5-cm7-cm11.png[width=50] M1 M5 CM7 CM11
 
-|78-6-16
-|image:88musaics/78-6-16.png[78-6-16]
+|M78-6-16-4-48
+|image:88musaics/M78-6-16-4-48.png[M78-6-16-4-48]
  +
 #48
 | 4
@@ -2913,8 +2933,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (4 2 2 1 1 2)
 |  image:octotropes/m1-cm11.png[width=50] M1 CM11
 
-|79-6-17
-|image:88musaics/79-6-17.png[79-6-17]
+|M79-6-17-4-48
+|image:88musaics/M79-6-17-4-48.png[M79-6-17-4-48]
  +
 #48
 | 4
@@ -2925,8 +2945,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (3 1 4 1 1 2)
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
-|80-6-18
-|image:88musaics/80-6-18.png[80-6-18]
+|M80-6-18-2-24
+|image:88musaics/M80-6-18-2-24.png[M80-6-18-2-24]
  +
 #24
 | 2
@@ -2935,8 +2955,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (2 1 1 2 3 3)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|81-6-19
-|image:88musaics/81-6-19.png[81-6-19]
+|M81-6-19-2-24
+|image:88musaics/M81-6-19-2-24.png[M81-6-19-2-24]
  +
 #24
 | 2
@@ -2945,8 +2965,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (4 2 1 1 3 1)
 |  image:octotropes/m1-m5-cm7-cm11.png[width=50] M1 M5 CM7 CM11
 
-|82-6-20
-|image:88musaics/82-6-20.png[82-6-20]
+|M82-6-20-4-48
+|image:88musaics/M82-6-20-4-48.png[M82-6-20-4-48]
  +
 #48
 | 4
@@ -2957,8 +2977,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (4 1 3 1 2 1)
 |  image:octotropes/m1-cm5.png[width=50] M1 CM5
 
-|83-6-21
-|image:88musaics/83-6-21.png[83-6-21]
+|M83-6-21-1-6
+|image:88musaics/M83-6-21-1-6.png[M83-6-21-1-6]
  +
 #6
 | 1
@@ -2966,8 +2986,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 1 4 1 1 4)
 |  image:octotropes/m1-m5-m7-m11-cm1-cm5-cm7-cm11.png[width=50] M1 M5 M7 M11 CM1 CM5 CM7 CM11
 
-|84-6-22
-|image:88musaics/84-6-22.png[84-6-22]
+|M84-6-22-2-24
+|image:88musaics/M84-6-22-2-24.png[M84-6-22-2-24]
  +
 #24
 | 2
@@ -2976,8 +2996,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (3 2 1 2 1 3)
 |  image:octotropes/m1-m7-cm5-cm11.png[width=50] M1 M7 CM5 CM11
 
-|85-6-23
-|image:88musaics/85-6-23.png[85-6-23]
+|M85-6-23-2-24
+|image:88musaics/M85-6-23-2-24.png[M85-6-23-2-24]
  +
 #24
 | 2
@@ -2986,8 +3006,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 2 1 3 2 3)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|86-6-24
-|image:88musaics/86-6-24.png[86-6-24]
+|M86-6-24-2-12
+|image:88musaics/M86-6-24-2-12.png[M86-6-24-2-12]
  +
 #12
 | 2
@@ -2996,8 +3016,8 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (3 2 1 3 2 1)
 |  image:octotropes/m1-m7-cm5-cm11.png[width=50] M1 M7 CM5 CM11
 
-|87-6-25
-|image:88musaics/87-6-25.png[87-6-25]
+|M87-6-25-1-4
+|image:88musaics/M87-6-25-1-4.png[M87-6-25-1-4]
  +
 #4
 | 1
@@ -3005,15 +3025,14 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 * (1 3 1 3 1 3)
 |  image:octotropes/m1-m5-m7-m11-cm1-cm5-cm7-cm11.png[width=50] M1 M5 M7 M11 CM1 CM5 CM7 CM11
 
-|88-6-26
-|image:88musaics/88-6-26.png[88-6-26]
+|M88-6-26-1-2
+|image:88musaics/M88-6-26-1-2.png[M88-6-26-1-2]
  +
 #2
 | 1
 |
 * (2 2 2 2 2 2)
 |  image:octotropes/m1-m5-m7-m11-cm1-cm5-cm7-cm11.png[width=50] M1 M5 M7 M11 CM1 CM5 CM7 CM11
-
 
 |
 | _4096 PCS_
@@ -3617,7 +3636,7 @@ On the left, dots divide the circle into 7 equal parts, then on the right, these
 But Major Scale is not only one to have 7 pitches and only <1,2> as *generic interval* (see
 https://en.wikipedia.org/wiki/Diatonic_set_theory[Diatonic Set Theory on wikipedia].
 
-There are 29 cyclic orbits (or cyclic intervallic structure) with this characteristic, 13 of which have a cardinality between 5 and 8.
+There are 29 cyclic orbits (or intervallic structure classes) with this characteristic, 13 of which have a cardinality between 5 and 8.
 
 There are 11 cyclic orbit in Maximal Evenness, 25 cyclic orbit in Strict Second Order Maximal Evenness : ',
 See <<list-pcs-same-as-major-scale>>
@@ -3789,18 +3808,18 @@ G = {M1-T0, M1-T1, M11-T1, M5-T1, M7-T1, CM1-T1, CM5-T1, CM7-T1, CM11-T1, ...}
 It is the equivalence class "up to affine and/or affine complement"
 
 
-Cyclic Intervallic Structure (cis)::
-Is the Intervallic Structure up to circular shift. In other words, it is the *structure of polygon inscribed* by a pcs into chromatic circle (see <<_clock_chromatic_circle>>).
+Intervallic Structure Class (isc)::
+Is the Intervallic Structure up to circular shift. In other words, it is the *structure type of polygon inscribed* by a pcs into chromatic circle (see <<_clock_chromatic_circle>>).
 +
-There are 352 cyclic intervallic structures in twelve-tone equal temperament.
+There are 352 intervallic structure classes in twelve-tone equal temperament.
 +
 Example 2 pcs with same structure of polygon inscribed : image:pcsCM-FM.png[CM and FM]
 +
-Because all pcs in same cyclic orbit have same cyclic intervallic structure (transposition preserve cyclic intervallic structure), a cyclic intervallic structure of a given pcs is represented by the _Intervallic Structure_ of its _cyclic prime form_
+Because all pcs in same cyclic orbit have same intervallic structure class (transposition preserve intervallic structure class), a intervallic structure class of a given pcs is represented by the _Intervallic Structure_ of its _cyclic prime form_.
 +
-Example : (CMaj) cis([0 4 7]) = (4 3 5)  (_cyclic prime form_)
+Example : (CMaj) isc([0 4 7]) = (4 3 5)  (_cyclic prime form_)
 +
-Example : (FMaj) cis([0 5 9]) = (4 3 5) (CMaj is its cyclic prime form)
+Example : (FMaj) isc([0 5 9]) = (4 3 5) (CMaj is its cyclic prime form)
 +
 CMaj and FMaj have same structure of polygon inscribed, so have same cis, have same musaic-motif
 
@@ -3810,7 +3829,7 @@ Musaic-Motif::
 +
 Example : image:pcs-03579.png[03579 and complement] is : (2,2,2,3,3) in black, and, potentially (1,2,1,2,2,2,2) in white color
 +
-NOTE: A musaic alone has a potential of *8* cyclic intervallic structures, sometimes less as in the example provided.image:pcs-musaic-motif-4.png[musaic-motif-4 only]
+NOTE: A musaic alone has a potential of *8* intervallic structure classes, sometimes less as in the example provided.image:pcs-musaic-motif-4.png[musaic-motif-4 only]
 
 12-ET::
  12 equal temperament
