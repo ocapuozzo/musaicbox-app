@@ -337,7 +337,7 @@ describe('Laboratory explorer', () => {
     expect(pcsSameFeatureIS.length).toEqual(29) // 30 - chromatic scale
 
     let pcsList: [IPcs, string][] = pcsSameFeatureIS.map(pcs => [pcs, EightyEight.idMusaicOf(pcs)])
-    const pcsSorted = pcsList.sort((a, b) => EightyEight.indexMusaic(a[1]) - EightyEight.indexMusaic(b[1]))
+    const pcsSorted = pcsList.sort((a, b) => EightyEight.indexOfMusaic(a[1]) - EightyEight.indexOfMusaic(b[1]))
 
     let numberMusaics = new Set(pcsSorted.map(p => p[1])).size
     console.log("PCS having same intervals that Major Scale (" + pcsSameFeatureIS.length + ") for " + numberMusaics + " musaics")
@@ -365,7 +365,7 @@ describe('Laboratory explorer', () => {
     console.log(" pcsHavingDeepScale : ", pcsHavingDeepScale.length)
 
     let pcsList: [IPcs, string][] = pcsHavingDeepScale.map(orbit => [orbit.getPcsMin(), EightyEight.idMusaicOf(orbit.getPcsMin())])
-    const pcsSorted = pcsList.sort((a, b) => EightyEight.indexMusaic(a[1]) - EightyEight.indexMusaic(b[1]))
+    const pcsSorted = pcsList.sort((a, b) => EightyEight.indexOfMusaic(a[1]) - EightyEight.indexOfMusaic(b[1]))
 
     pcsSorted.forEach(pcsSorted =>
       console.log(`(${pcsSorted[0].is().toString().padEnd(22)}) pcs : ${pcsSorted[0].getPcsStr()} in Mus n° ${pcsSorted[1]}`))
@@ -383,7 +383,7 @@ describe('Laboratory explorer', () => {
     console.log(" cyclic orbit in Maximal Evenness : ", pcsInMaxEven.length)
 
     let pcsList: [IPcs, string][] = pcsInMaxEven.map(orbit => [orbit.getPcsMin(), EightyEight.idMusaicOf(orbit.getPcsMin())])
-    const pcsSorted = pcsList.sort((a, b) => EightyEight.indexMusaic(a[1]) - EightyEight.indexMusaic(b[1]))
+    const pcsSorted = pcsList.sort((a, b) => EightyEight.indexOfMusaic(a[1]) - EightyEight.indexOfMusaic(b[1]))
 
     pcsSorted.forEach(pcsSorted =>
       console.log(`(${pcsSorted[0].is().toString().padEnd(23)}) pcs : ${pcsSorted[0].getPcsStr().padEnd(28)} in Mus n° ${pcsSorted[1]} : ${pcsSorted[0].getFirstNameDetail()}`))
@@ -402,7 +402,7 @@ describe('Laboratory explorer', () => {
     let pcsList: [IPcs, string][] =
       pcsInSecondOrderMaxEven.map(orbit => [orbit.getPcsMin(), EightyEight.idMusaicOf(orbit.getPcsMin())])
 
-    const pcsSorted = pcsList.sort((a, b) => EightyEight.indexMusaic(a[1]) - EightyEight.indexMusaic(b[1]))
+    const pcsSorted = pcsList.sort((a, b) => EightyEight.indexOfMusaic(a[1]) - EightyEight.indexOfMusaic(b[1]))
 
     pcsSorted.forEach(pcsSorted =>
       console.log(`(${pcsSorted[0].is().toString().padEnd(22)}) pcs : ${pcsSorted[0].getPcsStr().padEnd(20)} in Mus n° ${pcsSorted[1]} : ${pcsSorted[0].getFirstNameDetail()}`))

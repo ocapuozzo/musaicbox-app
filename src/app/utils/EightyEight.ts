@@ -6,12 +6,16 @@ export class EightyEight {
   static ORDERED_OPERATIONS_NAMES = ["M1", "M5", "M7", "M11", "CM1", "CM5", "CM7", "CM11"]
 
 
-  // static indexMusaic = (idMusaic: string) => parseInt(idMusaic.split('-')[0].substring(3))
-  static indexMusaic = (idMusaic: string) => parseInt(idMusaic.split('-')[0])
-
+  /**
+   * Get index of musaic from idMusaic
+   * Example : M10-3-3-8-96 => 10
+   * @param idMusaic
+   */
+  static indexOfMusaic =
+    (idMusaic: string) => parseInt(idMusaic.split('-')[0].substring(1)) // skip 'M'
 
   /**
-   * Get id of musaic, which is based on
+   * Get id of musaic, which is based on:
    * - M prefix
    * - the index of this orbit into group88.orbits
    * - cardinal of orbit.min
@@ -19,7 +23,7 @@ export class EightyEight {
    * - #number of distinct isc (motifs)
    * (- number of pcs into orbit - deduce from number of isc)
    *
-   * Example: M10-3-3-#8 => musaic 10, card 3/9, 3rd among same card musaics, 8 isc and 96 pcs into orbit
+   * Example: M10-3-3-8-96 => musaic 10, card 3/9, 3rd among same card musaics, 8 isc and 96 pcs into orbit
    *
    * @param pcs
    */
@@ -48,16 +52,20 @@ export class EightyEight {
   }
 
   /**
-   * Get representative PCS (prime forme) of a musaic group orbit, from a pcs
+   * Get representative PCS (prime form) of a musaic group orbit from a given pcs
    * @param pcs
    * @return {IPcs} instance
    */
   static getMusaic(pcs : IPcs): IPcs {
+    const idxMusaic = this.indexOfMusaic(EightyEight.idMusaicOf(pcs))
     const group88 = ManagerGroupActionService.getGroupActionFromGroupAliasName("Musaic")!
-    const idxMusaic = this.indexMusaic(EightyEight.idMusaicOf(pcs))
     return group88.orbits[idxMusaic -1].getPcsMin()
   }
 
+  /**
+   * Get a list of PCS in musaic group prime form, having same MetaStabilizer than pcs parameter
+   * @param pcs
+   */
   static getPrimeFormMusaicsWithSameMetaStabilizerOf(pcs: IPcs) : IPcs[] {
     const group88 = ManagerGroupActionService.getGroupActionFromGroupAliasName("Musaic")!
     const orbit =  group88.getOrbitOf(pcs)
@@ -88,7 +96,5 @@ export class EightyEight {
     }
     return newCurrentSelectedOpOrdered;
   }
-
-
 
 }
