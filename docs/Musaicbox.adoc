@@ -3825,11 +3825,11 @@ CMaj and FMaj have same structure of polygon inscribed, so have same cis, have s
 
 [#Musaic-Motif]
 Musaic-Motif::
-  A face of a musaic. It is a geometric figure of a cyclic intervallic structure of a given pcs, and, potentially, its complement.
+  A "face" of a musaic. It is a geometric figure of a intervallic structure class of a given pcs, and, potentially, its complement.
 +
-Example : image:pcs-03579.png[03579 and complement] is : (2,2,2,3,3) in black, and, potentially (1,2,1,2,2,2,2) in white color
+Example : image:pcs-03579.png[03579 and complement] isc : (2,2,2,3,3) in black, and, potentially (1,2,1,2,2,2,2) in white color
 +
-NOTE: A musaic alone has a potential of *8* intervallic structure classes, sometimes less as in the example provided.image:pcs-musaic-motif-4.png[musaic-motif-4 only]
+NOTE: A musaic alone has a potential of *8* intervallic structure classes, sometimes less as in this example (M44-5-7-4-48) : image:pcs-musaic-motif-4.png[musaic-motif-4 only]
 
 12-ET::
  12 equal temperament
