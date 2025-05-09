@@ -585,10 +585,6 @@ Examples when stem:[E = {0, 1, ..., 11}] (cardinal of stem:[E\ is\ |E| = 12]), n
 * Example id : {nbsp} stem:[M_1("["0 4 7\]) ->"["0 4 7\]] {nbsp} (*neutral operation*)
 
 TIP: Regarding circle of fifths and fourths transformations : "_Since middle 1950s many composers have found useful these operations_" (<<Rahn>>, page 53-55). See also https://en.wikipedia.org/wiki/Multiplication_(music)
- +
- +
- Other regards on these permutations in 12-ETfootnote:[12 equal temperament]  : image:affine-permuations.png[affine-permuations]
-
 
 ==== Illustrations
 
@@ -618,10 +614,26 @@ image:M7-047.png[M7-047]
 .[0 4 7] M5 -> [0 1 4] (Musaics with reversed motif)
 image:M7-047-Mus.png[M7-047 Musaic]
 
+[TIP]
+====
+M11, M5, and M7 are also useful for producing PC set invariance, an interesting musical method for composers, as mentioned by <<Rahn>> (Robert Morris and Daniel Starr's "A General Theory of Combinatoriality and the Aggregate)
+
+_For example, M7 leaves all even PC numbers the same and maps all odd PC numbers to within a tritone (by adding 6). PCS has "whole-tone scales" that are invariant under M7, an interesting musical method._
+
+Other regards on these permutations in 12-ETfootnote:[12 equal temperament]:
+
+image:affine-permutations.png[affine-permutations]
+====
+
+//
+//  Robert Morris and Daniel Starr's "А
+// General Theory of Combinatoriality and the Aggregate," PNM 16/1 (1977) and 16/2 (1978)
 
 === Complement
 
 Operation name is {nbsp} stem:[C]
+
+Especially affects PCS with cardinality 6
 
 ====
 
