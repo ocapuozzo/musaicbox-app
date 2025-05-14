@@ -353,7 +353,7 @@ export class MusaicOperation {
       // M11 * [1 0 1 0 1 1 0 1 0 1 0 1] =>  [1 1 0 1 0 1 0 1 1 0 0 1 0]  ([0 1 3 5 7 8 10])
 
       // inverse convert action, that begin permutedVectorTemplateMapping becomes new template mapping
-      newTemplateMapping = permutedVectorTemplateMapping.reduce(IPcs.vector2integerNamePcs, [])
+      newTemplateMapping = permutedVectorTemplateMapping.reduce(IPcs.vector2indexPcNames, [])
       // so currentTemplateMapping become newTemplateMapping : [0 1 3 5 7 8 10]
       // [1 1 0 1 0 1 0 1 1 0 0 1 0] => [0 1 3 5 7 8 10]
 

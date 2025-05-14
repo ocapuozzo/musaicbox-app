@@ -45,7 +45,7 @@ describe('IPcs unit tests', () => {
         templateMapping: [0, 2, 4, 5, 7, 9, 11]
       })
       expect(ipcsDiatMajMapped.n).toEqual(7)
-      expect(ipcsDiatMajMapped.vectorPcs).toEqual([1,0,1,0,0,0,0])
+      expect(ipcsDiatMajMapped.vectorPcs).toEqual([1, 0, 1, 0, 0, 0, 0])
     } catch (e: any) {
       expect().nothing()
     }
@@ -94,35 +94,35 @@ describe('IPcs unit tests', () => {
 
     const chord = new IPcs({
       strPcs: "0 2 4",
-      n:7,
+      n: 7,
       nMapping: 12,
-      templateMapping: [0,2,4,5,7,9,11]
+      templateMapping: [0, 2, 4, 5, 7, 9, 11]
     })
     expect(chord.getPcsStr()).toEqual("[0 2 4]")
 
     const chord2 = new IPcs({
       strPcs: "[0 2 4 6]",
       iPivot: 0,
-      n:7,
+      n: 7,
       nMapping: 12,
-      templateMapping: [0,2,4,5,7,9,11]
+      templateMapping: [0, 2, 4, 5, 7, 9, 11]
     })
     expect(chord2.n).toEqual(7)
-    expect(chord2.templateMapping).toEqual([0,2,4,5,7,9,11])
+    expect(chord2.templateMapping).toEqual([0, 2, 4, 5, 7, 9, 11])
 
   });
 
-  it('negativeToPositiveModulo', ()=>{
-    expect(negativeToPositiveModulo(0,12)).toEqual(0)
-    expect(negativeToPositiveModulo(1,12)).toEqual(1)
-    expect(negativeToPositiveModulo(-1,12)).toEqual(11)
-    expect(negativeToPositiveModulo(-6,12)).toEqual(6)
+  it('negativeToPositiveModulo', () => {
+    expect(negativeToPositiveModulo(0, 12)).toEqual(0)
+    expect(negativeToPositiveModulo(1, 12)).toEqual(1)
+    expect(negativeToPositiveModulo(-1, 12)).toEqual(11)
+    expect(negativeToPositiveModulo(-6, 12)).toEqual(6)
   })
 
-  it('Test for detect bug with pivot not set', ()=>{
-    let pcs = new IPcs({strPcs:""})
-    expect(MusaicOperation.permute(pcs,1,0).iPivot).toEqual(undefined)
-    expect(pcs.affineOp(1,0).iPivot).toEqual(undefined)
+  it('Test for detect bug with pivot not set', () => {
+    let pcs = new IPcs({strPcs: ""})
+    expect(MusaicOperation.permute(pcs, 1, 0).iPivot).toEqual(undefined)
+    expect(pcs.affineOp(1, 0).iPivot).toEqual(undefined)
     expect(pcs.toggleIndexPC(1).iPivot).toEqual(1)
   })
 
@@ -270,7 +270,7 @@ describe('IPcs unit tests', () => {
     expect(complement.equals(ipcs_complement)).toBeTrue()
     expect(cpltcplt.equals(ipcs)).toBeTrue()
 
-    let pcsTest = new IPcs({strPcs:"0 4 5"})
+    let pcsTest = new IPcs({strPcs: "0 4 5"})
     expect(pcsTest.iPivot).toEqual(0)
     expect(pcsTest.complement().iPivot).toEqual(6)
 
@@ -376,8 +376,8 @@ describe('IPcs unit tests', () => {
 
   it("IPcs dihedralPrimeForm example Maj -> Min", () => {
     const cMaj = new IPcs({strPcs: "0, 4, 7"})
-    const cMajDihedral = MusaicOperation.affineOp(cMaj,11, 0)
-    expect(cMaj.getMappedVectorPcs()).toEqual(MusaicOperation.affineOp(cMajDihedral,11, 0).getMappedVectorPcs())
+    const cMajDihedral = MusaicOperation.affineOp(cMaj, 11, 0)
+    expect(cMaj.getMappedVectorPcs()).toEqual(MusaicOperation.affineOp(cMajDihedral, 11, 0).getMappedVectorPcs())
 
     const cMajDihedralPF = new IPcs({strPcs: "0, 3, 7"})
     expect(cMaj.dihedralPrimeForm().getMappedVectorPcs()).toEqual(cMajDihedralPF.getMappedVectorPcs())
@@ -508,8 +508,8 @@ describe('IPcs unit tests', () => {
     // let pcs  = new IPcs({strPcs:"0 1 2 4 5 6"})
     // expect(pcs.symmetryPrimeForm())
 
-    let pcs  = new IPcs({strPcs:"1 2 6 7"})
-    let pcsSym  = new IPcs({strPcs:"10 2 3 9"})
+    let pcs = new IPcs({strPcs: "1 2 6 7"})
+    let pcsSym = new IPcs({strPcs: "10 2 3 9"})
 
     expect(pcs.symmetryPrimeForm().equals(pcsSym)).toBeTrue()
     expect(pcs.symmetryPrimeForm().iPivot).toEqual(2) // Intervallic Structure no shifted
@@ -524,8 +524,8 @@ describe('IPcs unit tests', () => {
     expect(pcsInMusicGroup.symmetryPrimeForm().isComingFromOrbit()).toBeTrue()
 
     // difficult case :  1 3 6 7 9 10, pass by CM11 and all others steps
-    let kothimic = new IPcs({strPcs:"1 3 6 7 9 10"})
-    let kothimicSymPF = new IPcs({strPcs:"11 4 5 7 8 1"})
+    let kothimic = new IPcs({strPcs: "1 3 6 7 9 10"})
+    let kothimicSymPF = new IPcs({strPcs: "11 4 5 7 8 1"})
     expect(kothimic.symmetryPrimeForm().equals(kothimicSymPF)).toBeTrue()
     expect(kothimic.iPivot).toEqual(1)
     expect(kothimicSymPF.iPivot).toEqual(11)
@@ -535,16 +535,16 @@ describe('IPcs unit tests', () => {
 
     // 0 1 3 4 7 9
     // Cd eE  G A  https://www.daqarta.com/dw_ss0a.htm
-    let bluesDorianHex = new IPcs({strPcs:"0 1 3 4 7 9"})
-    let bluesDorianHexSymmetric = new IPcs({strPcs:"1 4 5 7 8 11"})
+    let bluesDorianHex = new IPcs({strPcs: "0 1 3 4 7 9"})
+    let bluesDorianHexSymmetric = new IPcs({strPcs: "1 4 5 7 8 11"})
     expect(bluesDorianHexSymmetric.equals(bluesDorianHex.symmetryPrimeForm())).toBeTrue()
     expect(bluesDorianHex.symmetryPrimeForm().iPivot).toEqual(4)
     //   if pivot = 11 stab =  M1-T0 M5-T8 M7-T6 M11-T2  (1 sym in -T0  min M11-T2)
     //   if pivot = 4 stab =  M1-T0 M5-T4 M7-T0 M11-T4   (2 sym in -T0  and M11-T4) <= good solution !!!
     //      see musaic 85
 
-    const pcs5 = new  IPcs({strPcs:"[2 3 7 8 9]"})
-    const pcs5SPF = new  IPcs({strPcs:"[0 1 5 6 7]"})
+    const pcs5 = new IPcs({strPcs: "[2 3 7 8 9]"})
+    const pcs5SPF = new IPcs({strPcs: "[0 1 5 6 7]"})
     expect(pcs5.symmetryPrimeForm().equals(pcs5SPF)).toBeTrue()
     expect(pcs5.symmetryPrimeForm().iPivot).toEqual(1) // // M7-T0 stab
 
@@ -560,7 +560,7 @@ describe('IPcs unit tests', () => {
   it("IPcs symmetry prime form Orbit", () => {
     const pcs = new IPcs({strPcs: "0 3 6 9"})
     const pcsInOrbit =
-       ManagerGroupActionService.getGroupActionFromGroupAliasName('Musaic')?.getIPcsInOrbit(pcs)
+      ManagerGroupActionService.getGroupActionFromGroupAliasName('Musaic')?.getIPcsInOrbit(pcs)
     expect(pcsInOrbit).toBeDefined()
     expect(pcsInOrbit!.symmetryPrimeForm().isComingFromOrbit()).toBeTrue()
     expect(pcs.symmetryPrimeForm().isComingFromOrbit()).toBeFalse()
@@ -771,27 +771,26 @@ describe('IPcs unit tests', () => {
   })
 
   it("toggleIndexPC bad index", () => {
-    let ipcsOnePitch = new IPcs({strPcs: "6", n: 12, iPivot: 6})
+    let pcsOnePitch = new IPcs({strPcs: "6", n: 12, iPivot: 6})
     try {
-      ipcsOnePitch.toggleIndexPC(12)
-      fail('ipcsNew must not be instantiated')
-      //same : expect(ipcsNew).not.toBeTruthy()
+      const pcsNew = pcsOnePitch.toggleIndexPC(12)
+      fail('pcsNew must not be instantiated')
     } catch (e) {
       expect().nothing()
     }
   })
 
   it("get new Pivot", () => {
-    let ipcsMaj = new IPcs({strPcs: "0, 4, 7", iPivot: 0})
-    let ipcsMajPivotThird = new IPcs({strPcs: "0, 4, 7", iPivot: 4})
-    expect(ipcsMaj.cloneWithNewPivot(4)).toEqual(ipcsMajPivotThird)
+    let pcsMaj = new IPcs({strPcs: "0, 4, 7", iPivot: 0})
+    let pcsMajPivotThird = new IPcs({strPcs: "0, 4, 7", iPivot: 4})
+    expect(pcsMaj.cloneWithNewPivot(4)).toEqual(pcsMajPivotThird)
   })
 
   it("get new bad Pivot", () => {
-    let ipcsMaj = new IPcs({strPcs: "0, 4, 7", iPivot: 0})
-    let ipcsMajPivotThird = new IPcs({strPcs: "0, 4, 7", iPivot: 4})
+    let pcsMaj = new IPcs({strPcs: "0, 4, 7", iPivot: 0})
+    let pcsMajPivotThird = new IPcs({strPcs: "0, 4, 7", iPivot: 4})
     try {
-      expect(ipcsMaj.cloneWithNewPivot(6)).toEqual(ipcsMajPivotThird)
+      expect(pcsMaj.cloneWithNewPivot(6)).toEqual(pcsMajPivotThird)
       fail("Error expected, because bad new pivot")
     } catch (e: any) {
       // good
@@ -803,28 +802,26 @@ describe('IPcs unit tests', () => {
   it("get complement() with, or not, this orbit", () => {
     let cyclicGroup12 = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!
 
-    let ipcsWithoutOrbit = new IPcs({strPcs: "0, 4, 8", iPivot: 0})
-    let ipcsWithOrbit: IPcs = cyclicGroup12.getIPcsInOrbit(ipcsWithoutOrbit)
+    let pcsWithoutOrbit = new IPcs({strPcs: "0, 4, 8", iPivot: 0})
+    let pcsWithOrbit: IPcs = cyclicGroup12.getIPcsInOrbit(pcsWithoutOrbit)
 
-    expect(ipcsWithoutOrbit.isComingFromOrbit()).toBeFalse()
-    expect(ipcsWithOrbit.isComingFromOrbit()).toBeTrue()
+    expect(pcsWithoutOrbit.isComingFromOrbit()).toBeFalse()
+    expect(pcsWithOrbit.isComingFromOrbit()).toBeTrue()
 
-    expect(ipcsWithoutOrbit.complement().isComingFromOrbit()).toBeFalse()
+    expect(pcsWithoutOrbit.complement().isComingFromOrbit()).toBeFalse()
 
-    // only ManagerPcsService manage state orbit
-    // expect(ipcsWithOrbit.complement().isComingFromAnOrbit()).toBeFalse()
   })
 
   it("equals with same pivot", () => {
-    let ipcsMajPivot0 = new IPcs({strPcs: "0, 4, 7", iPivot: 0})
-    let ipcsMajBisPivot0 = new IPcs({strPcs: "0, 4, 7", iPivot: 0})
-    expect(ipcsMajPivot0.equals(ipcsMajBisPivot0)).toBeTrue()
+    let pcsMajPivot0 = new IPcs({strPcs: "0, 4, 7", iPivot: 0})
+    let pcsMajBisPivot0 = new IPcs({strPcs: "0, 4, 7", iPivot: 0})
+    expect(pcsMajPivot0.equals(pcsMajBisPivot0)).toBeTrue()
   })
 
   it("equals with NOT same pivot", () => {
-    let ipcsMajPivot0 = new IPcs({strPcs: "0, 4, 7", iPivot: 0})
-    let ipcsMajBisPivot4 = new IPcs({strPcs: "0, 4, 7", iPivot: 4})
-    expect(ipcsMajPivot0.equals(ipcsMajBisPivot4)).toBeTrue()
+    let pcsMajPivot0 = new IPcs({strPcs: "0, 4, 7", iPivot: 0})
+    let pcsMajBisPivot4 = new IPcs({strPcs: "0, 4, 7", iPivot: 4})
+    expect(pcsMajPivot0.equals(pcsMajBisPivot4)).toBeTrue()
   })
 
 
@@ -835,22 +832,22 @@ describe('IPcs unit tests', () => {
 
 
   it("autoMAp getMappedVectorPcs 7 diat maj => 12 chromatic", () => {
-    let ipcsDiatMaj = new IPcs({strPcs: "0, 2, 4, 5, 7, 9, 11", iPivot: 2})
-    expect(ipcsDiatMaj.n).toEqual(12)
+    let pcsDiatMaj = new IPcs({strPcs: "0, 2, 4, 5, 7, 9, 11", iPivot: 2})
+    expect(pcsDiatMaj.n).toEqual(12)
 
-    let ipcsDiatMajMappedIn12 = ipcsDiatMaj.autoMap()
+    let pcsDiatMajMappedIn12 = pcsDiatMaj.autoMap()
 
-    expect(ipcsDiatMajMappedIn12.n).toEqual(7)
-    expect(ipcsDiatMajMappedIn12.nMapping).toEqual(12)
-    expect(ipcsDiatMajMappedIn12.getMappedVectorPcs().length).toEqual(12)
+    expect(pcsDiatMajMappedIn12.n).toEqual(7)
+    expect(pcsDiatMajMappedIn12.nMapping).toEqual(12)
+    expect(pcsDiatMajMappedIn12.getMappedVectorPcs().length).toEqual(12)
 
     // index of 2 in new templateMapping is 1
-    expect(ipcsDiatMajMappedIn12.iPivot).toEqual(1)
+    expect(pcsDiatMajMappedIn12.iPivot).toEqual(1)
     // 2 becomes initial pivot again
-    expect(ipcsDiatMajMappedIn12.unMap().iPivot).toEqual(2)
+    expect(pcsDiatMajMappedIn12.unMap().iPivot).toEqual(2)
 
     // unselect 3 pitches
-    let otherPics = ipcsDiatMajMappedIn12.toggleIndexPC(1)
+    let otherPics = pcsDiatMajMappedIn12.toggleIndexPC(1)
     expect(otherPics.id).toEqual(new IPcs({strPcs: '[0, 2, 3, 4, 5, 6]', n: 7}).id)
     otherPics = otherPics.toggleIndexPC(3)
     otherPics = otherPics.toggleIndexPC(5)
@@ -922,43 +919,43 @@ describe('IPcs unit tests', () => {
   })
 
   it("Default Mapping", () => {
-    const ipcsDminor = new IPcs({
+    const pcsDminor = new IPcs({
       strPcs: "[2, 5, 9]", // D minor
       n: 12,
     })
-    expect(ipcsDminor.nMapping).toEqual(ipcsDminor.n)
-    expect(ipcsDminor.nMapping).toEqual(12)
-    expect(ipcsDminor.templateMapping).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
+    expect(pcsDminor.nMapping).toEqual(pcsDminor.n)
+    expect(pcsDminor.nMapping).toEqual(12)
+    expect(pcsDminor.templateMapping).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
   })
 
 
   it("unMap a pcs not mapped", () => {
-    const ipcsDminor = new IPcs({
+    const pcsDminor = new IPcs({
       strPcs: "[2, 5, 9]", // D minor
       n: 12,
     })
-    expect(ipcsDminor.unMap()).toEqual(ipcsDminor)
+    expect(pcsDminor.unMap()).toEqual(pcsDminor)
 
-    const ipcsCMaj = new IPcs({strPcs: "[0, 4, 7]" })
-    expect(ipcsCMaj.unMap().pid()).toEqual(ipcsCMaj.pid())
+    const pcsCMaj = new IPcs({strPcs: "[0, 4, 7]"})
+    expect(pcsCMaj.unMap().pid()).toEqual(pcsCMaj.pid())
 
-    expect(ipcsCMaj.unMap().getChordName()).toEqual("CMaj")
+    expect(pcsCMaj.unMap().getChordName()).toEqual("CMaj")
   })
 
 
   it("getMappedPcsStr", () => {
-    const ipcsDiatMajMapped = new IPcs({
+    const pcsDiatMajMapped = new IPcs({
       strPcs: "[0, 2, 4]", // first 3-chord
       n: 7,
       nMapping: 12,
       templateMapping: [0, 2, 4, 5, 7, 9, 11]  // mapped into [0,4,7] {C E G}
     })
-    expect(ipcsDiatMajMapped.getPcsStr()).toEqual('[0 2 4]')
-    expect(ipcsDiatMajMapped.getMappedPcsStr()).toEqual('[0 4 7]')
+    expect(pcsDiatMajMapped.getPcsStr()).toEqual('[0 2 4]')
+    expect(pcsDiatMajMapped.getMappedPcsStr()).toEqual('[0 4 7]')
 
-    expect(ipcsDiatMajMapped.unMap().getPcsStr()).toEqual('[0 4 7]')
+    expect(pcsDiatMajMapped.unMap().getPcsStr()).toEqual('[0 4 7]')
     // default auto-map on himself
-    expect(ipcsDiatMajMapped.unMap().getMappedPcsStr()).toEqual('[0 4 7]')
+    expect(pcsDiatMajMapped.unMap().getMappedPcsStr()).toEqual('[0 4 7]')
 
   })
 
@@ -980,32 +977,32 @@ describe('IPcs unit tests', () => {
 
 
   it("Forte empty set", () => {
-    const ipcsEmpty = new IPcs({strPcs: '[]', n: 12})
-    expect(ipcsEmpty.forteNum()).toEqual('0-1');
+    const pcsEmpty = new IPcs({strPcs: '[]', n: 12})
+    expect(pcsEmpty.forteNum()).toEqual('0-1');
   });
 
   it("Forte [0,6]", () => {
-    const ipcsEmpty = new IPcs({strPcs: '[0,6]', n: 12})
-    expect(ipcsEmpty.forteNum()).toEqual('2-6');
+    const pcsEmpty = new IPcs({strPcs: '[0,6]', n: 12})
+    expect(pcsEmpty.forteNum()).toEqual('2-6');
   });
 
   it("Forte [0,1,2,3,6]", () => {
-    const ipcsEmpty = new IPcs({strPcs: '[0,1,2,3,6]', n: 12})
+    const pcsEmpty = new IPcs({strPcs: '[0,1,2,3,6]', n: 12})
     // 5-4 or 5-4A
-    expect(ipcsEmpty.forteNum()).toContain('5-4');
+    expect(pcsEmpty.forteNum()).toContain('5-4');
   });
 
   it("Forte bad pcs", () => {
-    const ipcsEmpty = new IPcs({strPcs: '[0,1,2,3,6]', n: 7})
+    const pcsEmpty = new IPcs({strPcs: '[0,1,2,3,6]', n: 7})
     // n != 12
-    expect(ipcsEmpty.forteNum()).toEqual('');
+    expect(pcsEmpty.forteNum()).toEqual('');
   });
 
 
   it("Forte inversions are marked 8-4B", () => {
-    let ipcs = new IPcs({strPcs: '[0,1,3,4,5,6,7,8]'})
+    let pcs = new IPcs({strPcs: '[0,1,3,4,5,6,7,8]'})
     // pass by pcs.dihedralPrimeForm().pcsStr
-    expect(ipcs.forteNum()).toEqual('8-4');
+    expect(pcs.forteNum()).toEqual('8-4');
   });
 
   it("iv Interval Vector of MajChord3pitches", () => {
@@ -1036,14 +1033,14 @@ describe('IPcs unit tests', () => {
 
 
   it("isComingFromAnOrbit()", () => {
-    const ipcsMaj3Pitches: IPcs = new IPcs({
+    const pcsMaj3Pitches: IPcs = new IPcs({
       strPcs: "[0, 4, 7]", // C Major
     })
-    expect(ipcsMaj3Pitches.isComingFromOrbit()).toBeFalse()
+    expect(pcsMaj3Pitches.isComingFromOrbit()).toBeFalse()
 
-    const ipcsPrimeForme = ipcsMaj3Pitches.cyclicPrimeForm()
-    expect(ipcsPrimeForme.isComingFromOrbit()).toBeTrue()
-    // because ipcsPrimeForme is get from group action
+    const pcsPrimeForme = pcsMaj3Pitches.cyclicPrimeForm()
+    expect(pcsPrimeForme.isComingFromOrbit()).toBeTrue()
+    // because pcsPrimeForm is get from group action
   });
 
 
@@ -1096,13 +1093,13 @@ describe('IPcs unit tests', () => {
 
   })
 
-  it("get index in vector of order pitch ", () =>{
+  it("get index in vector of order pitch ", () => {
     let pcs1 = new IPcs({strPcs: '[0,4,7]'})
     expect(pcs1.getVectorIndexOfPitchOrder(2)).toEqual(4)
     expect(pcs1.getVectorIndexOfPitchOrder(3)).toEqual(7)
     expect(pcs1.getVectorIndexOfPitchOrder(1)).toEqual(0)
 
-    pcs1 = new IPcs({strPcs: '[0,4,7]', iPivot:4})
+    pcs1 = new IPcs({strPcs: '[0,4,7]', iPivot: 4})
     expect(pcs1.getVectorIndexOfPitchOrder(2)).toEqual(7)
     expect(pcs1.getVectorIndexOfPitchOrder(3)).toEqual(0)
     expect(pcs1.getVectorIndexOfPitchOrder(1)).toEqual(4)
@@ -1113,21 +1110,21 @@ describe('IPcs unit tests', () => {
     let pcs = new IPcs({strPcs: '[0,4,7]'})
     let allPcsInCyclicGroup = pcs.getAllCyclicPcsPivotVersion()
     expect(allPcsInCyclicGroup.length).toEqual(12)
-    for (let i = 0; i < allPcsInCyclicGroup.length ; i++) {
+    for (let i = 0; i < allPcsInCyclicGroup.length; i++) {
       expect(allPcsInCyclicGroup[i].iPivot).toEqual(i)
     }
 
     pcs = new IPcs({strPcs: '[0,4,8]'})
     allPcsInCyclicGroup = pcs.getAllCyclicPcsPivotVersion()
     expect(allPcsInCyclicGroup.length).toEqual(4)
-    for (let i = 0; i < allPcsInCyclicGroup.length ; i++) {
+    for (let i = 0; i < allPcsInCyclicGroup.length; i++) {
       expect(allPcsInCyclicGroup[i].iPivot).toEqual(i)
     }
 
   })
 
 
-  it ('getStabilizerOperations()', () => {
+  it('getStabilizerOperations()', () => {
 
     const groupMusaic = ManagerGroupActionService.getGroupActionFromGroupAliasName("Musaic")!
     const attachedMaj7 = groupMusaic.getIPcsInOrbit(new IPcs({strPcs: '0,4,7,10'}))
@@ -1142,21 +1139,21 @@ describe('IPcs unit tests', () => {
   })
 
   it('_fromStringTobinArray', () => {
-    expect(IPcs._fromStringTobinArray("0, 1, 7").vector).toEqual([1,1,0,0,0,0,0,1,0,0,0,0])
+    expect(IPcs._fromStringTobinArray("0, 1, 7").vector).toEqual([1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0])
     expect(IPcs._fromStringTobinArray("0, 1, 7").vector.length).toEqual(12)
     expect(IPcs._fromStringTobinArray("0, 1, 7").defaultPivot).toEqual(0)
 
-    expect(IPcs._fromStringTobinArray("017").vector).toEqual([1,1,0,0,0,0,0,1,0,0,0,0])
+    expect(IPcs._fromStringTobinArray("017").vector).toEqual([1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0])
 
-    expect(IPcs._fromStringTobinArray("04710").vector).toEqual([1,0,0,0,1,0,0,1,0,0,1,0])
-    expect(IPcs._fromStringTobinArray("047A").vector).toEqual([1,0,0,0,1,0,0,1,0,0,1,0])
-    expect(IPcs._fromStringTobinArray("047TE").vector).toEqual([1,0,0,0,1,0,0,1,0,0,1,1])
+    expect(IPcs._fromStringTobinArray("04710").vector).toEqual([1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0])
+    expect(IPcs._fromStringTobinArray("047A").vector).toEqual([1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0])
+    expect(IPcs._fromStringTobinArray("047TE").vector).toEqual([1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1])
 
     expect(IPcs._fromStringTobinArray("017").vector.length).toEqual(12)
     expect(IPcs._fromStringTobinArray("017").defaultPivot).toEqual(0)
     expect(IPcs._fromStringTobinArray("701").defaultPivot).toEqual(7)
 
-    expect(IPcs._fromStringTobinArray("0, 1, 3", 5).vector).toEqual([1,1,0,1,0])
+    expect(IPcs._fromStringTobinArray("0, 1, 3", 5).vector).toEqual([1, 1, 0, 1, 0])
     expect(IPcs._fromStringTobinArray("013", 5).vector.length).toEqual(5)
     expect(IPcs._fromStringTobinArray("107", 5).defaultPivot).toEqual(0)
     expect(IPcs._fromStringTobinArray("1 07", 5).defaultPivot).toEqual(1)
@@ -1164,15 +1161,15 @@ describe('IPcs unit tests', () => {
     expect(IPcs._fromStringTobinArray("710", 5).defaultPivot).toEqual(2)
 
     expect(IPcs._fromStringTobinArray("1 07A B", 5).defaultPivot).toEqual(1)
-    expect(IPcs._fromStringTobinArray("1 07A B", 5).vector).toEqual([1,1,1,0,0])
+    expect(IPcs._fromStringTobinArray("1 07A B", 5).vector).toEqual([1, 1, 1, 0, 0])
     expect(IPcs._fromStringTobinArray("10 T7", 5).defaultPivot).toEqual(0)
-    expect(IPcs._fromStringTobinArray("10 T7", 5).vector).toEqual([1,0,1,0,0])
+    expect(IPcs._fromStringTobinArray("10 T7", 5).vector).toEqual([1, 0, 1, 0, 0])
     expect(IPcs._fromStringTobinArray("710E", 5).defaultPivot).toEqual(2)
-    expect(IPcs._fromStringTobinArray("710E", 5).vector).toEqual([1,1,1,0,0])
+    expect(IPcs._fromStringTobinArray("710E", 5).vector).toEqual([1, 1, 1, 0, 0])
 
   })
 
-  it('isComingFromAnOrbitTrivial', ()=> {
+  it('isComingFromAnOrbitTrivial', () => {
     let pcs = new IPcs({strPcs: '[0,4,7]'})
     expect(pcs.isComingFromTrivialOrbit()).toBeFalse()
     let pcInOrbit = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")?.getIPcsInOrbit(pcs)
@@ -1183,7 +1180,7 @@ describe('IPcs unit tests', () => {
     expect(pcInOrbit?.isComingFromTrivialOrbit()).toBeTrue() // <== true
   })
 
-  it(' clones ', ()=>{
+  it(' clones ', () => {
     let pcs = new IPcs({strPcs: '[0,4,7]'})
     let pcInOrbit = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")?.getIPcsInOrbit(pcs)
     expect(pcInOrbit?.isComingFromOrbit()).toBeTrue()
@@ -1194,7 +1191,8 @@ describe('IPcs unit tests', () => {
     try {
       pcs.cloneDetachedWithPivot(42)
       fail("Pivot 42 should not be accepted")
-    } catch (e) { }
+    } catch (e) {
+    }
 
     pcs = new IPcs({strPcs: '[0,3,6,9]'})
     pcInOrbit = pcs.getOrMakeInstanceFromOrbitOfGroupActionOf(pcInOrbit?.orbit.groupAction!, 6)
@@ -1214,8 +1212,8 @@ describe('IPcs unit tests', () => {
 
   })
 
-  it(' clones with parameters ', ()=> {
-    let pcs = new IPcs({strPcs: '[0,4,6]', n:7})
+  it(' clones with parameters ', () => {
+    let pcs = new IPcs({strPcs: '[0,4,6]', n: 7})
     let pcInOrbitCyclic = ManagerGroupActionService.getGroupActionFromGroupName("n:7 [M1]")?.getIPcsInOrbit(pcs)
 
     expect(pcInOrbitCyclic).toBeDefined()
@@ -1223,12 +1221,12 @@ describe('IPcs unit tests', () => {
     expect(pcs.n).toEqual(7)
     expect(pcs.nMapping).toEqual(7) // self mapping
 
-    let clone = pcs.cloneWithData({pivot: 0, nMapping: 12, templateMapping: [0,2,4,5,7,9,11]})
+    let clone = pcs.cloneWithData({pivot: 0, nMapping: 12, templateMapping: [0, 2, 4, 5, 7, 9, 11]})
 
     expect(clone.id).toEqual(pcs.id)
     expect(clone.n).toEqual(pcs.n)
     expect(clone.nMapping).toEqual(12)
-    expect(clone.templateMapping).toEqual([0,2,4,5,7,9,11])
+    expect(clone.templateMapping).toEqual([0, 2, 4, 5, 7, 9, 11])
 
     expect(pcInOrbitCyclic!.isComingFromOrbit()).toBeTrue()
 
@@ -1237,16 +1235,20 @@ describe('IPcs unit tests', () => {
 
   });
 
-it(' getVector Mapped string ', ()=> {
-  /**
-   * In arg to reduce. Input array of 0|1, output array of integer [0..n-1]
-   * [1,0,0,0,1,0,0,1,0,0,0,0] => [0,4,7]
-   */
-   const mappedArray = [0, 2, 4, 5, 7, 9, 11]
-   const array = mappedArray.reduce(IPcs.vector2integerNamePcs, [])
+  it('IPcs.vector2indexPcNames', () => {
+    /**
+     * In arg to reduce. Input array of 0|1, output array of integer [0..n-1]
+     * [1,0,0,0,1,0,0,1,0,0,0,0] => [0,4,7]
+     */
+    let vector = [1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0]
+    let array = vector.reduce(IPcs.vector2indexPcNames, [])
+    expect(array).toEqual([0, 4, 7])
 
-
-})
+    // empty pcs has no index pc name
+    vector = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    array = vector.reduce(IPcs.vector2indexPcNames, [])
+    expect(array).toEqual([])
+  })
 
 
 })

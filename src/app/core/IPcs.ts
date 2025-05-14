@@ -509,7 +509,7 @@ export class IPcs {
   modulation(direction: TDirection): IPcs {
     if (this.cardinal === 0) return this
 
-    const indexes = this.vectorPcs.reduce(IPcs.vector2integerNamePcs, [])
+    const indexes = this.vectorPcs.reduce(IPcs.vector2indexPcNames, [])
 
     // double values and size. Ex [0, 4, 7] => [0, 4, 7, 0, 4, 7]
     // to simplify the algorithm.
@@ -574,43 +574,39 @@ export class IPcs {
   // }
 
   /**
-   * In arg to reduce. Input array of 0|1, output array of integer [0..n-1]
+   * In arg to reduce. Input array of 0|1, output array of integer index [0..n-1] only for element equals to 1
    * [1,0,0,0,1,0,0,1,0,0,0,0] => [0,4,7]
-   * @param previousValue
+   * @param indexArray
    * @param currentValue
    * @param currentIndex
    */
-  static vector2integerNamePcs(previousValue: number[], currentValue: number, currentIndex: number) {
+  static vector2indexPcNames(indexArray: number[], currentValue: number, currentIndex: number) {
     if (currentValue === 1) {
-      previousValue.push(currentIndex)
+      indexArray.push(currentIndex)
     }
-    return previousValue
+    return indexArray
   }
 
   /**
-   * Get textuel representation of this in n (notation bracket by default)
-   * string image of PCS from bin array
-   * Example : [1,1,0,0,0,0,0,1,0,0,0,0] => "[0 1 7]"
+   * Get textual representation of this in n (bracket notation by default)
+   * string image of PCS from vector (bin array)
+   * Example: [1,1,0,0,0,0,0,1,0,0,0,0] => "[0 1 7]"
    * @returns {string}
    */
   getPcsStr(withBracket: boolean = true): string {
-    const pcsNameIndexes = this.vectorPcs.reduce(IPcs.vector2integerNamePcs, [])
-
-    if (withBracket) {
-      return `[${pcsNameIndexes.join(' ')}]`
-    }
-    return pcsNameIndexes.join(' ')
+    const pcsNameIndexes = this.vectorPcs.reduce(IPcs.vector2indexPcNames, [])
+    return withBracket ? `[${pcsNameIndexes.join(' ')}]` : pcsNameIndexes.join(' ')
   }
 
 
   /**
    * Get textual representation of this in nMapping (notation bracket or not)
    * string image of PCS from bin array
-   * Example : [1,1,0,0,0,0,0,1,0,0,0,0] => "[0 1 7]"
+   * Example: [1,1,0,0,0,0,0,1,0,0,0,0] => "[0 1 7]"
    * @returns {string}
    */
   getMappedPcsStr(withBracket: boolean = true): string {
-    const pcs = this.getMappedVectorPcs().reduce(IPcs.vector2integerNamePcs, [])
+    const pcs = this.getMappedVectorPcs().reduce(IPcs.vector2indexPcNames, [])
     return withBracket ? `[${pcs.join(' ')}]` : pcs.join(' ')
   }
 

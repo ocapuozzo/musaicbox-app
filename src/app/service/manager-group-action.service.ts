@@ -9,7 +9,7 @@ export type TGroupName = typeof GROUP_NAMES[number];
  * (see Labo.spec.ts - 'Explore all sub-group of musaic group - up to transposition')
  */
 const GROUPS_NAMES_N12 = [
-  {groupName: "n=12 []", alias: "Trivial"}, // only M1-T0 (neutral operation - not represented)
+  {groupName: "n=12 []", alias: "Trivial"}, // only M1-T0 (default neutral operation is not represented)
   {groupName: "n=12 [M1]", alias: "Cyclic"}, // all Mx and CMx are with -T1 (transposition by step 1)
   {groupName: "n=12 [M1 M5]", alias: ""},
   {groupName: "n=12 [M1 M7]", alias: ""},
@@ -65,9 +65,10 @@ export class ManagerGroupActionService {
    */
   static buildGroupActionFromGroupName(groupName: string) {
 
-    const someOperations: MusaicOperation[] =  (groupName === "n=12 []")
-      ?  [new MusaicOperation(12, 1, 0, false)] // M1-T0, trivial group
-      :  this._buildOperationsFromGroupName(groupName)
+    const someOperations: MusaicOperation[] =
+      (groupName === "n=12 []")
+        ?  [new MusaicOperation(12, 1, 0, false)] // M1-T0, trivial group
+        :  this._buildOperationsFromGroupName(groupName)
     if (someOperations.length === 0) {
       // console.error(`buildGroupActionFromGroupName Impossible : ${groupName}`)
       // someOperations.push(new MusaicOperation(12, 1, 0, false)) // M1-T0, trivial group
@@ -78,7 +79,7 @@ export class ManagerGroupActionService {
 
   /**
    * Build MusaicOperation[] from name op without Tx.
-   * Example : "n=2 [M1 CM7]" => M1-T1, CM7-T1 (MusaicOperation instances)
+   * Example: "n=2 [M1 CM7]" => M1-T1, CM7-T1 (MusaicOperation instances)
    * @param groupName example "n=12 [M1 M5 M7 M11]"
    * @return {MusaicOperation[]} array of MusaicOperation. May be empty if bad format input
    */
@@ -106,12 +107,12 @@ export class ManagerGroupActionService {
   /**
    * Get GroupAction instance from a groupName (as Group.name) i.e. "n=12 [M1]"
    * if GroupAction instance exists into ManagerGroupActionService.GROUP_ACTION_INSTANCES, then return it
-   * else create new instance and put it into ManagerGroupActionService.GROUP_ACTION_INSTANCES
+   * else create a new instance and put it into ManagerGroupActionService.GROUP_ACTION_INSTANCES
    * @param groupName
    */
   static getGroupActionFromGroupName(groupName: string): GroupAction | undefined {
-    if (!ManagerGroupActionService.GROUP_ACTION_INSTANCES.has(groupName)) {
-      // in static context, 'this' refer to class, not instance
+    // in a static context, 'this' refer to class, not instance
+    if (!this.GROUP_ACTION_INSTANCES.has(groupName)) {
       const newGroupName = '' + groupName
       const groupAction: GroupAction = this.buildGroupActionFromGroupName(newGroupName)
       ManagerGroupActionService.GROUP_ACTION_INSTANCES.set(groupName, groupAction)
@@ -119,15 +120,19 @@ export class ManagerGroupActionService {
     return ManagerGroupActionService.GROUP_ACTION_INSTANCES.get(groupName)
   }
 
+  /**
+   * Helper. Get GroupAction instance from a group alias name, as "Trivial"
+   * @param aliasName
+   */
   static getGroupActionFromGroupAliasName(aliasName: TGroupName) {
-    const groupNameTuple = this.findGroupName(aliasName)
+    const groupNameTuple = this.findGroupNameFromAlias(aliasName)
     if (groupNameTuple) {
       return this.getGroupActionFromGroupName(groupNameTuple.groupName)
     }
     return undefined
   }
 
-  static findGroupName(alias: string) {
+  static findGroupNameFromAlias(alias: string) {
     return GROUPS_NAMES_N12.find(value => value.alias === alias)
   }
 

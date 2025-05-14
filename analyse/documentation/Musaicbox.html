@@ -696,7 +696,7 @@ td:has(>p>span[class="klein2"]) {
 <ul class="sectlevel2">
 <li><a href="#_in_summary">In summary</a></li>
 <li><a href="#_for_which_audience">For which audience ?</a></li>
-<li><a href="#_use_cases">Use Cases</a></li>
+<li><a href="#_application_use_cases">Application Use Cases</a></li>
 </ul>
 </li>
 <li><a href="#_pcs">PCS</a>
@@ -878,7 +878,7 @@ td:has(>p>span[class="klein2"]) {
 </div>
 </div>
 <div class="paragraph">
-<p>A Musaic is a matrix representation of all 12 pitch classes in integer notation.</p>
+<p>A Musaic is a matrix representation of all 12 pitch classes in integer notation and "minimal" armature 1,5.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -896,23 +896,48 @@ td:has(>p>span[class="klein2"]) {
 <p>Any intervallic structure defined within an octave prints a pattern on the matrix, and thereby reveals a musical structure that we call <a href="#Musaic-Motif">[Musaic-Motif]</a>.</p>
 </div>
 <div class="paragraph">
-<p>Since a musaic can be viewed from several angles, it is said to have multiple faces, it can carry up to 8 different musaic-motifs and therefore intervallic structure classes. There are 88 musaics in total for 352 intervallic structure classes.</p>
+<p>To move from one face to another, geometric operations are applied: rotation around a central point or a diagonal.</p>
+</div>
+<div class="paragraph">
+<div class="title">Rotation 1/2 turn [0 3 6 10] &#8658; [2 5 8 10]</div>
+<p><span class="image"><img src="./assets/images/m11-anime.png" alt="m11-anime"></span></p>
+</div>
+<div class="paragraph">
+<div class="title">Rotation Left Diagonal [0 3 6 10] &#8658; [2 8 10 11]</div>
+<p><span class="image"><img src="./assets/images/m5-anime.png" alt="m5-anime"></span></p>
+</div>
+<div class="paragraph">
+<div class="title">Rotation Right Diagonal [0 3 6 10] &#8658; [0 6 9 10]</div>
+<p><span class="image"><img src="./assets/images/m7-anime.png" alt="m7-anime"></span></p>
+</div>
+<div class="paragraph">
+<p><strong>From a geometric point of view, there is therefore a similarity between harmonic structures (intervallic structures).
+</strong></p>
+</div>
+<div class="paragraph">
+<p>Since a musaic can be viewed from several angles, it is said to have 4 "faces", each face has 2 motifs (one and its complementary). A musaic motif is a geometry representation of an intervallic structure class. There are 88 musaics in total for 352 intervallic structure classes.</p>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="./assets/images/template-musaic-anatomy.png" alt="template-musaic-anatomy">
 </div>
-<div class="title">Figure 2. Example of musaic n°26 having seventh chord on one of its "faces"</div>
+<div class="title">Figure 2. Example of musaic n°26 having seventh chord on one of its motifs.</div>
+</div>
+<div class="paragraph">
+<p>To implement these operations, the MusaicBox application uses well-known algebraic operations from Musaic Set Theory, coupled with Group Theory, and takes advantage of this to unify basic concepts such as the notion of Prime Form.</p>
+</div>
+<div class="paragraph">
+<p>This document details the implementation choices, the decision-making, <strong>but a detailed understanding of the underlying concepts is not necessary to use the application</strong>. Simply understand (see <a href="#_glossary">Glossary</a>) what an <em>intervallic class structure</em>, <em>intervallic structure</em>, an <em>orbit</em>, a <em>stabilizer</em>, and to a lesser extent: <em>interval vector</em> and the basic notion of set theory (cardinal of a set, intersection, union, difference) is.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_for_which_audience">For which audience ?</h3>
 <div class="paragraph">
-<p>Musician eager to add to his source of inspiration a muse of a scientific nature, based on idea of reducing any combination of sounds to a set of pitch classes, called <em>pitch class set</em> (PCS).<sup class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup></p>
+<p>Musician eager to add to his source of inspiration a muse of a scientific nature, based on the idea that geometry can teach us things related to music, its feeling and composition.<sup class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_use_cases">Use Cases</h3>
+<h3 id="_application_use_cases">Application Use Cases</h3>
 <div class="paragraph">
 <p>Four entries (main pages)</p>
 </div>
@@ -6471,7 +6496,7 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <h2 id="_pcs_with_pivot">PCS with pivot property</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>(or pivot property for better basic operations)</p>
+<p>(pivot property for better basic operations)</p>
 </div>
 <div class="paragraph">
 <p>As they stand, the generally accepted basic operations of musical set theory pose a logic problem that we raise here.</p>
@@ -7570,6 +7595,10 @@ By default, a PCS is mapped to itself, and therefore considered "unmapped."</p>
 <div class="sectionbody">
 <div class="dlist">
 <dl>
+<dt class="hdlist1">Armature </dt>
+<dd>
+<p>An integer pair representing the intervals from which the musaic matrix frame is built.  For example, <span class="nowrap">(1, 7)</span> or <span class="nowrap">(1, 5)</span> for game on regular instruments, respectively tuned in fifths or fourths.</p>
+</dd>
 <dt class="hdlist1">Integer Notation</dt>
 <dd>
 <p>The representation of pitch class by the integers 0 through 11 (pc integers) <a href="#Forte">[Forte]</a></p>
@@ -7722,13 +7751,27 @@ This is an array of natural numbers which summarize the pitch class intervals ap
 <p>Because all pcs in same cyclic orbit have same intervallic structure class (transposition preserve intervallic structure class), a intervallic structure class of a given pcs is represented by the <em>Intervallic Structure</em> of its <em>cyclic prime form</em>.</p>
 </div>
 <div class="paragraph">
-<p>Example : (CMaj) isc([0 4 7]) = (4 3 5)  (<em>cyclic prime form</em>)</p>
+<p>Examples:</p>
 </div>
-<div class="paragraph">
-<p>Example : (FMaj) isc([0 5 9]) = (4 3 5) (CMaj is its cyclic prime form)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>(CMaj) isc([0 4 7]) = (4 3 5)  (<em>cyclic prime form</em>)</p>
+</li>
+<li>
+<p>(FMaj) isc([0 5 9]) = (4 3 5) (CMaj is its cyclic prime form)</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
 <p>CMaj and FMaj have same structure of polygon inscribed, so have same cis, have same musaic-motif</p>
+</div>
+</dd>
+<dt class="hdlist1">Musaic-Face</dt>
+<dd>
+<p>A surface presented to the view. A musaic has 4 faces accessible by operations : <em>id</em>, <em>M11</em>, <em>M5</em> and <em>M7</em></p>
+<div class="paragraph">
+<p>A face is composed of two motifs, each characterized by a specific (and arbitrary) color. For 19 out of 88 musaics  their motifs are distinct.</p>
 </div>
 </dd>
 </dl>
@@ -7737,21 +7780,42 @@ This is an array of natural numbers which summarize the pitch class intervals ap
 <dl>
 <dt class="hdlist1">Musaic-Motif</dt>
 <dd>
-<p>A "face" of a musaic. It is a geometric figure of a intervallic structure class of a given pcs, and, potentially, its complement.</p>
+<p>It is a component of a face (which contains two). Observing a motif means focusing on one of the two colors of a face.</p>
 <div class="paragraph">
-<p>Example : <span class="image"><img src="./assets/images/pcs-03579.png" alt="03579 and complement"></span> isc : (2,2,2,3,3) in black, and, potentially (1,2,1,2,2,2,2) in white color</p>
+<p>It is a geometric figure of a intervallic structure class of a given pcs (bijection). A musaic has a potential from 1 to 8 distinct motifs. 4 faces  x 2 colors = 8 motifs.</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-A musaic alone has a potential of <strong>8</strong> intervallic structure classes, sometimes less as in this example (M44-5-7-4-48) : <span class="image"><img src="./assets/images/pcs-musaic-motif-4.png" alt="musaic-motif-4 only"></span>
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>Example musaic N°44 has 4 distinct motifs : <span class="image"><img src="./assets/images/pcs-03579.png" alt="[03579"></span> and its 4 (black) motifs: <span class="image"><img src="./assets/images/pcs-musaic-motif-4.png" alt="musaic-motif-4 only"></span></p>
+</div>
+</dd>
+<dt class="hdlist1">Degree</dt>
+<dd>
+<p>Scale from a PCS, where stat pitch is any pitch of the PCS.</p>
+<div class="paragraph">
+<p>Example: diatonic scale [0 2 4 5 7 9 11], third degree is <span class="nowrap">[0 2 4 5 7 9 11]</span><sub>4</sub></p>
+</div>
+</dd>
+<dt class="hdlist1">Mode</dt>
+<dd>
+<p>A degree of a scale, therefore of a PCS with pivot.</p>
+<div class="paragraph">
+<p>A PCS is more abstract than a mode, but a mode can be seen  as (elevated to the rank of) a PCS</p>
+</div>
+<div class="paragraph">
+<p>Conversely, a PCS can always be seen as the degree (or mode) of another PCS in its cyclic orbit.</p>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>PCS [0 2 3 5 7 9 10], is second degree (dorian mode) of <span class="nowrap">[0 2 4 5 7 9 11]</span> so <span class="nowrap">[0 2 4 5 7 9 11]</span><sub>2</sub></p>
+</li>
+<li>
+<p>PCS [0 2 3 5 7 9 10], is first degree (ionian mode) of itself <span class="nowrap">[0 2 4 5 7 9 11]</span> so <span class="nowrap">[0 2 4 5 7 9 11]</span><sub>0</sub></p>
+</li>
+</ul>
 </div>
 </dd>
 <dt class="hdlist1">12-ET</dt>
@@ -8527,7 +8591,7 @@ Symmetry prime form concept is invented, specific to this project.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-05-09 18:59:01 +0200
+Last updated 2025-05-14 17:18:42 +0200
 </div>
 </div>
 <script type="text/x-mathjax-config">
