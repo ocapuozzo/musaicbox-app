@@ -878,25 +878,45 @@ td:has(>p>span[class="klein2"]) {
 </div>
 </div>
 <div class="paragraph">
-<p>A Musaic is a matrix representation of all 12 pitch classes in integer notation and "minimal" armature 1,5.</p>
+<p>A Musaic is a matrix representation, can be used in 2 different contexts:</p>
 </div>
-<div class="imageblock">
-<div class="content">
-<img src="./assets/images/musaic-matrix-pc-name.png" alt="musaic-matrix-pc-name">
+<div class="ulist">
+<ul>
+<li>
+<p>Pitch-Class-Space. The 12 pitch classes in integer notation and "minimal" armature (1,5) are into a matrix 13x13. Each cell refers to a pitch class. It is an abstract object, a 2D pitch-class-space category.</p>
+</li>
+<li>
+<p>Pitch-Space.  Each cell refers to a pitch. It is an concrete object, a matrix 2D pitch-class-space category, case of a musical instrument.</p>
+</li>
+</ul>
 </div>
-<div class="title">Figure 1. Matrix representation of 12 pitch classes</div>
-</div>
+<table class="tableblock frame-all grid-all fit-content">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/musaic-matrix-pc-name.png" alt="musaic-matrix-pc-name"></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/musaic-p-space-ombre.png" alt="musaic p space ombre"></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Musaic-pitch-space</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Musaic-pitch-class-space</p></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
-<p>The study focuses mainly on the abstract model of PCS (<em>Pitch Class Set</em>).</p>
+<p>Although a musaic can play both roles (abstract and concrete), the MusaicBox application focuses primarily on the abstract aspects of pitch class sets (PCS) and their relationships. A sort of "curious preamble" that would complement composition and instrumental practice activities.</p>
 </div>
 <div class="paragraph">
 <p>In the context of twelve-tone equal temperament, the canonical form of a musaic is 13x13 squares.<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup></p>
 </div>
 <div class="paragraph">
-<p>Any intervallic structure defined within an octave prints a pattern on the matrix, and thereby reveals a musical structure that we call <a href="#Musaic-Motif">[Musaic-Motif]</a>.</p>
+<p>Any intervallic structure defined within an octave prints a pattern on the matrix, and thereby reveals a musical structure that we call a <em>motif</em>  (<a href="#Musaic-Motif">[Musaic-Motif]</a>).</p>
 </div>
 <div class="paragraph">
-<p>To move from one face to another, geometric operations are applied: rotation around a central point or a diagonal.</p>
+<p>To move from one face to another, geometric operations are applied: rotation around a central point or a diagonal (left and right).</p>
 </div>
 <div class="paragraph">
 <div class="title">Rotation 1/2 turn [0 3 6 10] &#8658; [2 5 8 10]</div>
@@ -911,7 +931,7 @@ td:has(>p>span[class="klein2"]) {
 <p><span class="image"><img src="./assets/images/m7-anime.png" alt="m7-anime"></span></p>
 </div>
 <div class="paragraph">
-<p><strong>From a geometric point of view, there is therefore a similarity between harmonic structures (intervallic structures).
+<p><strong>From a geometric point of view, there is therefore a proximity between the harmonic structures (intervallic structures) of a same musaic.
 </strong></p>
 </div>
 <div class="paragraph">
@@ -921,7 +941,7 @@ td:has(>p>span[class="klein2"]) {
 <div class="content">
 <img src="./assets/images/template-musaic-anatomy.png" alt="template-musaic-anatomy">
 </div>
-<div class="title">Figure 2. Example of musaic n°26 having seventh chord on one of its motifs.</div>
+<div class="title">Figure 1. Example of musaic n°26 having seventh chord on one of its motifs.</div>
 </div>
 <div class="paragraph">
 <p>To implement these operations, the MusaicBox application uses well-known algebraic operations from Musaic Set Theory, coupled with Group Theory, and takes advantage of this to unify basic concepts such as the notion of Prime Form.</p>
@@ -959,7 +979,7 @@ td:has(>p>span[class="klein2"]) {
 <div class="content">
 <img src="./assets/images/pcs-page.png" alt="PCS page example">
 </div>
-<div class="title">Figure 3. 17 PCS LT in Cyclic Prime Form</div>
+<div class="title">Figure 2. 17 PCS LT in Cyclic Prime Form</div>
 </div>
 </div>
 </div>
@@ -989,7 +1009,7 @@ td:has(>p>span[class="klein2"]) {
 <div class="content">
 <img src="./assets/images/PCS-LT-17.png" alt="17 PCS LT in Cyclic Prime Form">
 </div>
-<div class="title">Figure 4. 17 PCS LT in Cyclic Prime Form</div>
+<div class="title">Figure 3. 17 PCS LT in Cyclic Prime Form</div>
 </div>
 </div>
 </div>
@@ -1013,7 +1033,7 @@ td:has(>p>span[class="klein2"]) {
 <div class="content">
 <img src="./assets/images/page88musaics.png" alt="page 88 musaics">
 </div>
-<div class="title">Figure 5. Example page 88 musaics</div>
+<div class="title">Figure 4. Example page 88 musaics</div>
 </div>
 </div>
 </div>
@@ -1023,7 +1043,7 @@ td:has(>p>span[class="klein2"]) {
 <div class="content">
 <img src="./assets/images/octotrope.png" alt="Octotrope def">
 </div>
-<div class="title">Figure 6. Octotrope, a geometric figure for meta-stabilizer classes</div>
+<div class="title">Figure 5. Octotrope, a geometric figure for meta-stabilizer classes</div>
 </div>
 </div>
 </div>
@@ -1042,7 +1062,7 @@ td:has(>p>span[class="klein2"]) {
 <div class="content">
 <img src="./assets/images/6MusaicsInvariantByCplt.png" alt="6 musaics invariant by Cplt">
 </div>
-<div class="title">Figure 7. Musaics invariant by CM1 pushed on Whiteboard page</div>
+<div class="title">Figure 6. Musaics invariant by CM1 pushed on Whiteboard page</div>
 </div>
 </div>
 </div>
@@ -1069,7 +1089,7 @@ td:has(>p>span[class="klein2"]) {
 <div class="content">
 <img src="./assets/images/pageWhiteboard1.png" alt="Example Whiteboard page 1">
 </div>
-<div class="title">Figure 8. Example Whiteboard page 1</div>
+<div class="title">Figure 7. Example Whiteboard page 1</div>
 </div>
 </div>
 </div>
@@ -1079,7 +1099,7 @@ td:has(>p>span[class="klein2"]) {
 <div class="content">
 <img src="./assets/images/example-WB-page.png" alt="Example Whiteboard page 2">
 </div>
-<div class="title">Figure 9. Example Whiteboard page 2</div>
+<div class="title">Figure 8. Example Whiteboard page 2</div>
 </div>
 </div>
 </div>
@@ -1243,7 +1263,7 @@ We also find 10 and 11 noted A, B or T, E (for ten and eleven). The idea is to a
 <div class="content">
 <img src="./assets/images/pascal-triangle-12.png" alt="pascal-triangle-12" width="50%" height="50%">
 </div>
-<div class="title">Figure 10. Pascal&#8217;s triangle</div>
+<div class="title">Figure 9. Pascal&#8217;s triangle</div>
 </div>
 <div class="paragraph">
 <p>This classification is not very practical for us, because it is semantically poor (based on the cardinality of PCS).</p>
@@ -1385,7 +1405,7 @@ We can clearly see the use of the name of Pitch Class \$bar i\$ as an index \$i\
 <div class="content">
 <img src="./assets/images/fragment-047.png" alt="fragment 047">
 </div>
-<div class="title">Figure 11. Analysis example of a musical fragment.</div>
+<div class="title">Figure 10. Analysis example of a musical fragment.</div>
 </div>
 <div class="paragraph">
 <p>There is an inverse function <em>vectorToPcs</em>  defined by :</p>
@@ -1837,7 +1857,7 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0 4
 <div class="content">
 <img src="./assets/images/Transf-047.png" alt="Transf-047 ops UI">
 </div>
-<div class="title">Figure 12. Transformations by PCS page</div>
+<div class="title">Figure 11. Transformations by PCS page</div>
 </div>
 <div class="paragraph">
 <div class="title">[1 5 8] after click on T right</div>
@@ -2580,7 +2600,7 @@ Extended Special Affine Operation is called <em>MusaicOperation</em> into Musaic
 <div class="content">
 <img src="./assets/images/diff-4operations.png" alt="diff-4operations">
 </div>
-<div class="title">Figure 13. Example of different points of view of basics transformation operations</div>
+<div class="title">Figure 12. Example of different points of view of basics transformation operations</div>
 </div>
 <div class="paragraph">
 <p>For transformations by multiplication, see also : <a href="https://en.wikipedia.org/wiki/Multiplication_(music)">wikipedia multiplication and music</a></p>
@@ -4251,7 +4271,7 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <div class="content">
 <img src="./assets/images/lattice-subgroups12.png" alt="lattice-subgroups12">
 </div>
-<div class="title">Figure 14. Subgroups lattice - prefix "M" and "M1" are omitted (M1 CM11 &#8658; C11) (J-Y. Fusil - 2009)</div>
+<div class="title">Figure 13. Subgroups lattice - prefix "M" and "M1" are omitted (M1 CM11 &#8658; C11) (J-Y. Fusil - 2009)</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -6591,7 +6611,7 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <div class="content">
 <img src="./assets/images/CMajor-M11-noPivot.png" alt="CMajor-M11">
 </div>
-<div class="title">Figure 15. M11 on C Major = III degree of VIb Major</div>
+<div class="title">Figure 14. M11 on C Major = III degree of VIb Major</div>
 </div>
 <div class="paragraph">
 <p>Now that we have seen how the PCS Do Diatonic Major behaves, let&#8217;s take C# Major / Db Major : <code>[0 1 3 5 6 8 10]</code></p>
@@ -6793,7 +6813,7 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <div class="content">
 <img src="./assets/images/fixed-indexes-n12.png" alt="fixed-indexes-n12">
 </div>
-<div class="title">Figure 16. Template of fixed points (n = 12)</div>
+<div class="title">Figure 15. Template of fixed points (n = 12)</div>
 </div>
 <div class="paragraph">
 <p><strong>
@@ -6965,7 +6985,7 @@ We do not have integrated this property, <em>iPivot</em>, in the logical identit
 <div class="content">
 <img src="./assets/images/big-major-cyclic-orbit.png" alt="Major cyclic orbit">
 </div>
-<div class="title">Figure 17. Red Pitch Class, in Clock view, denote <em>iPivot</em> property</div>
+<div class="title">Figure 16. Red Pitch Class, in Clock view, denote <em>iPivot</em> property</div>
 </div>
 </div>
 <div class="sect2">
@@ -7291,13 +7311,13 @@ C#dim7 has same transformation types as Cdim7</p></td>
 <div class="content">
 <img src="./assets/images/clavier7notes.svg" alt="clavier7notes">
 </div>
-<div class="title">Figure 18. Piano keyboard configuration</div>
+<div class="title">Figure 17. Piano keyboard configuration</div>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="./assets/images/clavier7notesCircle.svg" alt="clavier7notesCircle">
 </div>
-<div class="title">Figure 19. Other view of piano keyboard</div>
+<div class="title">Figure 18. Other view of piano keyboard</div>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -7324,7 +7344,7 @@ Seven PCS of diatonic design as a circle divided into 7 equal parts
 <div class="content">
 <img src="./assets/images/pcs-246-mapped-047.png" alt="pcs 246 mapped 047">
 </div>
-<div class="title">Figure 20. Regularity of 7 broken in 12 mapped</div>
+<div class="title">Figure 19. Regularity of 7 broken in 12 mapped</div>
 </div>
 <div class="sect2">
 <h3 id="_mapping">Mapping</h3>
@@ -7351,7 +7371,7 @@ Seven PCS of diatonic design as a circle divided into 7 equal parts
 <div class="content">
 <img src="./assets/images/understand-mapping-system.svg" alt="understand-mapping-system 7 to 12">
 </div>
-<div class="title">Figure 21. Mapping 7 &#8594; 12 Explained mapping from [0 2 4] to [0 4 7]</div>
+<div class="title">Figure 20. Mapping 7 &#8594; 12 Explained mapping from [0 2 4] to [0 4 7]</div>
 </div>
 <div class="paragraph">
 <p>From there, studying n=7 as we did for n=12 is a short step. The number of possible combinations is 2^7 = 128.</p>
@@ -7429,7 +7449,7 @@ Seven PCS of diatonic design as a circle divided into 7 equal parts
 <div class="content">
 <img src="./assets/images/map-7-to-12-best-symmetryV2.jpg" alt="map 7 to 12 best symmetryV2">
 </div>
-<div class="title">Figure 22. Source: Timothy A. Johnson (<a href="#Johnson">[Johnson]</a>)</div>
+<div class="title">Figure 21. Source: Timothy A. Johnson (<a href="#Johnson">[Johnson]</a>)</div>
 </div>
 <div class="paragraph">
 <p>On the left, dots divide the circle into 7 equal parts, then on the right, these dots are distributed over the notes closest to the 12-note chromatic circle. This is <em>"the best compromise in terms of placing&#8230;&#8203;</em>"</p>
@@ -7515,7 +7535,7 @@ See <a href="#list-pcs-same-as-major-scale">PCS lists</a></p>
 <div class="content">
 <img src="./assets/images/CM7-mapped-diatonic-maj-cyclic-orbit.png" alt="CM7-mapped-diatonic-maj-cyclic-orbit">
 </div>
-<div class="title">Figure 23. CM7 mapped to Diatonic Major (in orbit cyclic Z<sub>7</sub>)</div>
+<div class="title">Figure 22. CM7 mapped to Diatonic Major (in orbit cyclic Z<sub>7</sub>)</div>
 </div>
 </div>
 <div class="sect2">
@@ -7544,7 +7564,7 @@ See <a href="#list-pcs-same-as-major-scale">PCS lists</a></p>
 <div class="content">
 <img src="./assets/images/CM7-cyclic-orbit.png" alt="CM7-cyclic-orbit">
 </div>
-<div class="title">Figure 24. CM7 unmapped with its orbit cyclic (in Z<sub>12</sub>)</div>
+<div class="title">Figure 23. CM7 unmapped with its orbit cyclic (in Z<sub>12</sub>)</div>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -8209,7 +8229,7 @@ Symmetry prime form concept is invented, specific to this project.
 <div class="content">
 <img src="./assets/images/pcs_2_3_5_7_8_V3.png" alt="Symmetry and cyclic prime form">
 </div>
-<div class="title">Figure 25. Symmetry and cyclic prime form</div>
+<div class="title">Figure 24. Symmetry and cyclic prime form</div>
 </div>
 </div>
 </div>
@@ -8219,7 +8239,7 @@ Symmetry prime form concept is invented, specific to this project.
 <div class="content">
 <img src="./assets/images/pcs_2_3_5_7_8-PF-V3.png" alt="Cyclic prime form">
 </div>
-<div class="title">Figure 26. Cyclic prime form</div>
+<div class="title">Figure 25. Cyclic prime form</div>
 </div>
 </div>
 </div>
@@ -8229,7 +8249,7 @@ Symmetry prime form concept is invented, specific to this project.
 <div class="content">
 <img src="./assets/images/pcs_2_3_5_7_8-MPF-V3.png" alt="Symmetry prime form">
 </div>
-<div class="title">Figure 27. Symmetry prime form</div>
+<div class="title">Figure 26. Symmetry prime form</div>
 </div>
 </div>
 </div>
@@ -8242,7 +8262,7 @@ Symmetry prime form concept is invented, specific to this project.
 <div class="content">
 <img src="./assets/images/pcs_023910-cyclic-symmetry-pf.png" alt="Symmetry and cyclic prime form">
 </div>
-<div class="title">Figure 28. Cyclic orbit and his symmetry and prime form</div>
+<div class="title">Figure 27. Cyclic orbit and his symmetry and prime form</div>
 </div>
 </div>
 </div>
@@ -8255,7 +8275,7 @@ Symmetry prime form concept is invented, specific to this project.
 <div class="content">
 <img src="./assets/images/pcs_2_3_5_7_8-wb2.png" alt="Modal and cyclic prime form">
 </div>
-<div class="title">Figure 29. Cyclic orbit and his modal and prime form</div>
+<div class="title">Figure 28. Cyclic orbit and his modal and prime form</div>
 </div>
 </div>
 </div>
@@ -8591,7 +8611,7 @@ Symmetry prime form concept is invented, specific to this project.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-05-14 17:18:42 +0200
+Last updated 2025-05-15 18:54:10 +0200
 </div>
 </div>
 <script type="text/x-mathjax-config">

@@ -47,26 +47,36 @@ The study takes place within the framework of equal temperament with 12 pitch cl
 
 image::cicrleFullV2.png[circle chromatic]
 
-A Musaic is a matrix representation of all 12 pitch classes in integer notation and "minimal" armature 1,5.
+A Musaic is a matrix representation, can be used in 2 different contexts:
 
-.Matrix representation of 12 pitch classes
-image::musaic-matrix-pc-name.png[musaic-matrix-pc-name]
-//
-// Each cell refers to a pitch class in its abstract form, or a pitch, in the more concrete case of a musical instrument.
-//
-// .Example of space game with scientific notation
-// image::musaic-pc-space.png[500, 500]
-//
+* Pitch-Class-Space. The 12 pitch classes in integer notation and "minimal" armature (1,5) are into a matrix 13x13. Each cell refers to a pitch class. It is an abstract object, a 2D pitch-class-space category.
+
+* Pitch-Space.  Each cell refers to a pitch. It is an concrete object, a matrix 2D pitch-class-space category, case of a musical instrument.
+
+[%autowidth]
+[cols="2*^"]
+|===
+
+|image:musaic-matrix-pc-name.png[musaic-matrix-pc-name]
+|image:musaic-p-space-ombre.png[]
+
+|Musaic-pitch-space
+|Musaic-pitch-class-space
+|===
+
+Although a musaic can play both roles (abstract and concrete), the MusaicBox application focuses primarily on the abstract aspects of pitch class sets (PCS) and their relationships. A sort of "curious preamble" that would complement composition and instrumental practice activities.
+
+
 // A musaic is a multifaceted geometric structure composed of four faces, not always distinct from each other. The faces are activated by the operations M1, M5, M7, and M11.
-
-The study focuses mainly on the abstract model of PCS (_Pitch Class Set_).
+//
+// The study focuses mainly on the abstract model of PCS (_Pitch Class Set_).
 
 In the context of twelve-tone equal temperament, the canonical form of a musaic is 13x13 squares.footnote:[In this configuration, the geometric transformation operations presented in this document match the usual algebraic transformations of the Musical Set Theory]
 
-Any intervallic structure defined within an octave prints a pattern on the matrix, and thereby reveals a musical structure that we call <<Musaic-Motif>>.
+Any intervallic structure defined within an octave prints a pattern on the matrix, and thereby reveals a musical structure that we call a _motif_  (<<Musaic-Motif>>).
 
 
-To move from one face to another, geometric operations are applied: rotation around a central point or a diagonal.
+To move from one face to another, geometric operations are applied: rotation around a central point or a diagonal (left and right).
 
 .Rotation 1/2 turn [0 3 6 10] => [2 5 8 10]
 image:m11-anime.png[m11-anime]
@@ -77,7 +87,7 @@ image:m5-anime.png[m5-anime]
 .Rotation Right Diagonal [0 3 6 10] => [0 6 9 10]
 image:m7-anime.png[m7-anime]
 
-**From a geometric point of view, there is therefore a similarity between harmonic structures (intervallic structures).
+**From a geometric point of view, there is therefore a proximity between the harmonic structures (intervallic structures) of a same musaic.
 **
 
 Since a musaic can be viewed from several angles, it is said to have 4 "faces", each face has 2 motifs (one and its complementary). A musaic motif is a geometry representation of an intervallic structure class. There are 88 musaics in total for 352 intervallic structure classes.
