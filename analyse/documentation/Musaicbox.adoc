@@ -3854,13 +3854,13 @@ It is the equivalence class "up to affine and/or affine complement"
 
 
 Intervallic Structure Class (isc)::
-Is the Intervallic Structure up to circular shift. In other words, it is the *structure type of polygon inscribed* by a pcs into chromatic circle (see <<_clock_chromatic_circle>>).
+A "step-pattern". Is the Intervallic Structure up to circular shift. In other words, it is the *structure type of polygon inscribed* by a pcs into chromatic circle (see <<_clock_chromatic_circle>>).
 +
 There are 352 intervallic structure classes in twelve-tone equal temperament.
 +
 Example 2 pcs with same structure of polygon inscribed : image:pcsCM-FM.png[CM and FM]
 +
-Because all pcs in same cyclic orbit have same intervallic structure class (transposition preserve intervallic structure class), a intervallic structure class of a given pcs is represented by the _Intervallic Structure_ of its _cyclic prime form_.
+Because all pcs in same cyclic orbit have same intervallic structure class (transposition preserve intervallic structure class), an intervallic structure class of a given pcs is represented by the _Intervallic Structure_ of its _cyclic prime form_.
 +
 Examples:
 +
@@ -3883,23 +3883,30 @@ It is a geometric figure of a intervallic structure class of a given pcs (biject
 +
 Example musaic N°44 has 4 distinct motifs : image:pcs-03579.png[ [03579] and its 4 (black) motifs: image:pcs-musaic-motif-4.png[musaic-motif-4 only]
 
+
+Scale::
+A series of notes arranged in a specific order, from one note to its octave. Because PCS in a normal order is  sorted, PCS can be thought of as a representation of the scale.
+
 Degree::
-  Scale from a PCS, where stat pitch is any pitch of the PCS.
+  Scale from a PCS, where its starting pitch is any pitch of the PCS, denoted by the pivot value.
 +
 Example: diatonic scale [0 2 4 5 7 9 11], third degree is [.nowrap]#[0 2 4 5 7 9 11]#~4~
 
 Mode::
- A degree of a scale, therefore of a PCS with pivot.
+ A degree of a scale, therefore, this a PCS with pivot value. Degree and mode are synonymous.
 +
-A PCS is more abstract than a mode, but a mode can be seen  as (elevated to the rank of) a PCS
+Example of *dorian mode* as second degree of C Diatonic Major:  [.nowrap]#[0 2 4 5 7 9 11]#~2~
 +
-Conversely, a PCS can always be seen as the degree (or mode) of another PCS in its cyclic orbit.
-+
-Examples:
-+
-* PCS [0 2 3 5 7 9 10], is second degree (dorian mode) of [.nowrap]#[0 2 4 5 7 9 11]# so [.nowrap]#[0 2 4 5 7 9 11]#~2~
-* PCS [0 2 3 5 7 9 10], is first degree (ionian mode) of itself [.nowrap]#[0 2 4 5 7 9 11]# so [.nowrap]#[0 2 4 5 7 9 11]#~0~
+A PCS is more abstract than a mode, but a PCS can always be seen as the degree (or mode) of another PCS in its cyclic orbit.
 
+Mode in Canonical Form::
+A mode having pivot value to zero.
++
+Example of *canonical dorian mode* PCS [.nowrap]#[0 2 3 5 7 9 10]#~0~, with intervallic structure = (2,1,2,2,2,1,2)
++
+Dorian mode is the second degree of any Diatonic Major scale. As is there 12 diatonic major scales, there are 12 instances of dorian mode, and only one of them is in canonical form (PCS begin with pitch zero)
++
+image::dorian-mode-cyclic.png[dorian-mode-cyclic]
 
 12-ET::
  12 equal temperament

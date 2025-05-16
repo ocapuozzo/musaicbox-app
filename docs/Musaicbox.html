@@ -7760,7 +7760,7 @@ This is an array of natural numbers which summarize the pitch class intervals ap
 <dl>
 <dt class="hdlist1">Intervallic Structure Class (isc)</dt>
 <dd>
-<p>Is the Intervallic Structure up to circular shift. In other words, it is the <strong>structure type of polygon inscribed</strong> by a pcs into chromatic circle (see <a href="#_clock_chromatic_circle">Clock / Chromatic circle</a>).</p>
+<p>A "step-pattern". Is the Intervallic Structure up to circular shift. In other words, it is the <strong>structure type of polygon inscribed</strong> by a pcs into chromatic circle (see <a href="#_clock_chromatic_circle">Clock / Chromatic circle</a>).</p>
 <div class="paragraph">
 <p>There are 352 intervallic structure classes in twelve-tone equal temperament.</p>
 </div>
@@ -7768,7 +7768,7 @@ This is an array of natural numbers which summarize the pitch class intervals ap
 <p>Example 2 pcs with same structure of polygon inscribed : <span class="image"><img src="./assets/images/pcsCM-FM.png" alt="CM and FM"></span></p>
 </div>
 <div class="paragraph">
-<p>Because all pcs in same cyclic orbit have same intervallic structure class (transposition preserve intervallic structure class), a intervallic structure class of a given pcs is represented by the <em>Intervallic Structure</em> of its <em>cyclic prime form</em>.</p>
+<p>Because all pcs in same cyclic orbit have same intervallic structure class (transposition preserve intervallic structure class), an intervallic structure class of a given pcs is represented by the <em>Intervallic Structure</em> of its <em>cyclic prime form</em>.</p>
 </div>
 <div class="paragraph">
 <p>Examples:</p>
@@ -7808,34 +7808,40 @@ This is an array of natural numbers which summarize the pitch class intervals ap
 <p>Example musaic N°44 has 4 distinct motifs : <span class="image"><img src="./assets/images/pcs-03579.png" alt="[03579"></span> and its 4 (black) motifs: <span class="image"><img src="./assets/images/pcs-musaic-motif-4.png" alt="musaic-motif-4 only"></span></p>
 </div>
 </dd>
+<dt class="hdlist1">Scale</dt>
+<dd>
+<p>A series of notes arranged in a specific order, from one note to its octave. Because PCS in a normal order is  sorted, PCS can be thought of as a representation of the scale.</p>
+</dd>
 <dt class="hdlist1">Degree</dt>
 <dd>
-<p>Scale from a PCS, where stat pitch is any pitch of the PCS.</p>
+<p>Scale from a PCS, where its starting pitch is any pitch of the PCS, denoted by the pivot value.</p>
 <div class="paragraph">
 <p>Example: diatonic scale [0 2 4 5 7 9 11], third degree is <span class="nowrap">[0 2 4 5 7 9 11]</span><sub>4</sub></p>
 </div>
 </dd>
 <dt class="hdlist1">Mode</dt>
 <dd>
-<p>A degree of a scale, therefore of a PCS with pivot.</p>
+<p>A degree of a scale, therefore, this a PCS with pivot value. Degree and mode are synonymous.</p>
 <div class="paragraph">
-<p>A PCS is more abstract than a mode, but a mode can be seen  as (elevated to the rank of) a PCS</p>
+<p>Example of <strong>dorian mode</strong> as second degree of C Diatonic Major:  <span class="nowrap">[0 2 4 5 7 9 11]</span><sub>2</sub></p>
 </div>
 <div class="paragraph">
-<p>Conversely, a PCS can always be seen as the degree (or mode) of another PCS in its cyclic orbit.</p>
+<p>A PCS is more abstract than a mode, but a PCS can always be seen as the degree (or mode) of another PCS in its cyclic orbit.</p>
+</div>
+</dd>
+<dt class="hdlist1">Mode in Canonical Form</dt>
+<dd>
+<p>A mode having pivot value to zero.</p>
+<div class="paragraph">
+<p>Example of <strong>canonical dorian mode</strong> PCS <span class="nowrap">[0 2 3 5 7 9 10]</span><sub>0</sub>, with intervallic structure = (2,1,2,2,2,1,2)</p>
 </div>
 <div class="paragraph">
-<p>Examples:</p>
+<p>Dorian mode is the second degree of any Diatonic Major scale. As is there 12 diatonic major scales, there are 12 instances of dorian mode, and only one of them is in canonical form (PCS begin with pitch zero)</p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>PCS [0 2 3 5 7 9 10], is second degree (dorian mode) of <span class="nowrap">[0 2 4 5 7 9 11]</span> so <span class="nowrap">[0 2 4 5 7 9 11]</span><sub>2</sub></p>
-</li>
-<li>
-<p>PCS [0 2 3 5 7 9 10], is first degree (ionian mode) of itself <span class="nowrap">[0 2 4 5 7 9 11]</span> so <span class="nowrap">[0 2 4 5 7 9 11]</span><sub>0</sub></p>
-</li>
-</ul>
+<div class="imageblock">
+<div class="content">
+<img src="./assets/images/dorian-mode-cyclic.png" alt="dorian-mode-cyclic">
+</div>
 </div>
 </dd>
 <dt class="hdlist1">12-ET</dt>
@@ -8611,7 +8617,7 @@ Symmetry prime form concept is invented, specific to this project.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-05-15 18:54:10 +0200
+Last updated 2025-05-16 17:16:28 +0200
 </div>
 </div>
 <script type="text/x-mathjax-config">
