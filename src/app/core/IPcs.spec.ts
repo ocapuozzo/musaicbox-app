@@ -1250,5 +1250,31 @@ describe('IPcs unit tests', () => {
     expect(array).toEqual([])
   })
 
+  it(' modalPrimeForm()', () => {
+    // C Maj
+    let pcs = new IPcs({strPcs: '[0,4,7]'})
+    expect(pcs.modalPrimeForm().id).toEqual(pcs.id)
+
+    let id = pcs.id
+    pcs = new IPcs({strPcs: '[1,5,8]'})
+    expect(pcs.modalPrimeForm().id).toEqual(id)
+
+    pcs = new IPcs({strPcs: '[]'})
+    expect(pcs.modalPrimeForm().id).toEqual(pcs.id)
+
+    // Ab Maj
+    // with pivot to 8
+    pcs = new IPcs({strPcs: '[8,0,3]'})
+    expect(pcs.iPivot).toEqual(8)
+    // pivot not matters for id (C Maj id Major Modal Prime Form)
+    expect(pcs.id).toEqual(new IPcs({strPcs: '[0,3,8]'}).id)
+
+    const pcsMaj = new IPcs({strPcs: '[0,4,7]'})
+    expect(pcs.modalPrimeForm().id).toEqual(pcsMaj.id)
+    // waiting pivot to zero
+    expect(pcs.modalPrimeForm().iPivot).toEqual(0)
+
+
+  })
 
 })

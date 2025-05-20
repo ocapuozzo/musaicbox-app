@@ -467,10 +467,75 @@ describe('Laboratory explorer', () => {
       const imageOctotrope = ` image:octotropes/${octotrope}.png[width=50]` //  image:octotropes/m1-m5-m7-m11.png[] asciidoc
       console.log(` \n|${idMus}\n|image:88musaics/${idMus}.png[${idMus}]\n +\n#${orbit.cardinal}\n| ${countDistinctMotifs} \n|${motifsEnum}\n| ${imageOctotrope} ${orbit.metaStabilizer.name} `)
     })
-    // 352 cyclic intervallic structures
+    // 352 cyclic intervallic structure classes
     expect(countMotifs).toEqual(352)
 
   })
+
+  it('From 352 to 2048 modes/scales', () => {
+    const groupCyclic = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!
+    expect(groupCyclic.orbits.length).toEqual(352)
+
+    // index = cardinal, value = number of modes
+    let modesPerCardinal = new Array(13).fill(0)
+    let cyclicOrbitsPerCardinal = new Array(13).fill(0)
+    for (const orbit of groupCyclic.orbits) {
+      modesPerCardinal[orbit.getPcsMin().cardinal] += orbit.getPcsMin().cardOrbitMode()
+      cyclicOrbitsPerCardinal[orbit.getPcsMin().cardinal] += 1
+    }
+    let totalModes = 0
+    let totalCyclicOrbits = 0
+    modesPerCardinal.forEach( (numberModes, index) => {
+      console.log(`${index} ; ${cyclicOrbitsPerCardinal[index]} ; ${numberModes}`)
+      totalModes += numberModes
+      totalCyclicOrbits += cyclicOrbitsPerCardinal[index]
+    })
+    console.log(` ; ${totalCyclicOrbits} ; ${totalModes}`)
+    expect(totalModes).toEqual(2048)
+    expect(totalCyclicOrbits).toEqual(352)
+
+    // same by row
+    let row = 'PCS Cardinal'
+    for (let i = 0; i < 13; i++) {
+      row += `;${i}`
+    }
+    console.log(row + ";Total")
+    row = 'Cyclic Orbit Cardinal'
+    for (let i = 0; i < cyclicOrbitsPerCardinal.length; i++) {
+      row += `;${cyclicOrbitsPerCardinal[i]}`
+    }
+    console.log(row +  ";" + totalCyclicOrbits)
+    row = 'Mode Cardinal'
+    for (let i = 0; i < modesPerCardinal.length; i++) {
+      row += `;${modesPerCardinal[i]}`
+    }
+    console.log(row +  ";" + totalModes)
+
+    // Other algorithm
+    // from 4096 to 2048 via 352 cyclic orbits partition of 4096
+    // key : Intervallic Structure
+    // value : array of string (IPcs)
+    const isDict = new Map<string, string>()
+    let c = 0
+    for (const orbit of groupCyclic.orbits) {
+      c += orbit.ipcsset.length
+      orbit.ipcsset.forEach(pcs => {
+        //console.log(pcs.is())
+        const key = pcs.is().toString().trim()
+        if (key !== '') {
+          if (!isDict.has(key)) {
+            isDict.set(key, pcs.getPcsStr())
+          }
+        }
+      })
+    }
+
+    // why 2048?  many PCS into same cyclic orbit share the same IS, so it is normal that c < 4096
+    expect(c).toEqual(4096)
+
+    expect(isDict.size).toEqual(2048)
+  })
+
 
 
   /*

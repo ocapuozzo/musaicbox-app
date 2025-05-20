@@ -761,9 +761,7 @@ export class WhiteboardComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   doFromGroupNameImages(groupName: string, index: number, distinct: boolean = false) {
-    if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
-      throw new Error(`Invalid index : $ {index}`)
-    }
+    this.checkIndex(index);
     // add all transformed pcs
     this.managerPageWBService.doMakeImageTransformedPcsFromGroupName(groupName, index, distinct)
     // deselect component source, because is it duplicate (present as pcs transformed)
@@ -771,31 +769,23 @@ export class WhiteboardComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   howManyDistinctAffinePcs(index: number): number {
-    if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
-      throw new Error(`Invalid index : $ {index}`)
-    }
+    this.checkIndex(index);
     return this.managerPageWBService.doFromPcsGetImages(this.pcsDtoList[index].pcs, 'Affine', true).length;
   }
 
   howManyDistinctMusaicPcs(index: number): number {
-    if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
-      throw new Error(`Invalid index : $ {index}`)
-    }
+    this.checkIndex(index);
     return this.managerPageWBService.doFromPcsGetImages(this.pcsDtoList[index].pcs, 'Musaic', true).length;
   }
 
   doCut(index ?: number) {
-    if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
-      throw new Error(`Invalid index : $ {index}`)
-    }
+    this.checkIndex(index);
     this.managerPageWBService.doCut(index)
   }
 
   doCopy(index ?: number) {
     // rem : this.pcsDtoList is this.managerPageWBService.uiPcsDtoList
-    if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
-      throw new Error(`Invalid index : $ {index}`)
-    }
+    this.checkIndex(index);
     this.managerPageWBService.doCopy(index)
   }
 
@@ -847,83 +837,78 @@ export class WhiteboardComponent implements OnInit, OnDestroy, AfterViewInit {
   protected readonly UIPcsDto = UIPcsDto;
 
   doMakeCyclicOrbit(index: number) {
-    if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
-      throw new Error(`Invalid index : $ {index}`)
-    }
+    this.checkIndex(index);
     this.managerPageWBService.doMakeCyclicOrbit(index)
   }
 
   doMakeModeOrbit(index: any) {
-    if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
-      throw new Error(`Invalid index : $ {index}`)
-    }
+    this.checkIndex(index);
     this.managerPageWBService.doMakeModeOrbit(index)
     this.managerPageWBService.doToggleSelected(index)
   }
 
+  doMakeModeOrbitInPrimeForm(index: any) {
+    this.checkIndex(index);
+    this.managerPageWBService.doMakeModeOrbit(index, true)
+    this.managerPageWBService.doToggleSelected(index)
+  }
+
+
   doMake4Chords(index: number) {
-    if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
-      throw new Error(`Invalid index : $ {index}`)
-    }
+    this.checkIndex(index);
     this.managerPageWBService.doMake4Chords(index)
   }
 
   doMake3Chords(index: any) {
-    if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
-      throw new Error(`Invalid index : $ {index}`)
-    }
+    this.checkIndex(index);
     this.managerPageWBService.doMake3Chords(index)
   }
 
 
   doMakeComplement(index: any) {
-    if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
-      throw new Error(`Invalid index : $ {index}`)
-    }
+    this.checkIndex(index);
     this.managerPageWBService.setPcsDtoForTemplate(this.pcsDtoList[index])
     this.managerPageWBService.doMakeSetComplement(index)
   }
 
   doMakeIntersection(index: number) {
-    if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
-      throw new Error(`Invalid index : $ {index}`)
-    }
+    this.checkIndex(index);
     this.managerPageWBService.setPcsDtoForTemplate(this.pcsDtoList[index])
     this.managerPageWBService.doMakeSetIntersection()
   }
 
   doMakeUnion(index: number) {
-    if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
-      throw new Error(`Invalid index : $ {index}`)
-    }
+    this.checkIndex(index);
     this.managerPageWBService.setPcsDtoForTemplate(this.pcsDtoList[index])
     this.managerPageWBService.doMakeSetUnion()
   }
 
   doMakeSymmetricDifference(index: number) {
-    if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
-      throw new Error(`Invalid index : $ {index}`)
-    }
+    this.checkIndex(index);
     this.managerPageWBService.setPcsDtoForTemplate(this.pcsDtoList[index])
     this.managerPageWBService.doMakeSetSymmetricDifference()
   }
 
   doToggleShowPivot(index: number) {
-    if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
-      throw new Error(`Invalid index : $ {index}`)
-    }
+    this.checkIndex(index);
     this.managerPageWBService.doToggleShowPivot(index)
   }
 
   isShowPivot(index: number) {
-    if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
-      throw new Error(`Invalid index : $ {index}`)
-    }
+    this.checkIndex(index);
     return this.pcsDtoList[index].showPivot;
   }
 
   doOpenDialogSaveToFile() {
     this.managerPageWBService.doOpenDialogAndSaveContentToFile()
   }
+
+
+  private checkIndex(index: number | undefined) {
+    if (index !== undefined && (index < 0 || index >= this.pcsDtoList.length)) {
+      throw new Error(`Invalid index : $ {index}`)
+    }
+  }
+
 
 }

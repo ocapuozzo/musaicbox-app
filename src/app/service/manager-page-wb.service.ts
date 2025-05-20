@@ -1098,13 +1098,13 @@ export class ManagerPageWBService {
     })
   }
 
-  doMakeModeOrbit(index: number) {
+  doMakeModeOrbit(index: number, outInPrimeForm: boolean = false) {
     let pcs = this.uiPcsDtoList[index].pcs
     let pcsModeList = [pcs]
     let cardinal = pcs.cardOrbitMode()
     for (let degree = 1; degree < cardinal; degree++) {
       pcs = pcs.modulation("Next")
-      pcsModeList.push(pcs)
+      pcsModeList.push(outInPrimeForm ? pcs.modalPrimeForm(): pcs)
     }
     this.pcsDtoForTemplate = this.uiPcsDtoList[index]
     this.addPcs({somePcs: pcsModeList, circularAlign: true, indexCenterElement: index})

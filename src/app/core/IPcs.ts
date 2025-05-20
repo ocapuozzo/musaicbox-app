@@ -445,6 +445,16 @@ export class IPcs {
     return this._minCyclic
   }
 
+
+  /**
+   * Get image of this in Modal Prime Form (A PCS whose first pitch value and pivot value are zero)
+   */
+  modalPrimeForm() {
+    // if pivot is undefined or is already set to zero, return this (no new instance)
+    if (!this.iPivot) return this
+    return this.transposition(-this.iPivot);
+  }
+
   dihedralPrimeForm() {
     // const groupName = `n=${this.n} [M1 M11]`
     const groupName = `n=${this.n} [M1 M${this.n - 1}]`
@@ -718,15 +728,15 @@ export class IPcs {
    * For PCS NOT LT (LT = limited transposition), it's this.cardinal, but this observation
    * hides a more complex formula which is : this.cardinal divided by n/orbitCyclic.cardinal
    *
-   * As for majority PCS NOT LT, n/orbitCyclic.cardinal == 1, so it is this.cardinal
+   * As for the majority of PCS is NOT LT, n/orbitCyclic.cardinal == 1, so it is this.cardinal
    *
    * Examples :
    * <pre>
-   * { 0, 4, 7} => 3 (PCS NOT LT, orbit cyclic card = 12, so 3 /(12/12) = 3)
-   * { 0, 3, 6, 9} => 1 (PCS is LT, orbit cyclic card = 3, so 4 /(12/3) = 1)
-   * { 0, 4, 8}    => 1 (PCS is LT, orbit cyclic card = 4, so 3 /(12/4) = 1)
-   * { 0, 1, 6, 7} => 2 (PCS is LT, orbit cyclic card = 6, so 4 /(12/6) = 2)
-   * { 0, 1, 2, 3} => 4 (PCS NOT LT => orbit cyclic card = 12, so 4 /(12/12) = 4)
+   * { 0, 4, 7 }    => 3 (PCS NOT LT, orbit cyclic card = 12, so 3 /(12/12) = 3)
+   * { 0, 3, 6, 9 } => 1 (PCS is LT, orbit cyclic card = 3, so 4 /(12/3) = 1)
+   * { 0, 4, 8 }    => 1 (PCS is LT, orbit cyclic card = 4, so 3 /(12/4) = 1)
+   * { 0, 1, 6, 7 } => 2 (PCS is LT, orbit cyclic card = 6, so 4 /(12/6) = 2)
+   * { 0, 1, 2, 3 } => 4 (PCS NOT LT => orbit cyclic card = 12, so 4 /(12/12) = 4)
    * </pre>
    * @return {number}
    */
@@ -740,7 +750,7 @@ export class IPcs {
       return this._cardModesOrbits = 0
     }
 
-    // because groupAction Cyclic is always set
+    // Because groupAction Cyclic is always set
     // and cardinal orbit always divides n (Lagrange's theorem)
     // return this.cardinal / (this.n / this.cyclicPrimeForm().orbit.cardinal)
     // implementation avoid two divisions
@@ -1372,4 +1382,5 @@ export class IPcs {
   isStrictSecondOrderMaximalEven() {
     return PcsUtils.isStrictSecondOrderMaximalEven(this);
   }
+
 }
