@@ -3757,6 +3757,9 @@ There is a group between 4096 and 352 which contains all mode structures.
 
 A scale "contains" its own modes. The best known is the major scale and its 7 modes: Ionian, Dorian, Phrygian, Lydian, Mixolydian, Aeolian, and Locrian.
 
+.Seven modes of Major scale (score view)
+image::maj-modes-score.png[major-scale-7modes-score]
+
 .Seven modes of Major scale (Ionian is 1st degree)
 image::major-scale-7modes.png[major-scale-7modes]
 
