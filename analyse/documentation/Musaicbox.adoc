@@ -2569,8 +2569,7 @@ https://en.wikipedia.org/wiki/Diatonic_set_theory[Diatonic Set Theory on wikiped
 
 There are 29 cyclic orbits (or intervallic structure classes) with this characteristic, 13 of which have a cardinality between 5 and 8.
 
-There are 11 cyclic orbit in Maximal Evenness, 25 cyclic orbit in Strict Second Order Maximal Evenness : ',
-See <<list-pcs-same-as-major-scale>>
+There are 11 cyclic orbits in Maximal Evenness, 25 cyclic orbits in Strict Second Order Maximal Evenness. See <<list-pcs-same-as-major-scale>>
 
 * Why not focus on another major scale, like D Major, for example?
 
@@ -2677,10 +2676,9 @@ Examples:
 |ID [.head]#&uarr;#|Musaic orbit  |Motifs |Intervallic Structure Class |Meta-Stabilizer [.head]#&uarr;#
 
 // special paste as plain text
-
 |M1-0-1-2-2
 |image:88musaics/M1-0-1-2-2.png[M1-0-1-2-2]
-+
+ +
 #2
 | 2
 |
@@ -2690,7 +2688,7 @@ Examples:
 
 |M2-1-1-2-24
 |image:88musaics/M2-1-1-2-24.png[M2-1-1-2-24]
-+
+ +
 #24
 | 2
 |
@@ -2700,7 +2698,7 @@ Examples:
 
 |M3-2-1-4-48
 |image:88musaics/M3-2-1-4-48.png[M3-2-1-4-48]
-+
+ +
 #48
 | 4
 |
@@ -2712,7 +2710,7 @@ Examples:
 
 |M4-2-2-2-24
 |image:88musaics/M4-2-2-2-24.png[M4-2-2-2-24]
-+
+ +
 #24
 | 2
 |
@@ -2722,7 +2720,7 @@ Examples:
 
 |M5-2-3-2-24
 |image:88musaics/M5-2-3-2-24.png[M5-2-3-2-24]
-+
+ +
 #24
 | 2
 |
@@ -2732,7 +2730,7 @@ Examples:
 
 |M6-2-4-2-24
 |image:88musaics/M6-2-4-2-24.png[M6-2-4-2-24]
-+
+ +
 #24
 | 2
 |
@@ -2742,7 +2740,7 @@ Examples:
 
 |M7-2-5-2-12
 |image:88musaics/M7-2-5-2-12.png[M7-2-5-2-12]
-+
+ +
 #12
 | 2
 |
@@ -2752,7 +2750,7 @@ Examples:
 
 |M8-3-1-4-48
 |image:88musaics/M8-3-1-4-48.png[M8-3-1-4-48]
-+
+ +
 #48
 | 4
 |
@@ -2764,7 +2762,7 @@ Examples:
 
 |M9-3-2-8-96
 |image:88musaics/M9-3-2-8-96.png[M9-3-2-8-96]
-+
+ +
 #96
 | 8
 |
@@ -2780,7 +2778,7 @@ Examples:
 
 |M10-3-3-8-96
 |image:88musaics/M10-3-3-8-96.png[M10-3-3-8-96]
-+
+ +
 #96
 | 8
 |
@@ -2796,7 +2794,7 @@ Examples:
 
 |M11-3-4-2-24
 |image:88musaics/M11-3-4-2-24.png[M11-3-4-2-24]
-+
+ +
 #24
 | 2
 |
@@ -2806,7 +2804,7 @@ Examples:
 
 |M12-3-5-4-48
 |image:88musaics/M12-3-5-4-48.png[M12-3-5-4-48]
-+
+ +
 #48
 | 4
 |
@@ -2818,7 +2816,7 @@ Examples:
 
 |M13-3-6-4-48
 |image:88musaics/M13-3-6-4-48.png[M13-3-6-4-48]
-+
+ +
 #48
 | 4
 |
@@ -2830,7 +2828,7 @@ Examples:
 
 |M14-3-7-4-48
 |image:88musaics/M14-3-7-4-48.png[M14-3-7-4-48]
-+
+ +
 #48
 | 4
 |
@@ -2842,7 +2840,7 @@ Examples:
 
 |M15-3-8-2-24
 |image:88musaics/M15-3-8-2-24.png[M15-3-8-2-24]
-+
+ +
 #24
 | 2
 |
@@ -2852,7 +2850,7 @@ Examples:
 
 |M16-3-9-2-8
 |image:88musaics/M16-3-9-2-8.png[M16-3-9-2-8]
-+
+ +
 #8
 | 2
 |
@@ -2862,7 +2860,7 @@ Examples:
 
 |M17-4-1-4-48
 |image:88musaics/M17-4-1-4-48.png[M17-4-1-4-48]
-+
+ +
 #48
 | 4
 |
@@ -2874,7 +2872,7 @@ Examples:
 
 |M18-4-2-8-96
 |image:88musaics/M18-4-2-8-96.png[M18-4-2-8-96]
-+
+ +
 #96
 | 8
 |
@@ -2890,7 +2888,7 @@ Examples:
 
 |M19-4-3-4-48
 |image:88musaics/M19-4-3-4-48.png[M19-4-3-4-48]
-+
+ +
 #48
 | 4
 |
@@ -2902,7 +2900,7 @@ Examples:
 
 |M20-4-4-8-96
 |image:88musaics/M20-4-4-8-96.png[M20-4-4-8-96]
-+
+ +
 #96
 | 8
 |
@@ -2918,7 +2916,7 @@ Examples:
 
 |M21-4-5-4-48
 |image:88musaics/M21-4-5-4-48.png[M21-4-5-4-48]
-+
+ +
 #48
 | 4
 |
@@ -2930,7 +2928,7 @@ Examples:
 
 |M22-4-6-2-24
 |image:88musaics/M22-4-6-2-24.png[M22-4-6-2-24]
-+
+ +
 #24
 | 2
 |
@@ -2940,7 +2938,7 @@ Examples:
 
 |M23-4-7-4-48
 |image:88musaics/M23-4-7-4-48.png[M23-4-7-4-48]
-+
+ +
 #48
 | 4
 |
@@ -2952,7 +2950,7 @@ Examples:
 
 |M24-4-8-8-96
 |image:88musaics/M24-4-8-8-96.png[M24-4-8-8-96]
-+
+ +
 #96
 | 8
 |
@@ -2968,7 +2966,7 @@ Examples:
 
 |M25-4-9-4-48
 |image:88musaics/M25-4-9-4-48.png[M25-4-9-4-48]
-+
+ +
 #48
 | 4
 |
@@ -2980,7 +2978,7 @@ Examples:
 
 |M26-4-10-8-96
 |image:88musaics/M26-4-10-8-96.png[M26-4-10-8-96]
-+
+ +
 #96
 | 8
 |
@@ -2996,7 +2994,7 @@ Examples:
 
 |M27-4-11-8-96
 |image:88musaics/M27-4-11-8-96.png[M27-4-11-8-96]
-+
+ +
 #96
 | 8
 |
@@ -3012,7 +3010,7 @@ Examples:
 
 |M28-4-12-2-24
 |image:88musaics/M28-4-12-2-24.png[M28-4-12-2-24]
-+
+ +
 #24
 | 2
 |
@@ -3022,7 +3020,7 @@ Examples:
 
 |M29-4-13-2-24
 |image:88musaics/M29-4-13-2-24.png[M29-4-13-2-24]
-+
+ +
 #24
 | 2
 |
@@ -3032,7 +3030,7 @@ Examples:
 
 |M30-4-14-2-24
 |image:88musaics/M30-4-14-2-24.png[M30-4-14-2-24]
-+
+ +
 #24
 | 2
 |
@@ -3042,7 +3040,7 @@ Examples:
 
 |M31-4-15-4-48
 |image:88musaics/M31-4-15-4-48.png[M31-4-15-4-48]
-+
+ +
 #48
 | 4
 |
@@ -3054,7 +3052,7 @@ Examples:
 
 |M32-4-16-2-24
 |image:88musaics/M32-4-16-2-24.png[M32-4-16-2-24]
-+
+ +
 #24
 | 2
 |
@@ -3064,7 +3062,7 @@ Examples:
 
 |M33-4-17-2-12
 |image:88musaics/M33-4-17-2-12.png[M33-4-17-2-12]
-+
+ +
 #12
 | 2
 |
@@ -3074,7 +3072,7 @@ Examples:
 
 |M34-4-18-4-48
 |image:88musaics/M34-4-18-4-48.png[M34-4-18-4-48]
-+
+ +
 #48
 | 4
 |
@@ -3086,7 +3084,7 @@ Examples:
 
 |M35-4-19-2-24
 |image:88musaics/M35-4-19-2-24.png[M35-4-19-2-24]
-+
+ +
 #24
 | 2
 |
@@ -3096,7 +3094,7 @@ Examples:
 
 |M36-4-20-2-12
 |image:88musaics/M36-4-20-2-12.png[M36-4-20-2-12]
-+
+ +
 #12
 | 2
 |
@@ -3106,7 +3104,7 @@ Examples:
 
 |M37-4-21-2-6
 |image:88musaics/M37-4-21-2-6.png[M37-4-21-2-6]
-+
+ +
 #6
 | 2
 |
@@ -3116,7 +3114,7 @@ Examples:
 
 |M38-5-1-4-48
 |image:88musaics/M38-5-1-4-48.png[M38-5-1-4-48]
-+
+ +
 #48
 | 4
 |
@@ -3128,7 +3126,7 @@ Examples:
 
 |M39-5-2-8-96
 |image:88musaics/M39-5-2-8-96.png[M39-5-2-8-96]
-+
+ +
 #96
 | 8
 |
@@ -3144,7 +3142,7 @@ Examples:
 
 |M40-5-3-8-96
 |image:88musaics/M40-5-3-8-96.png[M40-5-3-8-96]
-+
+ +
 #96
 | 8
 |
@@ -3160,7 +3158,7 @@ Examples:
 
 |M41-5-4-8-96
 |image:88musaics/M41-5-4-8-96.png[M41-5-4-8-96]
-+
+ +
 #96
 | 8
 |
@@ -3176,7 +3174,7 @@ Examples:
 
 |M42-5-5-8-96
 |image:88musaics/M42-5-5-8-96.png[M42-5-5-8-96]
-+
+ +
 #96
 | 8
 |
@@ -3192,7 +3190,7 @@ Examples:
 
 |M43-5-6-8-96
 |image:88musaics/M43-5-6-8-96.png[M43-5-6-8-96]
-+
+ +
 #96
 | 8
 |
@@ -3208,7 +3206,7 @@ Examples:
 
 |M44-5-7-4-48
 |image:88musaics/M44-5-7-4-48.png[M44-5-7-4-48]
-+
+ +
 #48
 | 4
 |
@@ -3220,7 +3218,7 @@ Examples:
 
 |M45-5-8-8-96
 |image:88musaics/M45-5-8-8-96.png[M45-5-8-8-96]
-+
+ +
 #96
 | 8
 |
@@ -3236,7 +3234,7 @@ Examples:
 
 |M46-5-9-2-24
 |image:88musaics/M46-5-9-2-24.png[M46-5-9-2-24]
-+
+ +
 #24
 | 2
 |
@@ -3246,7 +3244,7 @@ Examples:
 
 |M47-5-10-8-96
 |image:88musaics/M47-5-10-8-96.png[M47-5-10-8-96]
-+
+ +
 #96
 | 8
 |
@@ -3262,7 +3260,7 @@ Examples:
 
 |M48-5-11-4-48
 |image:88musaics/M48-5-11-4-48.png[M48-5-11-4-48]
-+
+ +
 #48
 | 4
 |
@@ -3274,7 +3272,7 @@ Examples:
 
 |M49-5-12-8-96
 |image:88musaics/M49-5-12-8-96.png[M49-5-12-8-96]
-+
+ +
 #96
 | 8
 |
@@ -3290,7 +3288,7 @@ Examples:
 
 |M50-5-13-4-48
 |image:88musaics/M50-5-13-4-48.png[M50-5-13-4-48]
-+
+ +
 #48
 | 4
 |
@@ -3302,7 +3300,7 @@ Examples:
 
 |M51-5-14-8-96
 |image:88musaics/M51-5-14-8-96.png[M51-5-14-8-96]
-+
+ +
 #96
 | 8
 |
@@ -3318,7 +3316,7 @@ Examples:
 
 |M52-5-15-4-48
 |image:88musaics/M52-5-15-4-48.png[M52-5-15-4-48]
-+
+ +
 #48
 | 4
 |
@@ -3330,7 +3328,7 @@ Examples:
 
 |M53-5-16-4-48
 |image:88musaics/M53-5-16-4-48.png[M53-5-16-4-48]
-+
+ +
 #48
 | 4
 |
@@ -3342,7 +3340,7 @@ Examples:
 
 |M54-5-17-8-96
 |image:88musaics/M54-5-17-8-96.png[M54-5-17-8-96]
-+
+ +
 #96
 | 8
 |
@@ -3358,7 +3356,7 @@ Examples:
 
 |M55-5-18-4-48
 |image:88musaics/M55-5-18-4-48.png[M55-5-18-4-48]
-+
+ +
 #48
 | 4
 |
@@ -3370,7 +3368,7 @@ Examples:
 
 |M56-5-19-4-48
 |image:88musaics/M56-5-19-4-48.png[M56-5-19-4-48]
-+
+ +
 #48
 | 4
 |
@@ -3382,7 +3380,7 @@ Examples:
 
 |M57-5-20-4-48
 |image:88musaics/M57-5-20-4-48.png[M57-5-20-4-48]
-+
+ +
 #48
 | 4
 |
@@ -3394,7 +3392,7 @@ Examples:
 
 |M58-5-21-2-24
 |image:88musaics/M58-5-21-2-24.png[M58-5-21-2-24]
-+
+ +
 #24
 | 2
 |
@@ -3404,7 +3402,7 @@ Examples:
 
 |M59-5-22-4-48
 |image:88musaics/M59-5-22-4-48.png[M59-5-22-4-48]
-+
+ +
 #48
 | 4
 |
@@ -3416,7 +3414,7 @@ Examples:
 
 |M60-5-23-2-24
 |image:88musaics/M60-5-23-2-24.png[M60-5-23-2-24]
-+
+ +
 #24
 | 2
 |
@@ -3426,7 +3424,7 @@ Examples:
 
 |M61-5-24-2-24
 |image:88musaics/M61-5-24-2-24.png[M61-5-24-2-24]
-+
+ +
 #24
 | 2
 |
@@ -3436,7 +3434,7 @@ Examples:
 
 |M62-5-25-4-48
 |image:88musaics/M62-5-25-4-48.png[M62-5-25-4-48]
-+
+ +
 #48
 | 4
 |
@@ -3448,7 +3446,7 @@ Examples:
 
 |M63-6-1-2-24
 |image:88musaics/M63-6-1-2-24.png[M63-6-1-2-24]
-+
+ +
 #24
 | 2
 |
@@ -3458,7 +3456,7 @@ Examples:
 
 |M64-6-2-4-48
 |image:88musaics/M64-6-2-4-48.png[M64-6-2-4-48]
-+
+ +
 #48
 | 4
 |
@@ -3470,7 +3468,7 @@ Examples:
 
 |M65-6-3-8-96
 |image:88musaics/M65-6-3-8-96.png[M65-6-3-8-96]
-+
+ +
 #96
 | 8
 |
@@ -3486,7 +3484,7 @@ Examples:
 
 |M66-6-4-4-48
 |image:88musaics/M66-6-4-4-48.png[M66-6-4-4-48]
-+
+ +
 #48
 | 4
 |
@@ -3498,7 +3496,7 @@ Examples:
 
 |M67-6-5-2-24
 |image:88musaics/M67-6-5-2-24.png[M67-6-5-2-24]
-+
+ +
 #24
 | 2
 |
@@ -3508,7 +3506,7 @@ Examples:
 
 |M68-6-6-4-48
 |image:88musaics/M68-6-6-4-48.png[M68-6-6-4-48]
-+
+ +
 #48
 | 4
 |
@@ -3520,7 +3518,7 @@ Examples:
 
 |M69-6-7-8-96
 |image:88musaics/M69-6-7-8-96.png[M69-6-7-8-96]
-+
+ +
 #96
 | 8
 |
@@ -3536,7 +3534,7 @@ Examples:
 
 |M70-6-8-1-12
 |image:88musaics/M70-6-8-1-12.png[M70-6-8-1-12]
-+
+ +
 #12
 | 1
 |
@@ -3545,7 +3543,7 @@ Examples:
 
 |M71-6-9-4-48
 |image:88musaics/M71-6-9-4-48.png[M71-6-9-4-48]
-+
+ +
 #48
 | 4
 |
@@ -3557,7 +3555,7 @@ Examples:
 
 |M72-6-10-4-48
 |image:88musaics/M72-6-10-4-48.png[M72-6-10-4-48]
-+
+ +
 #48
 | 4
 |
@@ -3569,7 +3567,7 @@ Examples:
 
 |M73-6-11-4-48
 |image:88musaics/M73-6-11-4-48.png[M73-6-11-4-48]
-+
+ +
 #48
 | 4
 |
@@ -3581,7 +3579,7 @@ Examples:
 
 |M74-6-12-2-24
 |image:88musaics/M74-6-12-2-24.png[M74-6-12-2-24]
-+
+ +
 #24
 | 2
 |
@@ -3591,7 +3589,7 @@ Examples:
 
 |M75-6-13-4-48
 |image:88musaics/M75-6-13-4-48.png[M75-6-13-4-48]
-+
+ +
 #48
 | 4
 |
@@ -3603,7 +3601,7 @@ Examples:
 
 |M76-6-14-2-24
 |image:88musaics/M76-6-14-2-24.png[M76-6-14-2-24]
-+
+ +
 #24
 | 2
 |
@@ -3613,7 +3611,7 @@ Examples:
 
 |M77-6-15-2-24
 |image:88musaics/M77-6-15-2-24.png[M77-6-15-2-24]
-+
+ +
 #24
 | 2
 |
@@ -3623,7 +3621,7 @@ Examples:
 
 |M78-6-16-4-48
 |image:88musaics/M78-6-16-4-48.png[M78-6-16-4-48]
-+
+ +
 #48
 | 4
 |
@@ -3635,7 +3633,7 @@ Examples:
 
 |M79-6-17-4-48
 |image:88musaics/M79-6-17-4-48.png[M79-6-17-4-48]
-+
+ +
 #48
 | 4
 |
@@ -3647,7 +3645,7 @@ Examples:
 
 |M80-6-18-2-24
 |image:88musaics/M80-6-18-2-24.png[M80-6-18-2-24]
-+
+ +
 #24
 | 2
 |
@@ -3657,7 +3655,7 @@ Examples:
 
 |M81-6-19-2-24
 |image:88musaics/M81-6-19-2-24.png[M81-6-19-2-24]
-+
+ +
 #24
 | 2
 |
@@ -3667,7 +3665,7 @@ Examples:
 
 |M82-6-20-4-48
 |image:88musaics/M82-6-20-4-48.png[M82-6-20-4-48]
-+
+ +
 #48
 | 4
 |
@@ -3679,7 +3677,7 @@ Examples:
 
 |M83-6-21-1-6
 |image:88musaics/M83-6-21-1-6.png[M83-6-21-1-6]
-+
+ +
 #6
 | 1
 |
@@ -3688,7 +3686,7 @@ Examples:
 
 |M84-6-22-2-24
 |image:88musaics/M84-6-22-2-24.png[M84-6-22-2-24]
-+
+ +
 #24
 | 2
 |
@@ -3698,7 +3696,7 @@ Examples:
 
 |M85-6-23-2-24
 |image:88musaics/M85-6-23-2-24.png[M85-6-23-2-24]
-+
+ +
 #24
 | 2
 |
@@ -3708,7 +3706,7 @@ Examples:
 
 |M86-6-24-2-12
 |image:88musaics/M86-6-24-2-12.png[M86-6-24-2-12]
-+
+ +
 #12
 | 2
 |
@@ -3718,7 +3716,7 @@ Examples:
 
 |M87-6-25-1-4
 |image:88musaics/M87-6-25-1-4.png[M87-6-25-1-4]
-+
+ +
 #4
 | 1
 |
@@ -3727,7 +3725,7 @@ Examples:
 
 |M88-6-26-1-2
 |image:88musaics/M88-6-26-1-2.png[M88-6-26-1-2]
-+
+ +
 #2
 | 1
 |
@@ -3836,7 +3834,7 @@ We can now enumerate all modes:
 |===
 |PCS Cardinal >|0 >|1 >|2 >|3 >|4 >|5 >|6 >|7 >|8 >|9 >|10 >|11 >|12 >|Total
 
-|Cyclic Orbit Cardinal
+|Cyclic Orbits by cardinality
 >|1
 >|1
 >|6
@@ -3852,7 +3850,7 @@ We can now enumerate all modes:
 >|1
 >e|352
 
-|Mode Cardinal
+|Modes by cardinality
 >|0
 >|1
 >|11
@@ -3872,7 +3870,28 @@ We can now enumerate all modes:
 
 === Why 2048 modes?
 
-TODO
+Another way to think about modes is to ask how many different scales there are that have a common note of 0 (or C). That is, how many sets of pitch classes (PCS), can be produced with only 11 pitch classes ? The answer is [.nowrap]#stem:[2^11 = 2048]#.
+
+Again, the distribution is given by line 11 (or column) of Pascal's triangle.
+
+.Distribution by cardinality of PCS in modal prime form
+image::modes-pascal-triangle.png[modes-pascal-triangle]
+
+=== Conclusion
+
+* The mode concept allows us to highlight PCSs that the first reduction to 352 cyclic orbits had hidden from us.
+
+* The central vertical axis of the subgroups begin : [.nowrap]#4096 -> *2048* -> 352 -> 224 -> 156 -> 88#
+
+* The number of modes of a scale (PCS) depends on its cardinality and its status of limited transposition scale or not.
+
+* The PCS concept, extended with the Pivot property, gives us easy access to the modes of a scale (PCS).
+
+* The MusaicBox application offers several easy ways to discover the different modes of a PCS
+** PCS page via the commands labeled M+ or M- which change the pivot value, or generate the mode list
+** Whiteboard Page, idem + mode orbit and PFMode orbit.
+
+=> It remains to be shown how the concept of chord ("classical" and "extended") is treated by the application.
 
 [glossary]
 == Glossary
