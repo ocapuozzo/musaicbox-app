@@ -1079,7 +1079,7 @@ export class IPcs {
   }
 
   getChordName(): string {
-    return ChordNaming.getFirstChordName(this.unMap(), this.cardinal)
+    return ChordNaming.getChordName(this.unMap(), this.cardinal)
   }
 
   getFirstNameDetail(): string {

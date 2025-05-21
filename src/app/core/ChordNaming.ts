@@ -13,12 +13,15 @@ export class ChordNaming {
   static NOTE_NAMES_SHARP = ['C', 'C♯', 'D', 'D♯', 'E', 'F', 'F♯', 'G', 'G♯', 'A', 'A♯', 'B']
   static NOTE_NAMES_FLAT = ['C', 'D♭', 'D', 'E♭', 'E', 'F', 'G♭', 'G', 'A♭', 'A', 'B♭', 'B']
   static INDEX_ALTERED_NOTES = [1, 3, 6, 8, 10]
+  static inversionSuffix : string[] = [
+    "", "2d", "2d", "3rd", "3rd", "4th", "5th", "5th", "6th", "6th", "7th", "7th"]
+
 
   /**
-   * List of chordNames : key = if pcs.pid(), value = IChordNameOrder
+   * List of chordNames: key = if pcs.pid(), value = IChordNameOrder
    *
    *  List of "current" chords with their sortOrder (use for sort list of chords)
-   *  IMPORTANT : Add, update or remove elements of this list is
+   *  IMPORTANT: Add, update or remove elements of this list is
    *  the only operation to have chord recognized, or not.
    *
    *  To determine if a chord is included in the possible chords of a PCS p,
@@ -26,6 +29,14 @@ export class ChordNaming {
    *  If the result is the pid of chord, then pcs includes this chord.
    *  Very efficient processing (not found on the first try :) - 2025-april-2
    *  (See forEach loop in getKeysChord method)
+   *
+   *  refactor (2025-may-21) : Automatic search for a chord inversion when chord has not a name
+   *  Be careful, when the chord has a name, as '0 4 7 9' sixth chord
+   *  Automatic search does not work and the inverse chord must be written literally
+   *  as the another chord name (here the second entry for "m7/3rd")
+   *  Example:  [657, [{name: '6', cardinal: 4, sortOrder: 6, root: 0}, {name: 'm7/3rd', cardinal:4, sortOrder: 6, root: 9}]],
+   *  Else if this is only an inverse chord as : [545, [{name: 'Maj/5th', cardinal: 3, sortOrder: 6, root: 5}]]
+   *  Then DO NOT write this type of inverse chord name, il will be automatically looked up by getChordName
    *
    */
   static chordsPidKeyWithZeroAsRoot = new Map<number, IChordNameOrder[]>([
@@ -72,14 +83,11 @@ export class ChordNaming {
     [265, [{name: 'm ♭6', cardinal: 3, sortOrder: 6, root: 0}, {name: 'Maj/3rd', cardinal:3, sortOrder: 6, root: 8}]],
 
     //
-    //    history :  origin of test  chord inversion - experimental and approved !
+    //    history :  origin of test chord inversion - static written
     // '0 5 9' Major bass 5th
-    [545, [{name: 'Maj/5th', cardinal: 3, sortOrder: 6, root: 5}]],
+    // [545, [{name: 'Maj/5th', cardinal: 3, sortOrder: 6, root: 5}]],
+    // This is no longer necessary since refactoring (2025-may-21)
 
-    // '0 5 8' minor bass fifth
-    [289, [{name: 'm/5th', cardinal: 3, sortOrder: 12, root: 5}]],
-    // // => let chord third bass inversion are sixth chord considered ??
-    //
 
     // ///// 4-chords  ///// ///// ///// ///// ///// /////
 
@@ -88,6 +96,9 @@ export class ChordNaming {
     //
 
     // '0 4 7 9' sixth chord or minor seventh bass third
+    // When the chord has a name, the inverse must be written literally
+    // as the chord name (here the second entry for "m7/3rd")
+    // otherwise the inversion is automatically/dynamically looked up by getChordName
     [657, [{name: '6', cardinal: 4, sortOrder: 6, root: 0}, {name: 'm7/3rd', cardinal:4, sortOrder: 6, root: 9}]],
 
     // '0 4 7 11' Major 7
@@ -160,9 +171,9 @@ export class ChordNaming {
 
     // '0 3 7 10'
     [1161, [{name: 'm7', cardinal: 4, sortOrder: 2, root: 0}]],
-    // bass third taken by major 6 - pid 657
-    [297, [{name: 'm7/5th', cardinal: 4, sortOrder: 5, root: 5}]],
-    [549, [{name: 'm7/7th', cardinal: 4, sortOrder: 5, root: 2}]],
+    // // bass third taken by major 6 - pid 657
+    // [297, [{name: 'm7/5th', cardinal: 4, sortOrder: 5, root: 5}]],
+    // [549, [{name: 'm7/7th', cardinal: 4, sortOrder: 5, root: 2}]],
 
 
     // '0 3 7 11'
@@ -177,9 +188,6 @@ export class ChordNaming {
     // '0 3 7 8'
     [393, [{name: 'm ♭6', cardinal: 4, sortOrder: 7, root: 0}, {name: 'M7/3rd', cardinal:4, sortOrder: 7, root: 8}]],
 
-    // '0 2 5 10'
-    [1061, [{name: 'm7♯5/7th', cardinal: 4, sortOrder: 10, root: 2}]],
-
     // '0 3 5 10' minor 7 add 11
     [1065, [{name: 'm7 add 11', cardinal: 4, sortOrder: 6, root: 0}]],
 
@@ -189,30 +197,13 @@ export class ChordNaming {
     // '0 3 6 9'
     [585, [{name: 'dim7', cardinal: 4, sortOrder: 3, root: 0}]],
 
-    //
-    // // chords without name, but inversion
-    //
-
-    // '0 4 5 9'
-    [561, [{name: 'M7/5th', cardinal: 4, sortOrder: 7, root: 5}]],
-
-    // '0 1 5 8'
-    [291, [{name: 'M7/7th', cardinal: 4, sortOrder: 7, root: 1}]],
-
-    // '0 2 3 6'  7 b9 bass seventh no 5
-    [77, [{name: '7 ♭9/7 no 5', cardinal: 4, sortOrder: 10, root: 2}]],
-
-
     // ///// 5-chords  ///// ///// ///// ///// ///// /////
-
 
     // '0 1 4 7 10'
     [1171, [{name: '7 ♭9', cardinal: 5, sortOrder: 7, root: 0}]],
 
     // '0 2 4 7 10'
     [1173, [{name: '7 9', cardinal: 5, sortOrder: 7, root: 0}]],
-
-
 
   ])
 
@@ -285,89 +276,62 @@ export class ChordNaming {
     return chordPcsList
   }
 
-
   /**
-   * From pcs, get list of possible currents chords, according to chordsPidKeyWithZeroAsRoot collection
-   * @param pcs
-   * @param nPitches 3 or 4 (3 or 4 pitches chords) to obtain
-   * @param includeInversion where .root > 0
-   * @return string[] list of pcs in string representation as '0 3 6 9' (cardinal = nPitches)
-   */
-  static _getKeysChord(pcs: IPcs, nPitches: number, includeInversion: boolean = true): number[] {
-    let chordPcsList: number[] = []
-    if (pcs.cardinal < 3) return chordPcsList
-
-    const pivot = pcs.getMappedPivot() ?? 0
-
-    // translate where pivot = 0, for make a key
-    const pidPcs = pcs.transposition(-pivot).unMap().pid()
-
-    // if pcs.cardinal === nPitches, there is zero or one chord possible
-    if (pcs.cardinal === nPitches) {
-      if (ChordNaming.chordsPidKeyWithZeroAsRoot.get(pidPcs)) {
-        if (ChordNaming.chordsPidKeyWithZeroAsRoot.get(pidPcs)![0].root === 0
-          || ChordNaming.chordsPidKeyWithZeroAsRoot.get(pidPcs)![0].root > 0
-          && includeInversion) {
-          chordPcsList.push(pidPcs)
-        }
-      }
-      // max one name
-      return chordPcsList
-    }
-
-    // search if possible chords predefined (pidChord) in list chordsPidKeyWithZeroAsRoot match with pcs (pidPcs)
-    ChordNaming.chordsPidKeyWithZeroAsRoot.forEach((value, pidChord) => {
-     // Applies bitwise operator AND between pidChord and pidPcs. If result is pidChord, then pcs includes chord
-      if ( (pidChord & pidPcs) === pidChord && value[0].cardinal === nPitches) {
-        if (value[0].root === 0 || value[0].root > 0 && includeInversion) {
-          chordPcsList.push(pidChord)
-        }
-      }
-    })
-
-    // assert nMapping to be 12
-    // sort on sortOrder property
-    if (chordPcsList.length > 1) {
-      chordPcsList.sort((s1, s2) => {
-        const orderChord1 = ChordNaming.chordsPidKeyWithZeroAsRoot.get(s1)![0].sortOrder ?? 42  // normally sortOrder is set
-        const orderChord2 = ChordNaming.chordsPidKeyWithZeroAsRoot.get(s2)![0].sortOrder ?? 42  // idem
-        return orderChord1 - orderChord2
-      })
-    }
-    return chordPcsList
-  }
-
-  /**
-   * Get chord name 4 pitches first then 3 pitches if exists else empty string
+   * Get chord name(s) if exists else empty string
    * Root chord is given by iPivot
    * @param pcs assert pcs.n == 12
    *    The caller will have to check before calling this function, and possibly call unMap() before
    * @param nbPitches value of k (kChord)
    */
-  static getFirstChordName(pcs: IPcs, nbPitches: number = 3): string {
+  static getChordName(pcs: IPcs, nbPitches: number = 3): string {
     let chordsNPitches: number[] = []
+    let inversionOfRootPivot : number | undefined = undefined
     if (nbPitches >= 3 && nbPitches <= 5) {
       chordsNPitches = ChordNaming.getKeysChord(pcs, {nPitches:nbPitches, includeInversion:true, extended:true})
+      if (chordsNPitches.length === 0) {
+        // not found? try to find if it is a chord inversion of a known chord
+        let pcsNext = pcs
+        for (let i = 0; i < pcs.cardinal-1 ; i++) {
+          pcsNext = pcsNext.modulation("Next")
+          chordsNPitches = ChordNaming.getKeysChord(pcsNext, {nPitches:nbPitches, includeInversion:true, extended:true})
+          if (chordsNPitches.length > 0) {
+            inversionOfRootPivot = pcsNext.iPivot
+            break
+          }
+        }
+
+      }
     }
 
     if (chordsNPitches.length === 0) {
       return ''
     }
 
-    const names = ChordNaming.chordsPidKeyWithZeroAsRoot.get(chordsNPitches[0])
+    const chordNames = ChordNaming.chordsPidKeyWithZeroAsRoot.get(chordsNPitches[0])
 
-    if (!names) {
+    if (!chordNames) {
       return ''
     }
 
+    // some chords have more than one name, separated by a separator
+    const separator = " ~ "
+
     let nameRoot = ''
     let theChordNames = ''
-
     // get different chord names and their root name
-    for (const chordName of names) {
-      const _chordName = chordName.name
+    for (const chordName of chordNames) {
+      const _chordName = inversionOfRootPivot !== undefined && chordName.root === 0
+        // inversion chord
+        ? chordName.name + "/" + this.inversionSuffix[(pcs.n + (pcs.iPivot ?? 0) - inversionOfRootPivot) % pcs.n]
+
+        // not inversion chord
+        : chordName.name
+
       // which nameRoot name ?
-      let indexNameRoot = ( (pcs.iPivot ?? 0) + chordName.root) % 12 // case chord inversion
+      let indexNameRoot =
+        inversionOfRootPivot !== undefined && chordName.root === 0
+          ? inversionOfRootPivot //  case chord inversion dynamically defined
+          : ((pcs.iPivot ?? 0) + chordName.root) % pcs.n // chordName.root case chord inversion statically defined
 
       // console.log("indexNameRoot = ", indexNameRoot)
       if (ChordNaming.INDEX_ALTERED_NOTES.includes(indexNameRoot)) {
@@ -399,13 +363,14 @@ export class ChordNaming {
         // no altered
         nameRoot = ChordNaming.NOTE_NAMES_SHARP[indexNameRoot] // or NOTE_NAMES_FLAT what does it matter
       }
-      // add new name tp theChordName (some pcs have more than one name)
+      // add new name tO theChordNames (some pcs have more than one name)
       theChordNames = theChordNames
-        ? `${theChordNames} ~ ${nameRoot}${_chordName}`
+        ? `${theChordNames}${separator}${nameRoot}${_chordName}`
         : `${nameRoot}${_chordName}`
     }
 
     return theChordNames
   }
+
 
 }

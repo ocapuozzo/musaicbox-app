@@ -65,4 +65,26 @@ describe('ChordNaming unit tests', () => {
     expect(cM7.getChordName()).toEqual('CM7/7th')
   })
 
+
+  it('dynamic inverted chord name', () => {
+    let cMaj = new IPcs({strPcs: '[0,4,7]', n: 12})
+    expect(cMaj.getChordName()).toEqual('CMaj')
+    cMaj = cMaj.modulation("Next")
+    expect(cMaj.getChordName()).toEqual('Em ♭6 ~ CMaj/3rd') // static
+    cMaj = cMaj.modulation("Next")
+    expect(cMaj.getChordName()).toEqual('CMaj/5th')
+    cMaj = cMaj.modulation("Next")
+    expect(cMaj.getChordName()).toEqual('CMaj')
+
+    // only the seventh chord is referenced
+    let dMaj7M = new IPcs({strPcs: '[0 4 7 10]', n: 12}).transposition(2)
+    expect(dMaj7M.getChordName()).toEqual('D7')
+    dMaj7M = dMaj7M.modulation("Next")
+    expect(dMaj7M.getChordName()).toEqual('D7/3rd')
+    dMaj7M = dMaj7M.modulation("Next")
+    expect(dMaj7M.getChordName()).toEqual('D7/5th')
+    dMaj7M = dMaj7M.modulation("Next")
+    expect(dMaj7M.getChordName()).toEqual('D7/7th')
+  })
+
 })
