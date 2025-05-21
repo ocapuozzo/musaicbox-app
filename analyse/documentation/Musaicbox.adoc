@@ -3894,7 +3894,7 @@ image::modes-pascal-triangle.png[modes-pascal-triangle]
 ** PCS page via the commands labeled M+ or M- which change the pivot value, or generate the mode list
 ** Whiteboard Page, idem + mode orbit and PFMode orbit.
 
-=> It remains to be shown how the concept of chord ("classical" and "extended") is treated by the application.
+//=> It remains to be shown how the concept of chord ("classical" and "extended") is treated by the application.
 
 [glossary]
 == Glossary
@@ -4010,9 +4010,9 @@ Examples:
 CMaj and FMaj have same structure of polygon inscribed, so have same cis, have same musaic-motif
 
 Musaic-Face::
-  A surface presented to the view. A musaic has 4 faces accessible by operations : _id_, _M11_, _M5_ and _M7_
+  A 2D surface presented to the view. A musaic has 4 faces accessible by operations : _id_, _M11_, _M5_ and _M7_
 +
-A face is composed of two motifs, each characterized by a specific (and arbitrary) color. For 19 out of 88 musaics  their motifs are distinct.
+A face is composed of two motifs, each characterized by a specific (and arbitrary) color. For 19 out of 88 musaics all their motifs are distinct.
 
 [#Musaic-Motif,reftext=Musaic Motif]
 Musaic-Motif::
