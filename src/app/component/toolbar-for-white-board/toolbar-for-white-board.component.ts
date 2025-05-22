@@ -1,6 +1,6 @@
 import {Component, inject, Input} from '@angular/core';
 import {MatToolbar} from "@angular/material/toolbar";
-import {MatIconButton} from "@angular/material/button";
+import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {ManagerPageWBService} from "../../service/manager-page-wb.service";
 import {ManagerToolbarService} from "../../service/manager-toolbar.service";
@@ -17,7 +17,8 @@ import {MatBadge} from "@angular/material/badge";
     MatIconButton,
     MatIcon,
     MatTooltip,
-    MatBadge
+    MatBadge,
+    MatButton
   ],
   templateUrl: './toolbar-for-white-board.component.html',
   styleUrl: './toolbar-for-white-board.component.css'

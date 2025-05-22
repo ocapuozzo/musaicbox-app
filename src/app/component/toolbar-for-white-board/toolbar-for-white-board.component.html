@@ -8,17 +8,35 @@
     <mat-icon>{{ isShown ? 'chevron_right' : 'chevron_left' }}</mat-icon>
   </button>
 
+  {{'' // TODO: add a variable for number of selected components}}
+  <button mat-icon-button matTooltip="{{getNumberComponentsSelected()}} selected item{{getNumberComponentsSelected() > 1 ? 's' : ''}}"
+          matTooltipPosition="left"
+          [matBadgeHidden]="getNumberComponentsSelected() === 0"
+          matBadge="{{getNumberComponentsSelected()}}" matBadgePosition="after"
+
+          class="button-toolbar"
+          style="margin-top: 10px"
+  >
+    <mat-icon>arrow_drop_down</mat-icon>
+  </button>
+  <span style="font-size:small; opacity: 0.4; margin-top: 0.1em; padding: 0.3em 0; line-height: 0.125;">-------</span>
   <button mat-icon-button [disabled]="numberSelectedComponents === 0" (click)="zoomIn()"
+          matTooltip="Zoom+"
+          matTooltipPosition="left"
           class="button-toolbar"
    >
     <mat-icon>zoom_in</mat-icon>
   </button>
   <button mat-icon-button [disabled]="numberSelectedComponents === 0" (click)="zoomOut()"
+          matTooltip="Zoom-"
+          matTooltipPosition="left"
           class="button-toolbar"
   >
     <mat-icon>zoom_out</mat-icon>
   </button>
   <button mat-icon-button [disabled]="numberSelectedComponents === 0" (click)="delete()"
+          matTooltip="Delete"
+          matTooltipPosition="left"
           class="button-toolbar"
   >
     <mat-icon>delete</mat-icon>
@@ -26,18 +44,24 @@
 
   <span style="font-size:small; opacity: 0.4; margin-top: 0.1em; padding: 0.3em 0; line-height: 0.125;">-------</span>
 
-  <button mat-icon-button [disabled]="numberSelectedComponents === 0" (click)="doTranspose(1)"
-          class="button-toolbar"
+  <button  mat-button [disabled]="numberSelectedComponents === 0"
+           matTooltip="Transpose +1"
+           matTooltipPosition="left"
+           class="button-toolbar"
           style=" margin-top: 0;"
   >
-    <span style="font-size: small" >T+1</span>
+    <span mat-icon-button style="font-size: small" (click)="doTranspose(1)">T+1</span>
   </button>
-  <button mat-icon-button [disabled]="numberSelectedComponents === 0" (click)="doTranspose(-1)"
+
+  <button  mat-button [disabled]="numberSelectedComponents === 0"
+           matTooltip="Transpose -1"
+           matTooltipPosition="left"
           class="button-toolbar">
-    <span style="font-size: small;">T-1</span>
+    <span mat-icon-button style="font-size: small;" (click)="doTranspose(-1)">T-1</span>
   </button>
 
   <button mat-icon-button matTooltip="M5"
+          matTooltipPosition="left"
           class="button-toolbar"
           [disabled]="numberSelectedComponents === 0"
           (click)="doAffine(5, 0)"
@@ -48,6 +72,7 @@
   </button>
 
   <button mat-icon-button matTooltip="M7"
+          matTooltipPosition="left"
           class="button-toolbar"
           [disabled]="numberSelectedComponents === 0"
           (click)="doAffine(7, 0)"
@@ -58,6 +83,7 @@
   <button mat-icon-button
           class="button-toolbar"
           matTooltip="M11"
+          matTooltipPosition="left"
           [disabled]="numberSelectedComponents === 0"
           (click)="doAffine(11, 0)"
           style="padding-top: 3px"
@@ -67,6 +93,7 @@
   <button mat-icon-button
           class="button-toolbar"
           matTooltip="Complement"
+          matTooltipPosition="left"
           [disabled]="numberSelectedComponents === 0"
           (click)="doComplement()"
           style="padding-top: 3px"
@@ -75,22 +102,30 @@
     <img src="assets/img/complement.svg"  alt="Complement">
   </button>
 
-  <button mat-icon-button matTooltip="Pivot-1"
+  <button   mat-button matTooltip="Pivot+1"
+            matTooltipPosition="left"
           class="button-toolbar"
           [disabled]="numberSelectedComponents === 0"
-          (click)="doChangePivot('Previous')">
-    <span style="font-size: small; text-align: center;">Piv-1</span>
+          >
+    <span mat-icon-button
+          style="font-size: small;"
+          (click)="doChangePivot('Next')">M+1</span>
   </button>
-  <button mat-icon-button matTooltip="Pivot+1"
+
+  <button  mat-button matTooltip="Pivot-1"
+           matTooltipPosition="left"
           class="button-toolbar"
-          [disabled]="numberSelectedComponents === 0"
-          (click)="doChangePivot('Next')">
-    <span style="font-size: small;">Piv+1</span>
+          [disabled]="numberSelectedComponents === 0">
+    <span mat-icon-button
+          style="font-size: small; text-align: center;"
+          (click)="doChangePivot('Previous')">M-1</span>
   </button>
+
 
   <span style="font-size:small; opacity: 0.4; margin-top: 0.1em; padding: 0.3em 0; line-height: 0.125;">-------</span>
 
   <button mat-icon-button matTooltip="Clock"
+          matTooltipPosition="left"
           [disabled]="numberSelectedComponents === 0"
           (click)="doChangeViewClock()"
           class="button-toolbar"
@@ -100,6 +135,7 @@
   </button>
 
   <button mat-icon-button matTooltip="Score"
+          matTooltipPosition="left"
           [disabled]="numberSelectedComponents === 0"
           (click)="doChangeViewScore()"
           class="button-toolbar"
@@ -107,6 +143,7 @@
     <span style="margin-left: 1px;"> &#x266C;</span>
   </button>
   <button mat-icon-button matTooltip="Musaic"
+          matTooltipPosition="left"
           [disabled]="numberSelectedComponents === 0"
           (click)="doChangeViewMusaic()"
           class="button-toolbar"
@@ -115,6 +152,7 @@
     <img src="assets/img/musaic.svg" width="26px" height="26px" alt="musaic">
   </button>
   <button mat-icon-button matTooltip="Octotrope"
+          matTooltipPosition="left"
           [disabled]="numberSelectedComponents === 0"
           (click)="doChangeViewOctotrope()"
           class="button-toolbar"
@@ -125,29 +163,29 @@
 
   <span style="font-size:small; opacity: 0.4; margin-bottom: 3px; padding: 0.3em 0; line-height: 0.125;">-------</span>
 
-  <button mat-icon-button matTooltip="Save to file..."
-          (click)="saveToFile()"
-          class="button-toolbar">
-    <mat-icon>save</mat-icon>
+  <button mat-button matTooltip="Save to file..."
+          matTooltipPosition="left"
+          class="button-toolbar"
+          style="margin-left: 6px">
+    <mat-icon (click)="saveToFile()">save</mat-icon>
   </button>
 
-  <button mat-icon-button matTooltip="Open file..."
-          (click)="fileOpen()"
-          class="button-toolbar">
-    <mat-icon>file_open</mat-icon>
+  <button mat-button matTooltip="Open file..."
+          matTooltipPosition="left"
+          class="button-toolbar"
+          style="margin-left: 6px">
+    <mat-icon (click)="fileOpen()">file_open</mat-icon>
   </button>
 
 
   <button mat-icon-button matTooltip="Export PNG"
-          [matBadgeHidden]="getNumberComponentsSelected() === 0"
-          matBadge="{{getNumberComponentsSelected()}}" matBadgePosition="after"
+          matTooltipPosition="left"
           [disabled]="numberSelectedComponents === 0"
-          (click)="HtmlUtil.captureAllPcsComponentSelected(false)"
           class="button-toolbar"
           style="margin-top: 10px"
-
   >
-<mat-icon>file_download</mat-icon>
+
+<mat-icon  (click)="HtmlUtil.captureAllPcsComponentSelected(false)">file_download</mat-icon>
 <!--    <p style="font-size: small; " >Export</p>-->
   </button>
 
