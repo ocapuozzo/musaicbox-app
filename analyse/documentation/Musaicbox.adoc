@@ -3793,9 +3793,17 @@ We have seen that, regarding the major scale, the number of modes in prime form 
 
 The response is NO, due to the presence of PCSs in limited transposition (LT).
 
-The number of modes of a pcs is given by the formula : stem:[ ("cardinal(pcs) " xx " cardinal(orbitCyclic"_("pcs")")" ) / n]
+The number of modes of a pcs is given by the formula : stem:[ "cardinal(pcs)" -: n / (" cardinal(orbitCyclic"_("pcs")")")" ]
+
 
 This formula is possible because cardinal orbit always divides _n_ https://en.wikipedia.org/wiki/Lagrange%27s_theorem_(group_theory)[(Lagrange's theorem)]
+
+
+For 335 cyclic orbits over 352, the ratio  stem:[ n / (" cardinal(orbitCyclic"_("pcs")")")"] gives 1.
+
+For 17 cyclic orbits in Limited Transposition (LT), this ratio gives gives a divisor of n=12, either 1, 2, 3, 4 or 6 :
+
+image:cyclic-orbits-TL-17.png[]
 
 Some examples of calculating the number of modes of a PCS:
 
@@ -3805,27 +3813,27 @@ Some examples of calculating the number of modes of a PCS:
 
 |[0 4 7]
 |NO
-|stem:[(3 xx 12) / 12]
+|stem:[3 -: 12 / 12]
 |3
 
 |[3 6 9]
 |YES
-|stem:[(4 xx 12) / 3]
+|stem:[4 -: 12 / 3]
 |1
 
 |[0 4 8]
 |YES
-|stem:[(3 xx 12) / 4]
+|stem:[3 -: 12 / 4]
 |1
 
 |[0 1 6 7]
 |YES
-|stem:[(4 xx 12) / 6]
+|stem:[4 -: 12 / 6]
 |2
 
 |[0 1 2 3]
 |NO
-|stem:[(4 xx 12) / 12]
+|stem:[4 -: 12 / 12]
 |4
 
 |===

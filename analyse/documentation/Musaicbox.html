@@ -7544,10 +7544,19 @@ Although the concept of pivots hasn&#8217;t been introduced for this problem, it
 <p>The response is NO, due to the presence of PCSs in limited transposition (LT).</p>
 </div>
 <div class="paragraph">
-<p>The number of modes of a pcs is given by the formula : \$ ("cardinal(pcs) " xx " cardinal(orbitCyclic"_("pcs")")" ) / n\$</p>
+<p>The number of modes of a pcs is given by the formula : \$ "cardinal(pcs)" -: n / (" cardinal(orbitCyclic"_("pcs")")")" \$</p>
 </div>
 <div class="paragraph">
 <p>This formula is possible because cardinal orbit always divides <em>n</em> <a href="https://en.wikipedia.org/wiki/Lagrange%27s_theorem_(group_theory)">(Lagrange&#8217;s theorem)</a></p>
+</div>
+<div class="paragraph">
+<p>For 335 cyclic orbits over 352, the ratio  \$ n / (" cardinal(orbitCyclic"_("pcs")")")"\$ gives 1.</p>
+</div>
+<div class="paragraph">
+<p>For 17 cyclic orbits in Limited Transposition (LT), this ratio gives gives a divisor of n=12, either 1, 2, 3, 4 or 6 :</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./assets/images/cyclic-orbits-TL-17.png" alt="cyclic orbits TL 17"></span></p>
 </div>
 <div class="paragraph">
 <p>Some examples of calculating the number of modes of a PCS:</p>
@@ -7571,31 +7580,31 @@ Although the concept of pivots hasn&#8217;t been introduced for this problem, it
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock">[0 4 7]</p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock">NO</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">\$(3 xx 12) / 12\$</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">\$3 -: 12 / 12\$</p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock">3</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock">[3 6 9]</p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock">YES</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">\$(4 xx 12) / 3\$</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">\$4 -: 12 / 3\$</p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock">[0 4 8]</p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock">YES</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">\$(3 xx 12) / 4\$</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">\$3 -: 12 / 4\$</p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock">1</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock">[0 1 6 7]</p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock">YES</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">\$(4 xx 12) / 6\$</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">\$4 -: 12 / 6\$</p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock">2</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock">[0 1 2 3]</p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock">NO</p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">\$(4 xx 12) / 12\$</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">\$4 -: 12 / 12\$</p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock">4</p></td>
 </tr>
 </tbody>
@@ -8876,7 +8885,7 @@ Symmetry prime form concept is invented, specific to this project.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-05-21 20:36:36 +0200
+Last updated 2025-05-25 11:45:50 +0200
 </div>
 </div>
 <script type="text/x-mathjax-config">
