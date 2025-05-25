@@ -3801,7 +3801,7 @@ This formula is possible because cardinal orbit always divides _n_ https://en.wi
 
 For 335 cyclic orbits over 352, the ratio  stem:[ n / (" cardinal(orbitCyclic"_("pcs")")")"] gives 1.
 
-For 17 cyclic orbits in Limited Transposition (LT), this ratio gives gives a divisor of n=12, either 1, 2, 3, 4 or 6 :
+For 17 cyclic orbits in Limited Transposition (LT), this ratio gives a divisor of n=12, either 1, 2, 3, 4 or 6, as *~_step_* in the figure below :
 
 image:cyclic-orbits-TL-17.png[]
 
@@ -3882,6 +3882,8 @@ We can now enumerate all modes:
 === Why 2048 modes?
 
 Another way to think about modes is to ask how many different scales there are that have a common note of 0 (or C). That is, how many sets of pitch classes (PCS), can be produced with only 11 pitch classes ? The answer is [.nowrap]#stem:[2^11 = 2048]#.
+
+image:vector12_modes.svg[]
 
 Again, the distribution is given by line 11 (or column) of Pascal's triangle.
 
