@@ -5,7 +5,7 @@ From 88musaics.org project
 :icons: font
 :listing-caption: Listing
 :toc: left
-:toclevels: 1
+:toclevels: 2
 // :table-caption!:
 :stem:
 :docinfo: shared
@@ -29,6 +29,8 @@ endif::[]
 :imagesdir: ./assets/images
 
 Musaicbox application is intended to be a POC for main concepts defined and illustrated on https://88musaics.org[88musaics.org] site, plus others (modes, scales, chords...). The implementation chosen for this application are detailed, and some concepts from Musical Set Theory are discussed.
+
+Author : Olivier Capuozzo [gmail]
 
 == Introduction
 
@@ -581,9 +583,10 @@ stem:[M_a  :  P(E) xx NN -> P(E)]
 
 stem:[M_a(A) := {\ (a * x) mod |E| \ },  forall   x in A]
 
-_Where a is prime with |E|, and stem:[*] is multiplication operator_.
+_Where *a* is prime with |E|, and stem:[*] is multiplication operator_.
 --
 ====
+
 
 // defined by {nbsp} stem:[M_a(A) = {\ (x * a) mod |E| \ },  forall   x in A]
 
