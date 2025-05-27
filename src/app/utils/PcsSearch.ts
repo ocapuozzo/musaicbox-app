@@ -15,10 +15,22 @@ export class PcsSearch {
       const pcsPF = orbit.getPcsMin()
       if (pcsPF.iv().toString() === searchIV) {
         pcsWithSameIV.push(pcsPF)
-          // new IPcs({strPcs:pcsPF.getPcsStr(), orbit: new Orbit()}))
       }
     }
     return pcsWithSameIV
+  }
+
+
+  static searchPcsWithForteNum(forteNum: string) {
+    const pcsWithSameForteNum: IPcs[] = []
+    const cyclicGroup = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!
+    for (const orbit of cyclicGroup.orbits) {
+      const pcsPF = orbit.getPcsMin()
+      if (pcsPF.forteNum() === forteNum) {
+        pcsWithSameForteNum.push(pcsPF)
+      }
+    }
+    return pcsWithSameForteNum
   }
 
   /**
@@ -42,4 +54,5 @@ export class PcsSearch {
     const groupCyclic = ManagerGroupActionService.getGroupActionFromGroupAliasName("Cyclic")!
     return groupCyclic.getPcsWithThisPid(pid)
   }
+
 }

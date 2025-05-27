@@ -131,6 +131,8 @@ export class AppComponent {
           this.matchInput = this.searchPcsWithThisIS(inputString.substring(3), inputString)
         } else if (inputString.toUpperCase().startsWith('PID:')) {
           this.matchInput = this.searchPcsWithThisPid(inputString.substring(4), inputString)
+        } else if (inputString.toUpperCase().startsWith('FORTE:')) {
+          this.matchInput = this.searchPcsWithThisForte(inputString.substring(6), inputString)
         } else {
           // search pcs
           try {
@@ -185,6 +187,41 @@ export class AppComponent {
   }
 
   /**
+   * Search PCS having Forte num from cyclic group
+   * @param forteNum
+   * @param inputSearch
+   * @private
+   */
+  private searchPcsWithThisForte(forteNum: string, inputSearch: string) {
+    const pcsWithSameForteNum: IPcs[] = PcsSearch.searchPcsWithForteNum(forteNum)
+    let matchInput = false
+    if (pcsWithSameForteNum.length > 0) {
+      matchInput = true
+      switch (this.router.url) {
+        case '/w-board' :
+          this.managerPageWBService.addPcs({somePcs: pcsWithSameForteNum})
+          break
+        case '/the88' :
+          this.managerPageEightyHeightService.searchMusaic({ somePcs:pcsWithSameForteNum, searchInput:inputSearch })
+          break;
+        default : // PCS page
+                  // select the first of list as current pcs
+          this.managerPagePcsService.replaceBy(pcsWithSameForteNum[0])
+          // push all pcs having same Forte num into list pcs of pcs page
+          // if (pcsWithSameForteNum.length > 1) {
+            // this.managerPagePcsListService.clearLists()
+            for (const pcs of pcsWithSameForteNum) {
+              this.managerPagePcsListService.addPcs('forte:' + forteNum, pcs)
+            }
+          // }
+          this.router.navigateByUrl('/pcs');
+      }
+    }
+    return matchInput
+
+  }
+
+  /**
    * Search PCS having intervallic structure from cyclic group
    * Ex : 3,3,3,3 => PCS : { 0, 3, 6, 9 }
    * If is found, push result on pcs or white board page
@@ -214,6 +251,8 @@ export class AppComponent {
     }
     return matchInput
   }
+
+
 
   private gotoCurrentPage(pcs: IPcs, searchInput : string) {
     // console.log("this route = ", this.router.url)
@@ -278,4 +317,6 @@ export class AppComponent {
   toolBarIsShown() {
     return this.managerToolbarService.isToolbarShown
   }
+
+
 }

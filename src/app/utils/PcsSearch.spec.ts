@@ -36,4 +36,16 @@ describe('PcsSearch test', () => {
      expect(PcsSearch.searchPcsWithThisIS(is2)?.pid()).toEqual(667)
    })
 
+  it('searchPcsWithForteNum', () => {
+    // M62-5-4-48  0 1 3 4 6 7 9
+    const pcs = new IPcs({strPcs:"0 1 3 4 6 7 9"})
+
+    expect(PcsSearch.searchPcsWithForteNum(pcs.forteNum()).length).toEqual(2)
+    
+    expect(PcsSearch.searchPcsWithForteNum("7-31").length).toEqual(2)
+    expect(PcsSearch.searchPcsWithForteNum("6-1").length).toEqual(1)
+    expect(PcsSearch.searchPcsWithForteNum("7-42").length).toEqual(0)
+  })
+
+
 })

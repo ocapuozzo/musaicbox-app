@@ -2656,17 +2656,17 @@ ID is composed of five parts:
 * M prefix
 * Orbit index, among the 88, based on the _id_ value of the minimum pcs of the orbit
 * The cardinality of the minimal element of the orbit
-* Index of orbit relative to other orbits having same cardinality of their minimum pcs
+// * Index of orbit relative to other orbits having same cardinality of their minimum pcs
 * number of distinct isc (motifs)
 * number of pcs into orbits
 
 Examples:
 
-* `M1-0-1-2-2` is first musaic orbit (first 1), cardinality zero/12, first of this group (composed of one element), has 2 isc and 2 pcs into orbit (empty and chromatic scale)
-* `M88-6-26-1-2` is the last musaic orbit (88), cardinality 6, 26th of its group (composed of 26 elements) and only one isc and 2 pcs into orbit (two whole tone pcs)
-* `M10-3-3-8-96` is musaic 10, cardinality 3/9, 3rd among same card musaics, 8 isc and 96 pcs into orbit
-* `M61-5-24-2-24` is 65th musaic orbit, cardinality 5/7, 24th of this group of cardinality, has 2 isc and 24 pcs into orbit
-* `M7-2-5-2-12` is 7th musaic orbit, cardinality 2/10, 2d of this group of cardinality, has 2 isc and 12 pcs into orbit (not 24)
+* `M1-0-2-2` is first musaic orbit (first 1), cardinality zero/12, has 2 isc and 2 pcs into orbit (empty and chromatic scales)
+* `M88-6-1-2` is the last musaic orbit (88), cardinality 6, only one isc and 2 pcs into orbit (two whole tone pcs)
+* `M10-3-8-96` is musaic 10, cardinality 3/9, 8 isc and 96 pcs into orbit
+* `M61-5-2-24` is 65th musaic orbit, cardinality 5/7, has 2 isc and 24 pcs into orbit
+* `M7-2-2-12` is 7th musaic orbit, cardinality 2/10, has 2 isc and 12 pcs into orbit (not 24)
 
 
 [#idTable88]
@@ -2676,8 +2676,9 @@ Examples:
 |ID [.head]#&uarr;#|Musaic orbit  |Motifs |Intervallic Structure Class |Meta-Stabilizer [.head]#&uarr;#
 
 // special paste as plain text
-|M1-0-1-2-2
-|image:88musaics/M1-0-1-2-2.png[M1-0-1-2-2]
+
+|M1-0-2-2
+|image:88musaics/M1-0-2-2.png[M1-0-2-2]
  +
 #2
 | 2
@@ -2686,8 +2687,8 @@ Examples:
 * (1 1 1 1 1 1 1 1 1 1 1 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|M2-1-1-2-24
-|image:88musaics/M2-1-1-2-24.png[M2-1-1-2-24]
+|M2-1-2-24
+|image:88musaics/M2-1-2-24.png[M2-1-2-24]
  +
 #24
 | 2
@@ -2696,8 +2697,8 @@ Examples:
 * (1 1 1 1 1 2 1 1 1 1 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|M3-2-1-4-48
-|image:88musaics/M3-2-1-4-48.png[M3-2-1-4-48]
+|M3-2-4-48
+|image:88musaics/M3-2-4-48.png[M3-2-4-48]
  +
 #48
 | 4
@@ -2708,8 +2709,8 @@ Examples:
 * (1 1 1 1 1 2 1 1 1 2)
 |  image:octotropes/m1-m11.png[width=50] M1 M11
 
-|M4-2-2-2-24
-|image:88musaics/M4-2-2-2-24.png[M4-2-2-2-24]
+|M4-2-2-24
+|image:88musaics/M4-2-2-24.png[M4-2-2-24]
  +
 #24
 | 2
@@ -2718,8 +2719,8 @@ Examples:
 * (1 1 1 1 1 2 2 1 1 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|M5-2-3-2-24
-|image:88musaics/M5-2-3-2-24.png[M5-2-3-2-24]
+|M5-2-2-24
+|image:88musaics/M5-2-2-24.png[M5-2-2-24]
  +
 #24
 | 2
@@ -2728,8 +2729,8 @@ Examples:
 * (1 1 1 1 1 2 1 2 1 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|M6-2-4-2-24
-|image:88musaics/M6-2-4-2-24.png[M6-2-4-2-24]
+|M6-2-2-24
+|image:88musaics/M6-2-2-24.png[M6-2-2-24]
  +
 #24
 | 2
@@ -2738,8 +2739,8 @@ Examples:
 * (1 1 1 1 1 2 1 1 2 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|M7-2-5-2-12
-|image:88musaics/M7-2-5-2-12.png[M7-2-5-2-12]
+|M7-2-2-12
+|image:88musaics/M7-2-2-12.png[M7-2-2-12]
  +
 #12
 | 2
@@ -2748,8 +2749,8 @@ Examples:
 * (2 1 1 1 1 2 1 1 1 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|M8-3-1-4-48
-|image:88musaics/M8-3-1-4-48.png[M8-3-1-4-48]
+|M8-3-4-48
+|image:88musaics/M8-3-4-48.png[M8-3-4-48]
  +
 #48
 | 4
@@ -2760,8 +2761,8 @@ Examples:
 * (1 1 1 2 2 1 1 1 2)
 |  image:octotropes/m1-m11.png[width=50] M1 M11
 
-|M9-3-2-8-96
-|image:88musaics/M9-3-2-8-96.png[M9-3-2-8-96]
+|M9-3-8-96
+|image:88musaics/M9-3-8-96.png[M9-3-8-96]
  +
 #96
 | 8
@@ -2776,8 +2777,8 @@ Examples:
 * (1 1 2 3 1 1 1 1 1)
 |  image:octotropes/m1.png[width=50] M1
 
-|M10-3-3-8-96
-|image:88musaics/M10-3-3-8-96.png[M10-3-3-8-96]
+|M10-3-8-96
+|image:88musaics/M10-3-8-96.png[M10-3-8-96]
  +
 #96
 | 8
@@ -2792,8 +2793,8 @@ Examples:
 * (1 2 1 3 1 1 1 1 1)
 |  image:octotropes/m1.png[width=50] M1
 
-|M11-3-4-2-24
-|image:88musaics/M11-3-4-2-24.png[M11-3-4-2-24]
+|M11-3-2-24
+|image:88musaics/M11-3-2-24.png[M11-3-2-24]
  +
 #24
 | 2
@@ -2802,8 +2803,8 @@ Examples:
 * (1 1 1 1 1 2 2 2 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|M12-3-5-4-48
-|image:88musaics/M12-3-5-4-48.png[M12-3-5-4-48]
+|M12-3-4-48
+|image:88musaics/M12-3-4-48.png[M12-3-4-48]
  +
 #48
 | 4
@@ -2814,8 +2815,8 @@ Examples:
 * (2 1 1 3 1 1 1 1 1)
 |  image:octotropes/m1-m5.png[width=50] M1 M5
 
-|M13-3-6-4-48
-|image:88musaics/M13-3-6-4-48.png[M13-3-6-4-48]
+|M13-3-4-48
+|image:88musaics/M13-3-4-48.png[M13-3-4-48]
  +
 #48
 | 4
@@ -2826,8 +2827,8 @@ Examples:
 * (1 1 1 3 1 1 1 1 2)
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
-|M14-3-7-4-48
-|image:88musaics/M14-3-7-4-48.png[M14-3-7-4-48]
+|M14-3-4-48
+|image:88musaics/M14-3-4-48.png[M14-3-4-48]
  +
 #48
 | 4
@@ -2838,8 +2839,8 @@ Examples:
 * (1 1 1 1 2 1 1 2 2)
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
-|M15-3-8-2-24
-|image:88musaics/M15-3-8-2-24.png[M15-3-8-2-24]
+|M15-3-2-24
+|image:88musaics/M15-3-2-24.png[M15-3-2-24]
  +
 #24
 | 2
@@ -2848,8 +2849,8 @@ Examples:
 * (2 1 1 1 1 2 1 2 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|M16-3-9-2-8
-|image:88musaics/M16-3-9-2-8.png[M16-3-9-2-8]
+|M16-3-2-8
+|image:88musaics/M16-3-2-8.png[M16-3-2-8]
  +
 #8
 | 2
@@ -2858,8 +2859,8 @@ Examples:
 * (1 2 1 1 2 1 1 2 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|M17-4-1-4-48
-|image:88musaics/M17-4-1-4-48.png[M17-4-1-4-48]
+|M17-4-4-48
+|image:88musaics/M17-4-4-48.png[M17-4-4-48]
  +
 #48
 | 4
@@ -2870,8 +2871,8 @@ Examples:
 * (1 1 1 2 2 1 2 2)
 |  image:octotropes/m1-m11.png[width=50] M1 M11
 
-|M18-4-2-8-96
-|image:88musaics/M18-4-2-8-96.png[M18-4-2-8-96]
+|M18-4-8-96
+|image:88musaics/M18-4-8-96.png[M18-4-8-96]
  +
 #96
 | 8
@@ -2886,8 +2887,8 @@ Examples:
 * (1 2 4 1 1 1 1 1)
 |  image:octotropes/m1.png[width=50] M1
 
-|M19-4-3-4-48
-|image:88musaics/M19-4-3-4-48.png[M19-4-3-4-48]
+|M19-4-4-48
+|image:88musaics/M19-4-4-48.png[M19-4-4-48]
  +
 #48
 | 4
@@ -2898,8 +2899,8 @@ Examples:
 * (1 2 1 1 2 1 2 2)
 |  image:octotropes/m1-m11.png[width=50] M1 M11
 
-|M20-4-4-8-96
-|image:88musaics/M20-4-4-8-96.png[M20-4-4-8-96]
+|M20-4-8-96
+|image:88musaics/M20-4-8-96.png[M20-4-8-96]
  +
 #96
 | 8
@@ -2914,8 +2915,8 @@ Examples:
 * (2 1 4 1 1 1 1 1)
 |  image:octotropes/m1.png[width=50] M1
 
-|M21-4-5-4-48
-|image:88musaics/M21-4-5-4-48.png[M21-4-5-4-48]
+|M21-4-4-48
+|image:88musaics/M21-4-4-48.png[M21-4-4-48]
  +
 #48
 | 4
@@ -2926,8 +2927,8 @@ Examples:
 * (2 2 3 1 1 1 1 1)
 |  image:octotropes/m1-m5.png[width=50] M1 M5
 
-|M22-4-6-2-24
-|image:88musaics/M22-4-6-2-24.png[M22-4-6-2-24]
+|M22-4-2-24
+|image:88musaics/M22-4-2-24.png[M22-4-2-24]
  +
 #24
 | 2
@@ -2936,8 +2937,8 @@ Examples:
 * (1 1 1 1 1 2 3 2)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|M23-4-7-4-48
-|image:88musaics/M23-4-7-4-48.png[M23-4-7-4-48]
+|M23-4-4-48
+|image:88musaics/M23-4-4-48.png[M23-4-4-48]
  +
 #48
 | 4
@@ -2948,8 +2949,8 @@ Examples:
 * (1 2 1 1 3 1 1 2)
 |  image:octotropes/m1-m11.png[width=50] M1 M11
 
-|M24-4-8-8-96
-|image:88musaics/M24-4-8-8-96.png[M24-4-8-8-96]
+|M24-4-8-96
+|image:88musaics/M24-4-8-96.png[M24-4-8-96]
  +
 #96
 | 8
@@ -2964,8 +2965,8 @@ Examples:
 * (1 1 4 1 1 1 1 2)
 |  image:octotropes/m1.png[width=50] M1
 
-|M25-4-9-4-48
-|image:88musaics/M25-4-9-4-48.png[M25-4-9-4-48]
+|M25-4-4-48
+|image:88musaics/M25-4-4-48.png[M25-4-4-48]
  +
 #48
 | 4
@@ -2976,8 +2977,8 @@ Examples:
 * (1 2 3 1 1 1 1 2)
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
-|M26-4-10-8-96
-|image:88musaics/M26-4-10-8-96.png[M26-4-10-8-96]
+|M26-4-8-96
+|image:88musaics/M26-4-8-96.png[M26-4-8-96]
  +
 #96
 | 8
@@ -2992,8 +2993,8 @@ Examples:
 * (1 3 2 1 1 1 1 2)
 |  image:octotropes/m1.png[width=50] M1
 
-|M27-4-11-8-96
-|image:88musaics/M27-4-11-8-96.png[M27-4-11-8-96]
+|M27-4-8-96
+|image:88musaics/M27-4-8-96.png[M27-4-8-96]
  +
 #96
 | 8
@@ -3008,8 +3009,8 @@ Examples:
 * (2 1 3 1 1 1 1 2)
 |  image:octotropes/m1.png[width=50] M1
 
-|M28-4-12-2-24
-|image:88musaics/M28-4-12-2-24.png[M28-4-12-2-24]
+|M28-4-2-24
+|image:88musaics/M28-4-2-24.png[M28-4-2-24]
  +
 #24
 | 2
@@ -3018,8 +3019,8 @@ Examples:
 * (2 1 1 1 1 2 2 2)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|M29-4-13-2-24
-|image:88musaics/M29-4-13-2-24.png[M29-4-13-2-24]
+|M29-4-2-24
+|image:88musaics/M29-4-2-24.png[M29-4-2-24]
  +
 #24
 | 2
@@ -3028,8 +3029,8 @@ Examples:
 * (1 1 1 1 3 1 1 3)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|M30-4-14-2-24
-|image:88musaics/M30-4-14-2-24.png[M30-4-14-2-24]
+|M30-4-2-24
+|image:88musaics/M30-4-2-24.png[M30-4-2-24]
  +
 #24
 | 2
@@ -3038,8 +3039,8 @@ Examples:
 * (2 1 1 1 4 1 1 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|M31-4-15-4-48
-|image:88musaics/M31-4-15-4-48.png[M31-4-15-4-48]
+|M31-4-4-48
+|image:88musaics/M31-4-4-48.png[M31-4-4-48]
  +
 #48
 | 4
@@ -3050,8 +3051,8 @@ Examples:
 * (1 2 1 3 1 1 1 2)
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
-|M32-4-16-2-24
-|image:88musaics/M32-4-16-2-24.png[M32-4-16-2-24]
+|M32-4-2-24
+|image:88musaics/M32-4-2-24.png[M32-4-2-24]
  +
 #24
 | 2
@@ -3060,8 +3061,8 @@ Examples:
 * (2 1 1 1 2 1 3 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|M33-4-17-2-12
-|image:88musaics/M33-4-17-2-12.png[M33-4-17-2-12]
+|M33-4-2-12
+|image:88musaics/M33-4-2-12.png[M33-4-2-12]
  +
 #12
 | 2
@@ -3070,8 +3071,8 @@ Examples:
 * (3 1 1 1 3 1 1 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|M34-4-18-4-48
-|image:88musaics/M34-4-18-4-48.png[M34-4-18-4-48]
+|M34-4-4-48
+|image:88musaics/M34-4-4-48.png[M34-4-4-48]
  +
 #48
 | 4
@@ -3082,8 +3083,8 @@ Examples:
 * (3 1 1 2 1 1 2 1)
 |  image:octotropes/m1-m5.png[width=50] M1 M5
 
-|M35-4-19-2-24
-|image:88musaics/M35-4-19-2-24.png[M35-4-19-2-24]
+|M35-4-2-24
+|image:88musaics/M35-4-2-24.png[M35-4-2-24]
  +
 #24
 | 2
@@ -3092,8 +3093,8 @@ Examples:
 * (1 2 1 1 2 2 2 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|M36-4-20-2-12
-|image:88musaics/M36-4-20-2-12.png[M36-4-20-2-12]
+|M36-4-2-12
+|image:88musaics/M36-4-2-12.png[M36-4-2-12]
  +
 #12
 | 2
@@ -3102,8 +3103,8 @@ Examples:
 * (2 2 1 1 2 2 1 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|M37-4-21-2-6
-|image:88musaics/M37-4-21-2-6.png[M37-4-21-2-6]
+|M37-4-2-6
+|image:88musaics/M37-4-2-6.png[M37-4-2-6]
  +
 #6
 | 2
@@ -3112,8 +3113,8 @@ Examples:
 * (2 1 2 1 2 1 2 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|M38-5-1-4-48
-|image:88musaics/M38-5-1-4-48.png[M38-5-1-4-48]
+|M38-5-4-48
+|image:88musaics/M38-5-4-48.png[M38-5-4-48]
  +
 #48
 | 4
@@ -3124,8 +3125,8 @@ Examples:
 * (1 2 2 2 1 2 2)
 |  image:octotropes/m1-m11.png[width=50] M1 M11
 
-|M39-5-2-8-96
-|image:88musaics/M39-5-2-8-96.png[M39-5-2-8-96]
+|M39-5-8-96
+|image:88musaics/M39-5-8-96.png[M39-5-8-96]
  +
 #96
 | 8
@@ -3140,8 +3141,8 @@ Examples:
 * (2 5 1 1 1 1 1)
 |  image:octotropes/m1.png[width=50] M1
 
-|M40-5-3-8-96
-|image:88musaics/M40-5-3-8-96.png[M40-5-3-8-96]
+|M40-5-8-96
+|image:88musaics/M40-5-8-96.png[M40-5-8-96]
  +
 #96
 | 8
@@ -3156,8 +3157,8 @@ Examples:
 * (3 4 1 1 1 1 1)
 |  image:octotropes/m1.png[width=50] M1
 
-|M41-5-4-8-96
-|image:88musaics/M41-5-4-8-96.png[M41-5-4-8-96]
+|M41-5-8-96
+|image:88musaics/M41-5-8-96.png[M41-5-8-96]
  +
 #96
 | 8
@@ -3172,8 +3173,8 @@ Examples:
 * (1 5 1 1 1 1 2)
 |  image:octotropes/m1.png[width=50] M1
 
-|M42-5-5-8-96
-|image:88musaics/M42-5-5-8-96.png[M42-5-5-8-96]
+|M42-5-8-96
+|image:88musaics/M42-5-8-96.png[M42-5-8-96]
  +
 #96
 | 8
@@ -3188,8 +3189,8 @@ Examples:
 * (2 4 1 1 1 1 2)
 |  image:octotropes/m1.png[width=50] M1
 
-|M43-5-6-8-96
-|image:88musaics/M43-5-6-8-96.png[M43-5-6-8-96]
+|M43-5-8-96
+|image:88musaics/M43-5-8-96.png[M43-5-8-96]
  +
 #96
 | 8
@@ -3204,8 +3205,8 @@ Examples:
 * (3 3 1 1 1 1 2)
 |  image:octotropes/m1.png[width=50] M1
 
-|M44-5-7-4-48
-|image:88musaics/M44-5-7-4-48.png[M44-5-7-4-48]
+|M44-5-4-48
+|image:88musaics/M44-5-4-48.png[M44-5-4-48]
  +
 #48
 | 4
@@ -3216,8 +3217,8 @@ Examples:
 * (1 2 1 2 2 2 2)
 |  image:octotropes/m1-m11.png[width=50] M1 M11
 
-|M45-5-8-8-96
-|image:88musaics/M45-5-8-8-96.png[M45-5-8-8-96]
+|M45-5-8-96
+|image:88musaics/M45-5-8-96.png[M45-5-8-96]
  +
 #96
 | 8
@@ -3232,8 +3233,8 @@ Examples:
 * (3 1 4 1 1 1 1)
 |  image:octotropes/m1.png[width=50] M1
 
-|M46-5-9-2-24
-|image:88musaics/M46-5-9-2-24.png[M46-5-9-2-24]
+|M46-5-2-24
+|image:88musaics/M46-5-2-24.png[M46-5-2-24]
  +
 #24
 | 2
@@ -3242,8 +3243,8 @@ Examples:
 * (1 1 1 1 3 2 3)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|M47-5-10-8-96
-|image:88musaics/M47-5-10-8-96.png[M47-5-10-8-96]
+|M47-5-8-96
+|image:88musaics/M47-5-8-96.png[M47-5-8-96]
  +
 #96
 | 8
@@ -3258,8 +3259,8 @@ Examples:
 * (1 1 5 1 1 1 2)
 |  image:octotropes/m1.png[width=50] M1
 
-|M48-5-11-4-48
-|image:88musaics/M48-5-11-4-48.png[M48-5-11-4-48]
+|M48-5-4-48
+|image:88musaics/M48-5-4-48.png[M48-5-4-48]
  +
 #48
 | 4
@@ -3270,8 +3271,8 @@ Examples:
 * (1 2 4 1 1 1 2)
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
-|M49-5-12-8-96
-|image:88musaics/M49-5-12-8-96.png[M49-5-12-8-96]
+|M49-5-8-96
+|image:88musaics/M49-5-8-96.png[M49-5-8-96]
  +
 #96
 | 8
@@ -3286,8 +3287,8 @@ Examples:
 * (1 3 3 1 1 1 2)
 |  image:octotropes/m1.png[width=50] M1
 
-|M50-5-13-4-48
-|image:88musaics/M50-5-13-4-48.png[M50-5-13-4-48]
+|M50-5-4-48
+|image:88musaics/M50-5-4-48.png[M50-5-4-48]
  +
 #48
 | 4
@@ -3298,8 +3299,8 @@ Examples:
 * (1 1 2 1 4 2 1)
 |  image:octotropes/m1-m5.png[width=50] M1 M5
 
-|M51-5-14-8-96
-|image:88musaics/M51-5-14-8-96.png[M51-5-14-8-96]
+|M51-5-8-96
+|image:88musaics/M51-5-8-96.png[M51-5-8-96]
  +
 #96
 | 8
@@ -3314,8 +3315,8 @@ Examples:
 * (3 1 3 1 1 1 2)
 |  image:octotropes/m1.png[width=50] M1
 
-|M52-5-15-4-48
-|image:88musaics/M52-5-15-4-48.png[M52-5-15-4-48]
+|M52-5-4-48
+|image:88musaics/M52-5-4-48.png[M52-5-4-48]
  +
 #48
 | 4
@@ -3326,8 +3327,8 @@ Examples:
 * (1 1 1 3 1 1 4)
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
-|M53-5-16-4-48
-|image:88musaics/M53-5-16-4-48.png[M53-5-16-4-48]
+|M53-5-4-48
+|image:88musaics/M53-5-4-48.png[M53-5-4-48]
  +
 #48
 | 4
@@ -3338,8 +3339,8 @@ Examples:
 * (1 2 3 1 1 1 3)
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
-|M54-5-17-8-96
-|image:88musaics/M54-5-17-8-96.png[M54-5-17-8-96]
+|M54-5-8-96
+|image:88musaics/M54-5-8-96.png[M54-5-8-96]
  +
 #96
 | 8
@@ -3354,8 +3355,8 @@ Examples:
 * (1 2 4 1 1 2 1)
 |  image:octotropes/m1.png[width=50] M1
 
-|M55-5-18-4-48
-|image:88musaics/M55-5-18-4-48.png[M55-5-18-4-48]
+|M55-5-4-48
+|image:88musaics/M55-5-4-48.png[M55-5-4-48]
  +
 #48
 | 4
@@ -3366,8 +3367,8 @@ Examples:
 * (1 2 1 1 2 1 4)
 |  image:octotropes/m1-m11.png[width=50] M1 M11
 
-|M56-5-19-4-48
-|image:88musaics/M56-5-19-4-48.png[M56-5-19-4-48]
+|M56-5-4-48
+|image:88musaics/M56-5-4-48.png[M56-5-4-48]
  +
 #48
 | 4
@@ -3378,8 +3379,8 @@ Examples:
 * (3 1 3 1 1 2 1)
 |  image:octotropes/m1-m5.png[width=50] M1 M5
 
-|M57-5-20-4-48
-|image:88musaics/M57-5-20-4-48.png[M57-5-20-4-48]
+|M57-5-4-48
+|image:88musaics/M57-5-4-48.png[M57-5-4-48]
  +
 #48
 | 4
@@ -3390,8 +3391,8 @@ Examples:
 * (1 2 1 3 2 2 1)
 |  image:octotropes/m1-m5.png[width=50] M1 M5
 
-|M58-5-21-2-24
-|image:88musaics/M58-5-21-2-24.png[M58-5-21-2-24]
+|M58-5-2-24
+|image:88musaics/M58-5-2-24.png[M58-5-2-24]
  +
 #24
 | 2
@@ -3400,8 +3401,8 @@ Examples:
 * (2 2 1 1 4 1 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|M59-5-22-4-48
-|image:88musaics/M59-5-22-4-48.png[M59-5-22-4-48]
+|M59-5-4-48
+|image:88musaics/M59-5-4-48.png[M59-5-4-48]
  +
 #48
 | 4
@@ -3412,8 +3413,8 @@ Examples:
 * (1 3 2 1 1 2 2)
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
-|M60-5-23-2-24
-|image:88musaics/M60-5-23-2-24.png[M60-5-23-2-24]
+|M60-5-2-24
+|image:88musaics/M60-5-2-24.png[M60-5-2-24]
  +
 #24
 | 2
@@ -3422,8 +3423,8 @@ Examples:
 * (2 2 1 1 2 2 2)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|M61-5-24-2-24
-|image:88musaics/M61-5-24-2-24.png[M61-5-24-2-24]
+|M61-5-2-24
+|image:88musaics/M61-5-2-24.png[M61-5-2-24]
  +
 #24
 | 2
@@ -3432,8 +3433,8 @@ Examples:
 * (3 1 1 3 1 2 1)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|M62-5-25-4-48
-|image:88musaics/M62-5-25-4-48.png[M62-5-25-4-48]
+|M62-5-4-48
+|image:88musaics/M62-5-4-48.png[M62-5-4-48]
  +
 #48
 | 4
@@ -3444,8 +3445,8 @@ Examples:
 * (1 2 3 1 2 1 2)
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
-|M63-6-1-2-24
-|image:88musaics/M63-6-1-2-24.png[M63-6-1-2-24]
+|M63-6-2-24
+|image:88musaics/M63-6-2-24.png[M63-6-2-24]
  +
 #24
 | 2
@@ -3454,8 +3455,8 @@ Examples:
 * (1 2 2 3 2 2)
 |  image:octotropes/m1-m11-cm1-cm11.png[width=50] M1 M11 CM1 CM11
 
-|M64-6-2-4-48
-|image:88musaics/M64-6-2-4-48.png[M64-6-2-4-48]
+|M64-6-4-48
+|image:88musaics/M64-6-4-48.png[M64-6-4-48]
  +
 #48
 | 4
@@ -3466,8 +3467,8 @@ Examples:
 * (6 2 1 1 1 1)
 |  image:octotropes/m1-cm11.png[width=50] M1 CM11
 
-|M65-6-3-8-96
-|image:88musaics/M65-6-3-8-96.png[M65-6-3-8-96]
+|M65-6-8-96
+|image:88musaics/M65-6-8-96.png[M65-6-8-96]
  +
 #96
 | 8
@@ -3482,8 +3483,8 @@ Examples:
 * (3 5 1 1 1 1)
 |  image:octotropes/m1.png[width=50] M1
 
-|M66-6-4-4-48
-|image:88musaics/M66-6-4-4-48.png[M66-6-4-4-48]
+|M66-6-4-48
+|image:88musaics/M66-6-4-48.png[M66-6-4-48]
  +
 #48
 | 4
@@ -3494,8 +3495,8 @@ Examples:
 * (3 1 1 3 2 2)
 |  image:octotropes/m1-m11.png[width=50] M1 M11
 
-|M67-6-5-2-24
-|image:88musaics/M67-6-5-2-24.png[M67-6-5-2-24]
+|M67-6-2-24
+|image:88musaics/M67-6-2-24.png[M67-6-2-24]
  +
 #24
 | 2
@@ -3504,8 +3505,8 @@ Examples:
 * (1 1 5 2 2 1)
 |  image:octotropes/m1-m5-cm7-cm11.png[width=50] M1 M5 CM7 CM11
 
-|M68-6-6-4-48
-|image:88musaics/M68-6-6-4-48.png[M68-6-6-4-48]
+|M68-6-4-48
+|image:88musaics/M68-6-4-48.png[M68-6-4-48]
  +
 #48
 | 4
@@ -3516,8 +3517,8 @@ Examples:
 * (5 2 1 2 1 1)
 |  image:octotropes/m1-cm5.png[width=50] M1 CM5
 
-|M69-6-7-8-96
-|image:88musaics/M69-6-7-8-96.png[M69-6-7-8-96]
+|M69-6-8-96
+|image:88musaics/M69-6-8-96.png[M69-6-8-96]
  +
 #96
 | 8
@@ -3532,8 +3533,8 @@ Examples:
 * (4 3 1 1 1 2)
 |  image:octotropes/m1.png[width=50] M1
 
-|M70-6-8-1-12
-|image:88musaics/M70-6-8-1-12.png[M70-6-8-1-12]
+|M70-6-1-12
+|image:88musaics/M70-6-1-12.png[M70-6-1-12]
  +
 #12
 | 1
@@ -3541,8 +3542,8 @@ Examples:
 * (2 1 1 1 2 5)
 |  image:octotropes/m1-m5-m7-m11-cm1-cm5-cm7-cm11.png[width=50] M1 M5 M7 M11 CM1 CM5 CM7 CM11
 
-|M71-6-9-4-48
-|image:88musaics/M71-6-9-4-48.png[M71-6-9-4-48]
+|M71-6-4-48
+|image:88musaics/M71-6-4-48.png[M71-6-4-48]
  +
 #48
 | 4
@@ -3553,8 +3554,8 @@ Examples:
 * (5 1 3 1 1 1)
 |  image:octotropes/m1-cm11.png[width=50] M1 CM11
 
-|M72-6-10-4-48
-|image:88musaics/M72-6-10-4-48.png[M72-6-10-4-48]
+|M72-6-4-48
+|image:88musaics/M72-6-4-48.png[M72-6-4-48]
  +
 #48
 | 4
@@ -3565,8 +3566,8 @@ Examples:
 * (1 1 1 3 2 4)
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
-|M73-6-11-4-48
-|image:88musaics/M73-6-11-4-48.png[M73-6-11-4-48]
+|M73-6-4-48
+|image:88musaics/M73-6-4-48.png[M73-6-4-48]
  +
 #48
 | 4
@@ -3577,8 +3578,8 @@ Examples:
 * (1 2 3 2 1 3)
 |  image:octotropes/m1-m11.png[width=50] M1 M11
 
-|M74-6-12-2-24
-|image:88musaics/M74-6-12-2-24.png[M74-6-12-2-24]
+|M74-6-2-24
+|image:88musaics/M74-6-2-24.png[M74-6-2-24]
  +
 #24
 | 2
@@ -3587,8 +3588,8 @@ Examples:
 * (1 4 1 4 1 1)
 |  image:octotropes/m1-m11-cm5-cm7.png[width=50] M1 M11 CM5 CM7
 
-|M75-6-13-4-48
-|image:88musaics/M75-6-13-4-48.png[M75-6-13-4-48]
+|M75-6-4-48
+|image:88musaics/M75-6-4-48.png[M75-6-4-48]
  +
 #48
 | 4
@@ -3599,8 +3600,8 @@ Examples:
 * (4 3 1 2 1 1)
 |  image:octotropes/m1-cm11.png[width=50] M1 CM11
 
-|M76-6-14-2-24
-|image:88musaics/M76-6-14-2-24.png[M76-6-14-2-24]
+|M76-6-2-24
+|image:88musaics/M76-6-2-24.png[M76-6-2-24]
  +
 #24
 | 2
@@ -3609,8 +3610,8 @@ Examples:
 * (4 3 1 1 2 1)
 |  image:octotropes/m1-m5-cm1-cm5.png[width=50] M1 M5 CM1 CM5
 
-|M77-6-15-2-24
-|image:88musaics/M77-6-15-2-24.png[M77-6-15-2-24]
+|M77-6-2-24
+|image:88musaics/M77-6-2-24.png[M77-6-2-24]
  +
 #24
 | 2
@@ -3619,8 +3620,8 @@ Examples:
 * (2 2 2 1 1 4)
 |  image:octotropes/m1-m5-cm7-cm11.png[width=50] M1 M5 CM7 CM11
 
-|M78-6-16-4-48
-|image:88musaics/M78-6-16-4-48.png[M78-6-16-4-48]
+|M78-6-4-48
+|image:88musaics/M78-6-4-48.png[M78-6-4-48]
  +
 #48
 | 4
@@ -3631,8 +3632,8 @@ Examples:
 * (4 2 2 1 1 2)
 |  image:octotropes/m1-cm11.png[width=50] M1 CM11
 
-|M79-6-17-4-48
-|image:88musaics/M79-6-17-4-48.png[M79-6-17-4-48]
+|M79-6-4-48
+|image:88musaics/M79-6-4-48.png[M79-6-4-48]
  +
 #48
 | 4
@@ -3643,8 +3644,8 @@ Examples:
 * (3 1 4 1 1 2)
 |  image:octotropes/m1-m7.png[width=50] M1 M7
 
-|M80-6-18-2-24
-|image:88musaics/M80-6-18-2-24.png[M80-6-18-2-24]
+|M80-6-2-24
+|image:88musaics/M80-6-2-24.png[M80-6-2-24]
  +
 #24
 | 2
@@ -3653,8 +3654,8 @@ Examples:
 * (2 1 1 2 3 3)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|M81-6-19-2-24
-|image:88musaics/M81-6-19-2-24.png[M81-6-19-2-24]
+|M81-6-2-24
+|image:88musaics/M81-6-2-24.png[M81-6-2-24]
  +
 #24
 | 2
@@ -3663,8 +3664,8 @@ Examples:
 * (4 2 1 1 3 1)
 |  image:octotropes/m1-m5-cm7-cm11.png[width=50] M1 M5 CM7 CM11
 
-|M82-6-20-4-48
-|image:88musaics/M82-6-20-4-48.png[M82-6-20-4-48]
+|M82-6-4-48
+|image:88musaics/M82-6-4-48.png[M82-6-4-48]
  +
 #48
 | 4
@@ -3675,8 +3676,8 @@ Examples:
 * (4 1 3 1 2 1)
 |  image:octotropes/m1-cm5.png[width=50] M1 CM5
 
-|M83-6-21-1-6
-|image:88musaics/M83-6-21-1-6.png[M83-6-21-1-6]
+|M83-6-1-6
+|image:88musaics/M83-6-1-6.png[M83-6-1-6]
  +
 #6
 | 1
@@ -3684,8 +3685,8 @@ Examples:
 * (1 1 4 1 1 4)
 |  image:octotropes/m1-m5-m7-m11-cm1-cm5-cm7-cm11.png[width=50] M1 M5 M7 M11 CM1 CM5 CM7 CM11
 
-|M84-6-22-2-24
-|image:88musaics/M84-6-22-2-24.png[M84-6-22-2-24]
+|M84-6-2-24
+|image:88musaics/M84-6-2-24.png[M84-6-2-24]
  +
 #24
 | 2
@@ -3694,8 +3695,8 @@ Examples:
 * (3 2 1 2 1 3)
 |  image:octotropes/m1-m7-cm5-cm11.png[width=50] M1 M7 CM5 CM11
 
-|M85-6-23-2-24
-|image:88musaics/M85-6-23-2-24.png[M85-6-23-2-24]
+|M85-6-2-24
+|image:88musaics/M85-6-2-24.png[M85-6-2-24]
  +
 #24
 | 2
@@ -3704,8 +3705,8 @@ Examples:
 * (1 2 1 3 2 3)
 |  image:octotropes/m1-m5-m7-m11.png[width=50] M1 M5 M7 M11
 
-|M86-6-24-2-12
-|image:88musaics/M86-6-24-2-12.png[M86-6-24-2-12]
+|M86-6-2-12
+|image:88musaics/M86-6-2-12.png[M86-6-2-12]
  +
 #12
 | 2
@@ -3714,8 +3715,8 @@ Examples:
 * (3 2 1 3 2 1)
 |  image:octotropes/m1-m7-cm5-cm11.png[width=50] M1 M7 CM5 CM11
 
-|M87-6-25-1-4
-|image:88musaics/M87-6-25-1-4.png[M87-6-25-1-4]
+|M87-6-1-4
+|image:88musaics/M87-6-1-4.png[M87-6-1-4]
  +
 #4
 | 1
@@ -3723,14 +3724,15 @@ Examples:
 * (1 3 1 3 1 3)
 |  image:octotropes/m1-m5-m7-m11-cm1-cm5-cm7-cm11.png[width=50] M1 M5 M7 M11 CM1 CM5 CM7 CM11
 
-|M88-6-26-1-2
-|image:88musaics/M88-6-26-1-2.png[M88-6-26-1-2]
+|M88-6-1-2
+|image:88musaics/M88-6-1-2.png[M88-6-1-2]
  +
 #2
 | 1
 |
 * (2 2 2 2 2 2)
 |  image:octotropes/m1-m5-m7-m11-cm1-cm5-cm7-cm11.png[width=50] M1 M5 M7 M11 CM1 CM5 CM7 CM11
+
 
 |
 | _4096 PCS_
