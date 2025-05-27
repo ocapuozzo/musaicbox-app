@@ -512,7 +512,7 @@ describe('IPcs unit tests', () => {
     let pcsSym = new IPcs({strPcs: "10 2 3 9"})
 
     expect(pcs.symmetryPrimeForm().equals(pcsSym)).toBeTrue()
-    expect(pcs.symmetryPrimeForm().iPivot).toEqual(2) // Intervallic Structure no shifted
+    expect(pcs.symmetryPrimeForm().iPivot).toEqual(10) // Intervallic Structure no shifted
 
     let empty = new IPcs({strPcs: ""})
     expect(empty.iPivot).toEqual(undefined)
@@ -525,36 +525,39 @@ describe('IPcs unit tests', () => {
 
     // difficult case :  1 3 6 7 9 10, pass by CM11 and all others steps
     let kothimic = new IPcs({strPcs: "1 3 6 7 9 10"})
-    let kothimicSymPF = new IPcs({strPcs: "11 4 5 7 8 1"})
+    let kothimicSymPF = new IPcs({strPcs: "11 4 5 7 8 1"}) //axial symmetry
+    // let kothimicSymPF = new IPcs({strPcs: "0 1 3 4 7 9"})
     expect(kothimic.symmetryPrimeForm().equals(kothimicSymPF)).toBeTrue()
     expect(kothimic.iPivot).toEqual(1)
+    // expect(kothimicSymPF.iPivot).toEqual(11)
     expect(kothimicSymPF.iPivot).toEqual(11)
-    // check good pivot = 4, it is not with Tk minimal (pivot 11 => M11-T2)
-    // but pcs in symmetry 1 4 5 7 8 11 has 2 stab in T0 : M1-T0 and M7-T0, what is preferred (with M11-T4)
-    expect(kothimic.symmetryPrimeForm().iPivot).toEqual(4)
+    // Axial logic
+    //   check good pivot = 4, it is not with Tk minimal (pivot 11 => M11-T2)
+    //   but pcs in symmetry 1 4 5 7 8 11 has 2 stab in T0 : M1-T0 and M7-T0, what is preferred (with M11-T4)
+    expect(kothimic.symmetryPrimeForm().iPivot).toEqual(11)
 
     // 0 1 3 4 7 9
     // Cd eE  G A  https://www.daqarta.com/dw_ss0a.htm
     let bluesDorianHex = new IPcs({strPcs: "0 1 3 4 7 9"})
-    let bluesDorianHexSymmetric = new IPcs({strPcs: "1 4 5 7 8 11"})
+    let bluesDorianHexSymmetric = new IPcs({strPcs: "1 4 5 7 8 11"})   // axial symmetry
     expect(bluesDorianHexSymmetric.equals(bluesDorianHex.symmetryPrimeForm())).toBeTrue()
-    expect(bluesDorianHex.symmetryPrimeForm().iPivot).toEqual(4)
+    expect(bluesDorianHex.symmetryPrimeForm().iPivot).toEqual(11)
     //   if pivot = 11 stab =  M1-T0 M5-T8 M7-T6 M11-T2  (1 sym in -T0  min M11-T2)
     //   if pivot = 4 stab =  M1-T0 M5-T4 M7-T0 M11-T4   (2 sym in -T0  and M11-T4) <= good solution !!!
     //      see musaic 85
 
     const pcs5 = new IPcs({strPcs: "[2 3 7 8 9]"})
-    const pcs5SPF = new IPcs({strPcs: "[0 1 5 6 7]"})
+    const pcs5SPF = new IPcs({strPcs: "[0 4 5 6 11]"})
     expect(pcs5.symmetryPrimeForm().equals(pcs5SPF)).toBeTrue()
-    expect(pcs5.symmetryPrimeForm().iPivot).toEqual(1) // // M7-T0 stab
+    expect(pcs5.symmetryPrimeForm().iPivot).toEqual(0) // // M7-T0 stab
 
     const pcs5Mus = ManagerGroupActionService.getGroupActionFromGroupAliasName('Musaic')?.getIPcsInOrbit(pcs5)!
     expect(pcs5Mus.symmetryPrimeForm().equals(pcs5SPF)).toBeTrue()
-    expect(pcs5Mus.symmetryPrimeForm().iPivot).toEqual(1) // // M7-T0 stab
+    expect(pcs5Mus.symmetryPrimeForm().iPivot).toEqual(0) // // M7-T0 stab
 
     const pcs5Cyclic = ManagerGroupActionService.getGroupActionFromGroupAliasName('Cyclic')?.getIPcsInOrbit(pcs5)!
     expect(pcs5Cyclic.symmetryPrimeForm().equals(pcs5SPF)).toBeTrue()
-    expect(pcs5Cyclic.symmetryPrimeForm().iPivot).toEqual(1) // // M7-T0 stab
+    expect(pcs5Cyclic.symmetryPrimeForm().iPivot).toEqual(0) // // M7-T0 stab
   })
 
   it("IPcs symmetry prime form Orbit", () => {
@@ -565,6 +568,18 @@ describe('IPcs unit tests', () => {
     expect(pcsInOrbit!.symmetryPrimeForm().isComingFromOrbit()).toBeTrue()
     expect(pcs.symmetryPrimeForm().isComingFromOrbit()).toBeFalse()
   })
+
+
+  it("IPcs symmetry prime Z related", () => {
+    const pcs1 = new IPcs({strPcs: "0 2 3 5 6 8 9"})
+    const pcs2 = new IPcs({strPcs: "0 1 3 4 6 7 9"})
+
+    const pcsSym1 = pcs1.symmetryPrimeForm()
+    expect(pcsSym1.iPivot).toEqual(0)
+    const pcsSym2 = pcs2.symmetryPrimeForm()
+    expect(pcsSym2.iPivot).toEqual(0)
+  })
+
 
   it("getFutureAxialSymmetryPivotForPrepareComplement", () => {
     let pcs = new IPcs({strPcs: '[0,1,2]'})

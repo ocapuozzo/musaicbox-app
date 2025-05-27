@@ -60,7 +60,7 @@ def updateJson():
          if (actualScaleName.lower() != onlineScaleName.lower()):
            updated.append(f'pcs={scale["pcs"]} => {actualScaleName} change to {onlineScaleName}')
            nameIanring['name'] = onlineScaleName
-           # verify if update (YES, becaue logic by reference, not by value)
+           # verify if update (YES, because logic by reference, not by value)
            # pprint(scale)
            # in test, stop to the first update
            if (len(updated) > 1):

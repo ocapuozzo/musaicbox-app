@@ -6,6 +6,7 @@ import {EightyEight} from "../utils/EightyEight";
 import {Orbit} from "../core/Orbit";
 import {ManagerGroupActionService} from "../service/manager-group-action.service";
 import {PcsUtils} from "../utils/PcsUtils";
+import {PcsSearch} from "../utils/PcsSearch";
 
 describe('Laboratory explorer', () => {
 
@@ -439,12 +440,12 @@ describe('Laboratory explorer', () => {
   })
 
 
-  it("for documentation : 88 musaics list with PCS representing distinct motifs", () => {
+  it("for asciidoc documentation : 88 musaics list with PCS representing distinct motifs", () => {
     const groupMusaic = ManagerGroupActionService.getGroupActionFromGroupAliasName("Musaic")!
 
     expect(groupMusaic.orbits.length).toEqual(88)
 
-    // after copy result on terminal, do paste as plain text (idea editor)
+    // after copy result on terminal, do special paste as plain text (idea editor)
     // into Musaicbox.adoc, for preserve space before '+' character
 
     console.log(" 88 musaics and distinct motifs : ")
@@ -454,7 +455,8 @@ describe('Laboratory explorer', () => {
     groupMusaic.orbits.forEach(orbit => {
       const motifs = PcsUtils.getMusaicMotifsOf(orbit.getPcsMin(), true).map(pcs => `(${pcs.is().join(' ')})`)
       countMotifs += motifs.length
-      const motifsEnum = motifs.map(motif => `\n* ${motif}`).join(' ')
+      // const motifsEnum = motifs.map(motif => `\n* ${motif}`).join(' ')
+      const motifsEnum = motifs.map(motif => `\n* ${motif} ~ ${PcsSearch.searchPcsWithThisIS(motif)?.getFirstNameDetail()}`).join(' ')
       const countDistinctMotifs = 8 / orbit.metaStabilizer.metaStabOperations.length
       if (orbit.getPcsMin().cardinal !== currentMusaicCard) {
         currentMusaicCard = orbit.getPcsMin().cardinal

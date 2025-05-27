@@ -26,4 +26,14 @@ describe('PcsSearch test', () => {
     expect(pcsSameIV[0].symmetryPrimeForm().id).toEqual(pcsDiatoMaj.id)
   })
 
+   it('searchPcsWithThisIS', () => {
+     // M85-6-2-24
+     const is1 = "(1 2 2 1 3 3)"
+     const is2 = "(1 2 1 3 2 3)"
+     const pcs =PcsSearch.searchPcsWithThisIS(is1)
+     console.log("pcs", pcs)
+     expect(pcs?.pid()).toEqual(619)
+     expect(PcsSearch.searchPcsWithThisIS(is2)?.pid()).toEqual(667)
+   })
+
 })

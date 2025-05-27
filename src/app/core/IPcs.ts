@@ -383,7 +383,9 @@ export class IPcs {
     return pcsCyclicList
   }
 
-
+  /**
+   * TODO comment symmetryPrimeForm (see unit test)
+   */
   symmetryPrimeForm(): IPcs {
     let cyclicPF = this.cyclicPrimeForm()
     const pcsSym = PcsUtils.getPcsHavingMinimalPivotAndMinimalValueOfTkForStabM11_Tk(cyclicPF)
@@ -391,6 +393,7 @@ export class IPcs {
 
     // default value, when no symmetry
     let pcsSymmetry: IPcs = cyclicPF
+    let pivotBestSymmetry = undefined
 
     // if (0 2 4 5 7 9 11)
     if (pcsSym.k !== undefined) {
@@ -403,15 +406,21 @@ export class IPcs {
       //        else get simple clone
       pcsSymmetry = pcsSym.pcs.transposition(-delta)
 
+    } else {
+      // search for a pivot with the best symmetry in -T0
+      // get pivot that max symmetry -T0 for pcsSymmetry, from ops M5-T0, M7-T0, M11-T0 and complement
+      pivotBestSymmetry = PcsUtils.getPivotBestSymmetryInT0(pcsSymmetry) ?? pcsSymmetry.iPivot
+
+      // if found, transpose pivotBestSymmetry to zero
+      if (pivotBestSymmetry) {
+        pcsSymmetry = pcsSymmetry.transposition(-pivotBestSymmetry)
+        pivotBestSymmetry = 0
+        pcsSymmetry.setPivot(0)
+      }
     }
-
-    // Now we have best pcsSymmetryAxial, search for a pivot with the best symmetry in -T0
-    // get pivot that max symmetry -T0 for pcsSymmetry, from ops M5-T0, M7-T0, M11-T0 and complement
-    const pivotBestSymmetry = PcsUtils.getPivotBestSymmetryInT0(pcsSymmetry) ?? pcsSymmetry.iPivot
-
     // new pcs to be relocated in its initial orbit, with good pivot
     if (this.isComingFromOrbit()) {
-      pcsSymmetry = pcsSymmetry.getOrMakeInstanceFromOrbitOfGroupActionOf(this.orbit.groupAction!, pivotBestSymmetry === undefined ?  pcsSymmetry.iPivot : pivotBestSymmetry)
+      pcsSymmetry = pcsSymmetry.getOrMakeInstanceFromOrbitOfGroupActionOf(this.orbit.groupAction!, pivotBestSymmetry === undefined ? pcsSymmetry.iPivot : pivotBestSymmetry)
     } else {
       // not attached to a group action
       if (pivotBestSymmetry) {
@@ -768,7 +777,7 @@ export class IPcs {
   }
 
   toString() {
-    return `[${this.vectorPcs.join( )}] n = ${this.n}, iPivot = ${this.iPivot}`
+    return `[${this.vectorPcs.join()}] n = ${this.n}, iPivot = ${this.iPivot}`
       + ((this.n != this.nMapping) ? ` Mapped on ${this.nMapping}` : '')
   }
 
@@ -1027,7 +1036,7 @@ export class IPcs {
       ? undefined
       : this.getMappedPivot()
 
-    return new IPcs({vectorPcs: this.getMappedVectorPcs(), n:this.nMapping, iPivot: pivot})
+    return new IPcs({vectorPcs: this.getMappedVectorPcs(), n: this.nMapping, iPivot: pivot})
   }
 
   /**
@@ -1189,7 +1198,6 @@ export class IPcs {
     }
     return newPivot
   }
-
 
 
   /**
@@ -1363,7 +1371,7 @@ export class IPcs {
    * @param groupAction where to find pcs (for cloning or not)
    * @param newPivot (optional)
    */
-   getOrMakeInstanceFromOrbitOfGroupActionOf(groupAction: GroupAction, newPivot ?: number) {
+  getOrMakeInstanceFromOrbitOfGroupActionOf(groupAction: GroupAction, newPivot ?: number) {
     let newPcsInOrbit = groupAction.getIPcsInOrbit(this)
 
     const theNewPivot = newPivot === undefined ? this.iPivot : newPivot

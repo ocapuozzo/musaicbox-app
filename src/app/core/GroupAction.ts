@@ -359,13 +359,21 @@ export class GroupAction {
   }
 
   /**
-   * Get the pcs having aa intervallic structure given
+   * Get the pcs having an intervallic structure given
    * @param intervallicStructure
    * @return pcs or undefined if not found
    */
   getPcsWithThisIS(intervallicStructure: string): IPcs | undefined {
+    if (Number.isNaN(parseInt(intervallicStructure[0]))) {
+      intervallicStructure = intervallicStructure.substring(1)
+    }
+    if (Number.isNaN(parseInt(intervallicStructure[intervallicStructure.length - 1]))) {
+      intervallicStructure = intervallicStructure.substring(0, intervallicStructure.length - 1)
+    }
+    // for compare two arrays in string format
+    const is = Array.from(intervallicStructure.split(" ")).toString()
     for (const orbit of this.orbits) {
-      const pcs = orbit.getPcsWithThisIS(intervallicStructure)
+      const pcs = orbit.getPcsWithThisIS(is)
       if (pcs) return pcs
     }
     return undefined

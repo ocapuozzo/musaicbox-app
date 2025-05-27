@@ -19,9 +19,8 @@ export class EightyEight {
    * - M prefix
    * - the index of this orbit into group88.orbits
    * - cardinal of orbit.min
-   * - index of orbit relative to others orbits having same cardinal of their orbit.min
    * - #number of distinct isc (motifs)
-   * (- number of pcs into orbit - deduce from number of isc)
+   * (- number of pcs into orbit - deducing from number of isc)
    *
    * Example: M10-3-3-8-96 => musaic 10, card 3/9, 3rd among same card musaics, 8 isc and 96 pcs into orbit
    *
@@ -45,7 +44,8 @@ export class EightyEight {
       }
       if (orbit.has(pcs)) {
         const countDistinctMotifs = 8 / orbit.metaStabilizer.metaStabOperations.length
-        return `M${i+1}-${currentMusaicCard}-${currentMusaicCardIndex}-${countDistinctMotifs}-${orbit.cardinal}`
+        // return `M${i+1}-${currentMusaicCard}-${currentMusaicCardIndex}-${countDistinctMotifs}-${orbit.cardinal}`
+        return `M${i+1}-${currentMusaicCard}-${countDistinctMotifs}-${orbit.cardinal}`
       }
     }
     throw new Error('Invalid PCS ! (' + pcs.toString() + ')')
