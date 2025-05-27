@@ -299,10 +299,10 @@ export class AppComponent {
    * @param url
    */
   goToLink(url: string) {
-    if (this.doubleClick(1000)) {
+  //  if (this.doubleClick(1000)) {
       // match if is a "long" double click
       window.open(url, "_blank");
-    }
+    //}
   }
 
   pageWhiteBoard() {
