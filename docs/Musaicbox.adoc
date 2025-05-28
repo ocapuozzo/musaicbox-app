@@ -738,8 +738,8 @@ a|Rotation half turn around center point image:M11-thick.svg[30,30]
 |Switch colors image:complement.svg[30,30]
 |CM1-T0 or C
 a|
-* ((-_pid_ >>> 0) -1) % 2^n^ (js zero shift right)
-* (2^n^ + ~_pid_) % 2^n^ (js bitwise op NOT)
+* [.nowrap]#((-_pid_ >>> 0) -1) % 2^n^# (js zero shift right)
+* [.nowrap]#(2^n^ + ~_pid_) % 2^n^# (js bitwise op NOT)
 |Complementation
 
 |===
