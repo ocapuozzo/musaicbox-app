@@ -580,6 +580,24 @@ describe('IPcs unit tests', () => {
     expect(pcsSym2.iPivot).toEqual(0)
   })
 
+  it("IPcs symmetry M70-6-1-12", () => {
+    // M70-6-1-12
+    //   Limited Transposition : false
+    //   Musaic Limited Transformation : true
+    //
+    // PF       (Musaic) Stabilizers (8): M1-T0 M5-T4 M7-T3 M11-T7 CM1-T6 CM5-T10 CM7-T9 CM11-T1 pid=#189
+    // Symmetry (Musaic) Stabilizers (8): M1-T0 M5-T4 M7-T9 M11-T1 CM1-T6 CM5-T10 CM7-T3 CM11-T7 pid=#2583
+    // diff is it that  M11-T7 > M11-T1 ??? same axe but pid PF is inferior to pid Symmetry...
+    // TODO: clarify this
+    //
+    const pcsSym = new IPcs({strPcs: "0 1 2 4 9 11"})
+    const pcsPrimeForm = new IPcs({strPcs: "0 2 3 4 5 7"})
+    const pcsSym1 = pcsPrimeForm.symmetryPrimeForm()
+    expect(pcsSym1.iPivot).toEqual(0)
+    expect(pcsSym1.id).toEqual(pcsSym.id) // or
+    // expect(pcsSym1.id).toEqual(pcsPrimeForm.id) // ???!!!!!!
+  })
+
 
   it("getFutureAxialSymmetryPivotForPrepareComplement", () => {
     let pcs = new IPcs({strPcs: '[0,1,2]'})

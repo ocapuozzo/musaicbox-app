@@ -535,8 +535,8 @@ td:has(>p>span[class="klein2"]) {
                 let ka = a.split(separator)[0];
                 let kb = b.split(separator)[0];
                 const idParts = ka.split('-')
-                // id musaic ? then sort on numero, example: M88-6-26-1-2 (sort only with numero 88)
-                if (idParts.length === 5) {
+                // id musaic ? then sort on numero, example: M88-6-1-2 (sort only with numero 88)
+                if (idParts.length === 4) {
                   ka = parseInt(idParts[0].substring(1)) // skip M (M88 => 88)
                   kb = parseInt(kb.split('-')[0].substring(1))
                   return ka - kb;
@@ -5476,6 +5476,9 @@ By default, a PCS is mapped to itself, and therefore considered "unmapped."</p>
 </li>
 </ul>
 </div>
+<div class="paragraph">
+<p>(* : for <em>Limited Transposition</em>)</p>
+</div>
 <table id="idTable88" class="tableblock frame-all grid-all fit-content">
 <colgroup>
 <col>
@@ -5495,7 +5498,7 @@ By default, a PCS is mapped to itself, and therefore considered "unmapped."</p>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M1-0-2-2</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M1-0-2-2*</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M1-0-2-2.png" alt="M1-0-2-2"></span>
 <br>
 #2</p></td>
@@ -5609,7 +5612,7 @@ By default, a PCS is mapped to itself, and therefore considered "unmapped."</p>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M7-2-2-12</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M7-2-2-12*</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M7-2-2-12.png" alt="M7-2-2-12"></span>
 <br>
 #12</p></td>
@@ -5831,7 +5834,7 @@ By default, a PCS is mapped to itself, and therefore considered "unmapped."</p>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M16-3-2-8</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M16-3-2-8*</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M16-3-2-8.png" alt="M16-3-2-8"></span>
 <br>
 #8</p></td>
@@ -6263,7 +6266,7 @@ By default, a PCS is mapped to itself, and therefore considered "unmapped."</p>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M33-4-2-12</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M33-4-2-12*</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M33-4-2-12.png" alt="M33-4-2-12"></span>
 <br>
 #12</p></td>
@@ -6323,7 +6326,7 @@ By default, a PCS is mapped to itself, and therefore considered "unmapped."</p>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M36-4-2-12</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M36-4-2-12*</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M36-4-2-12.png" alt="M36-4-2-12"></span>
 <br>
 #12</p></td>
@@ -6341,7 +6344,7 @@ By default, a PCS is mapped to itself, and therefore considered "unmapped."</p>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M37-4-2-6</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M37-4-2-6*</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M37-4-2-6.png" alt="M37-4-2-6"></span>
 <br>
 #6</p></td>
@@ -7508,7 +7511,7 @@ By default, a PCS is mapped to itself, and therefore considered "unmapped."</p>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-cm5.png" alt="m1 cm5" width="50"></span> M1 CM5</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M83-6-1-6</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M83-6-1-6*</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M83-6-1-6.png" alt="M83-6-1-6"></span>
 <br>
 #6</p></td>
@@ -7559,7 +7562,7 @@ By default, a PCS is mapped to itself, and therefore considered "unmapped."</p>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11.png" alt="m1 m5 m7 m11" width="50"></span> M1 M5 M7 M11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M86-6-2-12</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M86-6-2-12*</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M86-6-2-12.png" alt="M86-6-2-12"></span>
 <br>
 #12</p></td>
@@ -7577,7 +7580,7 @@ By default, a PCS is mapped to itself, and therefore considered "unmapped."</p>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m7-cm5-cm11.png" alt="m1 m7 cm5 cm11" width="50"></span> M1 M7 CM5 CM11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M87-6-1-4</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M87-6-1-4*</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M87-6-1-4.png" alt="M87-6-1-4"></span>
 <br>
 #4</p></td>
@@ -7592,7 +7595,7 @@ By default, a PCS is mapped to itself, and therefore considered "unmapped."</p>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11-cm1-cm5-cm7-cm11.png" alt="m1 m5 m7 m11 cm1 cm5 cm7 cm11" width="50"></span> M1 M5 M7 M11 CM1 CM5 CM7 CM11</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">M88-6-1-2</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">M88-6-1-2*</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock"><span class="image"><img src="./assets/images/88musaics/M88-6-1-2.png" alt="M88-6-1-2"></span>
 <br>
 #2</p></td>
@@ -9056,7 +9059,7 @@ Symmetry prime form concept is invented, specific to this project.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-05-28 16:48:04 +0200
+Last updated 2025-05-28 21:47:40 +0200
 </div>
 </div>
 <script type="text/x-mathjax-config">

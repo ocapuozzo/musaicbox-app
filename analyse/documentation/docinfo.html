@@ -97,8 +97,8 @@ td:has(>p>span[class="klein2"]) {
                 let ka = a.split(separator)[0];
                 let kb = b.split(separator)[0];
                 const idParts = ka.split('-')
-                // id musaic ? then sort on numero, example: M88-6-26-1-2 (sort only with numero 88)
-                if (idParts.length === 5) {
+                // id musaic ? then sort on numero, example: M88-6-1-2 (sort only with numero 88)
+                if (idParts.length === 4) {
                   ka = parseInt(idParts[0].substring(1)) // skip M (M88 => 88)
                   kb = parseInt(kb.split('-')[0].substring(1))
                   return ka - kb;

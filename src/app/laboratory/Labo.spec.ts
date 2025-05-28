@@ -6,7 +6,6 @@ import {EightyEight} from "../utils/EightyEight";
 import {Orbit} from "../core/Orbit";
 import {ManagerGroupActionService} from "../service/manager-group-action.service";
 import {PcsUtils} from "../utils/PcsUtils";
-import {PcsSearch} from "../utils/PcsSearch";
 
 describe('Laboratory explorer', () => {
 
@@ -455,8 +454,8 @@ describe('Laboratory explorer', () => {
     groupMusaic.orbits.forEach(orbit => {
       const motifs = PcsUtils.getMusaicMotifsOf(orbit.getPcsMin(), true).map(pcs => `(${pcs.is().join(' ')})`)
       countMotifs += motifs.length
-      // const motifsEnum = motifs.map(motif => `\n* ${motif}`).join(' ')
-      const motifsEnum = motifs.map(motif => `\n* ${motif} ~ ${PcsSearch.searchPcsWithThisIS(motif)?.getFirstNameDetail()}`).join(' ')
+      const motifsEnum = motifs.map(motif => `\n* ${motif}`).join(' ')
+      // const motifsEnum = motifs.map(motif => `\n* ${motif} ~ ${PcsSearch.searchPcsWithThisIS(motif)?.getFirstNameDetail()}`).join(' ') // with name
       const countDistinctMotifs = 8 / orbit.metaStabilizer.metaStabOperations.length
       if (orbit.getPcsMin().cardinal !== currentMusaicCard) {
         currentMusaicCard = orbit.getPcsMin().cardinal
@@ -464,10 +463,12 @@ describe('Laboratory explorer', () => {
       } else {
         currentMusaicCardIndex++
       }
+      const isLTransposition = orbit.getPcsMin().isLimitedTransposition() ? "*" : ""
+      const isLTransformation =  "" //orbit.getPcsMin().isLimitedTransformation() ? "°" : "" // 69 orbits
       const idMus = EightyEight.idMusaicOf(orbit.getPcsMin())
       const octotrope = orbit.metaStabilizer.name.toLowerCase().split(' ').join('-')
       const imageOctotrope = ` image:octotropes/${octotrope}.png[width=50]` //  image:octotropes/m1-m5-m7-m11.png[] asciidoc
-      console.log(` \n|${idMus}\n|image:88musaics/${idMus}.png[${idMus}]\n +\n#${orbit.cardinal}\n| ${countDistinctMotifs} \n|${motifsEnum}\n| ${imageOctotrope} ${orbit.metaStabilizer.name} `)
+      console.log(` \n|${idMus+isLTransposition+isLTransformation}\n|image:88musaics/${idMus}.png[${idMus}]\n +\n#${orbit.cardinal}\n| ${countDistinctMotifs} \n|${motifsEnum}\n| ${imageOctotrope} ${orbit.metaStabilizer.name} `)
     })
     // 352 cyclic intervallic structure classes
     expect(countMotifs).toEqual(352)

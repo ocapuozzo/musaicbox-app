@@ -1111,10 +1111,8 @@ export class IPcs {
   }
 
   isLimitedTransposition() {
-    // return this.cyclicPrimeForm().orbit.cardinal != this.n;
-    // other implementation :
-    return this.cardOrbitMode() != this.cardinal;
-    // twice have private property in lazy/cache, so have same complexity O(n) (?)
+    return this.cardOrbitMode() != this.cardinal || this.cyclicPrimeForm().orbit.cardinal != this.n;
+    // The second condition is for special empty set
   }
 
   /**
