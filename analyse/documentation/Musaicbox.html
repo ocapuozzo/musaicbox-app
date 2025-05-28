@@ -719,6 +719,7 @@ td:has(>p>span[class="klein2"]) {
 <li><a href="#_transposition">Transposition</a></li>
 <li><a href="#_multiplication">Multiplication</a></li>
 <li><a href="#_complement">Complement</a></li>
+<li><a href="#_eligible_functors">Eligible functors</a></li>
 <li><a href="#_conclusion">Conclusion</a></li>
 </ul>
 </li>
@@ -2053,6 +2054,80 @@ Regarding circle of fifths and fourths transformations : "<em>Since middle 1950s
 <div class="title">[0 2 4 5 7 9 11] Complement &#8594; [1 3 6 8 10] (Musaics complemented motif)</div>
 <p><span class="image"><img src="./assets/images/Cplt-MajorScale-Mus.png" alt="Cplt-MajorScale Musaic"></span></p>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_eligible_functors">Eligible functors</h3>
+<div class="paragraph">
+<p>The idea is to take advantage of the multiple representations of a PCS, by defining, for each of them, personalized version of these transformations. To extract mapping operations (eligible functor implementation).</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Musaic geometry</th>
+<th class="tableblock halign-left valign-top">Algebra in \$ZZ"/"12ZZ\$ (or \$ZZ_12\$)</th>
+<th class="tableblock halign-left valign-top">\$NN\$ throw <em>pid</em></th>
+<th class="tableblock halign-left valign-top">Musical Set Theory</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M1-T0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>pid</em> \$ cdot 1\$</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Neutral operation</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Translation of x:&#160; - &#8592;T&#8594; &#43;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M1-Tx or Tx</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>pid</em> \$ cdot 2x\$</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Transposition</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>Rotation half turn around center point <span class="image"><img src="./assets/images/M11-thick.svg" alt="30" width="30"></span></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M11-T0 or M11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">?</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Inversion</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rotation half turn left diagonal <span class="image"><img src="./assets/images/M5-thick.svg" alt="30" width="30"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M5-T0 or M5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">?</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cycle fourths transformation</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rotation half turn right diagonal <span class="image"><img src="./assets/images/M7-thick.svg" alt="30" width="30"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M7-T0 or M7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">?</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cycle firths transformation</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Switch colors <span class="image"><img src="./assets/images/complement.svg" alt="30" width="30"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CM1-T0 or C</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>((-<em>pid</em> &gt;&gt;&gt; 0) -1) % 2<sup>n</sup> (js zero shift right)</p>
+</li>
+<li>
+<p>(2<sup>n</sup> + ~<em>pid</em>) % 2<sup>n</sup> (js bitwise op NOT)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Complementation</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>As you can see, this table needs to be completed; this is a call for contributions! <strong>Who&#8217;s up for the challenge?</strong></p>
 </div>
 </div>
 <div class="sect2">
@@ -8981,7 +9056,7 @@ Symmetry prime form concept is invented, specific to this project.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-05-27 16:14:16 +0200
+Last updated 2025-05-28 16:42:58 +0200
 </div>
 </div>
 <script type="text/x-mathjax-config">

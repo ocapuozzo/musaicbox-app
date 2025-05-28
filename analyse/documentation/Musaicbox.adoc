@@ -702,6 +702,49 @@ image:Cplt-MajorScale.png[Cplt-MajorScale]
 .[0 2 4 5 7 9 11] Complement -> [1 3 6 8 10] (Musaics complemented motif)
 image:Cplt-MajorScale-Mus.png[Cplt-MajorScale Musaic]
 
+=== Eligible functors
+
+The idea is to take advantage of the multiple representations of a PCS, by defining, for each of them, personalized version of these transformations. To extract mapping operations (eligible functor implementation).
+
+
+|===
+|Musaic geometry|Algebra in stem:[ZZ"/"12ZZ] (or stem:[ZZ_12])| stem:[NN] throw _pid_ |Musical Set Theory
+
+|id
+|M1-T0
+|_pid_ stem:[ cdot 1]
+| Neutral operation
+
+|Translation of x:{nbsp} - <-T-> {plus}
+|M1-Tx or Tx
+|_pid_ stem:[ cdot 2x]
+|Transposition
+
+a|Rotation half turn around center point image:M11-thick.svg[30,30]
+|M11-T0 or M11
+|?
+|Inversion
+
+|Rotation half turn left diagonal image:M5-thick.svg[30,30]
+|M5-T0 or M5
+|?
+|Cycle fourths transformation
+
+|Rotation half turn right diagonal image:M7-thick.svg[30,30]
+|M7-T0 or M7
+|?
+|Cycle firths transformation
+
+|Switch colors image:complement.svg[30,30]
+|CM1-T0 or C
+a|
+* ((-_pid_ >>> 0) -1) % 2^n^ (js zero shift right)
+* (2^n^ + ~_pid_) % 2^n^ (js bitwise op NOT)
+|Complementation
+
+|===
+
+As you can see, this table needs to be completed; this is a call for contributions! *Who's up for the challenge?*
 
 === Conclusion
 
