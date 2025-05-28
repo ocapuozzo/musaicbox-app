@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   version="1.1"
+   id="svg1"
+   width="119"
+   height="118.5"
+   viewBox="0 0 119 118.5"
+   sodipodi:docname="cplt.png"
+   inkscape:export-filename="../d348c28d/test.svg"
+   inkscape:export-xdpi="317"
+   inkscape:export-ydpi="317"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1">
+    <inkscape:page
+       x="0"
+       y="0"
+       width="119"
+       height="118.5"
+       id="page2"
+       margin="0"
+       bleed="0" />
+  </sodipodi:namedview>
+  <g
+     inkscape:groupmode="layer"
+     inkscape:label="Image"
+     id="g1"
+     transform="translate(-39,-36.5)">
+    <path
+       style="fill:#000000;stroke-width:1.01932"
+       d="M 39,95.75 V 36.5 H 98.5 158 V 95.75 155 H 98.5 39 Z m 116.94828,0 V 38.525641 H 127.73707 99.525861 v 22.282052 22.282051 h 10.771559 10.77155 V 77.01282 c 0,-3.342307 0.38203,-6.076922 0.84895,-6.076922 0.46692,0 3.35848,2.620673 6.4257,5.823718 3.06722,3.203044 8.47061,8.840283 12.00752,12.527195 l 6.43076,6.703478 -11.94386,12.286901 c -6.56913,6.7578 -12.35455,12.28691 -12.85648,12.28691 -0.50192,0 -0.91259,-2.73461 -0.91259,-6.07692 v -6.07692 H 110.29742 99.525861 v 22.28205 22.28204 h 28.211209 28.21121 z M 85.730335,106.38461 H 97.474139 V 95.75 85.115384 H 85.676724 73.87931 V 79.817079 74.518773 L 63.62069,84.608974 c -5.642241,5.54961 -10.258621,10.546367 -10.258621,11.103904 0,0.557536 4.500969,5.478242 10.002155,10.934912 l 10.002155,9.9212 0.310077,-5.09218 0.310077,-5.0922 z"
+       id="path1" />
+  </g>
+</svg>
