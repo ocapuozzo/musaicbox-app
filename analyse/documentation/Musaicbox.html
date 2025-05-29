@@ -2084,9 +2084,9 @@ Regarding circle of fifths and fourths transformations : "<em>Since middle 1950s
 <td class="tableblock halign-left valign-top"><p class="tableblock">Neutral operation</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Translation of x:&#160; - &#8592;T&#8594; &#43;</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">M1-Tx or Tx</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>pid</em> \$ cdot 2x\$</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Translation of <em>k</em> :&#160; - &#8592;T&#8594; &#43;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M1-Tk or Tk</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>pid</em> \$ cdot 2k\$ modulo 2<sup>n</sup></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Transposition</p></td>
 </tr>
 <tr>
@@ -2112,15 +2112,8 @@ Regarding circle of fifths and fourths transformations : "<em>Since middle 1950s
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Switch colors <span class="image"><img src="./assets/images/complement.svg" alt="30" width="30"></span></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">CM1-T0 or C</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p><span class="nowrap">((-<em>pid</em> &gt;&gt;&gt; 0) -1) % 2<sup>n</sup></span> (js zero shift right)</p>
-</li>
-<li>
-<p><span class="nowrap">(2<sup>n</sup> + ~<em>pid</em>) % 2<sup>n</sup></span> (js bitwise op NOT)</p>
-</li>
-</ul>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><span class="nowrap">2<sup>n</sup> -1 - <em>pid</em></span></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Complementation</p></td>
 </tr>
@@ -9059,7 +9052,7 @@ Symmetry prime form concept is invented, specific to this project.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-05-28 21:47:40 +0200
+Last updated 2025-05-29 07:16:15 +0200
 </div>
 </div>
 <script type="text/x-mathjax-config">

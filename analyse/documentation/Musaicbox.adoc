@@ -715,9 +715,9 @@ The idea is to take advantage of the multiple representations of a PCS, by defin
 |_pid_ stem:[ cdot 1]
 | Neutral operation
 
-|Translation of x:{nbsp} - <-T-> {plus}
-|M1-Tx or Tx
-|_pid_ stem:[ cdot 2x]
+|Translation of _k_ :{nbsp} - <-T-> {plus}
+|M1-Tk or Tk
+|_pid_ stem:[ cdot 2k] modulo 2^n^
 |Transposition
 
 a|Rotation half turn around center point image:M11-thick.svg[30,30]
@@ -737,9 +737,7 @@ a|Rotation half turn around center point image:M11-thick.svg[30,30]
 
 |Switch colors image:complement.svg[30,30]
 |CM1-T0 or C
-a|
-* [.nowrap]#((-_pid_ >>> 0) -1) % 2^n^# (js zero shift right)
-* [.nowrap]#(2^n^ + ~_pid_) % 2^n^# (js bitwise op NOT)
+a| [.nowrap]#2^n^ -1 - _pid_#
 |Complementation
 
 |===
