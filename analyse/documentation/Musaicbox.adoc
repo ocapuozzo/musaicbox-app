@@ -713,32 +713,32 @@ The idea is to take advantage of the multiple representations of a PCS, by defin
 _pid_ in [0..2^n^[|Musical Set Theory
 
 |id
-|M1-T0
+|M1
 |_pid_ stem:[ cdot 1]
 | Neutral operation
 
 |Translation of _k_ :{nbsp} - <-T-> {plus}
-|M1-Tk or Tk
+|Tk
 a|_pid_ stem:[ cdot 2k] [.nowrap]#(modulo 2^n^)#
 |Transposition
 
 a|Rotation half turn around center point image:M11-thick.svg[30,30]
-|M11-T0 or M11
+|M11
 |?
 |Inversion
 
 |Rotation half turn left diagonal image:M5-thick.svg[30,30]
-|M5-T0 or M5
+|M5
 |?
-|Cycle fourths transformation
+|Cycle of fourths transformation
 
 |Rotation half turn right diagonal image:M7-thick.svg[30,30]
-|M7-T0 or M7
+|M7
 |?
-|Cycle firths transformation
+|Cycle of firths transformation
 
 |Switch colors image:complement.svg[30,30]
-|CM1-T0 or C
+|C
 a| [.nowrap]#2^n^ - (1 + _pid_)#
 |Complementation
 
