@@ -708,7 +708,9 @@ The idea is to take advantage of the multiple representations of a PCS, by defin
 
 
 |===
-|Musaic geometry|Algebra in stem:[ZZ"/"12ZZ] (or stem:[ZZ_12])a| stem:[NN] throw
+|Musaic geometry|Algebra in stem:[ZZ"/"12ZZ]
+ +
+ (or stem:[ZZ_12])| stem:[NN] throw
  +
 _pid_ in [0..2^n^[|Musical Set Theory
 
@@ -744,7 +746,7 @@ a| [.nowrap]#2^n^ - (1 + _pid_)#
 
 |===
 
-As you can see, this table needs to be completed; this is a call for contributions! *Who's up for the challenge?*
+As you can see, this table needs to be completed; *this is a call for contributions*!
 
 === Conclusion
 
