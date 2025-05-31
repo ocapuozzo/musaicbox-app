@@ -1228,7 +1228,7 @@ It is thanks to this group that we will be able to partition our 4096 PCS into r
 The orbit of an element stem:[pcs] of stem:[P(E)] is a set that gathers all the possible images of stem:[pcs] under action of stem:[G]. It is denoted stem:[G"⋅"pcs]
 
 
-stem:[G"⋅"pcs = ]{stem:[underbrace(g cdot pcs)_(in P(E)) \  | g in G] },  a subset of stem:[P(E)]
+stem:[G  cdot  "pcs" = ]{stem:[underbrace(g cdot pcs)_(in P(E)) \  | g in G] },  a subset of stem:[P(E)]
 
 Examples :
 
@@ -1337,11 +1337,11 @@ TIP: All these properties, and more, can be viewed on page : https://musaicbox.o
 
 === Equivalence relation
 
-The set of orbits of P(E) under the action of G form a partition of P(E).
+The set of orbits of P(E) under the action of G form a *partition of P(E)*.
 
 An equivalence relation, or more precisely a stem:[G"-equivalence"], is defined by saying stem:[x "~" y] if and only if there exists a stem:[g in G] with stem:[g⋅x = y].
 
-The orbits are then the equivalence classes under this relation; two elements stem:[A] and stem:[B] of stem:[P(E)], are equivalent if and only if their orbits are the same, that is, stem:[G"⋅"A = G"⋅"B]
+Two elements stem:[A] and stem:[B] of stem:[P(E)], are equivalent if and only if they are located in the same orbit, i.e. their orbits are the same, that is, stem:[G"⋅"A = G"⋅"B]
 
 Example of stem:[Cyclic]_-equivalence_ : `CMajor triad` and `DMajor triad` are in  stem:[Cyclic]_-equivalence_ relationship, because they both belong to the same cyclic orbit. This is what we are going to see now.
 
