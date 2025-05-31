@@ -2704,11 +2704,11 @@ Musaic name is composed of four parts: `Mindex-#minCard-#motifs-#pcs`
 
 Examples:
 
-* `M1-0-2-2` is first musaic orbit (first 1), cardinality zero/12, has 2 isc and 2 pcs into orbit (empty and chromatic scales)
-* `M88-6-1-2` is the last musaic orbit (88), cardinality 6, only one isc and 2 pcs into orbit (two whole tone pcs)
-* `M10-3-8-96` is musaic 10, cardinality 3/9, 8 isc and 96 pcs into orbit
-* `M61-5-2-24` is 65th musaic orbit, cardinality 5/7, has 2 isc and 24 pcs into orbit
-* `M7-2-2-12` is 7th musaic orbit, cardinality 2/10, has 2 isc and 12 pcs into orbit (not 24)
+* [.nowrap]#`M1-0-2-2`# is first musaic orbit (first 1), cardinality zero/12, has 2 isc and 2 pcs into orbit (empty and chromatic scales)
+* [.nowrap]#`M88-6-1-2`# is the last musaic orbit (88), cardinality 6, only one isc and 2 pcs into orbit (two whole tone pcs)
+* [.nowrap]#`M10-3-8-96`# is musaic 10, cardinality 3/9, 8 isc and 96 pcs into orbit
+* [.nowrap]#`M61-5-2-24`# is 65th musaic orbit, cardinality 5/7, has 2 isc and 24 pcs into orbit
+* [.nowrap]#`M7-2-2-12`# is 7th musaic orbit, cardinality 2/10, has 2 isc and 12 pcs into orbit (not 24)
 
 [TIP]
 ====
@@ -2726,23 +2726,23 @@ Examples:
 |===
 |Musaic a|stem:["#pcs"/"#motifs"] | Limited Transposition
 
-|M16-3-2-8
+|[.nowrap]#M16-3-2-8#
 |8/2 = *4*
 |YES
 
-|M10-3-8-96
+|[.nowrap]#M10-3-8-96#
 |96/8 = *12*
 |NO
 
-|M61-5-2-24
+|[.nowrap]#M61-5-2-24#
 |24/2 = *12*
 |NO
 
-|M36-4-2-12
+|[.nowrap]#M36-4-2-12#
 |12/2 = *2*
 |YES
 
-|M70-6-1-12
+|[.nowrap]#M70-6-1-12#
 |12/1 = *12*
 |N0
 
@@ -3040,7 +3040,7 @@ Musaic-Motif::
 +
 It is a geometric figure of a intervallic structure class of a given pcs (bijection). A musaic has a potential from 1 to 8 distinct motifs. 4 faces  x 2 colors = 8 motifs.
 +
-Example musaic N°44 has 4 distinct motifs : image:pcs-03579.png[ [03579] and its 4 (black) motifs: image:pcs-musaic-motif-4.png[musaic-motif-4 only]
+Example musaic N°44 has 4 distinct motifs : image:pcs-03579.png[03579] and its 4 (black) motifs: image:pcs-musaic-motif-4.png[musaic-motif-4 only]
 
 Scale::
 A series of notes arranged in a specific order, from one note to its octave.
