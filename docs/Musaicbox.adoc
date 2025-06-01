@@ -2,6 +2,7 @@
 Another toolbox for musical composition
 From 88musaics.org project
 :description: Musaicbox frontend app
+:author: Olivier Capuozzo [gmail]
 :icons: font
 :listing-caption: Listing
 :toc: left
@@ -12,7 +13,7 @@ From 88musaics.org project
 // nice to extend default css, with docinfo.html file in same directory
 // see : https://docs.asciidoctor.org/asciidoctor/latest/html-backend/default-stylesheet/#customize-extend
 
-// :author: Olivier Capuozzo <olivier.capuozzo@gmail.com>
+
 // :url-quickref: https://docs.asciidoctor.org/asciidoc/latest/syntax-quick-reference/
 
 //  for custom css, edit docinfo.html and put,
@@ -29,8 +30,6 @@ endif::[]
 :imagesdir: ./assets/images
 
 Musaicbox application is intended to be a POC for main concepts defined and illustrated on https://88musaics.org[88musaics.org] site, plus others (modes, scales, chords...). The implementation chosen for this application are detailed, and some concepts from Musical Set Theory are discussed.
-
-Author : Olivier Capuozzo [gmail]
 
 == Introduction
 
@@ -2765,6 +2764,18 @@ There is a group between 4096 and 352 which contains all mode structures.
 
 === Mode
 
+"A scale is a finite set of notes chosen and ordered from among the available pitches and characterized by the relationships of the conjoined intervals that compose it. A scale is relative, and any circular permutation defines the same scale: it has no beginning or end and is represented on a circle. It is independent of any idea of tone or tonic, tonality, or modality [...]
+ +
+A mode is a scale in which the starting note is fixed. It is characterized by its structure, that is, by the succession of intervals that compose it.
+"
+-- "`Hétérotopies musicales`" <<Jedrzejewski>> page 307 (translated from French)
+
+A mode repeated at the octave during its presentation. Example: D E F G A B C D (Dorian mode)
+
+Modes are closely linked to various cultural and historical contexts (ancient Greece, Indian, Asian, Arabic cultures, etc.), and yet their names are found in the 12-ET (but their deep nature is to be rediscovered)
+
+TIP: MusaicBox draws on the work of Ian Ring <<IanRing>> to name scales/modes, and directs the user to the HTML page for the relevant scale (with Ian Ring's permission).
+
 A scale "contains" its own modes. The best known is the major scale and its 7 modes: Ionian, Dorian, Phrygian, Lydian, Mixolydian, Aeolian, and Locrian.
 
 .Seven modes of Major scale (score view)
@@ -2774,7 +2785,6 @@ image::maj-modes-score.png[major-scale-7modes-score]
 image::major-scale-7modes.png[major-scale-7modes]
 
 TIP: Although the concept of pivots hasn't been introduced for this problem, it will be very useful for understanding and identifying the modes.
-
 
 Since there are 12 major scales in its cyclic orbit, and since this scale has 7 degrees, there are 12 x 7 = 84 potential modes represented by 84 PCSs with specific pivot values.
 
@@ -2795,7 +2805,7 @@ By example, the PCS in modal prime form of dorian mode is [.nowrap]#[0 2 3 5 7 9
 .Seven modes of major scale in modal prime form
 image::major-scale-7modes-ModalPF.png[major-scale-7modes-ModalPF]
 
-Now, we can enumerate all scales/pcs in modal prime form, without duplicate, from 352 cyclic orbits.
+Now, we can enumerate all scales/pcs in modal prime form, without duplicate, from 352 intervallic structure classes represented by cyclic orbits.
 
 Instead of retaining only one representative of the cyclic orbit, the minimum pcs, which is the origin of the reduction from 4096 pcs to 352, we extend our selection to the modes.
 
@@ -3181,10 +3191,11 @@ Simplified version
 
 * [[[Morris]]] Moris, Robert. Elementary Twelve-Tone Theory. on line : https://ecmc.rochester.edu/rdm/pdflib/el.12ttth.pdf
 
+* [[[Jedrzejewski]]] Jedrzejewski, Franck. 2019. Hétérotopies musicales. Hermann Editions
+
+* [[[IanRing]]] Ring, Ian. https://ianring.com/musictheory/
 
 == Appendix
-
-
 
 === Order relation
 

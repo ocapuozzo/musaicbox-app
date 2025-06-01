@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.23">
 <meta name="description" content="Musaicbox frontend app">
-<meta name="author" content="Another toolbox for musical composition">
+<meta name="author" content="Olivier Capuozzo [gmail]">
 <title>MusaicBox</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -685,7 +685,7 @@ td:has(>p>span[class="klein2"]) {
 <div id="header">
 <h1>MusaicBox</h1>
 <div class="details">
-<span id="author" class="author">Another toolbox for musical composition</span><br>
+<span id="author" class="author">Olivier Capuozzo [gmail]</span><br>
 <span id="revdate">From 88musaics.org project</span>
 </div>
 <div id="toc" class="toc2">
@@ -812,9 +812,6 @@ td:has(>p>span[class="klein2"]) {
 <div class="sectionbody">
 <div class="paragraph">
 <p>Musaicbox application is intended to be a POC for main concepts defined and illustrated on <a href="https://88musaics.org">88musaics.org</a> site, plus others (modes, scales, chords&#8230;&#8203;). The implementation chosen for this application are detailed, and some concepts from Musical Set Theory are discussed.</p>
-</div>
-<div class="paragraph">
-<p>Author : Olivier Capuozzo [gmail]</p>
 </div>
 </div>
 </div>
@@ -5554,6 +5551,35 @@ By default, a PCS is mapped to itself, and therefore considered "unmapped."</p>
 </div>
 <div class="sect2">
 <h3 id="_mode">Mode</h3>
+<div class="quoteblock">
+<blockquote>
+A scale is a finite set of notes chosen and ordered from among the available pitches and characterized by the relationships of the conjoined intervals that compose it. A scale is relative, and any circular permutation defines the same scale: it has no beginning or end and is represented on a circle. It is independent of any idea of tone or tonic, tonality, or modality [&#8230;&#8203;]
+<br>
+A mode is a scale in which the starting note is fixed. It is characterized by its structure, that is, by the succession of intervals that compose it.
+
+</blockquote>
+<div class="attribution">
+&#8212; &#8220;Hétérotopies musicales&#8221; <a href="#Jedrzejewski">[Jedrzejewski]</a> page 307 (translated from French)
+</div>
+</div>
+<div class="paragraph">
+<p>A mode repeated at the octave during its presentation. Example: D E F G A B C D (Dorian mode)</p>
+</div>
+<div class="paragraph">
+<p>Modes are closely linked to various cultural and historical contexts (ancient Greece, Indian, Asian, Arabic cultures, etc.), and yet their names are found in the 12-ET (but their deep nature is to be rediscovered)</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+MusaicBox draws on the work of Ian Ring <a href="#IanRing">[IanRing]</a> to name scales/modes, and directs the user to the HTML page for the relevant scale (with Ian Ring&#8217;s permission).
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>A scale "contains" its own modes. The best known is the major scale and its 7 modes: Ionian, Dorian, Phrygian, Lydian, Mixolydian, Aeolian, and Locrian.</p>
 </div>
@@ -5612,7 +5638,7 @@ Although the concept of pivots hasn&#8217;t been introduced for this problem, it
 <div class="title">Figure 27. Seven modes of major scale in modal prime form</div>
 </div>
 <div class="paragraph">
-<p>Now, we can enumerate all scales/pcs in modal prime form, without duplicate, from 352 cyclic orbits.</p>
+<p>Now, we can enumerate all scales/pcs in modal prime form, without duplicate, from 352 intervallic structure classes represented by cyclic orbits.</p>
 </div>
 <div class="paragraph">
 <p>Instead of retaining only one representative of the cyclic orbit, the minimum pcs, which is the origin of the reduction from 4096 pcs to 352, we extend our selection to the modes.</p>
@@ -6228,6 +6254,12 @@ Inversely, a PCS can always be seen as the degree (or mode) of another PCS in it
 </li>
 <li>
 <p><a id="Morris"></a>[Morris] Moris, Robert. Elementary Twelve-Tone Theory. on line : <a href="https://ecmc.rochester.edu/rdm/pdflib/el.12ttth.pdf" class="bare">https://ecmc.rochester.edu/rdm/pdflib/el.12ttth.pdf</a></p>
+</li>
+<li>
+<p><a id="Jedrzejewski"></a>[Jedrzejewski] Jedrzejewski, Franck. 2019. Hétérotopies musicales. Hermann Editions</p>
+</li>
+<li>
+<p><a id="IanRing"></a>[IanRing] Ring, Ian. <a href="https://ianring.com/musictheory/" class="bare">https://ianring.com/musictheory/</a></p>
 </li>
 </ul>
 </div>
@@ -9121,7 +9153,7 @@ Symmetry prime form concept is invented, specific to this project.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-05-31 18:22:48 +0200
+Last updated 2025-06-01 18:19:14 +0200
 </div>
 </div>
 <script type="text/x-mathjax-config">
