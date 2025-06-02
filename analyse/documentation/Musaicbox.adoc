@@ -2764,9 +2764,36 @@ There is a group between 4096 and 352 which contains all mode structures.
 
 === Mode
 
-"A scale is a finite set of notes chosen and ordered from among the available pitches and characterized by the relationships of the conjoined intervals that compose it. A scale is relative, and any circular permutation defines the same scale: it has no beginning or end and is represented on a circle. It is independent of any idea of tone or tonic, tonality, or modality [...]
+"_The concept of modality has evolved over time and does not always have the same meaning depending on the era and culture._"
+This is how Franck Jedrzejewski's chapter "Théories Modales" begins (<<Jedrzejewski>>) and includes, among other things, a plactic classification of modes in [.nowrap]#12-ET#, based on Knuth's rewriting rules.
+
+
+PCS -> modes -> scales
+
+A PCS as finite ordered set of pitch classes, has only one ordered representation (normal order) although any circular permutation defines the same PCS.
+
+Ex : [0 4 7] = [7 0 4] = [4 7 0]
+
+Mode = PCS with pivot
+
+Ex :  `[0 4 7]`~`0`~  <>  `[0 4 7]`~`4` <>  `[0 4 7]`~`7`~
+
+TODO clock clock+pivot scale + ???
+
+clock isc is
+
+
+A mode is a PCS in which the starting note is fixed by pivot. It is characterized by its structure, that is, by the succession of intervals that compose it.
+
+A scale is the realization of the structure of a mode translated into notes.
+
+Mode and scale are often confused.
+
+"A scale [ordered PCS] is a finite set of notes chosen and ordered from among the available pitches and characterized by the relationships of the conjoined intervals that compose it. A scale is relative, and any circular permutation defines the same scale: it has no beginning or end and is represented on a circle. It is independent of any idea of tone or tonic, tonality, or modality [...]
  +
 A mode is a scale in which the starting note is fixed. It is characterized by its structure, that is, by the succession of intervals that compose it.
+ +
+A scale is the realization of the structure of a mode translated into notes.
 "
 -- "`Hétérotopies musicales`" <<Jedrzejewski>> page 307 (translated from French)
 
@@ -3083,8 +3110,9 @@ Example of *dorian in modal prime form* : [.nowrap]#[*0* 2 3 5 7 9 10]#~*0*~
 +
 If the pivot value is not specified, the value of the first step is used by default. If this value is zero, the pcs is automatically in modal prime form.
 +
-This representation allows you to quickly observe the harmonic structure of the scale. Example with the Dorian:
+This representation allows you to quickly observe the harmonic structure of the scale from 0.
 +
+Example with the Dorian mode:
 [.nowrap]#[0 2 3 5 7 9 10]#
 +
 * 0  : root

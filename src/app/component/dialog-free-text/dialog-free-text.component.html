@@ -16,7 +16,7 @@
   <mat-form-field [style.width.%]="100"
     [style.font-size]="fontSize.value">
     <mat-label>Change text</mat-label>
-    <textarea matInput
+    <textarea matInput #inputFreeText
               [(ngModel)]="data.text"
               cdkTextareaAutosize
               #autosize="cdkTextareaAutosize"

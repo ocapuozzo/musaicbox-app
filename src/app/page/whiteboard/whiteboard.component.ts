@@ -130,6 +130,8 @@ export class WhiteboardComponent implements OnInit, OnDestroy, AfterViewInit {
 
   viewToolBar: boolean = true
 
+  private updateFreeText: boolean; // to stop propagation paste event when edit freeText...
+
   constructor(private managerPageWBService: ManagerPageWBService,
               private readonly managerPagePcsService: ManagerPagePcsService,
               private readonly router: Router,
@@ -137,13 +139,13 @@ export class WhiteboardComponent implements OnInit, OnDestroy, AfterViewInit {
               public dialogConfirmation: MatDialog) {
 
     this.pcsDtoList = this.managerPageWBService.uiPcsDtoList
-    // this.drawers = this.managerPageWBService.DRAWERS
 
     this.managerPageWBService.eventChangePcsPdoList.subscribe((uiPcsDtoList: UIPcsDto[]) => {
       this.pcsDtoList = uiPcsDtoList
       if (!this.isRectangleSelecting) {
         this.updateRectangleSelectorDimension();
       }
+      this.updateFreeText = false
     })
 
   }
@@ -402,7 +404,10 @@ export class WhiteboardComponent implements OnInit, OnDestroy, AfterViewInit {
           if (event.shiftKey) {
             this.doPasteFormat()
           } else {
-            this.doPaste()
+            console.log("doPaste datatest = ", this.updateFreeText)
+            if (!this.updateFreeText) { // special stop propagation paste event when edit freeText
+              this.doPaste()
+            }
           }
           break
       }
@@ -831,6 +836,7 @@ export class WhiteboardComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   doEditFreeText(index: number) {
+    this.updateFreeText = true
     this.managerPageWBService.doEditFreeText(index)
   }
 
