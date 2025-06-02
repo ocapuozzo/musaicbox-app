@@ -166,15 +166,19 @@
   <button mat-button matTooltip="Save to file..."
           matTooltipPosition="left"
           class="button-toolbar"
-          style="margin-left: 6px">
-    <mat-icon (click)="saveToFile()">save</mat-icon>
+          style="margin-left: 6px"
+          (click)="saveToFile()"
+  >
+    <mat-icon>save</mat-icon>
   </button>
 
   <button mat-button matTooltip="Open file..."
           matTooltipPosition="left"
           class="button-toolbar"
-          style="margin-left: 6px">
-    <mat-icon (click)="fileOpen()">file_open</mat-icon>
+          style="margin-left: 6px"
+          (click)="fileOpen()"
+  >
+    <mat-icon >file_open</mat-icon>
   </button>
 
 
