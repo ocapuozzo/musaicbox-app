@@ -5551,11 +5551,75 @@ By default, a PCS is mapped to itself, and therefore considered "unmapped."</p>
 </div>
 <div class="sect2">
 <h3 id="_mode">Mode</h3>
+<div class="paragraph">
+<p>"<em>The concept of modality has evolved over time and does not always have the same meaning depending on the era and culture.</em>"
+This is how Franck Jedrzejewski&#8217;s chapter "Théories Modales" begins (<a href="#Jedrzejewski">[Jedrzejewski]</a>) and includes, among other things, a plactic classification of modes in <span class="nowrap">12-ET</span>, based on Knuth&#8217;s rewriting rules.</p>
+</div>
+<div class="paragraph">
+<p>PCS &#8594; modes &#8594; scales</p>
+</div>
+<div class="paragraph">
+<p>A PCS as finite ordered set of pitch classes, has only one ordered representation (normal order) although any circular permutation defines the same PCS.</p>
+</div>
+<div class="paragraph">
+<p>Ex : <code>[0 4 7]</code></p>
+</div>
+<div class="paragraph">
+<p>A <strong>mode</strong> is a PCS in which the starting note is fixed by pivot. It is characterized by its structure, that is, by the succession of intervals that compose it.</p>
+</div>
+<div class="paragraph">
+<p>Ex :  <code>[0 4 7]</code><sub><code>0</code></sub>, <code>[0 4 7]</code><sub><code>4</code></sub>,  <code>[0 4 7]</code><sub><code>7</code></sub></p>
+</div>
+<div class="paragraph">
+<p>For Franck Jedrzejewski (<a href="#Jedrzejewski">[Jedrzejewski]</a>) a <strong>scale</strong> is the realization of the structure of a mode translated into notes.</p>
+</div>
+<div class="paragraph">
+<p>Example :</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">PCS</th>
+<th class="tableblock halign-left valign-top">Modes</th>
+<th class="tableblock halign-left valign-top">Scales</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/pcs-02479-no-pivot.png" alt="pcs 02479 no pivot"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/mode-orbit-pentatonic.png" alt="mode orbit pentatonic"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1er degree Major pentatonic : <span class="image"><img src="./assets/images/mode1-pcs-02479.png" alt="mode1 pcs 02479"></span>,
+<span class="image"><img src="./assets/images/mode1-pcs-135810.png" alt="mode1 pcs 135810"></span>,
+<span class="image"><img src="./assets/images/mode1-pcs-246911.png" alt="mode1 pcs 246911"></span>,
+<span class="image"><img src="./assets/images/mode1-pcs-146811.png" alt="mode1 pcs 146811"></span>,
+<span class="image"><img src="./assets/images/mode1-pcs-035710.png" alt="mode1 pcs 035710"></span>
+<br>
+[&#8230;&#8203;]
+<br>
+4er degree Scottish pentatonic :
+<br>
+Etc.
+<br>
+<span class="image"><img src="./assets/images/mode4-pcs-02479.png" alt="mode4 pcs 02479"></span>,
+<span class="image"><img src="./assets/images/mode4-pcs-135810.png" alt="mode4 pcs 135810"></span></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Mode and scale are often confused.</p>
+</div>
 <div class="quoteblock">
 <blockquote>
-A scale is a finite set of notes chosen and ordered from among the available pitches and characterized by the relationships of the conjoined intervals that compose it. A scale is relative, and any circular permutation defines the same scale: it has no beginning or end and is represented on a circle. It is independent of any idea of tone or tonic, tonality, or modality [&#8230;&#8203;]
+A scale [ordered PCS] is a finite set of notes chosen and ordered from among the available pitches and characterized by the relationships of the conjoined intervals that compose it. A scale is relative, and any circular permutation defines the same scale: it has no beginning or end and is represented on a circle. It is independent of any idea of tone or tonic, tonality, or modality [&#8230;&#8203;]
 <br>
 A mode is a scale in which the starting note is fixed. It is characterized by its structure, that is, by the succession of intervals that compose it.
+<br>
+A scale is the realization of the structure of a mode translated into notes.
 
 </blockquote>
 <div class="attribution">
@@ -5564,9 +5628,6 @@ A mode is a scale in which the starting note is fixed. It is characterized by it
 </div>
 <div class="paragraph">
 <p>A mode repeated at the octave during its presentation. Example: D E F G A B C D (Dorian mode)</p>
-</div>
-<div class="paragraph">
-<p>Modes are closely linked to various cultural and historical contexts (ancient Greece, Indian, Asian, Arabic cultures, etc.), and yet their names are found in the 12-ET (but their deep nature is to be rediscovered)</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -6098,10 +6159,11 @@ Inversely, a PCS can always be seen as the degree (or mode) of another PCS in it
 <p>If the pivot value is not specified, the value of the first step is used by default. If this value is zero, the pcs is automatically in modal prime form.</p>
 </div>
 <div class="paragraph">
-<p>This representation allows you to quickly observe the harmonic structure of the scale. Example with the Dorian:</p>
+<p>This representation allows you to quickly observe the harmonic structure of the scale from 0.</p>
 </div>
 <div class="paragraph">
-<p><span class="nowrap">[0 2 3 5 7 9 10]</span></p>
+<p>Example with the Dorian mode:
+<span class="nowrap">[0 2 3 5 7 9 10]</span></p>
 </div>
 <div class="ulist">
 <ul>
@@ -9153,7 +9215,7 @@ Symmetry prime form concept is invented, specific to this project.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-06-01 18:19:14 +0200
+Last updated 2025-06-02 15:35:52 +0200
 </div>
 </div>
 <script type="text/x-mathjax-config">

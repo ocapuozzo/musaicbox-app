@@ -2772,20 +2772,46 @@ PCS -> modes -> scales
 
 A PCS as finite ordered set of pitch classes, has only one ordered representation (normal order) although any circular permutation defines the same PCS.
 
-Ex : [0 4 7] = [7 0 4] = [4 7 0]
+Ex : `[0 4 7]`
 
-Mode = PCS with pivot
+A *mode* is a PCS in which the starting note is fixed by pivot. It is characterized by its structure, that is, by the succession of intervals that compose it.
 
-Ex :  `[0 4 7]`~`0`~  <>  `[0 4 7]`~`4` <>  `[0 4 7]`~`7`~
-
-TODO clock clock+pivot scale + ???
-
-clock isc is
+Ex :  `[0 4 7]`~`0`~, `[0 4 7]`~`4`~,  `[0 4 7]`~`7`~
 
 
-A mode is a PCS in which the starting note is fixed by pivot. It is characterized by its structure, that is, by the succession of intervals that compose it.
+For Franck Jedrzejewski (<<Jedrzejewski>>) a *scale* is the realization of the structure of a mode translated into notes.
 
-A scale is the realization of the structure of a mode translated into notes.
+Example :
+
+|===
+|PCS|Modes|Scales
+
+|image:pcs-02479-no-pivot.png[]
+|image:mode-orbit-pentatonic.png[]
+|5x12 = 60 scales
+ +
+1er degree Major pentatonic : image:mode1-pcs-02479.png[],
+
+image:mode1-pcs-135810.png[],
+image:mode1-pcs-246911.png[],
+image:mode1-pcs-035710.png[],
+image:mode1-pcs-146811.png[],
+
+ +
+[...]
+ +
+4er degree Scottish pentatonic :
+ +
+image:mode4-pcs-02479.png[],
+image:mode4-pcs-135810.png[]
+ +
+Etc.
+
+|===
+
+
+
+
 
 Mode and scale are often confused.
 
@@ -2799,7 +2825,6 @@ A scale is the realization of the structure of a mode translated into notes.
 
 A mode repeated at the octave during its presentation. Example: D E F G A B C D (Dorian mode)
 
-Modes are closely linked to various cultural and historical contexts (ancient Greece, Indian, Asian, Arabic cultures, etc.), and yet their names are found in the 12-ET (but their deep nature is to be rediscovered)
 
 TIP: MusaicBox draws on the work of Ian Ring <<IanRing>> to name scales/modes, and directs the user to the HTML page for the relevant scale (with Ian Ring's permission).
 
