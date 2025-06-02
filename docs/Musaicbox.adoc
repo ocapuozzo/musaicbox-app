@@ -2783,12 +2783,13 @@ For Franck Jedrzejewski (<<Jedrzejewski>>) a *scale* is the realization of the s
 
 Example :
 
+[cols="3*^"]
 |===
 |PCS|Modes|Scales
 
 |image:pcs-02479-no-pivot.png[]
 |image:mode-orbit-pentatonic.png[]
-|5x12 = 60 scales
+|5x12 = 60 scales. Excerpts:
  +
 1er degree Major pentatonic : image:mode1-pcs-02479.png[],
 
@@ -2865,8 +2866,7 @@ We have seen that, regarding the major scale, the number of modes in prime form 
 
 The response is NO, due to the presence of PCSs in limited transposition (LT).
 
-The number of modes of a pcs is given by the formula : stem:[ "cardinal(pcs)" -: n / (" cardinal(orbitCyclic"_("pcs")")")" ]
-
+The number of modes of a pcs is given by the formula : stem:[ "cardinal(pcs)" / d], where stem:[d =  n / (" cardinal(orbitCyclic"_("pcs")")")" ]
 
 This formula is possible because cardinal orbit always divides _n_ https://en.wikipedia.org/wiki/Lagrange%27s_theorem_(group_theory)[(Lagrange's theorem)]
 
@@ -3800,9 +3800,10 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 |ID [.head]#&uarr;#|Musaic orbit  |Motifs |Intervallic Structure Class |Meta-Stabilizer [.head]#&uarr;#
 
 // special paste as plain text
+
 |M1-0-2-2*
 |image:88musaics/M1-0-2-2.png[M1-0-2-2]
-+
+ +
 #2
 | 2
 |
@@ -3812,7 +3813,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M2-1-2-24
 |image:88musaics/M2-1-2-24.png[M2-1-2-24]
-+
+ +
 #24
 | 2
 |
@@ -3822,7 +3823,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M3-2-4-48
 |image:88musaics/M3-2-4-48.png[M3-2-4-48]
-+
+ +
 #48
 | 4
 |
@@ -3834,7 +3835,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M4-2-2-24
 |image:88musaics/M4-2-2-24.png[M4-2-2-24]
-+
+ +
 #24
 | 2
 |
@@ -3844,7 +3845,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M5-2-2-24
 |image:88musaics/M5-2-2-24.png[M5-2-2-24]
-+
+ +
 #24
 | 2
 |
@@ -3854,7 +3855,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M6-2-2-24
 |image:88musaics/M6-2-2-24.png[M6-2-2-24]
-+
+ +
 #24
 | 2
 |
@@ -3864,7 +3865,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M7-2-2-12*
 |image:88musaics/M7-2-2-12.png[M7-2-2-12]
-+
+ +
 #12
 | 2
 |
@@ -3874,7 +3875,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M8-3-4-48
 |image:88musaics/M8-3-4-48.png[M8-3-4-48]
-+
+ +
 #48
 | 4
 |
@@ -3886,7 +3887,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M9-3-8-96
 |image:88musaics/M9-3-8-96.png[M9-3-8-96]
-+
+ +
 #96
 | 8
 |
@@ -3902,7 +3903,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M10-3-8-96
 |image:88musaics/M10-3-8-96.png[M10-3-8-96]
-+
+ +
 #96
 | 8
 |
@@ -3918,7 +3919,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M11-3-2-24
 |image:88musaics/M11-3-2-24.png[M11-3-2-24]
-+
+ +
 #24
 | 2
 |
@@ -3928,7 +3929,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M12-3-4-48
 |image:88musaics/M12-3-4-48.png[M12-3-4-48]
-+
+ +
 #48
 | 4
 |
@@ -3940,7 +3941,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M13-3-4-48
 |image:88musaics/M13-3-4-48.png[M13-3-4-48]
-+
+ +
 #48
 | 4
 |
@@ -3952,7 +3953,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M14-3-4-48
 |image:88musaics/M14-3-4-48.png[M14-3-4-48]
-+
+ +
 #48
 | 4
 |
@@ -3964,7 +3965,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M15-3-2-24
 |image:88musaics/M15-3-2-24.png[M15-3-2-24]
-+
+ +
 #24
 | 2
 |
@@ -3974,7 +3975,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M16-3-2-8*
 |image:88musaics/M16-3-2-8.png[M16-3-2-8]
-+
+ +
 #8
 | 2
 |
@@ -3984,7 +3985,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M17-4-4-48
 |image:88musaics/M17-4-4-48.png[M17-4-4-48]
-+
+ +
 #48
 | 4
 |
@@ -3996,7 +3997,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M18-4-8-96
 |image:88musaics/M18-4-8-96.png[M18-4-8-96]
-+
+ +
 #96
 | 8
 |
@@ -4012,7 +4013,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M19-4-4-48
 |image:88musaics/M19-4-4-48.png[M19-4-4-48]
-+
+ +
 #48
 | 4
 |
@@ -4024,7 +4025,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M20-4-8-96
 |image:88musaics/M20-4-8-96.png[M20-4-8-96]
-+
+ +
 #96
 | 8
 |
@@ -4040,7 +4041,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M21-4-4-48
 |image:88musaics/M21-4-4-48.png[M21-4-4-48]
-+
+ +
 #48
 | 4
 |
@@ -4052,7 +4053,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M22-4-2-24
 |image:88musaics/M22-4-2-24.png[M22-4-2-24]
-+
+ +
 #24
 | 2
 |
@@ -4062,7 +4063,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M23-4-4-48
 |image:88musaics/M23-4-4-48.png[M23-4-4-48]
-+
+ +
 #48
 | 4
 |
@@ -4074,7 +4075,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M24-4-8-96
 |image:88musaics/M24-4-8-96.png[M24-4-8-96]
-+
+ +
 #96
 | 8
 |
@@ -4090,7 +4091,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M25-4-4-48
 |image:88musaics/M25-4-4-48.png[M25-4-4-48]
-+
+ +
 #48
 | 4
 |
@@ -4102,7 +4103,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M26-4-8-96
 |image:88musaics/M26-4-8-96.png[M26-4-8-96]
-+
+ +
 #96
 | 8
 |
@@ -4118,7 +4119,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M27-4-8-96
 |image:88musaics/M27-4-8-96.png[M27-4-8-96]
-+
+ +
 #96
 | 8
 |
@@ -4134,7 +4135,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M28-4-2-24
 |image:88musaics/M28-4-2-24.png[M28-4-2-24]
-+
+ +
 #24
 | 2
 |
@@ -4144,7 +4145,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M29-4-2-24
 |image:88musaics/M29-4-2-24.png[M29-4-2-24]
-+
+ +
 #24
 | 2
 |
@@ -4154,7 +4155,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M30-4-2-24
 |image:88musaics/M30-4-2-24.png[M30-4-2-24]
-+
+ +
 #24
 | 2
 |
@@ -4164,7 +4165,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M31-4-4-48
 |image:88musaics/M31-4-4-48.png[M31-4-4-48]
-+
+ +
 #48
 | 4
 |
@@ -4176,7 +4177,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M32-4-2-24
 |image:88musaics/M32-4-2-24.png[M32-4-2-24]
-+
+ +
 #24
 | 2
 |
@@ -4186,7 +4187,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M33-4-2-12*
 |image:88musaics/M33-4-2-12.png[M33-4-2-12]
-+
+ +
 #12
 | 2
 |
@@ -4196,7 +4197,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M34-4-4-48
 |image:88musaics/M34-4-4-48.png[M34-4-4-48]
-+
+ +
 #48
 | 4
 |
@@ -4208,7 +4209,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M35-4-2-24
 |image:88musaics/M35-4-2-24.png[M35-4-2-24]
-+
+ +
 #24
 | 2
 |
@@ -4218,7 +4219,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M36-4-2-12*
 |image:88musaics/M36-4-2-12.png[M36-4-2-12]
-+
+ +
 #12
 | 2
 |
@@ -4228,7 +4229,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M37-4-2-6*
 |image:88musaics/M37-4-2-6.png[M37-4-2-6]
-+
+ +
 #6
 | 2
 |
@@ -4238,7 +4239,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M38-5-4-48
 |image:88musaics/M38-5-4-48.png[M38-5-4-48]
-+
+ +
 #48
 | 4
 |
@@ -4250,7 +4251,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M39-5-8-96
 |image:88musaics/M39-5-8-96.png[M39-5-8-96]
-+
+ +
 #96
 | 8
 |
@@ -4266,7 +4267,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M40-5-8-96
 |image:88musaics/M40-5-8-96.png[M40-5-8-96]
-+
+ +
 #96
 | 8
 |
@@ -4282,7 +4283,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M41-5-8-96
 |image:88musaics/M41-5-8-96.png[M41-5-8-96]
-+
+ +
 #96
 | 8
 |
@@ -4298,7 +4299,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M42-5-8-96
 |image:88musaics/M42-5-8-96.png[M42-5-8-96]
-+
+ +
 #96
 | 8
 |
@@ -4314,7 +4315,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M43-5-8-96
 |image:88musaics/M43-5-8-96.png[M43-5-8-96]
-+
+ +
 #96
 | 8
 |
@@ -4330,7 +4331,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M44-5-4-48
 |image:88musaics/M44-5-4-48.png[M44-5-4-48]
-+
+ +
 #48
 | 4
 |
@@ -4342,7 +4343,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M45-5-8-96
 |image:88musaics/M45-5-8-96.png[M45-5-8-96]
-+
+ +
 #96
 | 8
 |
@@ -4358,7 +4359,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M46-5-2-24
 |image:88musaics/M46-5-2-24.png[M46-5-2-24]
-+
+ +
 #24
 | 2
 |
@@ -4368,7 +4369,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M47-5-8-96
 |image:88musaics/M47-5-8-96.png[M47-5-8-96]
-+
+ +
 #96
 | 8
 |
@@ -4384,7 +4385,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M48-5-4-48
 |image:88musaics/M48-5-4-48.png[M48-5-4-48]
-+
+ +
 #48
 | 4
 |
@@ -4396,7 +4397,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M49-5-8-96
 |image:88musaics/M49-5-8-96.png[M49-5-8-96]
-+
+ +
 #96
 | 8
 |
@@ -4412,7 +4413,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M50-5-4-48
 |image:88musaics/M50-5-4-48.png[M50-5-4-48]
-+
+ +
 #48
 | 4
 |
@@ -4424,7 +4425,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M51-5-8-96
 |image:88musaics/M51-5-8-96.png[M51-5-8-96]
-+
+ +
 #96
 | 8
 |
@@ -4440,7 +4441,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M52-5-4-48
 |image:88musaics/M52-5-4-48.png[M52-5-4-48]
-+
+ +
 #48
 | 4
 |
@@ -4452,7 +4453,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M53-5-4-48
 |image:88musaics/M53-5-4-48.png[M53-5-4-48]
-+
+ +
 #48
 | 4
 |
@@ -4464,7 +4465,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M54-5-8-96
 |image:88musaics/M54-5-8-96.png[M54-5-8-96]
-+
+ +
 #96
 | 8
 |
@@ -4480,7 +4481,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M55-5-4-48
 |image:88musaics/M55-5-4-48.png[M55-5-4-48]
-+
+ +
 #48
 | 4
 |
@@ -4492,7 +4493,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M56-5-4-48
 |image:88musaics/M56-5-4-48.png[M56-5-4-48]
-+
+ +
 #48
 | 4
 |
@@ -4504,7 +4505,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M57-5-4-48
 |image:88musaics/M57-5-4-48.png[M57-5-4-48]
-+
+ +
 #48
 | 4
 |
@@ -4516,7 +4517,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M58-5-2-24
 |image:88musaics/M58-5-2-24.png[M58-5-2-24]
-+
+ +
 #24
 | 2
 |
@@ -4526,7 +4527,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M59-5-4-48
 |image:88musaics/M59-5-4-48.png[M59-5-4-48]
-+
+ +
 #48
 | 4
 |
@@ -4538,7 +4539,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M60-5-2-24
 |image:88musaics/M60-5-2-24.png[M60-5-2-24]
-+
+ +
 #24
 | 2
 |
@@ -4548,7 +4549,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M61-5-2-24
 |image:88musaics/M61-5-2-24.png[M61-5-2-24]
-+
+ +
 #24
 | 2
 |
@@ -4558,7 +4559,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M62-5-4-48
 |image:88musaics/M62-5-4-48.png[M62-5-4-48]
-+
+ +
 #48
 | 4
 |
@@ -4570,7 +4571,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M63-6-2-24
 |image:88musaics/M63-6-2-24.png[M63-6-2-24]
-+
+ +
 #24
 | 2
 |
@@ -4580,7 +4581,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M64-6-4-48
 |image:88musaics/M64-6-4-48.png[M64-6-4-48]
-+
+ +
 #48
 | 4
 |
@@ -4592,7 +4593,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M65-6-8-96
 |image:88musaics/M65-6-8-96.png[M65-6-8-96]
-+
+ +
 #96
 | 8
 |
@@ -4608,7 +4609,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M66-6-4-48
 |image:88musaics/M66-6-4-48.png[M66-6-4-48]
-+
+ +
 #48
 | 4
 |
@@ -4620,7 +4621,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M67-6-2-24
 |image:88musaics/M67-6-2-24.png[M67-6-2-24]
-+
+ +
 #24
 | 2
 |
@@ -4630,7 +4631,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M68-6-4-48
 |image:88musaics/M68-6-4-48.png[M68-6-4-48]
-+
+ +
 #48
 | 4
 |
@@ -4642,7 +4643,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M69-6-8-96
 |image:88musaics/M69-6-8-96.png[M69-6-8-96]
-+
+ +
 #96
 | 8
 |
@@ -4658,7 +4659,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M70-6-1-12
 |image:88musaics/M70-6-1-12.png[M70-6-1-12]
-+
+ +
 #12
 | 1
 |
@@ -4667,7 +4668,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M71-6-4-48
 |image:88musaics/M71-6-4-48.png[M71-6-4-48]
-+
+ +
 #48
 | 4
 |
@@ -4679,7 +4680,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M72-6-4-48
 |image:88musaics/M72-6-4-48.png[M72-6-4-48]
-+
+ +
 #48
 | 4
 |
@@ -4691,7 +4692,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M73-6-4-48
 |image:88musaics/M73-6-4-48.png[M73-6-4-48]
-+
+ +
 #48
 | 4
 |
@@ -4703,7 +4704,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M74-6-2-24
 |image:88musaics/M74-6-2-24.png[M74-6-2-24]
-+
+ +
 #24
 | 2
 |
@@ -4713,7 +4714,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M75-6-4-48
 |image:88musaics/M75-6-4-48.png[M75-6-4-48]
-+
+ +
 #48
 | 4
 |
@@ -4725,7 +4726,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M76-6-2-24
 |image:88musaics/M76-6-2-24.png[M76-6-2-24]
-+
+ +
 #24
 | 2
 |
@@ -4735,7 +4736,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M77-6-2-24
 |image:88musaics/M77-6-2-24.png[M77-6-2-24]
-+
+ +
 #24
 | 2
 |
@@ -4745,7 +4746,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M78-6-4-48
 |image:88musaics/M78-6-4-48.png[M78-6-4-48]
-+
+ +
 #48
 | 4
 |
@@ -4757,7 +4758,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M79-6-4-48
 |image:88musaics/M79-6-4-48.png[M79-6-4-48]
-+
+ +
 #48
 | 4
 |
@@ -4769,7 +4770,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M80-6-2-24
 |image:88musaics/M80-6-2-24.png[M80-6-2-24]
-+
+ +
 #24
 | 2
 |
@@ -4779,7 +4780,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M81-6-2-24
 |image:88musaics/M81-6-2-24.png[M81-6-2-24]
-+
+ +
 #24
 | 2
 |
@@ -4789,7 +4790,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M82-6-4-48
 |image:88musaics/M82-6-4-48.png[M82-6-4-48]
-+
+ +
 #48
 | 4
 |
@@ -4801,7 +4802,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M83-6-1-6*
 |image:88musaics/M83-6-1-6.png[M83-6-1-6]
-+
+ +
 #6
 | 1
 |
@@ -4810,7 +4811,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M84-6-2-24
 |image:88musaics/M84-6-2-24.png[M84-6-2-24]
-+
+ +
 #24
 | 2
 |
@@ -4820,7 +4821,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M85-6-2-24
 |image:88musaics/M85-6-2-24.png[M85-6-2-24]
-+
+ +
 #24
 | 2
 |
@@ -4830,7 +4831,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M86-6-2-12*
 |image:88musaics/M86-6-2-12.png[M86-6-2-12]
-+
+ +
 #12
 | 2
 |
@@ -4840,7 +4841,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M87-6-1-4*
 |image:88musaics/M87-6-1-4.png[M87-6-1-4]
-+
+ +
 #4
 | 1
 |
@@ -4849,7 +4850,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 
 |M88-6-1-2*
 |image:88musaics/M88-6-1-2.png[M88-6-1-2]
-+
+ +
 #2
 | 1
 |
