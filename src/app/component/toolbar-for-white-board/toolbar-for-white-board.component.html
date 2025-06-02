@@ -183,10 +183,9 @@
           [disabled]="numberSelectedComponents === 0"
           class="button-toolbar"
           style="margin-top: 10px"
+          (click)="HtmlUtil.captureAllPcsComponentSelected(false)"
   >
-
-<mat-icon  (click)="HtmlUtil.captureAllPcsComponentSelected(false)">file_download</mat-icon>
-<!--    <p style="font-size: small; " >Export</p>-->
+<mat-icon>file_download</mat-icon>
   </button>
 
 
