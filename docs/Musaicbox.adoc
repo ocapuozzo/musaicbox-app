@@ -2044,7 +2044,7 @@ NOTE: 4 of the 5 well-known subgroups are located on the central vertical axis.
 
 As they stand, the generally accepted basic operations of musical set theory pose a logic problem that we raise here.
 
-=== Understanding what's wrong
+=== What's wrong with basic operations
 
 Let's take the inversion operation as an example.
 
