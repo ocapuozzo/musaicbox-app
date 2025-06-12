@@ -1423,7 +1423,7 @@ NOTE: We have thus reduced the field of study from 4096 to 352 elements !
 
 The question then is how to represent an orbit? Any of its elements (pcs) would do, but it is customary to select the *smallest element*.
 
-NOTE: The concept of the "smallest element" refers to the concept of "normal form" and "prime form" historically found in musical set theory.
+NOTE: The concept of the "smallest element" refers to the concept of "prime form" historically found in musical set theory.
 
 In our case, we need to establish an order relation between elements of an orbit, and therefore in stem:[P(E)]. That has been done in the project ; detail in appendix <<Order relation>>.
 
@@ -2131,6 +2131,9 @@ image::CDim7-infos.png[CDim7-infos]
 
 As you might expect, a diminished seventh chord is *very strongly symmetrical*. Observe its stabilizers, there are 16 of them and 4 are in T0 (highlighted in yellow in the screenshot above) : `#M1-T0#` of course, and  `#M5-T0#`, `#M7-T0#` and `#M11-T0#`.
 
+Let's summarize the different transformation operations of two diminished seventh chords: CDim7 [.nowrap]#(`[0 3 6 9]`)# and C#Dim7 [.nowrap]#(`[1 4 7 10]`)#.
+
+
 // docinfo.html has a rule css for error red
 
 [.text-center]
@@ -2768,17 +2771,30 @@ There is a group between 4096 and 352 which contains all mode structures.
 This is how Franck Jedrzejewski's chapter "Théories Modales" begins (<<Jedrzejewski>>) and includes, among other things, a plactic classification of modes in [.nowrap]#12-ET#, based on Knuth's rewriting rules.
 
 
-PCS -> modes -> scales
-
 A PCS as finite ordered set of pitch classes, has only one ordered representation (normal order) although any circular permutation defines the same PCS.
 
 Ex : `[0 4 7]`
 
-A *mode* is a PCS in which the starting note is fixed by pivot. It is characterized by its structure, that is, by the succession of intervals that compose it.
+A *mode* is a PCS in which the starting note is fixed by pivot and define its intervallic structure.
 
 Ex :  `[0 4 7]`~`0`~, `[0 4 7]`~`4`~,  `[0 4 7]`~`7`~
 
+|===
+|PCS with pivot|Intervallic structure
 
+|`[0 4 7]`~`0`~
+| (4 3 5)
+
+|`[0 4 7]`~`4`~
+| (3 5 4)
+
+|`[0 4 7]`~`7`~
+| (5 4 3)
+
+
+|===
+
+////
 For Franck Jedrzejewski (<<Jedrzejewski>>) a *scale* is the realization of the structure of a mode translated into notes.
 
 Example :
@@ -2789,7 +2805,7 @@ Example :
 
 |image:pcs-02479-no-pivot.png[]
 |image:mode-orbit-pentatonic.png[]
-|5x12 = 60 scales. Excerpts:
+|5x12 = 60 scales.
  +
 1er degree Major pentatonic : image:mode1-pcs-02479.png[],
 
@@ -2811,20 +2827,18 @@ Etc.
 |===
 
 
-
-
-
 Mode and scale are often confused.
 
-"A scale [ordered PCS] is a finite set of notes chosen and ordered from among the available pitches and characterized by the relationships of the conjoined intervals that compose it. A scale is relative, and any circular permutation defines the same scale: it has no beginning or end and is represented on a circle. It is independent of any idea of tone or tonic, tonality, or modality [...]
+////
+
+"A scale is a finite set of notes chosen and ordered from among the available pitches and characterized by the relationships of the conjoined intervals that compose it. A scale is relative, and any circular permutation defines the same scale: it has no beginning or end and is represented on a circle. It is independent of any idea of tone or tonic, tonality, or modality [...]
  +
-A mode is a scale in which the starting note is fixed. It is characterized by its structure, that is, by the succession of intervals that compose it.
- +
-A scale is the realization of the structure of a mode translated into notes.
-"
+A mode is a scale in which the starting note is fixed. It is characterized by its structure, that is, by the succession of intervals that compose it."
 -- "`Hétérotopies musicales`" <<Jedrzejewski>> page 307 (translated from French)
 
-A mode repeated at the octave during its presentation. Example: D E F G A B C D (Dorian mode)
+TIP: This scale definition fits well with the _[ordered] PCS_ concept and mode definition with _PCS+pivot_ concept.
+
+// A mode repeated at the octave during its presentation. Example: D E F G A B C D (Dorian mode)
 
 
 TIP: MusaicBox draws on the work of Ian Ring <<IanRing>> to name scales/modes, and directs the user to the HTML page for the relevant scale (with Ian Ring's permission).
@@ -2873,7 +2887,7 @@ This formula is possible because cardinal orbit always divides _n_ https://en.wi
 
 For 335 cyclic orbits over 352, the ratio  stem:[ n / (" cardinal(orbitCyclic"_("pcs")")")"] gives 1.
 
-For 17 cyclic orbits in Limited Transposition (LT), this ratio gives a divisor of n=12, either 1, 2, 3, 4 or 6, as *~_step_* in the figure below :
+For 17 cyclic orbits in Limited Transposition (LT), this ratio gives a divisor of n=12, either 1, 2, 3, 4 or 6, as *#orbitcardinal* at the bottom of the orbits in the figure below:
 
 image:cyclic-orbits-TL-17.png[]
 
@@ -3013,8 +3027,8 @@ Particularity : Sum of intervals is always equals to _n_ (12)
 +
 Not to be confused with Interval Vector
 
-Pitch Class Interval::
-Other name : _Interval Class_
+Interval Class::
+Other name : _Unordered Pitch-Class Interval_ <<Rahn>>
 +
 Is the smaller distance, in semitone, between two pitch classes in chromatic circle representation (Z~12~).
 +
@@ -3026,14 +3040,7 @@ Example: ic(0, 10) = 2,  because i<0, 10> = 10 and i<10, 0> = 2
 
 Interval Vector::
   (or _Interval Class Vector_)
-  This is an array of natural numbers which summarize the pitch class intervals appears in a pcs. (see https://en.wikipedia.org/wiki/Interval_vector)
-
-
-Cyclic Prime Form::
-  For a given pcs, it is the *minimum pcs* of its cyclic orbit
-
-Prime Form::
-  For a given pcs, it is the *minimum pcs of its orbit*, or it-self if its orbit is empty.
+  This is an array of natural numbers which summarize the interval class in a pcs. (see https://en.wikipedia.org/wiki/Interval_vector)
 
 Orbit::
  G⋅p : Set of pcs deducible from each other under the action of transformation operations of _G_ under _p_
@@ -3073,6 +3080,12 @@ G = {M1-T0, M1-T1, M11-T1, M5-T1, M7-T1, CM1-T1, CM5-T1, CM7-T1, CM11-T1, ...}
 
 It is the equivalence class "up to affine and/or affine complement"
 
+Orbit Prime Form::
+This is the *minimum pcs element of orbit*.
++
+Example: cyclic orbit prime form of a PCS _p_, it is the minimum pcs of the cyclic orbit of _p_
++
+If the orbit is not specified with the "prime form" quality, by default this is historically the _Dihedral prime form_ (<<Forte>>)
 
 Intervallic Structure Class (isc)::
 A "step-pattern". Is the Intervallic Structure up to circular shift. In other words, it is the *structure type of polygon inscribed* by a pcs into chromatic circle (see <<_clock_chromatic_circle>>).
@@ -3533,7 +3546,7 @@ Given R, an equivalence relation, and pcs1, pcs2 (two pcs), if PrimeForm(R, pcs1
 
 Given an equivalence relation orbit (of pcs), there will always be a unique pcs _smaller_ than others into same orbit (thanks to the order relation).
 
-Originally <<Forte>>, prime denotes a pcs in normal form and "most packed on the left (0)"
+// Originally <<Forte>>, prime denotes a pcs in normal form and "most packed on the left (0)"
 
 <<Rahn>> John Rahn proposes a more rational approach, based on vector representation of a pcs (and its image function in an integer result of polynomial function)
 
@@ -3541,7 +3554,7 @@ Originally <<Forte>>, prime denotes a pcs in normal form and "most packed on the
 
 So, we cannot talk about Prime Form without giving its context.
 
-NOTE: In musical set theory, historically, the default context of Prime Form is the dihedral group and prime form of the cyclic group is called Normal Form.
+NOTE: In musical set theory, historically, the default context of Prime Form is the dihedral group.
 
 ==== What Prime Form is not
 
@@ -4861,7 +4874,7 @@ List of 88 Aff+Cplt orbits (naming musaics) generating of _P(Z~12~)_
 |
 | _4096 PCS_
 | _352 motifs_
-| _352 ISC_
+| _352 ISC_s
 | _13 distinct_ +
 _meta-stabilizers_
 
@@ -4872,7 +4885,7 @@ _meta-stabilizers_
 
 ==== Having generic intervals as the Major Scale
 
-Major scale having only 1 and 2 semitones has interval between 2 pitch classes neighboring.
+Major scale having only 1 and 2 semitones has interval between two pitch classes neighboring.
 
 Here are the set of scales that share this characteristic :
 

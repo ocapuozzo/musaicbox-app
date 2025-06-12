@@ -3396,7 +3396,7 @@ We have thus reduced the field of study from 4096 to 352 elements !
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-The concept of the "smallest element" refers to the concept of "normal form" and "prime form" historically found in musical set theory.
+The concept of the "smallest element" refers to the concept of "prime form" historically found in musical set theory.
 </td>
 </tr>
 </table>
@@ -4481,6 +4481,9 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <div class="paragraph">
 <p>As you might expect, a diminished seventh chord is <strong>very strongly symmetrical</strong>. Observe its stabilizers, there are 16 of them and 4 are in T0 (highlighted in yellow in the screenshot above) : <code><mark>M1-T0</mark></code> of course, and  <code><mark>M5-T0</mark></code>, <code><mark>M7-T0</mark></code> and <code><mark>M11-T0</mark></code>.</p>
 </div>
+<div class="paragraph">
+<p>Let&#8217;s summarize the different transformation operations of two diminished seventh chords: CDim7 <span class="nowrap">(<code>[0 3 6 9]</code>)</span> and C#Dim7 <span class="nowrap">(<code>[1 4 7 10]</code>)</span>.</p>
+</div>
 <div class="openblock text-center">
 <div class="content">
 <table id="zero-fixed-problem" class="tableblock frame-all grid-all stretch">
@@ -5556,80 +5559,64 @@ By default, a PCS is mapped to itself, and therefore considered "unmapped."</p>
 This is how Franck Jedrzejewski&#8217;s chapter "Théories Modales" begins (<a href="#Jedrzejewski">[Jedrzejewski]</a>) and includes, among other things, a plactic classification of modes in <span class="nowrap">12-ET</span>, based on Knuth&#8217;s rewriting rules.</p>
 </div>
 <div class="paragraph">
-<p>PCS &#8594; modes &#8594; scales</p>
-</div>
-<div class="paragraph">
 <p>A PCS as finite ordered set of pitch classes, has only one ordered representation (normal order) although any circular permutation defines the same PCS.</p>
 </div>
 <div class="paragraph">
 <p>Ex : <code>[0 4 7]</code></p>
 </div>
 <div class="paragraph">
-<p>A <strong>mode</strong> is a PCS in which the starting note is fixed by pivot. It is characterized by its structure, that is, by the succession of intervals that compose it.</p>
+<p>A <strong>mode</strong> is a PCS in which the starting note is fixed by pivot and define its intervallic structure.</p>
 </div>
 <div class="paragraph">
 <p>Ex :  <code>[0 4 7]</code><sub><code>0</code></sub>, <code>[0 4 7]</code><sub><code>4</code></sub>,  <code>[0 4 7]</code><sub><code>7</code></sub></p>
 </div>
-<div class="paragraph">
-<p>For Franck Jedrzejewski (<a href="#Jedrzejewski">[Jedrzejewski]</a>) a <strong>scale</strong> is the realization of the structure of a mode translated into notes.</p>
-</div>
-<div class="paragraph">
-<p>Example :</p>
-</div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
+<col style="width: 50%;">
+<col style="width: 50%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-center valign-top">PCS</th>
-<th class="tableblock halign-center valign-top">Modes</th>
-<th class="tableblock halign-center valign-top">Scales</th>
+<th class="tableblock halign-left valign-top">PCS with pivot</th>
+<th class="tableblock halign-left valign-top">Intervallic structure</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/pcs-02479-no-pivot.png" alt="pcs 02479 no pivot"></span></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/mode-orbit-pentatonic.png" alt="mode orbit pentatonic"></span></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock">5x12 = 60 scales. Excerpts:
-<br>
-1er degree Major pentatonic : <span class="image"><img src="./assets/images/mode1-pcs-02479.png" alt="mode1 pcs 02479"></span>,</p>
-<p class="tableblock"><span class="image"><img src="./assets/images/mode1-pcs-135810.png" alt="mode1 pcs 135810"></span>,
-<span class="image"><img src="./assets/images/mode1-pcs-246911.png" alt="mode1 pcs 246911"></span>,
-<span class="image"><img src="./assets/images/mode1-pcs-035710.png" alt="mode1 pcs 035710"></span>,
-<span class="image"><img src="./assets/images/mode1-pcs-146811.png" alt="mode1 pcs 146811"></span>,</p>
-<p class="tableblock"><br>
-[&#8230;&#8203;]
-<br>
-4er degree Scottish pentatonic :
-<br>
-<span class="image"><img src="./assets/images/mode4-pcs-02479.png" alt="mode4 pcs 02479"></span>,
-<span class="image"><img src="./assets/images/mode4-pcs-135810.png" alt="mode4 pcs 135810"></span>
-<br>
-Etc.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[0 4 7]</code><sub><code>0</code></sub></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(4 3 5)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[0 4 7]</code><sub><code>4</code></sub></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(3 5 4)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[0 4 7]</code><sub><code>7</code></sub></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(5 4 3)</p></td>
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p>Mode and scale are often confused.</p>
-</div>
 <div class="quoteblock">
 <blockquote>
-A scale [ordered PCS] is a finite set of notes chosen and ordered from among the available pitches and characterized by the relationships of the conjoined intervals that compose it. A scale is relative, and any circular permutation defines the same scale: it has no beginning or end and is represented on a circle. It is independent of any idea of tone or tonic, tonality, or modality [&#8230;&#8203;]
+A scale is a finite set of notes chosen and ordered from among the available pitches and characterized by the relationships of the conjoined intervals that compose it. A scale is relative, and any circular permutation defines the same scale: it has no beginning or end and is represented on a circle. It is independent of any idea of tone or tonic, tonality, or modality [&#8230;&#8203;]
 <br>
 A mode is a scale in which the starting note is fixed. It is characterized by its structure, that is, by the succession of intervals that compose it.
-<br>
-A scale is the realization of the structure of a mode translated into notes.
-
 </blockquote>
 <div class="attribution">
 &#8212; &#8220;Hétérotopies musicales&#8221; <a href="#Jedrzejewski">[Jedrzejewski]</a> page 307 (translated from French)
 </div>
 </div>
-<div class="paragraph">
-<p>A mode repeated at the octave during its presentation. Example: D E F G A B C D (Dorian mode)</p>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+This scale definition fits well with the <em>[ordered] PCS</em> concept and mode definition with <em>PCS+pivot</em> concept.
+</td>
+</tr>
+</table>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -5722,7 +5709,7 @@ Although the concept of pivots hasn&#8217;t been introduced for this problem, it
 <p>For 335 cyclic orbits over 352, the ratio  \$ n / (" cardinal(orbitCyclic"_("pcs")")")"\$ gives 1.</p>
 </div>
 <div class="paragraph">
-<p>For 17 cyclic orbits in Limited Transposition (LT), this ratio gives a divisor of n=12, either 1, 2, 3, 4 or 6, as <strong>~<em>step</em></strong> in the figure below :</p>
+<p>For 17 cyclic orbits in Limited Transposition (LT), this ratio gives a divisor of n=12, either 1, 2, 3, 4 or 6, as <strong>#orbitcardinal</strong> at the bottom of the orbits in the figure below:</p>
 </div>
 <div class="paragraph">
 <p><span class="image"><img src="./assets/images/cyclic-orbits-TL-17.png" alt="cyclic orbits TL 17"></span></p>
@@ -5971,9 +5958,9 @@ Although the concept of pivots hasn&#8217;t been introduced for this problem, it
 </ul>
 </div>
 </dd>
-<dt class="hdlist1">Pitch Class Interval</dt>
+<dt class="hdlist1">Interval Class</dt>
 <dd>
-<p>Other name : <em>Interval Class</em></p>
+<p>Other name : <em>Unordered Pitch-Class Interval</em> <a href="#Rahn">[Rahn]</a></p>
 <div class="paragraph">
 <p>Is the smaller distance, in semitone, between two pitch classes in chromatic circle representation (Z<sub>12</sub>).</p>
 </div>
@@ -5988,15 +5975,7 @@ Although the concept of pivots hasn&#8217;t been introduced for this problem, it
 <dt class="hdlist1">Interval Vector</dt>
 <dd>
 <p>(or <em>Interval Class Vector</em>)
-This is an array of natural numbers which summarize the pitch class intervals appears in a pcs. (see <a href="https://en.wikipedia.org/wiki/Interval_vector" class="bare">https://en.wikipedia.org/wiki/Interval_vector</a>)</p>
-</dd>
-<dt class="hdlist1">Cyclic Prime Form</dt>
-<dd>
-<p>For a given pcs, it is the <strong>minimum pcs</strong> of its cyclic orbit</p>
-</dd>
-<dt class="hdlist1">Prime Form</dt>
-<dd>
-<p>For a given pcs, it is the <strong>minimum pcs of its orbit</strong>, or it-self if its orbit is empty.</p>
+This is an array of natural numbers which summarize the interval class in a pcs. (see <a href="https://en.wikipedia.org/wiki/Interval_vector" class="bare">https://en.wikipedia.org/wiki/Interval_vector</a>)</p>
 </dd>
 <dt class="hdlist1">Orbit</dt>
 <dd>
@@ -6056,6 +6035,16 @@ This is an array of natural numbers which summarize the pitch class intervals ap
 </div>
 <div class="dlist">
 <dl>
+<dt class="hdlist1">Orbit Prime Form</dt>
+<dd>
+<p>This is the <strong>minimum pcs element of orbit</strong>.</p>
+<div class="paragraph">
+<p>Example: cyclic orbit prime form of a PCS <em>p</em>, it is the minimum pcs of the cyclic orbit of <em>p</em></p>
+</div>
+<div class="paragraph">
+<p>If the orbit is not specified with the "prime form" quality, by default this is historically the <em>Dihedral prime form</em> (<a href="#Forte">[Forte]</a>)</p>
+</div>
+</dd>
 <dt class="hdlist1">Intervallic Structure Class (isc)</dt>
 <dd>
 <p>A "step-pattern". Is the Intervallic Structure up to circular shift. In other words, it is the <strong>structure type of polygon inscribed</strong> by a pcs into chromatic circle (see <a href="#_clock_chromatic_circle">Clock / Chromatic circle</a>).</p>
@@ -6620,9 +6609,6 @@ In MusaicBox code, Augmented Polynomial Identifier is called <em>id</em>, and <e
 <p>Given an equivalence relation orbit (of pcs), there will always be a unique pcs <em>smaller</em> than others into same orbit (thanks to the order relation).</p>
 </div>
 <div class="paragraph">
-<p>Originally <a href="#Forte">[Forte]</a>, prime denotes a pcs in normal form and "most packed on the left (0)"</p>
-</div>
-<div class="paragraph">
 <p><a href="#Rahn">[Rahn]</a> John Rahn proposes a more rational approach, based on vector representation of a pcs (and its image function in an integer result of polynomial function)</p>
 </div>
 <div class="paragraph">
@@ -6638,7 +6624,7 @@ In MusaicBox code, Augmented Polynomial Identifier is called <em>id</em>, and <e
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-In musical set theory, historically, the default context of Prime Form is the dihedral group and prime form of the cyclic group is called Normal Form.
+In musical set theory, historically, the default context of Prime Form is the dihedral group.
 </td>
 </tr>
 </table>
@@ -9066,7 +9052,7 @@ Symmetry prime form concept is invented, specific to this project.
 <td class="tableblock halign-center valign-middle"><p class="tableblock"><em>4096 PCS</em></p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><em>352 motifs</em></p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="paragraph">
-<p><em>352 ISC</em></p>
+<p>_352 ISC_s</p>
 </div></div></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock"><em>13 distinct</em><br>
 <em>meta-stabilizers</em></p></td>
@@ -9079,7 +9065,7 @@ Symmetry prime form concept is invented, specific to this project.
 <div class="sect3">
 <h4 id="_having_generic_intervals_as_the_major_scale">Having generic intervals as the Major Scale</h4>
 <div class="paragraph">
-<p>Major scale having only 1 and 2 semitones has interval between 2 pitch classes neighboring.</p>
+<p>Major scale having only 1 and 2 semitones has interval between two pitch classes neighboring.</p>
 </div>
 <div class="paragraph">
 <p>Here are the set of scales that share this characteristic :</p>
@@ -9217,7 +9203,7 @@ Symmetry prime form concept is invented, specific to this project.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-06-02 19:12:35 +0200
+Last updated 2025-06-12 10:09:50 +0200
 </div>
 </div>
 <script type="text/x-mathjax-config">
