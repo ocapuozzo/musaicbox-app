@@ -4336,7 +4336,7 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <div class="sect2">
 <h3 id="_whats_wrong_with_basic_operations">What&#8217;s wrong with basic operations</h3>
 <div class="paragraph">
-<p>Let&#8217;s take the inversion operation as an example.</p>
+<p>Let&#8217;s take the inversion operation as example, but the problem raised here also applies to M5 and M7 transformations.</p>
 </div>
 <div class="paragraph">
 <p>In the literature on post-tonal analysis, inversion operation can be found expressed in two forms :</p>
@@ -4423,7 +4423,7 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <div class="content">
 <img src="./assets/images/CMajor-M11-noPivot.png" alt="CMajor-M11">
 </div>
-<div class="title">Figure 14. M11 on C Major = III degree of VIb Major</div>
+<div class="title">Figure 14. M11 on C Major = III degree of Ab Major (VI-flat Major 'degree' of C)</div>
 </div>
 <div class="paragraph">
 <p>Now that we have seen how the PCS Do Diatonic Major behaves, let&#8217;s take C# Major / Db Major : <code>[0 1 3 5 6 8 10]</code></p>
@@ -4544,13 +4544,13 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <div class="sect2">
 <h3 id="_the_fixed_zero_problem">The "fixed zero problem"</h3>
 <div class="paragraph">
-<p>The basic operations of musical set theory, which are the standard in the field, have a peculiarity: <strong>they are always centered on 0 (zero)</strong>, thus defining it as a fixed point we call the <strong><em>"fixed zero problem"</em></strong>.</p>
+<p>The basic operations of musical set theory, which are the standard in the field, have a peculiarity: <strong>they are always centered on 0 (zero)</strong> (on axe 0 throw n/2), thus defining it as a fixed point we call the <strong><em>"fixed zero problem"</em></strong>.</p>
 </div>
 <div class="paragraph">
-<p>The bad result we observed comes from the fact that the algorithms confuse index and Pitch Class name, both being expressed by integers (a very useful confusion, by the way).</p>
+<p>The bad result we observed comes from the fact that the algorithms confuse index and pitch-class name, both being expressed by integers (a very useful confusion, by the way).</p>
 </div>
 <div class="paragraph">
-<p>Calculations performed directly with these values leads to a falsely controlled side effect.</p>
+<p>Calculations performed directly with these values lead to a falsely controlled side effect.</p>
 </div>
 <div class="paragraph">
 <p>Example : <code>[1 4 7 10] x 11 = [11 44 70 110] modulo 12 = [11 8 5 2] &#8658; <mark>[2 5 8 11]</mark></code></p>
@@ -4561,31 +4561,18 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <p><strong><em>"fixed zero problem"</em></strong>.</p>
 </div>
 <div class="paragraph">
-<p>This inconsistency doesn&#8217;t seem to bother the people who gravitate toward the <em>Musical Set Theory</em> (?).</p>
-</div>
-<div class="paragraph">
-<p>This can be explained by :</p>
+<p>This problem has been identified by Musical Set Theory and several solutions have been proposed.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>An approach guided by the results pre-determined by the authors, authors who do not attach importance to the logic of the tools they use.</p>
+<p>"<em>Babbitt and Perle develop "moveable-DO" systems. The zero residue is used to label the <strong>first pitch-class</strong> of the most significant row-form in any specific musical context</em>". <a href="#LEWIN">[LEWIN]</a>. We will see that this is not a good solution.</p>
 </li>
 <li>
-<p>The fact that the "intruder PCS", resulting from bad calculation logic, are, however, <strong>part of the same orbit as the reference PCS</strong>. So, result is "up to transformation", which is not precise enough, not fair enough for our needs.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>In our case, this is a problem, because we want :</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Consistency between geometric transformations and algebraic transformations</strong></p>
+<p>David Lewin proposes defining the LABEL function, which define a pitch-class reference for inversion, associates with a GIS (<a href="#LEWIN">[LEWIN]</a>, page 31).</p>
 </li>
 <li>
-<p>Maintain integrity of a PCS along its affine transformations. The main rule is the pivot must be a PC <strong>belonging</strong> to the PCS, and this is not the case when the pivot is always set to zero.</p>
+<p>Later, David Lewin "frees" the LABEl function using a parameterized inversion operation <em>I<sup>u</sup></em>, an inversion around <em>u</em>. <a href="#LEWIN 1977a">[LEWIN 1977a]</a> <a href="#LEWIN 1980">[LEWIN 1980]</a>. Only deals with the case of inversion.</p>
 </li>
 </ul>
 </div>
@@ -4595,32 +4582,18 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <p>As any musician would expect, the main characteristics of a PCS <strong>should be insensitive to the transposition step</strong> : the characteristics of a PCS remain unchanged compared to those of the same PCS transposed by a <em>k-step</em>.</p>
 </div>
 <div class="paragraph">
-<p>D-Major PCS shares same structural characteristics as any Major PCS.</p>
+<p>Indeed, D-Major PCS shares same structural characteristics as any Major PCS but we have found that, in their basic form, transformation operations do not respect this constancy.</p>
 </div>
 <div class="paragraph">
 <p>These characteristics include:
 <em>Interval structure, Interval vector, Forte number, limited meta-transposition status, limited transposition status, stabilizer</em>&#8230;&#8203;</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>Let&#8217;s note that the "fixed zero problem" does not exist on PCS in Prime Form, because, expect the empty element, all PCS in Prime form have zero as their first pitch class.</p>
-</div>
-<div class="paragraph">
-<p>We also do not know whether solving the <em>fixed-zero-problem</em> can have repercussions on transformational theory (David Lewin), which, we think, is not limited to PCS in Prime Form.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
 </div>
 <div class="sect2">
 <h3 id="understand-fixed-point-algorithm">Idea of solution</h3>
+<div class="paragraph">
+<p>We are looking for a solution that allows to maintain the structural consistency of PCSs across different transformations, including inversion and transformation by cycles of fifths and fourths. David Lewin&#8217;s solution (<em>I<sup>u</sup></em>) partially addresses this problem (deals with inversion only).</p>
+</div>
 <div class="paragraph">
 <p>The points fixed by the transformation operations depend essentially on <em>n</em>. For <em>n</em> = 12, these fixed points are represented by this figure :</p>
 </div>
@@ -4652,10 +4625,10 @@ It therefore becomes necessary to use this fixed points template wisely.
 </ol>
 </div>
 <div class="paragraph">
-<p>Some examples :</p>
+<p>Some examples of inversion :</p>
 </div>
 <div class="paragraph">
-<p>Example1 Dim7 : <code>M11-T0</code> on <code>[1 4 7 10]</code></p>
+<p>Example1 C-sharp Dim7 : <code>M11-T0</code> on <code>[1 4 7 10]</code></p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -4671,7 +4644,7 @@ It therefore becomes necessary to use this fixed points template wisely.
 </ol>
 </div>
 <div class="paragraph">
-<p>Example2 Major scale : <code>M11-T0</code> on  D Major <code>[1&#160;2&#160;4&#160;6&#160;7&#160;9&#160;11]</code></p>
+<p>Example2 D Major scale : <code>M11-T0</code> on  <code>[1&#160;2&#160;4&#160;6&#160;7&#160;9&#160;11]</code></p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -4694,7 +4667,7 @@ It therefore becomes necessary to use this fixed points template wisely.
 <p>Choosing the "smallest PC" of the PCS is not decisive: it works in the case of C# dim7, but not on DMajor, <span class="nowrap">[1 2 4 6 7 9 11]</span>, because its first and minimum PC is 1 (C#), the seventh of the scale, and not its root, as in C major.</p>
 </div>
 <div class="paragraph">
-<p><strong>We must therefore choose to add a new property to the very concept of PCS.</strong></p>
+<p><strong>In order to allow the "correct" PC to be selected, serving as a fixed point, or pivot, we decide to add a new property to the very concept of PCS.</strong></p>
 </div>
 </div>
 <div class="sect2">
@@ -4784,23 +4757,21 @@ The answer consists of giving the PCS that includes only the PCs of the expected
 <i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-We do not have integrated this property, <em>iPivot</em>, in the logical identity. Thus, <code>[0&#160;3&#160;6&#160;9]</code><sub><code>0</code></sub> and <code>[0&#160;3&#160;6&#160;9]</code><sub><code>3</code></sub> will be considered identical PCS <code>[0&#160;3&#160;6&#160;9]</code> (same id)
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>We do not have integrated this property, <em>iPivot</em>, in the logical identity. Thus, <code>[0&#160;3&#160;6&#160;9]</code><sub><code>0</code></sub> and <code>[0&#160;3&#160;6&#160;9]</code><sub><code>3</code></sub> will be considered identical PCS <code>[0&#160;3&#160;6&#160;9]</code> (same id)</p>
 </div>
 <div class="paragraph">
-<p>+</p>
-</div>
-<div class="paragraph">
-<p>+
-<strong>Therefore an extended PCS remains a (common) PCS.</strong></p>
+<p><strong>Therefore an extended PCS remains a (common) PCS.</strong></p>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="./assets/images/big-major-cyclic-orbit.png" alt="Major cyclic orbit">
 </div>
 <div class="title">Figure 16. Red Pitch Class, in Clock view, denote <em>iPivot</em> property</div>
+</div>
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect2">
@@ -6298,6 +6269,15 @@ Inversely, a PCS can always be seen as the degree (or mode) of another PCS in it
 </li>
 <li>
 <p><a id="PERLE"></a>[PERLE] Perle, G. 1954. The possible Chords in Twelve Tone Music</p>
+</li>
+<li>
+<p><a id="LEWIN"></a>[LEWIN] David Lewin, Generalized musical intervals and transformations, Oxford University Press, 2007-1897</p>
+</li>
+<li>
+<p>[[[LEWIN 1977a]]] David Lewin, "A Label-Free Development for 12-Pitch-Class Systems" Journal of Music Theory 21 (1977), pp. 29-48.</p>
+</li>
+<li>
+<p>[[[LEWIN 1980]]] David Lewin, "On Generalized Intervals and Transformations" Journal of Music Theory, Vol. 24, No. 2 (Autumn, 1980), 243-251.</p>
 </li>
 <li>
 <p><a id="LVERDI"></a>[LVERDI] Verdi, Luigi. In Autour de la Set Theory. Ircam / Delatour ed. 2003.</p>
@@ -9203,7 +9183,7 @@ Symmetry prime form concept is invented, specific to this project.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-06-12 10:13:50 +0200
+Last updated 2025-06-17 20:53:28 +0200
 </div>
 </div>
 <script type="text/x-mathjax-config">

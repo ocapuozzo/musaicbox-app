@@ -2046,7 +2046,7 @@ As they stand, the generally accepted basic operations of musical set theory pos
 
 === What's wrong with basic operations
 
-Let's take the inversion operation as an example.
+Let's take the inversion operation as example, but the problem raised here also applies to M5 and M7 transformations.
 
 In the literature on post-tonal analysis, inversion operation can be found expressed in two forms :
 
@@ -2095,7 +2095,7 @@ This gives : InverseB(`[0 2 4 5 7 9 11]`) -> `[#0 1 3 5 7 8 10#]`
 
 As expected, _inverseA_ and _inverseB_ are *same logic* : [.underline]#CMajor is transformed in III degree of its VIb Major# (Ab Major)
 
-.M11 on C Major = III degree of VIb Major
+.M11 on C Major = III degree of Ab Major (VI-flat Major 'degree' of C)
 image::CMajor-M11-noPivot.png[CMajor-M11]
 
 Now that we have seen how the PCS Do Diatonic Major behaves, let's take C# Major / Db Major : `[0 1 3 5 6 8 10]`
@@ -2160,52 +2160,37 @@ Obviously [2 5 8 11] is an intruder! business logic is not good. But then why is
 
 === The "fixed zero problem"
 
-The basic operations of musical set theory, which are the standard in the field, have a peculiarity: *they are always centered on 0 (zero)*, thus defining it as a fixed point we call the *_"fixed zero problem"_*.
+The basic operations of musical set theory, which are the standard in the field, have a peculiarity: *they are always centered on 0 (zero)* (on axe 0 throw n/2), thus defining it as a fixed point we call the *_"fixed zero problem"_*.
 
-The bad result we observed comes from the fact that the algorithms confuse index and Pitch Class name, both being expressed by integers (a very useful confusion, by the way).
+The bad result we observed comes from the fact that the algorithms confuse index and pitch-class name, both being expressed by integers (a very useful confusion, by the way).
 
-Calculations performed directly with these values leads to a falsely controlled side effect.
+Calculations performed directly with these values lead to a falsely controlled side effect.
 
 Example : `[1 4 7 10] x 11 = [11 44 70 110] modulo 12 = [11 8 5 2] => #[2 5 8 11]#`
-
 
 ====
 [.text-center]
 *_"fixed zero problem"_*.
 
-This inconsistency doesn't seem to bother the people who gravitate toward the _Musical Set Theory_ (?).
+This problem has been identified by Musical Set Theory and several solutions have been proposed.
 
-This can be explained by :
-
-* An approach guided by the results pre-determined by the authors, authors who do not attach importance to the logic of the tools they use.
-
-* The fact that the "intruder PCS", resulting from bad calculation logic, are, however, *part of the same orbit as the reference PCS*. So, result is "up to transformation", which is not precise enough, not fair enough for our needs.
-
-In our case, this is a problem, because we want :
-
-* *Consistency between geometric transformations and algebraic transformations*
-* Maintain integrity of a PCS along its affine transformations. The main rule is the pivot must be a PC *belonging* to the PCS, and this is not the case when the pivot is always set to zero.
-// * *That what an instrumentalist observes in fingering of phrasing must echo a harmonic structure*
+* "_Babbitt and Perle develop "moveable-DO" systems. The zero residue is used to label the *first pitch-class* of the most significant row-form in any specific musical context_". <<LEWIN>>. We will see that this is not a good solution.
+* David Lewin proposes defining the LABEL function, which define a pitch-class reference for inversion, associates with a GIS (<<LEWIN>>, page 31).
+* Later, David Lewin "frees" the LABEl function using a parameterized inversion operation _I^u^_, an inversion around _u_. <<LEWIN 1977a>> <<LEWIN 1980>>. Only deals with the case of inversion.
 
 ====
 
 As any musician would expect, the main characteristics of a PCS *should be insensitive to the transposition step* : the characteristics of a PCS remain unchanged compared to those of the same PCS transposed by a _k-step_.
 
-D-Major PCS shares same structural characteristics as any Major PCS.
+Indeed, D-Major PCS shares same structural characteristics as any Major PCS but we have found that, in their basic form, transformation operations do not respect this constancy.
 
 These characteristics include:
 _Interval structure, Interval vector, Forte number, limited meta-transposition status, limited transposition status, stabilizer_...
 
-[NOTE]
---
-Let's note that the "fixed zero problem" does not exist on PCS in Prime Form, because, expect the empty element, all PCS in Prime form have zero as their first pitch class.
-
-We also do not know whether solving the _fixed-zero-problem_ can have repercussions on transformational theory (David Lewin), which, we think, is not limited to PCS in Prime Form.
-
---
-
 [#understand-fixed-point-algorithm]
 === Idea of solution
+
+We are looking for a solution that allows to maintain the structural consistency of PCSs across different transformations, including inversion and transformation by cycles of fifths and fourths. David Lewin's solution (_I^u^_) partially addresses this problem (deals with inversion only).
 
 The points fixed by the transformation operations depend essentially on _n_. For _n_ = 12, these fixed points are represented by this figure :
 
@@ -2222,15 +2207,15 @@ Without questioning everything, especially the arithmetic of PCs, a general solu
 . Apply the requested transformation (_ax + t_)
 . perform an inverse transposition (_k_)
 
-Some examples :
+Some examples of inversion :
 
-Example1 Dim7 : `M11-T0` on `[1 4 7 10]`
+Example1 C-sharp Dim7 : `M11-T0` on `[1 4 7 10]`
 
 . `[1 4 7 10]` transpose with `k = -1` => `[0{nbsp}3{nbsp}6{nbsp}9]`
 .  `[0 3 6 9]` x 11 modulo 12 => `[0{nbsp}3{nbsp}6{nbsp}9]`
 . `[0 3 6 9]` transpose with `k = 1` => `#[1{nbsp}4{nbsp}7{nbsp}10]#`
 
-Example2 Major scale : `M11-T0` on  D Major `[1{nbsp}2{nbsp}4{nbsp}6{nbsp}7{nbsp}9{nbsp}11]`
+Example2 D Major scale : `M11-T0` on  `[1{nbsp}2{nbsp}4{nbsp}6{nbsp}7{nbsp}9{nbsp}11]`
 
 . `[1{nbsp}2{nbsp}4{nbsp}6{nbsp}7{nbsp}9{nbsp}11]` transpose with `k = -2` => `[0{nbsp}2{nbsp}4{nbsp}5{nbsp}7{nbsp}9{nbsp}11]`
 . `[0{nbsp}2{nbsp}4{nbsp}5{nbsp}7{nbsp}9{nbsp}11]` x 11 modulo 12 =>
@@ -2244,7 +2229,7 @@ The solution consists of defining the value of _k_, as transformation origin, to
 
 Choosing the "smallest PC" of the PCS is not decisive: it works in the case of C# dim7, but not on DMajor, [.nowrap]#[1 2 4 6 7 9 11]#, because its first and minimum PC is 1 (C#), the seventh of the scale, and not its root, as in C major.
 
-*We must therefore choose to add a new property to the very concept of PCS.*
+*In order to allow the "correct" PC to be selected, serving as a fixed point, or pivot, we decide to add a new property to the very concept of PCS.*
 
 === Extended PCS with pivot
 
@@ -2292,13 +2277,16 @@ Other examples :
 |idem
 |===
 
-IMPORTANT: We do not have integrated this property, _iPivot_, in the logical identity. Thus, `[0{nbsp}3{nbsp}6{nbsp}9]`~`0`~ and `[0{nbsp}3{nbsp}6{nbsp}9]`~`3`~ will be considered identical PCS `[0{nbsp}3{nbsp}6{nbsp}9]` (same id)
-+
-+
+[IMPORTANT]
+====
+We do not have integrated this property, _iPivot_, in the logical identity. Thus, `[0{nbsp}3{nbsp}6{nbsp}9]`~`0`~ and `[0{nbsp}3{nbsp}6{nbsp}9]`~`3`~ will be considered identical PCS `[0{nbsp}3{nbsp}6{nbsp}9]` (same id)
+
 *Therefore an extended PCS remains a (common) PCS.*
 
 .Red Pitch Class, in Clock view, denote _iPivot_ property
+
 image::big-major-cyclic-orbit.png[Major cyclic orbit]
+====
 
 === Resume
 
@@ -3250,6 +3238,14 @@ Simplified version
 * [[[DIS]]] Stephen C.Brown. Dual Interval Space in Twentieth-Century Music,  Musaic in armature 1-5 is DIS(1,5).
 
 * [[[PERLE]]] Perle, G. 1954. The possible Chords in Twelve Tone Music
+
+* [[[LEWIN]]] David Lewin, Generalized musical intervals and transformations, Oxford University Press, 2007-1897
+
+* [[[LEWIN 1977a]]] David Lewin, "A Label-Free Development for 12-Pitch-Class Systems" Journal of Music Theory 21 (1977), pp. 29-48.
+
+* [[[LEWIN 1980]]] David Lewin, "On Generalized Intervals and Transformations" Journal of Music Theory, Vol. 24, No. 2 (Autumn, 1980), 243-251.
+
+
 
 * [[[LVERDI]]] Verdi, Luigi. In Autour de la Set Theory. Ircam / Delatour ed. 2003.
 
