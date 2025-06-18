@@ -253,7 +253,7 @@
         <div class="row">
           @for (pcsRepr of data.primeFormWithSameMetaStabilizer; track pcsRepr.id) {
             <div class="boxPcs" style="max-width: 80px; margin-left: 10px; margin-bottom: 10px; text-align: center;">
-              <span class="text-center label-pcs">{{EightyEight.idMusaicOf(pcsRepr)}}</span>
+              <span class="text-center label-pcs" style="margin-left: 4px">{{EightyEight.idMusaicOf(pcsRepr)}}</span>
               <app-musaic
                 [w]="54"
                 [ipcs]="pcsRepr"
