@@ -4544,7 +4544,7 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <div class="sect2">
 <h3 id="_the_fixed_zero_problem">The "fixed zero problem"</h3>
 <div class="paragraph">
-<p>The basic operations of musical set theory, which are the standard in the field, have a peculiarity: <strong>they are always centered on 0 (zero)</strong> (on axe 0 throw n/2), thus defining it as a fixed point we call the <strong><em>"fixed zero problem"</em></strong>.</p>
+<p>The basic operations of musical set theory, which are the standard in the field, have a peculiarity: <strong>they are always centered on <em>0</em> (zero)<sup class="footnote">[<a id="_footnoteref_6" class="footnote" href="#_footnotedef_6" title="View footnote.">6</a>]</sup></strong> , thus defining it as a fixed point we call the <strong><em>"fixed zero problem"</em></strong>.</p>
 </div>
 <div class="paragraph">
 <p>The bad result we observed comes from the fact that the algorithms confuse index and pitch-class name, both being expressed by integers (a very useful confusion, by the way).</p>
@@ -4561,7 +4561,7 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <p><strong><em>"fixed zero problem"</em></strong>.</p>
 </div>
 <div class="paragraph">
-<p>This problem has been identified by Musical Set Theory and several solutions have been proposed.</p>
+<p>The problem of "fixed zero" has been identified by Musical Set Theory and several solutions have been proposed.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -4572,7 +4572,7 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <p>David Lewin proposes defining the LABEL function, which define a pitch-class reference for inversion, associates with a GIS (<a href="#LEWIN">[LEWIN]</a>, page 31).</p>
 </li>
 <li>
-<p>Later, David Lewin "frees" the LABEl function using a parameterized inversion operation <em>I<sup>u</sup></em>, an inversion around <em>u</em>. <a href="#LEWIN 1977a">[LEWIN 1977a]</a> <a href="#LEWIN 1980">[LEWIN 1980]</a>. Only deals with the case of inversion.</p>
+<p>Later, David Lewin "frees" the LABEL function using a parameterized inversion operation <em>I<sup>u</sup></em>, an inversion around <em>u</em>. <a href="#LEWIN 1977a">[LEWIN 1977a]</a> <a href="#LEWIN 1980">[LEWIN 1980]</a>. Only deals with the case of inversion.</p>
 </li>
 </ul>
 </div>
@@ -4628,7 +4628,7 @@ It therefore becomes necessary to use this fixed points template wisely.
 <p>Some examples of inversion :</p>
 </div>
 <div class="paragraph">
-<p>Example1 C-sharp Dim7 : <code>M11-T0</code> on <code>[1 4 7 10]</code></p>
+<p>Example1 C-sharp Dim7 inversion : <code>M11-T0</code> on <code>[1 4 7 10]</code></p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -4644,7 +4644,7 @@ It therefore becomes necessary to use this fixed points template wisely.
 </ol>
 </div>
 <div class="paragraph">
-<p>Example2 D Major scale : <code>M11-T0</code> on  <code>[1&#160;2&#160;4&#160;6&#160;7&#160;9&#160;11]</code></p>
+<p>Example2 D Major scale inversion : <code>M11-T0</code> on  <code>[1&#160;2&#160;4&#160;6&#160;7&#160;9&#160;11]</code></p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -4661,10 +4661,34 @@ It therefore becomes necessary to use this fixed points template wisely.
 </ol>
 </div>
 <div class="paragraph">
-<p>The solution consists of defining the value of <em>k</em>, as transformation origin, to be applied for all affine transformation operations.</p>
+<p>This solution is correct for all affine operations, but raises another problem: How to determine the value of <em>k</em> ?</p>
 </div>
 <div class="paragraph">
-<p>Choosing the "smallest PC" of the PCS is not decisive: it works in the case of C# dim7, but not on DMajor, <span class="nowrap">[1 2 4 6 7 9 11]</span>, because its first and minimum PC is 1 (C#), the seventh of the scale, and not its root, as in C major.</p>
+<p>More possibilities:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Choosing the "smallest PC"</strong>.
+<br>
+This choice is not always the right one: It works in the case of C# dim7, but not on DMajor, <span class="nowrap">[1 2 4 6 7 9 11]</span>, because its first and minimum PC is 1 (C#), the seventh of the scale, and not its root, as in C major.</p>
+</li>
+<li>
+<p><strong>Any PC from chromatic circle</strong>
+<br>
+"<em>There are twelve ways of inverting the total pc chromatic into itself, and any one of these twelve inversions may assume priority in a given musical context.</em>" <a href="#LEWIN 1977a">[LEWIN 1977a]</a>.
+<br>
+But this choice does not guarantee the consistency of transformation operations: PCs that are not part of the pcs to be transformed cause a side effect. Such a PC pollutes the pcs to be transformed during the transformation.
+  see <a href="#_whats_wrong_with_basic_operations">What&#8217;s wrong with basic operations</a></p>
+</li>
+<li>
+<p><strong>Any PC belonging to PCS to be transformed</strong>
+<br>
+This guarantees that the transformation will be based on an PCS&#8217;PC of the PCS concerned (acting as a "fixed zero").
+<br>
+This solution is compatible with the idea of ​​the solution, leaving the musician the choice of the reference note, among <em>m</em>, <em>m</em> being the cardinal of the pcs to be transformed.</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
 <p><strong>In order to allow the "correct" PC to be selected, serving as a fixed point, or pivot, we decide to add a new property to the very concept of PCS.</strong></p>
@@ -5647,7 +5671,7 @@ Although the concept of pivots hasn&#8217;t been introduced for this problem, it
 <div class="sect2">
 <h3 id="_from_352_to_2048">From 352 to 2048</h3>
 <div class="paragraph">
-<p>To identify the modes representatives, we select a PCS mode with origin zero (first pitch) and pivot = zero (which could be designated as the smallest PCS, taking into account the pivot value of the pseudo mode orbit<sup class="footnote">[<a id="_footnoteref_6" class="footnote" href="#_footnotedef_6" title="View footnote.">6</a>]</sup>). These specific modes will be called <strong>PCS in <a href="#modal-prime-form">Modal Prime Form</a></strong>.</p>
+<p>To identify the modes representatives, we select a PCS mode with origin zero (first pitch) and pivot = zero (which could be designated as the smallest PCS, taking into account the pivot value of the pseudo mode orbit<sup class="footnote">[<a id="_footnoteref_7" class="footnote" href="#_footnotedef_7" title="View footnote.">7</a>]</sup>). These specific modes will be called <strong>PCS in <a href="#modal-prime-form">Modal Prime Form</a></strong>.</p>
 </div>
 <div class="paragraph">
 <p>By example, the PCS in modal prime form of dorian mode is <span class="nowrap">[0 2 3 5 7 9 10]</span><sub><strong>0</strong></sub> (see <a href="#dorian-mode-orbit">Pseudo mode orbit of dorian scale</a>)</p>
@@ -9178,12 +9202,15 @@ Symmetry prime form concept is invented, specific to this project.
 <a href="#_footnoteref_5">5</a>. 12 equal temperament
 </div>
 <div class="footnote" id="_footnotedef_6">
-<a href="#_footnoteref_6">6</a>. The concept of pivot is not considered in group actions.
+<a href="#_footnoteref_6">6</a>. if <em>n</em> is even, fixed points are <em>0</em> and <em>n/2</em>
+</div>
+<div class="footnote" id="_footnotedef_7">
+<a href="#_footnoteref_7">7</a>. The concept of pivot is not considered in group actions.
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-06-17 20:53:28 +0200
+Last updated 2025-06-18 16:06:16 +0200
 </div>
 </div>
 <script type="text/x-mathjax-config">

@@ -2160,7 +2160,7 @@ Obviously [2 5 8 11] is an intruder! business logic is not good. But then why is
 
 === The "fixed zero problem"
 
-The basic operations of musical set theory, which are the standard in the field, have a peculiarity: *they are always centered on 0 (zero)* (on axe 0 throw n/2), thus defining it as a fixed point we call the *_"fixed zero problem"_*.
+The basic operations of musical set theory, which are the standard in the field, have a peculiarity: *they are always centered on _0_ (zero)footnote:[if _n_ is even, fixed points are _0_ and _n/2_]* , thus defining it as a fixed point we call the *_"fixed zero problem"_*.
 
 The bad result we observed comes from the fact that the algorithms confuse index and pitch-class name, both being expressed by integers (a very useful confusion, by the way).
 
@@ -2172,11 +2172,11 @@ Example : `[1 4 7 10] x 11 = [11 44 70 110] modulo 12 = [11 8 5 2] => #[2 5 8 11
 [.text-center]
 *_"fixed zero problem"_*.
 
-This problem has been identified by Musical Set Theory and several solutions have been proposed.
+The problem of "fixed zero" has been identified by Musical Set Theory and several solutions have been proposed.
 
 * "_Babbitt and Perle develop "moveable-DO" systems. The zero residue is used to label the *first pitch-class* of the most significant row-form in any specific musical context_". <<LEWIN>>. We will see that this is not a good solution.
 * David Lewin proposes defining the LABEL function, which define a pitch-class reference for inversion, associates with a GIS (<<LEWIN>>, page 31).
-* Later, David Lewin "frees" the LABEl function using a parameterized inversion operation _I^u^_, an inversion around _u_. <<LEWIN 1977a>> <<LEWIN 1980>>. Only deals with the case of inversion.
+* Later, David Lewin "frees" the LABEL function using a parameterized inversion operation _I^u^_, an inversion around _u_. <<LEWIN 1977a>> <<LEWIN 1980>>. Only deals with the case of inversion.
 
 ====
 
@@ -2209,13 +2209,13 @@ Without questioning everything, especially the arithmetic of PCs, a general solu
 
 Some examples of inversion :
 
-Example1 C-sharp Dim7 : `M11-T0` on `[1 4 7 10]`
+Example1 C-sharp Dim7 inversion : `M11-T0` on `[1 4 7 10]`
 
 . `[1 4 7 10]` transpose with `k = -1` => `[0{nbsp}3{nbsp}6{nbsp}9]`
 .  `[0 3 6 9]` x 11 modulo 12 => `[0{nbsp}3{nbsp}6{nbsp}9]`
 . `[0 3 6 9]` transpose with `k = 1` => `#[1{nbsp}4{nbsp}7{nbsp}10]#`
 
-Example2 D Major scale : `M11-T0` on  `[1{nbsp}2{nbsp}4{nbsp}6{nbsp}7{nbsp}9{nbsp}11]`
+Example2 D Major scale inversion : `M11-T0` on  `[1{nbsp}2{nbsp}4{nbsp}6{nbsp}7{nbsp}9{nbsp}11]`
 
 . `[1{nbsp}2{nbsp}4{nbsp}6{nbsp}7{nbsp}9{nbsp}11]` transpose with `k = -2` => `[0{nbsp}2{nbsp}4{nbsp}5{nbsp}7{nbsp}9{nbsp}11]`
 . `[0{nbsp}2{nbsp}4{nbsp}5{nbsp}7{nbsp}9{nbsp}11]` x 11 modulo 12 =>
@@ -2225,9 +2225,27 @@ Example2 D Major scale : `M11-T0` on  `[1{nbsp}2{nbsp}4{nbsp}6{nbsp}7{nbsp}9{nbs
 
 // use instead [.nowrap]
 
-The solution consists of defining the value of _k_, as transformation origin, to be applied for all affine transformation operations.
+This solution is correct for all affine operations, but raises another problem: How to determine the value of _k_ ?
+//as a transformation at the origin?
 
-Choosing the "smallest PC" of the PCS is not decisive: it works in the case of C# dim7, but not on DMajor, [.nowrap]#[1 2 4 6 7 9 11]#, because its first and minimum PC is 1 (C#), the seventh of the scale, and not its root, as in C major.
+More possibilities:
+
+* *Choosing the "smallest PC"*.
+ +
+This choice is not always the right one: It works in the case of C# dim7, but not on DMajor, [.nowrap]#[1 2 4 6 7 9 11]#, because its first and minimum PC is 1 (C#), the seventh of the scale, and not its root, as in C major.
+
+* *Any PC from chromatic circle*
+ +
+"_There are twelve ways of inverting the total pc chromatic into itself, and any one of these twelve inversions may assume priority in a given musical context._" <<LEWIN 1977a>>.
+ +
+But this choice does not guarantee the consistency of transformation operations: PCs that are not part of the pcs to be transformed cause a side effect. Such a PC pollutes the pcs to be transformed during the transformation.
+  see <<_whats_wrong_with_basic_operations>>
+
+* *Any PC belonging to PCS to be transformed*
+ +
+This guarantees that the transformation will be based on an PCS'PC of the PCS concerned (acting as a "fixed zero").
+ +
+This solution is compatible with the idea of ​​the solution, leaving the musician the choice of the reference note, among _m_, _m_ being the cardinal of the pcs to be transformed.
 
 *In order to allow the "correct" PC to be selected, serving as a fixed point, or pivot, we decide to add a new property to the very concept of PCS.*
 
