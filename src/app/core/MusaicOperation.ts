@@ -143,7 +143,8 @@ export class MusaicOperation {
    * @return a new IPcs
    */
   actionOn(pcs: IPcs) {
-    return this.complement ? MusaicOperation.affineOp(pcs, this.a, this.k).complement() : MusaicOperation.affineOp(pcs, this.a, this.k);
+    // return this.complement ? MusaicOperation.affineOp(pcs, this.a, this.k).complement() : MusaicOperation.affineOp(pcs, this.a, this.k);
+    return this.complement ? pcs.affineOp(this.a, this.k).complement() : pcs.affineOp(this.a, this.k);
   }
 
   toString() {
@@ -299,7 +300,8 @@ export class MusaicOperation {
     return this.affineOp(pcs, 1, k)
   }
 
-  /**
+
+    /**
    * general transformation : affine operation ax + t
    * general idea (composition of affine operations):
    *  1/ translate :        - iPivot
@@ -315,154 +317,138 @@ export class MusaicOperation {
    * @return IPcs
    */
   static permute(pcs: IPcs, a: number, k: number): IPcs {
-    if (pcs.cardinal === 0) {
-      // empty set pcs, no change
-      return pcs
-    }
 
-    // Three potential impacts :
-    let newPivot   // pcs.iPivot will be updated if k > 0
-    let newVectorPcs: number[] // updated, unless this is neutral operation (M1-T0)
-    let newTemplateMapping: number[] // pcs.templateMapping will be updated pcs.nMapping > pcs.n
-
-    if (pcs.nMapping > pcs.n && a > 1) {
-      // templateMapping must follow the transformation of vectorPcs.
-      // example :
-      //   n=7 vectorPcs = [0 2 4]
-      //   nMapping = 12 templateMapping = [0,2,4,5,7,9,11]
-      //   mapped on [0 4 7]
-      //   op = M11-T0
-      //   this.mappedVectorPcs takes over this.vectorPcs
-      //   this operation act on this.mappedVectorPcs, so templateMapping will also change
-
-      newPivot = negativeToPositiveModulo(((pcs.getMappedPivot() ?? 0) + k), pcs.nMapping)
-      // newPivot = negativeToPositiveModulo(((pcs.iPivot ?? 0) + k), pcs.nMapping)
-
-      let currentTemplateMapping = pcs.templateMapping
-      //"convert" currentTemplateMapping to currentVectorTemplateMapping  = [0,2,4,5,7,9,11] => [1,0,1,0,1...]
-      let currentVectorTemplateMapping = new Array<number>(pcs.nMapping).fill(0)
-      for (let i = 0; i < currentTemplateMapping.length; i++) {
-        currentVectorTemplateMapping[currentTemplateMapping[i]] = 1
-      }
-      // [0,2,4,5,7,9,11] => [1,0,1,0,1,1,0,1,0,1,0,1]
-      // currentVectorTemplateMapping is binary version of templateMapping
-
-      // permute currentVectorTemplateMapping
-      const permutedVectorTemplateMapping
-        = this.getVectorPcsPermuted(a, k, newPivot, currentVectorTemplateMapping)
-      // M11 * [1 0 1 0 1 1 0 1 0 1 0 1] =>  [1 1 0 1 0 1 0 1 1 0 0 1 0]  ([0 1 3 5 7 8 10])
-
-      // inverse convert action, that begin permutedVectorTemplateMapping becomes new template mapping
-      newTemplateMapping = permutedVectorTemplateMapping.reduce(IPcs.vector2indexPcNames, [])
-      // so currentTemplateMapping become newTemplateMapping : [0 1 3 5 7 8 10]
-      // [1 1 0 1 0 1 0 1 1 0 0 1 0] => [0 1 3 5 7 8 10]
-
-      // Resume : M11 * [0,2,4,5,7,9,11] => [0 1 3 5 7 8 10]
-
-      // do same operation with pcs.getMappedVectorPcs() [1 0 0 0 1 0 0 1 0 0 0 0] or [0 4 7]
-      let newPermutedMappedVectorPcs = this.getVectorPcsPermuted(a, k, newPivot, pcs.getMappedVectorPcs())
-      // M11 * [0 4 7] => [0 5 8] [1 0 0 0 0 1 0 0 1 0 0 0]
-
-      // now convert inverse mapping [1 0 0 0 0 1 0 0 1 0 0 0] nMapping to n
-      // each index of newPermutedMappedVectorPcs where value is 1 belongs to newTemplateMapping
-      // because both are synchronized by same transformation operation M11
-      newVectorPcs = new Array<number>(pcs.n).fill(0)
-      for (let i = 0; i < newPermutedMappedVectorPcs.length; i++) {
-        if (newPermutedMappedVectorPcs[i] === 1) {
-          newVectorPcs[newTemplateMapping.indexOf(i)] = 1
+        if (pcs.cardinal === 0) {
+          // empty set pcs, no change
+          return pcs
         }
+
+        // Three potential impacts :
+        let newPivot   // pcs.iPivot will be updated if k > 0
+        let newVectorPcs: number[] // updated, unless this is neutral operation (M1-T0)
+        let newTemplateMapping: number[] // pcs.templateMapping will be updated pcs.nMapping > pcs.n
+
+        if (pcs.nMapping > pcs.n && a > 1) {
+          // templateMapping must follow the transformation of vectorPcs.
+          // example :
+          //   n=7 vectorPcs = [0 2 4]
+          //   nMapping = 12 templateMapping = [0,2,4,5,7,9,11]
+          //   mapped on [0 4 7]
+          //   op = M11-T0
+          //   this.mappedVectorPcs takes over this.vectorPcs
+          //   this operation act on this.mappedVectorPcs, so templateMapping will also change
+
+          newPivot = negativeToPositiveModulo(((pcs.getMappedPivot() ?? 0) + k), pcs.nMapping)
+          // newPivot = negativeToPositiveModulo(((pcs.iPivot ?? 0) + k), pcs.nMapping)
+
+          let currentTemplateMapping = pcs.templateMapping
+          //"convert" currentTemplateMapping to currentVectorTemplateMapping  = [0,2,4,5,7,9,11] => [1,0,1,0,1...]
+          let currentVectorTemplateMapping = new Array<number>(pcs.nMapping).fill(0)
+          for (let i = 0; i < currentTemplateMapping.length; i++) {
+            currentVectorTemplateMapping[currentTemplateMapping[i]] = 1
+          }
+          // [0,2,4,5,7,9,11] => [1,0,1,0,1,1,0,1,0,1,0,1]
+          // currentVectorTemplateMapping is binary version of templateMapping
+
+          // permute currentVectorTemplateMapping
+          const permutedVectorTemplateMapping
+            // = this.affinePivot(a, k, newPivot, currentVectorTemplateMapping)
+            = this.affinePivot(a, k, (pcs.getMappedPivot() ?? 0), currentVectorTemplateMapping)
+          // M11 * [1 0 1 0 1 1 0 1 0 1 0 1] =>  [1 1 0 1 0 1 0 1 1 0 0 1 0]  ([0 1 3 5 7 8 10])
+
+          // inverse convert action, that begin permutedVectorTemplateMapping becomes new template mapping
+          newTemplateMapping = permutedVectorTemplateMapping.reduce(IPcs.vector2indexPcNames, [])
+          // so currentTemplateMapping become newTemplateMapping : [0 1 3 5 7 8 10]
+          // [1 1 0 1 0 1 0 1 1 0 0 1 0] => [0 1 3 5 7 8 10]
+
+          // Resume : M11 * [0,2,4,5,7,9,11] => [0 1 3 5 7 8 10]
+
+          // do same operation with pcs.getMappedVectorPcs() [1 0 0 0 1 0 0 1 0 0 0 0] or [0 4 7]
+          // let newPermutedMappedVectorPcs = this.affinePivot(a, k, newPivot, pcs.getMappedVectorPcs())
+          let newPermutedMappedVectorPcs = this.affinePivot(a, k, (pcs.getMappedPivot() ?? 0), pcs.getMappedVectorPcs())
+          // M11 * [0 4 7] => [0 5 8] [1 0 0 0 0 1 0 0 1 0 0 0]
+
+          // now convert inverse mapping [1 0 0 0 0 1 0 0 1 0 0 0] nMapping to n
+          // each index of newPermutedMappedVectorPcs where value is 1 belongs to newTemplateMapping
+          // because both are synchronized by same transformation operation M11
+          newVectorPcs = new Array<number>(pcs.n).fill(0)
+          for (let i = 0; i < newPermutedMappedVectorPcs.length; i++) {
+            if (newPermutedMappedVectorPcs[i] === 1) {
+              newVectorPcs[newTemplateMapping.indexOf(i)] = 1
+            }
+          }
+          // [1 0 0 0 0 1 0 0 1 0 0 0] => [1 0 0 1 <== this index (3) is index of 5 in newTemplateMapping
+          // [1 0 0 0 0 1 0 0 1 0 0 0] => [1 0 0 1 0 1 0]
+          //
+
+          // not get new image of pivot (because templateMapping has been changed)
+          newPivot = newTemplateMapping.indexOf(newPivot)
+
+          // we have defined: newPivot, newVectorPcs and newTemplateMapping
+        } else {
+          // no mapping
+          // if there is a transposition, then the pivot follows it.
+          newPivot = negativeToPositiveModulo(((pcs.iPivot ?? 0) + k), pcs.vectorPcs.length)
+          newVectorPcs = this.affinePivot(a, k, (pcs.iPivot ?? 0), pcs.vectorPcs)
+          newTemplateMapping = pcs.templateMapping
+        }
+        // now make operation act
+        //
+        let pcsMappedPermuted = new IPcs({
+          vectorPcs: newVectorPcs,
+          n: pcs.n,
+          templateMapping: newTemplateMapping,
+          nMapping: pcs.nMapping,
+          iPivot: newPivot,
+          orbit: new Orbit() // will maybe be changed, see below
+        })
+
+        if (pcs.orbit?.groupAction) {
+          pcsMappedPermuted = pcs.orbit.groupAction.getIPcsInOrbit(pcsMappedPermuted)
+        }
+        return pcsMappedPermuted
       }
-      // [1 0 0 0 0 1 0 0 1 0 0 0] => [1 0 0 1 <== this index (3) is index of 5 in newTemplateMapping
-      // [1 0 0 0 0 1 0 0 1 0 0 0] => [1 0 0 1 0 1 0]
-      //
 
-      // not get new image of pivot (because templateMapping has been changed)
-      newPivot = newTemplateMapping.indexOf(newPivot)
-
-      // we have defined : newPivot, newVectorPcs and newTemplateMapping
-    } else {
-      // no mapping
-      // if there is a transposition, then the pivot follows it.
-      newPivot = negativeToPositiveModulo(((pcs.iPivot ?? 0) + k), pcs.vectorPcs.length)
-      newVectorPcs = this.getVectorPcsPermuted(a, k, newPivot, pcs.vectorPcs)
-      newTemplateMapping = pcs.templateMapping
-    }
-    // now make operation act
-    //
-    let pcsMappedPermuted = new IPcs({
-      vectorPcs: newVectorPcs,
-      n: pcs.n,
-      templateMapping: newTemplateMapping,
-      nMapping: pcs.nMapping,
-      iPivot: newPivot,
-      orbit: new Orbit() // will maybe be changed, see below
-    })
-
-    if (pcs.orbit?.groupAction) {
-      pcsMappedPermuted = pcs.orbit.groupAction.getIPcsInOrbit(pcsMappedPermuted)
-    }
-    return pcsMappedPermuted
-  }
 
   /**
-   * general transformation from affine operation ax + k, but fixed on pivot (see "fixed zero problem" in doc)
+   * AffinePivot
+   * general transformation from affine operation c . ax + k, but fixed on pivot (see "fixed zero problem" in doc)
    * Version by permutation.
-   * general idea (composition of basic affine operations):
-   *  1/ translate :        - pivot
-   *  2/ affine operation : ax + k
-   *  3/ translate :        + pivot
-   *  so : ax + ( -(a-1) * pivot + k )
-   *  so : ax + pivot * (1 - a) + k
+   * general idea (composition of three basic affine operations):
+   *  1/ translate:        - pivot
+   *  2/ affine operation: ax + k
+   *  3/ translate:        + pivot
+   *  4/ optional: if c, return complement of result affine with pivot transformation
    *
-   * @see analysis/documentation : affPivot function
+   *  M1-Tp([C]Ma-Tk(M1-T-p(pcs)))
    *
-   * @param  a : number
-   * @param  k : number  [0..this.n[
-   * @param pivot : number [0..this.n[
-   * @param vectorPcs : number[] array of int
-   * @return {number[]}
+   *  so: a * x + pivot * (1 - a) + k
+   *
+   * @see analysis/documentation : affinePivot function
+   *
+   * @param  a : number integer prime with n
+   * @param  k : number  integer in Z
+   * @param p : number integer in [0..this.n-1], assert vectorPcs[p] === 1 expect if vectorPcs is image of empty set
+   * @param vectorPcs : number[] array of 0 | 1, vector image of a pcs
+   * @param c if true return complement of affine transformation with pivot (false by default)
+   * @return {number[]} array of 0 | 1, new c . affinePivot transformed vector
    */
-  static getVectorPcsPermuted(a: number, k: number, pivot: number, vectorPcs: number[]): number[] {
-    let vectorPcsPermuted = vectorPcs.slice()
+  static affinePivot(a: number, k: number, p: number, vectorPcs: number[], c: boolean = false): number[] {
     const n = vectorPcs.length
+    let permutedVectorPcs: number[] = Array(n)
+    // (ax + b) =>  (ax + p(1−a) + k)
+    const b = p * (1-a) + k
     let j
     for (let i = 0; i < n; i++) {
-      // focus on algebra expression affine extend with manage pivot  : ax + pivot(1 - a) + k)
-      // ax + pivot(1 - a) + k)
-      // = ax + pivot(1 - a) + k
-      // = a*x - a*pivot + pivot  + k
-      // a * (x - pivot) + pivot  + k // <= 1 multiplication 1 subtraction 2 add : best implementation
-      //
-      // Let's take an example :
-      //
-      // array-in :  [...,    c, d,  e,  f,  g,  h  ,....]
-      //              0,1,... 8, 9, 10, 11, 12, 13, ...
-      //                             ^
-      //  Example : array-in[10] == "e"
-      //
-      //  if k = +2, array-out[10] becomes "c"
-      //
-      // array-out :  [...,           c,  d,  e,  f,  g,  h,....]
-      //               0,1,... 8,  9, 10, 11, 12, 13, ...
-      //                               ^
-      //  if k = +2,  element "e" at index 10 becomes "c" (index of c = index of e - k)
-      //                                                                           ^
-      // this is why, in permutation act, plus k became minus k at end of expression : [...] + k)  =>  [...] - k)
-      //
-      // j =  a (x - pivot) + pivot + k
-      //
-      // (below i = x,  where index and pitch class are "merged" :))
-      //   @see whats_wrong_with_operations in documentation
-
-      j = (n + (a * (i - pivot) + pivot - k) % n) % n
-
-      // first j modulo n may be negative... so twice modulo : (n + ( j modulo n )) modulo n
+      j = (n + (a * i + b) % n) % n
+      // first j modulo n may be negative... so call twice modulo : (n + ( j modulo n )) modulo n
       // @see https://stackoverflow.com/questions/4467539/javascript-modulo-gives-a-negative-result-for-negative-numbers
-      vectorPcsPermuted[i] = vectorPcs[j]
+      permutedVectorPcs[j] = c ? (vectorPcs[i] ? 0 : 1) : vectorPcs[i] //  invert 0 | 1 if c
+      // AND NOT permutedVectorPcs[i] = vectorPcs[j] :-( (historically, a bug of 10 years lifetime!)
+      // works because 'a' is prime with n (to demonstrate)
     }
-    return vectorPcsPermuted
+    return permutedVectorPcs
   }
-
 
   /**
    * get complement of this.

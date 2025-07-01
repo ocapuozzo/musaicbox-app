@@ -297,4 +297,135 @@ describe('MusaicPcsOperation', () => {
 
   })
 
+  // from documentation spec examples
+
+  it('affinePivot : neutral op', () => {
+    // With p = 0 and a = 1 and k = 0
+    // (a,p(1−a)+k) = (1,0)
+    //
+    const pcs = new IPcs({strPcs: "047"})
+    const vector = pcs.vectorPcs
+
+    const newVector = MusaicOperation.affinePivot(1, 0, 0, vector)
+
+    expect(newVector).toEqual(pcs.affineOp(1, 0).vectorPcs)
+    expect(newVector).toEqual(vector)
+  })
+
+  it('affinePivot : transposition op', () => {
+    // With p = 0 and a = 1
+    //
+    // (a,p(1−a)+k) = (1,k)
+
+    const pcs = new IPcs({strPcs: "047"})
+    const vector = pcs.vectorPcs
+    let newVector = MusaicOperation.affinePivot(1, 1, 0, vector)
+    expect(newVector).toEqual(pcs.transposition(1).vectorPcs)
+
+    newVector = MusaicOperation.affinePivot(1, 12, 0, vector)
+    expect(newVector).toEqual(pcs.vectorPcs)
+
+    newVector = MusaicOperation.affinePivot(1, 4, 0, vector)
+    expect(newVector).toEqual(pcs.transposition(4).vectorPcs)
+
+  })
+
+  it('affinePivot : basic affine with no pivot', () => {
+
+    let a = 7
+    let k = 3
+    let p = 0
+
+    // console.log(`a=${a} k=${k} p=${p}`)
+
+    let pcs = new IPcs({strPcs: "0247"}) // 0 is pivot
+    // console.log("vector      ", pcs.vectorPcs, pcs.iPivot)
+
+    let newVector2 = MusaicOperation.affinePivot(a, k, p, pcs.vectorPcs)
+    expect(newVector2).toEqual([0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0])
+
+    // console.log("newVector2  ", newVector2)
+
+    let pcsComputedByAffineOp = pcs.affineOp(a, k)
+    //[3 4 5 7] 3
+
+    expect(pcsComputedByAffineOp.iPivot).toEqual(3)
+    expect(pcsComputedByAffineOp.vectorPcs).toEqual(newVector2)
+
+    // console.log(pcsComputedByAffineOp.vectorPcs, pcsComputedByAffineOp.iPivot)
+    // console.log(pcsComputedByAffineOp.getPcsStr(), pcsComputedByAffineOp.iPivot)
+
+  })
+
+  it('affinePivot : with pivot value', () => {
+    //
+    // With p = 2 and a = 11 and k = 3
+    //
+    // (a,p(1−a)+k)
+    //
+    // (11,2⋅(1−11)+3)
+    //
+    // (11,−17)
+    //
+    // (11,7) modulo 12
+
+    let a = 11
+    let k = 3
+    let p = 2
+
+    // console.log(`a=${a} k=${k} p=${p}`)
+
+    let pcs = new IPcs({strPcs: "2047"}) // 2 is pivot
+    // console.log("vector    ", pcs.vectorPcs, pcs.iPivot)
+
+    let newVector2 = MusaicOperation.affinePivot(a, k, p, pcs.vectorPcs)
+    // console.log("newVector2  ", newVector2)
+    let pcsComputedByAffineOp = pcs.affineOp(a, k)
+    // console.log("affine op v ", pcsComputedByAffineOp.vectorPcs)
+
+    expect(pcsComputedByAffineOp.vectorPcs).toEqual(newVector2)
+    // console.log(pcsComputedByAffineOp.getPcsStr(), pcsComputedByAffineOp.iPivot)
+
+    a = 5
+    k = 3
+    p = 2
+
+    // console.log("\n=====================")
+    // console.log(`a=${a} k=${k} p=${p}`)
+    pcs = new IPcs({strPcs: "2"}) // 2 is pivot
+    // console.log("vector      ", pcs.vectorPcs, pcs.iPivot)
+
+    newVector2 = MusaicOperation.affinePivot(a, k, p, pcs.vectorPcs)
+
+    // console.log("newVector2  ", newVector2)
+    pcsComputedByAffineOp = pcs.affineOp(a, k)
+    expect(pcsComputedByAffineOp.vectorPcs).toEqual(newVector2)
+    // console.log(pcsComputedByAffineOp.getPcsStr(), pcsComputedByAffineOp.iPivot)
+
+    ///////////////////////////// neutral op with pivot > 0
+
+    a = 1
+    k = 0
+    p = 4
+
+    pcs = new IPcs({strPcs: "407"}) // 4 is pivot
+    newVector2 = MusaicOperation.affinePivot(a, k, p, pcs.vectorPcs)
+    expect(pcs.vectorPcs).toEqual(newVector2)
+  })
+
+  it('affinePivot : with complement', () => {
+    // from doc
+    // CM5-T4  :  CM5T4([0 4 7])→[1 2 5 6 7 8 9 10 11] (M5, T4 and Complement)
+    let pcs = new IPcs({strPcs: "047"}) // 0 is pivot
+    let expectedPcs = new IPcs({strPcs:"[1 2 5 6 7 8 9 10 11]"})
+    let newVectorPcs = MusaicOperation.affinePivot(5, 4, 0, pcs.vectorPcs, true)
+    expect(newVectorPcs).toEqual(expectedPcs.vectorPcs)
+
+    // pivot = 2
+    pcs = new IPcs({strPcs: "240710"}) // 2 is pivot
+    expectedPcs = new IPcs({strPcs:"[1 3 4 5 6 7 9]"})
+    newVectorPcs = MusaicOperation.affinePivot(7, -2, 0, pcs.vectorPcs, true)
+    expect(newVectorPcs).toEqual(expectedPcs.vectorPcs)
+  })
+
 })

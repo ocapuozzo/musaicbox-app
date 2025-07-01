@@ -1,0 +1,36 @@
+= AsciiDoc Article Title
+Author Name <author.email@example.com>
+Affiliation, City, Country
+:revdate: 2025-06-07
+:doctype: article
+:encoding: utf-8
+:lang: fr
+:numbered:
+:toc: left
+:toclevels: 2
+:sectids:
+:sectnums:
+:stem:
+:imagesdir: ./assets/images
+:icons: font
+
+== Abstract
+
+This is where you'll write a concise summary of your article, typically no more than 250-300 words. It should cover the main objective, methods, key results, and conclusions of your research. The abstract should be self-contained and understandable without reading the entire article.
+
+// Keywords
+Keywords: Keyword1, Keyword2, Keyword3, Keyword4, Keyword5
+
+
+== Introduction
+
+The introduction provides background information and sets the context for your research. It should clearly state the problem you are addressing, review relevant previous work, and outline the objectives and scope of your study. End the introduction with a clear statement of your research question or hypothesis.
+
+For example, our research aims to investigate the impact of [Variable A] on [Variable B] in [Specific Context]. Previous studies have shown [cite existing literature, e.g., <<Citation1>>], but a gap remains in understanding [specific aspect].
+
+
+// (Optional)
+== Appendix
+
+Include any supplementary material that is too detailed for the main body but is relevant to your research (e.g., raw data, detailed calculations, questionnaires).
+

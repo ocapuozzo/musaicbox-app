@@ -501,11 +501,20 @@ export class IPcs {
   /**
    * Transformation affine of this
    * @param a
-   * @param t
+   * @param k
    * @returns {IPcs}
    */
-  affineOp(a: number, t: number): IPcs {
-    return MusaicOperation.permute(this, a, t)
+  affineOp(a: number, k: number): IPcs {
+
+    return MusaicOperation.permute(this, a, k)
+    // //
+    // const pivot = this.iPivot ?? 0
+    // const newVector = MusaicOperation.affinePivot(a, k, pivot, this.vectorPcs)
+    // const newPivot = negativeToPositiveModulo((this.iPivot ?? 0)+k,this.n)
+    // return  new IPcs({
+    //   vectorPcs: newVector,
+    //   iPivot: newPivot
+    // })
   }
 
   /**
@@ -514,7 +523,8 @@ export class IPcs {
    * @returns {IPcs}
    */
   transposition(t: number): IPcs {
-    return MusaicOperation.permute(this, 1, t)
+    // return MusaicOperation.permute(this, 1, t)
+    return this.affineOp(1, t)
   }
 
   /**
@@ -1269,7 +1279,7 @@ export class IPcs {
   }
 
   /**
-   * Get affine + complement operation names of the form Mx and CMx, where x is prime with n
+   * Get affine and complement operation names of the form Mx and CMx, where x is prime with n
    * @param n
    * @private
    */

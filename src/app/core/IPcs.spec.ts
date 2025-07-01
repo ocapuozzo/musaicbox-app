@@ -1307,7 +1307,7 @@ describe('IPcs unit tests', () => {
     // waiting pivot to zero
     expect(pcs.modalPrimeForm().iPivot).toEqual(0)
 
-
   })
+
 
 })
