@@ -2249,7 +2249,7 @@ This ensures that the transformation will be based on a pitch-class of the relev
  +
 This solution is compatible with the idea of the solution, leaving to the author the choice of the reference pitch-class, among _m_ choices, _m_ being the cardinal of the pcs concerned by the transformation.
 
-It seems clear that solution C prevails. The pivot _p_ must be chosen from the PCS pitch-classes. If we assume that the PCS in normal order represents a scale, _p_ designates the degree from which the M~p~a-Tk transformation will be applied.
+It seems clear that solution C prevails. The pivot _p_ must be chosen from the PCS pitch-classes.
 
 [#design-affine-pivot]
 === Affine operation with pivot
@@ -2486,6 +2486,9 @@ Examples:
 // - stem:[(35, -10(5 + 1) + (1-5) + 15 + 2)]
 // - stem:[(11, 1)] // modulo 12
 
+
+If we assume that the PCS in normal order represents a scale, _p_ designates the degree from which the M~p~a-Tk transformation will be applied. Do not specify _p_ in the affine function `Ma-Tk`, it is to choose the first degree of the PCS.
+
 Examples of transformations with affinePivot function, with p-value specified:
 
 .Revisited basic operations of Musical Set Theory, with pivot value (in red)
@@ -2607,6 +2610,9 @@ function affinePivot(
     return permutedVector
 }
 ----
+
+This function is extracted from a POC available on GitHub (open source : https://github.com/ocapuozzo/musaicbox-app). It is accessible as an online demo, executable from a browser (full front-end application) : https://musaicsbox.org
+
 
 === Conclusion
 

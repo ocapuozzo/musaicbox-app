@@ -4697,7 +4697,7 @@ This solution is compatible with the idea of the solution, leaving to the author
 </ol>
 </div>
 <div class="paragraph">
-<p><strong>In order to implement the idea of solution C, we specify a function named “Affine-Pivot”</strong></p>
+<p>It seems clear that solution C prevails. The pivot <em>p</em> must be chosen from the PCS pitch-classes.</p>
 </div>
 </div>
 <div class="sect2">
@@ -4934,12 +4934,15 @@ This solution is compatible with the idea of the solution, leaving to the author
 <p>(FMaj/5th &#8594; Cmin) <code>M<sub>0</sub>11-T0([0 5 9])</code> = <code>M11-T0([0 5 9])</code> =  <code>[0 3 7]</code></p>
 </li>
 <li>
-<p><code>M<sub>1</sub>11-T0([1 4 7 10])</code> = <code>M11-T0([1 4 7 10])</code> = <code>[1 4 7 10]</code>, pivot=1 and it is the first pitch-class</p>
+<p>(C#dim7 &#8594; C#dmin7) <code>M<sub>1</sub>11-T0([1 4 7 10])</code> = <code>M11-T0([1 4 7 10])</code> = <code>[1 4 7 10]</code>, pivot=1 and it is the first pitch-class</p>
 </li>
 <li>
-<p>(invert Db Major) <code>M<sub>2</sub>11-T0([1 2 4 6 7 9 11])</code>, The pivot must be specified, because the root is not the first pitch-class of the pcs.</p>
+<p>(Db Major inversion) <code>M<sub>2</sub>11-T0([1 2 4 6 7 9 11])</code> = <code>[1 2 4 6 8 9 11]</code>, The pivot must be specified, because the root is not the first pitch-class of the pcs.</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>If we assume that the PCS in normal order represents a scale, <em>p</em> designates the degree from which the M<sub>p</sub>a-Tk transformation will be applied. Do not specify <em>p</em> in the affine function <code>Ma-Tk</code>, it is to choose the first degree of the PCS.</p>
 </div>
 <div class="paragraph">
 <p>Examples of transformations with affinePivot function, with p-value specified:</p>
@@ -5234,6 +5237,9 @@ pivot on 3rd</th>
     <span style="color:#080;font-weight:bold">return</span> permutedVector
 }</code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>This function is extracted from a POC available on GitHub (open source : <a href="https://github.com/ocapuozzo/musaicbox-app" class="bare">https://github.com/ocapuozzo/musaicbox-app</a>). It is accessible as an online demo, executable from a browser (full front-end application) : <a href="https://musaicsbox.org" class="bare">https://musaicsbox.org</a></p>
 </div>
 </div>
 <div class="sect2">
@@ -9353,7 +9359,7 @@ Symmetry prime form concept is invented, specific to this project.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-07-01 16:06:57 +0200
+Last updated 2025-07-01 19:47:58 +0200
 </div>
 </div>
 <script type="text/x-mathjax-config">
