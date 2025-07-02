@@ -196,10 +196,10 @@ export class IPcs {
     // check when iPivot === 0
     if (this.iPivot === undefined && iPivot === 0 && this.cardinal > 0) {
       // special case, sometime force 0, but must be fixed here
-      // first pc to 1, may be zero
+      // by default first pc to 1, may be zero
       this.iPivot = this.vectorPcs.findIndex(pc => pc === 1)
     }
-    // check a logic of param iPivot
+    // check a logic of  iPivot given in parameter
     else if (iPivot !== undefined) {
       if (iPivot < 0 || iPivot >= this.vectorPcs.length) {
         throw Error(`Something wrong with iPivot = ${this.iPivot} and ${this.vectorPcs}`)
@@ -291,7 +291,9 @@ export class IPcs {
         if (!pitches[i] || isNaN(Number(pitches[i])) || Number(pitches[i]) < 0 || Number(pitches[i]) > 12) {
           continue
         }
+        // pitches[i] === 1
         if (defaultPivot === undefined) {
+          // first pitch-class by default
           defaultPivot = Number(pitches[i])
         }
         bin[Number(pitches[i]) % n] = 1;

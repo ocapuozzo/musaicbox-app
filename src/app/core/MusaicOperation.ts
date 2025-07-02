@@ -460,11 +460,11 @@ export class MusaicOperation {
 
     let complementVector: number[] = pcs.vectorPcs.map(pc => (pc === 1 ? 0 : 1)) //;slice() and inverse 0/1
 
-    const newPivot = pcs.getFutureAxialSymmetryPivotForPrepareComplement()
+    const newPivot =  complementVector.indexOf(1)// pcs.getFutureAxialSymmetryPivotForPrepareComplement()
 
     let pcsComplement = new IPcs({
       vectorPcs: complementVector,
-      iPivot: newPivot, // new_iPivot,
+      iPivot: newPivot >= 0 ? newPivot : undefined, // new_iPivot,
       orbit: new Orbit(), // as new pcs, here we don't know its orbit (see note below)
       templateMapping: pcs.templateMapping,
       nMapping: pcs.nMapping
