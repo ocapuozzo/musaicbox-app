@@ -1,0 +1,132 @@
+<style>
+
+  /* https://docs.asciidoctor.org/asciidoctor/latest/html-backend/default-stylesheet/#customize-extend */
+  /* put ":docinfo: shared" in header of document.adoc */
+
+td:has(>p>span[class="klein1"]) {
+  background-color: lightyellow;
+}
+
+td:has(>p>span[class="klein2"]) {
+  background-color: lightblue;
+}
+
+ #zero-fixed-problem tr:nth-child(3)>td>p>mark,
+ #zero-fixed-problem tr:nth-child(4)>td>p>mark{
+   background-color: red;
+ }
+
+ p>span[class="note"] {
+  background-color: lightgray;
+}
+
+
+
+  /*#idTable88 tr:first-child td*/
+  #idTable88 th
+  {
+    cursor: pointer;
+    background-color: lightgreen;
+  }
+
+</style>
+<!--<script src="https://www.w3schools.com/lib/w3.js"></script>-->
+<script>
+
+  // source : https://stackoverflow.com/questions/10683712/html-table-sort
+  function init(){
+    document.querySelectorAll('#idTable88 th').forEach((element) => { // Table headers
+      element.addEventListener('click', function() {
+        let table = this.closest('table');
+
+        // If the column is sortable
+        if (this.querySelector('span')) {
+          let order_icon = this.querySelector('span');
+          let order      = encodeURI(order_icon.innerHTML).includes('%E2%86%91') ? 'desc' : 'asc';
+          let separator  = '-----'; // Separate the value of it's index, so data keeps intact
+
+          let value_list = {}; // <tr> Object
+          let obj_key    = []; // Values of selected column
+
+          let string_count = 0;
+          let number_count = 0;
+          let metaStabilizer = false
+          // <tbody> rows
+          table.querySelectorAll('tbody tr').forEach((line, index_line) => {
+            // Value of each field
+            let key = line.children[element.cellIndex].textContent.toUpperCase().trim();
+            if (key === 'M1' || key.startsWith('M1 ')  && !metaStabilizer ) metaStabilizer = true;
+            // console.log('key ', key)
+            // Check if value is date, numeric or string
+            if (line.children[element.cellIndex].hasAttribute('data-timestamp')) {
+              // if value is date, we store it's timestamp, so we can sort like a number
+              key = line.children[element.cellIndex].getAttribute('data-timestamp');
+            }
+            else if (key.replace('-', '').match(/^[0-9,.]*$/g)) {
+              number_count++;
+            }
+            else {
+              string_count++;
+            }
+            // console.log(`number_count : ${number_count},  string_count : ${string_count}, metaStabilizer : ${metaStabilizer}`)
+            value_list[key + separator + index_line] = line.outerHTML.replace(/(\t)|(\n)/g, ''); // Adding <tr> to object
+            obj_key.push(key + separator + index_line);
+          });
+          if (string_count === 0) { // If all values are numeric
+            obj_key.sort(function(a, b) {
+              return  a.split(separator)[0] - b.split(separator)[0];
+            });
+          } else {
+            if (metaStabilizer) {
+              obj_key.sort(function (o1, o2) {
+                o1 = o1.split(separator)[0].replaceAll("11", "9");
+                o2 = o2.split(separator)[0].replaceAll("11", "9");
+                // change 11 by 9 for "natural sort"
+                // o1 :  M1 M5 M7 M11 CM1 CM5 CM7 CM11-----86 => M1 M5 M7 M9 CM1 CM5 CM7 CM9
+                // console.log('o1 : ', o1, 'o2 : ', o2)
+                // first on length because synchro with nb motifs
+                const lenCompare = o1.length - o2.length;
+                // then on meta-stabilizer name
+                if (lenCompare === 0) {
+                  return o1.localeCompare(o2);
+                }
+                return lenCompare;
+              })
+            } else {
+              obj_key.sort(function (a, b) {
+                let ka = a.split(separator)[0];
+                let kb = b.split(separator)[0];
+                const idParts = ka.split('-')
+                // id musaic ? then sort on numero, example: M88-6-1-2 (sort only with numero 88)
+                if (idParts.length === 4) {
+                  ka = parseInt(idParts[0].substring(1)) // skip M (M88 => 88)
+                  kb = parseInt(kb.split('-')[0].substring(1))
+                  return ka - kb;
+                }
+                return ka.localeCompare(kb);
+              });
+            }
+          }
+
+          if (order === 'desc') {
+            obj_key.reverse();
+            order_icon.innerHTML = '&darr;';
+          }
+          else {
+            order_icon.innerHTML = '&uarr;';
+          }
+
+          let html = '';
+          obj_key.forEach(function(chave) {
+            html += value_list[chave];
+          });
+          table.getElementsByTagName('tbody')[0].innerHTML = html;
+        }
+      });
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", function(){
+    init()
+  });
+</script>

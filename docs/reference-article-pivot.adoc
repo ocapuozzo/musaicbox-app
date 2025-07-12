@@ -1,0 +1,19 @@
+
+[bibliography]
+== References
+
+* [[[Forte]]] Forte, Allen. 1973. The Structure of Atonal Music. New Haven: Yale University Press.
+
+* [[[Fripertinger]]] Fripertinger, Harald. 1999. On line https://www.researchgate.net/publication/249910897_Enumeration_and_construction_in_music_theory[Enumeration and construction in music theory]
+
+* [[[Rahn]]] Rahn, John. 1980. Basic Atonal Theory. New York: Longman.
+
+* [[[LEWIN]]] David Lewin, Generalized musical intervals and transformations, Oxford University Press, 2007-1897
+
+* [[[LEWIN-1977a]]] David Lewin, "A Label-Free Development for 12-Pitch-Class Systems" Journal of Music Theory 21 (1977), pp. 29-48.
+
+* [[[LEWIN-1980]]] David Lewin, "On Generalized Intervals and Transformations" Journal of Music Theory, Vol. 24, No. 2 (Autumn, 1980), 243-251.
+
+* [[[Morris]]] Moris, Robert. 1987. Composition With Pitch-Classes: A Theory of Compositional Design, Yale University Press
+
+* [[[Moreno-Argon]]] Moreno Andreatta, Carlos Agon. Formalisation algébrique des structures musicales à l'aide de la Set-Theory (on line)  http://recherche.ircam.fr/equipes/repmus/moreno/AndreattaAgonjim2003.pdf[ircam.fr]
