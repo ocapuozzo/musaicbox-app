@@ -1,73 +1,668 @@
-= AsciiDoc Article Title
-Author Name <author.email@example.com>
-Affiliation, City, Country
-:revdate: 2025-06-07
-:doctype: article
-:encoding: utf-8
-:lang: fr
-:numbered:
-:toc: left
-:toclevels: 2
-:sectids:
-:sectnums:
-:stem:
 :imagesdir: ./assets/images
-:icons: font
 
-== Abstract
+[#_affine_with_pivot]
+== Revisited basic operations
 
+(with pivot parameter for better basic operations)
 
-This article addresses a topic related to musical set theory, and particularly to basic operations: inversion, transformation by cycles of fifths and fourths (M7 and M5).
-
-It demonstrates the need to be able to choose the axis, or more precisely the pivot point around which the transformations are applied, in order to overcome the negative influence of pitch zero in these operations.
-
-The solution proposed here takes David Lewin's idea for inversion (I^u^) and generalizes it to the other M5 and M7 transformations.
-
-Finally, the extended affine function has a new parameter added, but remains fully compatible with current usage, through a logic that automatically assigns a default pivot value, similar to the "moveable-DO" system.
-
-The code for the affine function with pivot is provided (TypeScript).
+As they stand, the generally accepted basic operations of musical set theory pose a logic problem that we raise here.
 
 
-Keywords: musical set theory, pcs, basic operators, fixed zero problem, label, label free, M11, M5, M7
+
+=== What's wrong with basic operations
+
+Let us take the inversion operation (M11) as an example, but the problem raised here also applies to the transformations M5 and M7.
+
+In the literature on post-tonal analysis, inversion operation can be found expressed in two forms which we will here call _inverseA_ and _inverseB_:
+
+- stem:["inverseA"(Pcs) = { (n - x) mod n | x ∈ Pcs }] // basic version <<Forte>>
+
+- stem:["inverseB"(Pcs) = { (n - 1) * x mod n | x ∈ Pcs }] // https://en.wikipedia.org/wiki/Multiplication_(music)[multiplicative version M11]
+
+Example : C Major scale `[0 2 4 5 7 9 11]`
+
+* _inverseA_(`[0 2 4 5 7 9 11]`) :
+
+`0` -> `12 - 0` -> `#0#`
+
+`2` -> `12 - 2` -> `#10#`
+
+`4` -> `12 - 4` -> `#8#`
+
+`5` -> `12 - 5` -> `#7#`
+
+`7` -> `12 - 7` -> `#5#`
+
+`9` -> `12 - 3` -> `#3#`
+
+`11` -> `12 - 11` -> `#1#`
+
+This gives : _inverseA_(`[0 2 4 5 7 9 11]`) -> `[#0 1 3 5 7 8 10#]`
 
 
-== Introduction
+* _inverseB_(`[0 2 4 5 7 9 11]`) :
 
-The introduction provides background information and sets the context for your research. It should clearly state the problem you are addressing, review relevant previous work, and outline the objectives and scope of your study. End the introduction with a clear statement of your research question or hypothesis.
+`0` -> `11 x 0` -> `#0#`
 
-For example, our research aims to investigate the impact of [Variable A] on [Variable B] in [Specific Context]. Previous studies have shown [cite existing literature, e.g., <<Citation1>>], but = AsciiDoc Article Title
-Author Name <author.email@example.com>
-Affiliation, City, Country
-:revdate: 2025-06-07
-:doctype: article
-:encoding: utf-8
-:lang: fr
-:numbered:
-:toc: left
-:toclevels: 2
-:sectids:
-:sectnums:
-:stem:
-:imagesdir: ./assets/images
-:icons: font
+`2` -> `11 x 2` -> 22 mod 12 -> `#10#`
 
-== Abstract
+`4` -> `11 x 4` -> 44 mod 12 -> `#8#`
 
-Cet article traite d'un sujet lié à la musical set theory, et tout particulièrement aux opérations de bases : inversion, transformation by cycles of fifths and fourths (M7 and M5).
+`5` -> `11 x 5` -> 55 mod 12 -> `#7#`
 
-Il montre la nécessité de pouvoir choisir l'axe, ou plus exactement le point pivot autour duquel les transformations s'appliquent, afin de se défaire de l'influence du pitch zero dans ces opérations.
+`7` -> `11 x 7` -> 77 mod 12 -> `#5#`
 
-La solution proposée ici reprend l'idée de David Lewin pour l'inversion (Iu) et la généralise aux autres transformations M5 et M7.
+`9` -> `11 x 3` -> 33 mod 12 -> `#3#`
 
-Enfin, la fonction affine étendue se voit ajoutée d'un nouveau paramètre, mais reste cependant tout à fait compatible avec l'usage courant, par l'intermédiare d'une logique de valeur de pivot par défaut
+`11` -> `11 x 11` -> 121 mod 12 -> `#1#`
 
-// Keywords
-Keywords: Keyword1, Keyword2, Keyword3, Keyword4, Keyword5
-a gap remains in understanding [specific aspect].
+This gives : _inverseB_(`[0 2 4 5 7 9 11]`) -> `[#0 1 3 5 7 8 10#]`
+
+In fact, from a modulo n point of view, the functions _inverseA_ and _inverseB_ are the same. Proof.
+|===
+|inverseA|inverseB|Justification
+
+|(n−x)|(n−1)⋅x|formulas
+|(12−x)|(12−1)⋅x|n=12
+|−x {nbsp}{nbsp}  (n-x = -x)|11x |n modulo n = 0
+|-1x|11x|-x = x multiply by -1
+|*11x*|*11x*|-1 modulo 12 = 11 +
+QED
 
 
-// (Optional)
-== Appendix
 
-Include any supplementary material that is too detailed for the main body but is relevant to your research (e.g., raw data, detailed calculations, questionnaires).
+|===
 
+
+Inverse operation transform CMajor into III degree of Ab Major, its VIb Major.
+
+.M11 on C Major = III degree of Ab Major (VI-flat Major 'degree' of C)
+image::CMajor-M11-noPivot.png[CMajor-M11]
+
+Now that we have seen how the PCS Do Diatonic Major behaves, let's take C#/Db Diatonic Major: `[0 1 3 5 6 8 10]`
+
+
+* The inverse of C# Major, _inverse_(`[0 1 3 5 6 8 10]`) :
+
+`0` -> `12 - 0` -> `#0#`
+
+`1` -> `12 - 1` -> `#11#`
+
+`3` -> `12 - 3` -> `#9#`
+
+`5` -> `12 - 5` -> `#7#`
+
+`6` -> `12 - 6` -> `#6#`
+
+`8` -> `12 - 8` -> `#4#`
+
+`10` -> `12 - 10` -> `#2#`
+
+_inverse_(`[0 1 3 5 6 8 10]`)  -> `[#0 2 4 6 7 9 11#]`
+
+image::DbMajor-M11-noPivot.png[DbMajor-M11]
+
+#⚠# *Oh!*, how comes the treatment of inversion for a C#/Db Major *differs* from that of a C Major?
+
+The expected correct answer of Inverse(`[0 1 3 5 6 8 10]`)  should have been `[#1 2 4 6 8 9 11#]`, III degree of A Major (the VIb Major of Db Major) and not `[0 2 4 6 7 9 11]`.
+
+Other example, with a _Limited Transposition_ scale : _C Dim7_
+
+image::CDim7-infos.png[CDim7-infos]
+
+As you might expect, a diminished seventh chord is *very strongly symmetrical*. Observe its stabilizers, there are 16 of them and 4 are in T0 (highlighted in yellow in the screenshot above) : `#M1-T0#` of course, and  `#M5-T0#`, `#M7-T0#` and `#M11-T0#`.
+
+Let's summarize the different transformation operations of two diminished seventh chords: CDim7 [.nowrap]#(`[0 3 6 9]`)# and C#Dim7 [.nowrap]#(`[1 4 7 10]`)#.
+
+
+// docinfo.html has a rule css for error red
+
+[.text-center]
+--
+
+[#zero-fixed-problem]
+.Basic operations in Musical Set Theory
+[%header,cols="^,^,^,^,^"]
+|===
+|PCS|M11-T0 (inversion) |M5-T0|M7-T0|Dim7 waiting as strongly invariant
+a|{nbsp}  +
+CDim7 ||||
+|image:clock-0369.png[]|image:clock-0369.png[]|image:clock-0369.png[]|image:clock-0369.png[]| #OK#
+
+|[0 3 6 9]|[0 3 6 9]|[0 3 6 9]|[0 3 6 9]| #OK#
+
+a|{nbsp}  +
+C#Dim7 ||||
+
+
+|image:clock-14710.png[]|image:clock-25811.png[]|image:clock-25811.png[]|image:clock-14710.png[]|  #[2 5 8 11] should be [1{nbsp}4{nbsp}7{nbsp}10]#
+
+|[1 4 7 10]|#[2 5 8 11]#|#[2 5 8 11]#|[1 4 7 10]| #?!#
+|===
+
+--
+
+Obviously [2 5 8 11] is an intruder! business logic is not good. But then why is he here???
+
+=== The "fixed zero problem"
+
+The basic operations of musical set theory, which are the standard in the field, have a peculiarity: *they are always centered on _0_ (zero)footnote:[if _n_ is even, fixed points are _0_ and _n/2_]* , thus defining it as a fixed point we call the *_"fixed zero problem"_*.
+
+The bad result we observed comes from the fact that the algorithms confuse index and pitch-class name, both being expressed by integers (a very useful confusion, by the way).
+
+Calculations performed directly with these values lead to a falsely controlled side effect.
+
+Example : `[1 4 7 10] x 11 = [11 44 70 110] modulo 12 = [11 8 5 2] => #[2 5 8 11]#`
+
+As any musician would expect, the main characteristics of a PCS *should be insensitive to the transposition step* : the main characteristics of a PCS remain unchanged compared to those of the same PCS transposed by a _k-step_.
+
+Indeed, the D-Major PCS share the same structural characteristics as any Major PCS, but we have noted that, in their basic form, the transformation operations, other than transposition, do not respect this constancy across all Major PCS.
+
+[#Fixed-zero-problem]
+====
+[.text-center]
+*_"Fixed zero problem"_*.
+
+Generally speaking, the "fixed zero" has been identified as a problem by the Musical Set Theory, particularly in tonal system, and several solutions have been proposed.
+
+* "_Babbitt and Perle develop "moveable-DO" systems. The zero residue is used to label the *first pitch-class* of the most significant row-form in any specific musical context_". <<LEWIN>>. We will see, with Db Major, that this is not a good solution. However, the idea is correct from the point of consistency, but should not be imposed but proposed as a default value.
+* David Lewin proposes defining the LABEL function, which define a pitch-class reference for inversion, associates with a GIS (<<LEWIN>>, page 31).
+* Later, David Lewin "frees" the LABEL function using a parameterized inversion operator _I^u,v^_, an inversion around an axis (interval _(u, v)_, or around a pitch-class _u_ if _u_ = _v_, then denoted by _I^u^_. <<LEWIN-1977a>> <<LEWIN-1980>>. Only deals with the case of inversion.
+* Harald Fripertinger define in <<Fripertinger>> an _operator inversion, from Z to Z, with respect to r_  as [.nowrap]#_I~r~(i) = r − (z − r) = **2r - i**_#. So, when _r = 0_,  _I(i) = -i_. The parameter pitch-class reference only deals with operator inversion, although quart-circle and quint-circle transformations are defined in the same paper.
+
+====
+
+
+[#understand-fixed-point-algorithm]
+=== Idea of solution
+
+We are looking for a solution that allows to maintain the structural consistency of PCSs across different transformations, including inversion and transformation by cycles of fifths and fourths.
+
+The David Lewin's operator (_I^u^_), and Harald Fripertinger inversion operator (_I~r~_) partially addresses this problem, but are reserved to the inversion.
+
+We propose to generalize this solution to the extended general affine function seen previously by adding a new parameter to designate the reference fixed point of transformation.
+
+We start from the observation that the points fixed by the transformation operations depend essentially on _n_. For _n_ = 12, these fixed points are represented by this figure :
+
+.Template of transformations (n = 12)
+image::fixed-indexes-n12.png[fixed-indexes-n12]
+
+In its basic form, the affine function _ax + k_, the first term is always fixed by _0_, whatever _x_. Zero is the guaranteed fixed point, whatever _n_. Note that, when _n_ is even, the fixed points are {_0, n/2_}. For _n_ = 12, we have the choice between _0_ and _6_, but _6_ does not correspond to the general case.
+
+The idea chosen is to model the transformation operations on these fixed point models.
+
+Without calling into question the arithmetic based on pitch-class names, a general solution would be to align one of the pitch-class of the PCS in question with the zero pitch-class before the transformation (M5, M7 or M11).
+
+More precisely, this requires three operations, this is the price to pay for good consistency:
+
+. Transpose, by a step ok _-p_, the PCS to make one of its PCs coincide with zero
+. Apply the requested affine transformation (_ax + k_)
+. perform an inverse transposition (_p_)
+
+Some examples of inversion :
+
+Example1 C-sharp Dim7 inversion : `M11-T0` on `[1 4 7 10]`
+
+. `[1 4 7 10]` transpose with `p = -1` => `[0{nbsp}3{nbsp}6{nbsp}9]`
+.  `[0 3 6 9]` x 11 modulo 12 => `[0{nbsp}3{nbsp}6{nbsp}9]`
+. `[0 3 6 9]` transpose with `p = 1` => `#[1{nbsp}4{nbsp}7{nbsp}10]#`
+
+Example2 D Major scale inversion : `M11-T0` on  `[1{nbsp}2{nbsp}4{nbsp}6{nbsp}7{nbsp}9{nbsp}11]`
+
+. `[1{nbsp}2{nbsp}4{nbsp}6{nbsp}7{nbsp}9{nbsp}11]` transpose with `p = -2` => `[0{nbsp}2{nbsp}4{nbsp}5{nbsp}7{nbsp}9{nbsp}11]`
+. `[0{nbsp}2{nbsp}4{nbsp}5{nbsp}7{nbsp}9{nbsp}11]` x 11 modulo 12 =>
+`[{nbsp}1{nbsp}3{nbsp}5{nbsp}7{nbsp}8{nbsp}10]`
+
+. `[0{nbsp}1{nbsp}3{nbsp}5{nbsp}7{nbsp}8{nbsp}10]` transpose with `p = 2` => `#[0{nbsp}2{nbsp}3{nbsp}5{nbsp}7{nbsp}9{nbsp}10]#`
+
+// use instead [.nowrap]
+
+This solution is correct for all affine operations, but raises another problem: How to determine the value of _p_ ?
+//as a transformation at the origin?
+
+More possibilities:
+
+A. *Choosing the "smallest PC"*.
+ +
+This choice is the same as first pitch-class of PCS in normal order. It is not always the right one: It works in the case of C# dim7, but not on D Major, [.nowrap]#[1 2 4 6 7 9 11]#, because its first and minimum pitch-class is 1 (C#), the seventh of the scale, and not the root of D major.
+
+B. *Any PC from chromatic circle*
+ +
+"_There are twelve ways of inverting the total pc chromatic into itself, and any one of these twelve inversions may assume priority in a given musical context._" <<LEWIN-1977a>>.
+ +
+But this choice does not guarantee the consistency of transformation operations: Take a pitch-class that are not part of the pcs to be transformed cause a side effect. Such a pitch-class pollutes the pcs to be transformed during the transformation. See <<_whats_wrong_with_basic_operations>> when zero in not a pitch-class of the given pcs.
+
+C.  *Any PC belonging to PCS to be transformed*
+ +
+This ensures that the transformation will be based on a pitch-class of the relevant PCS (acting as a "fixed zero").
+ +
+This solution is compatible with the idea of the solution, leaving to the author the choice of the reference pitch-class, among _m_ choices, _m_ being the cardinal of the pcs concerned by the transformation.
+
+It seems clear that solution C prevails. The pivot _p_ must be chosen from the PCS pitch-classes.
+
+[#design-affine-pivot]
+=== Affine operation with pivot
+
+A solution to resolve mismatch basic operations is to add a parameter _p_ (pivot) to Extended Special Affine Operation.
+
+The p-value consists, for a given PCS, of selecting a pitch-class that:
+
+- Acts as a fixed point in affine operations (not necessarily "zero" or the first pitch-class)
+
+- Belongs to the pitch-class set under study, expected the empty set.
+
+We have seen that when we want to control the fixed point of a transformation operation of a PCS, a series of three operations is required: M1-T-p, [C]Ma-Tk and M1-Tp. We call this operation _"AffinePivot"_, a right action.
+
+====
+[.text-center]
+--
+*_AffinePivot_~p,c,a,k~* +
+_A composition of 3 affine operations_
+
+stem:["AffinePivot"_(p,c,a,k)  : P(ZZ_n) xx NN xx bbb"B" xx NN xx ZZ -> P(ZZ_n)]
+
+stem:["AffinePivot"_(p,c,a,k)(A) := M_1T_p(A) @ C_cM_aT_k(A) @ M_1T_-p(A)]
+
+_Where *a* is coprime with n, *k* a step of transposition, *c* if complement +
+and a pivot value *p*, element of A or 0 if A is empty_
+
+//stem:[  = {(a | a in A, if A != emptyset), (0, if A = emptyset) :}]
+
+--
+====
+
+
+=== AffinePivot reduced
+
+We are now preparing to establish a condensed version of the function.
+
+stem:["AffinePivot"_(c,p,a,k)(A) := M_1T_p(A) @ C_cM_aT_k(A) @ M_1T_-p(A)]
+
+// Recall : Each extended affine function stem:[C_cM_aT_k] we can denote stem:[(c,a, k)], or stem:[(a, k)] when c=false, for the sake of simplification.
+
+The extended affine composition function, that define one single function from composition of two functions, stem:[@],  is stem:[(c,a,k) @ (c',a',k') = (c oplus c', aa', ak' + k)]
+
+We will use this affine reduction to reduce the composition of 3 functions, stem:[M_1T_p(A) @ C_cM_aT_k(A) @ M_1T_-p(A)], to a single one.
+
+*  stem:[(false, 1, p) @ (c, a, k) @ (false, 1, -p)]
+* = stem:[(false, 1, p) @ (c oplus false, a, -ap + k)]
+* = stem:[(false, 1, p) @ (c, a, -ap + k)] // c ⊕ false = c
+* = stem:[(false oplus c, a, -ap + k + p)]
+* = stem:[(c, a, -ap + k + p)]
+* = #stem:[(c, a, p(1 - a) + k)]#  <= solution
+
+TIP: Unsurprisingly, only the transposition step is affected. +
+We will call this simplified function: *{startsb}C]Ma~p~Tk* +
+ +
+*_C_*, for complement, is optional. We will see that *_p_* can also be, provided that a default value is applied by a deterministic algorithm.
+
+// a * (x - pivot) + pivot + t // 1 mut 1 sous 2 add
+
+// If we extract the affine part _ax + b_ :  (a,b) |-> stem:[(a, p(1 - a) + k)]
+
+//
+//
+// .Examples
+// --
+//
+// * With _p_ = 0
+//
+// - stem:[(a, p(1 - a) + k)]
+// - stem:[(a, k)]  // ok this is initial function composition affine
+//
+// * With _p_ = 0 and _a_ = 1
+//
+// - stem:[(a, p(1 - a) + k)]
+// - stem:[(1, k)]  // ok, simple transposition
+//
+// * With _p_ = _0_ and _a_ = _1_ and _k_ = _0_
+//
+// - stem:[(a, p(1 - a) + k)]
+// - stem:[(1, 0)]  // ok, neutral operation (id)
+//
+// * With _p_ = 2 and _a_ = 11  and _k_ = _3_ (general use)
+//
+// - stem:[(a, p(1 - a) + k)]
+// - stem:[(11, 2 * (1 - 11) + 3)]
+// - stem:[(11, -17)]
+// - stem:[(11, 7)] // modulo 12
+//
+// --
+
+We can now define the operation that acts on PCS.
+
+
+====
+[.text-center]
+--
+*Affine with pivot : An action on PCS*
+
+stem:[Ma_pTk : P(ZZ_n) xx NN xx NN xx ZZ -> P(ZZ_n)]
+
+stem:[Ma_pTk(A) := {\ (ax + p(1 - a) + k) mod n \ },  forall  x in A]
+
+_Where *a* is coprime with n, *k* a step of transposition, *p* an element of A or 0 if A is empty_
+
+--
+====
+
+
+So, we can redefine special affine function with complement and pivot:
+
+====
+[.text-center]
+--
+
+*Extended special affine function with pivot*
+
+[stem]
+++++
+[C]Ma_pTk(A) := { (Ma_pTk(A) \ \ \ \ \ \ \ if C " is not present"), (E\  \\ \ Ma_pTk(A)  if C " is present") :}
+++++
+
+--
+====
+
+
+////
+
+[IMPORTANT]
+====
+
+
+Although the affinePivot function `CM~p~aTk` or `M~p~aTk`, has replaced the usual affine function `CMaTk` or `MaTk`, it should not be lost in sight that `[C]M~p~aTk` it is only a contraction of a composition of three basic affine functions:
+[.nowrap]#`M1-Tp ∘ [C]Ma-Tk ∘ M1-T-p`# or [.nowrap]#`M1-T~p~([C]Ma-Tk(M1-T-p(pcs)))`#
+as explained here <<design-affine-pivot>>.
+
+====
+////
+
+=== Default pivot value
+
+For compatibility with the usual affine function, as well as for practical reasons, we define the concept of default pivot value.
+
+[#default-p-value-logic]
+====
+[.text-center]
+--
+*Default pivot value when AffinePivot act on a PCS*
+
+The default p-value is the first pitch-class of the PCS or pitch-class zero if the PCS is empty set.
+
+stem:[p = {(a | a in A, if A != emptyset), (0, if A = emptyset) :}]
+
+By correlation, any pitch-class set in prime form has the default p-value equals to zero.
+--
+====
+
+With the default pivot-value defined, we can simplify the writing of the affine transformation `Ma~p~Tk` as `MaTk` when `Ma~p~Tk` acts on a PCS whose first pitch-class is equal to _p_.
+
+Examples:
+
+- (CMaj -> Fmin) `M11~0~T0([0 4 7])` =  `M11T0([0 4 7])` = `[0 5 8]`, pivot=0 and it is the first pitch-class
+
+- (Fmaj -> Bbmin) `M11~5~T0([0 5 9])` =  `[1 5 10]`, pivot=5 is NOT the first pitch-class and must be specified.
+
+- (FMaj/5th -> Cmin) `M11~0~T0([0 5 9])` = `M11T0([0 5 9])` =  `[0 3 7]`
+
+- (C#dim7 -> C#dmin7) `M11~1~T0([1 4 7 10])` = `M11T0([1 4 7 10])` = `[1 4 7 10]`, pivot=1 and it is the first pitch-class
+
+- (Db Major inversion) `M11~2~T0([1 2 4 6 7 9 11])` = `[1 2 4 6 8 9 11]`, The pivot must be specified, because the root is not the first pitch-class of the pcs.
+
+Some main characteristics of stem:[(c,p,a,k)] |-> stem:[c cdot (a, p(1 - a) + k)]
+
+.AffinePivot analysis : {startsb}C]Ma~[p]~Tk(A)
+[%header,cols=".^,.^,.^,.^,.^,.^,.^2"]
+|===
+a|stem:[c] .>a|stem:[p] .>a|stem:[a] .>a|stem:[k] .>a|stem:[c cdot (a, p(1 - a) + k)]|{startsb}C]Ma~p~Tk |designation
+
+|no present
+|no present
+|1
+|0
+a|stem:[x]
+|`M1T0(A)`
+|neutral operation
+
+
+|no present
+|no present
+|a
+|k
+a|stem:[ax + k]
+|`MaTk(A)`
+|initial affine function (*)
+
+|no present
+|no present
+|1
+|k
+.^a|stem:[x + k]
+.^|`M1Tk(A)`
+|transposition
+
+|no present
+|no present
+|1
+|0
+a|stem:[ax]
+|`MaT0(A)`
+|Mx transformation (*)
+
+|present
+|no present
+|1
+|0
+a|E - A
+|`CM1T0(A)`
+|complement
+
+
+|no present
+|p
+|11
+|0
+a|- (a, p(1 - a) + k)
+- (11, p(1 - 11))
+- (11, -10p)
+- (-1, 2p)  +
+(equiv. modulo 12)
+- (-x, 2p)
+- *2p - x* +
+(Fripentinger solution <<Fixed-zero-problem>>)
+|`M11T0(A)`
+|inversion
+
+
+|no present
+|2
+|11
+|3
+a|- stem:[(a, p(1 - a) + k)]
+- stem:[(11, 2 * (1 - 11) + 3)]
+- stem:[(11, -17)]
+- stem:[(11, 7)] // eq. modulo 12
+- stem:[11x + 7]
+.^|`M11~2~T3(A)`
+|example of traditional affine use, with pivot value = 2 (2 ∈ A)
+
+|===
+(*) _a_ coprime with _n_
+
+// And yet, the AffinePivot function has taken the place of the usual Affine functions in the project... Obviously to be clarified...
+
+//
+// === Composition AffineExtended function of (a, p(1 - a) + k)
+//
+// Composition function of traditional affine operation is
+//
+// stem:[(a,k) @ (a',k') = (aa', ak' + k)]
+//
+// which we apply to our extended function.
+//
+// Function composition stem:[@] is :
+//
+// - = stem:[(a, p(1 - a) + k) @ (a', p'(1 - a') + k')]
+// - = stem:[(aa', a * (p'(1 - a') + k') + p(1 - a) + k)]
+// - = stem:[(aa', -aa'p' + ap' +ak' -ap + p + k)]
+// - = #stem:[(aa', -ap'(a + 1) + p(1-a) + ak' + k)]# <= solution
+//
+// Examples
+//
+// * With _p_ = 0 and p' = 0:
+//
+// - stem:[(aa', -ap'(a + 1) + p(1-a) + ak' + k)]
+// - stem:[(aa', ak' + k)]  // ok this is initial function composition affine
+//
+// * With _p_ = _p'_ = 0 and _a_ = 1 and _a'_ = 1
+//
+// - stem:[(aa', -ap'(a + 1) + p(1-a) + ak' + k)]
+// - stem:[(1, k' + k)]  // ok, simple transposition
+//
+// * With _p_ = _p'_ = _0_ and _a_ = _a'_ = _1_ and _k_ = _k'_ = _0_
+//
+// - stem:[(aa', -ap'(a + 1) + p(1-a) + ak' + k)]
+// - stem:[(1, 0)]  // ok, neutral (or id) operation
+//
+// * With _p_ = 1 _p'_ = 2 and _a_ = 5  _a'_ = 7 and _k_ = 2 _k'_ = _3_
+//
+// - stem:[(aa', -ap'(a + 1) + p(1-a) + ak' + k)]
+// - stem:[(35, -10(5 + 1) + (1-5) + 15 + 2)]
+// - stem:[(11, 1)] // modulo 12
+
+
+If we assume that the pitch-class set, in normal order, represents a scale, _p_ designates the degree from which the `Ma~p~Tk` transformation will be applied. Not specifying _p_ in the affine MaTk function triggers the default pivot value assignment logic (<<default-p-value-logic>>.
+
+Examples of transformations with affinePivot function, with p-value specified, or not:
+
+.Revisited basic operations of Musical Set Theory, with pivot value (in red)
+[%header,cols="^,^,^,^,^"]
+|===
+a|pcs +
+source a|M11~0~T0 +
+or +
+M11-T0 +
+(inversion) a|M5~0~T0 +
+or +
+M5-T0 a|M7~0~T0 +
+or +
+M7-T0
+|dim7 expected as strongly invariant
+
+|image:pcs-0369-pivot0.png[]|image:pcs-0369-pivot0.png[]|image:pcs-0369-pivot0.png[]|image:pcs-0369-pivot0.png[] .^| Cdim7
+
+|[0 3 6 9]|[0 3 6 9]|[0 3 6 9]|[0 3 6 9]| #OK#
+
+|===
+
+[%header,cols="^,^,^,^,^"]
+|===
+.^|(default p-value = 1) .^a|M11~1~T0 +
+or +
+M11-T0 .^a|M5~1~T0 +
+or +
+M5-T0 .^a|M7~1~T0 +
+or +
+M7-T0 |dim7 expected as strongly invariant
+|image:pcs-14710-pivot1.png[]|image:pcs-14710-pivot1.png[]|image:pcs-14710-pivot1.png[]|image:pcs-14710-pivot1.png[] .^|C#dim7
+
+|[1 4 7 10]|[1 4 7 10]|[1 4 7 10]|[1 4 7 10]|#OK#
++
+C#dim7 has same treatment as Cdim7
+
+|===
+
+[%header,cols="^,^,^,^,^"]
+|===
+.^|(default p-value = 0) .^|M11T0  .^|M5T0  .^|M7T0|CMajor transformations (default pivot)
+
+|image:pcs-CMaj-pivot0.png[]|image:pcs-CMaj-M11-pivot0.png[]|image:pcs-CMaj-M5-pivot0.png[]|image:pcs-CMaj-M7-pivot0.png[]|
+
+|[0 2 4 5 7 9 11]|[0 1 3 5 7 8 10]|[0 1 7 8 9 10 11]|[0 1 2 3 4 5 11]|ok
+
+|===
+
+[%header,cols="^,^,^,^,^"]
+|===
+.^a|(default p-value = 1) +
+but p-value = 2 .^|M11~2~T0  .^|M5~2~T0  .^|M~2~7-T0|DMajor transformations
+
+|image:pcs-DMajor-pivot2.png[]|image:pcsDMaj-M11-Pivot2.png[]|image:pcsDMaj-M5-Pivot2.png[]|image:pcsDMaj-M7-Pivot2.png[]|
+
+|[1 2 4 6 7 9 11]|[0 2 3 5 7 9 10]|[0 1 2 3 9 10 11]|[1 2 3 4 5 6 7]|OK DMajor with pivot=2 has same treatment as CMajor
+
+|===
+
+[%header,cols="^,^,^,^,^"]
+|===
+.^| .^|CM11~0~T4  .^|CM5~0~T4  .^|CM7~0~T4|
+
+|image:pcs-047-pivot-0.png[]|image:pcs-047-pivot-0-CM11-T4.png[]|image:pcs-047-pivot-0-CM5-T4.png[]|image:pcs-047-pivot-0-CM7-T4.png[]| CMaj transformations
+
+|[0 4 7]|[12356781011]|[12567891011]|[01236791011]|
+|===
+
+
+[%header,cols="^,^,^,^,^"]
+|===
+a|CMaj +
+pivot on 3rd .^|CM11~4~T4  .^|CM5~4~T4  .^|CM7~4~T4|
+
+|image:pcs-047-pivot-4.png[]|image:pcs-047-pivot-4-CM11-T4.png[]|image:pcs-047-pivot-4-CM5-T4.png[]|image:pcs-047-pivot-4-CM7-T4.png[]| CMaj transformations
+
+|{startsb}0 4 7]|[12346791011]|[1234567910]|[01236791011]|
+|===
+
+
+[%header,cols="^,^,^,^,^"]
+|===
+a|D#/Eb Schoenberg Hexachord +
+(pivot on root) .^|CM11~3~T0  .^|CM5~3~T0  .^|CM7~3~T0|
+
+|image:pcs-034589-pivot3.png[]|image:pcs-034589-pivot-3-CM11T0.png[]|image:pcs-034589-pivot-3-CM5T0.png[]|image:pcs-034589-pivot-3-CM7T0.png[]|D#/Eb Schoenberg Hexachord transformations
+
+a|{startsb}0 3 4 5 8 9]|[0 4 5 7 8 11]|[2 5 6 7 10 11]|[0 1 4 7 8 11]|
+|===
+
+
+
+=== AffinePivot typescript implementation
+
+[source, javascript]
+----
+/** extended affinePivot transformation implementation
+ * c . (ax + b) |-> c . (ax + p(1 − a) + k)
+ */
+function affinePivot(
+  p: number, // integer in [0..this.n-1],
+             // assert: vectorIn[p] equals 1 if vectorIn not image of empty set.
+  a: number, // integer, assert: a is coprime with 'n'
+  k: number, // integer in Z
+  vectorIn: number[], // array of 0 | 1, a vector image of a pcs
+  // ex: [1,0,0,0,1,0,0,1,0,0,0,0] for {0 4 7} ({C E G})
+  c: boolean = false // if true, return complement of permutedVector (false by default)
+) : number[] // new vector "affinePivot" transformed
+{
+    const n = vectorIn.length
+    let permutedVector : number[] = Array(n)
+    // c . (ax + b) |-> c . (a * i + p(1 − a) + k)
+    const b = p * (1-a) + k
+    let j
+    for (let i = 0; i < n; i++) {
+      // j and i play the role of both index and pitch-class number
+      j = (n + (a * i + b) % n) % n // force modulo to get value >= 0
+      // if c then inverse vectorPcs[i] (0 <-> 1)
+      permutedVectorPcs[j] = c ? 1 - vectorPcs[i] : vectorPcs[i]
+    }
+    return permutedVector
+}
+----
+
+This function is extracted from a POC (and more) available on GitHub (open source : https://github.com/ocapuozzo/musaicbox-app). It is accessible as an online demo, executable from a browser (full front-end application) : https://musaicsbox.org
+
+//
+// === Conclusion
+//
+// * After observing the so-called "fixed zero problem", we were led to introduce a new parameter to the affine function acting on PCS, to improve the consistency of affine transformation operations such as inversion (M11) and transformation by cycle of fifths and fourths (M5 and M7).
+//
+// * The concept of a default value for the pivot has been introduced, allowing the parameterized affine function to substitute for the usual affine function. This allows us to still benefit from the advantages of group action (construction of orbits and stabilizers).

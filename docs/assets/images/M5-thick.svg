@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="71" height="77" viewBox="0 0 71 77">
-<rect x="-7.1" y="-7.7" width="85.2" height="92.4" fill="rgb(100%, 100%, 100%)" fill-opacity="0"/>
-<path fill="none" stroke-width="0.1" stroke-linecap="butt" stroke-linejoin="miter" stroke="rgb(0%, 0%, 0%)" stroke-opacity="1" stroke-dasharray="0.2 0.2" stroke-miterlimit="10" d="M 5.350072 8.399915 L 8.550072 11.099915 " transform="matrix(20, 0, 0, 20, -104.282688, -155.763932)"/>
-<path fill="none" stroke-width="0.2" stroke-linecap="butt" stroke-linejoin="miter" stroke="rgb(0%, 0%, 0%)" stroke-opacity="1" stroke-miterlimit="10" d="M 5.550072 11.049915 C 4.850072 10.349915 6.250072 8.249915 7.702806 8.249915 " transform="matrix(20, 0, 0, 20, -104.282688, -155.763932)"/>
-<path fill="none" stroke-width="0.2" stroke-linecap="butt" stroke-linejoin="miter" stroke="rgb(0%, 0%, 0%)" stroke-opacity="1" stroke-miterlimit="10" d="M 7.426439 8.499915 L 7.926439 8.249915 L 7.426439 7.999915 " transform="matrix(20, 0, 0, 20, -104.282688, -155.763932)"/>
-<path fill="none" stroke-width="0.2" stroke-linecap="butt" stroke-linejoin="miter" stroke="rgb(0%, 0%, 0%)" stroke-opacity="1" stroke-miterlimit="10" d="M 8.500072 8.549915 C 9.067455 9.206947 7.600072 11.099915 6.443822 11.244447 " transform="matrix(20, 0, 0, 20, -104.282688, -155.763932)"/>
-<path fill="none" stroke-width="0.2" stroke-linecap="butt" stroke-linejoin="miter" stroke="rgb(0%, 0%, 0%)" stroke-opacity="1" stroke-miterlimit="10" d="M 6.686986 10.96222 L 6.221947 11.272181 L 6.749095 11.458314 " transform="matrix(20, 0, 0, 20, -104.282688, -155.763932)"/>
-</svg>

@@ -1,6 +1,7 @@
 import {MusaicOperation} from "./MusaicOperation";
-import {IPcs, negativeToPositiveModulo} from "./IPcs";
+import {IPcs, modulo} from "./IPcs";
 import {ManagerGroupActionService} from "../service/manager-group-action.service";
+
 
 describe('MusaicPcsOperation', () => {
 
@@ -259,8 +260,8 @@ describe('MusaicPcsOperation', () => {
     // console.log(`res1 = ${res1} res2 = ${res2} res3 = ${res3} `)
     expect(res1).toEqual(res2)
     expect(res2).toEqual(-47)
-    expect(negativeToPositiveModulo(res2, 12)).toEqual(1)
-    expect(negativeToPositiveModulo(res3, 12)).toEqual(1)
+    expect(modulo(res2, 12)).toEqual(1)
+    expect(modulo(res3, 12)).toEqual(1)
   })
 
   it(' affine op when a > 1 with pcs mapped', () => {
@@ -426,6 +427,21 @@ describe('MusaicPcsOperation', () => {
     expectedPcs = new IPcs({strPcs:"[1 3 4 5 6 7 9]"})
     newVectorPcs = MusaicOperation.affinePivot(7, -2, 0, pcs.vectorPcs, true)
     expect(newVectorPcs).toEqual(expectedPcs.vectorPcs)
+
+    // Diatonic -> Pentatonic
+    pcs = new IPcs({strPcs: "02457911"}) // C Major diatonic
+    expectedPcs = new IPcs({strPcs:"[02479]"}) // C Major Pentatonic
+    newVectorPcs = MusaicOperation.affinePivot(1, 6, 0, pcs.vectorPcs, true)
+    expect(newVectorPcs).toEqual(expectedPcs.vectorPcs)
+
+  })
+
+  it('M11 . Major Diatonic  -> MajorDiatonic', () => {
+    // M11 . Major Diatonic  -> MajorDiatonic
+    let pcs = new IPcs({strPcs: "02457911"}) // C Major diatonic
+    let newVectorPcs = MusaicOperation.affinePivot(11, 4, 0, pcs.vectorPcs, false)
+    expect(newVectorPcs).toEqual(pcs.vectorPcs)
+
   })
 
 })

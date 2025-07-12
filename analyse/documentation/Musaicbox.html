@@ -723,10 +723,10 @@ td:has(>p>span[class="klein2"]) {
 <li><a href="#_conclusion">Conclusion</a></li>
 </ul>
 </li>
-<li><a href="#_unified_operation">Unified operation</a>
+<li><a href="#_affine_operation">Affine operation</a>
 <ul class="sectlevel2">
 <li><a href="#_special_affine_operation">Special Affine Operation</a></li>
-<li><a href="#_extended_special_affine_operation">Extended Special Affine Operation</a></li>
+<li><a href="#_special_affine_operation_with_complement">Special Affine Operation with complement</a></li>
 </ul>
 </li>
 <li><a href="#_group">Group</a>
@@ -764,7 +764,7 @@ td:has(>p>span[class="klein2"]) {
 <li><a href="#_17_subgroups_computed">17 subgroups computed</a></li>
 </ul>
 </li>
-<li><a href="#_affine_with_pivot">Revisited Affine Operation</a>
+<li><a href="#_affine_with_pivot">Revisited basic operations</a>
 <ul class="sectlevel2">
 <li><a href="#_whats_wrong_with_basic_operations">What&#8217;s wrong with basic operations</a></li>
 <li><a href="#_the_fixed_zero_problem">The "fixed zero problem"</a></li>
@@ -1836,10 +1836,10 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0 4
 <p>Operation name is &#160; \$M_a\$</p>
 </div>
 <div class="paragraph">
-<p>Multiplication is an operation which consists of moving all PCs of a PCS by  step of \$k\$ where \$k\$ is obtained by multiplying <em>PC</em> by a value prime with <em>n</em> (in semitones)</p>
+<p>Multiplication is an operation which consists of moving all PCs of a PCS by  step of \$k\$ where \$k\$ is obtained by multiplying <em>PC</em> by a value coprime with <em>n</em> (in semitones)</p>
 </div>
 <div class="paragraph">
-<p>This operation generates inversion and circle of fifths and fourths transformation.</p>
+<p>This operation generates inversion and cycle of fifths and fourths transformation.</p>
 </div>
 <div class="exampleblock">
 <div class="content">
@@ -1855,7 +1855,7 @@ Sum of intervals into intervallic structure is always <em>n</em>. For pcs : [0 4
 <p>\$M_a(A) := {\ (a * x) mod |E| \ },  forall   x in A\$</p>
 </div>
 <div class="paragraph">
-<p><em>Where <strong>a</strong> is prime with |E|, and \$*\$ is multiplication operator</em>.</p>
+<p><em>Where <strong>a</strong> is coprime with |E|, and \$*\$ is multiplication operator</em>.</p>
 </div>
 </div>
 </div>
@@ -2131,24 +2131,30 @@ Regarding circle of fifths and fourths transformations : "<em>Since middle 1950s
 <p>We have just defined 3 primitive operations which are <em>Transposition</em>, <em>Multiplication</em> and <em>Complementarity</em>.</p>
 </div>
 <div class="paragraph">
-<p>Let&#8217;s see how to use them in a Group structure.</p>
+<p>Let&#8217;s see how to prepare them for the purpose of building a group structure.</p>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_unified_operation">Unified operation</h2>
+<h2 id="_affine_operation">Affine operation</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>We will now combine our these three primitive operations (C, M and T)  into one single operation with the aim of creating a group.</p>
+<p>The well-known affine function (ax + b) will allow us to unify the primitive  multiplication  and transposition operations into one single operation (with the aim of creating a group, not covered by this document).</p>
 </div>
 <div class="sect2">
 <h3 id="_special_affine_operation">Special Affine Operation</h3>
 <div class="paragraph">
-<p>Multiplication and Transposition may be grouped into one special affine operation \$ (ax + k)\$ that operates on \$P(E)\$.</p>
+<p>Multiplication and Transposition may be grouped into one special affine operation that operates on \$P(ZZ_n)\$.</p>
 </div>
 <div class="paragraph">
-<p>Operation name will be represented by  \$M_aT_k\$ (<em>M</em><sub>a</sub>  for multiplication by <em>a</em> and <em>T</em><sub>k</sub> for transposition by a step of <em>k</em>).</p>
+<p>When a group G acts on a set E then G acts in a natural way on P(E) := {A | A ⊆ E}, which is the set of all subsets of E.</p>
+</div>
+<div class="paragraph">
+<p>Thus, when \$ZZ_12\$ is seen as the set of 12 pitch-classes, \$P(ZZ_12)\$ represents the set of possible scales restricted to an octave.</p>
+</div>
+<div class="paragraph">
+<p>Operation name will be represented by  \$M_aT_k\$ (<em>M</em><sub>a</sub>  for multiplication by <em>a</em> and <em>T</em><sub>k</sub> for transposition by a step of <em>k</em> semitones).</p>
 </div>
 <div class="exampleblock">
 <div class="content">
@@ -2158,36 +2164,39 @@ Regarding circle of fifths and fourths transformations : "<em>Since middle 1950s
 <p><strong>Special Affine Operation</strong></p>
 </div>
 <div class="paragraph">
-<p>\$M_aT_k  :  P(E) xx NN xx ZZ -&gt; P(E)\$</p>
+<p>\$M_aT_k  :  P(ZZ_n) xx NN xx ZZ -&gt; P(ZZ_n)\$</p>
 </div>
 <div class="paragraph">
-<p>\$M_aT_k(A) := {\ (ax + k) mod |E| \ },  forall  x in A\$</p>
+<p>\$M_aT_k(A) := {\ (ax + k) mod n \ },  forall  x in A\$</p>
 </div>
 <div class="paragraph">
-<p><em>Where <strong>a</strong> is prime with |E| (and <strong>k</strong> a step of transposition)</em></p>
+<p><em>Where <strong>a</strong> is coprime with n and <strong>k</strong> a step of transposition</em></p>
+</div>
+<div class="paragraph">
+<p>The coprime constraint under <em>a</em> is important because it ensures that the operation gives a unique image to each elements of \$A sube ZZ_n\$, another way of saying \$A in P(ZZ_n)\$</p>
 </div>
 </div>
 </div>
 </div>
 </div>
 <div class="paragraph">
-<p>Examples when \$E = {0, 1, ..., 11}\$  (cardinal of \$E\ is\ |E| = 12\$)</p>
+<p>Examples when \$n = 12\$.&#160;&#160;\$ZZ_12 = {0, 1, ..., 11}\$, the coprimes with \$n\$ are {1, 5, 7, 11}</p>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+<div class="ulist">
+<ul>
 <li>
-<p>Example M1-T5 : &#160; \$M_1T_5("[0 4 7]") -&gt; "[5 9 12]"\$ so  \$"[0 5 9]"\$ Transposition of 5 halftones (T5)</p>
+<p>\$M_1T_0("[0 4 7]") -&gt; "[0 4 7]"\$ &#160; (neutral op)</p>
 </li>
 <li>
-<p>Example M11-T0 : &#160; \$M_11T_0("[0 4 7]") -&gt;"[0 5 8]"\$ &#160; (C Maj &#8594; Fm/5th - Multiplication only - M11 is inversion)</p>
+<p>\$M_1T_5("[0 4 7]") -&gt; "[5 9 12]"\$ so  \$"[0 5 9]"\$ Transposition of 5 semitones (T5)</p>
 </li>
 <li>
-<p>Example M1-T0 : &#160; \$M_1T_0("[0 4 7]") -&gt; "[0 4 7]"\$ &#160; (neutral op)</p>
+<p>\$M_11T_0("[0 4 7]") -&gt;"[0 5 8]"\$ &#160; Inversion, (C Maj &#8594; Fm/5th)</p>
 </li>
 <li>
-<p>Example M5-T5 : &#160; \$M_5T_5("[0 4 7]") -&gt; "[1 4 5]"\$ &#160; Multiplication and Transposition</p>
+<p>\$M_5T_5("[0 4 7]") -&gt; "[1 4 5]"\$ &#160; Cycle fourths transformation followed by five semitone step transposition.</p>
 </li>
-</ol>
+</ul>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -2203,9 +2212,9 @@ Regarding circle of fifths and fourths transformations : "<em>Since middle 1950s
 </div>
 </div>
 <div class="sect2">
-<h3 id="_extended_special_affine_operation">Extended Special Affine Operation</h3>
+<h3 id="_special_affine_operation_with_complement">Special Affine Operation with complement</h3>
 <div class="paragraph">
-<p>If we add the complementarity operation to the special affine function, we obtain the following operation: <strong>\$c * (ax + k)\$</strong> that operates on \$P(E)\$. It is with this unified operation that we will work.</p>
+<p>If we add the complementarity operation to the special affine function, we get the following operation: <strong>\$c * (ax + k)\$</strong> that operates on \$P(ZZ_n)\$. It is with this unified operation that we will work.</p>
 </div>
 <div class="paragraph">
 <p>Operation name is &#160; \$C_cM_aT_k\$</p>
@@ -2218,10 +2227,10 @@ Regarding circle of fifths and fourths transformations : "<em>Since middle 1950s
 <p><strong>Extended Special Affine Operation</strong></p>
 </div>
 <div class="paragraph">
-<p>\$ C_cM_aT_k : P(E) xx {false, true} xx NN xx ZZ -&gt; P(E) \$</p>
+<p>\$ C_cM_aT_k : P(ZZ_n) xx {false, true} xx NN xx ZZ -&gt; P(E) \$</p>
 </div>
 <div class="paragraph">
-<p>\$C_cM_aT_k(A) := { ({\ (ax + k) mod |E| \ }  forall x in A \ \ \ \ \ \ \ \  if c = false), (E\ \\ \ {\ (ax + k) mod |E| \ }  forall x in A \  if c = true) :}\$</p>
+<p>\$C_cM_aT_k(A) := { ({\ (ax + k) mod n \ }  forall x in A \ \ \ \ \ \ \ \  if c = false), (ZZ_n\ \\ \ {\ (ax + k) mod n \ }  forall x in A \  if c = true) :}\$</p>
 </div>
 </div>
 </div>
@@ -2231,48 +2240,53 @@ Regarding circle of fifths and fourths transformations : "<em>Since middle 1950s
 <div class="openblock text-center">
 <div class="content">
 <div class="paragraph">
-<p>\$"[C]"M_aT_k(A) := { (M_aT_k(A) \ \ \ \ \ \ \ if C " is not present"), (E\  \\ \ M_aT_k(A)  if C " is present") :}\$</p>
+<p>\$"[C]"M_aT_k(A) := { (M_aT_k(A) \ \ \ \ \ \ \ \ if C " is not present"), (ZZ_n\ \\ \ M_aT_k(A)  if C " is present") :}\$</p>
 </div>
 </div>
 </div>
 </div>
 </div>
 <div class="paragraph">
-<p>Examples when \$E = {0, 1, ..., 11}\$  (cardinal of \$E\ is\ |E| = 12\$) :</p>
+<p>Examples: \$ZZ_12 = {0, 1, ..., 11}\$ and the coprimes with n=12 are {1, 5, 7, 11}:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>M1-T0</strong> &#160;:&#160;  \$M_1T_0("[0 4 7]") -&gt; "[0 4 7]"\$ &#160; (neutral op)</p>
+<p>\$M_1T_0("[0 4 7]") -&gt; "[0 4 7]"\$ &#160; (neutral op)</p>
 </li>
 <li>
-<p><strong>M1-T1</strong> &#160;:&#160; \$M_1T_1("[0 4 7]") -&gt; "[1 5 8]"\$ &#160; (transposition of 1 halftone only)</p>
+<p>\$M_1T_1("[0 4 7]") -&gt; "[1 5 8]"\$ &#160; (transposition of 1 semitone only)</p>
 </li>
 <li>
-<p><strong>M5-T0</strong> &#160;:&#160; \$M_5T_0("[0 4 7]") -&gt; "[0 8 11]"\$ &#160; (M5 only)</p>
+<p>\$M_5T_0("[0 4 7]") -&gt; "[0 8 11]"\$ &#160; (M5 only)</p>
 </li>
 <li>
-<p><strong>CM5-T4</strong> &#160;:&#160; \$CM_5T_4("[0 4 7]") -&gt; "[1 2 5 6 7 8 9 10 11]"\$ &#160; (M5,  T4 and Complement - affine first, then complement)</p>
+<p>\$CM_5T_4("[0 4 7]") -&gt; "[1 2 5 6 7 8 9 10 11]"\$ &#160; (affine first then complement)</p>
 </li>
 <li>
-<p><strong>CM1-T1</strong> &#160;:&#160; \$CM_1T_1("[0 2 4 6 8 10]") -&gt; "[0 2 4 6 8 10]"\$ &#160; (T1 and Complement)</p>
+<p>\$M_11T_4("[0 2 4 5 7 9 11]") -&gt; "[0 2 4 5 7 9 11]"\$ &#160; (M11 then T4: C Major Diatonic &#8594; C Major Diatonic)</p>
 </li>
 <li>
-<p><strong>CM1-T0</strong> &#160;:&#160; \$CM_1T_0("[0 3 6 9]") -&gt; "[1 2 4 5 7 8 10 11]"\$ &#160; (Complement only : Dim7 &#8594; Dim scale)</p>
+<p>\$CM_1T_6("[0 2 4 5 7 9 11]") -&gt; "[0 2 4 7 9]"\$ &#160; (T6 then Complement: C Major Diatonic &#8594; C Major Pentatonic)</p>
+</li>
+<li>
+<p>\$CM_1T_0("[0 3 6 9]") -&gt; "[1 2 4 5 7 8 10 11]"\$ &#160; (Complement only: Dim7 &#8594; Dim scale)</p>
 </li>
 </ul>
 </div>
-<div class="paragraph">
-<p>etc.</p>
-</div>
-<div class="admonitionblock note">
+<div class="admonitionblock tip">
 <table>
 <tr>
 <td class="icon">
-<i class="fa icon-note" title="Note"></i>
+<i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-Extended Special Affine Operation is called <em>MusaicOperation</em> into MusaicBox project.
+<div class="paragraph">
+<p>The number of versions of this operation is given by the formula: \$C^({0,1}) * M^(phi(n)) * T^n\$</p>
+</div>
+<div class="paragraph">
+<p>With \$n=12\$&#160;, number of operations is:  \$2 xx 4 xx 12 = 96\$</p>
+</div>
 </td>
 </tr>
 </table>
@@ -2297,7 +2311,7 @@ Extended Special Affine Operation is called <em>MusaicOperation</em> into Musaic
 </ul>
 </div>
 <div class="paragraph">
-<p>This function composition \$@\$, extend function composition of special Affine group, where \$a and a'\$ is prime with \$n\$ and \$oplus\$ the logical operator XOR.</p>
+<p>This function composition \$@\$, extend function composition of special Affine group, where \$a and a'\$ is coprime with \$n\$ and \$oplus\$ the logical operator XOR.</p>
 </div>
 <div class="sect2">
 <h3 id="_group_axioms">Group Axioms</h3>
@@ -2321,7 +2335,7 @@ Extended Special Affine Operation is called <em>MusaicOperation</em> into Musaic
 <p>If we take \$g = (c,a,k)\$ and \$g' = (c',a',k')\$ then \$g @ g' = \$ (  \$underbrace(bb "c ⊕ c'")_(in {true,false}), underbrace(aa', ak' + k)_("Special Affine Op")\$)</p>
 </div>
 <div class="paragraph">
-<p>Since \$a\$ and \$a'\$ are prime with \$n\$, \$(aa' mod n) = 1\$ which is also prime with n.</p>
+<p>Since \$a\$ and \$a'\$ are coprime with \$n\$, \$(aa' mod n) = 1\$ which is also coprime with n.</p>
 </div>
 <div class="paragraph">
 <p>Therefore \$(g∘g') in G\$</p>
@@ -2536,7 +2550,7 @@ Extended Special Affine Operation is called <em>MusaicOperation</em> into Musaic
 <p>\$ c oplus c = false, AA c in {true, false}\$</p>
 </li>
 <li>
-<p>\$aa = 1\$ because \$(a^2 mod n) = 1,  AA a " prime with " n\$</p>
+<p>\$aa = 1\$ because \$(a^2 mod n) = 1,  AA a " coprime with " n\$</p>
 </li>
 <li>
 <p>\$ (-k * a^-1) (mod n)\$ &#160; is value of \$k'\$ which solves the equation \$ak' + k = 0\$ &#160; ( <em>a</em><sup>-1</sup> is the modular inverse of <em>a</em>)</p>
@@ -2588,7 +2602,7 @@ Extended Special Affine Operation is called <em>MusaicOperation</em> into Musaic
 </ul>
 </div>
 <div class="paragraph">
-<p>where \$n&gt;2\$, \$a\$ prime with \$n\$ and \$c in {true, false}\$</p>
+<p>where \$n&gt;2\$, \$a\$ coprime with \$n\$ and \$c in {true, false}\$</p>
 </div>
 </div>
 </div>
@@ -2842,7 +2856,10 @@ We can observe the highlighting of symmetries, and a <a href="https://en.wikiped
 <p>Where \$phi\$ is Euler&#8217;s function.</p>
 </div>
 <div class="paragraph">
-<p>Example with n=12 &#8658; \$ |G| = 2 xx 12 xx 4 = 96\$</p>
+<p>Explanations: operation of group is \$C^({0,1}) * M^(phi(n)) * T^n\$</p>
+</div>
+<div class="paragraph">
+<p>Example with \$n=12\$&#160;, \$|G| = 2 xx 4 xx 12 = 96\$</p>
 </div>
 </div>
 </div>
@@ -3090,7 +3107,7 @@ All these properties, and more, can be viewed on page : <a href="https://musaicb
 <p>As expected, a new operation has been generated, <code>M1-T2</code>, which we need to re-inject into the table. Continuing this process, we obtain the stable array of 12x12.</p>
 </div>
 <div class="paragraph">
-<p>This is because the basic operation we selected (<code>M1-T1</code>), with a step of 1, generates 12. We could have chosen <code>M1-T5</code>, <code>M1-T7</code> or <code>M1-T11</code>, since 1, 5, 7, and 11 are prime with 12, we would arrive at the same result.</p>
+<p>This is because the basic operation we selected (<code>M1-T1</code>), with a step of 1, generates 12. We could have chosen <code>M1-T5</code>, <code>M1-T7</code> or <code>M1-T11</code>, since 1, 5, 7, and 11 are coprime with 12, we would arrive at the same result.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 6. All operations in M1-Tk, but prefix M1-  is omitted (Rem : k + k' value is modulo n=12; Example : 4+9 = 1 modulo 12)</caption>
@@ -4306,7 +4323,7 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_affine_with_pivot">Revisited Affine Operation</h2>
+<h2 id="_affine_with_pivot">Revisited basic operations</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>(with pivot parameter for better basic operations)</p>
@@ -4317,7 +4334,7 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <div class="sect2">
 <h3 id="_whats_wrong_with_basic_operations">What&#8217;s wrong with basic operations</h3>
 <div class="paragraph">
-<p>Let&#8217;s take the inversion operation (M11) as example, but the problem raised here also applies to M5 and M7 transformations.</p>
+<p>Let us take the inversion operation (M11) as an example, but the problem raised here also applies to the transformations M5 and M7.</p>
 </div>
 <div class="paragraph">
 <p>In the literature on post-tonal analysis, inversion operation can be found expressed in two forms which we will here call <em>inverseA</em> and <em>inverseB</em>:</p>
@@ -4338,7 +4355,7 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <div class="ulist">
 <ul>
 <li>
-<p>InverseA(<code>[0 2 4 5 7 9 11]</code>) :</p>
+<p><em>inverseA</em>(<code>[0 2 4 5 7 9 11]</code>) :</p>
 </li>
 </ul>
 </div>
@@ -4364,12 +4381,12 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <p><code>11</code> &#8594; <code>12 - 11</code> &#8594; <code><mark>1</mark></code></p>
 </div>
 <div class="paragraph">
-<p>This gives : InverseA(<code>[0 2 4 5 7 9 11]</code>) &#8594; <code>[<mark>0 1 3 5 7 8 10</mark>]</code></p>
+<p>This gives : <em>inverseA</em>(<code>[0 2 4 5 7 9 11]</code>) &#8594; <code>[<mark>0 1 3 5 7 8 10</mark>]</code></p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>InverseB(<code>[0 2 4 5 7 9 11]</code>) :</p>
+<p><em>inverseB</em>(<code>[0 2 4 5 7 9 11]</code>) :</p>
 </li>
 </ul>
 </div>
@@ -4395,10 +4412,55 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <p><code>11</code> &#8594; <code>11 x 11</code> &#8594; 121 mod 12 &#8594; <code><mark>1</mark></code></p>
 </div>
 <div class="paragraph">
-<p>This gives : InverseB(<code>[0 2 4 5 7 9 11]</code>) &#8594; <code>[<mark>0 1 3 5 7 8 10</mark>]</code></p>
+<p>This gives : <em>inverseB</em>(<code>[0 2 4 5 7 9 11]</code>) &#8594; <code>[<mark>0 1 3 5 7 8 10</mark>]</code></p>
 </div>
 <div class="paragraph">
-<p>As expected, <em>inverseA</em> and <em>inverseB</em> are <strong>same logic</strong> : <span class="underline">CMajor is transformed in III degree of its VIb Major</span> (Ab Major)</p>
+<p>From a modulo n point of view, the functions inverseA and inverseB are the same. Proof.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">inverseA</th>
+<th class="tableblock halign-left valign-top">inverseB</th>
+<th class="tableblock halign-left valign-top">Justification</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(n−x)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(n−1)⋅x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">formula</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(12−x)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(12−1)⋅x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">n=12</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(0−x)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">11x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">12 modulo 12 = 0</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-1x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">11x</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-x = x multiply by -1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>11x</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>11x</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-1 modulo 12 = 11<br>
+QED</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Inverse operation transform CMajor into III degree of Ab Major, its VIb Major.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -4412,7 +4474,7 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <div class="ulist">
 <ul>
 <li>
-<p>The inverse of C# Major, <em>inverseA</em>(<code>[0 1 3 5 6 8 10]</code>) :</p>
+<p>The inverse of C# Major, <em>inverse</em>(<code>[0 1 3 5 6 8 10]</code>) :</p>
 </li>
 </ul>
 </div>
@@ -4438,7 +4500,7 @@ By definition, a stabilizer is also a subgroup (isotropy subgroup).<br>
 <p><code>10</code> &#8594; <code>12 - 10</code> &#8594; <code><mark>2</mark></code></p>
 </div>
 <div class="paragraph">
-<p><em>inverseA</em>(<code>[0 1 3 5 6 8 10]</code>) = <em>inverseB</em>(<code>[0 1 3 5 6 8 10]</code>) &#8594; <code>[<mark>0 2 4 6 7 9 11</mark>]</code></p>
+<p><em>inverse</em>(<code>[0 1 3 5 6 8 10]</code>)  &#8594; <code>[<mark>0 2 4 6 7 9 11</mark>]</code></p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -4562,7 +4624,7 @@ C#Dim7</p>
 <div class="paragraph">
 <p>Indeed, the D-Major PCS share the same structural characteristics as any Major PCS, but we have noted that, in their basic form, the transformation operations, other than transposition, do not respect this constancy across all Major PCS.</p>
 </div>
-<div class="exampleblock">
+<div id="Fixed-zero-problem" class="exampleblock">
 <div class="content">
 <div class="paragraph text-center">
 <p><strong><em>"Fixed zero problem"</em></strong>.</p>
@@ -4579,7 +4641,10 @@ C#Dim7</p>
 <p>David Lewin proposes defining the LABEL function, which define a pitch-class reference for inversion, associates with a GIS (<a href="#LEWIN">[LEWIN]</a>, page 31).</p>
 </li>
 <li>
-<p>Later, David Lewin "frees" the LABEL function using a parameterized inversion operation <em>I<sup>u</sup></em>, an inversion around <em>u</em>. <a href="#LEWIN-1977a">[LEWIN-1977a]</a> <a href="#LEWIN-1980">[LEWIN-1980]</a>. Only deals with the case of inversion.</p>
+<p>Later, David Lewin "frees" the LABEL function using a parameterized inversion operation <em>I<sup>u</sup></em>, an inversion around&#160;_u_. <a href="#LEWIN-1977a">[LEWIN-1977a]</a> <a href="#LEWIN-1980">[LEWIN-1980]</a>. Only deals with the case of inversion.</p>
+</li>
+<li>
+<p>Harald Fripertinger define in <a href="#Fripertinger">[Fripertinger]</a> an <em>operator inversion, from Z to Z, with respect to r</em>  as <span class="nowrap"><em>I<sub>r</sub>(i) = r − (z − r) = <strong>2r - i</strong></em></span>. So, when <em>r = 0</em>,  <em>I(i) = -i</em>. The parameter pitch-class reference only deals with operator inversion, although quart-circle and quint-circle transformations are defined in the same paper.</p>
 </li>
 </ul>
 </div>
@@ -4592,10 +4657,10 @@ C#Dim7</p>
 <p>We are looking for a solution that allows to maintain the structural consistency of PCSs across different transformations, including inversion and transformation by cycles of fifths and fourths.</p>
 </div>
 <div class="paragraph">
-<p>The Label-Free David Lewin&#8217;s solution (<em>I<sup>u</sup></em>) partially addresses this problem (deals with inversion only).</p>
+<p>The Label-Free David Lewin&#8217;s solution (<em>I<sup>u</sup></em>), or Harald Fripertinger (<em>I<sub>r</sub></em>) partially addresses this problem (deals with inversion only).</p>
 </div>
 <div class="paragraph">
-<p>We propose to generalize this solution to the extended affine function seen previously by introducing a new parameter to designate the fixed point of the transformation.</p>
+<p>We propose to generalize this solution to the extended affine function seen previously by adding a new parameter to designate the reference fixed point of transformation.</p>
 </div>
 <div class="paragraph">
 <p>We start from the observation that the points fixed by the transformation operations depend essentially on <em>n</em>. For <em>n</em> = 12, these fixed points are represented by this figure :</p>
@@ -4736,7 +4801,7 @@ This solution is compatible with the idea of the solution, leaving to the author
 <p>\$"AffinePivot"_(p,c,a,k)(A) := M_1T_p(A) @ C_cM_aT_k(A) @ M_1T_-p(A)\$</p>
 </div>
 <div class="paragraph">
-<p><em>Where <strong>a</strong> is prime with |E|, <strong>k</strong> a step of transposition, <strong>c</strong> if complement and <strong>p</strong> ∈ A, a pivot value</em></p>
+<p><em>Where <strong>a</strong> is coprime with |E|, <strong>k</strong> a step of transposition, <strong>c</strong> if complement and <strong>p</strong> ∈ A, a pivot value</em></p>
 </div>
 </div>
 </div>
@@ -4755,7 +4820,7 @@ This solution is compatible with the idea of the solution, leaving to the author
 <p>The extended affine composition function, that define one single function from composition of two functions, \$@\$,  is \$(c,a,k) @ (c',a',k') = (c oplus c', aa', ak' + k)\$</p>
 </div>
 <div class="paragraph">
-<p>We will use this reduction to reduce the composition of 3 functions, \$M_1T_p(A) @ C_cM_aT_k(A) @ M_1T_-p(A)\$, to a single one.</p>
+<p>We will use this affine reduction to reduce the composition of 3 functions, \$M_1T_p(A) @ C_cM_aT_k(A) @ M_1T_-p(A)\$, to a single one.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -4779,82 +4844,21 @@ This solution is compatible with the idea of the solution, leaving to the author
 </li>
 </ul>
 </div>
-<div class="paragraph">
-<p>Unsurprisingly, only the transposition step is affected.</p>
-</div>
-<div class="paragraph">
-<p>If we extract the affine part <em>ax + b</em> :  (a,b) |&#8594; \$(a, p(1 - a) + k)\$</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 10. AffinePivot analysis affine part</caption>
-<colgroup>
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-</colgroup>
-<thead>
+<div class="admonitionblock tip">
+<table>
 <tr>
-<th class="tableblock halign-left valign-bottom">\$p\$</th>
-<th class="tableblock halign-left valign-bottom">\$a\$</th>
-<th class="tableblock halign-left valign-bottom">\$k\$</th>
-<th class="tableblock halign-left valign-bottom">\$(a, p(1 - a) + k)\$</th>
-<th class="tableblock halign-left valign-top">designation</th>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Unsurprisingly, only the transposition step is affected.<br>
+We will call this simplified function: <strong>[C]Ma<sub>p</sub>Tk</strong><br>
+<br>
+<strong><em>C</em></strong>, for complement, is optional. We will see that <strong><em>p</em></strong> will also be.
+</td>
 </tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>\$(a,k)\$</p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">initial affine function</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>\$(1,k)\$</p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">simple transposition</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p>\$(1,0)\$</p>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">neutral operation</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">11</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
-<ul>
-<li>
-<p>\$(a, p(1 - a) + k)\$</p>
-</li>
-<li>
-<p>\$(11, 2 * (1 - 11) + 3)\$</p>
-</li>
-<li>
-<p>\$(11, -17)\$</p>
-</li>
-<li>
-<p>\$(11, 7)\$ // modulo 12</p>
-</li>
-</ul>
-</div></div></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">example of general use with pivot value</p></td>
-</tr>
-</tbody>
 </table>
+</div>
 <div class="paragraph">
 <p>We can now define the operation that acts on PCS.</p>
 </div>
@@ -4866,13 +4870,13 @@ This solution is compatible with the idea of the solution, leaving to the author
 <p><strong>Affine with pivot : An action on PCS</strong></p>
 </div>
 <div class="paragraph">
-<p>\$M_paTk : P(E) xx NN xx NN xx ZZ -&gt; P(E)\$</p>
+<p>\$Ma_pTk : P(E) xx NN xx NN xx ZZ -&gt; P(E)\$</p>
 </div>
 <div class="paragraph">
-<p>\$M_paTk(A) := {\ (ax + p(1 - a) + k) mod |E| \ },  forall  x in A\$</p>
+<p>\$Ma_pTk(A) := {\ (ax + p(1 - a) + k) mod |E| \ },  forall  x in A\$</p>
 </div>
 <div class="paragraph">
-<p><em>Where <strong>a</strong> is prime with |E|, <strong>k</strong> a step of transposition, <strong>p</strong> a pc of A</em></p>
+<p><em>Where <strong>a</strong> is coprime with |E|, <strong>k</strong> a step of transposition, <strong>p</strong> an element of A</em></p>
 </div>
 </div>
 </div>
@@ -4890,7 +4894,7 @@ This solution is compatible with the idea of the solution, leaving to the author
 </div>
 <div class="stemblock">
 <div class="content">
-\$[C]M_paTk(A) := { (M_paTk(A) \ \ \ \ \ \ \ if C " is not present"), (E\  \\ \ M_paTk(A)  if C " is present") :}\$
+\$[C]Ma_pTk(A) := { (Ma_pTk(A) \ \ \ \ \ \ \ if C " is not present"), (E\  \\ \ Ma_pTk(A)  if C " is present") :}\$
 </div>
 </div>
 </div>
@@ -4917,7 +4921,7 @@ This solution is compatible with the idea of the solution, leaving to the author
 </div>
 </div>
 <div class="paragraph">
-<p>With the default pivot-value defined, we can simplify the writing of the affine transformation <code>M<sub>p</sub>a-Tk</code> as <code>Ma-Tk</code> when <code>M<sub>p</sub>a-Tk</code> acts on a PCS having its first pitch-class equals to <em>p</em>.</p>
+<p>With the default pivot-value defined, we can simplify the writing of the affine transformation <code>Ma<sub>p</sub>Tk</code> as <code>MaTk</code> when <code>Ma<sub>p</sub>Tk</code> acts on a PCS whose first pitch-class is equal to <em>p</em>.</p>
 </div>
 <div class="paragraph">
 <p>Examples:</p>
@@ -4925,24 +4929,169 @@ This solution is compatible with the idea of the solution, leaving to the author
 <div class="ulist">
 <ul>
 <li>
-<p>(CMaj &#8594; Fmin) <code>M<sub>0</sub>11-T0([0 4 7])</code> =  <code>M11-T0([0 4 7])</code> = <code>[0 5 8]</code>, pivot=0 and it is the first pitch-class</p>
+<p>(CMaj &#8594; Fmin) <code>M11<sub>0</sub>T0([0 4 7])</code> =  <code>M11T0([0 4 7])</code> = <code>[0 5 8]</code>, pivot=0 and it is the first pitch-class</p>
 </li>
 <li>
-<p>(Fmaj &#8594; Bbmin) <code>M<sub>5</sub>11-T0([0 5 9])</code> =  <code>[1 5 10]</code>, pivot=5 is NOT the first pitch-class and must be specified.</p>
+<p>(Fmaj &#8594; Bbmin) <code>M11<sub>5</sub>T0([0 5 9])</code> =  <code>[1 5 10]</code>, pivot=5 is NOT the first pitch-class and must be specified.</p>
 </li>
 <li>
-<p>(FMaj/5th &#8594; Cmin) <code>M<sub>0</sub>11-T0([0 5 9])</code> = <code>M11-T0([0 5 9])</code> =  <code>[0 3 7]</code></p>
+<p>(FMaj/5th &#8594; Cmin) <code>M11<sub>0</sub>T0([0 5 9])</code> = <code>M11T0([0 5 9])</code> =  <code>[0 3 7]</code></p>
 </li>
 <li>
-<p>(C#dim7 &#8594; C#dmin7) <code>M<sub>1</sub>11-T0([1 4 7 10])</code> = <code>M11-T0([1 4 7 10])</code> = <code>[1 4 7 10]</code>, pivot=1 and it is the first pitch-class</p>
+<p>(C#dim7 &#8594; C#dmin7) <code>M11<sub>1</sub>T0([1 4 7 10])</code> = <code>M11T0([1 4 7 10])</code> = <code>[1 4 7 10]</code>, pivot=1 and it is the first pitch-class</p>
 </li>
 <li>
-<p>(Db Major inversion) <code>M<sub>2</sub>11-T0([1 2 4 6 7 9 11])</code> = <code>[1 2 4 6 8 9 11]</code>, The pivot must be specified, because the root is not the first pitch-class of the pcs.</p>
+<p>(Db Major inversion) <code>M11<sub>2</sub>T0([1 2 4 6 7 9 11])</code> = <code>[1 2 4 6 8 9 11]</code>, The pivot must be specified, because the root is not the first pitch-class of the pcs.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>If we assume that the PCS in normal order represents a scale, <em>p</em> designates the degree from which the M<sub>p</sub>a-Tk transformation will be applied. Do not specify <em>p</em> in the affine function <code>Ma-Tk</code>, it is to choose the first degree of the PCS.</p>
+<p>Some main characteristics of \$(c,p,a,k)\$ |&#8594; \$c cdot (a, p(1 - a) + k)\$</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 10. AffinePivot analysis : [C]Ma<sub>[p]</sub>Tk(A)</caption>
+<colgroup>
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 12.5%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-middle">\$c\$</th>
+<th class="tableblock halign-left valign-bottom">\$p\$</th>
+<th class="tableblock halign-left valign-bottom">\$a\$</th>
+<th class="tableblock halign-left valign-bottom">\$k\$</th>
+<th class="tableblock halign-left valign-bottom">\$c cdot (a, p(1 - a) + k)\$</th>
+<th class="tableblock halign-left valign-middle">[C]Ma<sub>p</sub>Tk</th>
+<th class="tableblock halign-left valign-middle">designation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">no present</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">no present</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="paragraph">
+<p>\$x\$</p>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>M1T0(A)</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">neutral operation</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">no present</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">no present</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">a</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">k</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="paragraph">
+<p>\$ax + k\$</p>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>MaTk(A)</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">initial affine function (*)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">no present</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">no present</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">k</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="paragraph">
+<p>\$x + k\$</p>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>M1Tk(A)</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">simple transposition</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">no present</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">no present</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="paragraph">
+<p>\$ax\$</p>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>MaT0(A)</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">simple Mx transformation (*)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">present</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">no present</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="paragraph">
+<p>E - A</p>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>CM1T0(A)</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">simple complement</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">no present</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">p</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>(a, p(1 - a) + k)</p>
+</li>
+<li>
+<p>(11, p(1 - 11))</p>
+</li>
+<li>
+<p>(11, -10p)</p>
+</li>
+<li>
+<p>(-1, 2p) <br>
+(equiv. modulo 12)</p>
+</li>
+<li>
+<p>(-x, 2p)</p>
+</li>
+<li>
+<p><strong>2p - x</strong><br>
+(Fripentinger solution <a href="#Fixed-zero-problem">[Fixed-zero-problem]</a>)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>M11T0(A)</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">simple inversion</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">no present</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">11</p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>\$(a, p(1 - a) + k)\$</p>
+</li>
+<li>
+<p>\$(11, 2 * (1 - 11) + 3)\$</p>
+</li>
+<li>
+<p>\$(11, -17)\$</p>
+</li>
+<li>
+<p>\$(11, 7)\$ // eq. modulo 12</p>
+</li>
+<li>
+<p>\$11x + 7\$</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock"><code>M11<sub>2</sub>T3(A)</code></p></td>
+<td class="tableblock halign-left valign-middle"><p class="tableblock">example of general use with pivot value</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>(*) first pitch-class number, or zero, is p-value</p>
+</div>
+<div class="paragraph">
+<p>If we assume that the PCS in normal order represents a scale, <em>p</em> designates the degree from which the <code>Ma<sub>p</sub>Tk</code> transformation will be applied. Do not specify <em>p</em> in the affine function <code>MaTk</code>, it is to choose the <strong>first degree</strong> of the PCS.</p>
 </div>
 <div class="paragraph">
 <p>Examples of transformations with affinePivot function, with p-value specified:</p>
@@ -4960,14 +5109,14 @@ This solution is compatible with the idea of the solution, leaving to the author
 <tr>
 <th class="tableblock halign-center valign-top">PCS<br>
 source</th>
-<th class="tableblock halign-center valign-top">M<sub>0</sub>11-T0<br>
+<th class="tableblock halign-center valign-top">M11<sub>0</sub>T0<br>
 or<br>
 M11-T0<br>
 (inversion)</th>
-<th class="tableblock halign-center valign-top">M<sub>0</sub>5-T0<br>
+<th class="tableblock halign-center valign-top">M5<sub>0</sub>T0<br>
 or<br>
 M5-T0</th>
-<th class="tableblock halign-center valign-top">M<sub>0</sub>7-T0<br>
+<th class="tableblock halign-center valign-top">M7<sub>0</sub>T0<br>
 or<br>
 M7-T0</th>
 <th class="tableblock halign-center valign-top">dim7 expected as strongly invariant</th>
@@ -5001,13 +5150,13 @@ M7-T0</th>
 <thead>
 <tr>
 <th class="tableblock halign-center valign-top"></th>
-<th class="tableblock halign-center valign-middle">M<sub>1</sub>11-T0<br>
+<th class="tableblock halign-center valign-middle">M11<sub>1</sub>T0<br>
 or<br>
 M11-T0</th>
-<th class="tableblock halign-center valign-middle">M<sub>1</sub>5-T0<br>
+<th class="tableblock halign-center valign-middle">M5<sub>1</sub>T0<br>
 or<br>
 M5-T0</th>
-<th class="tableblock halign-center valign-middle">M<sub>1</sub>7-T0<br>
+<th class="tableblock halign-center valign-middle">M7<sub>1</sub>T0<br>
 or<br>
 M7-T0</th>
 <th class="tableblock halign-center valign-top">dim7 expected as strongly invariant</th>
@@ -5027,8 +5176,8 @@ M7-T0</th>
 <td class="tableblock halign-center valign-top"><p class="tableblock">[1 4 7 10]</p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock">[1 4 7 10]</p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><mark>OK</mark>
-<br>
- C#dim7 has same treatment as Cdim7</p></td>
++
+C#dim7 has same treatment as Cdim7</p></td>
 </tr>
 </tbody>
 </table>
@@ -5043,9 +5192,9 @@ M7-T0</th>
 <thead>
 <tr>
 <th class="tableblock halign-center valign-top"></th>
-<th class="tableblock halign-center valign-middle">M11-T0</th>
-<th class="tableblock halign-center valign-middle">M5-T0</th>
-<th class="tableblock halign-center valign-middle">M7-T0</th>
+<th class="tableblock halign-center valign-middle">M11T0</th>
+<th class="tableblock halign-center valign-middle">M5T0</th>
+<th class="tableblock halign-center valign-middle">M7T0</th>
 <th class="tableblock halign-center valign-top">CMajor transformations (default pivot)</th>
 </tr>
 </thead>
@@ -5077,8 +5226,8 @@ M7-T0</th>
 <thead>
 <tr>
 <th class="tableblock halign-center valign-top"></th>
-<th class="tableblock halign-center valign-middle">M<sub>2</sub>11-T0</th>
-<th class="tableblock halign-center valign-middle">M<sub>2</sub>5-T0</th>
+<th class="tableblock halign-center valign-middle">M11<sub>2</sub>T0</th>
+<th class="tableblock halign-center valign-middle">M5<sub>2</sub>T0</th>
 <th class="tableblock halign-center valign-middle">M<sub>2</sub>7-T0</th>
 <th class="tableblock halign-center valign-top">DMajor transformations</th>
 </tr>
@@ -5111,9 +5260,9 @@ M7-T0</th>
 <thead>
 <tr>
 <th class="tableblock halign-center valign-top"></th>
-<th class="tableblock halign-center valign-middle">CM<sub>0</sub>11-T4</th>
-<th class="tableblock halign-center valign-middle">CM<sub>0</sub>5-T4</th>
-<th class="tableblock halign-center valign-middle">CM<sub>0</sub>7-T4</th>
+<th class="tableblock halign-center valign-middle">CM11<sub>0</sub>T4</th>
+<th class="tableblock halign-center valign-middle">CM5<sub>0</sub>T4</th>
+<th class="tableblock halign-center valign-middle">CM7<sub>0</sub>T4</th>
 <th class="tableblock halign-center valign-top"></th>
 </tr>
 </thead>
@@ -5146,9 +5295,9 @@ M7-T0</th>
 <tr>
 <th class="tableblock halign-center valign-top">CMaj<br>
 pivot on 3rd</th>
-<th class="tableblock halign-center valign-middle">CM<sub>4</sub>11-T4</th>
-<th class="tableblock halign-center valign-middle">CM<sub>4</sub>5-T4</th>
-<th class="tableblock halign-center valign-middle">CM<sub>4</sub>7-T4</th>
+<th class="tableblock halign-center valign-middle">CM11<sub>4</sub>T4</th>
+<th class="tableblock halign-center valign-middle">CM5<sub>4</sub>T4</th>
+<th class="tableblock halign-center valign-middle">CM7<sub>4</sub>T4</th>
 <th class="tableblock halign-center valign-top"></th>
 </tr>
 </thead>
@@ -5181,9 +5330,9 @@ pivot on 3rd</th>
 <tr>
 <th class="tableblock halign-center valign-top">D#/Eb Schoenberg Hexachord<br>
 (pivot on root)</th>
-<th class="tableblock halign-center valign-middle">CM<sub>3</sub>11-T0</th>
-<th class="tableblock halign-center valign-middle">CM<sub>3</sub>5-T0</th>
-<th class="tableblock halign-center valign-middle">CM<sub>3</sub>7-T0</th>
+<th class="tableblock halign-center valign-middle">CM11<sub>3</sub>T0</th>
+<th class="tableblock halign-center valign-middle">CM5<sub>3</sub>T0</th>
+<th class="tableblock halign-center valign-middle">CM7<sub>3</sub>T0</th>
 <th class="tableblock halign-center valign-top"></th>
 </tr>
 </thead>
@@ -5217,9 +5366,10 @@ pivot on 3rd</th>
 <span style="color:#080;font-weight:bold">function</span> <span style="color:#06B;font-weight:bold">affinePivot</span>(
   p: number, <span style="color:#777">// integer in [0..this.n-1],</span>
              <span style="color:#777">// assert: vectorIn[p] equals 1 if vectorIn not image of empty set.</span>
-  <span style="color:#606">a</span>: number, <span style="color:#777">// integer, assert: a is prime with 'n'</span>
+  <span style="color:#606">a</span>: number, <span style="color:#777">// integer, assert: a is coprime with 'n'</span>
   <span style="color:#606">k</span>: number, <span style="color:#777">// integer in Z</span>
   <span style="color:#606">vectorIn</span>: number[], <span style="color:#777">// array of 0 | 1, a vector image of a pcs</span>
+  <span style="color:#777">// ex: [1,0,0,0,1,0,0,1,0,0,0,0] for {0 4 7} ({C E G})</span>
   <span style="color:#606">c</span>: <span style="color:#080;font-weight:bold">boolean</span> = <span style="color:#069">false</span> <span style="color:#777">// if true, return complement of permutedVector (false by default)</span>
 ) : number[] <span style="color:#777">// new vector &quot;affinePivot&quot; transformed</span>
 {
@@ -5229,17 +5379,17 @@ pivot on 3rd</th>
     const b = p * (<span style="color:#00D">1</span>-a) + k
     let j
     <span style="color:#080;font-weight:bold">for</span> (let i = <span style="color:#00D">0</span>; i &lt; n; i++) {
-      <span style="color:#777">// j and i both play the role of both index and pitch-class.</span>
+      <span style="color:#777">// j and i play the role of both index and pitch-class number</span>
       j = (n + (a * i + b) % n) % n <span style="color:#777">// force modulo to get value &gt;= 0</span>
-      <span style="color:#777">// if c, invert 0 | 1</span>
-      permutedVector[j] = c ? (vectorIn[i] ? <span style="color:#00D">0</span> : <span style="color:#00D">1</span>) : vectorIn[i]
+      <span style="color:#777">// if c then inverse vectorPcs[i] (0 &lt;-&gt; 1)</span>
+      permutedVectorPcs[j] = c ? <span style="color:#00D">1</span> - vectorPcs[i] : vectorPcs[i]
     }
     <span style="color:#080;font-weight:bold">return</span> permutedVector
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>This function is extracted from a POC available on GitHub (open source : <a href="https://github.com/ocapuozzo/musaicbox-app" class="bare">https://github.com/ocapuozzo/musaicbox-app</a>). It is accessible as an online demo, executable from a browser (full front-end application) : <a href="https://musaicsbox.org" class="bare">https://musaicsbox.org</a></p>
+<p>This function is extracted from a POC (and more) available on GitHub (open source : <a href="https://github.com/ocapuozzo/musaicbox-app" class="bare">https://github.com/ocapuozzo/musaicbox-app</a>). It is accessible as an online demo, executable from a browser (full front-end application) : <a href="https://musaicsbox.org" class="bare">https://musaicsbox.org</a></p>
 </div>
 </div>
 <div class="sect2">
@@ -5247,7 +5397,7 @@ pivot on 3rd</th>
 <div class="ulist">
 <ul>
 <li>
-<p>After observing the so-called "fixed zero problem", we were led to introduce a new parameter to the affine function acting on PCS, to improve the consistency of affine transformation operations such as inversion (M11), M5 and M7.</p>
+<p>After observing the so-called "fixed zero problem", we were led to introduce a new parameter to the affine function acting on PCS, to improve the consistency of affine transformation operations such as inversion (M11) and transformation by cycle of fifths and fourths (M5 and M7).</p>
 </li>
 <li>
 <p>The concept of a default value for the pivot has been introduced, allowing the parameterized affine function to substitute for the usual affine function. This allows us to still benefit from the advantages of group action (construction of orbits and stabilizers).</p>
@@ -6430,6 +6580,9 @@ Inversely, a PCS can always be seen as the degree (or mode) of another PCS in it
 <ul class="bibliography">
 <li>
 <p><a id="Forte"></a>[Forte] Forte, Allen. 1973. The Structure of Atonal Music. New Haven: Yale University Press.</p>
+</li>
+<li>
+<p><a id="Fripertinger"></a>[Fripertinger] Fripertinger, Harald. 1999. Enumeration and construction in music theory. On line <a href="https://www.researchgate.net/publication/249910897_Enumeration_and_construction_in_music_theory" class="bare">https://www.researchgate.net/publication/249910897_Enumeration_and_construction_in_music_theory</a></p>
 </li>
 <li>
 <p><a id="Rahn"></a>[Rahn] Rahn, John. 1980. Basic Atonal Theory. New York: Longman.</p>
@@ -9359,7 +9512,7 @@ Symmetry prime form concept is invented, specific to this project.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-07-01 19:47:58 +0200
+Last updated 2025-07-09 16:31:49 +0200
 </div>
 </div>
 <script type="text/x-mathjax-config">

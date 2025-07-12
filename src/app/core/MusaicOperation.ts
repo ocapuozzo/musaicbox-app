@@ -11,14 +11,14 @@
 
 
 import {StringHash} from "../utils/StringHash";
-import {IPcs, negativeToPositiveModulo} from "./IPcs";
+import {IPcs, modulo} from "./IPcs";
 import {Orbit} from "./Orbit";
 
 
 /**
  * musaic operation group : c . ((ax + t) modulo n)
  *
- * where 'a' is prime with n,  'x' a PC (for all PCs in a PCS given), 't' step of transposition, 'c' is
+ * where 'a' is coprime with n,  'x' a PC (for all PCs in a PCS given), 't' step of transposition, 'c' is
  * complement operation which can be : neutral operation or complement operation
  * so 'c' is boolean representation with composition operation is XOR
  * <table>
@@ -107,7 +107,7 @@ export class MusaicOperation {
    * where :
    * <ul>
    * <li>c is boolean (complement or not) </li>
-   * <li>a is integer prime with n </li>
+   * <li>a is integer coprime with n </li>
    * <li>t is integer into [0..n[ </li>
    * </ul>
    * Important remark : Where complement is false, op is denoted MA-Tk, else CMA-TK, so neutral operation is M1-TO
@@ -338,7 +338,7 @@ export class MusaicOperation {
           //   this.mappedVectorPcs takes over this.vectorPcs
           //   this operation act on this.mappedVectorPcs, so templateMapping will also change
 
-          newPivot = negativeToPositiveModulo(((pcs.getMappedPivot() ?? 0) + k), pcs.nMapping)
+          newPivot = modulo(((pcs.getMappedPivot() ?? 0) + k), pcs.nMapping)
           // newPivot = negativeToPositiveModulo(((pcs.iPivot ?? 0) + k), pcs.nMapping)
 
           let currentTemplateMapping = pcs.templateMapping
@@ -388,7 +388,7 @@ export class MusaicOperation {
         } else {
           // no mapping
           // if there is a transposition, then the pivot follows it.
-          newPivot = negativeToPositiveModulo(((pcs.iPivot ?? 0) + k), pcs.vectorPcs.length)
+          newPivot = modulo(((pcs.iPivot ?? 0) + k), pcs.vectorPcs.length)
           newVectorPcs = this.affinePivot(a, k, (pcs.iPivot ?? 0), pcs.vectorPcs)
           newTemplateMapping = pcs.templateMapping
         }
@@ -399,7 +399,7 @@ export class MusaicOperation {
           n: pcs.n,
           templateMapping: newTemplateMapping,
           nMapping: pcs.nMapping,
-          iPivot: newPivot,
+          iPivotParam: newPivot,
           orbit: new Orbit() // will maybe be changed, see below
         })
 
@@ -426,10 +426,10 @@ export class MusaicOperation {
    *
    * @see analysis/documentation : affinePivot function
    *
-   * @param  a : number integer prime with n
+   * @param  a : number integer coprime with n
    * @param  k : number  integer in Z
    * @param p : number integer in [0..this.n-1], assert vectorPcs[p] === 1 expect if vectorPcs is image of empty set
-   * @param vectorPcs : number[] array of 0 | 1, vector image of a pcs
+   * @param vectorPcs : number[] array of 0 | 1, vector image of a pcs ex: [1,0,0,0,1,0,0,1,0,0,0,0] for {0 4 7}
    * @param c if true return complement of affine transformation with pivot (false by default)
    * @return {number[]} array of 0 | 1, new c . affinePivot transformed vector
    */
@@ -443,9 +443,9 @@ export class MusaicOperation {
       j = (n + (a * i + b) % n) % n
       // first j modulo n may be negative... so call twice modulo : (n + ( j modulo n )) modulo n
       // @see https://stackoverflow.com/questions/4467539/javascript-modulo-gives-a-negative-result-for-negative-numbers
-      permutedVectorPcs[j] = c ? (vectorPcs[i] ? 0 : 1) : vectorPcs[i] //  invert 0 | 1 if c
+      permutedVectorPcs[j] = c ? 1 - vectorPcs[i] : vectorPcs[i] //  inverse vectorPcs[i] (0 <-> 1) if c
       // AND NOT permutedVectorPcs[i] = vectorPcs[j] :-( (historically, a bug of 10 years lifetime!)
-      // works because 'a' is prime with n (to demonstrate)
+      // works because 'a' is coprime with n (to demonstrate)
     }
     return permutedVectorPcs
   }
@@ -464,7 +464,7 @@ export class MusaicOperation {
 
     let pcsComplement = new IPcs({
       vectorPcs: complementVector,
-      iPivot: newPivot >= 0 ? newPivot : undefined, // new_iPivot,
+      iPivotParam: newPivot >= 0 ? newPivot : undefined, // new_iPivot,
       orbit: new Orbit(), // as new pcs, here we don't know its orbit (see note below)
       templateMapping: pcs.templateMapping,
       nMapping: pcs.nMapping

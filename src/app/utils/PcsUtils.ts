@@ -2,7 +2,6 @@ import {MusaicOperation} from "../core/MusaicOperation";
 import {IPcs} from "../core/IPcs";
 import {ManagerGroupActionService} from "../service/manager-group-action.service";
 
-//TODO rename or put in MusaicOperationUtils ?
 
 export class PcsUtils {
 

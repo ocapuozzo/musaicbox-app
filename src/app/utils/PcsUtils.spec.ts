@@ -4,6 +4,56 @@ import {IPcs} from "../core/IPcs";
 
 describe('PcsUtils test', () => {
 
+
+  it('compare modulo implementation', () =>{
+    // const negativeToPositiveModulo = (i: number, n: number): number => {
+    //   return (n + i % n) % n
+    // }
+
+    const loop = 1000000
+
+    // truncated division (see https://en.wikipedia.org/wiki/Modulo)
+    const modulo = (i:number, n:number) => {
+      return i - Math.floor(i/n) * n
+    }
+
+    for (let i = -200; i < 200; ++i) {
+
+      let y1 = modulo(i, 12)
+      let y2 = modulo(i, 12)
+
+      expect(y1).toEqual(y2)
+      expect(y1).toBeLessThan(12)
+      expect(y1).toBeGreaterThanOrEqual(0)
+
+    }
+
+/*
+   negativeToPositiveModulo is 1.5 times more speed than truncated modulo
+
+    let start = window.performance.now() //new Date().getTime();
+    for (let i = 0; i < loop; ++i) {
+      let y = modulo(i, 12)
+    }
+
+    let end = window.performance.now() //new Date().getTime();
+    let time1 = end - start;
+    console.log('Execution time1: ' + time1);
+
+    start = window.performance.now()
+
+    for (let i = 0; i < loop; ++i) {
+      let y = negativeToPositiveModulo(i, 12)
+    }
+
+    end = window.performance.now()
+    let time2 = end - start;
+    console.log('Execution time2: ' + time2);
+*/
+  })
+
+
+
   it("Resolve equation  ak' + k ≡ 0 (mod n) for k'", () => {
 
     let a = 3; // Example value for `a`
@@ -119,8 +169,8 @@ describe('PcsUtils test', () => {
   it('getPcsHavingMinimalPivotAndMinimalValueOfTkForStabM11_Tk', () =>{
     let ipcs1 = new IPcs({strPcs: ""})
     let ipcs2 = new IPcs({strPcs: "0"})
-    let ipcs3 = new IPcs({strPcs: "0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11", iPivot: 4})
-    let ipcs4 = new IPcs({strPcs: "0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11", iPivot: 0})
+    let ipcs3 = new IPcs({strPcs: "0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11", iPivotParam: 4})
+    let ipcs4 = new IPcs({strPcs: "0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11", iPivotParam: 0})
 
     let pcsSym = PcsUtils.getPcsHavingMinimalPivotAndMinimalValueOfTkForStabM11_Tk(ipcs1)
     expect(pcsSym.k).not.toBeDefined()
@@ -141,7 +191,7 @@ describe('PcsUtils test', () => {
     expect(pcsSym.k).toEqual(0)
     expect(pcsSym.pcs.id).toEqual(ipcs3.id)
 
-    let diatMaj = new IPcs({strPcs: "0, 2, 4, 5, 7, 9, 11", iPivot: 0})
+    let diatMaj = new IPcs({strPcs: "0, 2, 4, 5, 7, 9, 11", iPivotParam: 0})
     pcsSym = PcsUtils.getPcsHavingMinimalPivotAndMinimalValueOfTkForStabM11_Tk(diatMaj)
     expect(pcsSym.k).toBeDefined()
     expect(pcsSym.k).toEqual(0) // diatonic major is naturally symmetric
@@ -150,9 +200,9 @@ describe('PcsUtils test', () => {
   it('static minkValueThatStabByMInverseOp_Tk(pcs: IPcs) ', () =>  {
     let ipcs1 = new IPcs({strPcs: ""})
     let ipcs2 = new IPcs({strPcs: "0"})
-    let ipcs3 = new IPcs({strPcs: "0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11", iPivot: 4})
-    let ipcs4 = new IPcs({strPcs: "0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11", iPivot: 0})
-    let diatMaj = new IPcs({strPcs: "0, 2, 4, 5, 7, 9, 11", iPivot: 0})
+    let ipcs3 = new IPcs({strPcs: "0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11", iPivotParam: 4})
+    let ipcs4 = new IPcs({strPcs: "0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11", iPivotParam: 0})
+    let diatMaj = new IPcs({strPcs: "0, 2, 4, 5, 7, 9, 11", iPivotParam: 0})
 
     let kMin = PcsUtils.minkValueThatStabByMInverseOp_Tk(ipcs1)
     expect(kMin).toEqual(0)
@@ -170,21 +220,21 @@ describe('PcsUtils test', () => {
 
 
   it('static isMaximalEven(pcs : IPcs)  ', () => {
-    const diatonicMaj = new IPcs({strPcs: "0, 2, 4, 5, 7, 9, 11", iPivot: 0})
+    const diatonicMaj = new IPcs({strPcs: "0, 2, 4, 5, 7, 9, 11", iPivotParam: 0})
     expect(PcsUtils.isMaximalEven(diatonicMaj)).toEqual(true)
 
-    const triadMaj = new IPcs({strPcs: "0, 4, 7", iPivot: 0})
+    const triadMaj = new IPcs({strPcs: "0, 4, 7", iPivotParam: 0})
     expect(PcsUtils.isMaximalEven(triadMaj)).toEqual(false)
 
-    let pcs = new IPcs({strPcs: "0, 3, 6, 9", iPivot: 0})
+    let pcs = new IPcs({strPcs: "0, 3, 6, 9", iPivotParam: 0})
     expect(PcsUtils.isMaximalEven(pcs)).toEqual(true)
 
     //page 30 figure 1.8 "Foundations of diatonic theory", Timothy A. Johnson
-    pcs = new IPcs({strPcs: "0, 3, 6, 10", iPivot: 0})
+    pcs = new IPcs({strPcs: "0, 3, 6, 10", iPivotParam: 0})
     expect(PcsUtils.isMaximalEven(pcs)).toEqual(false)
 
    // fig. 1.9 (pentatonic scale, dorian complement)
-    pcs = new IPcs({strPcs: "0 2 5 7 10", iPivot: 0})
+    pcs = new IPcs({strPcs: "0 2 5 7 10", iPivotParam: 0})
     expect(PcsUtils.isMaximalEven(pcs)).toEqual(true)
   })
 
@@ -203,13 +253,13 @@ describe('PcsUtils test', () => {
     //   //     console.log(`tab[] : ${tab}`)
     //   //   })
     //   // }
-    let pcs = new IPcs({strPcs: "0 3 6 10", iPivot: 0})
+    let pcs = new IPcs({strPcs: "0 3 6 10", iPivotParam: 0})
     let expectedTable = [
       [2,3,4], [5,6,7], [8,9,10]
     ]
     expect(PcsUtils.getCDistanceTable(pcs)).toEqual(expectedTable)
 
-    pcs = new IPcs({strPcs: "0 2 5 7 10", iPivot: 0})
+    pcs = new IPcs({strPcs: "0 2 5 7 10", iPivotParam: 0})
     expectedTable = [
       [2,3], [4,5], [7,8] ,[9,10]
     ]

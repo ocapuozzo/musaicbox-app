@@ -224,24 +224,24 @@ describe('GroupAction unit tests', () => {
       = ManagerGroupActionService.getGroupActionFromGroupName("n=12 [M1]")
     expect(cyclicGroup12).toBeTruthy()
     if (cyclicGroup12) {
-      let ipcs = new IPcs({strPcs: "0, 4, 8", iPivot: 0})
+      let ipcs = new IPcs({strPcs: "0, 4, 8", iPivotParam: 0})
       let orbit = cyclicGroup12.getOrbitOf(ipcs)
       expect(orbit.cardinal).toEqual(4)
 
-      ipcs = new IPcs({strPcs: "0, 1, 6, 7", iPivot: 0})
+      ipcs = new IPcs({strPcs: "0, 1, 6, 7", iPivotParam: 0})
       orbit = cyclicGroup12.getOrbitOf(ipcs)
       expect(orbit.cardinal).toEqual(6)
 
-      ipcs = new IPcs({strPcs: "0, 1, 2, 3", iPivot: 0})
+      ipcs = new IPcs({strPcs: "0, 1, 2, 3", iPivotParam: 0})
       expect(cyclicGroup12.getOrbitOf(ipcs).cardinal).toEqual(12)
 
-      ipcs = new IPcs({strPcs: "0, 2, 4, 5, 7, 9, 11", iPivot: 0})
+      ipcs = new IPcs({strPcs: "0, 2, 4, 5, 7, 9, 11", iPivotParam: 0})
       expect(cyclicGroup12.getOrbitOf(ipcs).cardinal).toEqual(12)
 
-      ipcs = new IPcs({strPcs: "0, 1, 3, 5, 6, 8, 10", iPivot: 0})
+      ipcs = new IPcs({strPcs: "0, 1, 3, 5, 6, 8, 10", iPivotParam: 0})
       expect(cyclicGroup12.getOrbitOf(ipcs).cardinal).toEqual(12)
 
-      ipcs = new IPcs({strPcs: "0, 3, 6, 9", iPivot: 0})
+      ipcs = new IPcs({strPcs: "0, 3, 6, 9", iPivotParam: 0})
       orbit = cyclicGroup12.getOrbitOf(ipcs)
       expect(orbit.cardinal).toEqual(3)
     }

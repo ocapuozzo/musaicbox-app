@@ -18,6 +18,7 @@ import {ISearchPcs, ManagerPageEightyHeightService} from "../../service/manager-
 import {MatTab, MatTabChangeEvent, MatTabGroup} from "@angular/material/tabs";
 import {Orbit} from "../../core/Orbit";
 import {ManagerGroupActionService} from "../../service/manager-group-action.service";
+import {MatTooltip} from "@angular/material/tooltip";
 
 
 export interface IOrbitMusaic {
@@ -51,7 +52,8 @@ export interface IOctotrope {
     NgClass,
     MatTabGroup,
     MatTab,
-    NgTemplateOutlet
+    NgTemplateOutlet,
+    MatTooltip
   ],
   templateUrl: './the88.component.html',
   styleUrl: './the88.component.css'

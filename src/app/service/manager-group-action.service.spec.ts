@@ -69,7 +69,7 @@ describe('ManagerGroupActionService', () => {
         min = norm;
       }
     }
-    const primeFormComputed = new IPcs({vectorPcs: min, iPivot: 0})
+    const primeFormComputed = new IPcs({vectorPcs: min, iPivotParam: 0})
 
     expect(primeFormFromGroupAction).toBeDefined()
     expect(pcsPrimeFormOfPcsId88.id).toEqual(primeFormFromGroupAction!.id)

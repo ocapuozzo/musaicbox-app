@@ -49,8 +49,11 @@ import {ArrayUtil} from "../utils/ArrayUtil";
 import {ManagerGroupActionService} from "../service/manager-group-action.service";
 import {PcsUtils} from "../utils/PcsUtils";
 
-export const negativeToPositiveModulo = (i: number, n: number): number => {
-  return (n - ((i * -1) % n)) % n
+
+export const modulo = (i: number, n: number): number => {
+  return (n + i % n) % n
+  // first i modulo n may be negative... so call twice modulo : (n + ( i modulo n )) modulo n
+  // @see https://stackoverflow.com/questions/4467539/javascript-modulo-gives-a-negative-result-for-negative-numbers
 }
 
 const helperGetGroupActionFrom = (groupName: string): GroupAction | undefined => {
@@ -75,7 +78,7 @@ export class IPcs {
   /**
    * index reference, invariant for all Multiplication operations (Mx)
    */
-  iPivot?: number = undefined;
+  iPivot: number;
 
 
   /**
@@ -140,13 +143,13 @@ export class IPcs {
   orbit: Orbit;
 
   constructor(
-    {pidVal, strPcs, vectorPcs, n, iPivot, orbit, templateMapping, nMapping}:
+    {pidVal, strPcs, vectorPcs, n, iPivotParam, orbit, templateMapping, nMapping}:
     {
       pidVal?: number,
       strPcs?: string,
       vectorPcs?: number[],
       n?: number,
-      iPivot?: number,
+      iPivotParam?: number,
       orbit?: Orbit,
       templateMapping?: number[],
       nMapping?: number
@@ -162,22 +165,22 @@ export class IPcs {
       this.vectorPcs = IPcs.intToBinArray(pidVal, n ?? 12)
       // first index to 1 is iPivot
       const tempPivot = this.vectorPcs.findIndex((pc => pc === 1))
-      // case of pcs = empty set
-      this.iPivot = tempPivot === -1 ? undefined : tempPivot
-    }
-    // case vector given
-    else if (Array.isArray(vectorPcs)) {
+      // case of pcs = empty set (pivot zero)
+      this.iPivot = tempPivot === -1 ? 0 : tempPivot
+    } else if (Array.isArray(vectorPcs)) { // case vector given
       // assume pcs bin vector [1,0,1, ... ]
       this.vectorPcs = vectorPcs.slice()
+      this.iPivot = this.vectorPcs.indexOf(1)
+      // default pivot value
+      this.iPivot = this.iPivot === -1 ? 0 : this.iPivot
+
       if (!this.vectorPcs.every(pc => pc >= 0 && pc <= 1)) {
         throw Error(`Bad vector given = ${vectorPcs} expected [0|1]*`)
       }
       if (this.vectorPcs.length < 3 || this.vectorPcs.length > 13) {
         throw Error(`Bad vector size = ${this.vectorPcs.length} expected in [3...13]`)
       }
-    }
-    // case string given
-    else if (strPcs !== undefined) {
+    } else if (strPcs !== undefined) { // case string given
       let vectorAndPivot = IPcs._fromStringTobinArray(strPcs, n)
       this.iPivot = vectorAndPivot.defaultPivot
       this.vectorPcs = vectorAndPivot.vector
@@ -193,36 +196,21 @@ export class IPcs {
     this.n = this.vectorPcs.length // normally, param n synchronized
     this.cardinal = this.vectorPcs.reduce((sumOnes, v_i) => v_i === 1 ? sumOnes + 1 : sumOnes, 0)
 
-    // check when iPivot === 0
-    if (this.iPivot === undefined && iPivot === 0 && this.cardinal > 0) {
-      // special case, sometime force 0, but must be fixed here
-      // by default first pc to 1, may be zero
-      this.iPivot = this.vectorPcs.findIndex(pc => pc === 1)
-    }
-    // check a logic of  iPivot given in parameter
-    else if (iPivot !== undefined) {
-      if (iPivot < 0 || iPivot >= this.vectorPcs.length) {
+    // check a logic of pivot given in parameter
+    if (iPivotParam !== undefined) {
+      if (iPivotParam < 0 || iPivotParam >= this.vectorPcs.length) {
         throw Error(`Something wrong with iPivot = ${this.iPivot} and ${this.vectorPcs}`)
       }
-      if (this.vectorPcs[iPivot] !== 1) {
-        throw new Error(`Can't create IPcs instance (bad iPivot = ${iPivot} for pcs ${this.vectorPcs} with this.iPivot = ${this.iPivot})`)
+      if (this.vectorPcs[iPivotParam] !== 1 && this.cardinal > 0) {
+        throw new Error(`Can't create IPcs instance (bad iPivot = ${iPivotParam} for pcs ${this.vectorPcs} with this.iPivot = ${this.iPivot})`)
       }
-      this.iPivot = iPivot
+      // accept zero pivot when empty set
+      this.iPivot = iPivotParam
     }
 
     // check logic of this.iPivot
-    if (this.iPivot !== undefined) {
-      if (this.cardinal === 0) {
-        throw Error(`Something wrong with iPivot = ${this.iPivot} and ${this.vectorPcs}`)
-      }
-      if (this.cardinal > 0 && this.vectorPcs[this.iPivot] !== 1) {
-        throw new Error(`Can't create IPcs instance (bad iPivot = ${iPivot} for pcs ${this.vectorPcs})`)
-      }
-    }
-    // finally check that this.iPivot === undefined only if cardinal === 0
-    if (this.iPivot === undefined && this.cardinal > 0) {
-      // first pc to 1, may be zero
-      this.iPivot = this.vectorPcs.findIndex(pc => pc === 1)
+    if (this.cardinal > 0 && this.vectorPcs[this.iPivot] !== 1) {
+      throw new Error(`Can't create IPcs instance (bad iPivot = ${iPivotParam} for pcs ${this.vectorPcs})`)
     }
 
     this.orbit = orbit ?? new Orbit() // a king of "null orbit"
@@ -265,7 +253,7 @@ export class IPcs {
    * @param {number} n vector dimension
    * @returns {int[]} vector (length == n)
    */
-  static _fromStringTobinArray(strPcs: string, n: number = 12): { vector: number[], defaultPivot: number | undefined } {
+  static _fromStringTobinArray(strPcs: string, n: number = 12): { vector: number[], defaultPivot: number } {
 
     let defaultPivot: number | undefined = undefined
 
@@ -299,7 +287,8 @@ export class IPcs {
         bin[Number(pitches[i]) % n] = 1;
       }
     }
-    return {vector: bin, defaultPivot: defaultPivot === undefined ? undefined : defaultPivot % n}
+    // defaultPivot is zero even on empty set
+    return {vector: bin, defaultPivot: defaultPivot === undefined ? 0 : defaultPivot % n}
   }
 
 
@@ -948,7 +937,8 @@ export class IPcs {
       newIPcs = new IPcs({
         vectorPcs: newVectorPcs,
         n: newVectorPcs.length,
-        iPivot: this.iPivot,
+        // test for special case empty set (pivot = 0)
+        iPivotParam: this.vectorPcs[this.iPivot] === 1 ? this.iPivot : ipc,
         orbit: new Orbit(), // not same pcs (old orbit = this.orbit),
         templateMapping: this.templateMapping,
         nMapping: this.nMapping
@@ -957,30 +947,21 @@ export class IPcs {
       // remove bit 1 to 0
       newVectorPcs[ipc] = 0
       let cardinal = this.cardinal
-      if (cardinal == 1) {
+      if (cardinal === 1) {
         // make empty pcs
         newIPcs = new IPcs({
           vectorPcs: newVectorPcs,
           n: newVectorPcs.length,
-          iPivot: undefined,
           orbit: new Orbit(), // not same pcs (old orbit = this.orbit)
           templateMapping: this.templateMapping,
           nMapping: this.nMapping
         })
       } else {
-        if (iPivot == ipc) {
-          // change iPivot, get the first "to the right"
-          let i = ipc, cpt = 0
-          while (cpt < this.n) {
-            if (newVectorPcs[i] == 1) break
-            cpt++
-            i = (i + 1) % this.n
-          }
-          let newIPivot = i
+        if (iPivot === ipc) {
+          // change iPivot, let constructor do the job
           newIPcs = new IPcs({
             vectorPcs: newVectorPcs,
             n: newVectorPcs.length,
-            iPivot: newIPivot,
             orbit: new Orbit(), // not same pcs (old orbit = this.orbit)
             templateMapping: this.templateMapping,
             nMapping: this.nMapping
@@ -990,7 +971,7 @@ export class IPcs {
           newIPcs = new IPcs({
             vectorPcs: newVectorPcs,
             n: newVectorPcs.length,
-            iPivot: this.iPivot,
+            iPivotParam: this.iPivot,
             orbit: new Orbit(), // not same pcs (old orbit = this.orbit)
             templateMapping: this.templateMapping,
             nMapping: this.nMapping
@@ -1029,7 +1010,7 @@ export class IPcs {
       {
         vectorPcs: newVectorPcs,
         n: this.cardinal,
-        iPivot: pivot,
+        iPivotParam: pivot,
         templateMapping: newvectorMapping,
         nMapping: new_nMapping
       })
@@ -1048,7 +1029,7 @@ export class IPcs {
       ? undefined
       : this.getMappedPivot()
 
-    return new IPcs({vectorPcs: this.getMappedVectorPcs(), n: this.nMapping, iPivot: pivot})
+    return new IPcs({vectorPcs: this.getMappedVectorPcs(), n: this.nMapping, iPivotParam: pivot})
   }
 
   /**
@@ -1324,7 +1305,7 @@ export class IPcs {
     return new IPcs({
       n: this.n,
       vectorPcs: this.vectorPcs,
-      iPivot: param.pivot ?? this.iPivot,
+      iPivotParam: param.pivot ?? this.iPivot,
       nMapping: param.nMapping ?? this.nMapping,
       templateMapping: param.templateMapping ?? this.templateMapping,
       orbit: param.orbit ?? this.orbit

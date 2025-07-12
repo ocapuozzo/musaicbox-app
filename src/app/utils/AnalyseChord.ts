@@ -54,7 +54,7 @@ export class AnalyseChord {
             // chord version with mapping
             chord = new IPcs({
               strPcs: unMappedPcs.join(' '),
-              iPivot: pcs.templateMapping.indexOf(chord.iPivot!),
+              iPivotParam: pcs.templateMapping.indexOf(chord.iPivot!),
               n: pcs.n,
               nMapping: pcs.nMapping,
               templateMapping: pcs.templateMapping

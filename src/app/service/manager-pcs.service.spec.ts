@@ -17,7 +17,7 @@ describe('ManagerPcsService', () => {
   });
 
   it(' isComingFromAnOrbit complement state or not', () => {
-    const ipcsWithNoOrbit = new IPcs({strPcs: "0, 3, 5, 8", iPivot: 0})
+    const ipcsWithNoOrbit = new IPcs({strPcs: "0, 3, 5, 8", iPivotParam: 0})
     expect(ipcsWithNoOrbit.isComingFromOrbit()).toBeFalse()
 
     const ipcsMusaicPF = ipcsWithNoOrbit.musaicPrimeForm()
@@ -33,7 +33,7 @@ describe('ManagerPcsService', () => {
   });
 
   it('complement under pcs mapped', () => {
-    const cmaj7Mapped = new IPcs({strPcs: "0, 2, 4, 6", n:7, nMapping:12, templateMapping:[0,2,4,5,7,9,11], iPivot: 0})
+    const cmaj7Mapped = new IPcs({strPcs: "0, 2, 4, 6", n:7, nMapping:12, templateMapping:[0,2,4,5,7,9,11], iPivotParam: 0})
     expect(cmaj7Mapped.n).toEqual(7)
     expect(cmaj7Mapped.vectorPcs).toEqual([1,0,1,0,1,0,1])
     expect(cmaj7Mapped.complement().vectorPcs).toEqual(cmaj7Mapped.vectorPcs.map(pc => pc === 1 ? 0 : 1))
@@ -41,14 +41,14 @@ describe('ManagerPcsService', () => {
 
 
   it('doTransformeAffine', () => {
-    const pcs = new IPcs({strPcs: "0, 1, 11", iPivot: 0})
-    const pcs2 = new IPcs({strPcs: "0, 1, 2", iPivot: 1})
+    const pcs = new IPcs({strPcs: "0, 1, 11", iPivotParam: 0})
+    const pcs2 = new IPcs({strPcs: "0, 1, 2", iPivotParam: 1})
     expect(managerPcsService.doTransformAffine(pcs, 1, 1).id).toEqual(pcs2.id)
   })
 
   it('transformeByMxT0', () => {
-    const pcs = new IPcs({strPcs: "0, 4, 7, 11", iPivot: 0})
-    const pcsTime5 = new IPcs({strPcs: "0, 8, 11, 7", iPivot: 0})
+    const pcs = new IPcs({strPcs: "0, 4, 7, 11", iPivotParam: 0})
+    const pcsTime5 = new IPcs({strPcs: "0, 8, 11, 7", iPivotParam: 0})
     expect(managerPcsService.transformByMxT0(pcs, 1).id).toEqual(pcs.id)
     expect(managerPcsService.transformByMxT0(pcs, 5).id).toEqual(pcsTime5.id)
   });

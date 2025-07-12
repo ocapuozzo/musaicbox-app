@@ -623,6 +623,4 @@ describe('Laboratory explorer', () => {
       // pcs2.iPivot = 2 // no possible
     })
 
-
-
 })
