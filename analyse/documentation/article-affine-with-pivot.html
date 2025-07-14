@@ -562,7 +562,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_abstract">1. Abstract</a></li>
 <li><a href="#_usual_operations">2. Usual operations</a>
 <ul class="sectlevel2">
-<li><a href="#_basic_operations">2.1. Basic operations</a></li>
+<li><a href="#_modulo_operation">2.1. Modulo operation</a></li>
+<li><a href="#_basic_operations">2.2. Basic operations</a></li>
 </ul>
 </li>
 <li><a href="#_affine_operation">3. Affine operation</a>
@@ -615,10 +616,24 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_usual_operations">2. Usual operations</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>In context of twelve-tone equal temperament, more specialy in pitch-class space, we note \$ZZ_12\$ the set \$ZZ"/"12ZZ\$, which reduces any number in \$ZZ\$ to one of the 12 pitch-class numbers, according to the modulo rule, like a 12-hour clock allowing the interpretation of a time position in a 24-hour day.</p>
+<p>In context of twelve-tone equal temperament, more specialy in pitch-class space, we note \$ZZ_12\$ the set \$ZZ"/"12ZZ\$</p>
 </div>
 <div class="paragraph">
-<p>\$ ZZ_12 = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11}\$</p>
+<p>\$ ZZ_12 = {bar0, bar1, bar2, bar3, bar4, bar5, bar6, bar7, bar8, bar9, bar10, bar11}\$</p>
+</div>
+<div class="paragraph">
+<p>Each element \$i\$ of \$ZZ_12\$ is representative of a class of numbers multiple of 12. For example, \$i = bar1\$ is representative of positive numbers {1, 13, 25, 37, &#8230;&#8203;} (\$i + 12q\$) and negative numbers {1, -11, -23, -35, &#8230;&#8203;} (\$i - 12q\$)</p>
+</div>
+<div class="sect2">
+<h3 id="_modulo_operation">2.1. Modulo operation</h3>
+<div class="paragraph">
+<p>By convention, \$ZZ_n\$ is represented by the set of first positive numbers (starting with zero) and often the bare notation above is omitted.</p>
+</div>
+<div class="paragraph">
+<p>Modulo is an operation that reduces any number in \$ZZ\$ to its representative number.</p>
+</div>
+<div class="paragraph">
+<p>The 12-hour clock is a good example. 13h is mapped to 1h, midnight  -1h to 11H.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -627,19 +642,38 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="title">Figure 1. Illustration modulo 12:&#160; -11 = 1  (and&#160; +11 = -1)</div>
 </div>
 <div class="listingblock nowrap">
-<div class="title">Example of numbers <em>i</em> in \$ZZ\$ mapped into \$ZZ_12:\$ \$forall i in ZZ, i |-&gt;  i - n xx floor(i/n)\$</div>
+<div class="title">A partial view on \$ZZ_12\$, where equivalence classes numbers are structured in columns</div>
 <div class="content">
 <pre>...
  24   25   26  27  28 ...                         &lt;- i - 12 * 2
  12   13   14  15  16  17  18  19  20  21  22  23 &lt;- i - 12 * 1
-  0    1    2   3   4   5   6   7   8   9  10  11 &lt;= 12 pitch-class numbers
+  0    1    2   3   4   5   6   7   8   9  10  11 &lt;= 12 pitch-class representative
 -12  -11  -10  -9  -8  -7  -6  -5  -4  -3  -2  -1 &lt;- i + 12 * 1
               ... -20 -19 -18 -17 -16 -15 -14 -13 &lt;- i + 12 * 2
  ...</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Example of some cases:</p>
+<p>The logic of modulo numbers from \$ZZ\$ to \$ZZ_(n)\$ representative numbers is: \$i |-&gt;  i - n xx floor(i/n)\$, with \$n&gt;0\$, consistent <a href="#Knuth">[Knuth]</a> version <a href="#modulo">[modulo]</a>.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+\$floor(x)\$: This symbol denotes floored of \$x\$, the largest integer less than or equal to \$x\$.<br>
+Ex : \$floor(0.99) |-&gt; 0\$ and \$floor(1.01) |-&gt; 1\$ (the integer part)
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>In our case, \$floor(i/n)\$ gives the line number above and below the reference pitch-class representative line below.</p>
+</div>
+<div class="paragraph">
+<p>Some illustrative cases:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -651,28 +685,23 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>13 modulo 12 = <strong>1</strong>  &#160;(13 - 12*1)</p>
 </li>
 <li>
-<p>-3 modulo 12 = <strong>9</strong> &#160;(-3 + 12*1 )</p>
-</li>
-<li>
 <p>-11 modulo 12 = <strong>1</strong> &#160;(-11 + 12*1)</p>
 </li>
 <li>
 <p>-13 modulo 12 = <strong>11</strong> &#160;(-13 + 12*2)<br>
-\$-13 - n xx lfloor (-13)/n rfloor\$ = -13 - 12 × Math.floor(-13/12) = -13 + (-12 × -2) = -13 +24 = <strong>11</strong></p>
-</li>
-<li>
-<p>-17 modulo 12 = <strong>7</strong> &#160;(-17 + 12*2)</p>
+\$-13 - n xx lfloor (-13)/n rfloor\$ = -13 - 12 × Math.floor(-13/12) = -13 + (-12 × -2) = -13 + 24 = <strong>11</strong></p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<div class="title">Example: labeling of tones in Z and with the pitch-class numbers by <a href="#Fripertinger">[Fripertinger]</a></div>
+<div class="title">Illustration labeling of tones in Z and with the pitch-class numbers by <a href="#Fripertinger">[Fripertinger]</a></div>
 <p><span class="image"><img src="./assets/images/score-modulo.png" alt="score modulo"></span></p>
 </div>
+</div>
 <div class="sect2">
-<h3 id="_basic_operations">2.1. Basic operations</h3>
+<h3 id="_basic_operations">2.2. Basic operations</h3>
 <div class="paragraph">
-<p>In musical set theory, into context of twelve-tone equal temperament (n=12), the basic operations are generally represented by ( <a href="#Rahn">[Rahn]</a> <a href="#Fripertinger">[Fripertinger]</a> <a href="#Moreno-Argon">[Moreno-Argon]</a> and more):</p>
+<p>In musical set theory, into context of twelve-tone equal temperament (n=12), the basic operations are generally represented by ( <a href="#Rahn">[Rahn]</a> <a href="#Fripertinger">[Fripertinger]</a> <a href="#Moreno-Argon">[Moreno-Argon]</a>, among others):</p>
 </div>
 <div class="ulist">
 <ul>
@@ -733,7 +762,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Other representation is <em>TkM</em> or <em>TkMI</em> <a href="#Morris">[Morris]</a>, but we prefer \$M_aT_k\$, echoing ax+b, which maps the precedence logic of internal operations (multiplication first, then addition).
+Other representation is <em>T<sub>k</sub>M</em> or <em>T<sub>k</sub>MI</em> <a href="#Rahn">[Rahn]</a>, but we prefer \$M_aT_k\$, echoing ax+b, which maps the precedence logic of internal operations (multiplication first, then addition).
 </td>
 </tr>
 </table>
@@ -1001,7 +1030,7 @@ For an in-depth study, with of a high level of mathematical conciseness, see <a 
 <td class="tableblock halign-left valign-top"><p class="tableblock">n=12</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">−x &#160;&#160;  (n-x = -x)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">−x</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">11x</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">n modulo n = 0</p></td>
 </tr>
@@ -1933,11 +1962,11 @@ pivot on 3rd</th>
  */</span>
 <span style="color:#080;font-weight:bold">function</span> <span style="color:#06B;font-weight:bold">affinePivot</span>(
   p: number, <span style="color:#777">// integer in [0..this.n-1],</span>
-             <span style="color:#777">// assert: vectorIn[p] equals 1 if vectorIn not image of empty set.</span>
+             <span style="color:#777">// assert: vectorIn[p] equals 1 if vectorIn not image of empty set else 0</span>
   <span style="color:#606">a</span>: number, <span style="color:#777">// integer, assert: a is coprime with 'n'</span>
   <span style="color:#606">k</span>: number, <span style="color:#777">// integer in Z</span>
   <span style="color:#606">vectorIn</span>: number[], <span style="color:#777">// array of 0 | 1, a vector image of a pcs</span>
-  <span style="color:#777">// ex: [1,0,0,0,1,0,0,1,0,0,0,0] for {0 4 7} ({C E G})</span>
+             <span style="color:#777">// ex: [1,0,0,0,1,0,0,1,0,0,0,0] for {0 4 7} (C E G)</span>
   <span style="color:#606">c</span>: <span style="color:#080;font-weight:bold">boolean</span> = <span style="color:#069">false</span> <span style="color:#777">// if true, return complement of permutedVector (false by default)</span>
 ) : number[] <span style="color:#777">// new vector &quot;affinePivot&quot; transformed</span>
 {
@@ -1945,19 +1974,18 @@ pivot on 3rd</th>
     let permutedVector : number[] = Array(n)
     <span style="color:#777">// c . (ax + b) |-&gt; c . (a * i + p(1 − a) + k)</span>
     const b = p * (<span style="color:#00D">1</span>-a) + k
-    let j
-    <span style="color:#080;font-weight:bold">for</span> (let i = <span style="color:#00D">0</span>; i &lt; n; i++) {
+    <span style="color:#080;font-weight:bold">for</span> (let i = <span style="color:#00D">0</span>, j; i &lt; n; i++) {
       <span style="color:#777">// j and i play the role of both index and pitch-class number</span>
-      j = (n + (a * i + b) % n) % n <span style="color:#777">// force modulo to get value &gt;= 0</span>
+      j = (n + (a * i + b) % n) % n <span style="color:#777">// force modulo to get value in [0..n-1]</span>
       <span style="color:#777">// if c then inverse vectorPcs[i] (0 &lt;-&gt; 1)</span>
-      permutedVectorPcs[j] = c ? <span style="color:#00D">1</span> - vectorPcs[i] : vectorPcs[i]
+      permutedVector[j] = c ? <span style="color:#00D">1</span> - vectorPcs[i] : vectorPcs[i]
     }
     <span style="color:#080;font-weight:bold">return</span> permutedVector
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>This function is extracted from a POC (and more) available on GitHub (open source : <a href="https://github.com/ocapuozzo/musaicbox-app" class="bare">https://github.com/ocapuozzo/musaicbox-app</a>). It is accessible as an online demo, executable from a browser (full front-end application) : <a href="https://musaicsbox.org" class="bare">https://musaicsbox.org</a></p>
+<p>This function is extracted from a POC (and more) available on GitHub (code open source: <a href="https://github.com/ocapuozzo/musaicbox-app" class="bare">https://github.com/ocapuozzo/musaicbox-app</a>) and the latest demo version, runnable via a browser (front-end application) is available here: <a href="https://musaicsbox.org" class="bare">https://musaicsbox.org</a></p>
 </div>
 </div>
 </div>
@@ -1965,15 +1993,17 @@ pivot on 3rd</th>
 <div class="sect1">
 <h2 id="_conclusion">5. Conclusion</h2>
 <div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p>After observing the so-called "fixed zero problem", we were led to introduce a new parameter to the affine function acting on PCS, to improve the consistency of affine transformation operations such as inversion (M11) and transformation by cycle of fifths and fourths (M5 and M7).</p>
-</li>
-<li>
-<p>The concept of a default value for the pivot has been introduced, allowing the parameterized affine function to substitute for the usual affine function. This provides general consistency, and allows the benefits of group action (construction of orbits and stabilizers) to continue to be enjoyed.</p>
-</li>
-</ul>
+<div class="paragraph">
+<p>After observing the so-called "fixed zero" problem, we propose a general solution to the affine function.</p>
+</div>
+<div class="paragraph">
+<p>To this end, we introduced a new parameter to the affine function acting on PCS to improve its consistency, particularly with respect to inversion (M11) and transformation by cycles of fifths and fourths (M5 and M7).</p>
+</div>
+<div class="paragraph">
+<p>The general form of the function, without complementarity, is <code>M<sub>p</sub>aTk</code> (or <code>TkM<sub>p</sub>a</code> in equivalent <a href="#Rahn">[Rahn]</a> notation).</p>
+</div>
+<div class="paragraph">
+<p>The concept of a default value for the pivot has been introduced, allowing the parameterized affine function to substitute for the usual affine function. The form of this new operation is <code>MaTk</code> (or <code>[C]MaTk</code> with complementarity). This provides general consistency, and allows and thus to blend into existing frameworks and allows the latter to increase their accuracy by specifying, as needed, an adequate pivot value.</p>
 </div>
 </div>
 </div>
@@ -1989,7 +2019,10 @@ pivot on 3rd</th>
 <p><a id="Fripertinger"></a>[Fripertinger] Fripertinger, Harald. 1999. On line <a href="https://www.researchgate.net/publication/249910897_Enumeration_and_construction_in_music_theory">Enumeration and construction in music theory</a></p>
 </li>
 <li>
-<p><a id="Rahn"></a>[Rahn] Rahn, John. 1980. Basic Atonal Theory. New York: Longman.</p>
+<p><a id="Knuth"></a>[Knuth] Knuth, Donald. E. 1972. The Art of Computer Programming. Addison-Wesley.</p>
+</li>
+<li>
+<p><a id="modulo"></a>[modulo] <a href="https://en.wikipedia.org/wiki/Modulo" class="bare">https://en.wikipedia.org/wiki/Modulo</a></p>
 </li>
 <li>
 <p><a id="LEWIN"></a>[LEWIN] David Lewin, Generalized musical intervals and transformations, Oxford University Press, 2007-1897</p>
@@ -2001,10 +2034,13 @@ pivot on 3rd</th>
 <p><a id="LEWIN-1980"></a>[LEWIN-1980] David Lewin, "On Generalized Intervals and Transformations" Journal of Music Theory, Vol. 24, No. 2 (Autumn, 1980), 243-251.</p>
 </li>
 <li>
+<p><a id="Moreno-Argon"></a>[Moreno-Argon] Moreno Andreatta, Carlos Agon. Formalisation algébrique des structures musicales à l&#8217;aide de la Set-Theory (on line)  <a href="http://recherche.ircam.fr/equipes/repmus/moreno/AndreattaAgonjim2003.pdf">ircam.fr</a></p>
+</li>
+<li>
 <p><a id="Morris"></a>[Morris] Moris, Robert. 1987. Composition With Pitch-Classes: A Theory of Compositional Design, Yale University Press</p>
 </li>
 <li>
-<p><a id="Moreno-Argon"></a>[Moreno-Argon] Moreno Andreatta, Carlos Agon. Formalisation algébrique des structures musicales à l&#8217;aide de la Set-Theory (on line)  <a href="http://recherche.ircam.fr/equipes/repmus/moreno/AndreattaAgonjim2003.pdf">ircam.fr</a></p>
+<p><a id="Rahn"></a>[Rahn] Rahn, John. 1980. Basic Atonal Theory. New York: Longman.</p>
 </li>
 </ul>
 </div>
@@ -2020,7 +2056,7 @@ pivot on 3rd</th>
 <div id="footer">
 <div id="footer-text">
 Version <br>
-Last updated 2025-07-12 19:16:51 +0200
+Last updated 2025-07-14 16:12:15 +0200
 </div>
 </div>
 <script type="text/x-mathjax-config">

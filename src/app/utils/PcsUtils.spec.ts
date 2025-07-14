@@ -5,55 +5,6 @@ import {IPcs} from "../core/IPcs";
 describe('PcsUtils test', () => {
 
 
-  it('compare modulo implementation', () =>{
-    // const negativeToPositiveModulo = (i: number, n: number): number => {
-    //   return (n + i % n) % n
-    // }
-
-    const loop = 1000000
-
-    // truncated division (see https://en.wikipedia.org/wiki/Modulo)
-    const modulo = (i:number, n:number) => {
-      return i - Math.floor(i/n) * n
-    }
-
-    for (let i = -200; i < 200; ++i) {
-
-      let y1 = modulo(i, 12)
-      let y2 = modulo(i, 12)
-
-      expect(y1).toEqual(y2)
-      expect(y1).toBeLessThan(12)
-      expect(y1).toBeGreaterThanOrEqual(0)
-
-    }
-
-/*
-   negativeToPositiveModulo is 1.5 times more speed than truncated modulo
-
-    let start = window.performance.now() //new Date().getTime();
-    for (let i = 0; i < loop; ++i) {
-      let y = modulo(i, 12)
-    }
-
-    let end = window.performance.now() //new Date().getTime();
-    let time1 = end - start;
-    console.log('Execution time1: ' + time1);
-
-    start = window.performance.now()
-
-    for (let i = 0; i < loop; ++i) {
-      let y = negativeToPositiveModulo(i, 12)
-    }
-
-    end = window.performance.now()
-    let time2 = end - start;
-    console.log('Execution time2: ' + time2);
-*/
-  })
-
-
-
   it("Resolve equation  ak' + k ≡ 0 (mod n) for k'", () => {
 
     let a = 3; // Example value for `a`

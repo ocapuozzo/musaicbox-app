@@ -2,17 +2,21 @@
 [bibliography]
 == References
 
+* [[[DIS]]] Stephen C.Brown. Dual Interval Space in Twentieth-Century Music, Musaic in armature 1-5 is DIS(1,5).
+
 * [[[Forte]]] Forte, Allen. 1973. The Structure of Atonal Music. New Haven: Yale University Press.
 
 * [[[Fripertinger]]] Fripertinger, Harald. 1999. Enumeration and construction in music theory. On line https://www.researchgate.net/publication/249910897_Enumeration_and_construction_in_music_theory
 
-* [[[Rahn-1980]]] Rahn, John. 1980. Basic Atonal Theory. New York: Longman.
+* [[[IanRing]]] Ring, Ian. https://ianring.com/musictheory/
+
+* [[[Jedrzejewski]]] Jedrzejewski, Franck. 2019. Hétérotopies musicales. Hermann Editions
 
 * [[[Johnson]]] Johnson, Timothy, 2003. Foundations of diatonic theory. Key College Publishing
 
-* [[[DIS]]] Stephen C.Brown. Dual Interval Space in Twentieth-Century Music,  Musaic in armature 1-5 is DIS(1,5).
+* [[[Knuth]]] Knuth, Donald. E. 1972. The Art of Computer Programming. Addison-Wesley.
 
-* [[[PERLE]]] Perle, G. 1954. The possible Chords in Twelve Tone Music
+* [[[modulo]]] https://en.wikipedia.org/wiki/Modulo
 
 * [[[LEWIN]]] David Lewin, Generalized musical intervals and transformations, Oxford University Press, 2007-1897
 
@@ -22,12 +26,13 @@
 
 * [[[LVERDI]]] Verdi, Luigi. In Autour de la Set Theory. Ircam / Delatour ed. 2003.
 
-* [[[TOPOS]]] Mazzola, Guerino. 2002. The Topos of Music. Birkhauser Verlag AG.
+* [[[Moreno-Argon]]] Moreno Andreatta, Carlos Agon. Formalisation algébrique des structures musicales à l'aide de la Set-Theory (on line)  http://recherche.ircam.fr/equipes/repmus/moreno/AndreattaAgonjim2003.pdf[ircam.fr]
 
 * [[[Morris]]] Moris, Robert. 1987. Composition With Pitch-Classes: A Theory of Compositional Design, Yale University Press
 
-* [[[Moreno-Argon]]] Moreno Andreatta, Carlos Agon. Formalisation algébrique des structures musicales à l'aide de la Set-Theory (on line)  http://recherche.ircam.fr/equipes/repmus/moreno/AndreattaAgonjim2003.pdf[ircam.fr]
+* [[[PERLE]]] Perle, G. 1954. The possible Chords in Twelve Tone Music
 
-* [[[Jedrzejewski]]] Jedrzejewski, Franck. 2019. Hétérotopies musicales. Hermann Editions
+* [[[Rahn-1980]]] Rahn, John. 1980. Basic Atonal Theory. New York: Longman.
 
-* [[[IanRing]]] Ring, Ian. https://ianring.com/musictheory/
+* [[[TOPOS]]] Mazzola, Guerino. 2002. The Topos of Music. Birkhauser Verlag AG.
+

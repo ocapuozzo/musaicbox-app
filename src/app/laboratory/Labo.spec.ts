@@ -623,4 +623,101 @@ describe('Laboratory explorer', () => {
       // pcs2.iPivot = 2 // no possible
     })
 
+
+  it('compare modulo implementations', () =>{
+    const loop = 1000000
+
+    // truncated division (see https://en.wikipedia.org/wiki/Modulo)
+    const modulo1 = (i:number, n:number) => {
+      return i - Math.floor(i/n) * n
+    }
+
+    // truncated division (see https://en.wikipedia.org/wiki/Modulo)
+    const modulo2 = (i:number, n:number) => {
+      return i - Math.floor(i/n) * n
+    }
+
+
+    for (let i = -200; i < 200; ++i) {
+
+      let y1 = modulo1(i, 12)
+      let y2 = modulo2(i, 12)
+
+      expect(y1).toEqual(y2)
+      expect(y1).toBeLessThan(12)
+      expect(y1).toBeGreaterThanOrEqual(0)
+
+    }
+
+    /*
+       negativeToPositiveModulo is 1.5 times faster than truncated modulo
+
+        let start = window.performance.now() //new Date().getTime();
+        for (let i = 0; i < loop; ++i) {
+          let y = modulo(i, 12)
+        }
+
+        let end = window.performance.now() //new Date().getTime();
+        let time1 = end - start;
+        console.log('Execution time1: ' + time1);
+
+        start = window.performance.now()
+
+        for (let i = 0; i < loop; ++i) {
+          let y = negativeToPositiveModulo(i, 12)
+        }
+
+        end = window.performance.now()
+        let time2 = end - start;
+        console.log('Execution time2: ' + time2);
+    */
+  })
+
+  it('compare 2 modulo logic', () =>{
+
+    const loop = 1000000
+
+    const modulo1 = (i:number, n:number) => {
+      return  (n + (i % n)) % n
+    }
+
+    const modulo2 = (i:number, n:number) => {
+      const r = i % n
+      return (r < 0) ? r + n : r
+    }
+
+    for (let i = -100; i < 100; ++i) {
+
+      let y1 = modulo1(i, 12)
+      let y2 = modulo2(i, 12)
+
+      expect(y1 === y2).toBeTrue() // expect(y1).toEqual(y2) fail !?? -0 "not equals to" 0 (although -0 === 0)
+      expect(y1).toBeLessThan(12)
+      expect(y1).toBeGreaterThanOrEqual(0)
+    }
+
+    /*
+           // modulo1 10 times faster than modulo2
+            let start = window.performance.now() //new Date().getTime();
+            for (let i = 0; i < loop; ++i) {
+              let y = modulo1(i, 12)
+            }
+
+            let end = window.performance.now() //new Date().getTime();
+            let time1 = end - start;
+            console.log('Execution time1: ' + time1);
+
+            start = window.performance.now()
+
+            for (let i = 0; i < loop; ++i) {
+              let y = modulo2(i, 12)
+            }
+
+            end = window.performance.now()
+            let time2 = end - start;
+            console.log('Execution time2: ' + time2);
+    */
+  })
+
+
 })

@@ -33,45 +33,61 @@ Keywords: musical set theory, pcs, basic operators, fixed zero problem, label, l
 
 == Usual operations
 
-In context of twelve-tone equal temperament, more specialy in pitch-class space, we note stem:[ZZ_12] the set stem:[ZZ"/"12ZZ], which reduces any number in stem:[ZZ] to one of the 12 pitch-class numbers, according to the modulo rule, like a 12-hour clock allowing the interpretation of a time position in a 24-hour day.
+In context of twelve-tone equal temperament, more specialy in pitch-class space, we note stem:[ZZ_12] the set stem:[ZZ"/"12ZZ]
 
-stem:[ ZZ_12 = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11}]
+stem:[ ZZ_12 = {bar0, bar1, bar2, bar3, bar4, bar5, bar6, bar7, bar8, bar9, bar10, bar11}]
+
+Each element stem:[i] of stem:[ZZ_12] is representative of a class of numbers multiple of 12. For example, stem:[i = bar1] is representative of positive numbers {1, 13, 25, 37, ...} (stem:[i + 12q]) and negative numbers {1, -11, -23, -35, ...} (stem:[i - 12q])
+
+=== Modulo operation
+
+By convention, stem:[ZZ_n] is represented by the set of first positive numbers (starting with zero) and often the bare notation above is omitted.
+
+Modulo is an operation that reduces any number in stem:[ZZ] to its representative number.
+
+The 12-hour clock is a good example. 13h is mapped to 1h, midnight  -1h to 11H.
 
 .Illustration modulo 12:{nbsp} -11 = 1  (and{nbsp} +11 = -1)
 image::circle-modulo.png[]
 
-.Example of numbers _i_ in stem:[ZZ] mapped into stem:[ZZ_12:] stem:[forall i in ZZ, i |->  i - n xx floor(i/n)]
+.A partial view on stem:[ZZ_12], where equivalence classes numbers are structured in columns
 [.nowrap]
 ----
 ...
  24   25   26  27  28 ...                         <- i - 12 * 2
  12   13   14  15  16  17  18  19  20  21  22  23 <- i - 12 * 1
-  0    1    2   3   4   5   6   7   8   9  10  11 <= 12 pitch-class numbers
+  0    1    2   3   4   5   6   7   8   9  10  11 <= 12 pitch-class representative
 -12  -11  -10  -9  -8  -7  -6  -5  -4  -3  -2  -1 <- i + 12 * 1
               ... -20 -19 -18 -17 -16 -15 -14 -13 <- i + 12 * 2
  ...
 ----
 
-Example of some cases:
+
+The logic of modulo numbers from stem:[ZZ] to stem:[ZZ_(n)] representative numbers is: stem:[i |->  i - n xx floor(i/n)], with stem:[n>0], consistent <<Knuth>> version <<modulo>>.
+
+
+TIP: stem:[floor(x)]: This symbol denotes floored of stem:[x], the largest integer less than or equal to stem:[x]. +
+Ex : stem:[floor(0.99) |-> 0] and stem:[floor(1.01) |-> 1] (the integer part)
+
+In our case, stem:[floor(i/n)] gives the line number above and below the reference pitch-class representative line below.
+
+Some illustrative cases:
 
 * 25 modulo 12 = *1* +
 stem:[25 - n xx lfloor 25/n rfloor] = 25 - 12 × Math.floor(25/12) = 25 - (12 × 2) = *1*
 * 13 modulo 12 = *1*  {nbsp}(13 - 12*1)
-* -3 modulo 12 = *9* {nbsp}(-3 + 12*1 )
+
 * -11 modulo 12 = *1* {nbsp}(-11 + 12*1)
 * -13 modulo 12 = *11* {nbsp}(-13 + 12*2) +
-stem:[-13 - n xx lfloor (-13)/n rfloor] = -13 - 12 × Math.floor(-13/12) = -13 + (-12 × -2) = -13 +24 = *11*
-* -17 modulo 12 = *7* {nbsp}(-17 + 12*2)
+stem:[-13 - n xx lfloor (-13)/n rfloor] = -13 - 12 × Math.floor(-13/12) = -13 + (-12 × -2) = -13 + 24 = *11*
 
 
-
-
-.Example: labeling of tones in Z and with the pitch-class numbers by <<Fripertinger>>
+.Illustration labeling of tones in Z and with the pitch-class numbers by <<Fripertinger>>
 image:score-modulo.png[]
 
 === Basic operations
 
-In musical set theory, into context of twelve-tone equal temperament (n=12), the basic operations are generally represented by ( <<Rahn>> <<Fripertinger>> <<Moreno-Argon>> and more):
+In musical set theory, into context of twelve-tone equal temperament (n=12), the basic operations are generally represented by ( <<Rahn>> <<Fripertinger>> <<Moreno-Argon>>, among others):
 
 * *Transposition* : stem:[T_k : ZZ xx ZZ_12 → ZZ_12 , x |-> T_k(x) := x + k]
 * *Inversion* : stem:[I : ZZ_12 → ZZ_12 , x |-> I(x) := -x]
@@ -89,8 +105,13 @@ include::affine-with-pivot.adoc[]
 
 == Conclusion
 
-* After observing the so-called "fixed zero problem", we were led to introduce a new parameter to the affine function acting on PCS, to improve the consistency of affine transformation operations such as inversion (M11) and transformation by cycle of fifths and fourths (M5 and M7).
+After observing the so-called "fixed zero" problem, we propose a general solution to the affine function.
 
-* The concept of a default value for the pivot has been introduced, allowing the parameterized affine function to substitute for the usual affine function. This provides general consistency, and allows the benefits of group action (construction of orbits and stabilizers) to continue to be enjoyed.
+To this end, we introduced a new parameter to the affine function acting on PCS to improve its consistency, particularly with respect to inversion (M11) and transformation by cycles of fifths and fourths (M5 and M7).
+
+The general form of the function, without complementarity, is `M~p~aTk` (or `TkM~p~a` in equivalent <<Rahn>> notation).
+
+The concept of a default value for the pivot has been introduced, allowing the parameterized affine function to substitute for the usual affine function. The form of this new operation is `MaTk` (or `[C]MaTk` with complementarity). This provides general consistency, and allows and thus to blend into existing frameworks and allows the latter to increase their accuracy by specifying, as needed, an adequate pivot value.
+
 
 include::reference-article-pivot.adoc[]

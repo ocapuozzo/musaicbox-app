@@ -13,7 +13,7 @@ Thus, when stem:[ZZ_12] is seen as the set of 12 pitch-classes, stem:[P(ZZ_12)] 
 
 Operation name will be represented by  stem:[M_aT_k] (_M_~a~  for multiplication by _a_ and _T_~k~ for transposition by a step of _k_ semitones).
 
-NOTE: Other representation is _TkM_ or _TkMI_ <<Morris>>, but we prefer stem:[M_aT_k], echoing ax+b, which maps the precedence logic of internal operations (multiplication first, then addition).
+NOTE: Other representation is _T~k~M_ or _T~k~MI_ <<Rahn>>, but we prefer stem:[M_aT_k], echoing ax+b, which maps the precedence logic of internal operations (multiplication first, then addition).
 
 ====
 [.text-center]

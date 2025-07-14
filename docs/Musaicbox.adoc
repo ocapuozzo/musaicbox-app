@@ -616,7 +616,7 @@ Examples when stem:[E = {0, 1, ..., 11}] (cardinal of stem:[E\ is\ |E| = 12]), n
 
 * Example id : {nbsp} stem:[M_1("["0 4 7\]) ->"["0 4 7\]] {nbsp} (*neutral operation*)
 
-TIP: Regarding circle of fifths and fourths transformations : "_Since middle 1950s many composers have found useful these operations_" (<<Rahn>>, page 53-55). See also https://en.wikipedia.org/wiki/Multiplication_(music)
+TIP: Regarding circle of fifths and fourths transformations : "_Since middle 1950s many composers have found useful these operations_" (<<Rahn>>, page 53-55). See also https://en.wikipedia.org/wiki/Multiplication_(music)#Pitch-class_multiplication_modulo_12[Multiplication_(music)]
 
 ==== Illustrations
 
@@ -1107,7 +1107,7 @@ We note that no other element of the group is generated (no new transformation o
 [.text-center]
 { *M1, M5, M7, M11, CM1, CM5, CM7, CM11* }
 
-TIP: We can observe the highlighting of symmetries, and a https://en.wikipedia.org/wiki/Klein_four-group[klein four-groups] (first square).
+TIP: We can observe the highlighting of symmetries, and two https://en.wikipedia.org/wiki/Klein_four-group[klein four-group].
 
 By composing each of these operations with the 12 possible transposition steps, we obtain *96* operations in the group.
 

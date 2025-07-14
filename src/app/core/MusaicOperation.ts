@@ -428,7 +428,7 @@ export class MusaicOperation {
    *
    * @param  a : number integer coprime with n
    * @param  k : number  integer in Z
-   * @param p : number integer in [0..this.n-1], assert vectorPcs[p] === 1 expect if vectorPcs is image of empty set
+   * @param p : number integer in [0..this.n-1], assert vectorPcs[p] === 1 or zero if vectorPcs is image of empty set
    * @param vectorPcs : number[] array of 0 | 1, vector image of a pcs ex: [1,0,0,0,1,0,0,1,0,0,0,0] for {0 4 7}
    * @param c if true return complement of affine transformation with pivot (false by default)
    * @return {number[]} array of 0 | 1, new c . affinePivot transformed vector
@@ -438,9 +438,15 @@ export class MusaicOperation {
     let permutedVectorPcs: number[] = Array(n)
     // (ax + b) =>  (ax + p(1−a) + k)
     const b = p * (1-a) + k
-    let j
-    for (let i = 0; i < n; i++) {
-      j = (n + (a * i + b) % n) % n
+
+    for (let i = 0, j; i < n; i++) {
+      // j and i play the role of both index and pitch-class number
+      j = (n + ((a * i + b) % n)) % n
+
+      // other solution, but less efficient!
+      // j = (a * i + b) % n
+      // if (j < 0) j += n
+
       // first j modulo n may be negative... so call twice modulo : (n + ( j modulo n )) modulo n
       // @see https://stackoverflow.com/questions/4467539/javascript-modulo-gives-a-negative-result-for-negative-numbers
       permutedVectorPcs[j] = c ? 1 - vectorPcs[i] : vectorPcs[i] //  inverse vectorPcs[i] (0 <-> 1) if c

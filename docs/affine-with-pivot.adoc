@@ -64,7 +64,7 @@ In fact, from a modulo n point of view, the functions _inverseA_ and _inverseB_ 
 
 |(n−x)|(n−1)⋅x|formulas
 |(12−x)|(12−1)⋅x|n=12
-|−x {nbsp}{nbsp}  (n-x = -x)|11x |n modulo n = 0
+|−x |11x |n modulo n = 0
 |-1x|11x|-x = x multiply by -1
 |*11x*|*11x*|-1 modulo 12 = 11 +
 QED
@@ -628,6 +628,7 @@ a|{startsb}0 3 4 5 8 9]|[0 4 5 7 8 11]|[2 5 6 7 10 11]|[0 1 4 7 8 11]|
 
 === AffinePivot typescript implementation
 
+
 [source, javascript]
 ----
 /** extended affinePivot transformation implementation
@@ -635,11 +636,11 @@ a|{startsb}0 3 4 5 8 9]|[0 4 5 7 8 11]|[2 5 6 7 10 11]|[0 1 4 7 8 11]|
  */
 function affinePivot(
   p: number, // integer in [0..this.n-1],
-             // assert: vectorIn[p] equals 1 if vectorIn not image of empty set.
+             // assert: vectorIn[p] equals 1 if vectorIn not image of empty set else 0
   a: number, // integer, assert: a is coprime with 'n'
   k: number, // integer in Z
   vectorIn: number[], // array of 0 | 1, a vector image of a pcs
-  // ex: [1,0,0,0,1,0,0,1,0,0,0,0] for {0 4 7} ({C E G})
+             // ex: [1,0,0,0,1,0,0,1,0,0,0,0] for {0 4 7} (C E G)
   c: boolean = false // if true, return complement of permutedVector (false by default)
 ) : number[] // new vector "affinePivot" transformed
 {
@@ -647,18 +648,17 @@ function affinePivot(
     let permutedVector : number[] = Array(n)
     // c . (ax + b) |-> c . (a * i + p(1 − a) + k)
     const b = p * (1-a) + k
-    let j
-    for (let i = 0; i < n; i++) {
+    for (let i = 0, j; i < n; i++) {
       // j and i play the role of both index and pitch-class number
-      j = (n + (a * i + b) % n) % n // force modulo to get value >= 0
+      j = (n + (a * i + b) % n) % n // force modulo to get value in [0..n-1]
       // if c then inverse vectorPcs[i] (0 <-> 1)
-      permutedVectorPcs[j] = c ? 1 - vectorPcs[i] : vectorPcs[i]
+      permutedVector[j] = c ? 1 - vectorPcs[i] : vectorPcs[i]
     }
     return permutedVector
 }
 ----
 
-This function is extracted from a POC (and more) available on GitHub (open source : https://github.com/ocapuozzo/musaicbox-app). It is accessible as an online demo, executable from a browser (full front-end application) : https://musaicsbox.org
+This function is extracted from a POC (and more) available on GitHub (code open source: https://github.com/ocapuozzo/musaicbox-app) and the latest demo version, runnable via a browser (front-end application) is available here: https://musaicsbox.org
 
 //
 // === Conclusion
