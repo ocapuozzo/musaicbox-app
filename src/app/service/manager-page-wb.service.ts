@@ -916,7 +916,7 @@ export class ManagerPageWBService {
         pcsList = [...pcsList, ...PcsUtils.getAffineMotifsOf(pcsSelectedCplt, distinct) ]
       }
     }
-    if (distinct) {
+    if (distinct && pcsList) {
       return pcsList.reduce((unique: IPcs[], currentPcs) =>
         unique.find(pcs => pcs.cyclicPrimeForm().pid() === currentPcs.cyclicPrimeForm().pid()) ? unique : [...unique, currentPcs], [])
     }

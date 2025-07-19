@@ -176,7 +176,7 @@ export class HtmlUtil {
       link.click();
 
       // Optional: pause briefly to avoid overlapping downloads
-      await this.sleep(200);
+      if  (i > 0) await this.sleep(100);
     }
   }
 

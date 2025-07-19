@@ -20,6 +20,7 @@ NOTE: Other representation is _T~k~M_ or _T~k~MI_ <<Rahn>>, but we prefer stem:[
 --
 *Special Affine Operation*
 
+
 stem:[M_aT_k  :  P(ZZ_n) xx NN xx ZZ -> P(ZZ_n)]
 
 stem:[M_aT_k(A) := {\ (ax + k) mod n \ },  forall  x in A]

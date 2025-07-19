@@ -7,7 +7,7 @@ Affiliation, City, Country
 :lang: fr
 :numbered:
 :toc: left
-:toclevels: 2
+:toclevels: 3
 :sectids:
 :sectnums:
 :stem:
@@ -15,7 +15,6 @@ Affiliation, City, Country
 :icons: font
 
 == Abstract
-
 
 This article addresses a topic related to musical set theory, and particularly to basic operations: inversion, transformation by cycles of fifths and fourths (M7 and M5).
 

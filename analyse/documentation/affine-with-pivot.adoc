@@ -67,9 +67,6 @@ In fact, from a modulo n point of view, the functions _inverseA_ and _inverseB_ 
 |−x |11x |n modulo n = 0
 |-1x|11x|-x = x multiply by -1
 |*11x*|*11x*|-1 modulo 12 = 11 +
-QED
-
-
 
 |===
 
@@ -187,13 +184,41 @@ We start from the observation that the points fixed by the transformation operat
 .Template of transformations (n = 12)
 image::fixed-indexes-n12.png[fixed-indexes-n12]
 
-In its basic form, the affine function _ax + k_, the first term is always fixed by _0_, whatever _x_. Zero is the guaranteed fixed point, whatever _n_. Note that, when _n_ is even, the fixed points are {_0, n/2_}. For _n_ = 12, we have the choice between _0_ and _6_, but _6_ does not correspond to the general case.
+In its basic form of the affine function _ax + k_, the first term is always fixed by _0_, whatever _x_. Zero is the guaranteed fixed point, whatever _n_. An inventory is necessary.
 
-The idea chosen is to model the transformation operations on these fixed point models.
+.Inventory of fixed points
+[cols="^1,^1,^1,^1,^1"]
+|===
+| |ID |M11 |M5 |M7
 
-Without calling into question the arithmetic based on pitch-class names, a general solution would be to align one of the pitch-class of the PCS in question with the zero pitch-class before the transformation (M5, M7 or M11).
+|
+.^|id
+|image:M11-fixed.png[]
+|image:M5-fixed.png[]
+|image:M7-fixed.png[]
 
-More precisely, this requires three operations, this is the price to pay for good consistency:
+a|fixed-pitch-classes +
+set
+|{0,1,2,3,4,5,6,7,8,9,10,11}
+|{0, 6}
+|{0, 3, 6, 9}
+|{0, 2, 4, 6, 8, 10}
+
+|Intersection of fixed-pitch-classes sets
+4+.^|{0,6}
+
+|===
+
+
+The axis of symmetry passing through zero, or six, denotes the canonical-axis of symmetry.
+
+We decide to refer to this *canonical axis passing through zero*, in order to carry out the affine operations.
+
+Note that, when _n_ is odd, axis passing through zero doesn't through any other pitch-class number. This is why we will only retain zero from now on.
+
+Without calling into question the arithmetic based on pitch-class names, a general solution would be to align the PCS in question, via one of its pitch-classes, with the zero pitch-class before the transformation (M5, M7 or M11).
+
+More precisely, this conceptually requires three operations, this is the price to pay for good consistency:
 
 . Transpose, by a step ok _-p_, the PCS to make one of its PCs coincide with zero
 . Apply the requested affine transformation (_ax + k_)
@@ -224,7 +249,7 @@ More possibilities:
 
 A. *Choosing the "smallest PC"*.
  +
-This choice is the same as first pitch-class of PCS in normal order. It is not always the right one: It works in the case of C# dim7, but not on D Major, [.nowrap]#[1 2 4 6 7 9 11]#, because its first and minimum pitch-class is 1 (C#), the seventh of the scale, and not the root of D major.
+This choice is the same as first pitch-class of PCS in normal order. This is technically correct, but it is not always the right one: It works in the case of C# dim7, but not on D Major, [.nowrap]#[1 2 4 6 7 9 11]#, because its first and minimum pitch-class is 1 (C#), the seventh of the scale, and not the root of D major.
 
 B. *Any PC from chromatic circle*
  +
@@ -236,7 +261,7 @@ C.  *Any PC belonging to PCS to be transformed*
  +
 This ensures that the transformation will be based on a pitch-class of the relevant PCS (acting as a "fixed zero").
  +
-This solution is compatible with the idea of the solution, leaving to the author the choice of the reference pitch-class, among _m_ choices, _m_ being the cardinal of the pcs concerned by the transformation.
+This solution is compatible with the idea of the solution, leaving to the author the choice of the reference pitch-class, among _m_ choices, _m_ being the cardinal of the pcs concerned by the transformation (we will apply solution A to define a default value)
 
 It seems clear that solution C prevails. The pivot _p_ must be chosen from the PCS pitch-classes.
 
@@ -336,6 +361,15 @@ We can now define the operation that acts on PCS.
 [.text-center]
 --
 *Affine with pivot : An action on PCS*
+
+#TEST NOTATION#
+
+stem:[T_kM_b^a  :  P(ZZ_n) xx ZZ xx NN xx NN -> P(ZZ_n)]
+
+stem:[T_kMa_p  :  P(ZZ_n) xx ZZ xx NN xx NN -> P(ZZ_n)]
+
+`T~0~M5~p~` `T~0~M11~p~`
+
 
 stem:[Ma_pTk : P(ZZ_n) xx NN xx NN xx ZZ -> P(ZZ_n)]
 
@@ -531,9 +565,127 @@ a|- stem:[(a, p(1 - a) + k)]
 // - stem:[(11, 1)] // modulo 12
 
 
-If we assume that the pitch-class set, in normal order, represents a scale, _p_ designates the degree from which the `Ma~p~Tk` transformation will be applied. Not specifying _p_ in the affine MaTk function triggers the default pivot value assignment logic (<<default-p-value-logic>>.
+If we assume that the pitch-class set, in normal order, represents a scale, _p_ designates the degree from which the `Ma~p~Tk` transformation will be applied.Not specifying _p_ in the affine MaTk function triggers the default pivot value assignment logic (<<default-p-value-logic>>.
 
-Examples of transformations with affinePivot function, with p-value specified, or not:
+
+[#_free_axis_of_symmetry]
+=== Free axis of symmetry
+
+We have seen that any affine transformation, based on the pivot value, is guaranteed to operate around an axis passing through the pitch-class-pivot, in complete coherence.
+
+The question is: Can we maintain this consistency while being free to select another axis of symmetry than the one passing through the pivot value?The answer is YES, and we will see how.
+
+First, let's take stock of the different axes of symmetry of a circle with a homogeneous distribution of pitch-class numbers.
+
+|===
+^|n = 7 ^| n = 5 ^| n = 8 ^| n = 12
+
+|image:pcs-emptyset-n7.png[]
+|image:pcs-emptyset-n5.png[]
+|image:pcs-emptyset-n8.png[]
+|image:pcs-emptyset-n12.png[]
+
+|===
+
+We see that there are two ways to divide such a circle in two:
+
+A. Median axis, passing *through* a pitch-class number
+
+B. Intercalary axis, passing *between* two pitch-class numbers.
+
+.Two symmetry axis types (n=8)
+image::axis-symmetry-n8.png[]
+
+Note that when n is odd, there is only one type of axis that is both intercalary and median.
+
+To select an axis of symmetry, assign an appropriate value to _k_.
+
+[IMPORTANT]
+====
+_p_ forms with _k_ a line segment  stem:[bar(X,Y)] *crossed in its middle by the axis of symmetry*. +
+ where stem:[X = p and Y =  p+k].
+
+Example with axis A and B of the figure above.
+
+// * Median axis A admits as solution :  stem:[bar(0,0)]{nbsp}, stem:[bar(11, 1)]{nbsp}, stem:[bar(10, 2)]{nbsp}, stem:[bar(9, 3)]{nbsp}, stem:[bar(8, 4)]{nbsp}, stem:[bar(7, 5)] and {nbsp}, stem:[bar(6, 6)]
+// * Intercalary axis B admits as solution :  stem:[bar(0,1)]{nbsp}, stem:[bar(11, 2)]{nbsp}, stem:[bar(10, 3)]{nbsp}, stem:[bar(9, 4)]{nbsp}, stem:[bar(8, 5)]{nbsp} and stem:[bar(7, 6)]
+
+
+* Median axis A admits as solution :  stem:[bar(0,0)]{nbsp}, stem:[bar(7, 1)]{nbsp}, stem:[bar(6, 2)]{nbsp}, stem:[bar(5, 3)]{nbsp} and {nbsp} stem:[bar(4, 4)]
+* Intercalary axis B admits as solution :  stem:[bar(0,1)]{nbsp}, stem:[bar(7, 2)]{nbsp}, stem:[bar(6, 3)]{nbsp} and{nbsp}  stem:[bar(5, 4)]
+
+====
+
+The axis of symmetry around which affine operations are applied actually passes through the midpoint of the segment represented by the two pitch-class numbers: _p_ and _p+k_, i.e: stem:[(p+k-p)/2], so stem:[k/2] in absolute value, we must add the value of _p_, hence axis through by stem:[p + k/2]
+
+
+Examples of media and inter axis at stem:[p + k/2] :
+
+
+|===
+^|pcs: [2] ^|pcs: [2]
+
+^|image:pcs-2-axe0.png[]
+^|image:pcs-2-axe1.png[]
+
+^a|`M11~2~T0` {nbsp} {nbsp} axis: stem:[ 2 + 0/2 = 2] (median)
+^a|`M11~2~T1` {nbsp} {nbsp} axis: stem:[2 + 1/2 ] (inter)
+
+^|image:pcs-2-axe2.png[]
+^|image:pcs-2-axe3.png[]
+
+
+^a|`M11~2~T2`{nbsp} {nbsp} axis: stem:[2 + 2/2 = 3] (median)
+^a|`M11~2~T3`{nbsp} {nbsp} axis: stem:[2 + 3/2 = 3 + 1/2] (inter)
+
+|===
+
+
+Let _s_ be the pitch-class number through which the axis of symmetry crosses.
+
+* stem:[ s = p + k/2] {nbsp} (when _k_=_0_, axis passes through _p_)
+
+
+Depending on the needs, we can then determine each of the variables in this equation as a function of the other two, from this equation {nbsp}stem:[p +k/2 - s = 0]
+
+// k ?
+// * stem:[ 2S -2p -k = 0]
+// * stem:[ k = 2S -2p]
+* stem:[ k = 2(s-p)]
+
+// p ?
+//
+// * stem:[ 2S -2p -k = 0]
+// * stem:[ -2p -k = -2S]
+// * stem:[ -2p  = k-2S]
+// * stem:[ p  = (k-2S) / -2]
+* stem:[ p  = s - k/ 2]
+
+
+==== Summary
+
+*The axis of symmetry is defined by the line segment it crosses at its midpoint. This line segment is defined by _p_ and _k_ by the pair _p, p + k_*.
+
+In the example below, starting from _p = 2_, the step *_k = -3_* defines the line segment (_p, p + k_) by  _(2, -1)_, or (2,11) (modulo 12), and thus determines the axis of symmetry passing between (2, 11), or (0,1) , (3,10), (4,9), (5,8), (6,7).
+
+image:pcs-256-M11-free-axe.png[] : `M11~2~T-3([256])` -> `[7811]`
+
+Others expressions with valid p-value :
+`M11~2~T-3([256])` = `M11~5~T3([256])` = `M11~6~T1([256])` -> `[7811]`
+
+k=0 is a special case, where line segment (_p,p_) distance is zero.
+
+image:pcs-256-M11axis0.png[] : `M11~2~T0([2 5 6])` -> `[2 10 11]`
+
+Others expressions with valid p-value :
+`M11~2~T0([256])` = `M11~5~T6([256])` = `M11~6~T4([256])` -> `[21011]`
+
+
+
+
+=== Examples of transformations with affinePivot
+
+Examples with p-value specified, or not.
 
 .Revisited basic operations of Musical Set Theory, with pivot value (in red)
 [%header,cols="^,^,^,^,^"]
@@ -574,13 +726,32 @@ C#dim7 has same treatment as Cdim7
 
 [%header,cols="^,^,^,^,^"]
 |===
-.^|(default p-value = 0) .^|M11T0  .^|M5T0  .^|M7T0|CMajor transformations (default pivot)
+.^a|CMajor +
+ p-value = 0 .^|M11T0  .^|M5T0  .^|M7T0|CMajor transformations (default pivot)
 
 |image:pcs-CMaj-pivot0.png[]|image:pcs-CMaj-M11-pivot0.png[]|image:pcs-CMaj-M5-pivot0.png[]|image:pcs-CMaj-M7-pivot0.png[]|
 
 |[0 2 4 5 7 9 11]|[0 1 3 5 7 8 10]|[0 1 7 8 9 10 11]|[0 1 2 3 4 5 11]|ok
 
 |===
+
+
+[%header,cols="^,^,^,^,^"]
+|===
+.^a|C Major +
+p-value = 4 .^|M11~4~T0  .^|M5~4~T0  .^|M7~4~T0|C Major transformations (pivot=4)
+
+|image:pcs-02457911-p4-clock.png[]|image:pcs-02457911-p4-clock-M11.png[]|image:pcs-02457911-p4-clock-M5.png[]|image:pcs-02457911-p4-clock-M7.png[]|
+
+a|[0 2 4 5 7 9 11] +
+C Maj/E a|[0 3 4 6 8 9 11] +
+E Maj|[3 4 5 6 7 8 9]|[0 1 2 3 4 5 11] a|ok +
+ M11~4~ of C Major +
+ map to E Major
+
+|===
+
+
 
 [%header,cols="^,^,^,^,^"]
 |===
@@ -589,7 +760,8 @@ but p-value = 2 .^|M11~2~T0  .^|M5~2~T0  .^|M~2~7-T0|DMajor transformations
 
 |image:pcs-DMajor-pivot2.png[]|image:pcsDMaj-M11-Pivot2.png[]|image:pcsDMaj-M5-Pivot2.png[]|image:pcsDMaj-M7-Pivot2.png[]|
 
-|[1 2 4 6 7 9 11]|[0 2 3 5 7 9 10]|[0 1 2 3 9 10 11]|[1 2 3 4 5 6 7]|OK DMajor with pivot=2 has same treatment as CMajor
+|[1 2 4 6 7 9 11] a|[0 2 3 5 7 9 10] +
+ Become III degree of Bb Major|[0 1 2 3 9 10 11]|[1 2 3 4 5 6 7]|OK DMajor with pivot=2 has same treatment as CMajor
 
 |===
 

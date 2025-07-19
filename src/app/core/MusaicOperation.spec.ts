@@ -444,4 +444,47 @@ describe('MusaicPcsOperation', () => {
 
   })
 
+  it('M11 free axe from documentation', () => {
+    // M11 doc examples
+    let pcs = new IPcs({strPcs: "2"})
+    let newVectorPcs = MusaicOperation.affinePivot(11, 0, 2, pcs.vectorPcs, false)
+    let expectedPcs = new IPcs({strPcs: "2"})
+    expect(newVectorPcs).toEqual(expectedPcs.vectorPcs)
+
+    newVectorPcs = MusaicOperation.affinePivot(11, 1, 2, pcs.vectorPcs, false)
+    expectedPcs = new IPcs({strPcs: "3"})
+    expect(newVectorPcs).toEqual(expectedPcs.vectorPcs)
+
+    newVectorPcs = MusaicOperation.affinePivot(11, 2, 2, pcs.vectorPcs, false)
+    expectedPcs = new IPcs({strPcs: "4"})
+    expect(newVectorPcs).toEqual(expectedPcs.vectorPcs)
+
+    newVectorPcs = MusaicOperation.affinePivot(11, 3, 2, pcs.vectorPcs, false)
+    expectedPcs = new IPcs({strPcs: "5"})
+    expect(newVectorPcs).toEqual(expectedPcs.vectorPcs)
+
+    pcs = new IPcs({strPcs: "256"})
+    // M112T-3([256]) = M115T3([256]) = M116T1([256]) → [7811]
+    newVectorPcs = MusaicOperation.affinePivot(11, -3, 2, pcs.vectorPcs, false)
+    expectedPcs = new IPcs({strPcs: "7811"})
+    expect(newVectorPcs).toEqual(expectedPcs.vectorPcs)
+    newVectorPcs = MusaicOperation.affinePivot(11, 3, 5, pcs.vectorPcs, false)
+    expect(newVectorPcs).toEqual(expectedPcs.vectorPcs)
+    newVectorPcs = MusaicOperation.affinePivot(11, 1, 6, pcs.vectorPcs, false)
+    expect(newVectorPcs).toEqual(expectedPcs.vectorPcs)
+
+
+    // M112T0([256]) = M115T6([256]) = M116T4([256]) → [2 10 11]
+    newVectorPcs = MusaicOperation.affinePivot(11, 0, 2, pcs.vectorPcs, false)
+    expectedPcs = new IPcs({strPcs: "21011"})
+    expect(newVectorPcs).toEqual(expectedPcs.vectorPcs)
+    newVectorPcs = MusaicOperation.affinePivot(11, 6, 5, pcs.vectorPcs, false)
+    expect(newVectorPcs).toEqual(expectedPcs.vectorPcs)
+    newVectorPcs = MusaicOperation.affinePivot(11, 4, 6, pcs.vectorPcs, false)
+    expect(newVectorPcs).toEqual(expectedPcs.vectorPcs)
+    
+  })
+
+
+
 })
