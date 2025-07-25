@@ -18,14 +18,13 @@ Affiliation, City, Country
 
 This article addresses a topic related to musical set theory, and particularly to basic operations: inversion, transformation by cycles of fifths and fourths (M7 and M5).
 
-It demonstrates the need to be able to choose the axis, or more precisely the pivot point around which the transformations are applied, in order to overcome the negative influence of pitch zero in these operations.
+It demonstrates the need to be able to choose the axis of symmetry around which the transformations are applied, in order to overcome the negative influence of the pitch-class zero in these operations.
 
-The solution proposed here takes David Lewin's idea for inversion (I^u^) and generalizes it to the other M5 and M7 transformations.
+The solution proposed here takes David Lewin's idea for inversion (I^uv^) and generalizes it to the other M5 and M7 transformations.
 
 Finally, the extended affine function has a new parameter, but remains fully compatible with current usage, through a logic that automatically assigns a default pivot value, similar to the "moveable-DO" system.
 
 The code for the affine function with pivot is provided (TypeScript).
-
 
 Keywords: musical set theory, pcs, basic operators, fixed zero problem, label, label free, M11, M5, M7, Affine mapping from Z~n~ to Z~n~
 
@@ -108,9 +107,9 @@ After observing the so-called "fixed zero" problem, we propose a general solutio
 
 To this end, we introduced a new parameter to the affine function acting on PCS to improve its consistency, particularly with respect to inversion (M11) and transformation by cycles of fifths and fourths (M5 and M7).
 
-The general form of the function, without complementarity, is `M~p~aTk` (or `TkM~p~a` in equivalent <<Rahn>> notation).
+The general form of the function, without complementarity, is `T~k~Ma~p~`.
 
-The concept of a default value for the pivot has been introduced, allowing the parameterized affine function to substitute for the usual affine function. The form of this new operation is `MaTk` (or `[C]MaTk` with complementarity). This provides general consistency, and allows and thus to blend into existing frameworks and allows the latter to increase their accuracy by specifying, as needed, an adequate pivot value.
+The concept of a default value for the pivot has been introduced, allowing the parameterized affine function to substitute for the usual affine function. The form of this new operation is `T~k~Ma` (or `[C]T~k~Ma` with complementarity). This provides general consistency, and allows and thus to blend into existing frameworks and allows the latter to increase their accuracy by specifying, as needed, an adequate pivot value.
 
 
 include::reference-article-pivot.adoc[]

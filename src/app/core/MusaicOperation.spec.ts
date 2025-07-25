@@ -482,7 +482,18 @@ describe('MusaicPcsOperation', () => {
     expect(newVectorPcs).toEqual(expectedPcs.vectorPcs)
     newVectorPcs = MusaicOperation.affinePivot(11, 4, 6, pcs.vectorPcs, false)
     expect(newVectorPcs).toEqual(expectedPcs.vectorPcs)
-    
+
+    // `I^2,3^([2 4 5 6 7]) = I^4,1^([2 4 5 6 7]) = I^5,0^([2 4 5 6 7]) = [0 1 3 10 11]`
+    pcs = new IPcs({strPcs: "[2 4 5 6 7]"})
+    expectedPcs = new IPcs({strPcs: "[0 1 3 10 11]"})
+
+    newVectorPcs = MusaicOperation.affinePivot(11, 1, 2, pcs.vectorPcs, false)
+    expect(newVectorPcs).toEqual(expectedPcs.vectorPcs)
+    newVectorPcs = MusaicOperation.affinePivot(11, -3, 4, pcs.vectorPcs, false)
+    expect(newVectorPcs).toEqual(expectedPcs.vectorPcs)
+    newVectorPcs = MusaicOperation.affinePivot(11, -5, 5, pcs.vectorPcs, false)
+    expect(newVectorPcs).toEqual(expectedPcs.vectorPcs)
+
   })
 
 
