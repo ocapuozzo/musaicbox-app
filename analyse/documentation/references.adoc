@@ -24,6 +24,9 @@
 
 * [[[LEWIN-1980]]] David Lewin, "On Generalized Intervals and Transformations" Journal of Music Theory, Vol. 24, No. 2 (Autumn, 1980), 243-251.
 
+* [[[LEWIN-1968]]] David Lewin, "Inversional Balance as an Organizing Force in Schoenberg's Music and Thought", Perspectives of New Music, Vol. 6, No. 2 (Spring - Summer, 1968), pp. 1-21 (21 pages)
+
+
 * [[[LVERDI]]] Verdi, Luigi. In Autour de la Set Theory. Ircam / Delatour ed. 2003.
 
 * [[[Moreno-Argon]]] Moreno Andreatta, Carlos Agon. Formalisation algébrique des structures musicales à l'aide de la Set-Theory (on line)  http://recherche.ircam.fr/equipes/repmus/moreno/AndreattaAgonjim2003.pdf[ircam.fr]
