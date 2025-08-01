@@ -576,7 +576,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel2">
 <li><a href="#_whats_wrong_with_basic_operations">4.1. What&#8217;s wrong with basic operations</a></li>
 <li><a href="#_the_fixed_zero_problem">4.2. The "fixed zero problem"</a></li>
-<li><a href="#understand-fixed-point-algorithm">4.3. Idea of solution</a></li>
+<li><a href="#understand-fixed-point-algorithm">4.3. Idea for a solution</a></li>
 <li><a href="#design-affine-pivot">4.4. Affine operation with pivot</a></li>
 <li><a href="#_affinepivot_reduced">4.5. AffinePivot reduced</a></li>
 <li><a href="#_default_pivot_value">4.6. Default pivot value</a></li>
@@ -585,10 +585,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_free_axis_of_symmetry">4.9. Free axis of symmetry</a></li>
 <li><a href="#_understand_inversion_iab">4.10. Understand inversion <em>I<sup>a,b</sup></em></a></li>
 <li><a href="#_free_axis_affine_pivot">4.11. Free axis affine pivot</a></li>
-<li><a href="#_affinepivot_typescript_implementation">4.12. AffinePivot typescript implementation</a></li>
 </ul>
 </li>
 <li><a href="#_conclusion">5. Conclusion</a></li>
+<li><a href="#_appendix">6. Appendix</a>
+<ul class="sectlevel2">
+<li><a href="#_pairs_axis">6.1. Pairs &#8594; axis</a></li>
+<li><a href="#_affinepivot_implementation">6.2. AffinePivot implementation</a></li>
+</ul>
+</li>
 <li><a href="#_references">References</a></li>
 </ul>
 </div>
@@ -1335,7 +1340,7 @@ C#Dim7</p>
 <p>Later, David Lewin "frees" the LABEL function using a parameterized inversion operator <em>I<sup>u,v</sup></em>, an inversion around an axis identified by a pair <em>(u, v)</em>, or a pitch-class <em>u</em> if <em>u</em> = <em>v</em>, then denoted by <em>I<sup>u</sup></em>. <a href="#LEWIN-1977a">[LEWIN-1977a]</a> <a href="#LEWIN-1980">[LEWIN-1980]</a>. Only deals with the case of inversion.</p>
 </li>
 <li>
-<p>Harald Fripertinger define in <a href="#Fripertinger">[Fripertinger]</a> an <em>operator inversion, from Z to Z, with respect to r</em>  as <span class="nowrap"><em>I<sub>r</sub>(i) = r − (z − r) = <strong>2r - i</strong></em></span>. So, when <em>r = 0</em>,  <em>I(i) = -i</em>. The parameter pitch-class reference only deals with operator inversion, although quart-circle and quint-circle transformations are defined in the same paper.</p>
+<p>Harald Fripertinger define in <a href="#Fripertinger">[Fripertinger]</a> an <em>operator inversion, from Z to Z, with respect to r</em>  as <span class="nowrap"><em>I<sub>r</sub>(i) = r − (i − r) = <strong>2r - i</strong></em></span>. So, when <em>r = 0</em>,  <em>I(i) = -i</em>. The parameter pitch-class reference <em>r</em> (synonymous with pitch-class-pivot <em>p</em>) only deals with operator inversion, although fourth-circle and fifth-circle transformations are defined in the same paper.</p>
 </li>
 </ul>
 </div>
@@ -1343,12 +1348,12 @@ C#Dim7</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="understand-fixed-point-algorithm">4.3. Idea of solution</h3>
+<h3 id="understand-fixed-point-algorithm">4.3. Idea for a solution</h3>
 <div class="paragraph">
 <p>We are looking for a solution that allows to maintain the structural consistency of PCSs across different transformations, including inversion and transformation by cycles of fifths and fourths.</p>
 </div>
 <div class="paragraph">
-<p>The David Lewin&#8217;s operator (<em>I<sup>u</sup></em>), and Harald Fripertinger inversion operator (<em>I<sub>r</sub></em>) partially addresses this problem, but are reserved to the inversion.</p>
+<p>The David Lewin&#8217;s operator (<em>I<sup>u</sup></em>), and Harald Fripertinger inversion operator (<em>I<sub>r</sub></em>) partially address this problem as they are reserved for inversion.</p>
 </div>
 <div class="paragraph">
 <p>We propose to generalize this solution to the extended general affine function seen previously by adding a new parameter to designate the reference fixed point of transformation.</p>
@@ -1523,7 +1528,7 @@ This solution is compatible with the idea of the solution, leaving the choice of
 </ul>
 </div>
 <div class="paragraph">
-<p>We have seen that when we want to control the fixed point of a transformation operation of a PCS, a series of three operations is required: M1-T-p, [C]Ma-Tk and M1-Tp. We call this operation <em>"AffinePivot"</em>, a right action.</p>
+<p>We have seen that when we want to control the fixed point of a transformation operation of a PCS, a series of three operations is required: T<sub>p</sub>M1, [C]T<sub>k</sub>Ma<sub>p</sub> and T<sub>-p</sub>M1. We call this operation <em>"AffinePivot"</em>, a right action.</p>
 </div>
 <div class="exampleblock">
 <div class="content">
@@ -1634,7 +1639,7 @@ We will call this simplified function: <strong>[C]T<sub>k</sub>Ma<sub>p</sub></s
 </div>
 <div class="stemblock">
 <div class="content">
-\$[C]T_kMa_p(A) := { (Ma_pTk(A) \ \ \ \ \ \ \ if C " is not present"), (E\  \\ \ T_kMa_p(A)  if C " is present") :}\$
+\$[C]T_kMa_p(A) := { (T_kMa_p(A) \ \ \ \ \ \ \ if C " is not present"), (E\  \\ \ T_kMa_p(A)  if C " is present") :}\$
 </div>
 </div>
 </div>
@@ -1961,14 +1966,14 @@ Become III degree of Bb Major</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>M1</code></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Multiplication</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>T<sub>0</sub>Ma<sub>p</sub></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Ma<sub>p</sub></code></p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Transposition</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>T<sub>k</sub>M1</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>T<sub>k</sub></code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Multiplication</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>T<sub>0</sub>Ma<sub>p</sub></code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Ma<sub>p</sub></code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Complement</p></td>
@@ -1976,63 +1981,57 @@ Become III degree of Bb Major</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>C</code></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Affine no complement k&gt;0, x&gt;1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Affine with transposition (k&gt;0)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>T<sub>k</sub>Ma<sub>p</sub></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>T<sub>k</sub>Ma<sub>p</sub></code></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Affine with complement k=0, x&gt;1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Affine transposition + complement (k=0, a&gt;1)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>CT<sub>0</sub>Ma<sub>p</sub></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>CMa<sub>p</sub></code></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Affine with complement k&gt;0, x=1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Affine with complement k&gt;0, a=1</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>CT<sub>k</sub>M1</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>CT<sub>k</sub></code></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Affine with complement k&gt;0, x&gt;1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Affine with complement k&gt;0, a&gt;1</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>CT<sub>k</sub>Ma<sub>p</sub></code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>CT<sub>k</sub>Ma<sub>p</sub></code></p></td>
 </tr>
 </tbody>
 </table>
 <div class="paragraph">
-<p>Focus on inversion with formula: \$c cdot (ax + b) |-&gt;\$   \$c cdot (ax + p(1 - a) + k)\$</p>
+<p>Focus on inversion <code>M11<sub>p</sub></code> with affine pivot formula:  \$ax + p(1 - a) + k\$</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 6. AffinePivot analysis : [C]T<sub>k</sub>Ma<sub>p</sub>(A)</caption>
+<caption class="title">Table 6. AffinePivot inversion analysis : [C]T<sub>k</sub>Ma<sub>p</sub>(A) |&#8594; M11<sub>p</sub>(A)</caption>
 <colgroup>
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-<col style="width: 12.5%;">
-<col style="width: 25%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 14.2857%;">
+<col style="width: 28.5715%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-center valign-middle">\$c\$</th>
 <th class="tableblock halign-center valign-middle">\$p\$</th>
 <th class="tableblock halign-center valign-middle">\$a\$</th>
 <th class="tableblock halign-center valign-middle">\$k\$</th>
-<th class="tableblock halign-left valign-bottom">\$c cdot (ax + p(1 - a) + k)\$</th>
+<th class="tableblock halign-left valign-bottom">\$ax + p(1 - a) + k)\$</th>
 <th class="tableblock halign-left valign-middle"><em>[C]T<sub>k</sub>Ma<sub>p</sub>(A)</em></th>
 <th class="tableblock halign-left valign-middle">designation</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-middle"><p class="tableblock">no present</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">p</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">11</p></td>
 <td class="tableblock halign-left valign-middle"><p class="tableblock">0</p></td>
 <td class="tableblock halign-left valign-middle"><div class="content"><div class="ulist">
 <ul>
-<li>
-<p>ax + p(1 - a) + k</p>
-</li>
 <li>
 <p>11x + p(1 - 11)</p>
 </li>
@@ -2044,7 +2043,7 @@ Become III degree of Bb Major</p>
 </li>
 <li>
 <p><strong>2p - x</strong><br>
-(Fripentinger solution <a href="#Fixed-zero-problem">[Fixed-zero-problem]</a>)</p>
+Here we find the solution of Fripentinger <a href="#Fixed-zero-problem">[Fixed-zero-problem]</a></p>
 </li>
 </ul>
 </div></div></td>
@@ -2066,7 +2065,10 @@ Become III degree of Bb Major</p>
 <p>We have seen that any affine transformation, based on the pivot value, is guaranteed to operate "around" an axis passing through the <strong>pitch-class-pivot</strong>, in complete coherence.</p>
 </div>
 <div class="paragraph">
-<p>The question is: Can we maintain this consistency while being free to select another axis of symmetry than the one passing through the pivot value? The answer is YES, and we will see how.</p>
+<p>The question is: Can we maintain this consistency while being free to select another axis of symmetry than the one passing through the pivot value?</p>
+</div>
+<div class="paragraph">
+<p>The answer is YES, and we will see how.</p>
 </div>
 <div class="paragraph">
 <p>Let us first start by knowing what are the different types of axes of symmetry of a circle having a homogeneous distribution of even and odd pitch-class numbers.</p>
@@ -2117,13 +2119,6 @@ Become III degree of Bb Major</p>
 <div class="paragraph">
 <p>Note that when <em>n</em> is odd, there is only one type of axis that is both intercalary <span class="underline">and</span> median.</p>
 </div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
 <div class="paragraph">
 <p>We immediately see that the pivot value alone only allows us to define median axes (type A).</p>
 </div>
@@ -2133,12 +2128,21 @@ Become III degree of Bb Major</p>
 <div class="paragraph">
 <p><span class="image"><img src="./assets/images/pcs-24567-axe.png" alt="pcs 24567 axe"></span> <code>T<sub>0</sub>M11<sub>2</sub></code> &#8594; <span class="image"><img src="./assets/images/pcs-0291011-axe.png" alt="pcs 0291011 axe"></span></p>
 </div>
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>A B-type passes through the midpoint of the segment defined by two pitch-class numbers.<br>
+For example, always from <code>[2 4 5 6 7]</code> see below axis passing through pitch-class numbers <strong><em>2</em></strong> and <strong><em>3</em></strong>.</p>
 </div>
 <div class="paragraph">
-<p>In the case of the inversion operation, David Lewin demonstrated <a href="#LEWIN-1977a">[LEWIN-1977a]</a> that one could freely define an axis of symmetry through a pair (a,b), <em>I<sup>a,b</sup></em>, historically called <em>I<sup>uv</sup></em>, but we will use <em>a,b</em> (with comma separator), for greater readability and to emphasize the concept of a line segment. Here is Lewin&#8217;s equivalent version to the affine version with pivot of the example above.</p>
+<p><span class="image"><img src="./assets/images/pcs-24567-axe-B.png" alt="pcs 24567 axe B"></span> <code>??</code> &#8594; <span class="image"><img src="./assets/images/pcs-0131011-axe-B.png" alt="pcs 0131011 axe B"></span></p>
+</div>
+<div class="paragraph">
+<p>To solve this case, let&#8217;s take a look at D. Lewin&#8217;s inversion operator \$I^(a,b)\$.</p>
+</div>
+<div class="paragraph">
+<p>Since a B-type symmetry axis cannot be identified by a single point (pitch-class number), D. Lewin <a href="#LEWIN-1977a">[LEWIN-1977a]</a> decided to represent any axes, A and B type, by a pair of pitch-classes. He called his function <em>I<sup>uv</sup></em> (centered on the inversion function), but we will use <em>a,b</em> or <em>I<sup>a,b</sup></em>, with comma separator, for greater readability and to emphasize the concept of a line segment [ab].</p>
+</div>
+<div class="paragraph">
+<p>Here is Lewin&#8217;s equivalent version to the affine version with pivot of the example above: <code>T<sub>0</sub>M11<sub>2</sub></code></p>
 </div>
 <div class="imageblock text-center">
 <div class="content">
@@ -2161,14 +2165,14 @@ Become III degree of Bb Major</p>
 <div class="title">Figure 5. Lewin (1968), "Inversional Balance in chromatic system"</div>
 </div>
 <div class="paragraph">
-<p>Later (1977), D. Lewin introduced the inversion operator \$I^(uv)\$, parameterized  by a pair of pitch-classes.</p>
+<p>Later (1977), D. Lewin introduced the inversion operator \$I^(uv)\$.</p>
 </div>
 <div class="paragraph">
-<p>The inversion operator \$I^(a, b)\$ (<a href="#LEWIN-1977a">[LEWIN-1977a]</a>, <a href="#LEWIN-1980">[LEWIN-1980]</a>)
+<p>This inversion operator \$I^(a, b)\$ (<a href="#LEWIN-1977a">[LEWIN-1977a]</a>, <a href="#LEWIN-1980">[LEWIN-1980]</a>)
 allows you to specify a <strong>pivot symmetry axis</strong> for inversion, by designating a pair \$(a,b)\$ of pitch-classes.</p>
 </div>
 <div class="paragraph text-center">
-<p>\$I^(a b)\$ an "<em>inversion taking a to b</em>".</p>
+<p>\$I^(a, b)\$ an "<em>inversion taking a to b</em>".</p>
 </div>
 <div class="paragraph">
 <p>Defining an axis of symmetry by a pair of numbers \$(a,b)\$ allows us to designate an axis passing through the center of the circle and the middle of the segment formed by \$a\$ and \$b\$ : \$"midpoint("bar(ab)")" = (a+b) / 2 \$.</p>
@@ -2179,49 +2183,39 @@ allows you to specify a <strong>pivot symmetry axis</strong> for inversion, by d
 </div>
 </div>
 <div class="paragraph text-center">
-<p>Ex. 1: Axis type A with pairs: (2,2), (1,3)&#8230;&#8203; and Ex. 2: Axis type B with pairs: (0,1), (11,2)&#8230;&#8203;</p>
+<p>Ex. 1: Identify A-type axis with pairs: (2,2), (1,3)&#8230;&#8203; and Ex. 2: B-type axis with pairs: (0,1), (11,2)&#8230;&#8203;</p>
 </div>
 <div class="paragraph">
-<p>This works for axes of symmetry of type A and B. Indeed, if a = b, then the axis will pass through \$(2a)/2 = a\$, and Lewin suggests denoting such segments \$(a,a)\$, for an axis of type A, simply by \$a\$, which is then synonymous with <em>p</em> (pivot value):</p>
+<p>Whether the axes are of type A or B, the calculation of the axis position remains the same \$(a+b)/2\$. This works for axes of symmetry of type A and B. Indeed, if a = b, then the axis will pass through \$(2a)/2 = a\$, and Lewin suggests denoting such segments \$(a,a)\$, for an axis of type A, simply by \$a\$, which is then synonymous with <em>p</em> (pivot value):</p>
 </div>
 <div class="paragraph text-center">
 <p>\$I^(a,a) = I^a\$</p>
 </div>
 <div class="paragraph">
-<p>In the given example, the B-type axis passes between two pitch-class numbers, 2 and 3. Therefore, a solution to the problem posed is: <code>I<sup>2,3</sup></code></p>
+<p>Let&#8217;s go back to our example, the B-type axis passes between two pitch-class numbers, 2 and 3. Therefore, a solution to the problem posed is: <code>I<sup>2,3</sup></code>.</p>
+</div>
+<div class="paragraph text-center">
+<p><span class="image"><img src="./assets/images/pcs-24567-axe-B.png" alt="pcs 24567 axe B"></span> <code>I<sup>2,3</sup></code> &#8594; <span class="image"><img src="./assets/images/pcs-0131011-axe-B.png" alt="pcs 0131011 axe B"></span></p>
 </div>
 <div class="paragraph text-center">
 <p><code>I<sup>2,3</sup>([2 4 5 6 7]) = [0 1 3 10 11]</code></p>
 </div>
 <div class="paragraph">
-<p>There are multiple possible expressions of (<em>a,b</em>) to specify a same axis: (<em>a,b</em>) and their inverse (<em>b,a</em>).</p>
-</div>
-<div class="exampleblock">
-<div class="title">Example: 6 line segments perpendicular of a symmetry axis</div>
-<div class="content">
-<div class="paragraph">
-<p><span class="image"><img src="./assets/images/pcs-24567-axe-segments.png" alt="pcs 24567 axe segments"></span>&#160;&#160; \$I^(a,b) |-&gt;  I^(2,3) = I^(1,4) ... = I^(9,8)\$ and their inverse \$I^(3,2) = I^(4,1)\$ etc.</p>
-</div>
-</div>
-</div>
-<div class="admonitionblock tip">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
-</td>
-<td class="content">
-With <em>n = 12</em> there are 6  line segments perpendicular of a symmetry axis, one of which is self-inverse (triton 6,6). We therefore have 5*12 + 6 = 66  different pairs (a,b) + <em>n</em> "self  pair" = 78 cases.<br>
- 66 is the number of 2-combinations in 12, so:  \$((12),(2)) = (12!) / (2(10!)) = 66\$
-</td>
-</tr>
-</table>
+<p>That said, technically there are <em>n</em> possible expressions of (<em>a,b</em>) to specify a same axis (type A or B). See appendix <a href="#Numbers of pairs identifying an axis">[Numbers of pairs identifying an axis]</a>.</p>
 </div>
 <div class="paragraph">
-<p>Brought back to our example problem, here are some other solutions:</p>
+<p>To return to our example problem of B-type axis with <code>[2 4 5 6 7]</code>, there are <code>cardinal([2 4 5 6 7]) * 2 = 10</code> pairs of solution: . <code>I<sup>2,3</sup></code>, <code>I<sup>1,4</sup></code>, <code>I<sup>0,5</sup></code>, <code>I<sup>11,6</sup></code>, <code>I<sup>10,7</sup></code> and their inverse. Examples:</p>
 </div>
 <div class="paragraph text-center">
-<p><code>I<sup>2,3</sup>([2 4 5 6 7]) = I<sup>4,1</sup>([2 4 5 6 7]) = I<sup>5,0</sup>([2 4 5 6 7]) = [0 1 3 10 11]</code></p>
+<p><code>I<sup>2,3</sup>([2 4 5 6 7]) = I<sup>1,4</sup>([2 4 5 6 7]) &#8230;&#8203; = I<sup>7,10</sup>([2 4 5 6 7]) = [0 1 3 10 11]</code></p>
+</div>
+<div class="exampleblock">
+<div class="title">Illustration</div>
+<div class="content">
+<div class="paragraph">
+<p><span class="image"><img src="./assets/images/pcs-24567-axe-segments.png" alt="pcs 24567 axe segments"></span>&#160;&#160; \$I^(a,b) |-&gt;  I^(2,3) = I^(1,4) ... = I^(7,10)\$ and their inverse \$I^(3,2) = I^(4,1)\$ etc.</p>
+</div>
+</div>
 </div>
 <div class="paragraph">
 <p>Now we will see how to integrate this functionality into the affine system with pivot, and we will have good news.</p>
@@ -2230,11 +2224,14 @@ With <em>n = 12</em> there are 6  line segments perpendicular of a symmetry axis
 <div class="sect2">
 <h3 id="_free_axis_affine_pivot">4.11. Free axis affine pivot</h3>
 <div class="paragraph">
-<p>We begin our analysis with a characteristic of \$I^(u v)\$, highlighted by David Lewin in <em>A label-free development</em> p. 36 and proof p. 45 <a href="#LEWIN-1977a">[LEWIN-1977a]</a> (and <a href="#LEWIN-1980">[LEWIN-1980]</a>), and which happens to be the key to resolve our problem.</p>
+<p>We begin our analysis with a characteristic of \$I^(u v)\$, highlighted by David Lewin in <em>A label-free development</em> p. 36 and proof p. 45 <a href="#LEWIN-1977a">[LEWIN-1977a]</a> (and <a href="#LEWIN-1980">[LEWIN-1980]</a>), and which happens to be the key to resolve our problem:</p>
 </div>
 <div class="paragraph text-center">
 <p>\$T_iI^(u,v) = I^(u,w)\$ where \$w = T_i(v)\$<br>
  (<em>we&#8217;ve added a separator between <strong>u</strong> and <strong>v</strong> for clarity</em>)</p>
+</div>
+<div class="paragraph">
+<p>The idea behind this is that an axis is defined by a fixed point and a variable part represented by a transposition value.</p>
 </div>
 <div class="paragraph">
 <p>Let us rewrite this formula, assuming that we are in modulo <em>n</em> logic, and rename <em>u v</em> by <em>a b</em>.</p>
@@ -2246,62 +2243,25 @@ With <em>n = 12</em> there are 6  line segments perpendicular of a symmetry axis
 <p>Let&#8217;s look at the special case where \$a=b\$:</p>
 </div>
 <div class="paragraph text-center">
-<p>\$I^(a,a+i) = T_iI^(a)\$</p>
+<p>\$T_iI^(a) = I^(a,a+i)\$</p>
 </div>
 <div class="paragraph">
-<p>We know that expression \$T_iI^a\$ is denoted \$T_iM11_a\$ in affine pivot system version ("<em>a</em>" designated the pivot-value "<em>p</em>" for A-type symmetry axis).</p>
-</div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>From equation \$I^(p,p+k) = T_kM11_p\$, It becomes clear that role of <em>k</em> is to assign a length to the segment <span class="nowrap">(<em>p, p + k</em>)</span>. It is this length which makes it possible to identify the axis of symmetry of the function.</p>
-</div>
-<div class="paragraph">
-<p>In other words, <em>k</em> is an offset value of the symmetry axis relative to the pitch-class-pivot.</p>
+<p>We know that expression \$T_iI^a\$ is noted \$T_iM11_a\$ in affine pivot system version ("<em>a</em>" designated the pivot-value "<em>p</em>" for A-type symmetry axis).  We can therefore bring these two notations together:</p>
 </div>
 <div class="paragraph text-center">
 <p>\$ubrace(I^(p,p+k) = T_kI^p)_"Lewin syntax"\ \  &lt;=&gt; ubrace(T_kM11_p)_"Affine pivot syntax"\$</p>
 </div>
 <div class="paragraph">
-<p>The midpoint of \$(p,p+k)\$ is \$(2p+k)/2 = p + k/2\$</p>
+<p>It becomes clear that is the value of <em>k</em> that defines the orientation of the axis (by the segment <span class="nowrap">(<em>p, p + k</em>)</span>).</p>
 </div>
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>In other words, <em>k</em> is an <strong>offset</strong> value of the symmetry axis relative to the pitch-class-pivot.</p>
+</div>
+<div class="paragraph">
+<p>The midpoint of \$(p,p+k)\$ is \$(2p+k)/2 = p + k/2\$</p>
 </div>
 <div class="paragraph">
 <p>The type of the symmetry axis (A or B) depends essentially on <em>k</em>.</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>When <em>k</em> = <em>0</em>, the midpoint is \$p + 0 = p\$, thefore, the operation \$T_0M11_p\$&#160; (\$M11_p\$), denote an inversion around an axis passing through <em>p</em> (axis of type A)</p>
-</li>
-<li>
-<p>When <em>k</em> is odd, the midpoint is \$ p + k/2 = p + (k-1)/2 + 1/2\$,<br>
-Since <em>(k - 1)</em> is always even, <em>k</em> odd always denotes a type B axis.</p>
-</li>
-<li>
-<p>When <em>k</em> is even, the midpoint is \$p + k/2\$ always denote an even value, so an axis of type A.</p>
-</li>
-</ul>
-</div>
-<div class="admonitionblock tip">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
-</td>
-<td class="content">
-When <em>k</em> is even, the axis is type of A, otherwise the axis is of type B.
-</td>
-</tr>
-</table>
 </div>
 <div class="paragraph">
 <p>Examples of median (A) and inter (B) midpoint axis at&#160;\$p + k/2\$ :</p>
@@ -2316,7 +2276,7 @@ When <em>k</em> is even, the axis is type of A, otherwise the axis is of type B.
 <td class="tableblock halign-center valign-top"><p class="tableblock">(k even)<br>
 midpoint <em>m</em> = \$p + k/2\$</p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock">(k odd)<br>
-<em>m</em> = \$p + k/2\$&#160;&#160;&#160;or&#160;&#160;&#160;\$p + (k-1)/2 + 1/2\$</p></td>
+<em>m</em> = \$p + k/2\$&#160;&#160;&#160;or&#160;&#160;&#160;\$1/2 + p + (k-1)/2\$</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock">k=0</p></td>
@@ -2333,7 +2293,7 @@ midpoint <em>m</em> = \$p + k/2\$</p></td>
 </div></div></td>
 <td class="tableblock halign-center valign-top"><div class="content"><div class="paragraph">
 <p><code>T<sub>1</sub>M11<sub>2</sub>([2]) &#8594; [3]</code><br>
-\$m = 2 + 1/2 \$</p>
+\$m = 1/2 + 2\$</p>
 </div></div></td>
 </tr>
 <tr>
@@ -2355,11 +2315,39 @@ midpoint <em>m</em> = \$p + k/2\$</p></td>
 </div></div></td>
 <td class="tableblock halign-center valign-top"><div class="content"><div class="paragraph">
 <p><code>T<sub>3</sub>M11<sub>2</sub>([2]) &#8594; [5]</code><br>
-\$m = 3 + 1/2\$</p>
+\$m = 1/2 + 3\$</p>
 </div></div></td>
 </tr>
 </tbody>
 </table>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>When <em>k</em> = <em>0</em>, the midpoint is \$p + 0 = p\$, thefore, the operation \$T_0M11_p\$&#160; (\$M11_p\$), denote an inversion around an axis passing through <em>p</em> (axis of type A)</p>
+</li>
+<li>
+<p>When <em>k</em> is odd, the midpoint is \$ 1/2 + w\$, where \$w = p + (k-1)/2\$,<br>
+Since <em>(k - 1)</em> is always even, <em>k</em> odd always denotes a type B axis.</p>
+</li>
+<li>
+<p>When <em>k</em> is even, the midpoint is \$p + k/2\$ always denote an even value, so an axis of type A.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>So, when <em>k</em> is even, the axis is type of A, otherwise the axis is of type B.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>Another example: k=0 is a special case, where line segment (<em>p,p</em>) distance is zero.</p>
 </div>
@@ -2374,11 +2362,11 @@ midpoint <em>m</em> = \$p + k/2\$</p></td>
 <p>Case with <em>k &gt; 0</em>, in the example below, starting from <em>p = 2</em>, the step <strong><em>k = -3</em></strong> defines the line segment <span class="nowrap">(<em>p, p + k</em>)</span> by  <span class="nowrap"><em>(2, -1)</em></span>, or (2,11) (modulo 12), and thus determines the axis of symmetry passing between (2, 11), or (0,1) , (3,10), (4,9), (5,8), (6,7).</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="./assets/images/pcs-256-M11-free-axe.png" alt="pcs 256 M11 free axe"></span> : <code>T<sub>-3</sub>M11<sub>2</sub>([256])</code> &#8594; <code>[7811]</code></p>
+<p><span class="image"><img src="./assets/images/pcs-256-M11-free-axe.png" alt="pcs 256 M11 free axe"></span> : <code>T<sub>-3</sub>M11<sub>2</sub>([2 5 6])</code> &#8594; <code>[7 8 11]</code></p>
 </div>
 <div class="paragraph">
 <p>Others expressions with valid p-value :<br>
- <code>T<sub>3</sub>M11<sub>5</sub>([256])</code> = <code>T<sub>1</sub>M11<sub>6</sub>([256])</code> = <code>T<sub>-3</sub>M11<sub>2</sub>([256])</code> &#8594; <code>[7811]</code></p>
+ <code>T<sub>3</sub>M11<sub>5</sub>([256])</code> = <code>T<sub>1</sub>M11<sub>6</sub>([256])</code> = <code>T<sub>-3</sub>M11<sub>2</sub>([256])</code> &#8594; <code>[7 8 11]</code></p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -2418,16 +2406,128 @@ midpoint <em>m</em> = \$p + k/2\$</p></td>
 </tr>
 </table>
 </div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_conclusion">5. Conclusion</h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p><mark>TODO REFACTOR FROM HERE</mark></p>
+<p>After observing the so-called "fixed zero" problem, we propose a general solution to the affine function.</p>
+</div>
+<div class="paragraph">
+<p>To this end, we introduced a new parameter to the affine function acting on PCS to improve its consistency, particularly with respect to inversion (M11) and transformation by cycles of fifths and fourths (M5 and M7).</p>
+</div>
+<div class="paragraph">
+<p>The general form of the function, without complementarity, is <code>T<sub>k</sub>Ma<sub>p</sub></code>.</p>
+</div>
+<div class="paragraph">
+<p>The concept of a default value for the pivot has been introduced, allowing the parameterized affine function to substitute for the usual affine function. The form of this new operation is <code>T<sub>k</sub>Ma</code> (or <code>[C]T<sub>k</sub>Ma</code> with complementarity). This provides general consistency, and allows and thus to blend into existing frameworks and allows the latter to increase their accuracy by specifying, as needed, an adequate pivot value.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_appendix">6. Appendix</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_pairs_axis">6.1. Pairs &#8594; axis</h3>
+<div class="paragraph">
+<p>How many pairs (a, b) can identify an axis of a representative circle of \$ZZ_n\$?</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>When <em>n</em> is even</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s take a <strong>A-type</strong> axis, the one passing through 0 (or <em>n</em>).</p>
+</div>
+<div class="paragraph">
+<p>(n,n), (n+1,n-1), (n+2,n-2) &#8230;&#8203; (n/2,n/2), (n/2+1,n/2-1) &#8230;&#8203; (n-1,1)</p>
+</div>
+<div class="paragraph">
+<p>so there are <em>n</em> pairs (a,b) to define one axis.</p>
+</div>
+<div class="paragraph">
+<p>Let us take <em>n = 12</em></p>
+</div>
+<div class="paragraph">
+<p>It has the following segments [a,b]: (0,0), (1,11), (2,10), (3,9), (4,8), (5,7), and (6,6), or 7, so 5 are invertible, which makes, for 1 type A axis, 5 x 2 + 2 = 12 possible pairs.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s take a <strong>B-type</strong> axis, the one passing between 0 and 1.</p>
+</div>
+<div class="paragraph">
+<p>It has the following segments [a,b]: (0,1), (11,2), (10,3), (9,4), (8,5), (7,6), or 6 invertible pairs = 12 possible pairs.</p>
+</div>
+<div class="paragraph">
+<p>So when <em>n=12</em>, there are a total of 12x12 = 144 pairs (a,b).</p>
+</div>
+<div class="paragraph">
+<p>Since there are n/2 A-type axes and n/2 B-type axes, and each type axe has <em>n</em> pairs, this gives us: <em><strong>n<sup>2</sup></strong></em> pairs in total.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>When <em>n</em> is odd</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>AB-type, axe passing by 0 (or <em>n</em>)</p>
+</div>
+<div class="paragraph">
+<p>(n,n), (n+1,n-1), (n+2,n-2), (n+3,n-3) &#8230;&#8203; (n-1,1), so <em>n</em> pairs</p>
+</div>
+<div class="paragraph">
+<p>Let us tak <em>n = 7</em></p>
+</div>
+<div class="paragraph">
+<p>(0,0), (1,6), (2,5), (3,4), (4,3), (5,2), (6,1) &#8658; 7 = <em>n</em></p>
+</div>
+<div class="paragraph">
+<p>&#8658; Seen another way, when <em>n</em> is odd, any axis has one pair of form (a,a), self-inverse, and \$(n-1)/2\$ of form (a,b) invertible. So, number of pairs is \$2 ((n-1)/2) + 1 or n-1+1 = n\$</p>
+</div>
+<div class="paragraph">
+<p>Since there are <em>n</em> axes, the total number of pairs is 7*7 = 49 = <em><strong>n<sup>2</sup></strong></em></p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph text-center">
+<p>Conclusion<br>
+whatever the parity of <em>n</em></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The number of axis is  <strong><em>n</em></strong></p>
+</li>
+<li>
+<p>The number of pair expressions allowing to identify one axis of symmetry is <strong><em>n</em></strong></p>
+</li>
+<li>
+<p>The total of possible expressions of pairs (a,b) is therfore <em>n x n</em> = <em><strong>n²</strong></em>.</p>
+</li>
+</ul>
+</div>
+</div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_affinepivot_typescript_implementation">4.12. AffinePivot typescript implementation</h3>
+<h3 id="_affinepivot_implementation">6.2. AffinePivot implementation</h3>
+<div class="paragraph">
+<p>An typescript implementation of affine pivot logic : <code>[C]T<sub>k</sub>Ma<sub>p</sub>(pcs)</code></p>
+</div>
+<div class="paragraph">
+<p>This version works on a vector representation of a pcs (a bit array)</p>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="javascript"><span style="color:#777">/** extended affinePivot transformation implementation
  * c . (ax + b) |-&gt; c . (ax + p(1 − a) + k)
+*  as a permutation of array's elements
  */</span>
 <span style="color:#080;font-weight:bold">function</span> <span style="color:#06B;font-weight:bold">affinePivot</span>(
   p: number, <span style="color:#777">// integer in [0..this.n-1],</span>
@@ -2456,23 +2556,6 @@ midpoint <em>m</em> = \$p + k/2\$</p></td>
 <div class="paragraph">
 <p>This function is extracted from a POC (and more) available on GitHub (code open source: <a href="https://github.com/ocapuozzo/musaicbox-app" class="bare">https://github.com/ocapuozzo/musaicbox-app</a>) and the latest demo version, runnable via a browser (front-end application) is available here: <a href="https://musaicsbox.org" class="bare">https://musaicsbox.org</a></p>
 </div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_conclusion">5. Conclusion</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>After observing the so-called "fixed zero" problem, we propose a general solution to the affine function.</p>
-</div>
-<div class="paragraph">
-<p>To this end, we introduced a new parameter to the affine function acting on PCS to improve its consistency, particularly with respect to inversion (M11) and transformation by cycles of fifths and fourths (M5 and M7).</p>
-</div>
-<div class="paragraph">
-<p>The general form of the function, without complementarity, is <code>T<sub>k</sub>Ma<sub>p</sub></code>.</p>
-</div>
-<div class="paragraph">
-<p>The concept of a default value for the pivot has been introduced, allowing the parameterized affine function to substitute for the usual affine function. The form of this new operation is <code>T<sub>k</sub>Ma</code> (or <code>[C]T<sub>k</sub>Ma</code> with complementarity). This provides general consistency, and allows and thus to blend into existing frameworks and allows the latter to increase their accuracy by specifying, as needed, an adequate pivot value.</p>
 </div>
 </div>
 </div>
@@ -2528,7 +2611,7 @@ midpoint <em>m</em> = \$p + k/2\$</p></td>
 <div id="footer">
 <div id="footer-text">
 Version <br>
-Last updated 2025-07-25 18:58:46 +0200
+Last updated 2025-08-01 15:50:40 +0200
 </div>
 </div>
 <script type="text/x-mathjax-config">

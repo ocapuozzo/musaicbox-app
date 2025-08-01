@@ -413,7 +413,7 @@ export class MusaicOperation {
   /**
    * AffinePivot
    * general transformation from affine operation c . ax + k, but fixed on pivot (see "fixed zero problem" in doc)
-   * Version by permutation.
+   * Version as a permutation of array's elements.
    * general idea (composition of three basic affine operations):
    *  1/ translate:        - pivot
    *  2/ affine operation: ax + k

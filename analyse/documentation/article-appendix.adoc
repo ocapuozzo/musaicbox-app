@@ -1,0 +1,94 @@
+
+== Appendix
+
+=== Pairs -> axis
+
+How many pairs (a, b) can identify an axis of a representative circle of stem:[ZZ_n]?
+
+* When _n_ is even
+
+Let's take a *A-type* axis, the one passing through 0 (or _n_).
+
+(n,n), (n+1,n-1), (n+2,n-2) ... (n/2,n/2), (n/2+1,n/2-1) ... (n-1,1)
+
+so there are _n_ pairs (a,b) to define one axis.
+
+Let us take _n = 12_
+
+It has the following segments [a,b]: (0,0), (1,11), (2,10), (3,9), (4,8), (5,7), and (6,6), or 7, so 5 are invertible, which makes, for 1 type A axis, 5 x 2 + 2 = 12 possible pairs.
+
+Let's take a *B-type* axis, the one passing between 0 and 1.
+
+It has the following segments [a,b]: (0,1), (11,2), (10,3), (9,4), (8,5), (7,6), or 6 invertible pairs = 12 possible pairs.
+
+So when _n=12_, there are a total of 12x12 = 144 pairs (a,b).
+
+Since there are n/2 A-type axes and n/2 B-type axes, and each type axe has _n_ pairs, this gives us: _**n^2^**_ pairs in total.
+
+
+* When _n_ is odd
+
+AB-type, axe passing by 0 (or _n_)
+
+(n,n), (n+1,n-1), (n+2,n-2), (n+3,n-3) ... (n-1,1), so _n_ pairs
+
+Let us tak _n = 7_
+
+(0,0), (1,6), (2,5), (3,4), (4,3), (5,2), (6,1) => 7 = _n_
+
+=> Seen another way, when _n_ is odd, any axis has one pair of form (a,a), self-inverse, and stem:[(n-1)/2] of form (a,b) invertible. So, number of pairs is stem:[2 ((n-1)/2) + 1 or n-1+1 = n]
+
+Since there are _n_ axes, the total number of pairs is 7*7 = 49 = _**n^2^**_
+
+====
+[.text-center]
+Conclusion +
+whatever the parity of _n_
+
+
+* The number of axis is  *_n_*
+
+* The number of pair expressions allowing to identify one axis of symmetry is *_n_*
+
+* The total of possible expressions of pairs (a,b) is therfore _n x n_ = _**n²**_.
+====
+
+=== AffinePivot implementation
+
+An typescript implementation of affine pivot logic : `[C]T~k~Ma~p~(pcs)`
+
+This version works on a vector representation of a pcs (a bit array)
+
+[source, javascript]
+----
+/** extended affinePivot transformation implementation
+ * c . (ax + b) |-> c . (ax + p(1 − a) + k)
+*  as a permutation of array's elements
+ */
+function affinePivot(
+  p: number, // integer in [0..this.n-1],
+         // assert: vectorIn[p] equals 1 if vectorIn not image of empty set else 0
+  a: number, // integer, assert: a is coprime with 'n'
+  k: number, // integer in Z
+  vectorIn: number[], // array of 0 | 1, a vector image of a pcs
+             // ex: [1,0,0,0,1,0,0,1,0,0,0,0] for {0 4 7} (C E G)
+  c: boolean = false // if true, return complement of permutedVector (false by default)
+) : number[] // return new vector "affinePivot" transformed
+{
+    const n = vectorIn.length
+    let permutedVector : number[] = Array(n)
+    // c . (ax + b) |-> c . (a * i + p(1 − a) + k)
+    const b = p * (1-a) + k
+    for (let i = 0, j; i < n; i++) {
+      // j and i play the role of both index and pitch-class number
+      j = (n + (a * i + b) % n) % n // force modulo to get value in [0..n-1]
+      // if c then inverse vectorPcs[i] (0 <-> 1)
+      permutedVector[j] = c ? 1 - vectorPcs[i] : vectorPcs[i]
+    }
+    return permutedVector
+}
+----
+
+This function is extracted from a POC (and more) available on GitHub (code open source: https://github.com/ocapuozzo/musaicbox-app) and the latest demo version, runnable via a browser (front-end application) is available here: https://musaicsbox.org
+
+

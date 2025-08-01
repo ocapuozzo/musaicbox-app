@@ -103,6 +103,8 @@ include::affine-with-pivot.adoc[]
 
 == Conclusion
 
+#TODO REFACTOR#
+
 After observing the so-called "fixed zero" problem, we propose a general solution to the affine function.
 
 To this end, we introduced a new parameter to the affine function acting on PCS to improve its consistency, particularly with respect to inversion (M11) and transformation by cycles of fifths and fourths (M5 and M7).
@@ -111,5 +113,6 @@ The general form of the function, without complementarity, is `T~k~Ma~p~`.
 
 The concept of a default value for the pivot has been introduced, allowing the parameterized affine function to substitute for the usual affine function. The form of this new operation is `T~k~Ma` (or `[C]T~k~Ma` with complementarity). This provides general consistency, and allows and thus to blend into existing frameworks and allows the latter to increase their accuracy by specifying, as needed, an adequate pivot value.
 
+include::article-appendix.adoc[]
 
 include::reference-article-pivot.adoc[]
