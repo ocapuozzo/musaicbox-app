@@ -583,14 +583,19 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_examples_with_affinepivot">4.7. Examples with affinePivot</a></li>
 <li><a href="#_simplified_notation">4.8. Simplified notation</a></li>
 <li><a href="#_free_axis_of_symmetry">4.9. Free axis of symmetry</a></li>
-<li><a href="#_understand_inversion_iab">4.10. Understand inversion <em>I<sup>a,b</sup></em></a></li>
-<li><a href="#_free_axis_affine_pivot">4.11. Free axis affine pivot</a></li>
+<li><a href="#_specify_an_axis">4.10. Specify an axis</a></li>
 </ul>
 </li>
 <li><a href="#_conclusion">5. Conclusion</a></li>
 <li><a href="#_appendix">6. Appendix</a>
 <ul class="sectlevel2">
-<li><a href="#_pairs_axis">6.1. Pairs &#8594; axis</a></li>
+<li><a href="#_axis_and_its_identifiers">6.1. Axis and its identifiers</a>
+<ul class="sectlevel3">
+<li><a href="#_lewin_inversion_operator">6.1.1. Lewin inversion operator</a></li>
+<li><a href="#_integration_into_affine_pivot">6.1.2. Integration into affine pivot</a></li>
+<li><a href="#_enumeration_of_pairs_per_axis">6.1.3. Enumeration of pairs per axis</a></li>
+</ul>
+</li>
 <li><a href="#_affinepivot_implementation">6.2. AffinePivot implementation</a></li>
 </ul>
 </li>
@@ -740,7 +745,7 @@ Ex : \$floor(0.99) |-&gt; 0\$ and \$floor(1.01) |-&gt; 1\$ (the integer part)
 <p>If we look carefully, we have a multiplication (inversion as \$-1x\$, \$M_5\$ and \$M_7\$) and one addition (transposition).</p>
 </div>
 <div class="paragraph">
-<p>We can combine these operations in the form of an affine operation, <em>ax + b</em>, of <em>Z<sub>n</sub></em> into <em>Z<sub>n</sub></em></p>
+<p>We can combine these operations in the form of an affine operation, <em>ax + b</em>, from <em>Z<sub>n</sub></em> to <em>Z<sub>n</sub></em>.</p>
 </div>
 </div>
 </div>
@@ -2106,34 +2111,201 @@ Here we find the solution of Fripentinger <a href="#Fixed-zero-problem">[Fixed-z
 <p><strong>Median axis</strong>, passing <em>through</em> at least one pitch-class number</p>
 </li>
 <li>
-<p><strong>Intercalary axis</strong>, passing <em>between</em> two pitch-class numbers.</p>
+<p><strong>Intercalary axis</strong>, passing <em>between</em> at least two pitch-class numbers.</p>
 </li>
 </ol>
 </div>
-<div class="imageblock">
-<div class="content">
-<img src="./assets/images/axis-symmetry-n8.png" alt="axis symmetry n8">
+<div class="paragraph">
+<p>Two kinds of axes, depending on the parity of <em>n</em>.</p>
 </div>
-<div class="title">Figure 4. Two symmetry axis types (n=8) A through 0 and B, between 0 and 1</div>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top">n even</th>
+<th class="tableblock halign-center valign-top">n odd</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/axis-symmetry-n8-A-B.png" alt="axis symmetry n8 A B"></span></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/pcs-emptyset-n7-axesAB.png" alt="pcs emptyset n7 axesAB"></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">A and B</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">AB</p></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>Note that when <em>n</em> is odd, there is only one type of axis that is both intercalary <span class="underline">and</span> median.</p>
 </div>
 <div class="paragraph">
-<p>We immediately see that the pivot value alone only allows us to define median axes (type A).</p>
+<p>We immediately see that the pitch-class pivot value alone only allows us to define A-type and AB-type axes.</p>
 </div>
 <div class="paragraph">
-<p>Examples: <code>T<sub>0</sub>M11<sub>2</sub>([24567]) = [0291011]</code></p>
+<p>Examples with p-value = 2 : <code>T<sub>0</sub>M11<sub>2</sub>([24567]) = [0291011]</code></p>
 </div>
 <div class="paragraph">
 <p><span class="image"><img src="./assets/images/pcs-24567-axe.png" alt="pcs 24567 axe"></span> <code>T<sub>0</sub>M11<sub>2</sub></code> &#8594; <span class="image"><img src="./assets/images/pcs-0291011-axe.png" alt="pcs 0291011 axe"></span></p>
 </div>
 <div class="paragraph">
-<p>A B-type passes through the midpoint of the segment defined by two pitch-class numbers.<br>
-For example, always from <code>[2 4 5 6 7]</code> see below axis passing through pitch-class numbers <strong><em>2</em></strong> and <strong><em>3</em></strong>.</p>
+<p>But what about the B-type axis?</p>
+</div>
+<div class="paragraph">
+<p>For example, the operation below defines an axis of <code>[2 4 5 6 7]</code> passing through pitch-class numbers <strong><em>2</em></strong> and <strong><em>3</em></strong>.</p>
 </div>
 <div class="paragraph">
 <p><span class="image"><img src="./assets/images/pcs-24567-axe-B.png" alt="pcs 24567 axe B"></span> <code>??</code> &#8594; <span class="image"><img src="./assets/images/pcs-0131011-axe-B.png" alt="pcs 0131011 axe B"></span></p>
+</div>
+<div class="paragraph">
+<p><mark>PROPOSITION P1</mark></p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s take a closer look at the affine function with pivot.</p>
+</div>
+<div class="paragraph">
+<p>In the affinePivot transformation, defined in <a href="#_affinepivot_reduced">AffinePivot reduced</a>, \$(ax + p(1 - a) + k)\$, each of these members has a dedicated role:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>\$Ax + p(1 - a)\$ is executed first. That is the Mx transformation (M1,M5,M7,M11) center on p-value</p>
+</li>
+<li>
+<p>\$ + k \$ &#160; is the transposition step, executed after "Mx pivot center" transformation</p>
+</li>
+</ul>
+</div>
+<div class="paragraph text-center">
+<p>\$ubrace(ax + p(1 - a))_("Ma center on p") ubrace(\ +\ \  k)_("transp step")\$</p>
+</div>
+<div class="paragraph">
+<p>Once the first transformation <code>Ma<sub>p</sub></code> \$ax+p(1−a)\$ done, the role of \$k\$ is to allow the axis of symmetry to be moved to the <strong>center</strong> of the space cleared between \$p\$ and \$p+k\$. Thus the axis is moved by a step equal to \$k/2\$. In absolute value, the axis passes through the center of the circle of course and by \$(p+p+k)/2\$, or \$p+k/2\$.</p>
+</div>
+<div class="paragraph">
+<p>Therefore, to move from A-type axis passing through 2 to a B-type axis passing between 2 and 3, we assign the value of \$k\$ to 1 in order to obtain an axis passing by \$2 + 1/2\$</p>
+</div>
+<div class="exampleblock text-center">
+<div class="title">Illustration how k=1 and p=2 define an B-type axis passing between p and p+k</div>
+<div class="content">
+<div class="paragraph">
+<p><span class="image"><img src="./assets/images/pcs-24567-axe-B.png" alt="pcs 24567 axe B"></span> <code>T<sub>1</sub>M11<sub>2</sub></code> &#8594; <span class="image"><img src="./assets/images/pcs-0131011-axe-B.png" alt="pcs 0131011 axe B"></span></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_specify_an_axis">4.10. Specify an axis</h3>
+<div class="paragraph">
+<p>We saw that <code>T<sub>k</sub>M11<sub>p</sub></code> allows us to designate an axis of symmetry passing by \$p + k/2\$.</p>
+</div>
+<div class="paragraph">
+<p>The following characteristics can be drawn from it:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>an even \$k\$ denotes an axis of A-type (or AB-type)</p>
+</li>
+<li>
+<p>an odd \$k\$  denotes an axis of B-type (or AB-type)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>when \$k = 0\$, the axis of symmetry remains of A-type (or AB-type) center on pitch-class pivot value <em>p</em>.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="./assets/images/pcs-2-more-axe.png" alt="pcs 2 more axe">
+</div>
+</div>
+<div class="paragraph text-center">
+<p><em>Example with pcs:[2], p=pivot=2 and variations on k</em>, axis passing by \$p+k/2\$</p>
+</div>
+<div class="paragraph">
+<p>Another example with successively a value of \$k\$ to \$0\$ then \$-3\$ &#160; (or \$9\$)</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./assets/images/pcs-256-M11axis0.png" alt="pcs 256 M11axis0"></span> : <code>T<sub>0</sub>M11<sub>2</sub>([2 5 6])</code> &#8594; <code>[2 10 11]</code></p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./assets/images/pcs-256-M11-free-axe.png" alt="pcs 256 M11 free axe"></span> : <code>T<sub>-3</sub>M11<sub>2</sub>([2 5 6])</code> &#8594; <code>[7 8 11]</code></p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph text-center">
+<p>Conclusion</p>
+</div>
+<div class="paragraph">
+<p>We have seen that a value of k &lt;&gt; 0 allows us to select an axis of symmetry other than the one passing by p.</p>
+</div>
+<div class="paragraph">
+<p>This approach was identified by David Lewin for the inversion operation (<a href="#_lewin_inversion_operator">Lewin inversion operator</a>) and generalized here in an extended affine version.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+There is no single way to designate an axis of symmetry, but <em>n</em>. See the appendix for more information.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_conclusion">5. Conclusion</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><mark>TODO REFACTOR</mark></p>
+</div>
+<div class="paragraph">
+<p>After observing the so-called "fixed zero" problem, we propose a general solution to the affine function.</p>
+</div>
+<div class="paragraph">
+<p>To this end, we introduced a new parameter to the affine function acting on PCS to improve its consistency, particularly with respect to inversion (M11) and transformation by cycles of fifths and fourths (M5 and M7).</p>
+</div>
+<div class="paragraph">
+<p>The general form of the function, without complementarity, is <code>T<sub>k</sub>Ma<sub>p</sub></code>.</p>
+</div>
+<div class="paragraph">
+<p>The concept of a default value for the pivot has been introduced, allowing the parameterized affine function to substitute for the usual affine function. The form of this new operation is <code>T<sub>k</sub>Ma</code> (or <code>[C]T<sub>k</sub>Ma</code> with complementarity). This provides general consistency, and allows and thus to blend into existing frameworks and allows the latter to increase their accuracy by specifying, as needed, an adequate pivot value.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_appendix">6. Appendix</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_axis_and_its_identifiers">6.1. Axis and its identifiers</h3>
+<div class="paragraph">
+<p>While an A-type axis passes through a pitch-class, B-type axis is \$± 1/2\$ from a pitch-class number.</p>
+</div>
+<div class="paragraph">
+<p>As all transformations are always <strong>pitch-class-pivot centred</strong>, the axis passes perpendicularly through a midpoint of the segment defined by the pairs \$(p, p+k)\$, even in the case where \$k = 0\$.</p>
+</div>
+<div class="paragraph">
+<p>We can see a B-type axis as passing through the midpoint of the segment defined by two pitch-class numbers.</p>
+</div>
+<div class="paragraph">
+<p>For example, the operation below defines an axis of <code>[2 4 5 6 7]</code> passing through pitch-class numbers <strong><em>2</em></strong> and <strong><em>3</em></strong>.</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./assets/images/pcs-24567-axe-B.png" alt="pcs 24567 axe B"></span> <code>??</code> &#8594; <span class="image"><img src="./assets/images/pcs-0131011-axe-B.png" alt="pcs 0131011 axe B"></span></p>
+</div>
+<div class="paragraph">
+<p>The B-type axis is \$1/2\$ a step away from pitch-class pivot (2).</p>
 </div>
 <div class="paragraph">
 <p>To solve this case, let&#8217;s take a look at D. Lewin&#8217;s inversion operator \$I^(a,b)\$.</p>
@@ -2152,9 +2324,8 @@ For example, always from <code>[2 4 5 6 7]</code> see below axis passing through
 <div class="paragraph">
 <p>Let us look at Lewin&#8217;s parametric inversion operator.</p>
 </div>
-</div>
-<div class="sect2">
-<h3 id="_understand_inversion_iab">4.10. Understand inversion <em>I<sup>a,b</sup></em></h3>
+<div class="sect3">
+<h4 id="_lewin_inversion_operator">6.1.1. Lewin inversion operator</h4>
 <div class="paragraph">
 <p>In a 1968 article of D. Lewin <a href="#LEWIN-1968">[LEWIN-1968]</a>  <em>"Inversional Balance as an Organizing Force in Schoenberg&#8217;s Music and Thought"</em>  D. Lewin wrote: <em>"We may think of these pitch-class inversions</em> [pair of pitch-classes] <em>as possessing 'axes' "</em> and he explain how <em>"balance of the total chromatic induced by the functioning of such an inversion</em> [&#8230;&#8203;] <em>as something quite analogous of the balance induced by a tonal center"</em>.</p>
 </div>
@@ -2162,7 +2333,7 @@ For example, always from <code>[2 4 5 6 7]</code> see below axis passing through
 <div class="content">
 <img src="./assets/images/balance-inversion.png" alt="balance inversion">
 </div>
-<div class="title">Figure 5. Lewin (1968), "Inversional Balance in chromatic system"</div>
+<div class="title">Figure 4. Lewin (1968), "Inversional Balance in chromatic system"</div>
 </div>
 <div class="paragraph">
 <p>Later (1977), D. Lewin introduced the inversion operator \$I^(uv)\$.</p>
@@ -2175,7 +2346,7 @@ allows you to specify a <strong>pivot symmetry axis</strong> for inversion, by d
 <p>\$I^(a, b)\$ an "<em>inversion taking a to b</em>".</p>
 </div>
 <div class="paragraph">
-<p>Defining an axis of symmetry by a pair of numbers \$(a,b)\$ allows us to designate an axis passing through the center of the circle and the middle of the segment formed by \$a\$ and \$b\$ : \$"midpoint("bar(ab)")" = (a+b) / 2 \$.</p>
+<p>Defining an axis of symmetry by a pair of numbers \$(a,b)\$ allows us to designate an axis passing through the center of the circle and the middle of the segment formed by \$a\$ and \$b\$ : \$"midpoint("bar(ab)")" = 1/2 (a+b) \$.</p>
 </div>
 <div class="imageblock text-center">
 <div class="content">
@@ -2221,14 +2392,14 @@ allows you to specify a <strong>pivot symmetry axis</strong> for inversion, by d
 <p>Now we will see how to integrate this functionality into the affine system with pivot, and we will have good news.</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_free_axis_affine_pivot">4.11. Free axis affine pivot</h3>
+<div class="sect3">
+<h4 id="_integration_into_affine_pivot">6.1.2. Integration into affine pivot</h4>
 <div class="paragraph">
 <p>We begin our analysis with a characteristic of \$I^(u v)\$, highlighted by David Lewin in <em>A label-free development</em> p. 36 and proof p. 45 <a href="#LEWIN-1977a">[LEWIN-1977a]</a> (and <a href="#LEWIN-1980">[LEWIN-1980]</a>), and which happens to be the key to resolve our problem:</p>
 </div>
 <div class="paragraph text-center">
 <p>\$T_iI^(u,v) = I^(u,w)\$ where \$w = T_i(v)\$<br>
- (<em>we&#8217;ve added a separator between <strong>u</strong> and <strong>v</strong> for clarity</em>)</p>
+(<em>we&#8217;ve added a separator between <strong>u</strong> and <strong>v</strong> for clarity</em>)</p>
 </div>
 <div class="paragraph">
 <p>The idea behind this is that an axis is defined by a fixed point and a variable part represented by a transposition value.</p>
@@ -2289,7 +2460,7 @@ midpoint <em>m</em> = \$p + k/2\$</p></td>
 <tr>
 <td class="tableblock halign-center valign-top"><div class="content"><div class="paragraph">
 <p><code>T<sub>0</sub>M11<sub>2</sub>([2]) &#8594; [2]</code><br>
- \$m = 2 + 0/2 = 2\$</p>
+\$m = 2 + 0/2 = 2\$</p>
 </div></div></td>
 <td class="tableblock halign-center valign-top"><div class="content"><div class="paragraph">
 <p><code>T<sub>1</sub>M11<sub>2</sub>([2]) &#8594; [3]</code><br>
@@ -2311,7 +2482,7 @@ midpoint <em>m</em> = \$p + k/2\$</p></td>
 <tr>
 <td class="tableblock halign-center valign-top"><div class="content"><div class="paragraph">
 <p><code>T<sub>2</sub>M11<sub>2</sub>([2]) &#8594; [4]</code><br>
- \$m = 2 + 2/2 = 3\$</p>
+\$m = 2 + 2/2 = 3\$</p>
 </div></div></td>
 <td class="tableblock halign-center valign-top"><div class="content"><div class="paragraph">
 <p><code>T<sub>3</sub>M11<sub>2</sub>([2]) &#8594; [5]</code><br>
@@ -2366,7 +2537,7 @@ Since <em>(k - 1)</em> is always even, <em>k</em> odd always denotes a type B ax
 </div>
 <div class="paragraph">
 <p>Others expressions with valid p-value :<br>
- <code>T<sub>3</sub>M11<sub>5</sub>([256])</code> = <code>T<sub>1</sub>M11<sub>6</sub>([256])</code> = <code>T<sub>-3</sub>M11<sub>2</sub>([256])</code> &#8594; <code>[7 8 11]</code></p>
+<code>T<sub>3</sub>M11<sub>5</sub>([256])</code> = <code>T<sub>1</sub>M11<sub>6</sub>([256])</code> = <code>T<sub>-3</sub>M11<sub>2</sub>([256])</code> &#8594; <code>[7 8 11]</code></p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -2407,30 +2578,8 @@ Since <em>(k - 1)</em> is always even, <em>k</em> odd always denotes a type B ax
 </table>
 </div>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_conclusion">5. Conclusion</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>After observing the so-called "fixed zero" problem, we propose a general solution to the affine function.</p>
-</div>
-<div class="paragraph">
-<p>To this end, we introduced a new parameter to the affine function acting on PCS to improve its consistency, particularly with respect to inversion (M11) and transformation by cycles of fifths and fourths (M5 and M7).</p>
-</div>
-<div class="paragraph">
-<p>The general form of the function, without complementarity, is <code>T<sub>k</sub>Ma<sub>p</sub></code>.</p>
-</div>
-<div class="paragraph">
-<p>The concept of a default value for the pivot has been introduced, allowing the parameterized affine function to substitute for the usual affine function. The form of this new operation is <code>T<sub>k</sub>Ma</code> (or <code>[C]T<sub>k</sub>Ma</code> with complementarity). This provides general consistency, and allows and thus to blend into existing frameworks and allows the latter to increase their accuracy by specifying, as needed, an adequate pivot value.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_appendix">6. Appendix</h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_pairs_axis">6.1. Pairs &#8594; axis</h3>
+<div class="sect3">
+<h4 id="_enumeration_of_pairs_per_axis">6.1.3. Enumeration of pairs per axis</h4>
 <div class="paragraph">
 <p>How many pairs (a, b) can identify an axis of a representative circle of \$ZZ_n\$?</p>
 </div>
@@ -2488,7 +2637,7 @@ Since <em>(k - 1)</em> is always even, <em>k</em> odd always denotes a type B ax
 <p>(0,0), (1,6), (2,5), (3,4), (4,3), (5,2), (6,1) &#8658; 7 = <em>n</em></p>
 </div>
 <div class="paragraph">
-<p>&#8658; Seen another way, when <em>n</em> is odd, any axis has one pair of form (a,a), self-inverse, and \$(n-1)/2\$ of form (a,b) invertible. So, number of pairs is \$2 ((n-1)/2) + 1 or n-1+1 = n\$</p>
+<p>&#8658; Seen another way, when <em>n</em> is odd, any axis has one pair of form (a,a), self-inverse, and \$(n-1)/2\$ of form (a,b) invertible. So, the number of pairs is \$2 ((n-1)/2) + 1 or n-1+1 = n\$</p>
 </div>
 <div class="paragraph">
 <p>Since there are <em>n</em> axes, the total number of pairs is 7*7 = 49 = <em><strong>n<sup>2</sup></strong></em></p>
@@ -2508,9 +2657,10 @@ whatever the parity of <em>n</em></p>
 <p>The number of pair expressions allowing to identify one axis of symmetry is <strong><em>n</em></strong></p>
 </li>
 <li>
-<p>The total of possible expressions of pairs (a,b) is therfore <em>n x n</em> = <em><strong>n²</strong></em>.</p>
+<p>The total of possible expressions of pairs (a,b) is therfore <em>n x n</em> = <em><strong>n²</strong></em>, which we will restrict, for better processing consistency, to the cardinal of the pcs, expect the empty set, on which the <em>affine pivot</em> function applies.</p>
 </li>
 </ul>
+</div>
 </div>
 </div>
 </div>
@@ -2611,7 +2761,7 @@ whatever the parity of <em>n</em></p>
 <div id="footer">
 <div id="footer-text">
 Version <br>
-Last updated 2025-08-01 15:50:40 +0200
+Last updated 2025-08-01 19:27:09 +0200
 </div>
 </div>
 <script type="text/x-mathjax-config">

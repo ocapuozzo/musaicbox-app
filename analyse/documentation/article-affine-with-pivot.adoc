@@ -95,7 +95,7 @@ In musical set theory, into context of twelve-tone equal temperament (n=12), the
 
 If we look carefully, we have a multiplication (inversion as stem:[-1x], stem:[M_5] and stem:[M_7]) and one addition (transposition).
 
-We can combine these operations in the form of an affine operation, _ax + b_, of _Z~n~_ into _Z~n~_
+We can combine these operations in the form of an affine operation, _ax + b_, from _Z~n~_ to _Z~n~_.
 
 include::affine-operation.adoc[]
 
