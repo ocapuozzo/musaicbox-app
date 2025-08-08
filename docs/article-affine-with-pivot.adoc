@@ -1,7 +1,7 @@
 = Extended affine operation in musical set theory
 <olivier.capuozzo@gmail.com>
 Affiliation, City, Country
-:revdate: 2025-07-12
+:revdate: 2025-08-8
 :doctype: article
 :encoding: utf-8
 :lang: fr
@@ -18,16 +18,15 @@ Affiliation, City, Country
 
 This article addresses a topic related to musical set theory, and particularly to basic operations: inversion, transformation by cycles of fifths and fourths (M7 and M5).
 
-It demonstrates the need to be able to choose the axis, or more precisely the pivot point around which the transformations are applied, in order to overcome the negative influence of pitch zero in these operations.
+It demonstrates the need to be able to choose the axis of symmetry around which the transformations are applied, in order to overcome the negative influence of the pitch-class zero in these operations.
 
-The solution proposed here takes David Lewin's idea for inversion (I^u^) and generalizes it to the other M5 and M7 transformations.
+The solution proposed here takes David Lewin's idea for inversion (I^uv^) and generalizes it to the other M5 and M7 transformations.
 
 Finally, the extended affine function has a new parameter, but remains fully compatible with current usage, through a logic that automatically assigns a default pivot value, similar to the "moveable-DO" system.
 
 The code for the affine function with pivot is provided (TypeScript).
 
-
-Keywords: musical set theory, pcs, basic operators, fixed zero problem, label, label free, M11, M5, M7, Affine mapping from Z~n~ to Z~n~
+Keywords: musical set theory, label-free, axis, symmetry, pcs, basic operators, fixed zero problem, M11, M5, M7, Affine mapping from stem:[ZZ_n] to stem:[ZZ_n]
 
 
 == Usual operations
@@ -96,7 +95,7 @@ In musical set theory, into context of twelve-tone equal temperament (n=12), the
 
 If we look carefully, we have a multiplication (inversion as stem:[-1x], stem:[M_5] and stem:[M_7]) and one addition (transposition).
 
-We can combine these operations in the form of an affine operation, _ax + b_, of _Z~n~_ into _Z~n~_
+We can combine these operations in the form of an affine operation, _ax + b_, from _Z~n~_ to _Z~n~_.
 
 include::affine-operation.adoc[]
 
@@ -106,11 +105,12 @@ include::affine-with-pivot.adoc[]
 
 After observing the so-called "fixed zero" problem, we propose a general solution to the affine function.
 
-To this end, we introduced a new parameter to the affine function acting on PCS to improve its consistency, particularly with respect to inversion (M11) and transformation by cycles of fifths and fourths (M5 and M7).
+To this end, we introduced a new parameter to the affine function acting on PCS to improve its consistency, particularly with respect to inversion (_M11_) and transformation by cycles of fifths and fourths (_M5_ and _M7_).
 
-The general form of the function, without complementarity, is `M~p~aTk` (or `TkM~p~a` in equivalent <<Rahn>> notation).
+The general form of the function  is `T~k~Ma` (or `[C]T~k~Ma` with complementarity), and allows, by acting on _k_, to select another axis of symmetry than the one passing [.nowrap]#through _p_.#
 
-The concept of a default value for the pivot has been introduced, allowing the parameterized affine function to substitute for the usual affine function. The form of this new operation is `MaTk` (or `[C]MaTk` with complementarity). This provides general consistency, and allows and thus to blend into existing frameworks and allows the latter to increase their accuracy by specifying, as needed, an adequate pivot value.
+The concept of a default value for the pivot has been introduced, allowing the parameterized affine function to substitute for the usual affine function. This provides general consistency, and allows and thus to blend into existing frameworks and allows the latter to increase their accuracy by specifying, as needed, an adequate _p_ pivot value, associated with a controlled value of transposition _k_.
 
+include::article-appendix.adoc[]
 
 include::reference-article-pivot.adoc[]

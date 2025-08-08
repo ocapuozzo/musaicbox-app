@@ -107,7 +107,7 @@ Other example, with a _Limited Transposition_ scale : _C Dim7_
 
 image::CDim7-infos.png[CDim7-infos]
 
-As you might expect, a diminished seventh chord is *very strongly symmetrical*. Observe its stabilizers, there are 16 of them and 4 are in T0 (highlighted in yellow in the screenshot above) : `#M1-T0#` of course, and  `#M5-T0#`, `#M7-T0#` and `#M11-T0#`.
+As you might expect, a diminished seventh chord is *very strongly symmetrical*. Observe its stabilizers, there are 16 of them and 4 are in T0 (highlighted in yellow in the screenshot above) : `#T~0~M1#` of course, and  `#T~0~M5#`, `#T~0~M7#` and `#T~0~M11#`.
 
 Let's summarize the different transformation operations of two diminished seventh chords: CDim7 [.nowrap]#(`[0 3 6 9]`)# and C#Dim7 [.nowrap]#(`[1 4 7 10]`)#.
 
@@ -121,7 +121,7 @@ Let's summarize the different transformation operations of two diminished sevent
 .Basic operations in Musical Set Theory
 [%header,cols="^,^,^,^,^"]
 |===
-|PCS|M11-T0 (inversion) |M5-T0|M7-T0|Dim7 waiting as strongly invariant
+|PCS|T~0~M11 (inversion) |T~0~M5|T~0~M7|Dim7 waiting as strongly invariant
 a|{nbsp}  +
 CDim7 ||||
 |image:clock-0369.png[]|image:clock-0369.png[]|image:clock-0369.png[]|image:clock-0369.png[]| #OK#
@@ -164,18 +164,18 @@ Generally speaking, the "fixed zero" has been identified as a problem by the Mus
 
 * "_Babbitt and Perle develop "moveable-DO" systems. The zero residue is used to label the *first pitch-class* of the most significant row-form in any specific musical context_". <<LEWIN>>. We will see, with Db Major, that this is not a good solution. However, the idea is correct from the point of consistency, but should not be imposed but proposed as a default value.
 * David Lewin proposes defining the LABEL function, which define a pitch-class reference for inversion, associates with a GIS (<<LEWIN>>, page 31).
-* Later, David Lewin "frees" the LABEL function using a parameterized inversion operator _I^u,v^_, an inversion around an axis (interval _(u, v)_, or around a pitch-class _u_ if _u_ = _v_, then denoted by _I^u^_. <<LEWIN-1977a>> <<LEWIN-1980>>. Only deals with the case of inversion.
-* Harald Fripertinger define in <<Fripertinger>> an _operator inversion, from Z to Z, with respect to r_  as [.nowrap]#_I~r~(i) = r − (z − r) = **2r - i**_#. So, when _r = 0_,  _I(i) = -i_. The parameter pitch-class reference only deals with operator inversion, although quart-circle and quint-circle transformations are defined in the same paper.
+* Later, David Lewin "frees" the LABEL function using a parameterized inversion operator _I^u,v^_, an inversion around an axis identified by a pair _(u, v)_, or a pitch-class _u_ if _u_ = _v_, then denoted by _I^u^_. <<LEWIN-1977a>> <<LEWIN-1980>>. Only deals with the case of inversion.
+* Harald Fripertinger define in <<Fripertinger>> an _operator inversion, from Z to Z, with respect to r_  as [.nowrap]#_I~r~(i) = r − (i − r) = **2r - i**_#. So, when _r = 0_,  _I(i) = -i_. The parameter pitch-class reference _r_ (synonymous with pitch-class-pivot _p_) only deals with operator inversion, although fourth-circle and fifth-circle transformations are defined in the same paper.
 
 ====
 
 
 [#understand-fixed-point-algorithm]
-=== Idea of solution
+=== Idea for a solution
 
 We are looking for a solution that allows to maintain the structural consistency of PCSs across different transformations, including inversion and transformation by cycles of fifths and fourths.
 
-The David Lewin's operator (_I^u^_), and Harald Fripertinger inversion operator (_I~r~_) partially addresses this problem, but are reserved to the inversion.
+The David Lewin's operator (_I^u^_), and Harald Fripertinger inversion operator (_I~r~_) partially address this problem as they are reserved for inversion.
 
 We propose to generalize this solution to the extended general affine function seen previously by adding a new parameter to designate the reference fixed point of transformation.
 
@@ -226,7 +226,7 @@ More precisely, this conceptually requires three operations, this is the price t
 
 Some examples of inversion :
 
-Example1 C-sharp Dim7 inversion : `M11-T0` on `[1 4 7 10]`
+Example1 C-sharp Dim7 inversion : `T~0~M11` on `[1 4 7 10]`
 
 . `[1 4 7 10]` transpose with `p = -1` => `[0{nbsp}3{nbsp}6{nbsp}9]`
 .  `[0 3 6 9]` x 11 modulo 12 => `[0{nbsp}3{nbsp}6{nbsp}9]`
@@ -261,7 +261,7 @@ C.  *Any PC belonging to PCS to be transformed*
  +
 This ensures that the transformation will be based on a pitch-class of the relevant PCS (acting as a "fixed zero").
  +
-This solution is compatible with the idea of the solution, leaving to the author the choice of the reference pitch-class, among _m_ choices, _m_ being the cardinal of the pcs concerned by the transformation (we will apply solution A to define a default value)
+This solution is compatible with the idea of the solution, leaving the choice of the reference pitch-class, among _m_ choices, _m_ being the cardinal of the pcs concerned by the transformation. If pcs is seen as a chord, it can be the root position or an inverted chord, if pcs is seen as a scale, it is a degree of that scale. (we will apply solution A to define a default value)
 
 It seems clear that solution C prevails. The pivot _p_ must be chosen from the PCS pitch-classes.
 
@@ -276,7 +276,7 @@ The p-value consists, for a given PCS, of selecting a pitch-class that:
 
 - Belongs to the pitch-class set under study, expected the empty set.
 
-We have seen that when we want to control the fixed point of a transformation operation of a PCS, a series of three operations is required: M1-T-p, [C]Ma-Tk and M1-Tp. We call this operation _"AffinePivot"_, a right action.
+We have seen that when we want to control the fixed point of a transformation operation of a PCS, a series of three operations is required: T~p~M1, [C]T~k~Ma~p~ and T~-p~M1. We call this operation _"AffinePivot"_, a right action.
 
 ====
 [.text-center]
@@ -286,7 +286,7 @@ _A composition of 3 affine operations_
 
 stem:["AffinePivot"_(p,c,a,k)  : P(ZZ_n) xx NN xx bbb"B" xx NN xx ZZ -> P(ZZ_n)]
 
-stem:["AffinePivot"_(p,c,a,k)(A) := M_1T_p(A) @ C_cM_aT_k(A) @ M_1T_-p(A)]
+stem:["AffinePivot"_(p,c,a,k)(A) := T_pM1(A) @ C_cT_kMa(A) @ T_-pM1(A)]
 
 _Where *a* is coprime with n, *k* a step of transposition, *c* if complement +
 and a pivot value *p*, element of A or 0 if A is empty_
@@ -301,13 +301,13 @@ and a pivot value *p*, element of A or 0 if A is empty_
 
 We are now preparing to establish a condensed version of the function.
 
-stem:["AffinePivot"_(c,p,a,k)(A) := M_1T_p(A) @ C_cM_aT_k(A) @ M_1T_-p(A)]
+stem:["AffinePivot"_(c,p,a,k)(A) := T_pM1(A) @ C_cT_kMa(A) @ T_-pM1(A)]
 
 // Recall : Each extended affine function stem:[C_cM_aT_k] we can denote stem:[(c,a, k)], or stem:[(a, k)] when c=false, for the sake of simplification.
 
 The extended affine composition function, that define one single function from composition of two functions, stem:[@],  is stem:[(c,a,k) @ (c',a',k') = (c oplus c', aa', ak' + k)]
 
-We will use this affine reduction to reduce the composition of 3 functions, stem:[M_1T_p(A) @ C_cM_aT_k(A) @ M_1T_-p(A)], to a single one.
+We will use this affine reduction to reduce the composition of 3 functions, stem:[T_pM1(A) @ C_cT_kMa(A) @ T_-pM1(A)], to a single one.
 
 *  stem:[(false, 1, p) @ (c, a, k) @ (false, 1, -p)]
 * = stem:[(false, 1, p) @ (c oplus false, a, -ap + k)]
@@ -317,7 +317,7 @@ We will use this affine reduction to reduce the composition of 3 functions, stem
 * = #stem:[(c, a, p(1 - a) + k)]#  <= solution
 
 TIP: Unsurprisingly, only the transposition step is affected. +
-We will call this simplified function: *{startsb}C]Ma~p~Tk* +
+We will call this simplified function: *{startsb}C]T~k~Ma~p~* +
  +
 *_C_*, for complement, is optional. We will see that *_p_* can also be, provided that a default value is applied by a deterministic algorithm.
 
@@ -362,18 +362,11 @@ We can now define the operation that acts on PCS.
 --
 *Affine with pivot : An action on PCS*
 
-#TEST NOTATION#
-
-stem:[T_kM_b^a  :  P(ZZ_n) xx ZZ xx NN xx NN -> P(ZZ_n)]
 
 stem:[T_kMa_p  :  P(ZZ_n) xx ZZ xx NN xx NN -> P(ZZ_n)]
 
-`T~0~M5~p~` `T~0~M11~p~`
 
-
-stem:[Ma_pTk : P(ZZ_n) xx NN xx NN xx ZZ -> P(ZZ_n)]
-
-stem:[Ma_pTk(A) := {\ (ax + p(1 - a) + k) mod n \ },  forall  x in A]
+stem:[T_kMa_p(A) := {\ (ax + p(1 - a) + k) mod n \ },  forall  x in A]
 
 _Where *a* is coprime with n, *k* a step of transposition, *p* an element of A or 0 if A is empty_
 
@@ -391,7 +384,7 @@ So, we can redefine special affine function with complement and pivot:
 
 [stem]
 ++++
-[C]Ma_pTk(A) := { (Ma_pTk(A) \ \ \ \ \ \ \ if C " is not present"), (E\  \\ \ Ma_pTk(A)  if C " is present") :}
+[C]T_kMa_p(A) := { (T_kMa_p(A) \ \ \ \ \ \ \ if C " is not present"), (E\  \\ \ T_kMa_p(A)  if C " is present") :}
 ++++
 
 --
@@ -429,99 +422,261 @@ By correlation, any pitch-class set in prime form has the default p-value equals
 --
 ====
 
-With the default pivot-value defined, we can simplify the writing of the affine transformation `Ma~p~Tk` as `MaTk` when `Ma~p~Tk` acts on a PCS whose first pitch-class is equal to _p_.
+With the default pivot-value defined, we can simplify the writing of the affine transformation `T~k~Ma~p~` as `T~k~Ma` when `T~k~Ma~p~` acts on a PCS whose first pitch-class is equal to _p_.
 
 Examples:
 
-- (CMaj -> Fmin) `M11~0~T0([0 4 7])` =  `M11T0([0 4 7])` = `[0 5 8]`, pivot=0 and it is the first pitch-class
+- (CMaj -> Fmin) `T~0~M11~0~([0 4 7])` =  `T~0~M11([0 4 7])` = `[0 5 8]`, pivot=0 and it is the first pitch-class
 
-- (Fmaj -> Bbmin) `M11~5~T0([0 5 9])` =  `[1 5 10]`, pivot=5 is NOT the first pitch-class and must be specified.
+- (Fmaj -> Bbmin) `T~0~M11~5~([0 5 9])` =  `[1 5 10]`, pivot=5 is NOT the first pitch-class and must be specified.
 
-- (FMaj/5th -> Cmin) `M11~0~T0([0 5 9])` = `M11T0([0 5 9])` =  `[0 3 7]`
+- (FMaj/5th -> Cmin) `T~0~M11~0~([0 5 9])` = `T~0~M11([0 5 9])` =  `[0 3 7]`
 
-- (C#dim7 -> C#dmin7) `M11~1~T0([1 4 7 10])` = `M11T0([1 4 7 10])` = `[1 4 7 10]`, pivot=1 and it is the first pitch-class
+- (C#dim7 -> C#dmin7) `T~0~M11~1~([1 4 7 10])` = `T~0~M11([1 4 7 10])` = `[1 4 7 10]`, pivot=1 and it is the first pitch-class
 
-- (Db Major inversion) `M11~2~T0([1 2 4 6 7 9 11])` = `[1 2 4 6 8 9 11]`, The pivot must be specified, because the root is not the first pitch-class of the pcs.
+- (Db Major inversion) `T~0~M11~2~([1 2 4 6 7 9 11])` = `[1 2 4 6 8 9 11]`, The pivot must be specified, because the root is not the first pitch-class of the pcs.
 
-Some main characteristics of stem:[(c,p,a,k)] |-> stem:[c cdot (a, p(1 - a) + k)]
 
-.AffinePivot analysis : {startsb}C]Ma~[p]~Tk(A)
-[%header,cols=".^,.^,.^,.^,.^,.^,.^2"]
+
+
+=== Examples with affinePivot
+
+Examples with p-value specified, or not.
+
+.Revisited basic operations of Musical Set Theory, with pivot value (in red)
+[%header,cols="^,^,^,^,^"]
 |===
-a|stem:[c] .>a|stem:[p] .>a|stem:[a] .>a|stem:[k] .>a|stem:[c cdot (a, p(1 - a) + k)]|{startsb}C]Ma~p~Tk |designation
+a|pcs +
+source a|T~0~M11~0~ +
+or +
+T~0~M11 +
+(inversion) a|T~0~M5~0~ +
+or +
+T~0~M5 a|T~0~M7~0~ +
+or +
+T~0~M7
+|dim7 expected as strongly invariant
 
-|no present
-|no present
-|1
-|0
-a|stem:[x]
-|`M1T0(A)`
-|neutral operation
+|image:pcs-0369-pivot0.png[]|image:pcs-0369-pivot0.png[]|image:pcs-0369-pivot0.png[]|image:pcs-0369-pivot0.png[] .^| Cdim7
+
+|[0 3 6 9]|[0 3 6 9]|[0 3 6 9]|[0 3 6 9]| #OK#
+
+|===
+
+[%header,cols="^,^,^,^,^"]
+|===
+.^|(default p-value = 1) .^a|M11~1~T0 +
+or +
+T~0~M11 .^a|T~0~M5~1~ +
+or +
+T~0~M5 .^a|T~0~M7~1~ +
+or +
+T~0~M7 |dim7 expected as strongly invariant
+|image:pcs-14710-pivot1.png[]|image:pcs-14710-pivot1.png[]|image:pcs-14710-pivot1.png[]|image:pcs-14710-pivot1.png[] .^|C#dim7
+
+|[1 4 7 10]|[1 4 7 10]|[1 4 7 10]|[1 4 7 10]|#OK#
++
+C#dim7 has same treatment as Cdim7
+
+|===
+
+[%header,cols="^,^,^,^,^"]
+|===
+.^a|CMajor +
+p-value = 0 .^|T~0~M11  .^|T~0~M5  .^|T~0~M7|CMajor transformations (default pivot)
+
+|image:pcs-CMaj-pivot0.png[]|image:pcs-CMaj-M11-pivot0.png[]|image:pcs-CMaj-M5-pivot0.png[]|image:pcs-CMaj-M7-pivot0.png[]|
+
+|[0 2 4 5 7 9 11]|[0 1 3 5 7 8 10]|[0 1 7 8 9 10 11]|[0 1 2 3 4 5 11]|ok
+
+|===
 
 
-|no present
-|no present
-|a
-|k
-a|stem:[ax + k]
-|`MaTk(A)`
-|initial affine function (*)
+[%header,cols="^,^,^,^,^"]
+|===
+.^a|C Major +
+p-value = 4 .^|T~0~M11~4~  .^|T~0~M5~4~  .^|T~0~M7~4~|C Major transformations (pivot=4)
 
-|no present
-|no present
-|1
-|k
-.^a|stem:[x + k]
-.^|`M1Tk(A)`
-|transposition
+|image:pcs-02457911-p4-clock.png[]|image:pcs-02457911-p4-clock-M11.png[]|image:pcs-02457911-p4-clock-M5.png[]|image:pcs-02457911-p4-clock-M7.png[]|
 
-|no present
-|no present
-|1
-|0
-a|stem:[ax]
-|`MaT0(A)`
-|Mx transformation (*)
+a|[0 2 4 5 7 9 11] +
+C Maj/E a|[0 3 4 6 8 9 11] +
+E Maj|[3 4 5 6 7 8 9]|[0 1 2 3 4 5 11] a|ok +
+M11~4~(CMajor) +
+map to EMajor
 
-|present
-|no present
-|1
-|0
-a|E - A
-|`CM1T0(A)`
-|complement
+|===
 
 
-|no present
+
+[%header,cols="^,^,^,^,^"]
+|===
+.^a|(default p-value = 1) +
+but p-value = 2 .^|T~0~M11~2~  .^|T~0~M5~2~  .^|T~0~M~2~7|DMajor transformations
+
+|image:pcs-DMajor-pivot2.png[]|image:pcsDMaj-M11-Pivot2.png[]|image:pcsDMaj-M5-Pivot2.png[]|image:pcsDMaj-M7-Pivot2.png[]|
+
+|[1 2 4 6 7 9 11] a|[0 2 3 5 7 9 10] +
+Become III degree of Bb Major|[0 1 2 3 9 10 11]|[1 2 3 4 5 6 7]|OK DMajor with pivot=2 has same treatment as CMajor
+
+|===
+//
+// [%header,cols="^,^,^,^,^"]
+// |===
+// .^| .^|T~4~CM11~0~  .^|T~4~CM5~0~  .^|T~4~CM7~0~|
+//
+// |image:pcs-047-pivot-0.png[]|image:pcs-047-pivot-0-CM11-T4.png[]|image:pcs-047-pivot-0-CM5-T4.png[]|image:pcs-047-pivot-0-CM7-T4.png[]| CMaj transformations
+//
+// |[0 4 7]|[12356781011]|[12567891011]|[01236791011]|
+// |===
+//
+//
+// [%header,cols="^,^,^,^,^"]
+// |===
+// a|CMaj +
+// pivot on 3rd .^|T~4~CM11~4~  .^|T~4~CM5~4~  .^|T~4~CM7~4~|
+//
+// |image:pcs-047-pivot-4.png[]|image:pcs-047-pivot-4-CM11-T4.png[]|image:pcs-047-pivot-4-CM5-T4.png[]|image:pcs-047-pivot-4-CM7-T4.png[]| CMaj transformations
+//
+// |{startsb}0 4 7]|[12346791011]|[1234567910]|[01236791011]|
+// |===
+//
+
+[%header,cols="^,^,^,^,^"]
+|===
+a|D#/Eb Schoenberg Hexachord +
+(pivot on root) .^|T~0~CM11~3~  .^|T~0~CM5~3~  .^|T~0~CM7~3~|
+
+|image:pcs-034589-pivot3.png[]|image:pcs-034589-pivot-3-CM11T0.png[]|image:pcs-034589-pivot-3-CM5T0.png[]|image:pcs-034589-pivot-3-CM7T0.png[]|D#/Eb Schoenberg Hexachord transformations
+
+a|{startsb}0 3 4 5 8 9]|[0 4 5 7 8 11]|[2 5 6 7 10 11]|[0 1 4 7 8 11]|
+|===
+
+
+=== Simplified notation
+
+
+|===
+|operation type |affine |simplification
+
+|Neutral operation
+|`T~0~M1`
+|`M1`
+
+|Transposition
+|`T~k~M1`
+|`T~k~`
+
+|Multiplication
+|`T~0~Ma~p~`
+|`Ma~p~`
+
+|Complement
+|`CT~0~M1`
+|`C`
+
+|Affine with transposition (k>0)
+|`T~k~Ma~p~`
+|`T~k~Ma~p~`
+
+|Affine transposition + complement (k=0, a>1)
+|`CT~0~Ma~p~`
+|`CMa~p~`
+
+|Affine with complement k>0, a=1
+|`CT~k~M1`
+|`CT~k~`
+
+|Affine with complement k>0, a>1
+|`CT~k~Ma~p~`
+|`CT~k~Ma~p~`
+
+
+|===
+
+
+Focus on inversion `M11~p~` with affine pivot formula:  stem:[ax + p(1 - a) + k]
+
+.AffinePivot inversion analysis : {startsb}C]T~k~Ma~p~(A) |-> M11~p~(A)
+[%header,cols=".^,.^,.^,.^,.^,.^2"]
+|===
+^a|stem:[p] ^a|stem:[a] ^a|stem:[k] .>a|stem:[ax + p(1 - a) + k)]|_{startsb}C]T~k~Ma~p~(A)_ |designation
+//
+// |no present
+// |no present
+// |1
+// |0
+// a|stem:[x]
+// a|`T~0~M1(A)` or +
+// `M1(A)`
+// |neutral operation
+//
+// |no present
+// |no present
+// |a
+// |0
+// a|stem:[ax]
+// a|`T~0~Ma(A)` or +
+//  `Ma(A)`
+// |Mx transformation (*)
+//
+// |no present
+// |no present
+// |1
+// |k
+// .^a|stem:[x + k]
+// .^a|`T~k~M1(A)`
+// or +
+// `T~k~(A)`
+// |transposition
+//
+// |present
+// |no present
+// |1
+// |0
+// a|E - A
+// a|`CT~0~M1(A)` or +
+//  `C(A)`
+// |complement
+
 |p
 |11
 |0
-a|- (a, p(1 - a) + k)
-- (11, p(1 - 11))
-- (11, -10p)
-- (-1, 2p)  +
-(equiv. modulo 12)
-- (-x, 2p)
+a|
+- 11x + p(1 - 11)
+- 11x - 10p
+- -1x + 2p (equiv. mod 12)
 - *2p - x* +
-(Fripentinger solution <<Fixed-zero-problem>>)
-|`M11T0(A)`
-|inversion
+Here we find the solution of Fripentinger <<Fixed-zero-problem>>
+a|[.nowrap]#`T~0~M11~p~(A)`# or +
+`M11~p~(A)`
+|inversion "around" _p_
 
-
-|no present
-|2
-|11
-|3
-a|- stem:[(a, p(1 - a) + k)]
-- stem:[(11, 2 * (1 - 11) + 3)]
-- stem:[(11, -17)]
-- stem:[(11, 7)] // eq. modulo 12
-- stem:[11x + 7]
-.^|`M11~2~T3(A)`
-|example of traditional affine use, with pivot value = 2 (2 ∈ A)
+//
+// |no present
+// |no present
+// |a
+// |k
+// a|stem:[ax + k]
+// a|`T~k~Ma(A)`
+// |initial affine function (*)
+//
+//
+//
+// |no present
+// |2
+// |11
+// |3
+// a|- stem:[(a, p(1 - a) + k)]
+// - stem:[(11, 2 * (1 - 11) + 3)]
+// - stem:[(11, -17)]
+// - stem:[(11, 7)] // eq. modulo 12
+// - stem:[11x + 7]
+// .^a|[.nowrap]`T~3~M11~2~(A)`
+// |example of traditional affine use, with pivot value = 2 (2 ∈ A)
 
 |===
-(*) _a_ coprime with _n_
+// (*) _a_ coprime with _n_
 
 // And yet, the AffinePivot function has taken the place of the usual Affine functions in the project... Obviously to be clarified...
 
@@ -565,17 +720,20 @@ a|- stem:[(a, p(1 - a) + k)]
 // - stem:[(11, 1)] // modulo 12
 
 
-If we assume that the pitch-class set, in normal order, represents a scale, _p_ designates the degree from which the `Ma~p~Tk` transformation will be applied.Not specifying _p_ in the affine MaTk function triggers the default pivot value assignment logic (<<default-p-value-logic>>.
+If we assume that the pitch-class set, in normal order, represents a scale, _p_ designates the degree from which the `T~k~Ma~p~` transformation will be applied. Not specifying _p_ in the affine `T~k~Ma` function triggers the default pivot value assignment logic (<<default-p-value-logic>>.
 
 
 [#_free_axis_of_symmetry]
 === Free axis of symmetry
 
-We have seen that any affine transformation, based on the pivot value, is guaranteed to operate around an axis passing through the pitch-class-pivot, in complete coherence.
+We have seen that any affine transformation, based on the pivot value, is guaranteed to operate "around" an axis passing through the *pitch-class-pivot*, in complete coherence.
 
-The question is: Can we maintain this consistency while being free to select another axis of symmetry than the one passing through the pivot value?The answer is YES, and we will see how.
+The question is: Can we maintain this consistency while being free to select another axis of symmetry than the one passing through the pivot value?
 
-First, let's take stock of the different axes of symmetry of a circle with a homogeneous distribution of pitch-class numbers.
+The answer is YES, and we will see how.
+
+Let us first start by knowing what are the different types of axes of symmetry of a circle having a homogeneous distribution of even and odd pitch-class numbers.
+
 
 |===
 ^|n = 7 ^| n = 5 ^| n = 8 ^| n = 12
@@ -587,254 +745,104 @@ First, let's take stock of the different axes of symmetry of a circle with a hom
 
 |===
 
-We see that there are two ways to divide such a circle in two:
+As we can see, there are 3 ways to cut such a circle in half.
 
-A. Median axis, passing *through* a pitch-class number
+* A-type, passing _through_ two pitch-class
+* B-type, passing twice between two pitch-class
+* AB-type, passing _through_ one pitch-class and between two pitch-class
 
-B. Intercalary axis, passing *between* two pitch-class numbers.
+The kind of axes depends on the parity of _n_.
 
-.Two symmetry axis types (n=8)
-image::axis-symmetry-n8.png[]
+|===
+^|n even ^|n odd
 
-Note that when n is odd, there is only one type of axis that is both intercalary and median.
+^|image:axis-symmetry-n8-A-B.png[]
+^|image:pcs-emptyset-n7-axesAB.png[]
 
-To select an axis of symmetry, assign an appropriate value to _k_.
+^|A and B
+^|AB
+|===
 
-[IMPORTANT]
+//
+// .Two symmetry axis types (n=8) A through 0 and B, between 0 and 1
+// image:axis-symmetry-n8.png[] image:pcs-emptyset-n7-axesAB.png[]
+
+Note that when _n_ is odd, there is only one type of axis that is both intercalary [.underline]#and# median.
+
+We immediately see that the pitch-class pivot value alone only allows us to define A-type and AB-type axes.
+
+Examples with p-value = 2 : `T~0~M11~2~([24567]) = [0291011]`
+
+image:pcs-24567-axe.png[] `T~0~M11~2~` -> image:pcs-0291011-axe.png[]
+
+But what about the B-type axis, passing between pitch-classes?
+
+For example, the operation below defines an axis of `[2 4 5 6 7]` passing through pitch-class numbers *_2_* and *_3_*.
+
+image:pcs-24567-axe-B.png[] `??` -> image:pcs-0131011-axe-B.png[]
+
+Let's take a closer look at the affine function with pivot.
+
+In the affinePivot transformation, defined in <<AffinePivot reduced>>, stem:[(ax + p(1 - a) + k)], each of these members has a dedicated role:
+
+* stem:[ax + p(1 - a)] is executed first. That is the Mx transformation (M1,M5,M7,M11) center on p-value
+* stem:[ + k ] {nbsp} is the transposition step, executed after "Mx pivot center" transformation
+
+[.text-center]
+stem:[ubrace(ax + p(1 - a))_("Ma center on p") ubrace(\ +\ \  k)_("transp step")]
+
+
+Once the first transformation stem:[ax+p(1−a)] done, the role of stem:[k] is to allow the axis of symmetry to be moved to the *center* of the space cleared between stem:[p] and stem:[p+k]. Thus the axis is moved by a step equal to stem:[k/2]. In absolute value, the axis passes through the center of the circle of course and by stem:[(p+p+k)/2], or stem:[p+k/2].
+
+
+Therefore, to move from A-type axis passing through 2 to a B-type axis passing between 2 and 3, we assign the value of stem:[k] to 1 in order to obtain an axis passing by stem:[2 + 1/2]
+
+[.text-center]
+image:pcs-24567-axe-B.png[] `T~1~M11~2~` -> image:pcs-0131011-axe-B.png[]
+
+[.text-center]
+Illustration how _k=1_ and _p=2_ define an B-type axis passing between _p_ and _p+k_
+
+
+=== How to specify an axis
+
+We saw that `T~k~M11~p~` allows us to designate an axis of symmetry passing by stem:[p + k/2].
+
+// The following characteristics can be drawn from it:
+//
+// * an even stem:[k] denotes an axis of A-type (or AB-type)
+// * an odd stem:[k]  denotes an axis of B-type (or AB-type)
+
+when stem:[k = 0], the axis of symmetry passes through stem:[p] (axis of type A or AB) otherwise through an imaginary point distant from stem:[p] by stem:[k/2].  Examples with pcs [2]:
+
+[.text-center]
+image::pcs-2-more-axe.png[]
+[.text-center]
+_Example with pcs [2], p=pivot=2 and variations on k_, axis passing by stem:[p+k/2]
+
+Examples with stem:[k] to stem:[0] and stem:[-3] {nbsp} (or stem:[9]):
+
+image:pcs-256-M11axis0.png[] : `T~0~M11~2~([2 5 6])` -> `[2 10 11]`
+
+image:pcs-256-M11-free-axe.png[] : `T~-3~M11~2~([2 5 6])` -> `[7 8 11]`
+
 ====
-_p_ forms with _k_ a line segment  stem:[bar(X,Y)] *crossed in its middle by the axis of symmetry*. +
- where stem:[X = p and Y =  p+k].
+[.text-center]
+In summary
+//
+// There are 3 kinds of axes, depending of the parity of _n_ :
+//
+// * _n_ even
+// - A-type passing through two pitch-classes
+// - B-type passing twice between two pitch-classes
+//
+// * _n_ odd
+// - AB-type passing through one pitch-class and between two pitch-classes
 
-Example with axis A and B of the figure above.
+To choose an axis of symmetry not passing through stem:[p], it is sufficient to give a value to stem:[k] different from a value equivalent to 0, the axis will pass through an imaginary point distant from stem:[p] by stem:[k/2].
 
-// * Median axis A admits as solution :  stem:[bar(0,0)]{nbsp}, stem:[bar(11, 1)]{nbsp}, stem:[bar(10, 2)]{nbsp}, stem:[bar(9, 3)]{nbsp}, stem:[bar(8, 4)]{nbsp}, stem:[bar(7, 5)] and {nbsp}, stem:[bar(6, 6)]
-// * Intercalary axis B admits as solution :  stem:[bar(0,1)]{nbsp}, stem:[bar(11, 2)]{nbsp}, stem:[bar(10, 3)]{nbsp}, stem:[bar(9, 4)]{nbsp}, stem:[bar(8, 5)]{nbsp} and stem:[bar(7, 6)]
+Although there are _n_ ways to designate an axis of symmetry for a pcs that we will call A, we will limit the use to the pitch-classes belonging to A, for a reason of consistency explained in section <<Fixed-zero-problem>>.
 
-
-* Median axis A admits as solution :  stem:[bar(0,0)]{nbsp}, stem:[bar(7, 1)]{nbsp}, stem:[bar(6, 2)]{nbsp}, stem:[bar(5, 3)]{nbsp} and {nbsp} stem:[bar(4, 4)]
-* Intercalary axis B admits as solution :  stem:[bar(0,1)]{nbsp}, stem:[bar(7, 2)]{nbsp}, stem:[bar(6, 3)]{nbsp} and{nbsp}  stem:[bar(5, 4)]
+The use of _p_ and _k_ to denote an axis of symmetry was inspired by the work of D. Lewin. As early as 1968, he began to study the influence of symmetry and the need to be able to select a particular axis in inversion operations.   For more information, see the appendix <<Axis and its identifiers>>.
 
 ====
-
-The axis of symmetry around which affine operations are applied actually passes through the midpoint of the segment represented by the two pitch-class numbers: _p_ and _p+k_, i.e: stem:[(p+k-p)/2], so stem:[k/2] in absolute value, we must add the value of _p_, hence axis through by stem:[p + k/2]
-
-
-Examples of media and inter axis at stem:[p + k/2] :
-
-
-|===
-^|pcs: [2] ^|pcs: [2]
-
-^|image:pcs-2-axe0.png[]
-^|image:pcs-2-axe1.png[]
-
-^a|`M11~2~T0` {nbsp} {nbsp} axis: stem:[ 2 + 0/2 = 2] (median)
-^a|`M11~2~T1` {nbsp} {nbsp} axis: stem:[2 + 1/2 ] (inter)
-
-^|image:pcs-2-axe2.png[]
-^|image:pcs-2-axe3.png[]
-
-
-^a|`M11~2~T2`{nbsp} {nbsp} axis: stem:[2 + 2/2 = 3] (median)
-^a|`M11~2~T3`{nbsp} {nbsp} axis: stem:[2 + 3/2 = 3 + 1/2] (inter)
-
-|===
-
-
-Let _s_ be the pitch-class number through which the axis of symmetry crosses.
-
-* stem:[ s = p + k/2] {nbsp} (when _k_=_0_, axis passes through _p_)
-
-
-Depending on the needs, we can then determine each of the variables in this equation as a function of the other two, from this equation {nbsp}stem:[p +k/2 - s = 0]
-
-// k ?
-// * stem:[ 2S -2p -k = 0]
-// * stem:[ k = 2S -2p]
-* stem:[ k = 2(s-p)]
-
-// p ?
-//
-// * stem:[ 2S -2p -k = 0]
-// * stem:[ -2p -k = -2S]
-// * stem:[ -2p  = k-2S]
-// * stem:[ p  = (k-2S) / -2]
-* stem:[ p  = s - k/ 2]
-
-
-==== Summary
-
-*The axis of symmetry is defined by the line segment it crosses at its midpoint. This line segment is defined by _p_ and _k_ by the pair _p, p + k_*.
-
-In the example below, starting from _p = 2_, the step *_k = -3_* defines the line segment (_p, p + k_) by  _(2, -1)_, or (2,11) (modulo 12), and thus determines the axis of symmetry passing between (2, 11), or (0,1) , (3,10), (4,9), (5,8), (6,7).
-
-image:pcs-256-M11-free-axe.png[] : `M11~2~T-3([256])` -> `[7811]`
-
-Others expressions with valid p-value :
-`M11~2~T-3([256])` = `M11~5~T3([256])` = `M11~6~T1([256])` -> `[7811]`
-
-k=0 is a special case, where line segment (_p,p_) distance is zero.
-
-image:pcs-256-M11axis0.png[] : `M11~2~T0([2 5 6])` -> `[2 10 11]`
-
-Others expressions with valid p-value :
-`M11~2~T0([256])` = `M11~5~T6([256])` = `M11~6~T4([256])` -> `[21011]`
-
-
-
-
-=== Examples of transformations with affinePivot
-
-Examples with p-value specified, or not.
-
-.Revisited basic operations of Musical Set Theory, with pivot value (in red)
-[%header,cols="^,^,^,^,^"]
-|===
-a|pcs +
-source a|M11~0~T0 +
-or +
-M11-T0 +
-(inversion) a|M5~0~T0 +
-or +
-M5-T0 a|M7~0~T0 +
-or +
-M7-T0
-|dim7 expected as strongly invariant
-
-|image:pcs-0369-pivot0.png[]|image:pcs-0369-pivot0.png[]|image:pcs-0369-pivot0.png[]|image:pcs-0369-pivot0.png[] .^| Cdim7
-
-|[0 3 6 9]|[0 3 6 9]|[0 3 6 9]|[0 3 6 9]| #OK#
-
-|===
-
-[%header,cols="^,^,^,^,^"]
-|===
-.^|(default p-value = 1) .^a|M11~1~T0 +
-or +
-M11-T0 .^a|M5~1~T0 +
-or +
-M5-T0 .^a|M7~1~T0 +
-or +
-M7-T0 |dim7 expected as strongly invariant
-|image:pcs-14710-pivot1.png[]|image:pcs-14710-pivot1.png[]|image:pcs-14710-pivot1.png[]|image:pcs-14710-pivot1.png[] .^|C#dim7
-
-|[1 4 7 10]|[1 4 7 10]|[1 4 7 10]|[1 4 7 10]|#OK#
-+
-C#dim7 has same treatment as Cdim7
-
-|===
-
-[%header,cols="^,^,^,^,^"]
-|===
-.^a|CMajor +
- p-value = 0 .^|M11T0  .^|M5T0  .^|M7T0|CMajor transformations (default pivot)
-
-|image:pcs-CMaj-pivot0.png[]|image:pcs-CMaj-M11-pivot0.png[]|image:pcs-CMaj-M5-pivot0.png[]|image:pcs-CMaj-M7-pivot0.png[]|
-
-|[0 2 4 5 7 9 11]|[0 1 3 5 7 8 10]|[0 1 7 8 9 10 11]|[0 1 2 3 4 5 11]|ok
-
-|===
-
-
-[%header,cols="^,^,^,^,^"]
-|===
-.^a|C Major +
-p-value = 4 .^|M11~4~T0  .^|M5~4~T0  .^|M7~4~T0|C Major transformations (pivot=4)
-
-|image:pcs-02457911-p4-clock.png[]|image:pcs-02457911-p4-clock-M11.png[]|image:pcs-02457911-p4-clock-M5.png[]|image:pcs-02457911-p4-clock-M7.png[]|
-
-a|[0 2 4 5 7 9 11] +
-C Maj/E a|[0 3 4 6 8 9 11] +
-E Maj|[3 4 5 6 7 8 9]|[0 1 2 3 4 5 11] a|ok +
- M11~4~ of C Major +
- map to E Major
-
-|===
-
-
-
-[%header,cols="^,^,^,^,^"]
-|===
-.^a|(default p-value = 1) +
-but p-value = 2 .^|M11~2~T0  .^|M5~2~T0  .^|M~2~7-T0|DMajor transformations
-
-|image:pcs-DMajor-pivot2.png[]|image:pcsDMaj-M11-Pivot2.png[]|image:pcsDMaj-M5-Pivot2.png[]|image:pcsDMaj-M7-Pivot2.png[]|
-
-|[1 2 4 6 7 9 11] a|[0 2 3 5 7 9 10] +
- Become III degree of Bb Major|[0 1 2 3 9 10 11]|[1 2 3 4 5 6 7]|OK DMajor with pivot=2 has same treatment as CMajor
-
-|===
-
-[%header,cols="^,^,^,^,^"]
-|===
-.^| .^|CM11~0~T4  .^|CM5~0~T4  .^|CM7~0~T4|
-
-|image:pcs-047-pivot-0.png[]|image:pcs-047-pivot-0-CM11-T4.png[]|image:pcs-047-pivot-0-CM5-T4.png[]|image:pcs-047-pivot-0-CM7-T4.png[]| CMaj transformations
-
-|[0 4 7]|[12356781011]|[12567891011]|[01236791011]|
-|===
-
-
-[%header,cols="^,^,^,^,^"]
-|===
-a|CMaj +
-pivot on 3rd .^|CM11~4~T4  .^|CM5~4~T4  .^|CM7~4~T4|
-
-|image:pcs-047-pivot-4.png[]|image:pcs-047-pivot-4-CM11-T4.png[]|image:pcs-047-pivot-4-CM5-T4.png[]|image:pcs-047-pivot-4-CM7-T4.png[]| CMaj transformations
-
-|{startsb}0 4 7]|[12346791011]|[1234567910]|[01236791011]|
-|===
-
-
-[%header,cols="^,^,^,^,^"]
-|===
-a|D#/Eb Schoenberg Hexachord +
-(pivot on root) .^|CM11~3~T0  .^|CM5~3~T0  .^|CM7~3~T0|
-
-|image:pcs-034589-pivot3.png[]|image:pcs-034589-pivot-3-CM11T0.png[]|image:pcs-034589-pivot-3-CM5T0.png[]|image:pcs-034589-pivot-3-CM7T0.png[]|D#/Eb Schoenberg Hexachord transformations
-
-a|{startsb}0 3 4 5 8 9]|[0 4 5 7 8 11]|[2 5 6 7 10 11]|[0 1 4 7 8 11]|
-|===
-
-
-
-=== AffinePivot typescript implementation
-
-
-[source, javascript]
-----
-/** extended affinePivot transformation implementation
- * c . (ax + b) |-> c . (ax + p(1 − a) + k)
- */
-function affinePivot(
-  p: number, // integer in [0..this.n-1],
-             // assert: vectorIn[p] equals 1 if vectorIn not image of empty set else 0
-  a: number, // integer, assert: a is coprime with 'n'
-  k: number, // integer in Z
-  vectorIn: number[], // array of 0 | 1, a vector image of a pcs
-             // ex: [1,0,0,0,1,0,0,1,0,0,0,0] for {0 4 7} (C E G)
-  c: boolean = false // if true, return complement of permutedVector (false by default)
-) : number[] // new vector "affinePivot" transformed
-{
-    const n = vectorIn.length
-    let permutedVector : number[] = Array(n)
-    // c . (ax + b) |-> c . (a * i + p(1 − a) + k)
-    const b = p * (1-a) + k
-    for (let i = 0, j; i < n; i++) {
-      // j and i play the role of both index and pitch-class number
-      j = (n + (a * i + b) % n) % n // force modulo to get value in [0..n-1]
-      // if c then inverse vectorPcs[i] (0 <-> 1)
-      permutedVector[j] = c ? 1 - vectorPcs[i] : vectorPcs[i]
-    }
-    return permutedVector
-}
-----
-
-This function is extracted from a POC (and more) available on GitHub (code open source: https://github.com/ocapuozzo/musaicbox-app) and the latest demo version, runnable via a browser (front-end application) is available here: https://musaicsbox.org
-
-//
-// === Conclusion
-//
-// * After observing the so-called "fixed zero problem", we were led to introduce a new parameter to the affine function acting on PCS, to improve the consistency of affine transformation operations such as inversion (M11) and transformation by cycle of fifths and fourths (M5 and M7).
-//
-// * The concept of a default value for the pivot has been introduced, allowing the parameterized affine function to substitute for the usual affine function. This allows us to still benefit from the advantages of group action (construction of orbits and stabilizers).

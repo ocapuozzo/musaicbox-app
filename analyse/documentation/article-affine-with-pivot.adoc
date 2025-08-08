@@ -1,7 +1,7 @@
 = Extended affine operation in musical set theory
 <olivier.capuozzo@gmail.com>
 Affiliation, City, Country
-:revdate: 2025-07-12
+:revdate: 2025-08-8
 :doctype: article
 :encoding: utf-8
 :lang: fr
@@ -26,7 +26,7 @@ Finally, the extended affine function has a new parameter, but remains fully com
 
 The code for the affine function with pivot is provided (TypeScript).
 
-Keywords: musical set theory, pcs, basic operators, fixed zero problem, label, label free, M11, M5, M7, Affine mapping from Z~n~ to Z~n~
+Keywords: musical set theory, label-free, axis, symmetry, pcs, basic operators, fixed zero problem, M11, M5, M7, Affine mapping from stem:[ZZ_n] to stem:[ZZ_n]
 
 
 == Usual operations
@@ -103,15 +103,13 @@ include::affine-with-pivot.adoc[]
 
 == Conclusion
 
-#TODO REFACTOR#
-
 After observing the so-called "fixed zero" problem, we propose a general solution to the affine function.
 
-To this end, we introduced a new parameter to the affine function acting on PCS to improve its consistency, particularly with respect to inversion (M11) and transformation by cycles of fifths and fourths (M5 and M7).
+To this end, we introduced a new parameter to the affine function acting on PCS to improve its consistency, particularly with respect to inversion (_M11_) and transformation by cycles of fifths and fourths (_M5_ and _M7_).
 
-The general form of the function, without complementarity, is `T~k~Ma~p~`.
+The general form of the function  is `T~k~Ma` (or `[C]T~k~Ma` with complementarity), and allows, by acting on _k_, to select another axis of symmetry than the one passing [.nowrap]#through _p_.#
 
-The concept of a default value for the pivot has been introduced, allowing the parameterized affine function to substitute for the usual affine function. The form of this new operation is `T~k~Ma` (or `[C]T~k~Ma` with complementarity). This provides general consistency, and allows and thus to blend into existing frameworks and allows the latter to increase their accuracy by specifying, as needed, an adequate pivot value.
+The concept of a default value for the pivot has been introduced, allowing the parameterized affine function to substitute for the usual affine function. This provides general consistency, and allows and thus to blend into existing frameworks and allows the latter to increase their accuracy by specifying, as needed, an adequate _p_ pivot value, associated with a controlled value of transposition _k_.
 
 include::article-appendix.adoc[]
 

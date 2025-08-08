@@ -745,13 +745,13 @@ Let us first start by knowing what are the different types of axes of symmetry o
 
 |===
 
-As we can see, there are 2 ways to cut such a circle in half.
+As we can see, there are 3 ways to cut such a circle in half.
 
-A. *Median axis*, passing _through_ at least one pitch-class number
+* A-type, passing _through_ two pitch-class
+* B-type, passing twice between two pitch-class
+* AB-type, passing _through_ one pitch-class and between two pitch-class
 
-B. *Intercalary axis*, passing _between_ at least two pitch-class numbers.
-
-Two kinds of axes, depending on the parity of _n_.
+The kind of axes depends on the parity of _n_.
 
 |===
 ^|n even ^|n odd
@@ -775,368 +775,74 @@ Examples with p-value = 2 : `T~0~M11~2~([24567]) = [0291011]`
 
 image:pcs-24567-axe.png[] `T~0~M11~2~` -> image:pcs-0291011-axe.png[]
 
-But what about the B-type axis?
+But what about the B-type axis, passing between pitch-classes?
 
 For example, the operation below defines an axis of `[2 4 5 6 7]` passing through pitch-class numbers *_2_* and *_3_*.
 
 image:pcs-24567-axe-B.png[] `??` -> image:pcs-0131011-axe-B.png[]
 
-#PROPOSITION P1#
-
 Let's take a closer look at the affine function with pivot.
 
 In the affinePivot transformation, defined in <<AffinePivot reduced>>, stem:[(ax + p(1 - a) + k)], each of these members has a dedicated role:
 
-* stem:[Ax + p(1 - a)] is executed first. That is the Mx transformation (M1,M5,M7,M11) center on p-value
+* stem:[ax + p(1 - a)] is executed first. That is the Mx transformation (M1,M5,M7,M11) center on p-value
 * stem:[ + k ] {nbsp} is the transposition step, executed after "Mx pivot center" transformation
 
 [.text-center]
 stem:[ubrace(ax + p(1 - a))_("Ma center on p") ubrace(\ +\ \  k)_("transp step")]
 
 
-Once the first transformation `Ma~p~` stem:[ax+p(1−a)] done, the role of stem:[k] is to allow the axis of symmetry to be moved to the *center* of the space cleared between stem:[p] and stem:[p+k]. Thus the axis is moved by a step equal to stem:[k/2]. In absolute value, the axis passes through the center of the circle of course and by stem:[(p+p+k)/2], or stem:[p+k/2].
+Once the first transformation stem:[ax+p(1−a)] done, the role of stem:[k] is to allow the axis of symmetry to be moved to the *center* of the space cleared between stem:[p] and stem:[p+k]. Thus the axis is moved by a step equal to stem:[k/2]. In absolute value, the axis passes through the center of the circle of course and by stem:[(p+p+k)/2], or stem:[p+k/2].
 
 
 Therefore, to move from A-type axis passing through 2 to a B-type axis passing between 2 and 3, we assign the value of stem:[k] to 1 in order to obtain an axis passing by stem:[2 + 1/2]
 
 [.text-center]
-.Illustration how k=1 and p=2 define an B-type axis passing between p and p+k
-[caption=""]
-====
 image:pcs-24567-axe-B.png[] `T~1~M11~2~` -> image:pcs-0131011-axe-B.png[]
-====
+
+[.text-center]
+Illustration how _k=1_ and _p=2_ define an B-type axis passing between _p_ and _p+k_
 
 
-=== Specify an axis
+=== How to specify an axis
 
 We saw that `T~k~M11~p~` allows us to designate an axis of symmetry passing by stem:[p + k/2].
 
-The following characteristics can be drawn from it:
+// The following characteristics can be drawn from it:
+//
+// * an even stem:[k] denotes an axis of A-type (or AB-type)
+// * an odd stem:[k]  denotes an axis of B-type (or AB-type)
 
-* an even stem:[k] denotes an axis of A-type (or AB-type)
-* an odd stem:[k]  denotes an axis of B-type (or AB-type)
-
-when stem:[k = 0], the axis of symmetry remains of A-type (or AB-type) center on pitch-class pivot value _p_.
+when stem:[k = 0], the axis of symmetry passes through stem:[p] (axis of type A or AB) otherwise through an imaginary point distant from stem:[p] by stem:[k/2].  Examples with pcs [2]:
 
 [.text-center]
 image::pcs-2-more-axe.png[]
 [.text-center]
-_Example with pcs:[2], p=pivot=2 and variations on k_, axis passing by stem:[p+k/2]
+_Example with pcs [2], p=pivot=2 and variations on k_, axis passing by stem:[p+k/2]
 
-Another example with successively a value of stem:[k] to stem:[0] then stem:[-3] {nbsp} (or stem:[9])
+Examples with stem:[k] to stem:[0] and stem:[-3] {nbsp} (or stem:[9]):
 
 image:pcs-256-M11axis0.png[] : `T~0~M11~2~([2 5 6])` -> `[2 10 11]`
 
-
 image:pcs-256-M11-free-axe.png[] : `T~-3~M11~2~([2 5 6])` -> `[7 8 11]`
-
 
 ====
 [.text-center]
-Conclusion
+In summary
+//
+// There are 3 kinds of axes, depending of the parity of _n_ :
+//
+// * _n_ even
+// - A-type passing through two pitch-classes
+// - B-type passing twice between two pitch-classes
+//
+// * _n_ odd
+// - AB-type passing through one pitch-class and between two pitch-classes
 
-We have seen that a value of k <> 0 allows us to select an axis of symmetry other than the one passing by p.
+To choose an axis of symmetry not passing through stem:[p], it is sufficient to give a value to stem:[k] different from a value equivalent to 0, the axis will pass through an imaginary point distant from stem:[p] by stem:[k/2].
 
-This approach was identified by David Lewin for the inversion operation (<<Lewin inversion operator>>) and generalized here in an extended affine version.
+Although there are _n_ ways to designate an axis of symmetry for a pcs that we will call A, we will limit the use to the pitch-classes belonging to A, for a reason of consistency explained in section <<Fixed-zero-problem>>.
 
-TIP: There is no single way to designate an axis of symmetry, but _n_. See the appendix for more information.
+The use of _p_ and _k_ to denote an axis of symmetry was inspired by the work of D. Lewin. As early as 1968, he began to study the influence of symmetry and the need to be able to select a particular axis in inversion operations.   For more information, see the appendix <<Axis and its identifiers>>.
 
 ====
-//
-// === Axis and its identifiers
-//
-// While an A-type axis passes through a pitch-class, B-type axis is stem:[± 1/2] from a pitch-class number.
-//
-// As all transformations are always *pitch-class-pivot centred*, the axis passes perpendicularly through a midpoint of the segment defined by the pairs stem:[(p, p+k)], even in the case where stem:[k = 0].
-//
-// We can see a B-type axis as passing through the midpoint of the segment defined by two pitch-class numbers.
-//
-// For example, the operation below defines an axis of `[2 4 5 6 7]` passing through pitch-class numbers *_2_* and *_3_*.
-//
-// image:pcs-24567-axe-B.png[] `??` -> image:pcs-0131011-axe-B.png[]
-//
-// The B-type axis is stem:[1/2] a step away from pitch-class pivot (2).
-//
-// To solve this case, let's take a look at D. Lewin's inversion operator stem:[I^(a,b)].
-//
-// Since a B-type symmetry axis cannot be identified by a single point (pitch-class number), D. Lewin <<LEWIN-1977a>> decided to represent any axes, A and B type, by a pair of pitch-classes. He called his function _I^uv^_ (centered on the inversion function), but we will use _a,b_ or _I^a,b^_, with comma separator, for greater readability and to emphasize the concept of a line segment [ab].
-//
-// Here is Lewin's equivalent version to the affine version with pivot of the example above: `T~0~M11~2~`
-//
-// [.text-center]
-// image::syntax-affine-inversion-ab.png[]
-//
-// // `T~0~M11~2~` stem:[equiv] `M11~2~`  stem:[equiv] `I^2^` stem:[equiv] `I^2,2^`
-//
-// Let us look at Lewin's parametric inversion operator.
-// //
-// // We have as many choices of axis type *_A_* as there are pitch-classes in the pitch-class set (given by its cardinal). But what about the other axes of type *_A_* and  *_B_*?
-//
-// ==== Understand inversion _I^a,b^_
-//
-//
-// In a 1968 article of D. Lewin <<LEWIN-1968>>  _"Inversional Balance as an Organizing Force in Schoenberg's Music and Thought"_  D. Lewin wrote: _"We may think of these pitch-class inversions_ [pair of pitch-classes] _as possessing 'axes' "_ and he explain how _"balance of the total chromatic induced by the functioning of such an inversion_ [...] _as something quite analogous of the balance induced by a tonal center"_.
-//
-// .Lewin (1968), "Inversional Balance in chromatic system"
-// image::balance-inversion.png[]
-//
-// Later (1977), D. Lewin introduced the inversion operator stem:[I^(uv)].
-//
-// This inversion operator stem:[I^(a, b)] (<<LEWIN-1977a>>, <<LEWIN-1980>>)
-// allows you to specify a *pivot symmetry axis* for inversion, by designating a pair stem:[(a,b)] of pitch-classes.
-//
-// // footnote:[Lewin most often uses the names _u_ and _v_ to denote this pair. We us _ab_ for to emphasize the notion of linear segment].
-//
-// [.text-center]
-// stem:[I^(a, b)] an "_inversion taking a to b_".
-//
-// Defining an axis of symmetry by a pair of numbers stem:[(a,b)] allows us to designate an axis passing through the center of the circle and the middle of the segment formed by stem:[a] and stem:[b] : stem:["midpoint("bar(ab)")" = 1/2 (a+b) ].
-//
-//
-// [.text-center]
-// image::axes-symmetry-type-A-B.png[]
-// [.text-center]
-// Ex. 1: Identify A-type axis with pairs: (2,2), (1,3)... and Ex. 2: B-type axis with pairs: (0,1), (11,2)...
-//
-// Whether the axes are of type A or B, the calculation of the axis position remains the same stem:[(a+b)/2]. This works for axes of symmetry of type A and B. Indeed, if a = b, then the axis will pass through stem:[(2a)/2 = a], and Lewin suggests denoting such segments stem:[(a,a)], for an axis of type A, simply by stem:[a], which is then synonymous with _p_ (pivot value):
-//
-// [.text-center]
-// stem:[I^(a,a) = I^a]
-// //{nbsp}{nbsp}{nbsp}so{nbsp}{nbsp}{nbsp} stem:[I^(a,a) equiv T_0M11_a]
-//
-// Let's go back to our example, the B-type axis passes between two pitch-class numbers, 2 and 3. Therefore, a solution to the problem posed is: `I^2,3^`.
-//
-// [.text-center]
-// image:pcs-24567-axe-B.png[] `I^2,3^` -> image:pcs-0131011-axe-B.png[]
-//
-// [.text-center]
-// `I^2,3^([2 4 5 6 7]) = [0 1 3 10 11]`
-//
-//
-// That said, technically there are _n_ possible expressions of (_a,b_) to specify a same axis (type A or B). See appendix <<Numbers of pairs identifying an axis>>.
-//
-// To return to our example problem of B-type axis with `[2 4 5 6 7]`, there are `cardinal([2 4 5 6 7]) * 2 = 10` pairs of solution: . `I^2,3^`, `I^1,4^`, `I^0,5^`, `I^11,6^`, `I^10,7^` and their inverse. Examples:
-//
-// [.text-center]
-// `I^2,3^([2 4 5 6 7]) = I^1,4^([2 4 5 6 7]) ... = I^7,10^([2 4 5 6 7]) = [0 1 3 10 11]`
-//
-//
-// [caption=""]
-// .Illustration
-// ====
-// image:pcs-24567-axe-segments.png[]{nbsp}{nbsp} stem:[I^(a,b) |->  I^(2,3) = I^(1,4) ... = I^(7,10)] and their inverse stem:[I^(3,2) = I^(4,1)] etc.
-// ====
-//
-//
-// // - or cardinal(pcs) if we constrain the first argument to be in pcs argument (eligible p-value).
-//
-// Now we will see how to integrate this functionality into the affine system with pivot, and we will have good news.
-//
-// ==== Free axis affine pivot
-//
-// We begin our analysis with a characteristic of stem:[I^(u v)], highlighted by David Lewin in _A label-free development_ p. 36 and proof p. 45 <<LEWIN-1977a>> (and <<LEWIN-1980>>), and which happens to be the key to resolve our problem:
-//
-// [.text-center]
-// stem:[T_iI^(u,v) = I^(u,w)] where stem:[w = T_i(v)] +
-//  (_we've added a separator between *u* and *v* for clarity_)
-//
-// The idea behind this is that an axis is defined by a fixed point and a variable part represented by a transposition value.
-//
-// Let us rewrite this formula, assuming that we are in modulo _n_ logic, and rename _u v_ by _a b_.
-// [.text-center]
-// stem:[T_iI^(a,b) = I^(a,b+i)]
-//
-// Let's look at the special case where stem:[a=b]:
-//
-//
-// [.text-center]
-// stem:[T_iI^(a) = I^(a,a+i)]
-//
-//
-// We know that expression stem:[T_iI^a] is noted stem:[T_iM11_a] in affine pivot system version ("_a_" designated the pivot-value "_p_" for A-type symmetry axis).  We can therefore bring these two notations together:
-//
-// // [.text-center]
-// // stem:[T_kI^(p) = I^(p,p+k) = T_kM11_p]
-//
-// [.text-center]
-// stem:[ubrace(I^(p,p+k) = T_kI^p)_"Lewin syntax"\ \  <=> ubrace(T_kM11_p)_"Affine pivot syntax"]
-//
-//
-// It becomes clear that is the value of _k_ that defines the orientation of the axis (by the segment [.nowrap]#(_p, p + k_)#).
-//
-//
-// In other words, _k_ is an *offset* value of the symmetry axis relative to the pitch-class-pivot.
-//
-//
-// The midpoint of stem:[(p,p+k)] is stem:[(2p+k)/2 = p + k/2]
-//
-// The type of the symmetry axis (A or B) depends essentially on _k_.
-//
-// Examples of median (A) and inter (B) midpoint axis at{nbsp}stem:[p + k/2] :
-//
-// |===
-// ^|(k even) +
-// midpoint _m_ = stem:[p + k/2] ^|(k odd) +
-// _m_ = stem:[p + k/2]{nbsp}{nbsp}{nbsp}or{nbsp}{nbsp}{nbsp}stem:[1/2 + p + (k-1)/2]
-//
-// ^|k=0 ^|k=1
-//
-// ^|image:pcs-2-axe0.png[]
-// ^|image:pcs-2-axe1.png[]
-//
-// ^a|`T~0~M11~2~([2]) -> [2]` +
-//  stem:[m = 2 + 0/2 = 2]
-// ^a|`T~1~M11~2~([2]) -> [3]` +
-// stem:[m = 1/2 + 2]
-//
-// ^| ^|
-// ^|k=2 ^|k=3
-//
-// ^|image:pcs-2-axe2.png[]
-// ^|image:pcs-2-axe3.png[]
-//
-// ^a|`T~2~M11~2~([2]) -> [4]` +
-//  stem:[m = 2 + 2/2 = 3]
-// ^a|`T~3~M11~2~([2]) -> [5]` +
-// stem:[m = 1/2 + 3]
-//
-// |===
-//
-// [TIP]
-// ====
-// * When _k_ = _0_, the midpoint is stem:[p + 0 = p], thefore, the operation stem:[T_0M11_p]{nbsp} (stem:[M11_p]), denote an inversion around an axis passing through _p_ (axis of type A)
-//
-// * When _k_ is odd, the midpoint is stem:[ 1/2 + w], where stem:[w = p + (k-1)/2], +
-// Since _(k - 1)_ is always even, _k_ odd always denotes a type B axis.
-//
-// * When _k_ is even, the midpoint is stem:[p + k/2] always denote an even value, so an axis of type A.
-//
-// So, when _k_ is even, the axis is type of A, otherwise the axis is of type B.
-// ====
-//
-// Another example: k=0 is a special case, where line segment (_p,p_) distance is zero.
-//
-// image:pcs-256-M11axis0.png[] : `T~0~M11~2~([2 5 6])` -> `[2 10 11]`
-//
-// Others expressions with valid p-value :
-// `T~0~M11~2~([256])` = `T~6~M11~5~([256])` = `T~4~M11~6~([256])` -> `[21011]`
-//
-// Case with _k > 0_, in the example below, starting from _p = 2_, the step *_k = -3_* defines the line segment [.nowrap]#(_p, p + k_)# by  [.nowrap]#_(2, -1)_#, or (2,11) (modulo 12), and thus determines the axis of symmetry passing between (2, 11), or (0,1) , (3,10), (4,9), (5,8), (6,7).
-//
-// image:pcs-256-M11-free-axe.png[] : `T~-3~M11~2~([2 5 6])` -> `[7 8 11]`
-//
-// Others expressions with valid p-value : +
-//  `T~3~M11~5~([256])` = `T~1~M11~6~([256])` = `T~-3~M11~2~([256])` -> `[7 8 11]`
-//
-//
-//
-// [TIP]
-// ====
-//
-// Let _m_ be the midpoint of (p, p + k).
-//
-// * stem:[ m = p + k/2]
-//
-//
-// Depending on the needs, we can then determine each of the variables in this equation as a function of the other two, from this equation {nbsp}stem:[p +k/2 - m = 0]
-//
-// // k ?
-// // * stem:[ 2m -2p -k = 0]
-// // * stem:[ k = 2m -2p]
-// * stem:[ k = 2(m-p)]
-//
-// // p ?
-// //
-// // * stem:[ 2m -2p -k = 0]
-// // * stem:[ -2p -k = -2m]
-// // * stem:[ -2p  = k-2m]
-// // * stem:[ p  = (k-2m) / -2]
-// * stem:[ p  = m - k/ 2]
-// ====
-
-//
-// == Appendix
-//
-// === Numbers of pairs identifying an axis
-//
-// * When _n_ is even
-//
-// Let's take a *A-type* axis, the one passing through 0 (or _n_).
-//
-// (n,n), (n+1,n-1), (n+2,n-2) ... (n/2,n/2), (n/2+1,n/2-1) ... (n-1,1)
-//
-// so there are _n_ pairs (a,b) to define one axis.
-//
-// Let us take _n = 12_
-//
-// It has the following segments [a,b]: (0,0), (1,11), (2,10), (3,9), (4,8), (5,7), and (6,6), or 7, so 5 are invertible, which makes, for 1 type A axis, 5 x 2 + 2 = 12 possible pairs.
-//
-// Let's take a *B-type* axis, the one passing between 0 and 1.
-//
-// It has the following segments [a,b]: (0,1), (11,2), (10,3), (9,4), (8,5), (7,6), or 6 reversible pairs = 12 possible pairs.
-//
-// So when _n=12_, there are a total of 144 pairs (a,b).
-//
-// Since there are n/2 A-type axes and n/2 B-type axes, and each type axe has _n_ pairs, this gives us: _**n^2^**_ pairs in total.
-//
-//
-// * When _n_ is odd
-//
-// AB-type, axe passing by 0 (or _n_)
-//
-// (n,n), (n+1,n-1), (n+2,n-2), (n+3,n-3) ... (n-1,1), so _n_ pairs
-//
-// Let us tak _n = 7_
-//
-// (0,0), (1,6), (2,5), (3,4), (4,3), (5,2), (6,1) => 7 = _n_
-//
-// => Seen another way, when _n_ is odd, any axis has one pair of form (a,a), self-inverse, and stem:[(n-1)/2] of form (a,b) invertible. So, number of pairs is stem:[2 ((n-1)/2) + 1 or n-1+1 = n]
-//
-// Since there are _n_ axes, the total number of pairs is 7*7 = 49 = _**n^2^**_
-//
-// **Conclusion, whatever the parity of n, the number of pair expressions allowing to identify 1 axis of symmetry of the circle is _n_, and there are in total _n²_ possible expressions of pairs (a,b).
-// **
-//
-//
-//
-// === AffinePivot typescript implementation
-//
-// [source, javascript]
-// ----
-// /** extended affinePivot transformation implementation
-//  * c . (ax + b) |-> c . (ax + p(1 − a) + k)
-//  */
-// function affinePivot(
-//   p: number, // integer in [0..this.n-1],
-//          // assert: vectorIn[p] equals 1 if vectorIn not image of empty set else 0
-//   a: number, // integer, assert: a is coprime with 'n'
-//   k: number, // integer in Z
-//   vectorIn: number[], // array of 0 | 1, a vector image of a pcs
-//              // ex: [1,0,0,0,1,0,0,1,0,0,0,0] for {0 4 7} (C E G)
-//   c: boolean = false // if true, return complement of permutedVector (false by default)
-// ) : number[] // return new vector "affinePivot" transformed
-// {
-//     const n = vectorIn.length
-//     let permutedVector : number[] = Array(n)
-//     // c . (ax + b) |-> c . (a * i + p(1 − a) + k)
-//     const b = p * (1-a) + k
-//     for (let i = 0, j; i < n; i++) {
-//       // j and i play the role of both index and pitch-class number
-//       j = (n + (a * i + b) % n) % n // force modulo to get value in [0..n-1]
-//       // if c then inverse vectorPcs[i] (0 <-> 1)
-//       permutedVector[j] = c ? 1 - vectorPcs[i] : vectorPcs[i]
-//     }
-//     return permutedVector
-// }
-// ----
-//
-// This function is extracted from a POC (and more) available on GitHub (code open source: https://github.com/ocapuozzo/musaicbox-app) and the latest demo version, runnable via a browser (front-end application) is available here: https://musaicsbox.org
-//
-//
-
-//
-// === Conclusion
-//
-// * After observing the so-called "fixed zero problem", we were led to introduce a new parameter to the affine function acting on PCS, to improve the consistency of affine transformation operations such as inversion (M11) and transformation by cycle of fifths and fourths (M5 and M7).
-//
-// * The concept of a default value for the pivot has been introduced, allowing the parameterized affine function to substitute for the usual affine function. This allows us to still benefit from the advantages of group action (construction of orbits and stabilizers).
