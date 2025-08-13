@@ -226,19 +226,19 @@ More precisely, this conceptually requires three operations, this is the price t
 
 Some examples of inversion :
 
-Example1 C-sharp Dim7 inversion : `T~0~M11` on `[1 4 7 10]`
+Example1 C-sharp Dim7 inversion : `T~0~M11` on `[1 4 7 10]`, (_p_=1)
 
-. `[1 4 7 10]` transpose with `p = -1` => `[0{nbsp}3{nbsp}6{nbsp}9]`
+. `[1 4 7 10]` transpose with `k = -p = -1` => `[0{nbsp}3{nbsp}6{nbsp}9]`
 .  `[0 3 6 9]` x 11 modulo 12 => `[0{nbsp}3{nbsp}6{nbsp}9]`
-. `[0 3 6 9]` transpose with `p = 1` => `#[1{nbsp}4{nbsp}7{nbsp}10]#`
+. `[0 3 6 9]` transpose with `k = p = 1` => `#[1{nbsp}4{nbsp}7{nbsp}10]#`
 
-Example2 D Major scale inversion : `M11-T0` on  `[1{nbsp}2{nbsp}4{nbsp}6{nbsp}7{nbsp}9{nbsp}11]`
+Example2 D Major scale inversion : `T~0~M11~#2#~` on  `[1{nbsp}2{nbsp}4{nbsp}6{nbsp}7{nbsp}9{nbsp}11]` (_p_=2)
 
-. `[1{nbsp}2{nbsp}4{nbsp}6{nbsp}7{nbsp}9{nbsp}11]` transpose with `p = -2` => `[0{nbsp}2{nbsp}4{nbsp}5{nbsp}7{nbsp}9{nbsp}11]`
+. `[1{nbsp}2{nbsp}4{nbsp}6{nbsp}7{nbsp}9{nbsp}11]` transpose of `p = -2` => `[0{nbsp}2{nbsp}4{nbsp}5{nbsp}7{nbsp}9{nbsp}11]`
 . `[0{nbsp}2{nbsp}4{nbsp}5{nbsp}7{nbsp}9{nbsp}11]` x 11 modulo 12 =>
 `[{nbsp}1{nbsp}3{nbsp}5{nbsp}7{nbsp}8{nbsp}10]`
 
-. `[0{nbsp}1{nbsp}3{nbsp}5{nbsp}7{nbsp}8{nbsp}10]` transpose with `p = 2` => `#[0{nbsp}2{nbsp}3{nbsp}5{nbsp}7{nbsp}9{nbsp}10]#`
+. `[0{nbsp}1{nbsp}3{nbsp}5{nbsp}7{nbsp}8{nbsp}10]` transpose of `p = 2` => `#[0{nbsp}2{nbsp}3{nbsp}5{nbsp}7{nbsp}9{nbsp}10]#`
 
 // use instead [.nowrap]
 
@@ -545,7 +545,7 @@ Become III degree of Bb Major|[0 1 2 3 9 10 11]|[1 2 3 4 5 6 7]|OK DMajor with p
 [%header,cols="^,^,^,^,^"]
 |===
 a|D#/Eb Schoenberg Hexachord +
-(pivot on root) .^|T~0~CM11~3~  .^|T~0~CM5~3~  .^|T~0~CM7~3~|
+(pivot on root) .^|CT~0~M11~3~  .^|CT~0~C5~3~  .^|CT~0~M7~3~|
 
 |image:pcs-034589-pivot3.png[]|image:pcs-034589-pivot-3-CM11T0.png[]|image:pcs-034589-pivot-3-CM5T0.png[]|image:pcs-034589-pivot-3-CM7T0.png[]|D#/Eb Schoenberg Hexachord transformations
 
