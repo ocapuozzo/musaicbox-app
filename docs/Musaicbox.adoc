@@ -2242,25 +2242,24 @@ There is a group between 4096 and 352 which contains all mode structures.
 "_The concept of modality has evolved over time and does not always have the same meaning depending on the era and culture._"
 This is how Franck Jedrzejewski's chapter "Théories Modales" begins (<<Jedrzejewski>>) and includes, among other things, a plactic classification of modes in [.nowrap]#12-ET#, based on Knuth's rewriting rules.
 
-
 A PCS as finite ordered set of pitch classes, has only one ordered representation (normal order) although any circular permutation defines the same PCS.
 
 Ex : `[0 4 7]`
 
 A *mode* is a PCS in which the starting note is fixed by pivot and define its intervallic structure.
 
-Ex :  `[0 4 7]`~`0`~, `[0 4 7]`~`4`~,  `[0 4 7]`~`7`~
+Ex :   `{startsb}0 4 7{endsb}~0~`, `{startsb}0 4 7{endsb}~4~`,  `{startsb}0 4 7{endsb}~7~`
 
 |===
 |PCS with pivot|Intervallic structure
 
-|`[0 4 7]`~`0`~
+a|`{startsb}0 4 7{endsb}~0~`
 | (4 3 5)
 
-|`[0 4 7]`~`4`~
+a|`{startsb}0 4 7{endsb}~4~`
 | (3 5 4)
 
-|`[0 4 7]`~`7`~
+a|`{startsb}0 4 7{endsb}~7~`
 | (5 4 3)
 
 
