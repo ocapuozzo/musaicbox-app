@@ -102,7 +102,7 @@ export class ChordNaming {
     [657, [{name: '6', cardinal: 4, sortOrder: 6, root: 0}, {name: 'm7/3rd', cardinal:4, sortOrder: 6, root: 9}]],
 
     // '0 4 7 11' Major 7
-    [2193, [{name: 'M7', cardinal: 4, sortOrder: 4, root: 0}]],
+    [2193, [{name: 'M7', cardinal: 4, sortOrder: 3, root: 0}]],
 
     // '0 4 7 8' Major ♭6
     [401, [{name: 'Maj ♭6', cardinal: 4, sortOrder: 6, root: 0}]],
@@ -177,7 +177,7 @@ export class ChordNaming {
 
 
     // '0 3 7 11'
-    [2185, [{name: 'm M7', cardinal: 4, sortOrder: 6, root: 0}]],
+    [2185, [{name: 'm M7', cardinal: 4, sortOrder: 4, root: 0}]],
 
     // '0 3 8 10' minor ♯5 or ♭6
     [1289, [{name: 'm7 ♯5', cardinal: 4, sortOrder: 8, root: 0}]],
