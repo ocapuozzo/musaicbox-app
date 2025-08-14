@@ -126,22 +126,22 @@ export class ChordNaming {
     [1073, [{name: 'M7 sus4 /5', cardinal: 4, sortOrder: 15, root: 5}]],
 
     // '0 5 7 10' 7 sus4 7 (no third)
-    [1185, [{name: 'sus4 7', cardinal: 4, sortOrder: 15, root: 0}]],
+    [1185, [{name: '7sus4', cardinal: 4, sortOrder: 15, root: 0}]],
 
     // '0 5 7 11'  sus4 M7
-    [2209, [{name: 'M7 sus4', cardinal: 4, sortOrder: 15, root: 0}]],
+    [2209, [{name: 'M7sus4', cardinal: 4, sortOrder: 15, root: 0}]],
 
     // '0 4 8 11' Augmented Major 7
-    [2321, [{name: 'aug M7', cardinal: 4, sortOrder: 5, root: 0}]],
+    [2321, [{name: 'augM7', cardinal: 4, sortOrder: 5, root: 0}]],
 
     // '0 3 4 8' Maj ♭6/3rd
     [281, [{name: 'Maj ♭6/3rd', cardinal: 4, sortOrder: 7, root: 8}]],
 
     // '0 2 7 10'  7 sus2
-    [1157, [{name: '7 sus2', cardinal: 4, sortOrder: 7, root: 0}]],
+    [1157, [{name: '7sus2', cardinal: 4, sortOrder: 7, root: 0}]],
 
     // '0 2 6 10' 7 ♯11 sus2
-    [1093, [{name: '7 ♯11 sus2', cardinal: 4, sortOrder: 11, root: 0}]],
+    [1093, [{name: '7♯11sus2', cardinal: 4, sortOrder: 11, root: 0}]],
 
     // '0 2 4 10' Seventh 9 no 5
     [1045, [{name: '9 no 5', cardinal: 4, sortOrder: 8, root: 0}]],
@@ -177,10 +177,10 @@ export class ChordNaming {
 
 
     // '0 3 7 11'
-    [2185, [{name: 'm M7', cardinal: 4, sortOrder: 4, root: 0}]],
+    [2185, [{name: 'mM7', cardinal: 4, sortOrder: 4, root: 0}]],
 
     // '0 3 8 10' minor ♯5 or ♭6
-    [1289, [{name: 'm7 ♯5', cardinal: 4, sortOrder: 8, root: 0}]],
+    [1289, [{name: 'm7♯5', cardinal: 4, sortOrder: 8, root: 0}]],
 
     // '0 3 7 9'
     [649, [{name: 'm6', cardinal: 4, sortOrder: 5, root: 0}]],
@@ -192,7 +192,7 @@ export class ChordNaming {
     [1065, [{name: 'm7 add 11', cardinal: 4, sortOrder: 6, root: 0}]],
 
     // '0 3 6 10' Half-Diminished seventh or m6/6th
-    [1097, [{name: 'ø', cardinal: 4, sortOrder: 3, root: 0}, {name: 'm6/6th', cardinal:4, sortOrder: 3, root: 3}]],
+    [1097, [{name: 'ø', cardinal: 4, sortOrder: 3, root: 0} /*, {name: 'm6/6th', cardinal:4, sortOrder: 3, root: 3}*/]],
 
     // '0 3 6 9'
     [585, [{name: 'dim7', cardinal: 4, sortOrder: 3, root: 0}]],
