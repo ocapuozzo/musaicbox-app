@@ -853,6 +853,6 @@ To choose an axis of symmetry not passing through stem:[p], it is sufficient to 
 
 Although there are _n_ ways to designate an axis of symmetry for a pcs that we will call A, we will limit the use to the pitch-classes belonging to A, for a reason of consistency explained in section <<Fixed-zero-problem>>.
 
-The use of _p_ and _k_ to denote an axis of symmetry was inspired by the work of D. Lewin. As early as 1968, he began to study the influence of symmetry and the need to be able to select a particular axis in inversion operations.   For more information, see the appendix <<Axis and its identifiers>>.
+The use of _p_ and _k_ to denote an axis of symmetry was inspired by the work of D. Lewin. As early as 1968, he began to study the influence of symmetry and the need to be able to select a particular axis in inversion operations.   For more information, see the appendix of  https://musaicbox.org/article-affine-with-pivot.html.
 
 ====

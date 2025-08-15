@@ -11,7 +11,14 @@ When a group G acts on a set E then G acts in a natural way on P(E) := {A | A ‚ä
 
 Thus, when stem:[ZZ_12] is seen as the set of 12 pitch-classes, stem:[P(ZZ_12)] represents the set of possible scales restricted to an octave.
 
+[IMPORTANT]
+====
 Traditional operation name is represented by stem:[T_kMa] (a right action, first _Ma_ for multiplication by _a_ then _T_~k~ for transposition by a step of _k_ semitones), see <<Rahn>>.
+
+However, the study and supporting application serving as a POC, uses the stem:[MaTk] (and stem:[CMaTk]) formalism, and sometimes, for ease of reading, by `Ma-Tk` and [.nowrap]#`CMa-Tk`# notation.
+
+In both cases, this is merely a writing game, as the evaluation always operates as expected: *multiplication first, then transposition, and complementarity if requested.*
+====
 
 // NOTE: Other representation is _T~k~M_ or _T~k~MI_ <<Rahn>>, but we prefer stem:[M_aT_k], echoing ax+b, which maps the precedence logic of internal operations (multiplication first, then addition).
 
@@ -21,9 +28,9 @@ Traditional operation name is represented by stem:[T_kMa] (a right action, first
 *Special Affine Operation*
 
 
-stem:[ T_kMa :  P(ZZ_n) xx ZZ xx NN  -> P(ZZ_n)]
+stem:[MaTk :  P(ZZ_n) xx NN xx ZZ   -> P(ZZ_n)]
 
-stem:[T_kMa(A) := {\ (ax + k) mod n \ },  forall  x in A]
+stem:[MaTk(A) := {\ (ax + k) mod n \ },  forall  x in A]
 
 _Where *a* is coprime with n and *k* a step of transposition_
 
@@ -34,12 +41,12 @@ The coprime constraint under _a_ is important because it ensures that the operat
 
 Examples when stem:[n = 12].{nbsp}{nbsp}stem:[ZZ_12 = {0, 1, ..., 11}], the coprimes with stem:[n] are {1, 5, 7, 11}
 
-- stem:[T_0M1("[0 4 7\]") -> "[0 4 7\]"] {nbsp} (neutral op)
-- stem:[T_5M1("[0 4 7\]") -> "[5 9 12\]"] so  stem:["[0 5 9\]"] Transposition of 5 semitones (T5)
-- stem:[T_0M11("[0 4 7\]") ->"[0 5 8\]"] {nbsp} Inversion, (C Maj -> Fm/5th)
-- stem:[T_5M5("[0 4 7\]") -> "[1 4 5\]"] {nbsp} Cycle fourths transformation followed by five semitone step transposition.
+- stem:[M1T0("[0 4 7\]") -> "[0 4 7\]"] {nbsp} (neutral op)
+- stem:[M1T5("[0 4 7\]") -> "[5 9 12\]"] so  stem:["[0 5 9\]"] Transposition of 5 semitones (T5)
+- stem:[M11T0("[0 4 7\]") ->"[0 5 8\]"] {nbsp} Inversion, (C Maj -> Fm/5th)
+- stem:[M5T5("[0 4 7\]") -> "[1 4 5\]"] {nbsp} Cycle fourths transformation followed by five semitone step transposition.
 
-NOTE: stem:[T_kMa] is also known as _TTO_ operators (for _Twelve Tone Operators_) and it's defined affine group (<<Morris>>, <<TOPOS>>). +
+NOTE: stem:[MaTk] is also known as _TTO_ operators (for _Twelve Tone Operators_) and it's defined affine group (<<Morris>>, <<TOPOS>>). +
  +
 For an in-depth study, with of a high level of mathematical conciseness, see <<Fripertinger>>
 
@@ -76,44 +83,45 @@ For an in-depth study, with of a high level of mathematical conciseness, see <<F
 
 |===
 
-The composition of `T~k~Ma . T~k~'Ma': `T~k~Ma(T~k~'Ma'(x))` :
+The composition of affine operation is given by: `Ma-Tk . Ma'-Tk' = Ma-Tk(Ma'-Tk'(x))` :
 
-stem:[(ax + k) * (a'x + k') = ubrace(aa')_(Ma) x + ubrace(ak'+k)_(T_k)] = `T~(ak'+k)~Maa'`
+stem:[(ax + k) * (a'x + k') = ubrace(aa')_(a) x + ubrace(ak'+k)_(k)]
 
-Example from below table: +
-*T~y~M7 . T~b~M5* => T~y~M7(T~b~M5(i)) = 7*5i + 7b + y = 35i + 7b + y = 11i + 7b + y, denoted by *T~(7b{nbsp}+{nbsp}y)~ M11*
+See composition table below:
 
 .Affine composition table - From "basic atonal theory" page 54 <<Rahn>>
 [cols="^h,,,,"]
 |===
-|. |T~a~M1 (or{nbsp} T~a~) |T~b~M5 |T~c~M7 |T~d~M11
+|. |M1-T~a~ (or{nbsp} T~a~) |M5-T~b~ |M7-T~c~ |M11-T~d~
 
-|T~w~M1
-|T~(a{nbsp}+{nbsp}w)~ M1
-|T~(b{nbsp}+{nbsp}w)~ M5
-|T~(c{nbsp}+{nbsp}w)~ M7
-|T~(d{nbsp}+{nbsp}w)~ M11
+|M1-T~w~
+|M1-T~(a{nbsp}+{nbsp}w)~
+|M5-T~(b{nbsp}+{nbsp}w)~
+|M7-T~(c{nbsp}+{nbsp}w)~
+|M11-T~(d{nbsp}+{nbsp}w)~
 
-|T~x~M5
-|T~(5a{nbsp}+{nbsp}x)~ M5
-|T~(5b{nbsp}+{nbsp}x)~ M1
-|T~(5c{nbsp}+{nbsp}x)~ M11
-|T~(5d{nbsp}+{nbsp}x)~ M7
+|M5-T~x~
+|M5-T~(5a{nbsp}+{nbsp}x)~
+|M1-T~(5b{nbsp}+{nbsp}x)~
+|M11-T~(5c{nbsp}+{nbsp}x)~
+|M7-T~(5d{nbsp}+{nbsp}x)~
 
-|T~y~M7
-|T~(7a{nbsp}+{nbsp}y)~ M7
-|T~(7b{nbsp}+{nbsp}y)~ M11
-|T~(7c{nbsp}+{nbsp}y)~ M1
-|T~(7d{nbsp}+{nbsp}y)~ M5
+|M7-T~y~
+|M7-T~(7a{nbsp}+{nbsp}y)~
+|M11-T~(7b{nbsp}+{nbsp}y)~
+|M1-T~(7c{nbsp}+{nbsp}y)~
+|M5-T~(7d{nbsp}+{nbsp}y)~
 
-|T~z~M11
-|T~(11a{nbsp}+{nbsp}z)~ M11
-|T~(11b{nbsp}+{nbsp}z)~ M7
-|T~(11c{nbsp}+{nbsp}z)~ M5
-|T~(11d{nbsp}+{nbsp}z)~ M1
+|M11-T~z~
+|M11-T~(11a{nbsp}+{nbsp}z)~
+|M7-T~(11b{nbsp}+{nbsp}z)~
+|M5-T~(11c{nbsp}+{nbsp}z)~
+|M1-T~(11d{nbsp}+{nbsp}z)~
 
 |===
 
+Example 3rd line x 2d column: +
+*M7-Ty . M5-Tb* => M7-Ty(M5-Tb(i)) = 7*5i + 7b + y = 35i + 7b + y = 11i + 7b + y, denoted by [.nowrap]#*M11-T(7b{nbsp}+{nbsp}y)*#
 
 
 === Special Affine Operation with complement
@@ -128,15 +136,15 @@ Operation name is {nbsp} stem:[C_cM_aT_k]
 
 *Extended Special Affine Operation*
 
-stem:[ C_cT_kMa : P(ZZ_n) xx {false, true} xx ZZ xx NN -> P(E) ]
+stem:[ C_cM_aT_k : P(ZZ_n) xx {false, true} xx NN xx ZZ -> P(E) ]
 
-stem:[C_cT_kMa(A) := { ({\ (ax + k) mod n \ }  forall x in A \ \ \ \ \ \ \ \  if c = false), (ZZ_n\ \\ \ {\ (ax + k) mod n \ }  forall x in A \  if c = true) :}]
+stem:[C_cM_aT_k(A) := { ({\ (ax + k) mod n \ }  forall x in A \ \ \ \ \ \ \ \  if c = false), (ZZ_n\ \\ \ {\ (ax + k) mod n \ }  forall x in A \  if c = true) :}]
 --
 
 or, in condensed notation and if we use the special affine operation seen previously :
 [.text-center]
 --
-stem:["[C\]"T_kMa(A) := { (T_kMa(A) \ \ \ \ \ \ \ \ if C " is not present"), (ZZ_n\ \\ \ T_kMa(A)  if C " is present") :}]
+stem:["[C\]"M_aT_k(A) := { (M_aT_k(A) \ \ \ \ \ \ \ \ if C " is not present"), (ZZ_n\ \\ \ M_aT_k(A)  if C " is present") :}]
 --
 
 ====
@@ -144,29 +152,29 @@ stem:["[C\]"T_kMa(A) := { (T_kMa(A) \ \ \ \ \ \ \ \ if C " is not present"), (ZZ
 
 Examples: stem:[ZZ_12 = {0, 1, ..., 11}] and the coprimes with n=12 are {1, 5, 7, 11}:
 
-* stem:[T_0M1("[0 4 7\]") -> "[0 4 7\]"] {nbsp} (neutral op)
+* `M1-T0([0 4 7])` -> `[0 4 7]`  {nbsp} (neutral op)
 
-* stem:[T_1M1("[0 4 7\]") -> "[1 5 8\]"] {nbsp} (transposition of 1 semitone only)
+* `M1-T1([0 4 7])` -> `[1 5 8]` {nbsp} (transposition of 1 semitone only)
 
-* stem:[T_0M11("[0 4 7\]") -> "[0 5 8\]"] {nbsp} (inversion)
+* `M11-T0([0 4 7])` -> `[0 5 8]` {nbsp} (inversion)
 
-* stem:[T_0M5("[0 4 7\]") -> "[0 8 11\]"] {nbsp} (M5 only)
+* `M5-T0([0 4 7])` -> `[0 8 11`  {nbsp} (M5 only)
 
-* stem:[CT_4M5("[0 4 7\]") -> "[1 2 5 6 7 8 9 10 11\]"] {nbsp} (affine first then complement)
+* `CM5-T4([0 4 7])` -> `[1 2 5 6 7 8 9 10 11]` {nbsp} (affine first then complement)
 
-* stem:[T_4M11("[0 2 4 5 7 9 11\]") -> "[0 2 4 5 7 9 11\]"] {nbsp} (Inversion then T4: C Major Diatonic -> C Major Diatonic)
+* `M11-T4([0 2 4 5 7 9 11])` -> `[0 2 4 5 7 9 11]` {nbsp} (Inversion then T4: C Major Diatonic -> C Major Diatonic)
 
-* stem:[CT_6M1("[0 2 4 5 7 9 11\]") -> "[0 2 4 7 9\]"] {nbsp} (T6 then Complement: C Major Diatonic -> C Major Pentatonic)
+*  `CM1-T6([0 2 4 5 7 9 11])` -> `[0 2 4 7 9]`  {nbsp} (T6 then Complement: C Major Diatonic -> C Major Pentatonic)
 
-* stem:[CT_0M1("[0 3 6 9\]") -> "[1 2 4 5 7 8 10 11\]"] {nbsp} (Complement only: Dim7 -> Dim scale)
+* `CM1-T0([0 3 6 9])` -> `[1 2 4 5 7 8 10 11]` {nbsp} (Complement only: Dim7 -> Dim scale)
 
 
 [TIP]
 ====
 
-The number of versions of this operation is given by the formula: stem:[C^({0,1}) * T^n * M^(phi(n)) ]
+The number of versions of this operation is given by the formula: stem:[C^({0,1}) * M^(phi(n)) * T^n  ]
 
-With stem:[n=12]{nbsp}, number of operations is:  stem:[2 xx 12 xx 4 = 96]
+With stem:[n=12]{nbsp}, number of operations is:  stem:[2 xx 4 xx 12 = 96]
 ====
 
 

@@ -1537,9 +1537,9 @@ An orbit can be fixed by one or more meta-stabilizer. Example, Diatonic major sc
 
 With stem:[n=12], 88 orbits may be partitioned in 13 octotrope classes (last row : number of musaics meta-stabilized)
 
-[cols="13*^"]
+[cols="14*^"]
 |===
-<|M1 <|M1 M5 <|M1 M7 <|M1 M11 <|M1 CM5 <|M1 CM11 <|M1 M5 M7 M11 <|M1 M5 CM1 CM5 <|M1 M5 CM7 CM11 <|M1 M7 CM5 CM11 <|M1 M11 CM1 CM11 <|M1 M11 CM5 CM7 <|M1 M5 M7 M11 CM1 CM5 CM7 CM11
+<|M1 <|M1 M5 <|M1 M7 <|M1 M11 <|M1 CM5 <|M1 CM11 <|M1 M5 M7 M11 <|M1 M5 CM1 CM5 <|M1 M5 CM7 CM11 <|M1 M7 CM5 CM11 <|M1 M11 CM1 CM11 <|M1 M11 CM5 CM7 <|M1 M5 M7 M11 CM1 CM5 CM7 CM11|
 
 |image:octotropes/m1.png[]
 |image:octotropes/m1-m5.png[]
@@ -1554,6 +1554,7 @@ With stem:[n=12], 88 orbits may be partitioned in 13 octotrope classes (last row
 |image:octotropes/m1-m11-cm1-cm11.png[]
 |image:octotropes/m1-m11-cm5-cm7.png[]
 |image:octotropes/m1-m5-m7-m11-cm1-cm5-cm7-cm11.png[]
+|
 
 |#19
 |#6
@@ -1568,7 +1569,7 @@ With stem:[n=12], 88 orbits may be partitioned in 13 octotrope classes (last row
 |#1
 |#1
 |#4
-
+|	Σ = 88
 
 |===
 

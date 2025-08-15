@@ -2156,8 +2156,25 @@ Regarding circle of fifths and fourths transformations : "<em>Since middle 1950s
 <div class="paragraph">
 <p>Thus, when \$ZZ_12\$ is seen as the set of 12 pitch-classes, \$P(ZZ_12)\$ represents the set of possible scales restricted to an octave.</p>
 </div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
 <div class="paragraph">
 <p>Traditional operation name is represented by \$T_kMa\$ (a right action, first <em>Ma</em> for multiplication by <em>a</em> then <em>T</em><sub>k</sub> for transposition by a step of <em>k</em> semitones), see <a href="#Rahn">[Rahn]</a>.</p>
+</div>
+<div class="paragraph">
+<p>However, the study and supporting application serving as a POC, uses the \$MaTk\$ (and \$CMaTk\$) formalism, and sometimes, for ease of reading, by <code>Ma-Tk</code> and <span class="nowrap"><code>CMa-Tk</code></span> notation.</p>
+</div>
+<div class="paragraph">
+<p>In both cases, this is merely a writing game, as the evaluation always operates as expected: <strong>multiplication first, then transposition, and complementarity if requested.</strong></p>
+</div>
+</td>
+</tr>
+</table>
 </div>
 <div class="exampleblock">
 <div class="content">
@@ -2167,10 +2184,10 @@ Regarding circle of fifths and fourths transformations : "<em>Since middle 1950s
 <p><strong>Special Affine Operation</strong></p>
 </div>
 <div class="paragraph">
-<p>\$ T_kMa :  P(ZZ_n) xx ZZ xx NN  -&gt; P(ZZ_n)\$</p>
+<p>\$MaTk :  P(ZZ_n) xx NN xx ZZ   -&gt; P(ZZ_n)\$</p>
 </div>
 <div class="paragraph">
-<p>\$T_kMa(A) := {\ (ax + k) mod n \ },  forall  x in A\$</p>
+<p>\$MaTk(A) := {\ (ax + k) mod n \ },  forall  x in A\$</p>
 </div>
 <div class="paragraph">
 <p><em>Where <strong>a</strong> is coprime with n and <strong>k</strong> a step of transposition</em></p>
@@ -2188,16 +2205,16 @@ Regarding circle of fifths and fourths transformations : "<em>Since middle 1950s
 <div class="ulist">
 <ul>
 <li>
-<p>\$T_0M1("[0 4 7]") -&gt; "[0 4 7]"\$ &#160; (neutral op)</p>
+<p>\$M1T0("[0 4 7]") -&gt; "[0 4 7]"\$ &#160; (neutral op)</p>
 </li>
 <li>
-<p>\$T_5M1("[0 4 7]") -&gt; "[5 9 12]"\$ so  \$"[0 5 9]"\$ Transposition of 5 semitones (T5)</p>
+<p>\$M1T5("[0 4 7]") -&gt; "[5 9 12]"\$ so  \$"[0 5 9]"\$ Transposition of 5 semitones (T5)</p>
 </li>
 <li>
-<p>\$T_0M11("[0 4 7]") -&gt;"[0 5 8]"\$ &#160; Inversion, (C Maj &#8594; Fm/5th)</p>
+<p>\$M11T0("[0 4 7]") -&gt;"[0 5 8]"\$ &#160; Inversion, (C Maj &#8594; Fm/5th)</p>
 </li>
 <li>
-<p>\$T_5M5("[0 4 7]") -&gt; "[1 4 5]"\$ &#160; Cycle fourths transformation followed by five semitone step transposition.</p>
+<p>\$M5T5("[0 4 7]") -&gt; "[1 4 5]"\$ &#160; Cycle fourths transformation followed by five semitone step transposition.</p>
 </li>
 </ul>
 </div>
@@ -2208,7 +2225,7 @@ Regarding circle of fifths and fourths transformations : "<em>Since middle 1950s
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-\$T_kMa\$ is also known as <em>TTO</em> operators (for <em>Twelve Tone Operators</em>) and it&#8217;s defined affine group (<a href="#Morris">[Morris]</a>, <a href="#TOPOS">[TOPOS]</a>).<br>
+\$MaTk\$ is also known as <em>TTO</em> operators (for <em>Twelve Tone Operators</em>) and it&#8217;s defined affine group (<a href="#Morris">[Morris]</a>, <a href="#TOPOS">[TOPOS]</a>).<br>
 <br>
 For an in-depth study, with of a high level of mathematical conciseness, see <a href="#Fripertinger">[Fripertinger]</a>
 </td>
@@ -2268,14 +2285,13 @@ For an in-depth study, with of a high level of mathematical conciseness, see <a 
 </tbody>
 </table>
 <div class="paragraph">
-<p>The composition of <code>T<sub>k</sub>Ma . T<sub>k</sub>'Ma': `T<sub>k</sub>Ma(T<sub>k</sub>'Ma'(x))</code> :</p>
+<p>The composition of affine operation is given by: <code>Ma-Tk . Ma'-Tk' = Ma-Tk(Ma'-Tk'(x))</code> :</p>
 </div>
 <div class="paragraph">
-<p>\$(ax + k) * (a'x + k') = ubrace(aa')_(Ma) x + ubrace(ak'+k)_(T_k)\$ = <code>T<sub>(ak'+k)</sub>Maa'</code></p>
+<p>\$(ax + k) * (a'x + k') = ubrace(aa')_(a) x + ubrace(ak'+k)_(k)\$</p>
 </div>
 <div class="paragraph">
-<p>Example from below table:<br>
-<strong>T<sub>y</sub>M7 . T<sub>b</sub>M5</strong> &#8658; T<sub>y</sub>M7(T<sub>b</sub>M5(i)) = 7*5i + 7b + y = 35i + 7b + y = 11i + 7b + y, denoted by <strong>T<sub>(7b&#160;+&#160;y)</sub> M11</strong></p>
+<p>See composition table below:</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 3. Affine composition table - From "basic atonal theory" page 54 <a href="#Rahn">[Rahn]</a></caption>
@@ -2289,43 +2305,47 @@ For an in-depth study, with of a high level of mathematical conciseness, see <a 
 <thead>
 <tr>
 <th class="tableblock halign-center valign-top">.</th>
-<th class="tableblock halign-left valign-top">T<sub>a</sub>M1 (or&#160; T<sub>a</sub>)</th>
-<th class="tableblock halign-left valign-top">T<sub>b</sub>M5</th>
-<th class="tableblock halign-left valign-top">T<sub>c</sub>M7</th>
-<th class="tableblock halign-left valign-top">T<sub>d</sub>M11</th>
+<th class="tableblock halign-left valign-top">M1-T<sub>a</sub> (or&#160; T<sub>a</sub>)</th>
+<th class="tableblock halign-left valign-top">M5-T<sub>b</sub></th>
+<th class="tableblock halign-left valign-top">M7-T<sub>c</sub></th>
+<th class="tableblock halign-left valign-top">M11-T<sub>d</sub></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<th class="tableblock halign-center valign-top"><p class="tableblock">T<sub>w</sub>M1</p></th>
-<td class="tableblock halign-left valign-top"><p class="tableblock">T<sub>(a&#160;+&#160;w)</sub> M1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">T<sub>(b&#160;+&#160;w)</sub> M5</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">T<sub>(c&#160;+&#160;w)</sub> M7</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">T<sub>(d&#160;+&#160;w)</sub> M11</p></td>
+<th class="tableblock halign-center valign-top"><p class="tableblock">M1-T<sub>w</sub></p></th>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M1-T<sub>(a&#160;+&#160;w)</sub></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M5-T<sub>(b&#160;+&#160;w)</sub></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M7-T<sub>(c&#160;+&#160;w)</sub></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M11-T<sub>(d&#160;+&#160;w)</sub></p></td>
 </tr>
 <tr>
-<th class="tableblock halign-center valign-top"><p class="tableblock">T<sub>x</sub>M5</p></th>
-<td class="tableblock halign-left valign-top"><p class="tableblock">T<sub>(5a&#160;+&#160;x)</sub> M5</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">T<sub>(5b&#160;+&#160;x)</sub> M1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">T<sub>(5c&#160;+&#160;x)</sub> M11</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">T<sub>(5d&#160;+&#160;x)</sub> M7</p></td>
+<th class="tableblock halign-center valign-top"><p class="tableblock">M5-T<sub>x</sub></p></th>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M5-T<sub>(5a&#160;+&#160;x)</sub></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M1-T<sub>(5b&#160;+&#160;x)</sub></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M11-T<sub>(5c&#160;+&#160;x)</sub></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M7-T<sub>(5d&#160;+&#160;x)</sub></p></td>
 </tr>
 <tr>
-<th class="tableblock halign-center valign-top"><p class="tableblock">T<sub>y</sub>M7</p></th>
-<td class="tableblock halign-left valign-top"><p class="tableblock">T<sub>(7a&#160;+&#160;y)</sub> M7</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">T<sub>(7b&#160;+&#160;y)</sub> M11</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">T<sub>(7c&#160;+&#160;y)</sub> M1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">T<sub>(7d&#160;+&#160;y)</sub> M5</p></td>
+<th class="tableblock halign-center valign-top"><p class="tableblock">M7-T<sub>y</sub></p></th>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M7-T<sub>(7a&#160;+&#160;y)</sub></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M11-T<sub>(7b&#160;+&#160;y)</sub></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M1-T<sub>(7c&#160;+&#160;y)</sub></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M5-T<sub>(7d&#160;+&#160;y)</sub></p></td>
 </tr>
 <tr>
-<th class="tableblock halign-center valign-top"><p class="tableblock">T<sub>z</sub>M11</p></th>
-<td class="tableblock halign-left valign-top"><p class="tableblock">T<sub>(11a&#160;+&#160;z)</sub> M11</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">T<sub>(11b&#160;+&#160;z)</sub> M7</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">T<sub>(11c&#160;+&#160;z)</sub> M5</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">T<sub>(11d&#160;+&#160;z)</sub> M1</p></td>
+<th class="tableblock halign-center valign-top"><p class="tableblock">M11-T<sub>z</sub></p></th>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M11-T<sub>(11a&#160;+&#160;z)</sub></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M7-T<sub>(11b&#160;+&#160;z)</sub></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M5-T<sub>(11c&#160;+&#160;z)</sub></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">M1-T<sub>(11d&#160;+&#160;z)</sub></p></td>
 </tr>
 </tbody>
 </table>
+<div class="paragraph">
+<p>Example 3rd line x 2d column:<br>
+<strong>M7-Ty . M5-Tb</strong> &#8658; M7-Ty(M5-Tb(i)) = 7*5i + 7b + y = 35i + 7b + y = 11i + 7b + y, denoted by <span class="nowrap"><strong>M11-T(7b&#160;+&#160;y)</strong></span></p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_special_affine_operation_with_complement">Special Affine Operation with complement</h3>
@@ -2343,10 +2363,10 @@ For an in-depth study, with of a high level of mathematical conciseness, see <a 
 <p><strong>Extended Special Affine Operation</strong></p>
 </div>
 <div class="paragraph">
-<p>\$ C_cT_kMa : P(ZZ_n) xx {false, true} xx ZZ xx NN -&gt; P(E) \$</p>
+<p>\$ C_cM_aT_k : P(ZZ_n) xx {false, true} xx NN xx ZZ -&gt; P(E) \$</p>
 </div>
 <div class="paragraph">
-<p>\$C_cT_kMa(A) := { ({\ (ax + k) mod n \ }  forall x in A \ \ \ \ \ \ \ \  if c = false), (ZZ_n\ \\ \ {\ (ax + k) mod n \ }  forall x in A \  if c = true) :}\$</p>
+<p>\$C_cM_aT_k(A) := { ({\ (ax + k) mod n \ }  forall x in A \ \ \ \ \ \ \ \  if c = false), (ZZ_n\ \\ \ {\ (ax + k) mod n \ }  forall x in A \  if c = true) :}\$</p>
 </div>
 </div>
 </div>
@@ -2356,7 +2376,7 @@ For an in-depth study, with of a high level of mathematical conciseness, see <a 
 <div class="openblock text-center">
 <div class="content">
 <div class="paragraph">
-<p>\$"[C]"T_kMa(A) := { (T_kMa(A) \ \ \ \ \ \ \ \ if C " is not present"), (ZZ_n\ \\ \ T_kMa(A)  if C " is present") :}\$</p>
+<p>\$"[C]"M_aT_k(A) := { (M_aT_k(A) \ \ \ \ \ \ \ \ if C " is not present"), (ZZ_n\ \\ \ M_aT_k(A)  if C " is present") :}\$</p>
 </div>
 </div>
 </div>
@@ -2368,28 +2388,28 @@ For an in-depth study, with of a high level of mathematical conciseness, see <a 
 <div class="ulist">
 <ul>
 <li>
-<p>\$T_0M1("[0 4 7]") -&gt; "[0 4 7]"\$ &#160; (neutral op)</p>
+<p><code>M1-T0([0 4 7])</code> &#8594; <code>[0 4 7]</code>  &#160; (neutral op)</p>
 </li>
 <li>
-<p>\$T_1M1("[0 4 7]") -&gt; "[1 5 8]"\$ &#160; (transposition of 1 semitone only)</p>
+<p><code>M1-T1([0 4 7])</code> &#8594; <code>[1 5 8]</code> &#160; (transposition of 1 semitone only)</p>
 </li>
 <li>
-<p>\$T_0M11("[0 4 7]") -&gt; "[0 5 8]"\$ &#160; (inversion)</p>
+<p><code>M11-T0([0 4 7])</code> &#8594; <code>[0 5 8]</code> &#160; (inversion)</p>
 </li>
 <li>
-<p>\$T_0M5("[0 4 7]") -&gt; "[0 8 11]"\$ &#160; (M5 only)</p>
+<p><code>M5-T0([0 4 7])</code> &#8594; <code>[0 8 11</code>  &#160; (M5 only)</p>
 </li>
 <li>
-<p>\$CT_4M5("[0 4 7]") -&gt; "[1 2 5 6 7 8 9 10 11]"\$ &#160; (affine first then complement)</p>
+<p><code>CM5-T4([0 4 7])</code> &#8594; <code>[1 2 5 6 7 8 9 10 11]</code> &#160; (affine first then complement)</p>
 </li>
 <li>
-<p>\$T_4M11("[0 2 4 5 7 9 11]") -&gt; "[0 2 4 5 7 9 11]"\$ &#160; (Inversion then T4: C Major Diatonic &#8594; C Major Diatonic)</p>
+<p><code>M11-T4([0 2 4 5 7 9 11])</code> &#8594; <code>[0 2 4 5 7 9 11]</code> &#160; (Inversion then T4: C Major Diatonic &#8594; C Major Diatonic)</p>
 </li>
 <li>
-<p>\$CT_6M1("[0 2 4 5 7 9 11]") -&gt; "[0 2 4 7 9]"\$ &#160; (T6 then Complement: C Major Diatonic &#8594; C Major Pentatonic)</p>
+<p><code>CM1-T6([0 2 4 5 7 9 11])</code> &#8594; <code>[0 2 4 7 9]</code>  &#160; (T6 then Complement: C Major Diatonic &#8594; C Major Pentatonic)</p>
 </li>
 <li>
-<p>\$CT_0M1("[0 3 6 9]") -&gt; "[1 2 4 5 7 8 10 11]"\$ &#160; (Complement only: Dim7 &#8594; Dim scale)</p>
+<p><code>CM1-T0([0 3 6 9])</code> &#8594; <code>[1 2 4 5 7 8 10 11]</code> &#160; (Complement only: Dim7 &#8594; Dim scale)</p>
 </li>
 </ul>
 </div>
@@ -2401,10 +2421,10 @@ For an in-depth study, with of a high level of mathematical conciseness, see <a 
 </td>
 <td class="content">
 <div class="paragraph">
-<p>The number of versions of this operation is given by the formula: \$C^({0,1}) * T^n * M^(phi(n)) \$</p>
+<p>The number of versions of this operation is given by the formula: \$C^({0,1}) * M^(phi(n)) * T^n  \$</p>
 </div>
 <div class="paragraph">
-<p>With \$n=12\$&#160;, number of operations is:  \$2 xx 12 xx 4 = 96\$</p>
+<p>With \$n=12\$&#160;, number of operations is:  \$2 xx 4 xx 12 = 96\$</p>
 </div>
 </td>
 </tr>
@@ -3862,19 +3882,20 @@ A meta-stabilizer can be represented by a geometric figure, an 8-vertex polytrop
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 7.6923%;">
-<col style="width: 7.6923%;">
-<col style="width: 7.6923%;">
-<col style="width: 7.6923%;">
-<col style="width: 7.6923%;">
-<col style="width: 7.6923%;">
-<col style="width: 7.6923%;">
-<col style="width: 7.6923%;">
-<col style="width: 7.6923%;">
-<col style="width: 7.6923%;">
-<col style="width: 7.6923%;">
-<col style="width: 7.6923%;">
-<col style="width: 7.6924%;">
+<col style="width: 7.1428%;">
+<col style="width: 7.1428%;">
+<col style="width: 7.1428%;">
+<col style="width: 7.1428%;">
+<col style="width: 7.1428%;">
+<col style="width: 7.1428%;">
+<col style="width: 7.1428%;">
+<col style="width: 7.1428%;">
+<col style="width: 7.1428%;">
+<col style="width: 7.1428%;">
+<col style="width: 7.1428%;">
+<col style="width: 7.1428%;">
+<col style="width: 7.1428%;">
+<col style="width: 7.1436%;">
 </colgroup>
 <thead>
 <tr>
@@ -3891,6 +3912,7 @@ A meta-stabilizer can be represented by a geometric figure, an 8-vertex polytrop
 <th class="tableblock halign-left valign-top">M1 M11 CM1 CM11</th>
 <th class="tableblock halign-left valign-top">M1 M11 CM5 CM7</th>
 <th class="tableblock halign-left valign-top">M1 M5 M7 M11 CM1 CM5 CM7 CM11</th>
+<th class="tableblock halign-center valign-top"></th>
 </tr>
 </thead>
 <tbody>
@@ -3908,6 +3930,7 @@ A meta-stabilizer can be represented by a geometric figure, an 8-vertex polytrop
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11-cm1-cm11.png" alt="m1 m11 cm1 cm11"></span></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m11-cm5-cm7.png" alt="m1 m11 cm5 cm7"></span></p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock"><span class="image"><img src="./assets/images/octotropes/m1-m5-m7-m11-cm1-cm5-cm7-cm11.png" alt="m1 m5 m7 m11 cm1 cm5 cm7 cm11"></span></p></td>
+<td class="tableblock halign-center valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-top"><p class="tableblock">#19</p></td>
@@ -3923,6 +3946,7 @@ A meta-stabilizer can be represented by a geometric figure, an 8-vertex polytrop
 <td class="tableblock halign-center valign-top"><p class="tableblock">#1</p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock">#1</p></td>
 <td class="tableblock halign-center valign-top"><p class="tableblock">#4</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Σ = 88</p></td>
 </tr>
 </tbody>
 </table>
@@ -5674,7 +5698,7 @@ Here we find the solution of Fripentinger <a href="#Fixed-zero-problem">[Fixed-z
 <p>Although there are <em>n</em> ways to designate an axis of symmetry for a pcs that we will call A, we will limit the use to the pitch-classes belonging to A, for a reason of consistency explained in section <a href="#Fixed-zero-problem">[Fixed-zero-problem]</a>.</p>
 </div>
 <div class="paragraph">
-<p>The use of <em>p</em> and <em>k</em> to denote an axis of symmetry was inspired by the work of D. Lewin. As early as 1968, he began to study the influence of symmetry and the need to be able to select a particular axis in inversion operations.   For more information, see the appendix <a href="#Axis and its identifiers">[Axis and its identifiers]</a>.</p>
+<p>The use of <em>p</em> and <em>k</em> to denote an axis of symmetry was inspired by the work of D. Lewin. As early as 1968, he began to study the influence of symmetry and the need to be able to select a particular axis in inversion operations.   For more information, see the appendix of  <a href="https://musaicbox.org/article-affine-with-pivot.html" class="bare">https://musaicbox.org/article-affine-with-pivot.html</a>.</p>
 </div>
 </div>
 </div>
@@ -9805,7 +9829,7 @@ Symmetry prime form concept is invented, specific to this project.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-08-13 12:22:56 +0200
+Last updated 2025-08-15 16:03:45 +0200
 </div>
 </div>
 <script type="text/x-mathjax-config">

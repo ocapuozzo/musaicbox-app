@@ -97,9 +97,9 @@ If we look carefully, we have a multiplication (inversion as stem:[-1x], stem:[M
 
 We can combine these operations in the form of an affine operation, _ax + b_, from _Z~n~_ to _Z~n~_.
 
-include::affine-operation.adoc[]
+include::affine-operationV2.adoc[]
 
-include::affine-with-pivot.adoc[]
+include::affine-with-pivotV2.adoc[]
 
 == Conclusion
 

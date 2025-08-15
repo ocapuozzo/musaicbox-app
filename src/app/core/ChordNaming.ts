@@ -1,6 +1,8 @@
 import {IPcs} from "./IPcs";
 import {ScoreDrawingAbcNotation} from "../ui/ScoreDrawingAbcNotation";
 
+// TODO type sort order (for nice filter if discovery extended chords or not
+
 interface IChordNameOrder {
   name: string   // name of chord
   cardinal: number,
